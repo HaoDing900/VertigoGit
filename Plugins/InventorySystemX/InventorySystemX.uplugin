@@ -1,0 +1,45 @@
+{
+	"FileVersion": 3,
+	"Version": 1,
+	"VersionName": "1.8.2",
+	"FriendlyName": "Inventory System X",
+	"Description": "A powerful inventory system for Unreal Engine.",
+	"Category": "Gameplay",
+	"CreatedBy": "Mykhailo Oliynik",
+	"CreatedByURL": "",
+	"DocsURL": "https://isxdocs.netlify.app",
+	"MarketplaceURL": "com.epicgames.launcher://ue/marketplace/product/b804d0c431f9433d972a1aa95a6641e6",
+	"SupportURL": "https://discord.com/invite/DkNAGKeKZp",
+	"EngineVersion": "5.3.0",
+	"CanContainContent": true,
+	"Installed": true,
+	"Modules": [
+		{
+			"Name": "Input_ISX",
+			"Type": "Runtime",
+			"LoadingPhase": "PreLoadingScreen"
+		},
+		{
+			"Name": "InventorySystemX",
+			"Type": "Runtime",
+			"LoadingPhase": "PreLoadingScreen"
+		},
+		{
+			"Name": "InventorySXEditor",
+			"Type": "Editor",
+			"LoadingPhase": "PostEngineInit"
+		}
+	],
+	"Plugins": [
+		{
+			"Name": "AnimationWarping",
+			"Enabled": true,
+			"Optional": true
+		},
+		{
+			"Name": "AnimationLocomotionLibrary",
+			"Enabled": true,
+			"Optional": true
+		}
+	]
+}
