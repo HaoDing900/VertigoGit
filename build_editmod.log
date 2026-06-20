@@ -1,0 +1,41 @@
+Using bundled DotNet SDK version: 6.0.302
+Running UnrealBuildTool: dotnet "..\..\Engine\Binaries\DotNET\UnrealBuildTool\UnrealBuildTool.dll" VertigoEditor Win64 Development "-Project=G:/Epic/Unreal projects/VertigoGit/Vertigo.uproject" -WaitMutex -FromMsBuild
+Log file: C:\Users\Hao\AppData\Local\UnrealBuildTool\Log.txt
+Using 'git status' to determine working set for adaptive non-unity build (G:\Epic\Unreal projects\VertigoGit).
+Creating makefile for VertigoEditor (.uproject file is newer)
+Parsing headers for VertigoEditor
+  Running Internal UnrealHeaderTool "G:\Epic\Unreal projects\VertigoGit\Vertigo.uproject" "G:\Epic\Unreal projects\VertigoGit\Intermediate\Build\Win64\VertigoEditor\Development\VertigoEditor.uhtmanifest" -WarningsAsErrors -installed
+Total of 2 written
+Reflection code generated for VertigoEditor in 0.969886 seconds
+Building VertigoEditor...
+Using Visual Studio 2022 14.41.34120 toolchain (C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.41.34120) and Windows 10.0.16299.0 SDK (C:\Program Files (x86)\Windows Kits\10).
+[Upgrade]
+[Upgrade] Using backward-compatible build settings. The latest version of UE sets the following values by default, which may require code changes:
+[Upgrade]     CppStandard = CppStandardVersion.Default        => Updates C++ Standard to C++20 (Previously: CppStandardVersion.Cpp17).
+[Upgrade]     WindowsPlatform.bStrictConformanceMode = true   => Updates MSVC strict conformance mode to true (Previously: false).
+[Upgrade] Suppress this message by setting 'DefaultBuildSettings = BuildSettingsVersion.V4;' in VertigoEditor.Target.cs, and explicitly overriding settings that differ from the new defaults.
+[Upgrade]
+[Adaptive Build] Excluded from Narrative unity file: Dialogue.cpp, DialogueSM.cpp
+[Adaptive Build] Excluded from NarrativeDialogueEditor unity file: DialogueEditorDetails.cpp
+Determining max actions to execute in parallel (8 physical cores, 16 logical cores)
+  Executing up to 8 processes, one per physical core
+------ Building 12 action(s) started ------
+[1/12] Resource Default.rc2
+[2/12] Compile [x64] Vertigo.init.gen.cpp
+[3/12] Compile [x64] VTGLevelManagerBase.gen.cpp
+[4/12] Compile [x64] VTGLevelManagerBase.cpp
+[5/12] Compile [x64] VTGLevelStatics.cpp
+[6/12] Link [x64] UnrealEditor-Vertigo.lib
+  正在创建库 G:\Epic\Unreal projects\VertigoGit\Intermediate\Build\Win64\x64\UnrealEditor\Development\Vertigo\UnrealEditor-Vertigo.lib 和对象 G:\Epic\Unreal projects\VertigoGit\Intermediate\Build\Win64\x64\UnrealEditor\Development\Vertigo\UnrealEditor-Vertigo.exp
+[7/12] Link [x64] UnrealEditor-Vertigo.dll
+  正在创建库 G:\Epic\Unreal projects\VertigoGit\Intermediate\Build\Win64\x64\UnrealEditor\Development\Vertigo\UnrealEditor-Vertigo.sup.lib 和对象 G:\Epic\Unreal projects\VertigoGit\Intermediate\Build\Win64\x64\UnrealEditor\Development\Vertigo\UnrealEditor-Vertigo.sup.exp
+[8/12] Compile [x64] VTGLevelManagerDetails.cpp
+[9/12] Compile [x64] VertigoEditor.cpp
+[10/12] Link [x64] UnrealEditor-VertigoEditor.lib
+  正在创建库 G:\Epic\Unreal projects\VertigoGit\Intermediate\Build\Win64\x64\UnrealEditor\Development\VertigoEditor\UnrealEditor-VertigoEditor.lib 和对象 G:\Epic\Unreal projects\VertigoGit\Intermediate\Build\Win64\x64\UnrealEditor\Development\VertigoEditor\UnrealEditor-VertigoEditor.exp
+[11/12] Link [x64] UnrealEditor-VertigoEditor.dll
+  正在创建库 G:\Epic\Unreal projects\VertigoGit\Intermediate\Build\Win64\x64\UnrealEditor\Development\VertigoEditor\UnrealEditor-VertigoEditor.sup.lib 和对象 G:\Epic\Unreal projects\VertigoGit\Intermediate\Build\Win64\x64\UnrealEditor\Development\VertigoEditor\UnrealEditor-VertigoEditor.sup.exp
+[12/12] WriteMetadata VertigoEditor.target
+Total time in Parallel executor: 4.82 seconds
+Total execution time: 10.95 seconds
+EXIT=0

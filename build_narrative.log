@@ -1,0 +1,89 @@
+Using bundled DotNet SDK version: 6.0.302
+Running UnrealBuildTool: dotnet "..\..\Engine\Binaries\DotNET\UnrealBuildTool\UnrealBuildTool.dll" VertigoEditor Win64 Development "-Project=G:/Epic/Unreal projects/VertigoGit/Vertigo.uproject" -WaitMutex -FromMsBuild
+Log file: C:\Users\Hao\AppData\Local\UnrealBuildTool\Log.txt
+Using 'git status' to determine working set for adaptive non-unity build (G:\Epic\Unreal projects\VertigoGit).
+Creating makefile for VertigoEditor (no existing makefile)
+Parsing headers for VertigoEditor
+  Running Internal UnrealHeaderTool "G:\Epic\Unreal projects\VertigoGit\Vertigo.uproject" "G:\Epic\Unreal projects\VertigoGit\Intermediate\Build\Win64\VertigoEditor\Development\VertigoEditor.uhtmanifest" -WarningsAsErrors -installed
+Total of 147 written
+Reflection code generated for VertigoEditor in 3.4174566 seconds
+Building VertigoEditor...
+Using Visual Studio 2022 14.41.34120 toolchain (C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.41.34120) and Windows 10.0.16299.0 SDK (C:\Program Files (x86)\Windows Kits\10).
+[Upgrade]
+[Upgrade] Using backward-compatible build settings. The latest version of UE sets the following values by default, which may require code changes:
+[Upgrade]     CppStandard = CppStandardVersion.Default        => Updates C++ Standard to C++20 (Previously: CppStandardVersion.Cpp17).
+[Upgrade]     WindowsPlatform.bStrictConformanceMode = true   => Updates MSVC strict conformance mode to true (Previously: false).
+[Upgrade] Suppress this message by setting 'DefaultBuildSettings = BuildSettingsVersion.V4;' in VertigoEditor.Target.cs, and explicitly overriding settings that differ from the new defaults.
+[Upgrade]
+[Adaptive Build] Excluded from Narrative unity file: Dialogue.cpp
+Determining max actions to execute in parallel (8 physical cores, 16 logical cores)
+  Executing up to 8 processes, one per physical core
+------ Building 45 action(s) started ------
+[1/45] Resource Default.rc2
+[2/45] Resource Default.rc2
+[3/45] Resource Default.rc2
+[4/45] Resource Default.rc2
+[5/45] Resource Default.rc2
+[6/45] Resource Default.rc2
+[7/45] Resource Default.rc2
+[8/45] Resource Default.rc2
+[9/45] Resource Default.rc2
+[10/45] Compile [x64] SharedPCH.Core.Cpp17.cpp
+Detected compiler newer than Visual Studio 2022, please update min version checking in WindowsPlatformCompilerSetup.h
+[11/45] Compile [x64] Module.Vertigo.cpp
+[12/45] Link [x64] UnrealEditor-Vertigo.lib
+  正在创建库 G:\Epic\Unreal projects\VertigoGit\Intermediate\Build\Win64\x64\UnrealEditor\Development\Vertigo\UnrealEditor-Vertigo.lib 和对象 G:\Epic\Unreal projects\VertigoGit\Intermediate\Build\Win64\x64\UnrealEditor\Development\Vertigo\UnrealEditor-Vertigo.exp
+[13/45] Link [x64] UnrealEditor-Vertigo.dll
+  正在创建库 G:\Epic\Unreal projects\VertigoGit\Intermediate\Build\Win64\x64\UnrealEditor\Development\Vertigo\UnrealEditor-Vertigo.sup.lib 和对象 G:\Epic\Unreal projects\VertigoGit\Intermediate\Build\Win64\x64\UnrealEditor\Development\Vertigo\UnrealEditor-Vertigo.sup.exp
+[14/45] Compile [x64] SharedPCH.Engine.Cpp17.cpp
+Detected compiler newer than Visual Studio 2022, please update min version checking in WindowsPlatformCompilerSetup.h
+[15/45] Compile [x64] Module.Input_ISX.cpp
+[16/45] Link [x64] UnrealEditor-Input_ISX.lib
+  正在创建库 G:\Epic\Unreal projects\VertigoGit\Plugins\InventorySystemX\Intermediate\Build\Win64\x64\UnrealEditor\Development\Input_ISX\UnrealEditor-Input_ISX.lib 和对象 G:\Epic\Unreal projects\VertigoGit\Plugins\InventorySystemX\Intermediate\Build\Win64\x64\UnrealEditor\Development\Input_ISX\UnrealEditor-Input_ISX.exp
+[17/45] Compile [x64] Module.InventorySystemX.2.cpp
+[18/45] Compile [x64] Module.InventorySystemX.1.cpp
+[19/45] Link [x64] UnrealEditor-Input_ISX.dll
+  正在创建库 G:\Epic\Unreal projects\VertigoGit\Plugins\InventorySystemX\Intermediate\Build\Win64\x64\UnrealEditor\Development\Input_ISX\UnrealEditor-Input_ISX.sup.lib 和对象 G:\Epic\Unreal projects\VertigoGit\Plugins\InventorySystemX\Intermediate\Build\Win64\x64\UnrealEditor\Development\Input_ISX\UnrealEditor-Input_ISX.sup.exp
+[20/45] Compile [x64] SharedPCH.UnrealEd.Cpp17.cpp
+Detected compiler newer than Visual Studio 2022, please update min version checking in WindowsPlatformCompilerSetup.h
+[21/45] Compile [x64] Module.InventorySystemX.3.cpp
+[22/45] Link [x64] UnrealEditor-InventorySystemX.lib
+  正在创建库 G:\Epic\Unreal projects\VertigoGit\Plugins\InventorySystemX\Intermediate\Build\Win64\x64\UnrealEditor\Development\InventorySystemX\UnrealEditor-InventorySystemX.lib 和对象 G:\Epic\Unreal projects\VertigoGit\Plugins\InventorySystemX\Intermediate\Build\Win64\x64\UnrealEditor\Development\InventorySystemX\UnrealEditor-InventorySystemX.exp
+[23/45] Link [x64] UnrealEditor-InventorySystemX.dll
+  正在创建库 G:\Epic\Unreal projects\VertigoGit\Plugins\InventorySystemX\Intermediate\Build\Win64\x64\UnrealEditor\Development\InventorySystemX\UnrealEditor-InventorySystemX.sup.lib 和对象 G:\Epic\Unreal projects\VertigoGit\Plugins\InventorySystemX\Intermediate\Build\Win64\x64\UnrealEditor\Development\InventorySystemX\UnrealEditor-InventorySystemX.sup.exp
+[24/45] Compile [x64] Module.NarrativeCommonUIEditor.cpp
+[25/45] Compile [x64] Module.InventorySXEditor.cpp
+[26/45] Compile [x64] Module.NarrativeCommonUI.cpp
+[27/45] Link [x64] UnrealEditor-NarrativeCommonUI.lib
+  正在创建库 G:\Epic\Unreal projects\VertigoGit\Plugins\NarrativeCommonUI_5.3\Intermediate\Build\Win64\x64\UnrealEditor\Development\NarrativeCommonUI\UnrealEditor-NarrativeCommonUI.lib 和对象 G:\Epic\Unreal projects\VertigoGit\Plugins\NarrativeCommonUI_5.3\Intermediate\Build\Win64\x64\UnrealEditor\Development\NarrativeCommonUI\UnrealEditor-NarrativeCommonUI.exp
+[28/45] Link [x64] UnrealEditor-InventorySXEditor.dll
+  正在创建库 G:\Epic\Unreal projects\VertigoGit\Plugins\InventorySystemX\Intermediate\Build\Win64\x64\UnrealEditor\Development\InventorySXEditor\UnrealEditor-InventorySXEditor.sup.lib 和对象 G:\Epic\Unreal projects\VertigoGit\Plugins\InventorySystemX\Intermediate\Build\Win64\x64\UnrealEditor\Development\InventorySXEditor\UnrealEditor-InventorySXEditor.sup.exp
+[29/45] Link [x64] UnrealEditor-InventorySXEditor.lib
+  正在创建库 G:\Epic\Unreal projects\VertigoGit\Plugins\InventorySystemX\Intermediate\Build\Win64\x64\UnrealEditor\Development\InventorySXEditor\UnrealEditor-InventorySXEditor.lib 和对象 G:\Epic\Unreal projects\VertigoGit\Plugins\InventorySystemX\Intermediate\Build\Win64\x64\UnrealEditor\Development\InventorySXEditor\UnrealEditor-InventorySXEditor.exp
+[30/45] Compile [x64] Module.Narrative.2.cpp
+[31/45] Link [x64] UnrealEditor-NarrativeCommonUI.dll
+  正在创建库 G:\Epic\Unreal projects\VertigoGit\Plugins\NarrativeCommonUI_5.3\Intermediate\Build\Win64\x64\UnrealEditor\Development\NarrativeCommonUI\UnrealEditor-NarrativeCommonUI.sup.lib 和对象 G:\Epic\Unreal projects\VertigoGit\Plugins\NarrativeCommonUI_5.3\Intermediate\Build\Win64\x64\UnrealEditor\Development\NarrativeCommonUI\UnrealEditor-NarrativeCommonUI.sup.exp
+[32/45] Link [x64] UnrealEditor-NarrativeCommonUIEditor.dll
+  正在创建库 G:\Epic\Unreal projects\VertigoGit\Plugins\NarrativeCommonUI_5.3\Intermediate\Build\Win64\x64\UnrealEditor\Development\NarrativeCommonUIEditor\UnrealEditor-NarrativeCommonUIEditor.sup.lib 和对象 G:\Epic\Unreal projects\VertigoGit\Plugins\NarrativeCommonUI_5.3\Intermediate\Build\Win64\x64\UnrealEditor\Development\NarrativeCommonUIEditor\UnrealEditor-NarrativeCommonUIEditor.sup.exp
+[33/45] Link [x64] UnrealEditor-NarrativeCommonUIEditor.lib
+  正在创建库 G:\Epic\Unreal projects\VertigoGit\Plugins\NarrativeCommonUI_5.3\Intermediate\Build\Win64\x64\UnrealEditor\Development\NarrativeCommonUIEditor\UnrealEditor-NarrativeCommonUIEditor.lib 和对象 G:\Epic\Unreal projects\VertigoGit\Plugins\NarrativeCommonUI_5.3\Intermediate\Build\Win64\x64\UnrealEditor\Development\NarrativeCommonUIEditor\UnrealEditor-NarrativeCommonUIEditor.exp
+[34/45] Compile [x64] Module.Narrative.1.cpp
+[35/45] Compile [x64] Dialogue.cpp
+[36/45] Compile [x64] Module.Narrative.3.cpp
+[37/45] Link [x64] UnrealEditor-Narrative.lib
+  正在创建库 G:\Epic\Unreal projects\VertigoGit\Plugins\Narrative\Intermediate\Build\Win64\x64\UnrealEditor\Development\Narrative\UnrealEditor-Narrative.lib 和对象 G:\Epic\Unreal projects\VertigoGit\Plugins\Narrative\Intermediate\Build\Win64\x64\UnrealEditor\Development\Narrative\UnrealEditor-Narrative.exp
+[38/45] Link [x64] UnrealEditor-Narrative.dll
+  正在创建库 G:\Epic\Unreal projects\VertigoGit\Plugins\Narrative\Intermediate\Build\Win64\x64\UnrealEditor\Development\Narrative\UnrealEditor-Narrative.sup.lib 和对象 G:\Epic\Unreal projects\VertigoGit\Plugins\Narrative\Intermediate\Build\Win64\x64\UnrealEditor\Development\Narrative\UnrealEditor-Narrative.sup.exp
+[39/45] Compile [x64] Module.NarrativeQuestEditor.cpp
+[40/45] Compile [x64] Module.NarrativeDialogueEditor.cpp
+[41/45] Link [x64] UnrealEditor-NarrativeQuestEditor.lib
+  正在创建库 G:\Epic\Unreal projects\VertigoGit\Plugins\Narrative\Intermediate\Build\Win64\x64\UnrealEditor\Development\NarrativeQuestEditor\UnrealEditor-NarrativeQuestEditor.lib 和对象 G:\Epic\Unreal projects\VertigoGit\Plugins\Narrative\Intermediate\Build\Win64\x64\UnrealEditor\Development\NarrativeQuestEditor\UnrealEditor-NarrativeQuestEditor.exp
+[42/45] Link [x64] UnrealEditor-NarrativeDialogueEditor.lib
+  正在创建库 G:\Epic\Unreal projects\VertigoGit\Plugins\Narrative\Intermediate\Build\Win64\x64\UnrealEditor\Development\NarrativeDialogueEditor\UnrealEditor-NarrativeDialogueEditor.lib 和对象 G:\Epic\Unreal projects\VertigoGit\Plugins\Narrative\Intermediate\Build\Win64\x64\UnrealEditor\Development\NarrativeDialogueEditor\UnrealEditor-NarrativeDialogueEditor.exp
+[43/45] Link [x64] UnrealEditor-NarrativeQuestEditor.dll
+  正在创建库 G:\Epic\Unreal projects\VertigoGit\Plugins\Narrative\Intermediate\Build\Win64\x64\UnrealEditor\Development\NarrativeQuestEditor\UnrealEditor-NarrativeQuestEditor.sup.lib 和对象 G:\Epic\Unreal projects\VertigoGit\Plugins\Narrative\Intermediate\Build\Win64\x64\UnrealEditor\Development\NarrativeQuestEditor\UnrealEditor-NarrativeQuestEditor.sup.exp
+[44/45] Link [x64] UnrealEditor-NarrativeDialogueEditor.dll
+  正在创建库 G:\Epic\Unreal projects\VertigoGit\Plugins\Narrative\Intermediate\Build\Win64\x64\UnrealEditor\Development\NarrativeDialogueEditor\UnrealEditor-NarrativeDialogueEditor.sup.lib 和对象 G:\Epic\Unreal projects\VertigoGit\Plugins\Narrative\Intermediate\Build\Win64\x64\UnrealEditor\Development\NarrativeDialogueEditor\UnrealEditor-NarrativeDialogueEditor.sup.exp
+[45/45] WriteMetadata VertigoEditor.target
+Total time in Parallel executor: 30.82 seconds
+Total execution time: 44.94 seconds

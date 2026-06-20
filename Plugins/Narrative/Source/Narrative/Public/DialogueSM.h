@@ -115,19 +115,19 @@ public:
 	/**
 	Narrative will play this montage on the first skeletalmeshcomponent found on your speaker with the tag "Body" added to it.
 	*/
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Dialogue Line", meta = (DisplayName = "Body Animation"))
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Legacy", meta = (DisplayName = "Body Animation"))
 	class UAnimMontage* DialogueMontage;
 
 	/**
-	Narrative will play this montage on the first skeletalmeshcomponent found on your speaker with the tag "Face" added to it. 
+	Narrative will play this montage on the first skeletalmeshcomponent found on your speaker with the tag "Face" added to it.
 	*/
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Dialogue Line")
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Legacy")
 	class UAnimMontage* FacialAnimation;
 
 	/**
-	* Shot to play for this line. Overrides speaker shot if one is set 
+	* Shot to play for this line. Overrides speaker shot if one is set
 	*/
-	UPROPERTY(EditAnywhere, Instanced, BlueprintReadWrite, Category = "Dialogue Line")
+	UPROPERTY(EditAnywhere, Instanced, BlueprintReadWrite, Category = "Legacy")
 	class UNarrativeDialogueSequence* Shot;
 };
 

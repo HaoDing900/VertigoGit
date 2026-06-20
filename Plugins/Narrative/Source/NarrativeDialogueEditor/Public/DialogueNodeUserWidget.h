@@ -21,6 +21,18 @@ public:
 	UFUNCTION(BlueprintImplementableEvent, Category = "Dialogue Node")
 	void OnNodeInitialized(class UDialogueNode* InNode, class UDialogue* InDialogue);
 
+	/**
+	 * Returns "PPE: <image name>" when this line has a Profile Picture Expression assigned (and the dialogue's
+	 * bShowPPEOnNodes is on). Empty otherwise - bind a TextBlock's Text to this; it stays blank when there's no
+	 * expression. Bind that TextBlock's Visibility to GetProfilePictureExpressionVisibility to hide it cleanly.
+	 */
+	UFUNCTION(BlueprintPure, Category = "Dialogue Node")
+	FText GetProfilePictureExpressionLabel() const;
+
+	/** Visible when there is a PPE label to show, Collapsed otherwise. */
+	UFUNCTION(BlueprintPure, Category = "Dialogue Node")
+	ESlateVisibility GetProfilePictureExpressionVisibility() const;
+
 protected:
 
 	UPROPERTY(BlueprintReadOnly, Category = "Dialogue Node")

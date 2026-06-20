@@ -177,6 +177,19 @@ void SDialogueGraphNode::UpdateGraphNode()
 
 					SNew(SVerticalBox)
 					+ SVerticalBox::Slot()
+					.VAlign(VAlign_Top)
+					.HAlign(HAlign_Fill)
+					.AutoHeight()
+					[
+						SNew(STextBlock)
+						.Text(this, &SDialogueGraphNode::GetPPEText)
+						.Visibility(this, &SDialogueGraphNode::GetPPEVis)
+						.Justification(ETextJustify::Center)
+						.AutoWrapText(true)
+						.TextStyle(FAppStyle::Get(), TEXT("PhysicsAssetEditor.Tools.Font"))
+						.ColorAndOpacity(FSlateColor(FLinearColor(0.5f, 1.0f, 0.5f, 1.0f)))
+					]
+					+ SVerticalBox::Slot()
 					.VAlign(VAlign_Center)
 					.HAlign(HAlign_Fill)
 					.FillHeight(1.f)
@@ -380,6 +393,24 @@ EVisibility SDialogueGraphNode::GetEventsVis() const
 EVisibility SDialogueGraphNode::GetCondsVis() const
 {
 	return GetConditionsText().IsEmpty() ? EVisibility::Collapsed : EVisibility::Visible;
+}
+
+FText SDialogueGraphNode::GetPPEText() const
+{
+	if (const UDialogueGraphNode* DialogueGraphNode = Cast<UDialogueGraphNode>(GraphNode))
+	{
+		if (DialogueGraphNode->DialogueNode && DialogueGraphNode->DialogueNode->Line.ProfilePictureExpression)
+		{
+			return FText::Format(LOCTEXT("PPELabel", "PPE: {0}"), FText::FromString(DialogueGraphNode->DialogueNode->Line.ProfilePictureExpression->GetName()));
+		}
+	}
+
+	return FText::GetEmpty();
+}
+
+EVisibility SDialogueGraphNode::GetPPEVis() const
+{
+	return GetPPEText().IsEmpty() ? EVisibility::Collapsed : EVisibility::Visible;
 }
 
 FText SDialogueGraphNode::GetWarningIconTooltip() const

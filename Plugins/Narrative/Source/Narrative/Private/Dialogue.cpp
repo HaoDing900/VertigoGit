@@ -282,6 +282,12 @@ FSpeakerInfo UDialogue::GetSpeaker(const FName& SpeakerID)
 	return FSpeakerInfo();
 }
 
+UTexture2D* UDialogue::GetActiveProfilePicture(const FSpeakerInfo& Speaker, const FDialogueLine& Line)
+{
+	//Use the per-line expression (image B) if one is set, otherwise fall back to the speaker's default picture (image A)
+	return IsValid(Line.ProfilePictureExpression) ? Line.ProfilePictureExpression : Speaker.ProfilePicture;
+}
+
 bool UDialogue::SkipCurrentLine()
 {
 	if (CanSkipCurrentLine() && OwningComp && OwningComp->HasAuthority())
@@ -1042,18 +1048,35 @@ void UDialogue::PlayPlayerDialogueNode(class UDialogueNode_Player* PlayerReply)
 
 		OnPlayerDialogueLineStarted(PlayerReply, CurrentLine);
 
-		//Actual playing of the node is inside a BlueprintNativeEvent so designers can override how NPC dialogues are played 
+		//A listener (e.g. the dialogue UI) may have skipped this line during the above broadcasts, which already advances
+		//the dialogue to the next node. If so, bail out - otherwise we'd replay this stale player line and arm a finish
+		//timer for it, causing a 1-2 second hang before the next line plays.
+		if (!OwningComp || CurrentNode != PlayerReply)
+		{
+			return;
+		}
+
+		//Actual playing of the node is inside a BlueprintNativeEvent so designers can override how NPC dialogues are played
 		PlayPlayerDialogue(PlayerReply, CurrentLine);
 
 		CurrentSpeaker = PlayerSpeakerInfo;
 
-		const float Duration = GetLineDuration(CurrentNode, CurrentLine);
+		float Duration = GetLineDuration(CurrentNode, CurrentLine);
+
+		/*The player's choice is already shown in the option list, so we don't want to make them sit through a "spoken"
+		replay of their own line (the default reading-time wait, which caused a 1-2 second pause after selecting).
+		For the auto reading-time modes, finish immediately. Lines the designer explicitly timed to wait for audio, a
+		sequence, a fixed duration, or manual advance are left untouched.*/
+		if (CurrentLine.Duration == ELineDuration::LD_Default || CurrentLine.Duration == ELineDuration::LD_AfterReadingTime)
+		{
+			Duration = 0.f;
+		}
 
 		if (!FMath::IsNearlyEqual(Duration, -1.f))
 		{
 			if (Duration > 0.01f && GetWorld())
 			{
-				//Give the reply time to play, then play the next one! 
+				//Give the reply time to play, then play the next one!
 				GetWorld()->GetTimerManager().SetTimer(TimerHandle_PlayerReplyFinished, this, &UDialogue::FinishPlayerDialogue, Duration, false);
 			}
 			else

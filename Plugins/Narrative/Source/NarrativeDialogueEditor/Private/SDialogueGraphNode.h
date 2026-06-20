@@ -42,8 +42,12 @@ protected:
 	FText GetNodeTitleText() const;
 	FText GetConditionsText() const;
 
+	/** "PPE: <image name>" shown above the line when the node has a Profile Picture Expression assigned. */
+	FText GetPPEText() const;
+
 	EVisibility GetEventsVis() const ;
 	EVisibility GetCondsVis() const;
+	EVisibility GetPPEVis() const;
 
 	FText GetWarningIconTooltip() const;
 	FSlateColor GetWarningIconColor() const;

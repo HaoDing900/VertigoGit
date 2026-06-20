@@ -141,6 +141,15 @@ public:
 
 	FSpeakerInfo GetSpeaker(const FName& SpeakerID);
 
+	/**
+	* Returns the picture that should currently be shown for a speaker.
+	* If the line has a Profile Picture Expression set (image B), that is used; otherwise we fall back
+	* to the speaker's default Profile Picture (image A). Bind your UI image to this so A shows by default
+	* and is only replaced by B when a valid expression is set on the line.
+	*/
+	UFUNCTION(BlueprintPure, Category = "Dialogue")
+	static UTexture2D* GetActiveProfilePicture(const FSpeakerInfo& Speaker, const FDialogueLine& Line);
+
 	//All the NPC speakers in this dialogue - for the player fill out the PlayerSpeakerInfo below! 
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Speakers", meta = (TitleProperty="SpeakerID"))
 	TArray<FSpeakerInfo> Speakers;
@@ -148,6 +157,10 @@ public:
 	//The speaker info for our player
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Speakers")
 	FPlayerSpeakerInfo PlayerSpeakerInfo;
+
+	//If true, dialogue graph nodes show a small "PPE: <image>" label when a Profile Picture Expression is assigned to the line.
+	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category = "Configuration")
+	bool bShowPPEOnNodes = true;
 
 	//For parties, each player in the party gets their own speaker info 
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Parties")
