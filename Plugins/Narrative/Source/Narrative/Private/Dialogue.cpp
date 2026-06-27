@@ -2,6 +2,8 @@
 
 #include "Dialogue.h"
 #include "NarrativeDialogueSettings.h"
+#include "Internationalization/Internationalization.h"
+#include "Internationalization/Culture.h"
 #include "NarrativeComponent.h"
 #include "DialogueBlueprintGeneratedClass.h"
 #include "DialogueSM.h"
@@ -273,10 +275,14 @@ FSpeakerInfo UDialogue::GetSpeaker(const FName& SpeakerID)
 		}
 	}
 
-	//Nodes created before the release of Speakers won't have their speaker set. Therefore, just return the first speaker.
+	//Nodes created before the release of Speakers won't have their speaker set. Therefore, just return the first speaker
+	//as a fallback for name/colour/etc - but clear its picture so an unmatched speaker ID never borrows another
+	//speaker's profile picture (which showed up as a "random" portrait).
 	if (Speakers.Num() && Speakers.IsValidIndex(0))
 	{
-		return Speakers[0];
+		FSpeakerInfo Fallback = Speakers[0];
+		Fallback.ProfilePicture = nullptr;
+		return Fallback;
 	}
 
 	return FSpeakerInfo();
@@ -286,6 +292,12 @@ UTexture2D* UDialogue::GetActiveProfilePicture(const FSpeakerInfo& Speaker, cons
 {
 	//Use the per-line expression (image B) if one is set, otherwise fall back to the speaker's default picture (image A)
 	return IsValid(Line.ProfilePictureExpression) ? Line.ProfilePictureExpression : Speaker.ProfilePicture;
+}
+
+ESlateVisibility UDialogue::GetActiveProfilePictureVisibility(const FSpeakerInfo& Speaker, const FDialogueLine& Line)
+{
+	//Collapse the portrait entirely when there's no picture, so it doesn't keep showing the previous speaker's image.
+	return IsValid(GetActiveProfilePicture(Speaker, Line)) ? ESlateVisibility::HitTestInvisible : ESlateVisibility::Collapsed;
 }
 
 bool UDialogue::SkipCurrentLine()
@@ -1718,11 +1730,28 @@ float UDialogue::GetLineDuration_Implementation(class UDialogueNode* Node, const
 		*/
 		float LettersPerSecondLineDuration = 25.f;
 		float MinDialogueTextDisplayTime = 2.f;
+		float ReadingTimeMultiplier = 1.f;
 
 		if (const UNarrativeDialogueSettings* DialogueSettings = GetDefault<UNarrativeDialogueSettings>())
 		{
 			LettersPerSecondLineDuration = DialogueSettings->LettersPerSecondLineDuration;
 			MinDialogueTextDisplayTime = DialogueSettings->MinDialogueTextDisplayTime;
+			ReadingTimeMultiplier = DialogueSettings->ReadingTimeMultiplier;
+
+			//If the active language has a per-language override, use that instead of the default multiplier.
+			//Most-specific wins: try the full culture code first (e.g. "zh-Hans"), then the two-letter code (e.g. "zh").
+			const FCultureRef CurrentLanguage = FInternationalization::Get().GetCurrentLanguage();
+			const FString FullCulture = CurrentLanguage->GetName();					//e.g. "zh-Hans", "en-US", "en"
+			const FString TwoLetter = CurrentLanguage->GetTwoLetterISOLanguageName();	//e.g. "zh", "en"
+
+			if (const float* LanguageMultiplier = DialogueSettings->ReadingTimeMultiplierPerLanguage.Find(FullCulture))
+			{
+				ReadingTimeMultiplier = *LanguageMultiplier;
+			}
+			else if (const float* TwoLetterMultiplier = DialogueSettings->ReadingTimeMultiplierPerLanguage.Find(TwoLetter))
+			{
+				ReadingTimeMultiplier = *TwoLetterMultiplier;
+			}
 		}
 
 		// if the lines text is empty, return a duration of 0
@@ -1731,7 +1760,8 @@ float UDialogue::GetLineDuration_Implementation(class UDialogueNode* Node, const
 			return 0.f;
 		}
 
-		return FMath::Max(Line.Text.ToString().Len() / LettersPerSecondLineDuration, MinDialogueTextDisplayTime);
+		//Global/per-language multiplier (from settings) stacked with this dialogue's own reading-time multiplier.
+		return FMath::Max(Line.Text.ToString().Len() / LettersPerSecondLineDuration, MinDialogueTextDisplayTime) * ReadingTimeMultiplier * DefaultLineReadingTimeMultiplier;
 	}
 	else if (Line.Duration == ELineDuration::LD_AfterDuration)
 	{

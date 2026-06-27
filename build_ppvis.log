@@ -1,0 +1,43 @@
+Using bundled DotNet SDK version: 6.0.302
+Running UnrealBuildTool: dotnet "..\..\Engine\Binaries\DotNET\UnrealBuildTool\UnrealBuildTool.dll" VertigoEditor Win64 Development "-Project=G:/Epic/Unreal projects/VertigoGit/Vertigo.uproject" -WaitMutex -FromMsBuild
+Log file: C:\Users\Hao\AppData\Local\UnrealBuildTool\Log.txt
+Using 'git status' to determine working set for adaptive non-unity build (G:\Epic\Unreal projects\VertigoGit).
+Parsing headers for VertigoEditor
+  Running Internal UnrealHeaderTool "G:\Epic\Unreal projects\VertigoGit\Vertigo.uproject" "G:\Epic\Unreal projects\VertigoGit\Intermediate\Build\Win64\VertigoEditor\Development\VertigoEditor.uhtmanifest" -WarningsAsErrors -installed
+Total of 3 written
+Reflection code generated for VertigoEditor in 0.8906522 seconds
+Building VertigoEditor...
+Using Visual Studio 2022 14.41.34120 toolchain (C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.41.34120) and Windows 10.0.16299.0 SDK (C:\Program Files (x86)\Windows Kits\10).
+[Upgrade]
+[Upgrade] Using backward-compatible build settings. The latest version of UE sets the following values by default, which may require code changes:
+[Upgrade]     CppStandard = CppStandardVersion.Default        => Updates C++ Standard to C++20 (Previously: CppStandardVersion.Cpp17).
+[Upgrade]     WindowsPlatform.bStrictConformanceMode = true   => Updates MSVC strict conformance mode to true (Previously: false).
+[Upgrade] Suppress this message by setting 'DefaultBuildSettings = BuildSettingsVersion.V4;' in VertigoEditor.Target.cs, and explicitly overriding settings that differ from the new defaults.
+[Upgrade]
+[Adaptive Build] Excluded from Narrative unity file: Dialogue.cpp, DialogueSM.cpp, NarrativeDialogueSettings.cpp
+Determining max actions to execute in parallel (8 physical cores, 16 logical cores)
+  Executing up to 8 processes, one per physical core
+------ Building 14 action(s) started ------
+[1/14] Compile [x64] DialogueSM.cpp
+[2/14] Compile [x64] Module.Narrative.2.cpp
+[3/14] Compile [x64] Module.Narrative.1.cpp
+[4/14] Compile [x64] Dialogue.cpp
+[5/14] Compile [x64] Module.Narrative.3.cpp
+[6/14] Link [x64] UnrealEditor-Narrative.lib
+  正在创建库 G:\Epic\Unreal projects\VertigoGit\Plugins\Narrative\Intermediate\Build\Win64\x64\UnrealEditor\Development\Narrative\UnrealEditor-Narrative.lib 和对象 G:\Epic\Unreal projects\VertigoGit\Plugins\Narrative\Intermediate\Build\Win64\x64\UnrealEditor\Development\Narrative\UnrealEditor-Narrative.exp
+[7/14] Link [x64] UnrealEditor-Narrative.dll
+  正在创建库 G:\Epic\Unreal projects\VertigoGit\Plugins\Narrative\Intermediate\Build\Win64\x64\UnrealEditor\Development\Narrative\UnrealEditor-Narrative.sup.lib 和对象 G:\Epic\Unreal projects\VertigoGit\Plugins\Narrative\Intermediate\Build\Win64\x64\UnrealEditor\Development\Narrative\UnrealEditor-Narrative.sup.exp
+[8/14] Compile [x64] Module.NarrativeQuestEditor.cpp
+[9/14] Compile [x64] Module.NarrativeDialogueEditor.cpp
+[10/14] Link [x64] UnrealEditor-NarrativeQuestEditor.lib
+  正在创建库 G:\Epic\Unreal projects\VertigoGit\Plugins\Narrative\Intermediate\Build\Win64\x64\UnrealEditor\Development\NarrativeQuestEditor\UnrealEditor-NarrativeQuestEditor.lib 和对象 G:\Epic\Unreal projects\VertigoGit\Plugins\Narrative\Intermediate\Build\Win64\x64\UnrealEditor\Development\NarrativeQuestEditor\UnrealEditor-NarrativeQuestEditor.exp
+[11/14] Link [x64] UnrealEditor-NarrativeDialogueEditor.lib
+  正在创建库 G:\Epic\Unreal projects\VertigoGit\Plugins\Narrative\Intermediate\Build\Win64\x64\UnrealEditor\Development\NarrativeDialogueEditor\UnrealEditor-NarrativeDialogueEditor.lib 和对象 G:\Epic\Unreal projects\VertigoGit\Plugins\Narrative\Intermediate\Build\Win64\x64\UnrealEditor\Development\NarrativeDialogueEditor\UnrealEditor-NarrativeDialogueEditor.exp
+[12/14] Link [x64] UnrealEditor-NarrativeDialogueEditor.dll
+  正在创建库 G:\Epic\Unreal projects\VertigoGit\Plugins\Narrative\Intermediate\Build\Win64\x64\UnrealEditor\Development\NarrativeDialogueEditor\UnrealEditor-NarrativeDialogueEditor.sup.lib 和对象 G:\Epic\Unreal projects\VertigoGit\Plugins\Narrative\Intermediate\Build\Win64\x64\UnrealEditor\Development\NarrativeDialogueEditor\UnrealEditor-NarrativeDialogueEditor.sup.exp
+[13/14] Link [x64] UnrealEditor-NarrativeQuestEditor.dll
+  正在创建库 G:\Epic\Unreal projects\VertigoGit\Plugins\Narrative\Intermediate\Build\Win64\x64\UnrealEditor\Development\NarrativeQuestEditor\UnrealEditor-NarrativeQuestEditor.sup.lib 和对象 G:\Epic\Unreal projects\VertigoGit\Plugins\Narrative\Intermediate\Build\Win64\x64\UnrealEditor\Development\NarrativeQuestEditor\UnrealEditor-NarrativeQuestEditor.sup.exp
+[14/14] WriteMetadata VertigoEditor.target
+Total time in Parallel executor: 8.01 seconds
+Total execution time: 9.85 seconds
+EXIT=0

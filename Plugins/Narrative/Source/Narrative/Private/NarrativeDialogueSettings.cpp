@@ -6,9 +6,14 @@ UNarrativeDialogueSettings::UNarrativeDialogueSettings()
 {
 	LettersPerSecondLineDuration = 25.f;
 	MinDialogueTextDisplayTime = 2.f;
+	ReadingTimeMultiplier = 1.f;
 	DialogueLineAudioSilence = 0.5f;
 	bAutoSelectSingleResponse = false;
 	bEnableVerticalWiring = true;
+
+	// Avatar display caps for BP_Narrative3Overlay (render-target downscale, source textures untouched).
+	AvatarMainMaxResolution = 512;	// "LOD 1" of a 1024 source
+	AvatarSideMaxResolution = 256;	// "LOD 2" of a 1024 source
 
 	SpeakerColors.Add(FLinearColor(0.036161, 0.115986, 0.265625, 1.000000));
 	SpeakerColors.Add(FLinearColor(0.008496, 0.112847, 0.025310, 1.000000));

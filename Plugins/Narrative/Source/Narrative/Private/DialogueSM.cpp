@@ -49,7 +49,21 @@ FDialogueLine UDialogueNode::GetRandomLine(const bool bStandalone) const
 		}
 		else
 		{
-			NewLine.Duration = ELineDuration::LD_AfterReadingTime;
+			//No audio and no sequence - fall back to whatever this dialogue's DefaultLineDuration is set to.
+			ELineDuration DialogueDefault = ELineDuration::LD_AfterReadingTime;
+
+			if (OwningDialogue && OwningDialogue->DefaultLineDuration != ELineDuration::LD_Default)
+			{
+				DialogueDefault = OwningDialogue->DefaultLineDuration;
+			}
+
+			NewLine.Duration = DialogueDefault;
+
+			//If the dialogue default is a fixed duration, seed the seconds from the dialogue unless this line set its own.
+			if (NewLine.Duration == ELineDuration::LD_AfterDuration && NewLine.DurationSecondsOverride <= 0.f && OwningDialogue)
+			{
+				NewLine.DurationSecondsOverride = OwningDialogue->DefaultLineDurationSeconds;
+			}
 		}
 	}
 

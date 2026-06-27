@@ -425,6 +425,29 @@ public:
 	UFUNCTION(BlueprintPure, Category = "Narrative")
 	class UDialogue* GetCurrentDialogue() const;
 
+	/**
+	* Ends the current dialogue line when the given Level Sequence Player finishes.
+	* Use this with a line set to "When Sequence Ends" so it tracks a sequence YOU played (e.g. through a Narrative
+	* Event), instead of only Narrative's own dialogue shot. Call it right after you Play your sequence, passing the
+	* player. The line then lasts exactly as long as that sequence.
+	*
+	* MaxWaitSeconds is a safety net: if the sequence never reports "finished", the line ends after this many seconds
+	* anyway so the dialogue can't hang. Set to 0 to disable the safety timeout.
+	*/
+	UFUNCTION(BlueprintCallable, Category = "Dialogue", meta = (AdvancedDisplay = "MaxWaitSeconds"))
+	void EndCurrentLineWhenSequenceFinishes(class ULevelSequencePlayer* SequencePlayer, float MaxWaitSeconds = 30.f);
+
+private:
+
+	UFUNCTION()
+	void OnExternalSequenceFinished();
+
+	//Clears the timeout timer and unbinds from the tracked sequence player.
+	void StopWaitingForExternalSequence();
+
+	TWeakObjectPtr<class ULevelSequencePlayer> ExternalSequencePlayer;
+	FTimerHandle ExternalSequenceTimeoutHandle;
+
 public:
 
 	//BP exposed functions for scripters/designers 

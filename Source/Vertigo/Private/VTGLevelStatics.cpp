@@ -4,6 +4,7 @@
 #include "Kismet/GameplayStatics.h"
 #include "Engine/World.h"
 #include "Engine/Engine.h"
+#include "EngineUtils.h"
 
 FName UVTGLevelStatics::GetActiveStage(const UObject* WorldContextObject)
 {
@@ -57,4 +58,59 @@ void UVTGLevelStatics::OpenLevelWithStage(const UObject* WorldContextObject, FNa
 
 	//Same behaviour as the built-in "Open Level (by Name)".
 	UGameplayStatics::OpenLevel(WorldContextObject, LevelName, bAbsolute, Options);
+}
+
+AActor* UVTGLevelStatics::FindValidActorOfClass(const UObject* WorldContextObject, TSubclassOf<AActor> ActorClass)
+{
+	return FindValidActorOfClassWithTag(WorldContextObject, ActorClass, NAME_None);
+}
+
+AActor* UVTGLevelStatics::FindValidActorOfClassWithTag(const UObject* WorldContextObject, TSubclassOf<AActor> ActorClass, FName Tag)
+{
+	UWorld* World = GEngine ? GEngine->GetWorldFromContextObject(WorldContextObject, EGetWorldErrorMode::ReturnNull) : nullptr;
+	if (!World || !*ActorClass)
+	{
+		return nullptr;
+	}
+
+	for (TActorIterator<AActor> It(World, ActorClass); It; ++It)
+	{
+		AActor* Actor = *It;
+
+		//Skip anything that's invalid or mid-destruction (e.g. a stage-gated actor removing itself).
+		if (!IsValid(Actor) || Actor->IsActorBeingDestroyed())
+		{
+			continue;
+		}
+
+		//If a tag was requested, the actor must carry it.
+		if (!Tag.IsNone() && !Actor->ActorHasTag(Tag))
+		{
+			continue;
+		}
+
+		return Actor;
+	}
+
+	return nullptr;
+}
+
+AActor* UVTGLevelStatics::FindActorOfClassInWorldOf(const UObject* WorldSource, TSubclassOf<AActor> ActorClass)
+{
+	UWorld* World = (GEngine && WorldSource) ? GEngine->GetWorldFromContextObject(WorldSource, EGetWorldErrorMode::ReturnNull) : nullptr;
+	if (!World || !*ActorClass)
+	{
+		return nullptr;
+	}
+
+	for (TActorIterator<AActor> It(World, ActorClass); It; ++It)
+	{
+		AActor* Actor = *It;
+		if (IsValid(Actor) && !Actor->IsActorBeingDestroyed())
+		{
+			return Actor;
+		}
+	}
+
+	return nullptr;
 }

@@ -1,0 +1,12 @@
+Using bundled DotNet SDK version: 6.0.302
+Running UnrealBuildTool: dotnet "..\..\Engine\Binaries\DotNET\UnrealBuildTool\UnrealBuildTool.dll" VertigoEditor Win64 Development "-Project=G:/Epic/Unreal projects/VertigoGit/Vertigo.uproject" -WaitMutex -FromMsBuild
+Log file: C:\Users\Hao\AppData\Local\UnrealBuildTool\Log.txt
+Using 'git status' to determine working set for adaptive non-unity build (G:\Epic\Unreal projects\VertigoGit).
+Invalidating makefile for VertigoEditor (working set of source files changed)
+Parsing headers for VertigoEditor
+  Running Internal UnrealHeaderTool "G:\Epic\Unreal projects\VertigoGit\Vertigo.uproject" "G:\Epic\Unreal projects\VertigoGit\Intermediate\Build\Win64\VertigoEditor\Development\VertigoEditor.uhtmanifest" -WarningsAsErrors -installed
+Total of 3 written
+Reflection code generated for VertigoEditor in 0.9862876 seconds
+Total execution time: 3.12 seconds
+Unable to build while Live Coding is active. Exit the editor and game, or press Ctrl+Alt+F11 if iterating on code in the editor or game
+EXIT=6

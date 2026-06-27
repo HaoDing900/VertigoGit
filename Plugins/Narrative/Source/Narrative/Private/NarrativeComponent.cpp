@@ -12,6 +12,7 @@
 #include "NarrativeCondition.h"
 #include "NarrativeEvent.h"
 #include "NarrativeDialogueSettings.h"
+#include "LevelSequencePlayer.h"
 #include "QuestTask.h"
 #include "Engine/Engine.h"
 #include "Kismet/GameplayStatics.h"
@@ -1065,8 +1066,55 @@ class UDialogue* UNarrativeComponent::GetCurrentDialogue() const
 	{
 		return CurrentDialogue;
 	}
-	
+
 	return nullptr;
+}
+
+void UNarrativeComponent::EndCurrentLineWhenSequenceFinishes(ULevelSequencePlayer* SequencePlayer, float MaxWaitSeconds)
+{
+	if (!SequencePlayer)
+	{
+		return;
+	}
+
+	//Drop any previous wait first, so we only ever track one sequence at a time.
+	StopWaitingForExternalSequence();
+
+	ExternalSequencePlayer = SequencePlayer;
+	SequencePlayer->OnFinished.AddDynamic(this, &UNarrativeComponent::OnExternalSequenceFinished);
+
+	//Safety net: if the sequence never reports finished, end the line anyway so the dialogue can't hang.
+	if (MaxWaitSeconds > 0.f && GetWorld())
+	{
+		GetWorld()->GetTimerManager().SetTimer(ExternalSequenceTimeoutHandle, this, &UNarrativeComponent::OnExternalSequenceFinished, MaxWaitSeconds, false);
+	}
+}
+
+void UNarrativeComponent::OnExternalSequenceFinished()
+{
+	//Whichever fired first (the sequence finishing or the safety timeout), tear down so this only runs once.
+	StopWaitingForExternalSequence();
+
+	//Advance the current dialogue line.
+	if (UDialogue* Dialogue = GetCurrentDialogue())
+	{
+		Dialogue->EndCurrentLine();
+	}
+}
+
+void UNarrativeComponent::StopWaitingForExternalSequence()
+{
+	if (GetWorld())
+	{
+		GetWorld()->GetTimerManager().ClearTimer(ExternalSequenceTimeoutHandle);
+	}
+
+	if (ULevelSequencePlayer* Player = ExternalSequencePlayer.Get())
+	{
+		Player->OnFinished.RemoveDynamic(this, &UNarrativeComponent::OnExternalSequenceFinished);
+	}
+
+	ExternalSequencePlayer = nullptr;
 }
 
 TArray<UQuest*> UNarrativeComponent::GetFailedQuests() const

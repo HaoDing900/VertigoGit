@@ -7,6 +7,7 @@
 #include "LevelSequencePlayer.h"
 #include "DialogueSM.h"
 #include "MovieSceneSequencePlayer.h"
+#include "Components/SlateWrapperTypes.h"
 #include "Dialogue.generated.h"
 
    
@@ -114,7 +115,7 @@ struct NARRATIVE_API FDialoguePlayParams
 };
 
 //Created at runtime, but also used as a template, similar to UWidgetTrees in UWidgetBlueprints. 
-UCLASS(Blueprintable, BlueprintType, meta = (DisplayName="Dialogue"))
+UCLASS(Blueprintable, BlueprintType, AutoCollapseCategories = ("Player Speaker Info", "Adjustment"), meta = (DisplayName="Dialogue"))
 class NARRATIVE_API UDialogue : public UObject
 {
 	GENERATED_BODY()
@@ -150,17 +151,39 @@ public:
 	UFUNCTION(BlueprintPure, Category = "Dialogue")
 	static UTexture2D* GetActiveProfilePicture(const FSpeakerInfo& Speaker, const FDialogueLine& Line);
 
-	//All the NPC speakers in this dialogue - for the player fill out the PlayerSpeakerInfo below! 
+	/**
+	* Visibility for the portrait image: Visible when there's a picture to show (expression OR speaker default),
+	* Collapsed when neither is set. Bind your portrait Image's Visibility to this so it disappears entirely
+	* (instead of keeping the previous speaker's picture) when a speaker/line has no picture.
+	*/
+	UFUNCTION(BlueprintPure, Category = "Dialogue")
+	static ESlateVisibility GetActiveProfilePictureVisibility(const FSpeakerInfo& Speaker, const FDialogueLine& Line);
+
+	//All the NPC speakers in this dialogue - for the player fill out the PlayerSpeakerInfo below!
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Speakers", meta = (TitleProperty="SpeakerID"))
 	TArray<FSpeakerInfo> Speakers;
 
 	//The speaker info for our player
-	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Speakers")
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Player Speaker Info")
 	FPlayerSpeakerInfo PlayerSpeakerInfo;
 
 	//If true, dialogue graph nodes show a small "PPE: <image>" label when a Profile Picture Expression is assigned to the line.
 	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category = "Configuration")
 	bool bShowPPEOnNodes = true;
+
+	//What a line set to "Default" duration should fall back to, for lines that have no audio and no sequence.
+	//Lets you make every line in this dialogue (e.g.) wait a fixed number of seconds without setting each one.
+	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category = "Configuration")
+	ELineDuration DefaultLineDuration = ELineDuration::LD_AfterReadingTime;
+
+	//Seconds used when DefaultLineDuration is "After Duration" (and a line didn't set its own override).
+	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category = "Configuration", meta = (EditCondition = "DefaultLineDuration == ELineDuration::LD_AfterDuration", EditConditionHides, ClampMin = 0.0))
+	float DefaultLineDurationSeconds = 3.f;
+
+	//Extra reading-time multiplier just for this dialogue. Stacks ON TOP of the global/per-language Reading Time
+	//Multiplier in Narrative Dialogue Settings (e.g. global 4x for Chinese * this 1.5x = 6x). 1 = no change.
+	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category = "Configuration", meta = (DisplayName = "If Reading Time, Multiply By", EditCondition = "DefaultLineDuration == ELineDuration::LD_AfterReadingTime", EditConditionHides, ClampMin = 0.1))
+	float DefaultLineReadingTimeMultiplier = 1.f;
 
 	//For parties, each player in the party gets their own speaker info 
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Parties")
@@ -194,7 +217,8 @@ public:
 	* If your head bone has a different name, you can input it here - if you need anything more complex simply override the GetSpeakerHeadLocation function
 	* and return the location of your avatars head. 
 	*/
-	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Configuration")
+	//Hidden from the editor (still used internally for head-aimed shots). Defaults to "head".
+	UPROPERTY(BlueprintReadOnly, Category = "Configuration")
 	FName DefaultHeadBoneName;
 
 	//Time to blend back into the players camera after dialogue ends
