@@ -1,0 +1,53 @@
+﻿{
+  "id": "SvemaFoto64",
+  "displayName": "Svema Foto 64",
+  "filmType": "BWNegative",
+  "description": "Approximate Svema B&W look LUT derived from public Svema scan samples.",
+  "lutPath": "Content/LUTs/FE_Look_SvemaBW_64.cube",
+  "saturationBias": 1.0,
+  "contrastBias": 1.0,
+  "exposureBias": 0.0,
+  "grain": {
+    "iso": 64.0,
+    "intensity": 1.0,
+    "size": 33.989,
+    "chromatic": 0.0,
+    "response": 1.0,
+    "sigmaR": 0.3
+  },
+  "halation": {
+    "enabled": true,
+    "intensity": 3.268,
+    "radius": 1.563,
+    "threshold": 2.548,
+    "remjet": 0.15,
+    "tint": [
+      1.0,
+      0.6293,
+      0.4544,
+      1.0
+    ],
+    "tintNear": [
+      1.0,
+      0.5888,
+      0.4059,
+      1.0
+    ],
+    "tintMid": [
+      1.0,
+      0.4867,
+      0.3368,
+      1.0
+    ],
+    "tintFar": [
+      1.0,
+      0.4129,
+      0.2848,
+      1.0
+    ],
+    "radiusMidScale": 2.0,
+    "radiusFarScale": 3.5
+  },
+  "format": "Photo35",
+  "formatScale": 1.0
+}

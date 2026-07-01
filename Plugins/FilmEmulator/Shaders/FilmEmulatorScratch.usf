@@ -1,0 +1,133 @@
+﻿// Copyright 2026 TOXIC STOCK All rights reserved.
+
+#include "/Engine/Private/Common.ush"
+#include "/Engine/Private/ScreenPass.ush"
+#include "/Engine/Private/PostProcessCommon.ush"
+
+SCREEN_PASS_TEXTURE_VIEWPORT(InputViewportParams);
+
+Texture2D SceneColorTexture;
+SamplerState SceneColorSampler;
+float4 ScratchParams0; // x=intensity, y=density, z=width (microns), w=length
+float4 ScratchParams1; // x=frequency, y=opacityJitter, z=lengthJitter, w=polarity
+float4 ScratchParams2; // x=widthJitter
+float4 ScratchTint;
+float2 GateWeaveOffset;
+float2 ScratchSeed;
+float ScratchTime;
+float ScratchFormatScale;
+float PreExposure;
+
+float2 ClampViewportUV(float2 UV)
+{
+    return clamp(UV, InputViewportParams_UVViewportBilinearMin, InputViewportParams_UVViewportBilinearMax);
+}
+
+float Hash11(float n)
+{
+    return frac(sin(n) * 43758.5453123);
+}
+
+float Hash21(float2 p)
+{
+    return frac(sin(dot(p, float2(12.9898, 78.233))) * 43758.5453123);
+}
+
+float LineMask(float dx, float widthPx)
+{
+    float w = max(widthPx, 0.5f);
+    float x = dx / w;
+    return exp(-0.5f * x * x);
+}
+
+float ScratchMask(float2 FilmUV)
+{
+    const int MaxLines = 12;
+    float density = saturate(ScratchParams0.y);
+    float count = density * MaxLines;
+    float widthMicron = max(ScratchParams0.z, 0.1f);
+    float lengthBase = saturate(ScratchParams0.w);
+    float lengthJitter = saturate(ScratchParams1.z);
+    float opacityJitter = saturate(ScratchParams1.y);
+    float widthJitter = saturate(ScratchParams2.x);
+    float freq = max(ScratchParams1.x, 0.0f);
+
+    float pixelsPerMm = (InputViewportParams_ViewportSize.x * max(ScratchFormatScale, 0.01f)) / 36.0f;
+    float baseWidthPx = widthMicron * 0.001f * pixelsPerMm;
+
+    float mask = 0.0f;
+
+    [unroll]
+    for (int i = 0; i < MaxLines; ++i)
+    {
+        float fi = (float)i;
+        float active = step(fi + 0.5f, count);
+        if (active <= 0.0f)
+        {
+            continue;
+        }
+
+        float seed = fi + ScratchSeed.x * 37.13f + ScratchSeed.y * 17.71f;
+        float phase = Hash11(seed + 2.1f);
+        float anim = step(0.001f, freq);
+        float t = frac(ScratchTime * freq + phase);
+        float eventIndex = (anim > 0.0f) ? floor(ScratchTime * freq + phase) : 0.0f;
+        float eventSeed = seed + eventIndex * 13.37f;
+        float widthRand = lerp(1.0f - widthJitter, 1.0f + widthJitter, Hash11(eventSeed + 9.1f));
+        float widthPx = max(baseWidthPx * widthRand, 0.5f);
+
+        float posX = frac(Hash11(eventSeed + 1.3f));
+        float life = lerp(0.25f, 1.0f, Hash11(eventSeed + 3.7f));
+        float alive = lerp(1.0f, step(t, life), anim);
+
+        float lenRand = lerp(1.0f - lengthJitter, 1.0f, Hash11(eventSeed + 4.9f));
+        float length = saturate(lerp(0.15f, 1.0f, lengthBase) * lenRand);
+        float centerY = Hash11(eventSeed + 5.7f);
+        float halfLen = length * 0.5f;
+        float yDist = abs(FilmUV.y - centerY);
+        float lenMask = smoothstep(halfLen, halfLen - 0.02f, yDist);
+
+        float wobble = (Hash21(float2(seed, FilmUV.y * 113.1f + ScratchTime * 0.2f)) - 0.5f) * widthPx * 0.5f;
+        float x = posX + wobble / max(InputViewportParams_ViewportSize.x, 1.0f);
+        x = frac(x);
+
+        float dx = (FilmUV.x - x) * InputViewportParams_ViewportSize.x;
+        float lineMask = LineMask(dx, widthPx);
+
+        float opacity = lerp(1.0f - opacityJitter, 1.0f, Hash11(eventSeed + 7.3f));
+        mask += lineMask * lenMask * alive * opacity * active;
+    }
+
+    return saturate(mask);
+}
+
+float4 MainPS(
+    in noperspective float4 UVAndScreenPos : TEXCOORD0
+) : SV_Target0
+{
+    float2 UV = UVAndScreenPos.xy;
+    float2 ClampedUV = ClampViewportUV(UV);
+    float3 BaseColor = Texture2DSample(SceneColorTexture, SceneColorSampler, ClampedUV).rgb;
+
+    float SafePreExposure = max(PreExposure, 1e-6f);
+    float3 SceneLinear = BaseColor / SafePreExposure;
+
+    float2 FilmUV = UV + GateWeaveOffset;
+    float2 ViewportUV = (FilmUV - InputViewportParams_UVViewportMin) * InputViewportParams_UVViewportSizeInverse;
+    ViewportUV = saturate(ViewportUV);
+
+    float m = ScratchMask(ViewportUV);
+    float intensity = saturate(ScratchParams0.x);
+    float3 tint = saturate(ScratchTint.rgb);
+    float3 dark = SceneLinear * (1.0f - m * intensity * tint);
+    float3 light = SceneLinear + m * intensity * tint;
+    float sel = saturate(ScratchParams1.w * 0.5f + 0.5f);
+    float3 outLinear = lerp(dark, light, sel);
+    outLinear = max(outLinear, 0.0f);
+
+    return float4(outLinear * SafePreExposure, 1.0f);
+}
+
+
+
+

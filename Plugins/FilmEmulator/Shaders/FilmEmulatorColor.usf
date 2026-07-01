@@ -1,0 +1,109 @@
+﻿// Copyright 2026 TOXIC STOCK All rights reserved.
+
+#include "/Engine/Private/Common.ush"
+#include "/Engine/Private/PostProcessCommon.ush"
+#define EYE_ADAPTATION_LOOSE_PARAMETERS 1
+#include "/Engine/Private/EyeAdaptationCommon.ush"
+#include "/Engine/Private/ScreenPass.ush"
+
+Texture2D SceneColorTexture;
+SamplerState SceneColorSampler;
+Texture3D FilmLUT;
+SamplerState FilmLUTSampler;
+Texture3D FilmPrintLUT;
+SamplerState FilmPrintLUTSampler;
+SCREEN_PASS_TEXTURE_VIEWPORT(InputViewportParams);
+float4 ColorParams;
+float2 GateWeaveOffset;
+float FlickerEV;
+float PrintStrength;
+float PrintExposureEV;
+float PreExposure;
+float ApplyAfterTonemap;
+
+float2 ClampViewportUV(float2 UV)
+{
+    return clamp(UV, InputViewportParams_UVViewportBilinearMin, InputViewportParams_UVViewportBilinearMax);
+}
+float3 ApplySaturationContrast(float3 Color, float Saturation, float Contrast)
+{
+    const float Luma = dot(Color, float3(0.2126, 0.7152, 0.0722));
+    Color = lerp(float3(Luma, Luma, Luma), Color, Saturation);
+    const float MidGrey = 0.18f;
+    Color = (Color - MidGrey) * Contrast + MidGrey;
+    return Color;
+}
+
+float3 SoftRolloff(float3 Color)
+{
+    // Gentle shoulder to avoid hard clamp before LUT.
+    const float Rolloff = 1.1f;
+    float3 Over = max(Color - 1.0f, 0.0f);
+    return Color / (1.0f + Over * Rolloff);
+}
+
+float3 SampleFilmLUT(float3 Color)
+{
+    uint SizeX, SizeY, SizeZ;
+    FilmLUT.GetDimensions(SizeX, SizeY, SizeZ);
+    float Size = max(1.0f, (float)SizeX);
+    float3 UVW = (saturate(Color) * (Size - 1.0f) + 0.5f) / Size;
+    return Texture3DSampleLevel(FilmLUT, FilmLUTSampler, UVW, 0).rgb;
+}
+
+float3 SamplePrintLUT(float3 Color)
+{
+    uint SizeX, SizeY, SizeZ;
+    FilmPrintLUT.GetDimensions(SizeX, SizeY, SizeZ);
+    float Size = max(1.0f, (float)SizeX);
+    float3 UVW = (saturate(Color) * (Size - 1.0f) + 0.5f) / Size;
+    return Texture3DSampleLevel(FilmPrintLUT, FilmPrintLUTSampler, UVW, 0).rgb;
+}
+
+float4 MainPS(
+    in noperspective float4 UVAndScreenPos : TEXCOORD0
+) : SV_Target0
+{
+    float2 UV = UVAndScreenPos.xy + GateWeaveOffset;
+    float2 ClampedUV = ClampViewportUV(UV);
+    float3 BaseColor = Texture2DSample(SceneColorTexture, SceneColorSampler, ClampedUV).rgb;
+
+    float Strength = saturate(ColorParams.x);
+    float ExposureEV = ColorParams.y + FlickerEV;
+    float Saturation = ColorParams.z;
+    float Contrast = ColorParams.w;
+
+    float SafePreExposure = max(PreExposure, 1e-6f);
+    float3 SceneLinear = BaseColor / SafePreExposure;
+    float ExposureScale = 1.0f;
+    if (ApplyAfterTonemap < 0.5f)
+    {
+        ExposureScale = EyeAdaptationLookup();
+        ExposureScale = (ExposureScale > 0.0f) ? ExposureScale : 1.0f;
+    }
+    float ExposureScaleSafe = max(ExposureScale, 1e-4f);
+    float3 SceneExposed = SceneLinear * ExposureScaleSafe;
+    float3 ExposureColor = SceneExposed * exp2(ExposureEV);
+    float3 LutInput = SoftRolloff(max(ExposureColor, 0.0f));
+    float3 LutColor = SampleFilmLUT(LutInput);
+    float3 TunedColor = ApplySaturationContrast(LutColor, Saturation, Contrast);
+    float3 MixedColor = lerp(SceneExposed, TunedColor, Strength);
+
+    float PrintMix = saturate(PrintStrength);
+    if (PrintMix > 0.0f)
+    {
+        float3 PrintBase = MixedColor * exp2(PrintExposureEV);
+        float3 PrintInput = SoftRolloff(max(PrintBase, 0.0f));
+        float3 PrintColor = SamplePrintLUT(PrintInput);
+        float3 PrintModulated = PrintBase * PrintColor;
+        MixedColor = lerp(PrintBase, PrintModulated, PrintMix);
+    }
+
+    float3 OutColor = (MixedColor / ExposureScaleSafe) * SafePreExposure;
+
+    return float4(OutColor, 1.0f);
+}
+
+
+
+

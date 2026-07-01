@@ -1,0 +1,63 @@
+﻿{
+  "id": "Format8mmReference",
+  "displayName": "Kodak Vision3 500T 5230 (8mm)",
+  "filmType": "ColorNegative",
+  "description": "Spectral film LUT based on Kodak Vision3 500T 5230. Format-scale grain/halation applied.",
+  "lutPath": "Content/LUTs/FE_Kodak_Vision3_500T_5230_64.cube",
+  "saturationBias": 1.0,
+  "contrastBias": 1.0,
+  "exposureBias": 0.0,
+  "grain": {
+    "iso": 200.0,
+    "intensity": 0.321,
+    "size": 19.636,
+    "chromatic": 0.1,
+    "response": 1.0,
+    "sigmaR": 0.3
+  },
+  "halation": {
+    "enabled": true,
+    "intensity": 4.274,
+    "radius": 0.523,
+    "threshold": 2.635,
+    "remjet": 0.05,
+    "tint": [
+      1.0,
+      0.3014,
+      0.105,
+      1.0
+    ],
+    "tintNear": [
+      1.0,
+      0.2924,
+      0.0924,
+      1.0
+    ],
+    "tintMid": [
+      1.0,
+      0.208,
+      0.0672,
+      1.0
+    ],
+    "tintFar": [
+      1.0,
+      0.1356,
+      0.0388,
+      1.0
+    ],
+    "radiusMidScale": 3.0,
+    "radiusFarScale": 5.0
+  },
+  "format": "Standard8",
+  "formatScale": 7.17,
+  "gateWeave": {
+    "enabled": false,
+    "amplitude": 0.021,
+    "frequency": 0.882
+  },
+  "flicker": {
+    "enabled": false,
+    "intensity": 0.054,
+    "frequency": 0.425
+  }
+}

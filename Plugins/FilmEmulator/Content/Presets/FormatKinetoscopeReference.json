@@ -1,0 +1,63 @@
+﻿{
+  "id": "FormatKinetoscopeReference",
+  "displayName": "Kodak Double-X 5222 (Kinetoscope)",
+  "filmType": "BWPositive",
+  "description": "Spectral film LUT based on Kodak Double-X 5222. Format-scale grain/halation applied.",
+  "lutPath": "Content/LUTs/FE_Kodak_5222_64.cube",
+  "saturationBias": 1.0,
+  "contrastBias": 1.0,
+  "exposureBias": 0.0,
+  "grain": {
+    "iso": 200.0,
+    "intensity": 0.458,
+    "size": 21.949,
+    "chromatic": 0.0,
+    "response": 1.0,
+    "sigmaR": 0.3
+  },
+  "halation": {
+    "enabled": true,
+    "intensity": 3.412,
+    "radius": 1.391,
+    "threshold": 2.952,
+    "remjet": 0.0,
+    "tint": [
+      1.0,
+      1.0,
+      1.0,
+      1.0
+    ],
+    "tintNear": [
+      1.0,
+      1.0,
+      1.0,
+      1.0
+    ],
+    "tintMid": [
+      1.0,
+      1.0,
+      1.0,
+      1.0
+    ],
+    "tintFar": [
+      1.0,
+      1.0,
+      1.0,
+      1.0
+    ],
+    "radiusMidScale": 2.5,
+    "radiusFarScale": 4.5
+  },
+  "format": "Kinetoscope",
+  "formatScale": 1.34,
+  "gateWeave": {
+    "enabled": false,
+    "amplitude": 0.02,
+    "frequency": 0.885
+  },
+  "flicker": {
+    "enabled": false,
+    "intensity": 0.058,
+    "frequency": 0.445
+  }
+}

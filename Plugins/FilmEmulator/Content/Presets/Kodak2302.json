@@ -1,0 +1,53 @@
+﻿{
+  "id": "Kodak2302",
+  "displayName": "Kodak 2302",
+  "filmType": "BWPositive",
+  "description": "Spectral film LUT based on Kodak 2302.",
+  "lutPath": "Content/LUTs/FE_Kodak_2302_64.cube",
+  "saturationBias": 1.0,
+  "contrastBias": 1.0,
+  "exposureBias": 0.0,
+  "grain": {
+    "iso": 100.0,
+    "intensity": 1.0,
+    "size": 33.989,
+    "chromatic": 0.0,
+    "response": 1.0,
+    "sigmaR": 0.3
+  },
+  "halation": {
+    "enabled": true,
+    "intensity": 4.0,
+    "radius": 1.243,
+    "threshold": 2.334,
+    "remjet": 0.0,
+    "tint": [
+      1.0,
+      0.571,
+      0.3678,
+      1.0
+    ],
+    "tintNear": [
+      1.0,
+      0.5279,
+      0.3195,
+      1.0
+    ],
+    "tintMid": [
+      1.0,
+      0.4069,
+      0.2453,
+      1.0
+    ],
+    "tintFar": [
+      1.0,
+      0.3183,
+      0.1872,
+      1.0
+    ],
+    "radiusMidScale": 2.0,
+    "radiusFarScale": 3.5
+  },
+  "format": "Cine35",
+  "formatScale": 1.4
+}

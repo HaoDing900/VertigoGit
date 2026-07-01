@@ -1,0 +1,53 @@
+﻿{
+  "id": "KodakVision3250D7207_16mm",
+  "displayName": "Kodak Vision3 250D 7207 (16mm)",
+  "filmType": "ColorNegative",
+  "description": "Small-gauge look LUT derived from public 16mm scan samples.",
+  "lutPath": "Content/LUTs/FE_Look_16mm_64.cube",
+  "saturationBias": 1.0,
+  "contrastBias": 1.0,
+  "exposureBias": 0.0,
+  "grain": {
+    "iso": 250.0,
+    "intensity": 0.146,
+    "size": 12.418,
+    "chromatic": 0.1,
+    "response": 1.0,
+    "sigmaR": 0.3
+  },
+  "halation": {
+    "enabled": true,
+    "intensity": 2.101,
+    "radius": 0.432,
+    "threshold": 3.002,
+    "remjet": 0.7,
+    "tint": [
+      1.0,
+      0.4,
+      0.17,
+      1.0
+    ],
+    "tintNear": [
+      1.0,
+      0.388,
+      0.1496,
+      1.0
+    ],
+    "tintMid": [
+      1.0,
+      0.276,
+      0.1088,
+      1.0
+    ],
+    "tintFar": [
+      1.0,
+      0.18,
+      0.0629,
+      1.0
+    ],
+    "radiusMidScale": 2.5,
+    "radiusFarScale": 4.5
+  },
+  "format": "Cine16",
+  "formatScale": 2.8
+}

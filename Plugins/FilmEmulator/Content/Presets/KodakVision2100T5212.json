@@ -1,0 +1,53 @@
+﻿{
+  "id": "KodakVision2100T5212",
+  "displayName": "Kodak Vision2 100T 5212",
+  "filmType": "ColorNegative",
+  "description": "Film LUT derived from public scan samples.",
+  "lutPath": "Content/LUTs/FE_Kodak_Vision2_100T_5212_64.cube",
+  "saturationBias": 1.0,
+  "contrastBias": 1.0,
+  "exposureBias": 0.0,
+  "grain": {
+    "iso": 100.0,
+    "intensity": 0.112,
+    "size": 14.0,
+    "chromatic": 0.1,
+    "response": 1.0,
+    "sigmaR": 0.3
+  },
+  "halation": {
+    "enabled": true,
+    "intensity": 1.5,
+    "radius": 0.881,
+    "threshold": 3.8,
+    "remjet": 0.7,
+    "tint": [
+      1.0,
+      0.38,
+      0.16,
+      1.0
+    ],
+    "tintNear": [
+      1.0,
+      0.3686,
+      0.1408,
+      1.0
+    ],
+    "tintMid": [
+      1.0,
+      0.2622,
+      0.1024,
+      1.0
+    ],
+    "tintFar": [
+      1.0,
+      0.171,
+      0.0592,
+      1.0
+    ],
+    "radiusMidScale": 2.0,
+    "radiusFarScale": 3.5
+  },
+  "format": "Cine35",
+  "formatScale": 1.4
+}

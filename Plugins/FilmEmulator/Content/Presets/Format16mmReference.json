@@ -1,0 +1,63 @@
+﻿{
+  "id": "Format16mmReference",
+  "displayName": "Kodak Vision3 500T 5230 (16mm)",
+  "filmType": "ColorNegative",
+  "description": "Spectral film LUT based on Kodak Vision3 500T 5230. Format-scale grain/halation applied.",
+  "lutPath": "Content/LUTs/FE_Kodak_Vision3_500T_5230_64.cube",
+  "saturationBias": 1.0,
+  "contrastBias": 1.0,
+  "exposureBias": 0.0,
+  "grain": {
+    "iso": 50.0,
+    "intensity": 0.201,
+    "size": 15.523,
+    "chromatic": 0.1,
+    "response": 1.0,
+    "sigmaR": 0.3
+  },
+  "halation": {
+    "enabled": true,
+    "intensity": 2.918,
+    "radius": 0.837,
+    "threshold": 3.17,
+    "remjet": 0.15,
+    "tint": [
+      1.0,
+      0.4,
+      0.17,
+      1.0
+    ],
+    "tintNear": [
+      1.0,
+      0.388,
+      0.1496,
+      1.0
+    ],
+    "tintMid": [
+      1.0,
+      0.276,
+      0.1088,
+      1.0
+    ],
+    "tintFar": [
+      1.0,
+      0.18,
+      0.0629,
+      1.0
+    ],
+    "radiusMidScale": 2.5,
+    "radiusFarScale": 4.5
+  },
+  "format": "16mm",
+  "formatScale": 2.8,
+  "gateWeave": {
+    "enabled": false,
+    "amplitude": 0.013,
+    "frequency": 0.727
+  },
+  "flicker": {
+    "enabled": false,
+    "intensity": 0.033,
+    "frequency": 0.345
+  }
+}

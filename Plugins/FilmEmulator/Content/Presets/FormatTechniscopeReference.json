@@ -1,0 +1,63 @@
+﻿{
+  "id": "FormatTechniscopeReference",
+  "displayName": "Kodak Vision3 500T 5230 (Techniscope 35mm)",
+  "filmType": "ColorNegative",
+  "description": "Spectral film LUT based on Kodak Vision3 500T 5230. Format-scale grain/halation applied.",
+  "lutPath": "Content/LUTs/FE_Kodak_Vision3_500T_5230_64.cube",
+  "saturationBias": 1.0,
+  "contrastBias": 1.0,
+  "exposureBias": 0.0,
+  "grain": {
+    "iso": 100.0,
+    "intensity": 0.171,
+    "size": 14.341,
+    "chromatic": 0.1,
+    "response": 1.0,
+    "sigmaR": 0.3
+  },
+  "halation": {
+    "enabled": true,
+    "intensity": 2.471,
+    "radius": 0.98,
+    "threshold": 3.39,
+    "remjet": 0.25,
+    "tint": [
+      1.0,
+      0.3514,
+      0.145,
+      1.0
+    ],
+    "tintNear": [
+      1.0,
+      0.3409,
+      0.1276,
+      1.0
+    ],
+    "tintMid": [
+      1.0,
+      0.2425,
+      0.0928,
+      1.0
+    ],
+    "tintFar": [
+      1.0,
+      0.1581,
+      0.0536,
+      1.0
+    ],
+    "radiusMidScale": 2.0,
+    "radiusFarScale": 3.5
+  },
+  "format": "Techniscope",
+  "formatScale": 2.04,
+  "gateWeave": {
+    "enabled": false,
+    "amplitude": 0.011,
+    "frequency": 0.683
+  },
+  "flicker": {
+    "enabled": false,
+    "intensity": 0.029,
+    "frequency": 0.323
+  }
+}

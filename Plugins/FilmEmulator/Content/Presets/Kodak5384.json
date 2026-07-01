@@ -1,0 +1,53 @@
+﻿{
+  "id": "Kodak5384",
+  "displayName": "Kodak 5384",
+  "filmType": "ColorSlide",
+  "description": "Spectral film LUT based on Kodak 5384.",
+  "lutPath": "Content/LUTs/FE_Kodak_5384_64.cube",
+  "saturationBias": 1.0,
+  "contrastBias": 1.0,
+  "exposureBias": 0.0,
+  "grain": {
+    "iso": 100.0,
+    "intensity": 0.02,
+    "size": 7.335,
+    "chromatic": 0.1,
+    "response": 1.0,
+    "sigmaR": 0.3
+  },
+  "halation": {
+    "enabled": true,
+    "intensity": 4.0,
+    "radius": 1.585,
+    "threshold": 2.65,
+    "remjet": 0.0,
+    "tint": [
+      1.0,
+      0.28,
+      0.09,
+      1.0
+    ],
+    "tintNear": [
+      1.0,
+      0.2716,
+      0.0792,
+      1.0
+    ],
+    "tintMid": [
+      1.0,
+      0.1932,
+      0.0576,
+      1.0
+    ],
+    "tintFar": [
+      1.0,
+      0.126,
+      0.0333,
+      1.0
+    ],
+    "radiusMidScale": 2.0,
+    "radiusFarScale": 3.5
+  },
+  "format": "Cine35",
+  "formatScale": 1.4
+}

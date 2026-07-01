@@ -1,0 +1,53 @@
+﻿{
+  "id": "KodakTrixX400Dev9",
+  "displayName": "Kodak Trix-X 400 Dev 9",
+  "filmType": "BWNegative",
+  "description": "Spectral film LUT based on Kodak Trix-X 400 Dev 9.",
+  "lutPath": "Content/LUTs/FE_Kodak_TriX_400_Dev9_64.cube",
+  "saturationBias": 1.0,
+  "contrastBias": 1.0,
+  "exposureBias": 0.0,
+  "grain": {
+    "iso": 400.0,
+    "intensity": 1.0,
+    "size": 33.989,
+    "chromatic": 0.0,
+    "response": 1.0,
+    "sigmaR": 0.3
+  },
+  "halation": {
+    "enabled": true,
+    "intensity": 3.927,
+    "radius": 1.558,
+    "threshold": 2.59,
+    "remjet": 0.15,
+    "tint": [
+      1.0,
+      0.6005,
+      0.4027,
+      1.0
+    ],
+    "tintNear": [
+      1.0,
+      0.5599,
+      0.3569,
+      1.0
+    ],
+    "tintMid": [
+      1.0,
+      0.4519,
+      0.2886,
+      1.0
+    ],
+    "tintFar": [
+      1.0,
+      0.3734,
+      0.236,
+      1.0
+    ],
+    "radiusMidScale": 2.0,
+    "radiusFarScale": 3.5
+  },
+  "format": "Photo35",
+  "formatScale": 1.0
+}

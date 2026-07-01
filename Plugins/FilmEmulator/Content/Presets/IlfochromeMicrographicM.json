@@ -1,0 +1,53 @@
+﻿{
+  "id": "IlfochromeMicrographicM",
+  "displayName": "Ilfochrome Micrographic M",
+  "filmType": "ColorSlide",
+  "description": "Spectral film LUT based on Ilfochrome Micrographic M.",
+  "lutPath": "Content/LUTs/FE_Ilfochrome_Micrographic_M_64.cube",
+  "saturationBias": 1.0,
+  "contrastBias": 1.0,
+  "exposureBias": 0.0,
+  "grain": {
+    "iso": 100.0,
+    "intensity": 1.0,
+    "size": 33.989,
+    "chromatic": 0.1,
+    "response": 1.0,
+    "sigmaR": 0.3
+  },
+  "halation": {
+    "enabled": true,
+    "intensity": 4.0,
+    "radius": 2.16,
+    "threshold": 2.65,
+    "remjet": 0.0,
+    "tint": [
+      1.0,
+      0.28,
+      0.09,
+      1.0
+    ],
+    "tintNear": [
+      1.0,
+      0.2716,
+      0.0792,
+      1.0
+    ],
+    "tintMid": [
+      1.0,
+      0.1932,
+      0.0576,
+      1.0
+    ],
+    "tintFar": [
+      1.0,
+      0.126,
+      0.0333,
+      1.0
+    ],
+    "radiusMidScale": 2.0,
+    "radiusFarScale": 3.5
+  },
+  "format": "LargeFormat",
+  "formatScale": 0.35
+}

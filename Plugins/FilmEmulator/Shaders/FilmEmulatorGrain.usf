@@ -1,0 +1,180 @@
+// Copyright 2026 TOXIC STOCK All rights reserved.
+
+#include "/Engine/Private/Common.ush"
+#include "/Engine/Private/ScreenPass.ush"
+#include "/Engine/Private/PostProcessCommon.ush"
+
+SCREEN_PASS_TEXTURE_VIEWPORT(InputViewportParams);
+
+Texture2D SceneColorTexture;
+SamplerState SceneColorSampler;
+float4 GrainParams0; // x=grain intensity, y=grain diameter (microns), z=sigmaR (factor * size), w=chromatic
+float4 GrainParams1; // x=formatScale, y=response, z=frame, w=filterSigma
+float2 GateWeaveOffset;
+float GrainAnimationAmplitude;
+float GrainIsoCoverage;
+float PreExposure;
+
+float2 ClampViewportUV(float2 UV)
+{
+    return clamp(UV, InputViewportParams_UVViewportBilinearMin, InputViewportParams_UVViewportBilinearMax);
+}
+
+float Hash12(float2 p)
+{
+    float3 p3 = frac(float3(p.xyx) * 0.1031);
+    p3 += dot(p3, p3.yzx + 33.33);
+    return frac((p3.x + p3.y) * p3.z);
+}
+
+float2 Hash22(float2 p)
+{
+    float3 p3 = frac(float3(p.xyx) * 0.1031);
+    p3 += dot(p3, p3.yzx + 33.33);
+    return frac((p3.xx + p3.yz) * p3.zy);
+}
+
+float3 Hash33(float3 p)
+{
+    p = frac(p * 0.1031);
+    p += dot(p, p.yzx + 33.33);
+    return frac((p.xxy + p.yzz) * p.zyx);
+}
+
+float GaussianSample(float2 u)
+{
+    float u1 = max(u.x, 1e-4f);
+    float u2 = u.y;
+    return sqrt(-2.0f * log(u1)) * cos(6.2831853f * u2);
+}
+
+float2 Gaussian2(float2 u)
+{
+    float u1 = max(u.x, 1e-4f);
+    float u2 = u.y;
+    float radius = sqrt(-2.0f * log(u1));
+    float angle = 6.2831853f * u2;
+    return radius * float2(cos(angle), sin(angle));
+}
+
+float FilmGrainResponse(float luma, float response)
+{
+    float responseScale = exp2(response - 1.0f);
+    float exposure = luma * responseScale;
+    float u = exposure / (exposure + 0.18f);
+    return saturate(u);
+}
+
+float GrainNoiseBase(float2 pixel, float grainDiameterPx, float seed)
+{
+    float2 p = pixel / max(grainDiameterPx, 1e-3f);
+    float2 i = floor(p);
+    float2 f = frac(p);
+    float2 u = f * f * (3.0f - 2.0f * f);
+
+    float g00 = GaussianSample(Hash22(i + seed));
+    float g10 = GaussianSample(Hash22(i + float2(1.0f, 0.0f) + seed));
+    float g01 = GaussianSample(Hash22(i + float2(0.0f, 1.0f) + seed));
+    float g11 = GaussianSample(Hash22(i + float2(1.0f, 1.0f) + seed));
+
+    float gx0 = lerp(g00, g10, u.x);
+    float gx1 = lerp(g01, g11, u.x);
+    return lerp(gx0, gx1, u.y);
+}
+
+float GrainNoiseFiltered(float2 pixel, float grainDiameterPx, float filterSigma, float seed)
+{
+    float noise = GrainNoiseBase(pixel, grainDiameterPx, seed);
+    if (filterSigma <= 0.001f)
+    {
+        return noise;
+    }
+
+    float spread = filterSigma;
+    float2 base = pixel * 0.07f + seed;
+    float2 jitter0 = Gaussian2(Hash22(base + float2(12.31f, 45.67f))) * spread;
+    float2 jitter1 = Gaussian2(Hash22(base + float2(78.91f, 10.11f))) * spread;
+    float2 jitter2 = Gaussian2(Hash22(base + float2(21.17f, 31.47f))) * spread;
+
+    noise += GrainNoiseBase(pixel + jitter0, grainDiameterPx, seed + 11.7f);
+    noise += GrainNoiseBase(pixel + jitter1, grainDiameterPx, seed + 23.4f);
+    noise += GrainNoiseBase(pixel + jitter2, grainDiameterPx, seed + 35.1f);
+
+    return noise * 0.25f;
+}
+
+float3 ApplyFilmGrain(float3 SceneLinear, float2 ViewportUV, float FrameIndex)
+{
+    float2 Pixel = ViewportUV * InputViewportParams_ViewportSize;
+
+    float grainDiameterMicron = max(GrainParams0.y, 0.1f);
+    float sigmaR = max(GrainParams0.z, 0.0f);
+    float filterSigma = max(GrainParams1.w, 0.0f);
+
+    float luma = dot(SceneLinear, float3(0.2126f, 0.7152f, 0.0722f));
+    float response = max(GrainParams1.y, 0.0f);
+    float u = FilmGrainResponse(luma, response);
+    float responseT = saturate(response * 0.5f);
+    float responseGamma = lerp(1.4f, 0.7f, responseT);
+    u = pow(saturate(u), responseGamma);
+
+    float formatScale = max(GrainParams1.x, 0.01f);
+    float pixelsPerMm = (InputViewportParams_ViewportSize.x * formatScale) / 36.0f;
+    float grainDiameterPx = grainDiameterMicron * 0.001f * pixelsPerMm;
+    const float minGrainPx = 0.1f;
+    grainDiameterPx = max(grainDiameterPx, minGrainPx);
+    float sigmaPx = sigmaR * 0.001f * pixelsPerMm;
+    float filterPx = max(filterSigma, 0.0f) * grainDiameterPx + sigmaPx;
+    float isoCoverage = saturate(GrainIsoCoverage);
+    float shadowMask = pow(saturate(1.0f - u), 1.1f);
+    float midMask = saturate(1.0f - abs(u - 0.5f) * 1.6f);
+    float highMask = pow(saturate(u), 6.0f);
+    float coverage = lerp(shadowMask, saturate(midMask * 0.85f + highMask * 0.15f), isoCoverage);
+
+    float seed = FrameIndex * 0.173f;
+    float anim = saturate(GrainAnimationAmplitude);
+    float noiseStatic = GrainNoiseFiltered(Pixel, grainDiameterPx, filterPx, 0.0f);
+    float noiseAnimated = GrainNoiseFiltered(Pixel, grainDiameterPx, filterPx, seed);
+    float noise = lerp(noiseStatic, noiseAnimated, anim);
+    float mixVar = (1.0f - anim) * (1.0f - anim) + anim * anim;
+    noise *= rsqrt(max(mixVar, 1e-3f));
+
+    float intensity = max(GrainParams0.x, 0.0f);
+    float amplitude = intensity * coverage;
+
+    float mono = noise * amplitude;
+    float3 grain = mono.xxx;
+    float chroma = saturate(GrainParams0.w);
+    if (chroma > 0.0f)
+    {
+        float nG = GrainNoiseFiltered(Pixel, grainDiameterPx, filterPx, seed + 19.0f);
+        float nB = GrainNoiseFiltered(Pixel, grainDiameterPx, filterPx, seed + 41.0f);
+        float3 chromaNoise = float3(noise, nG, nB) * amplitude;
+        grain = lerp(grain, chromaNoise, chroma);
+    }
+
+    float3 grainFactor = 1.0f + grain;
+    grainFactor = max(grainFactor, 0.0f);
+    float3 outLinear = SceneLinear * grainFactor;
+    return outLinear;
+}
+
+float4 MainPS(
+    in noperspective float4 UVAndScreenPos : TEXCOORD0
+) : SV_Target0
+{
+    float2 UV = UVAndScreenPos.xy;
+    float2 ClampedUV = ClampViewportUV(UV);
+    float2 NoiseUV = UV + GateWeaveOffset;
+    float2 ViewportUV = (NoiseUV - InputViewportParams_UVViewportMin) * InputViewportParams_UVViewportSizeInverse;
+    ViewportUV = saturate(ViewportUV);
+    float3 BaseColor = Texture2DSample(SceneColorTexture, SceneColorSampler, ClampedUV).rgb;
+
+    float SafePreExposure = max(PreExposure, 1e-6f);
+    float3 SceneLinear = BaseColor / SafePreExposure;
+
+    float3 Grained = ApplyFilmGrain(SceneLinear, ViewportUV, GrainParams1.z);
+    float3 OutColor = Grained * SafePreExposure;
+
+    return float4(OutColor, 1.0f);
+}

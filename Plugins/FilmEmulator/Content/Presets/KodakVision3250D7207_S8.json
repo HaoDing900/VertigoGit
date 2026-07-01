@@ -1,0 +1,53 @@
+﻿{
+  "id": "KodakVision3250D7207_S8",
+  "displayName": "Kodak Vision3 250D 7207 (Super 8)",
+  "filmType": "ColorNegative",
+  "description": "Small-gauge look LUT derived from public Super 8 scan samples.",
+  "lutPath": "Content/LUTs/FE_Look_Super8_64.cube",
+  "saturationBias": 1.0,
+  "contrastBias": 1.0,
+  "exposureBias": 0.0,
+  "grain": {
+    "iso": 250.0,
+    "intensity": 0.146,
+    "size": 12.418,
+    "chromatic": 0.1,
+    "response": 1.0,
+    "sigmaR": 0.3
+  },
+  "halation": {
+    "enabled": true,
+    "intensity": 2.654,
+    "radius": 0.287,
+    "threshold": 2.502,
+    "remjet": 0.7,
+    "tint": [
+      1.0,
+      0.38,
+      0.16,
+      1.0
+    ],
+    "tintNear": [
+      1.0,
+      0.3686,
+      0.1408,
+      1.0
+    ],
+    "tintMid": [
+      1.0,
+      0.2622,
+      0.1024,
+      1.0
+    ],
+    "tintFar": [
+      1.0,
+      0.171,
+      0.0592,
+      1.0
+    ],
+    "radiusMidScale": 3.0,
+    "radiusFarScale": 5.0
+  },
+  "format": "Cine8",
+  "formatScale": 5.6
+}

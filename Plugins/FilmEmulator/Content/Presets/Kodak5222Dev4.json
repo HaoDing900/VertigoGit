@@ -1,0 +1,53 @@
+﻿{
+  "id": "Kodak5222Dev4",
+  "displayName": "Kodak 5222 Dev 4",
+  "filmType": "BWNegative",
+  "description": "Spectral film LUT based on Kodak 5222 Dev 4.",
+  "lutPath": "Content/LUTs/FE_Kodak_5222_Dev4_64.cube",
+  "saturationBias": 1.0,
+  "contrastBias": 1.0,
+  "exposureBias": 0.0,
+  "grain": {
+    "iso": 250.0,
+    "intensity": 1.0,
+    "size": 33.989,
+    "chromatic": 0.0,
+    "response": 1.0,
+    "sigmaR": 0.3
+  },
+  "halation": {
+    "enabled": true,
+    "intensity": 3.681,
+    "radius": 1.081,
+    "threshold": 2.539,
+    "remjet": 0.4,
+    "tint": [
+      1.0,
+      0.7064,
+      0.5473,
+      1.0
+    ],
+    "tintNear": [
+      1.0,
+      0.6682,
+      0.5015,
+      1.0
+    ],
+    "tintMid": [
+      1.0,
+      0.5823,
+      0.4397,
+      1.0
+    ],
+    "tintFar": [
+      1.0,
+      0.5211,
+      0.3945,
+      1.0
+    ],
+    "radiusMidScale": 2.0,
+    "radiusFarScale": 3.5
+  },
+  "format": "Cine35",
+  "formatScale": 1.4
+}

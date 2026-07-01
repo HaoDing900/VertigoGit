@@ -1,0 +1,53 @@
+﻿{
+  "id": "KodakDoubleX7222_16mm",
+  "displayName": "Kodak Double-X 7222 (16mm)",
+  "filmType": "BWNegative",
+  "description": "Small-gauge look LUT derived from public 16mm scan samples.",
+  "lutPath": "Content/LUTs/FE_Look_16mm_64.cube",
+  "saturationBias": 1.0,
+  "contrastBias": 1.0,
+  "exposureBias": 0.0,
+  "grain": {
+    "iso": 250.0,
+    "intensity": 1.0,
+    "size": 33.989,
+    "chromatic": 0.0,
+    "response": 1.0,
+    "sigmaR": 0.3
+  },
+  "halation": {
+    "enabled": true,
+    "intensity": 4.0,
+    "radius": 0.474,
+    "threshold": 2.346,
+    "remjet": 0.4,
+    "tint": [
+      1.0,
+      0.6526,
+      0.476,
+      1.0
+    ],
+    "tintNear": [
+      1.0,
+      0.6094,
+      0.4251,
+      1.0
+    ],
+    "tintMid": [
+      1.0,
+      0.5055,
+      0.3541,
+      1.0
+    ],
+    "tintFar": [
+      1.0,
+      0.4307,
+      0.3009,
+      1.0
+    ],
+    "radiusMidScale": 2.5,
+    "radiusFarScale": 4.5
+  },
+  "format": "Cine16",
+  "formatScale": 2.8
+}

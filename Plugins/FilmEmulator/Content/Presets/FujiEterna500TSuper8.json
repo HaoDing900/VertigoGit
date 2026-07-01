@@ -1,0 +1,63 @@
+﻿{
+  "id": "FujiEterna500TSuper8",
+  "displayName": "Fuji Eterna 500T 8573 (Super8)",
+  "filmType": "ColorNegative",
+  "description": "Spectral film LUT based on Fuji Eterna 500T 8573. Format-scale grain/halation applied.",
+  "lutPath": "Content/LUTs/FE_Fujifilm_Eterna_500T_8573_64.cube",
+  "saturationBias": 1.0,
+  "contrastBias": 1.0,
+  "exposureBias": 0.0,
+  "grain": {
+    "iso": 50.0,
+    "intensity": 0.284,
+    "size": 18.46,
+    "chromatic": 0.1,
+    "response": 1.0,
+    "sigmaR": 0.3
+  },
+  "halation": {
+    "enabled": true,
+    "intensity": 3.82,
+    "radius": 0.592,
+    "threshold": 2.79,
+    "remjet": 0.1,
+    "tint": [
+      1.0,
+      0.38,
+      0.16,
+      1.0
+    ],
+    "tintNear": [
+      1.0,
+      0.3686,
+      0.1408,
+      1.0
+    ],
+    "tintMid": [
+      1.0,
+      0.2622,
+      0.1024,
+      1.0
+    ],
+    "tintFar": [
+      1.0,
+      0.171,
+      0.0592,
+      1.0
+    ],
+    "radiusMidScale": 3.0,
+    "radiusFarScale": 5.0
+  },
+  "format": "Super8",
+  "formatScale": 5.6,
+  "gateWeave": {
+    "enabled": false,
+    "amplitude": 0.019,
+    "frequency": 0.837
+  },
+  "flicker": {
+    "enabled": false,
+    "intensity": 0.047,
+    "frequency": 0.402
+  }
+}

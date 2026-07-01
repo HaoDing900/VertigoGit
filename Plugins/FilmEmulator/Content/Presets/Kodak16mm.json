@@ -1,0 +1,53 @@
+﻿{
+  "id": "Kodak16mm",
+  "displayName": "Kodak 16mm",
+  "filmType": "ColorNegative",
+  "description": "Film LUT derived from public scan samples.",
+  "lutPath": "Content/LUTs/FE_Kodak_16mm_64.cube",
+  "saturationBias": 1.0,
+  "contrastBias": 1.0,
+  "exposureBias": 0.0,
+  "grain": {
+    "iso": 200.0,
+    "intensity": 0.167,
+    "size": 15.5,
+    "chromatic": 0.1,
+    "response": 1.0,
+    "sigmaR": 0.3
+  },
+  "halation": {
+    "enabled": true,
+    "intensity": 2.483,
+    "radius": 0.508,
+    "threshold": 2.875,
+    "remjet": 0.35,
+    "tint": [
+      1.0,
+      0.35,
+      0.135,
+      1.0
+    ],
+    "tintNear": [
+      1.0,
+      0.3395,
+      0.1188,
+      1.0
+    ],
+    "tintMid": [
+      1.0,
+      0.2415,
+      0.0864,
+      1.0
+    ],
+    "tintFar": [
+      1.0,
+      0.1575,
+      0.05,
+      1.0
+    ],
+    "radiusMidScale": 2.5,
+    "radiusFarScale": 4.5
+  },
+  "format": "Cine16",
+  "formatScale": 2.8
+}

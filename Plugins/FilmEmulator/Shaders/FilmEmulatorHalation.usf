@@ -1,0 +1,231 @@
+﻿// Copyright 2026 TOXIC STOCK All rights reserved.
+
+#include "/Engine/Private/Common.ush"
+#include "/Engine/Private/ScreenPass.ush"
+#include "/Engine/Private/PostProcessCommon.ush"
+#define EYE_ADAPTATION_LOOSE_PARAMETERS 1
+#include "/Engine/Private/EyeAdaptationCommon.ush"
+
+SCREEN_PASS_TEXTURE_VIEWPORT(InputViewportParams);
+
+Texture2D SceneColorTexture;
+SamplerState SceneColorSampler;
+Texture2D HalationMaskTexture;
+Texture2D HalationMaskTexture2;
+Texture2D HalationMaskTexture3;
+SamplerState HalationMaskSampler;
+Texture2D HalationSourceTexture;
+SamplerState HalationSourceSampler;
+float4 HalationParams0; // x=intensity, y=radius, z=threshold, w=remjet
+float4 HalationTint;
+float4 HalationTint2;
+float4 HalationTint3;
+Texture3D FilmPrintLUT;
+SamplerState FilmPrintLUTSampler;
+float PrintStrength;
+float PrintExposureEV;
+float PreExposure;
+float ApplyAfterTonemap;
+float2 BlurDirection; // (1,0) or (0,1)
+
+float2 ClampViewportUV(float2 UV)
+{
+    return clamp(UV, InputViewportParams_UVViewportBilinearMin, InputViewportParams_UVViewportBilinearMax);
+}
+
+float3 SoftRolloff(float3 Color)
+{
+    // Gentle shoulder to avoid hard clamp before LUT.
+    const float Rolloff = 1.1f;
+    float3 Over = max(Color - 1.0f, 0.0f);
+    return Color / (1.0f + Over * Rolloff);
+}
+
+float3 SamplePrintLUT(float3 Color)
+{
+    uint SizeX, SizeY, SizeZ;
+    FilmPrintLUT.GetDimensions(SizeX, SizeY, SizeZ);
+    float Size = max(1.0f, (float)SizeX);
+    float3 UVW = (saturate(Color) * (Size - 1.0f) + 0.5f) / Size;
+    return Texture3DSampleLevel(FilmPrintLUT, FilmPrintLUTSampler, UVW, 0).rgb;
+}
+float3 NormalizeTint(float3 Color)
+{
+    float M = max(max(Color.r, Color.g), Color.b);
+    return (M > 0.0f) ? (Color / M) : Color;
+}
+
+float SampleMaskTexture(Texture2D Tex, SamplerState Samp, float2 UV)
+{
+    uint Width, Height;
+    Tex.GetDimensions(Width, Height);
+    float2 Texel = 1.0f / float2(max(Width, 1u), max(Height, 1u));
+    float2 UVMin = Texel * 0.5f;
+    float2 UVMax = 1.0f - UVMin;
+    float2 ClampedUV = clamp(UV, UVMin, UVMax);
+    return Texture2DSample(Tex, Samp, ClampedUV).r;
+}
+
+
+float ComputeMask(float2 UV)
+{
+    float2 ClampedUV = ClampViewportUV(UV);
+    float3 BaseColor = Texture2DSample(SceneColorTexture, SceneColorSampler, ClampedUV).rgb;
+    float SafePreExposure = max(PreExposure, 1e-6f);
+    float3 SceneLinear = max(BaseColor / SafePreExposure, 0.0f);
+    float ExposureScale = 1.0f;
+    if (ApplyAfterTonemap < 0.5f)
+    {
+        ExposureScale = EyeAdaptationLookup();
+        ExposureScale = (ExposureScale > 0.0f) ? ExposureScale : 1.0f;
+    }
+    float ExposureScaleSafe = max(ExposureScale, 1e-4f);
+    float3 SceneExposed = SceneLinear * ExposureScaleSafe;
+    float Luma = dot(SceneExposed, float3(0.2126f, 0.7152f, 0.0722f));
+    float RedBias = max(SceneExposed.r, (SceneExposed.r * 0.85f + SceneExposed.g * 0.15f));
+    float HalLuma = max(Luma, RedBias);
+
+    float Remjet = saturate(HalationParams0.w);
+    float ThresholdEV = HalationParams0.z;
+    ThresholdEV += lerp(0.0f, 1.0f, Remjet);
+
+    float LogLuma = log2(max(HalLuma, 1e-6f) / 0.18f);
+    float Softness = lerp(1.1f, 1.8f, Remjet);
+    float T0 = ThresholdEV - 0.5f * Softness;
+    float T1 = ThresholdEV + 0.5f * Softness;
+    float Mask = saturate((LogLuma - T0) / max(1e-3f, T1 - T0));
+    Mask = Mask * Mask;
+    Mask = pow(Mask, lerp(1.0f, 1.6f, Remjet));
+    return Mask;
+}
+
+
+float SampleMask(float2 UV)
+{
+    return SampleMaskTexture(HalationMaskTexture, HalationMaskSampler, UV);
+}
+
+float4 HalationExtractPS(
+    in noperspective float4 UVAndScreenPos : TEXCOORD0
+) : SV_Target0
+{
+    float2 UV = UVAndScreenPos.xy;
+    float Mask = ComputeMask(UV);
+    return float4(Mask, 0.0f, 0.0f, 1.0f);
+}
+
+float4 HalationDownsamplePS(
+    in noperspective float4 UVAndScreenPos : TEXCOORD0
+) : SV_Target0
+{
+    float2 UV = UVAndScreenPos.xy;
+    uint Width, Height;
+    HalationSourceTexture.GetDimensions(Width, Height);
+    float2 Texel = 1.0f / float2(max(Width, 1u), max(Height, 1u));
+    float2 UVMin = Texel * 0.5f;
+    float2 UVMax = 1.0f - UVMin;
+    float2 BaseUV = clamp(UV, UVMin, UVMax);
+    float2 Offset = Texel * 0.5f;
+
+    float Mask = 0.0f;
+    Mask += Texture2DSample(HalationSourceTexture, HalationSourceSampler, clamp(BaseUV + float2(-Offset.x, -Offset.y), UVMin, UVMax)).r;
+    Mask += Texture2DSample(HalationSourceTexture, HalationSourceSampler, clamp(BaseUV + float2( Offset.x, -Offset.y), UVMin, UVMax)).r;
+    Mask += Texture2DSample(HalationSourceTexture, HalationSourceSampler, clamp(BaseUV + float2(-Offset.x,  Offset.y), UVMin, UVMax)).r;
+    Mask += Texture2DSample(HalationSourceTexture, HalationSourceSampler, clamp(BaseUV + float2( Offset.x,  Offset.y), UVMin, UVMax)).r;
+    Mask *= 0.25f;
+
+    return float4(Mask, 0.0f, 0.0f, 1.0f);
+}
+
+float4 HalationBlurPS(
+    in noperspective float4 UVAndScreenPos : TEXCOORD0
+) : SV_Target0
+{
+    float2 UV = UVAndScreenPos.xy;
+
+    uint Width, Height;
+    HalationMaskTexture.GetDimensions(Width, Height);
+    float2 Texel = 1.0f / float2(max(Width, 1u), max(Height, 1u));
+
+    float Remjet = saturate(HalationParams0.w);
+    float RadiusScale = lerp(1.0f, 0.6f, Remjet);
+    float ViewportMinDim = min(InputViewportParams_ViewportSize.x, InputViewportParams_ViewportSize.y);
+    ViewportMinDim = max(ViewportMinDim, 1.0f);
+    float RadiusPx = max(HalationParams0.y, 0.0f) * 0.01f * ViewportMinDim * RadiusScale;
+    float StepPx = max(RadiusPx / 3.0f, 0.5f);
+
+    float2 StepUV = BlurDirection * Texel * StepPx;
+
+    const float W0 = 0.227027f;
+    const float W1 = 0.1945946f;
+    const float W2 = 0.1216216f;
+    const float W3 = 0.054054f;
+
+    float Mask = SampleMask(UV) * W0;
+    Mask += (SampleMask(UV + StepUV) + SampleMask(UV - StepUV)) * W1;
+    Mask += (SampleMask(UV + StepUV * 2.0f) + SampleMask(UV - StepUV * 2.0f)) * W2;
+    Mask += (SampleMask(UV + StepUV * 3.0f) + SampleMask(UV - StepUV * 3.0f)) * W3;
+
+    return float4(Mask, 0.0f, 0.0f, 1.0f);
+}
+
+float4 HalationCompositePS(
+    in noperspective float4 UVAndScreenPos : TEXCOORD0
+) : SV_Target0
+{
+    float2 UV = UVAndScreenPos.xy;
+    float2 ClampedUV = ClampViewportUV(UV);
+    float3 BaseColor = Texture2DSample(SceneColorTexture, SceneColorSampler, ClampedUV).rgb;
+
+    float SafePreExposure = max(PreExposure, 1e-6f);
+    float3 SceneLinear = BaseColor / SafePreExposure;
+    float ExposureScale = 1.0f;
+    if (ApplyAfterTonemap < 0.5f)
+    {
+        ExposureScale = EyeAdaptationLookup();
+        ExposureScale = (ExposureScale > 0.0f) ? ExposureScale : 1.0f;
+    }
+    float ExposureScaleSafe = max(ExposureScale, 1e-4f);
+    float3 SceneExposed = SceneLinear * ExposureScaleSafe;
+    float2 ViewportUV = (UV - InputViewportParams_UVViewportMin) * InputViewportParams_UVViewportSizeInverse;
+    float Mask0 = SampleMaskTexture(HalationMaskTexture, HalationMaskSampler, ViewportUV);
+    float Mask1 = SampleMaskTexture(HalationMaskTexture2, HalationMaskSampler, ViewportUV);
+    float Mask2 = SampleMaskTexture(HalationMaskTexture3, HalationMaskSampler, ViewportUV);
+
+    Mask0 = pow(Mask0, 1.0f);
+    Mask1 = pow(Mask1, 1.15f);
+    Mask2 = pow(Mask2, 1.3f);
+
+    float Remjet = saturate(HalationParams0.w);
+    float Strength = max(HalationParams0.x, 0.0f);
+    float Intensity = 1.0f - exp2(-Strength);
+    Intensity *= lerp(1.0f, 0.35f, Remjet);
+
+    float3 Tint0 = NormalizeTint(saturate(HalationTint.rgb));
+    float3 Tint1 = NormalizeTint(saturate(HalationTint2.rgb));
+    float3 Tint2 = NormalizeTint(saturate(HalationTint3.rgb));
+
+    float W0 = 1.0f;
+    float W1 = 0.7f;
+    float W2 = 0.45f;
+
+    float3 HalColor = (Tint0 * Mask0 * W0 + Tint1 * Mask1 * W1 + Tint2 * Mask2 * W2) * Intensity;
+
+    float3 OutExposed = SceneExposed + HalColor;
+
+    float PrintMix = saturate(PrintStrength);
+    if (PrintMix > 0.0f)
+    {
+        float3 PrintBase = OutExposed * exp2(PrintExposureEV);
+        float3 PrintInput = SoftRolloff(max(PrintBase, 0.0f));
+        float3 PrintColor = SamplePrintLUT(PrintInput);
+        float3 PrintModulated = PrintBase * PrintColor;
+        OutExposed = lerp(PrintBase, PrintModulated, PrintMix);
+    }
+
+    float3 OutLinear = OutExposed / ExposureScaleSafe;
+    float3 OutColor = OutLinear * SafePreExposure;
+    return float4(OutColor, 1.0f);
+}
+
+

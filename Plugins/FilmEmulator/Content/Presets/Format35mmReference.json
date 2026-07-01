@@ -1,0 +1,63 @@
+﻿{
+  "id": "Format35mmReference",
+  "displayName": "Kodak Vision3 500T 5230 (35mm Academy)",
+  "filmType": "ColorNegative",
+  "description": "Spectral film LUT based on Kodak Vision3 500T 5230. Format-scale grain/halation applied.",
+  "lutPath": "Content/LUTs/FE_Kodak_Vision3_500T_5230_64.cube",
+  "saturationBias": 1.0,
+  "contrastBias": 1.0,
+  "exposureBias": 0.0,
+  "grain": {
+    "iso": 100.0,
+    "intensity": 0.15,
+    "size": 13.432,
+    "chromatic": 0.1,
+    "response": 1.0,
+    "sigmaR": 0.3
+  },
+  "halation": {
+    "enabled": true,
+    "intensity": 2.254,
+    "radius": 1.117,
+    "threshold": 3.522,
+    "remjet": 0.25,
+    "tint": [
+      1.0,
+      0.3514,
+      0.145,
+      1.0
+    ],
+    "tintNear": [
+      1.0,
+      0.3409,
+      0.1276,
+      1.0
+    ],
+    "tintMid": [
+      1.0,
+      0.2425,
+      0.0928,
+      1.0
+    ],
+    "tintFar": [
+      1.0,
+      0.1581,
+      0.0536,
+      1.0
+    ],
+    "radiusMidScale": 2.0,
+    "radiusFarScale": 3.5
+  },
+  "format": "Academy35",
+  "formatScale": 1.57,
+  "gateWeave": {
+    "enabled": false,
+    "amplitude": 0.01,
+    "frequency": 0.651
+  },
+  "flicker": {
+    "enabled": false,
+    "intensity": 0.025,
+    "frequency": 0.306
+  }
+}

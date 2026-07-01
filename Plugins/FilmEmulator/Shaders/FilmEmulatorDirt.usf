@@ -1,0 +1,189 @@
+// Copyright 2026 TOXIC STOCK All rights reserved.
+
+#include "/Engine/Private/Common.ush"
+#include "/Engine/Private/ScreenPass.ush"
+#include "/Engine/Private/PostProcessCommon.ush"
+
+SCREEN_PASS_TEXTURE_VIEWPORT(InputViewportParams);
+
+Texture2D SceneColorTexture;
+SamplerState SceneColorSampler;
+Texture2D DirtTexture;
+SamplerState DirtTextureSampler;
+float4 DirtParams0; // x=intensity, y=density, z=size (microns), w=softness
+float4 DirtParams1; // x=frequency, y=sizeJitter, z=opacityJitter, w=polarity
+float4 DirtParams2; // x=useTexture, y=tiling, z=texScaleMin, w=texScaleMax
+float4 DirtParams3; // x=noiseScale, y=noiseStrength, z=noiseSpeed
+float4 DirtTint;
+float2 GateWeaveOffset;
+float2 DirtSeed;
+float DirtTime;
+float DirtFormatScale;
+float PreExposure;
+
+float2 ClampViewportUV(float2 UV)
+{
+    return clamp(UV, InputViewportParams_UVViewportBilinearMin, InputViewportParams_UVViewportBilinearMax);
+}
+
+float Hash11(float n)
+{
+    return frac(sin(n) * 43758.5453123);
+}
+
+float Hash21(float2 p)
+{
+    return frac(sin(dot(p, float2(12.9898, 78.233))) * 43758.5453123);
+}
+
+float Noise2D(float2 p)
+{
+    float2 i = floor(p);
+    float2 f = frac(p);
+    float2 u = f * f * (3.0f - 2.0f * f);
+    float a = Hash21(i);
+    float b = Hash21(i + float2(1.0f, 0.0f));
+    float c = Hash21(i + float2(0.0f, 1.0f));
+    float d = Hash21(i + float2(1.0f, 1.0f));
+    float x1 = lerp(a, b, u.x);
+    float x2 = lerp(c, d, u.x);
+    return lerp(x1, x2, u.y);
+}
+
+float SpotMask(float2 pixel, float2 center, float radius, float softness)
+{
+    float2 d = pixel - center;
+    float dist = length(d);
+    float r = max(radius, 0.5f);
+    float t = dist / r;
+    float hard = step(t, 1.0f);
+    float soft = exp(-t * t * 4.0f);
+    return lerp(hard, soft, softness);
+}
+
+float DirtMask(float2 FilmUV)
+{
+    const int MaxSpots = 24;
+    float density = saturate(DirtParams0.y);
+    float count = density * MaxSpots;
+    float sizeMicron = max(DirtParams0.z, 0.1f);
+    float softness = saturate(DirtParams0.w);
+    float sizeJitter = saturate(DirtParams1.y);
+    float opacityJitter = saturate(DirtParams1.z);
+    float freq = max(DirtParams1.x, 0.0f);
+
+    float useTexture = DirtParams2.x;
+    float tiling = max(DirtParams2.y, 0.001f);
+    float texScaleMin = max(DirtParams2.z, 0.01f);
+    float texScaleMax = max(DirtParams2.w, texScaleMin);
+
+    float noiseScale = max(DirtParams3.x, 0.001f);
+    float noiseStrength = saturate(DirtParams3.y);
+    float noiseSpeed = DirtParams3.z;
+    float invertTexture = DirtParams3.w;
+
+    float pixelsPerMm = (InputViewportParams_ViewportSize.x * max(DirtFormatScale, 0.01f)) / 36.0f;
+    float baseRadiusPx = sizeMicron * 0.001f * pixelsPerMm * 0.5f;
+
+    float2 pixel = FilmUV * InputViewportParams_ViewportSize;
+    float2 baseUV = FilmUV * tiling;
+    float mask = 0.0f;
+
+    [unroll]
+    for (int i = 0; i < MaxSpots; ++i)
+    {
+        float fi = (float)i;
+        float active = step(fi + 0.5f, count);
+        if (active <= 0.0f)
+        {
+            continue;
+        }
+
+        float seed = fi + DirtSeed.x * 31.17f + DirtSeed.y * 17.71f;
+        float phase = Hash11(seed + 2.1f);
+        float anim = step(0.001f, freq);
+        float t = frac(DirtTime * freq + phase);
+        float eventIndex = (anim > 0.0f) ? floor(DirtTime * freq + phase) : 0.0f;
+        float eventSeed = seed + eventIndex * 13.37f;
+
+        float2 pos = float2(Hash11(eventSeed + 1.3f), Hash11(eventSeed + 5.7f));
+        float sizeRand = lerp(1.0f - sizeJitter, 1.0f + sizeJitter, Hash11(eventSeed + 9.1f));
+        float radiusPx = max(baseRadiusPx * sizeRand, 0.5f);
+
+        float life = lerp(0.25f, 1.0f, Hash11(eventSeed + 3.7f));
+        float alive = lerp(1.0f, step(t, life), anim);
+
+        float opacity = lerp(1.0f - opacityJitter, 1.0f, Hash11(eventSeed + 11.7f));
+
+        float2 center = pos * InputViewportParams_ViewportSize;
+
+        float circle = SpotMask(pixel, center, radiusPx, softness);
+
+        float stampMask = circle;
+        if (useTexture > 0.5f)
+        {
+            float texScale = lerp(texScaleMin, texScaleMax, Hash11(eventSeed + 21.3f)) * max(tiling, 0.001f);
+            float2 texOffset = float2(Hash11(eventSeed + 33.1f), Hash11(eventSeed + 47.9f));
+            float angle = Hash11(eventSeed + 19.7f) * 6.2831853f;
+            float s = sin(angle);
+            float c = cos(angle);
+            float2x2 rot = float2x2(c, -s, s, c);
+            float2 local = (pixel - center) / max(radiusPx, 0.5f);
+            float2 uv = mul(rot, local) * 0.5f + 0.5f;
+            float2 uvTile = frac(uv * max(texScale, 0.001f) + texOffset);
+            float4 tex = Texture2DSample(DirtTexture, DirtTextureSampler, uvTile);
+            float lum = dot(tex.rgb, float3(0.299f, 0.587f, 0.114f));
+            float useAlpha = (tex.a < 0.999f) ? 1.0f : 0.0f;
+            float texMask = lerp(lum, tex.a, useAlpha);
+            if (invertTexture > 0.5f)
+            {
+                texMask = 1.0f - texMask;
+            }
+            stampMask = circle * texMask;
+        }
+
+        float noise = 1.0f;
+        if (noiseStrength > 0.001f)
+        {
+            float n = Noise2D(baseUV * noiseScale + DirtTime * noiseSpeed);
+            noise = lerp(1.0f, n, noiseStrength);
+        }
+
+        mask += stampMask * noise * opacity * active * alive;
+    }
+
+    return saturate(mask);
+}
+
+float4 MainPS(
+    in noperspective float4 UVAndScreenPos : TEXCOORD0
+) : SV_Target0
+{
+    float2 UV = UVAndScreenPos.xy;
+    float2 ClampedUV = ClampViewportUV(UV);
+    float3 BaseColor = Texture2DSample(SceneColorTexture, SceneColorSampler, ClampedUV).rgb;
+
+    float SafePreExposure = max(PreExposure, 1e-6f);
+    float3 SceneLinear = BaseColor / SafePreExposure;
+
+    float2 FilmUV = UV + GateWeaveOffset;
+    float2 ViewportUV = (FilmUV - InputViewportParams_UVViewportMin) * InputViewportParams_UVViewportSizeInverse;
+    ViewportUV = saturate(ViewportUV);
+
+    float m = DirtMask(ViewportUV);
+    float intensity = saturate(DirtParams0.x);
+    float3 tint = saturate(DirtTint.rgb);
+    float3 dark = SceneLinear * (1.0f - m * intensity * tint);
+    float3 light = SceneLinear + m * intensity * tint;
+    float sel = saturate(DirtParams1.w * 0.5f + 0.5f);
+    float3 outLinear = lerp(dark, light, sel);
+    outLinear = max(outLinear, 0.0f);
+
+    return float4(outLinear * SafePreExposure, 1.0f);
+}
+
+
+
+
+
+

@@ -1,0 +1,38 @@
+{
+	"FileVersion": 3,
+	"Version": 1,
+	"VersionName": "1.0",
+	"FriendlyName": "Film Emulator",
+	"Description": "Physical based film emulation with film stock,film print,halation,film grain and other effects.",
+	"Category": "Rendering",
+	"CreatedBy": "TOXIC STOCK",
+	"CreatedByURL": "com.epicgames.launcher://ue/marketplace/profile/TOXIC_DEVELOPER",
+	"DocsURL": "https://docs.google.com/document/d/1O9vnsP7xiOjTXeTAcd6ax7cdrtMOMo-C",
+	"MarketplaceURL": "",
+	"SupportURL": "https://toxicdev.ru",
+	"EngineVersion": "5.3.0",
+	"CanContainContent": true,
+	"Installed": true,
+	"Modules": [
+		{
+			"Name": "FilmEmulator",
+			"Type": "Runtime",
+			"LoadingPhase": "PostConfigInit",
+			"PlatformAllowList": [
+				"Win64",
+				"Mac",
+				"Linux"
+			]
+		},
+		{
+			"Name": "FilmEmulatorEditor",
+			"Type": "Editor",
+			"LoadingPhase": "Default",
+			"PlatformAllowList": [
+				"Win64",
+				"Mac",
+				"Linux"
+			]
+		}
+	]
+}

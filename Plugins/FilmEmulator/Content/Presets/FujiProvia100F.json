@@ -1,0 +1,53 @@
+﻿{
+  "id": "FujiProvia100F",
+  "displayName": "Fuji Provia 100F",
+  "filmType": "ColorSlide",
+  "description": "Spectral film LUT based on Fuji Provia 100F.",
+  "lutPath": "Content/LUTs/FE_Fuji_Provia_100F_64.cube",
+  "saturationBias": 1.0,
+  "contrastBias": 1.0,
+  "exposureBias": 0.0,
+  "grain": {
+    "iso": 100.0,
+    "intensity": 0.36,
+    "size": 15.198,
+    "chromatic": 0.1,
+    "response": 1.0,
+    "sigmaR": 0.3
+  },
+  "halation": {
+    "enabled": true,
+    "intensity": 4.0,
+    "radius": 2.16,
+    "threshold": 2.65,
+    "remjet": 0.0,
+    "tint": [
+      1.0,
+      0.33,
+      0.13,
+      1.0
+    ],
+    "tintNear": [
+      1.0,
+      0.3201,
+      0.1144,
+      1.0
+    ],
+    "tintMid": [
+      1.0,
+      0.2277,
+      0.0832,
+      1.0
+    ],
+    "tintFar": [
+      1.0,
+      0.1485,
+      0.0481,
+      1.0
+    ],
+    "radiusMidScale": 2.0,
+    "radiusFarScale": 3.5
+  },
+  "format": "Photo35",
+  "formatScale": 1.0
+}

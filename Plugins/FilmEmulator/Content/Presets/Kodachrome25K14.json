@@ -1,0 +1,53 @@
+﻿{
+  "id": "Kodachrome25K14",
+  "displayName": "Kodachrome 25 K-14",
+  "filmType": "ColorSlide",
+  "description": "Film LUT derived from public scan samples.",
+  "lutPath": "Content/LUTs/FE_Kodachrome_25_K14_64.cube",
+  "saturationBias": 1.0,
+  "contrastBias": 1.0,
+  "exposureBias": 0.0,
+  "grain": {
+    "iso": 25.0,
+    "intensity": 0.184,
+    "size": 19.698,
+    "chromatic": 0.1,
+    "response": 1.0,
+    "sigmaR": 0.3
+  },
+  "halation": {
+    "enabled": true,
+    "intensity": 3.578,
+    "radius": 2.16,
+    "threshold": 2.95,
+    "remjet": 0.0,
+    "tint": [
+      1.0,
+      0.33,
+      0.13,
+      1.0
+    ],
+    "tintNear": [
+      1.0,
+      0.3201,
+      0.1144,
+      1.0
+    ],
+    "tintMid": [
+      1.0,
+      0.2277,
+      0.0832,
+      1.0
+    ],
+    "tintFar": [
+      1.0,
+      0.1485,
+      0.0481,
+      1.0
+    ],
+    "radiusMidScale": 2.0,
+    "radiusFarScale": 3.5
+  },
+  "format": "Photo35",
+  "formatScale": 1.0
+}

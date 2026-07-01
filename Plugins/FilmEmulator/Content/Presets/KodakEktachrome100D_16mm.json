@@ -1,0 +1,53 @@
+﻿{
+  "id": "KodakEktachrome100D_16mm",
+  "displayName": "Kodak Ektachrome 100D (16mm)",
+  "filmType": "ColorSlide",
+  "description": "Small-gauge look LUT derived from public 16mm scan samples.",
+  "lutPath": "Content/LUTs/FE_Look_16mm_64.cube",
+  "saturationBias": 1.0,
+  "contrastBias": 1.0,
+  "exposureBias": 0.0,
+  "grain": {
+    "iso": 100.0,
+    "intensity": 0.32,
+    "size": 16.874,
+    "chromatic": 0.1,
+    "response": 1.0,
+    "sigmaR": 0.3
+  },
+  "halation": {
+    "enabled": true,
+    "intensity": 4.0,
+    "radius": 0.644,
+    "threshold": 2.65,
+    "remjet": 0.0,
+    "tint": [
+      1.0,
+      0.3,
+      0.1,
+      1.0
+    ],
+    "tintNear": [
+      1.0,
+      0.291,
+      0.088,
+      1.0
+    ],
+    "tintMid": [
+      1.0,
+      0.207,
+      0.064,
+      1.0
+    ],
+    "tintFar": [
+      1.0,
+      0.135,
+      0.037,
+      1.0
+    ],
+    "radiusMidScale": 2.0,
+    "radiusFarScale": 3.5
+  },
+  "format": "Cine16",
+  "formatScale": 2.8
+}

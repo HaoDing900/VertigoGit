@@ -1,0 +1,53 @@
+﻿{
+  "id": "KodakEktachrome100D_S8",
+  "displayName": "Kodak Ektachrome 100D (Super 8)",
+  "filmType": "ColorSlide",
+  "description": "Small-gauge look LUT derived from public Super 8 scan samples.",
+  "lutPath": "Content/LUTs/FE_Look_Super8_64.cube",
+  "saturationBias": 1.0,
+  "contrastBias": 1.0,
+  "exposureBias": 0.0,
+  "grain": {
+    "iso": 100.0,
+    "intensity": 0.32,
+    "size": 16.874,
+    "chromatic": 0.1,
+    "response": 1.0,
+    "sigmaR": 0.3
+  },
+  "halation": {
+    "enabled": true,
+    "intensity": 4.0,
+    "radius": 0.344,
+    "threshold": 2.65,
+    "remjet": 0.0,
+    "tint": [
+      1.0,
+      0.28,
+      0.09,
+      1.0
+    ],
+    "tintNear": [
+      1.0,
+      0.2716,
+      0.0792,
+      1.0
+    ],
+    "tintMid": [
+      1.0,
+      0.1932,
+      0.0576,
+      1.0
+    ],
+    "tintFar": [
+      1.0,
+      0.126,
+      0.0333,
+      1.0
+    ],
+    "radiusMidScale": 2.0,
+    "radiusFarScale": 3.5
+  },
+  "format": "Cine8",
+  "formatScale": 5.6
+}

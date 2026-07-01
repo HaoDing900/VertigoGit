@@ -1,0 +1,53 @@
+﻿{
+  "id": "KodakTriX7266_S8",
+  "displayName": "Kodak Tri-X 7266 (Super 8)",
+  "filmType": "BWPositive",
+  "description": "Small-gauge look LUT derived from public Super 8 scan samples.",
+  "lutPath": "Content/LUTs/FE_Look_Super8_64.cube",
+  "saturationBias": 1.0,
+  "contrastBias": 1.0,
+  "exposureBias": 0.0,
+  "grain": {
+    "iso": 200.0,
+    "intensity": 1.0,
+    "size": 33.989,
+    "chromatic": 0.0,
+    "response": 1.0,
+    "sigmaR": 0.3
+  },
+  "halation": {
+    "enabled": true,
+    "intensity": 4.0,
+    "radius": 0.305,
+    "threshold": 1.802,
+    "remjet": 0.0,
+    "tint": [
+      1.0,
+      0.548,
+      0.3391,
+      1.0
+    ],
+    "tintNear": [
+      1.0,
+      0.4999,
+      0.2859,
+      1.0
+    ],
+    "tintMid": [
+      1.0,
+      0.3593,
+      0.2018,
+      1.0
+    ],
+    "tintFar": [
+      1.0,
+      0.2561,
+      0.1354,
+      1.0
+    ],
+    "radiusMidScale": 3.0,
+    "radiusFarScale": 5.5
+  },
+  "format": "Cine8",
+  "formatScale": 5.6
+}
