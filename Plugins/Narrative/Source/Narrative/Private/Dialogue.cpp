@@ -300,6 +300,21 @@ ESlateVisibility UDialogue::GetActiveProfilePictureVisibility(const FSpeakerInfo
 	return IsValid(GetActiveProfilePicture(Speaker, Line)) ? ESlateVisibility::HitTestInvisible : ESlateVisibility::Collapsed;
 }
 
+UTexture2D* UDialogue::GetActiveResponsePicture(const TArray<UDialogueNode_Player*>& PlayerReplies, UTexture2D* DefaultPicture)
+{
+	//Top-to-bottom: the first option with a Response Picture set wins.
+	for (const UDialogueNode_Player* Reply : PlayerReplies)
+	{
+		if (Reply && IsValid(Reply->Line.ResponsePicture))
+		{
+			return Reply->Line.ResponsePicture;
+		}
+	}
+
+	//No option set one - fall back to the UI's default image.
+	return DefaultPicture;
+}
+
 bool UDialogue::SkipCurrentLine()
 {
 	if (CanSkipCurrentLine() && OwningComp && OwningComp->HasAuthority())

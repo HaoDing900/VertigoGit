@@ -159,6 +159,16 @@ public:
 	UFUNCTION(BlueprintPure, Category = "Dialogue")
 	static ESlateVisibility GetActiveProfilePictureVisibility(const FSpeakerInfo& Speaker, const FDialogueLine& Line);
 
+	/**
+	* Returns the Response Picture to show for the current set of player replies (options).
+	* Scans the options top-to-bottom (array order = display order) and returns the first one that has a
+	* Response Picture set on its line, so setting it on ANY one option overrides the default, and when two
+	* options both set one, the upper option wins. Returns DefaultPicture when no option sets a picture -
+	* pass the image your UI shows by default and feed the result straight into SetBrushFromTexture.
+	*/
+	UFUNCTION(BlueprintPure, Category = "Dialogue")
+	static UTexture2D* GetActiveResponsePicture(const TArray<class UDialogueNode_Player*>& PlayerReplies, UTexture2D* DefaultPicture = nullptr);
+
 	//All the NPC speakers in this dialogue - for the player fill out the PlayerSpeakerInfo below!
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Speakers", meta = (TitleProperty="SpeakerID"))
 	TArray<FSpeakerInfo> Speakers;
