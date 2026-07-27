@@ -36,25 +36,34 @@ void UDialogueNodeUserWidget::UpdateEventsFontForZoom(float ZoomAmount)
 		return;
 	}
 
-	//Counter-scale against zoom: at 100%+ zoom use base - Swing so the text isn't huge up close, and as the
-	//graph zooms out grow smoothly up to base + Swing (fully grown by 25% zoom) so it stays readable from afar.
-	const float Swing = 2.f;
+	//Counter-scale against zoom: Alpha is 0 at 100%+ zoom (fully zoomed in) and reaches 1 by 25% zoom (zoomed out).
 	const float Alpha = FMath::Clamp((1.f - ZoomAmount) / (1.f - 0.25f), 0.f, 1.f);
-	//Snap to 0.5pt steps so stepped zoom levels don't cause endless tiny font rebuilds
-	const float TargetSize = FMath::GridSnap((Settings->EventsTextFontSize - Swing) + Alpha * 2.f * Swing, 0.5f);
 
-	if (FMath::IsNearlyEqual(TargetSize, LastAppliedEventsFontSize))
+	if (FMath::IsNearlyEqual(Alpha, LastAppliedEventsAlpha))
 	{
 		return;
 	}
 
-	LastAppliedEventsFontSize = TargetSize;
+	LastAppliedEventsAlpha = Alpha;
 
-	const FName EventsTextBlockNames[] = { TEXT("TB_Events"), TEXT("TB_EventsTitle") };
-	for (const FName& WidgetName : EventsTextBlockNames)
+	const float Base = Settings->EventsTextFontSize;
+
+	//Each block lerps between its own zoomed-in and zoomed-out size (offsets are relative to the base font).
+	//Title (yellow "EVENTS"): smaller up close, only slightly smaller when zoomed out since it's already bold.
+	//Content: smaller up close, unchanged when zoomed out.
+	struct FEventsFontSpec { const TCHAR* WidgetName; float ZoomedInSize; float ZoomedOutSize; };
+	const FEventsFontSpec EventsFontSpecs[] =
 	{
-		if (UTextBlock* TextBlock = Cast<UTextBlock>(WidgetTree->FindWidget(WidgetName)))
+		{ TEXT("TB_EventsTitle"), Base - 7.f, Base + 1.f },
+		{ TEXT("TB_Events"),      Base - 5.f, Base + 2.f },
+	};
+
+	for (const FEventsFontSpec& Spec : EventsFontSpecs)
+	{
+		if (UTextBlock* TextBlock = Cast<UTextBlock>(WidgetTree->FindWidget(Spec.WidgetName)))
 		{
+			//Snap to 0.5pt steps so stepped zoom levels don't cause endless tiny font rebuilds
+			const float TargetSize = FMath::Max(1.f, FMath::GridSnap(FMath::Lerp(Spec.ZoomedInSize, Spec.ZoomedOutSize, Alpha), 0.5f));
 			FSlateFontInfo Font = TextBlock->GetFont();
 			Font.Size = TargetSize;
 			TextBlock->SetFont(Font);

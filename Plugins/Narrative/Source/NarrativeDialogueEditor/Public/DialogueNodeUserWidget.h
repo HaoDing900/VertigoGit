@@ -19,9 +19,10 @@ public:
 	void InitializeFromNode(class UDialogueNode* InNode, class UDialogue* InDialogue);
 
 	/**
-	 * Counter-scales the events text (TB_Events/TB_EventsTitle) against the graph zoom so it stays readable:
-	 * at 100%+ zoom the font is EventsTextFontSize - 2, zooming out grows it smoothly up to +2.
-	 * Called every frame by SDialogueGraphNode with the owner panel's zoom; cheap no-op when size is unchanged.
+	 * Counter-scales the events text against the graph zoom so it stays readable. The title (TB_EventsTitle,
+	 * yellow "EVENTS") and the content (TB_Events) use separate zoomed-in/zoomed-out sizes offset from
+	 * EventsTextFontSize - see the specs table in the .cpp. Called every frame by SDialogueGraphNode with the
+	 * owner panel's zoom; cheap no-op when the zoom alpha is unchanged.
 	 */
 	void UpdateEventsFontForZoom(float ZoomAmount);
 
@@ -69,8 +70,8 @@ protected:
 	UPROPERTY(BlueprintReadOnly, Category = "Dialogue Node")
 	class UDialogue* Dialogue;
 
-	//Last font size applied by UpdateEventsFontForZoom, so we only touch the text blocks when it changes
-	float LastAppliedEventsFontSize = 0.f;
+	//Last zoom alpha applied by UpdateEventsFontForZoom, so we only touch the text blocks when it changes
+	float LastAppliedEventsAlpha = -1.f;
 
 public:
 
