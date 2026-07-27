@@ -29,6 +29,10 @@ public:
 	virtual FText GetNodeTitleText() const {return FText::GetEmpty(); };
 	virtual FText GetNodeText() const;
 
+	//Adds "Copy Node ID" / "Find Node by ID" entries so you can round-trip between a node and a
+	//Begin Dialogue "Start from ID" pin that references it.
+	virtual void GetNodeContextMenuActions(class UToolMenu* Menu, class UGraphNodeContextMenuContext* Context) const override;
+
 	virtual void PostPlacedNewNode() override;
 	virtual void AutowireNewNode(UEdGraphPin* FromPin) override;
 	virtual void PinConnectionListChanged(UEdGraphPin* Pin) override;

@@ -256,7 +256,10 @@ class NARRATIVE_API UDialogueNode_Player : public UDialogueNode
 
 public:
 
-	//Runs a wildcard replace on a player reply 
+	//Player options default to NOT skippable (NPC nodes keep the base-class default of true).
+	UDialogueNode_Player() { bIsSkippable = false; }
+
+	//Runs a wildcard replace on a player reply
 	UFUNCTION(BlueprintPure, Category = "Details")
 	virtual FText GetOptionText(class UDialogue* InDialogue) const;
 
@@ -264,7 +267,14 @@ public:
 	UFUNCTION(BlueprintPure, Category = "Details")
 	virtual FText GetHintText(class UDialogue* InDialogue) const;
 
-	FORCEINLINE bool IsAutoSelect() const {return bAutoSelect || IsRoutingNode(); };
+	//Only auto-select when there's also nothing to SHOW. An option with OptionText or HintText is a real
+	//choice the player must pick (hint-only options), even if the spoken Line.Text is empty. Playback still
+	//fast-forwards empty lines via IsRoutingNode(), so no empty text box appears after selecting.
+	FORCEINLINE bool IsAutoSelect() const {return bAutoSelect || (IsRoutingNode() && OptionText.IsEmptyOrWhitespace() && HintText.IsEmptyOrWhitespace()); };
+
+	//The raw Hint Text typed on this option, before any event/variable resolution. Used by the editor graph
+	//node to preview the hint - runtime should use GetHintText() instead.
+	FORCEINLINE const FText& GetRawHintText() const { return HintText; }
 
 protected:
 

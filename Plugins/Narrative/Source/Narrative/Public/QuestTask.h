@@ -39,6 +39,13 @@ public:
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Task")
 	FText DescriptionOverride;
 
+	/** If FALSE (default): this task shows NO text in the journal unless you type a Branch Description or a
+	*   Description Override - it stays blank instead of auto-generating text like "Go to Location".
+	*   Tick this to allow the auto-generated GetTaskDescription() to be used as a fallback.
+	*   (Only affects GetObjectiveText() used by the UI; the editor node title still shows the auto text.) */
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Task", meta = (DisplayName="Auto Fill Description"))
+	bool bAutoFillDescription;
+
 	/** Whether or not this task is optional */
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Task")
 	bool bOptional;
@@ -167,6 +174,14 @@ public:
 	UFUNCTION(BlueprintNativeEvent, BlueprintCallable, Category = "Editor")
 	FText GetTaskNodeDescription() const;
 	virtual FText GetTaskNodeDescription_Implementation() const;
+
+	/** Text the quest journal should display for this task. Manual text always wins over auto-generated:
+	*   1. The owning Branch's "Branch Description" (if you typed one)
+	*   2. This task's "Description Override" (if you typed one)
+	*   3. Otherwise the auto-generated GetTaskDescription() (e.g. "Go to Location")
+	* Bind your UI text to THIS instead of GetTaskDescription() so your hand-written text is honored. */
+	UFUNCTION(BlueprintPure, Category = "Task")
+	FText GetObjectiveText() const;
 
 	//Checks whether this task is currently complete or not
 	UFUNCTION(BlueprintPure, Category = "Task")

@@ -100,8 +100,15 @@ public:
 	 virtual void EnsureUniqueID() override;
 
 
-	/**Description for this quest node. For example "Kill 10 Goblins", "Find the Gemstone", or "I've found the Gemstone, I need to return to King Edward" */
-	UPROPERTY(EditAnywhere, Category = "Details", BlueprintReadOnly, meta = (MultiLine = true, DisplayAfter="ID"))
+	/**
+	* On a BRANCH: the objective text shown to the player, e.g. "Go to the police station".
+	*   If you type anything here it OVERRIDES the Task's auto-generated text (like "Go to Location").
+	*   Leave empty to use the Task's auto text instead.
+	* On a STATE: a progress-update line shown when you reach this state. This project leaves it empty (unused).
+	* NOTE: this is a single shared C++ field on the base node, so States show the same "Branch Description"
+	*   label - just ignore it on State nodes.
+	*/
+	UPROPERTY(EditAnywhere, Category = "Details", BlueprintReadOnly, meta = (MultiLine = true, DisplayAfter="ID", DisplayName="Branch Description"))
 	FText Description;
 
 	//Get the quest that this quest node belongs to

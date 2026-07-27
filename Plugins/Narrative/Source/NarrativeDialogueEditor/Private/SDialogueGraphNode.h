@@ -24,6 +24,7 @@ public:
 	void Construct(const FArguments& InArgs, UDialogueGraphNode* InNode);
 
 	//~ Begin SGraphNode Interface
+	virtual void Tick(const FGeometry& AllottedGeometry, const double InCurrentTime, const float InDeltaTime) override;
 	virtual void CreatePinWidgets() override;
 	virtual void UpdateGraphNode() override;
 	virtual TSharedPtr<SToolTip> GetComplexTooltip() override;
@@ -59,6 +60,10 @@ protected:
 	FSlateColor GetBorderColor() const;
 
 	TSharedPtr<SWidget> DialogueNodeWidgetRef;
+
+	//The UMG widget instance behind DialogueNodeWidgetRef, so Tick can feed it the graph zoom for the
+	//zoom-compensated events font. Kept alive by the SObjectWidget inside DialogueNodeWidgetRef.
+	TWeakObjectPtr<class UDialogueNodeUserWidget> DialogueNodeWidgetObj;
 
 };
 

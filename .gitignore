@@ -75,3 +75,6 @@ DerivedDataCache/*
 Content/ThirdPerson/Maps/CQB1.umap
 Content/ThirdPerson/Maps/Level0SubmarineInterior.umap
 Plugins/Narrative/Content/NarrativeUI/Widgets/BP_Narrative3Overlay.uasset
+
+# Marketplace asset raw source files (not needed by UE, too big for GitHub)
+Content/MovementAnimsetPro/SourceFiles/

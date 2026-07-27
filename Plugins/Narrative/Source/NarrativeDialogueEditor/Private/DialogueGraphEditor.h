@@ -134,6 +134,11 @@ double click jumps to parent node, we need custom double clicked functionality T
 
 	void OnDialogueNodeDoubleClicked(UEdGraphNode* Node);
 
+	/** Selects and jumps the view to the dialogue graph node whose underlying DialogueNode has the given ID.
+		Used by the right-click "Find Node by ID" action so you can locate the node referenced by a
+		Begin Dialogue "Start from ID" pin. Returns false if no node with that ID exists. */
+	bool JumpToNodeWithID(const FName& InID);
+
 	/** Save the graph state for later editing */
 	void SaveEditedObjectState();
 

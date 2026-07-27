@@ -1,0 +1,24 @@
+{
+	"FileVersion": 3,
+	"Version": 1,
+	"VersionName": "1.0",
+	"FriendlyName": "Texture Batch Tools",
+	"Description": "Batch-edit texture properties (Maximum Texture Size) on selected textures from the Content Browser.",
+	"Category": "Editor",
+	"CreatedBy": "",
+	"CreatedByURL": "",
+	"DocsURL": "",
+	"MarketplaceURL": "",
+	"SupportURL": "",
+	"CanContainContent": false,
+	"IsBetaVersion": false,
+	"IsExperimentalVersion": false,
+	"Installed": false,
+	"Modules": [
+		{
+			"Name": "TextureBatchTools",
+			"Type": "Editor",
+			"LoadingPhase": "Default"
+		}
+	]
+}

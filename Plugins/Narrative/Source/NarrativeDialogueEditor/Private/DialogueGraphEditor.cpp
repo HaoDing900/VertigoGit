@@ -1080,6 +1080,38 @@ void FDialogueGraphEditor::OnDialogueNodeDoubleClicked(UEdGraphNode* Node)
 	}
 }
 
+bool FDialogueGraphEditor::JumpToNodeWithID(const FName& InID)
+{
+	if (InID.IsNone())
+	{
+		return false;
+	}
+
+	if (UDialogueBlueprint* DlgBP = GetDialogueAsset())
+	{
+		if (DlgBP->DialogueGraph)
+		{
+			for (UEdGraphNode* Node : DlgBP->DialogueGraph->Nodes)
+			{
+				if (UDialogueGraphNode* DGNode = Cast<UDialogueGraphNode>(Node))
+				{
+					//Match on the node's ID, falling back to its object name (the OnPlayed event name uses the
+					//node name when the node had no ID assigned yet).
+					if (DGNode->DialogueNode &&
+						(DGNode->DialogueNode->GetID() == InID || DGNode->DialogueNode->GetName() == InID.ToString()))
+					{
+						//JumpToNode focuses the graph and centers/selects the node for us
+						JumpToNode(DGNode, false);
+						return true;
+					}
+				}
+			}
+		}
+	}
+
+	return false;
+}
+
 void FDialogueGraphEditor::SaveEditedObjectState()
 {
 	DialogueBlueprint->LastEditedDocuments.Empty();

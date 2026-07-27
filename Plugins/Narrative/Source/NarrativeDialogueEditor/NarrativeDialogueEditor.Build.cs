@@ -54,6 +54,7 @@ public class NarrativeDialogueEditor : ModuleRules
                 "AudioEditor",
                 "MessageLog",
                 "GraphEditor",
+                "ToolMenus",
                 "Projects",
                 "Kismet",
                 "KismetCompiler",

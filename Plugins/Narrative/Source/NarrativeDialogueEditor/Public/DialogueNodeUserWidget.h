@@ -18,6 +18,13 @@ public:
 
 	void InitializeFromNode(class UDialogueNode* InNode, class UDialogue* InDialogue);
 
+	/**
+	 * Counter-scales the events text (TB_Events/TB_EventsTitle) against the graph zoom so it stays readable:
+	 * at 100%+ zoom the font is EventsTextFontSize - 2, zooming out grows it smoothly up to +2.
+	 * Called every frame by SDialogueGraphNode with the owner panel's zoom; cheap no-op when size is unchanged.
+	 */
+	void UpdateEventsFontForZoom(float ZoomAmount);
+
 	UFUNCTION(BlueprintImplementableEvent, Category = "Dialogue Node")
 	void OnNodeInitialized(class UDialogueNode* InNode, class UDialogue* InDialogue);
 
@@ -33,6 +40,27 @@ public:
 	UFUNCTION(BlueprintPure, Category = "Dialogue Node")
 	ESlateVisibility GetProfilePictureExpressionVisibility() const;
 
+	/**
+	 * Returns "RP: <image name>" when this line has a Response Picture assigned. Empty otherwise - bind a
+	 * TextBlock's Text to this; it stays blank when there's no picture. Bind that TextBlock's Visibility
+	 * to GetResponsePictureVisibility to hide it cleanly. Editor display only.
+	 */
+	UFUNCTION(BlueprintPure, Category = "Dialogue Node")
+	FText GetResponsePictureLabel() const;
+
+	/** Visible when there is a Response Picture label to show, Collapsed otherwise. */
+	UFUNCTION(BlueprintPure, Category = "Dialogue Node")
+	ESlateVisibility GetResponsePictureVisibility() const;
+
+	/**
+	 * Body text for the node: the line's Text, plus a player option's typed Hint Text in [brackets].
+	 * Shows "Text [Hint]", or just "[Hint]" when Text is empty, or Text alone when there's no hint. Bind your
+	 * node widget's main text block to this so a hint-only player option isn't blank. Editor display only -
+	 * does not affect runtime dialogue UI.
+	 */
+	UFUNCTION(BlueprintPure, Category = "Dialogue Node")
+	FText GetNodeBodyText() const;
+
 protected:
 
 	UPROPERTY(BlueprintReadOnly, Category = "Dialogue Node")
@@ -40,6 +68,9 @@ protected:
 
 	UPROPERTY(BlueprintReadOnly, Category = "Dialogue Node")
 	class UDialogue* Dialogue;
+
+	//Last font size applied by UpdateEventsFontForZoom, so we only touch the text blocks when it changes
+	float LastAppliedEventsFontSize = 0.f;
 
 public:
 

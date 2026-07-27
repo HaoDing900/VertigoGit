@@ -23,7 +23,25 @@
 #include "Camera/CameraShakeBase.h"
 #include "Sound/SoundBase.h"
 #include <EngineUtils.h>
+#include "HAL/IConsoleManager.h"
 
+
+#if !UE_BUILD_SHIPPING
+/*Playtest-only fast forward: "Narrative.FastForward 1" makes every skippable line play in 0.1s
+(pass another number to use it as the per-line duration, e.g. "Narrative.FastForward 0.25").
+"Narrative.FastForward 0" turns it off. Non-skippable lines always keep their normal timing.*/
+static TAutoConsoleVariable<float> CVarNarrativeFastForward(
+	TEXT("Narrative.FastForward"),
+	0.f,
+	TEXT("Playtest only. > 0: skippable dialogue lines finish after this many seconds (1 is treated as 0.1s for convenience). 0: off."));
+
+static float GetFastForwardLineDuration()
+{
+	const float Value = CVarNarrativeFastForward.GetValueOnGameThread();
+	//"Narrative.FastForward 1" is the common toggle - treat it as the default 0.1s rather than a full second
+	return FMath::IsNearlyEqual(Value, 1.f) ? 0.1f : Value;
+}
+#endif
 
 static const FName NAME_PlayerSpeakerID("Player");
 static const FName NAME_FaceTag("Face");
@@ -63,10 +81,18 @@ bool UDialogue::Initialize(class UNarrativeComponent* InitializingComp, const FD
 {
 	if (!HasAnyFlags(RF_ClassDefaultObject))
 	{
-		//We need a valid narrative component to make a quest for 
+		//We need a valid narrative component to make a quest for
 		if (!InitializingComp)
 		{
 			return false;
+		}
+
+		//Persist the launch-time priority override onto this running instance so it's used when another dialogue
+		//later tries to interrupt this one (SetCurrentDialogue compares against CurrentDialogue->Priority).
+		//-1 means "no override" - keep the priority set in this dialogue's Class Defaults.
+		if (InPlayParams.Priority != -1)
+		{
+			Priority = InPlayParams.Priority;
 		}
 
 		if (UDialogueBlueprintGeneratedClass* BGClass = Cast<UDialogueBlueprintGeneratedClass>(GetClass()))
@@ -557,6 +583,19 @@ void UDialogue::TickDialogue_Implementation(const float DeltaTime)
 
 void UDialogue::OnBeginDialogue()
 {
+	//Non-freemove dialogues freeze look/move input and show the cursor on the local player, driven by
+	//bFreeMovement on the dialogue asset. Freemove dialogues leave input untouched so the player keeps control.
+	//UIOnly so no gameplay bindings (e.g. RMB camera/exit) can fire mid-dialogue - only the dialogue UI gets input.
+	if (OwningController && OwningController->IsLocalController() && !bFreeMovement)
+	{
+		FInputModeUIOnly InputMode;
+		OwningController->SetInputMode(InputMode);
+		OwningController->SetShowMouseCursor(true);
+		OwningController->SetIgnoreLookInput(true);
+		OwningController->SetIgnoreMoveInput(true);
+		bAppliedDialogueInputLock = true;
+	}
+
 	K2_OnBeginDialogue();
 
 	InitSpeakerAvatars();
@@ -832,6 +871,20 @@ FVector UDialogue::GetConversationCenterPoint() const
 
 void UDialogue::OnEndDialogue()
 {
+	//Restore exactly what OnBeginDialogue locked. Deinitialize guards re-entry so this runs once.
+	if (bAppliedDialogueInputLock)
+	{
+		bAppliedDialogueInputLock = false;
+
+		if (OwningController && OwningController->IsLocalController())
+		{
+			OwningController->SetIgnoreLookInput(false);
+			OwningController->SetIgnoreMoveInput(false);
+			OwningController->SetShowMouseCursor(false);
+			OwningController->SetInputMode(FInputModeGameOnly());
+		}
+	}
+
 	K2_OnEndDialogue();
 
 	SetPartyCurrentSpeaker(nullptr);
@@ -1016,18 +1069,35 @@ void UDialogue::PlayNPCDialogueNode(class UDialogueNode_NPC* NPCReply)
 
 		OnNPCDialogueLineStarted(NPCReply, CurrentLine, CurrentSpeaker);
 
-		const float Duration = GetLineDuration(CurrentNode, CurrentLine);
+		float Duration = GetLineDuration(CurrentNode, CurrentLine);
+
+#if !UE_BUILD_SHIPPING
+		//Playtest fast forward: skippable lines get a tiny fixed duration instead, including lines that
+		//would normally wait on audio/sequence delegates (-1). Non-skippable lines keep their timing.
+		const float FastForwardDuration = GetFastForwardLineDuration();
+		if (FastForwardDuration > 0.f && NPCReply->bIsSkippable)
+		{
+			Duration = FastForwardDuration;
+		}
+#endif
 
 		if (!FMath::IsNearlyEqual(Duration, -1.f))
 		{
 			if (Duration > 0.01f && GetWorld())
 			{
+				//Hard floor: a non-skippable "After X Seconds" line must show for its full X. Record the earliest
+				//time FinishNPCDialogue may advance; any earlier call (audio/sequence end, mis-fired skip, desync)
+				//gets rescheduled instead. Other duration modes keep their normal behaviour (floor stays off).
+				EarliestNPCFinishTime = (CurrentLine.Duration == ELineDuration::LD_AfterDuration && CurrentNode && !CurrentNode->bIsSkippable)
+					? GetWorld()->GetTimeSeconds() + Duration : -1.f;
+
 				GetWorld()->GetTimerManager().ClearTimer(TimerHandle_NPCReplyFinished);
-				//Give the reply time to play, then play the next one! 
+				//Give the reply time to play, then play the next one!
 				GetWorld()->GetTimerManager().SetTimer(TimerHandle_NPCReplyFinished, this, &UDialogue::FinishNPCDialogue, Duration, false);
 			}
 			else
 			{
+				EarliestNPCFinishTime = -1.f;
 				FinishNPCDialogue();
 			}
 		}
@@ -1098,6 +1168,16 @@ void UDialogue::PlayPlayerDialogueNode(class UDialogueNode_Player* PlayerReply)
 		{
 			Duration = 0.f;
 		}
+
+#if !UE_BUILD_SHIPPING
+		//Playtest fast forward: same rule as NPC lines - only if the designer marked this player node skippable
+		//(player nodes default to non-skippable, so most are unaffected).
+		const float FastForwardDuration = GetFastForwardLineDuration();
+		if (FastForwardDuration > 0.f && PlayerReply->bIsSkippable)
+		{
+			Duration = FastForwardDuration;
+		}
+#endif
 
 		if (!FMath::IsNearlyEqual(Duration, -1.f))
 		{
@@ -1237,6 +1317,22 @@ void UDialogue::PlayNextNPCReply()
 
 void UDialogue::FinishNPCDialogue()
 {
+	//Hard guarantee: a non-skippable "After X Seconds" line never advances before its full duration elapsed.
+	//Anything that tries to finish it early is bounced and rescheduled for the remaining time (0.05s slack
+	//lets the legitimate duration timer through despite float/timer jitter).
+	if (EarliestNPCFinishTime > 0.f && GetWorld())
+	{
+		const float Now = GetWorld()->GetTimeSeconds();
+		if (Now < EarliestNPCFinishTime - 0.05f)
+		{
+			GetWorld()->GetTimerManager().ClearTimer(TimerHandle_NPCReplyFinished);
+			GetWorld()->GetTimerManager().SetTimer(TimerHandle_NPCReplyFinished, this, &UDialogue::FinishNPCDialogue, EarliestNPCFinishTime - Now, false);
+			return;
+		}
+
+		EarliestNPCFinishTime = -1.f;
+	}
+
 	if (UDialogueNode_NPC* NPCNode = Cast<UDialogueNode_NPC>(CurrentNode))
 	{
 		FinishDialogueNode(NPCNode, CurrentLine, CurrentSpeaker, CurrentSpeakerAvatar, CurrentListenerAvatar);

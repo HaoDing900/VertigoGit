@@ -24,6 +24,8 @@ UDialogueEditorSettings::UDialogueEditorSettings()
 		DefaultDialogueWidgetClass = DialogueNodeUserWidgetFinder.Class;
 	}
 
+	EventsTextFontSize = 18.f;
+
 	bEnableWarnings = true;
 	bWarnMissingSoundCues = true;
 

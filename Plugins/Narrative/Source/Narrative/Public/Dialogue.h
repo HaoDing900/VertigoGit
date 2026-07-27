@@ -193,7 +193,7 @@ public:
 	//Extra reading-time multiplier just for this dialogue. Stacks ON TOP of the global/per-language Reading Time
 	//Multiplier in Narrative Dialogue Settings (e.g. global 4x for Chinese * this 1.5x = 6x). 1 = no change.
 	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category = "Configuration", meta = (DisplayName = "If Reading Time, Multiply By", EditCondition = "DefaultLineDuration == ELineDuration::LD_AfterReadingTime", EditConditionHides, ClampMin = 0.1))
-	float DefaultLineReadingTimeMultiplier = 1.f;
+	float DefaultLineReadingTimeMultiplier = 2.f;
 
 	//For parties, each player in the party gets their own speaker info 
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Parties")
@@ -619,6 +619,13 @@ protected:
 
 	//Deintialize has been called and the dialogue should not play anymore
 	bool bDeinitialized;
+
+	//True while this (non-freemove) dialogue has look/move input locked on the local player, so OnEndDialogue only restores what OnBeginDialogue applied.
+	bool bAppliedDialogueInputLock = false;
+
+	//Hard floor for non-skippable "After X Seconds" NPC lines: the earliest world time FinishNPCDialogue is
+	//allowed to advance. Any earlier call reschedules for the remaining time instead. -1 = no floor active.
+	float EarliestNPCFinishTime = -1.f;
 
 	//The dialogue may be initialized, but has it began playing yet?
 	bool bBeganPlaying;

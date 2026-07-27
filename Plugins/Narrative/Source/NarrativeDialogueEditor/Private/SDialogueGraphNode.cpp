@@ -50,6 +50,20 @@ void SDialogueGraphNode::CreatePinWidgets()
 	}
 }
 
+void SDialogueGraphNode::Tick(const FGeometry& AllottedGeometry, const double InCurrentTime, const float InDeltaTime)
+{
+	SGraphNode::Tick(AllottedGeometry, InCurrentTime, InDeltaTime);
+
+	//Keep the events text counter-scaled against the current graph zoom (cheap no-op when zoom hasn't changed)
+	if (UDialogueNodeUserWidget* NodeWidget = DialogueNodeWidgetObj.Get())
+	{
+		if (TSharedPtr<SGraphPanel> Panel = GetOwnerPanel())
+		{
+			NodeWidget->UpdateEventsFontForZoom(Panel->GetZoomAmount());
+		}
+	}
+}
+
 void SDialogueGraphNode::UpdateGraphNode()
 {
 
@@ -59,6 +73,7 @@ void SDialogueGraphNode::UpdateGraphNode()
 	// Reset variables that are going to be exposed, in case we are refreshing an already setup node.
 	RightNodeBox.Reset();
 	LeftNodeBox.Reset();
+	DialogueNodeWidgetObj.Reset();
 
 	UDialogueGraphNode* DialogueGraphNode = Cast<UDialogueGraphNode>(GraphNode);
 	UDialogueNode* DialogueNode = DialogueGraphNode ? DialogueGraphNode->DialogueNode : nullptr;
@@ -87,6 +102,7 @@ void SDialogueGraphNode::UpdateGraphNode()
 			{
 				DialogueNodeWidgetInstance->InitializeFromNode(DialogueNode, OwningDialogue);
 				DialogueNodeWidgetRef = DialogueNodeWidgetInstance->TakeWidget();
+				DialogueNodeWidgetObj = DialogueNodeWidgetInstance;
 
 				if (DialogueNodeWidgetInstance->RightPinBox && DialogueNodeWidgetInstance->LeftPinBox)
 				{
@@ -96,8 +112,9 @@ void SDialogueGraphNode::UpdateGraphNode()
 				}
 				else
 				{
-					//Didnt have pin boxes, clear the dialogue node ref to force node to use old style 
+					//Didnt have pin boxes, clear the dialogue node ref to force node to use old style
 					DialogueNodeWidgetRef.Reset();
+					DialogueNodeWidgetObj.Reset();
 				}
 			}
 		}

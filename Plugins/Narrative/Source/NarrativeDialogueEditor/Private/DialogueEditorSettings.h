@@ -42,6 +42,11 @@ public:
 	UPROPERTY(EditAnywhere, config, Category = "Graph Defaults", noclear, meta = (MetaClass = "/Script/NarrativeDialogueEditor.DialogueNodeUserWidget"))
 	TSoftClassPtr<class UDialogueNodeUserWidget> DefaultDialogueWidgetClass;
 
+	//Font size forced onto the events text (TB_Events / TB_EventsTitle) of dialogue graph nodes, so event
+	//names stay readable when the graph is zoomed out. 0 = leave the widget blueprint's own font size alone.
+	UPROPERTY(EditAnywhere, config, Category = "Graph Style", meta = (ClampMin = 0))
+	float EventsTextFontSize;
+
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, config, Category = "Graph Options")
 	bool bEnableWarnings;
 

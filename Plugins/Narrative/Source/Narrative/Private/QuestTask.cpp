@@ -14,6 +14,7 @@ UNarrativeTask::UNarrativeTask()
 	RequiredQuantity = 1;
 	bOptional = false;
 	bHidden = false;
+	bAutoFillDescription = false;
 	TickInterval = 0.f;
 	bIsActive = false;
 }
@@ -164,6 +165,32 @@ FText UNarrativeTask::GetTaskDescription_Implementation() const
 	}
 	  
 	return LOCTEXT("DefaultNarrativeTaskDescription", "Task Description");
+}
+
+FText UNarrativeTask::GetObjectiveText() const
+{
+	// 1. Branch-level hand-written text wins over everything (overrides auto tasks like "Go to Location").
+	if (const UQuestBranch* Branch = GetOwningBranch())
+	{
+		if (!Branch->Description.IsEmptyOrWhitespace())
+		{
+			return Branch->Description;
+		}
+	}
+
+	// 2. Task-level manual override.
+	if (!DescriptionOverride.IsEmptyOrWhitespace())
+	{
+		return DescriptionOverride;
+	}
+
+	// 3. Only fall back to the auto-generated text if the designer explicitly opted in; otherwise stay blank.
+	if (bAutoFillDescription)
+	{
+		return GetTaskDescription();
+	}
+
+	return FText::GetEmpty();
 }
 
 FText UNarrativeTask::GetTaskProgressText_Implementation() const

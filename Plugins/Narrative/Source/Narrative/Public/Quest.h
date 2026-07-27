@@ -153,7 +153,7 @@ protected:
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Quest Details")
 	FText QuestName;
 
-	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Quest Details", meta = (MultiLine = true))
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Quest Details", meta = (MultiLine = true, DisplayName="Journey Main Description"))
 	FText QuestDescription;
 
 	//Whether or not the quest is marked as tracked. Use this to show or hide a quest 
