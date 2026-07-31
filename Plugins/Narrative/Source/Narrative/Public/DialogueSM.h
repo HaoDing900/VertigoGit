@@ -202,8 +202,15 @@ public:
 	//The text this dialogue should display on its Graph Node
 	const bool IsMissingCues() const;
 
-	//Node is just used for routing and doesn't contain any dialogue 
+	//Node is just used for routing and doesn't contain any dialogue
 	bool IsRoutingNode() const;
+
+	/**A bound custom event (the one made by double-clicking the node in the dialogue editor) is stored by name on the
+	generated class rather than in Events, so IsRoutingNode() can't see it. It's checked separately so a text-less node
+	whose only payload is a bound event still counts as content worth playing - otherwise its chunk looks empty, never
+	plays, and the event silently never fires. Deliberately NOT folded into IsRoutingNode(): that function also drives
+	playback fast-forward and player-option auto-select, which must keep treating these nodes as having nothing to show.*/
+	FORCEINLINE bool HasBoundNodeEvent() const { return !OnPlayNodeFuncName.IsNone(); };
 
 private:
 

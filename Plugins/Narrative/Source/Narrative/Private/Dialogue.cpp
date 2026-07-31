@@ -460,7 +460,10 @@ bool UDialogue::HasValidChunk() const
 
 	for (auto& Reply : NPCReplyChain)
 	{
-		if (Reply && !Reply->IsRoutingNode())
+		/*A node carrying only a bound custom event (double-clicked in the dialogue editor) has no text, sound or shot,
+		so IsRoutingNode() calls it pure routing. It still has to play, otherwise the chunk is thrown away here and the
+		event never runs. Playback itself still fast-forwards it via IsRoutingNode(), so no empty text box appears.*/
+		if (Reply && (!Reply->IsRoutingNode() || Reply->HasBoundNodeEvent()))
 		{
 			bReplyChainHasContent = true;
 			break;
