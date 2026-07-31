@@ -61,7 +61,7 @@
 		},
 		{
 			"Name": "FilmEmulator",
-			"Enabled": true
+			"Enabled": false
 		},
 		{
 			"Name": "JsonBlueprintUtilities",
