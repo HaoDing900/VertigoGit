@@ -190,6 +190,9 @@ UDialogueNode_NPC* UDialogueGraph::MakeNPCReply(class UDialogueGraphNode_NPC* No
 		Node->DialogueNode = NPCReply;
 		Dialogue->NPCReplies.AddUnique(NPCReply);
 
+		//Number the node the moment it exists, so it stays uniquely addressable even if it never gets any text.
+		NPCReply->AssignNodeNumber();
+
 		NPCReply->SetID(*(DialogueAsset->GetName() + "_" + NPCReply->GetName()));
 
 		return NPCReply;
@@ -215,6 +218,9 @@ UDialogueNode_Player* UDialogueGraph::MakePlayerReply(class UDialogueGraphNode_P
 		Node->DialogueNode = PlayerReply;
 		PlayerReply->OwningDialogue = Dialogue;
 		Dialogue->PlayerReplies.AddUnique(PlayerReply);
+
+		//Number the node the moment it exists, so it stays uniquely addressable even if it never gets any text.
+		PlayerReply->AssignNodeNumber();
 
 		PlayerReply->SetID(*(DialogueAsset->GetName() + "_" + PlayerReply->GetName()));
 

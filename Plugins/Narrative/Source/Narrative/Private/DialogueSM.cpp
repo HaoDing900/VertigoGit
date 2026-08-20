@@ -235,6 +235,33 @@ void UDialogueNode::EnsureUniqueID()
 	}
 }
 
+void UDialogueNode::AssignNodeNumber()
+{
+	//Numbers are permanent. Re-deriving one would defeat the point - a text-less node builds its ID from this,
+	//so a changing number means a changing ID.
+	if (NodeNumber != INDEX_NONE)
+	{
+		return;
+	}
+
+	int32 HighestUsed = 0;
+
+	if (OwningDialogue)
+	{
+		for (auto& Node : OwningDialogue->GetNodes())
+		{
+			if (Node && Node != this)
+			{
+				HighestUsed = FMath::Max(HighestUsed, Node->NodeNumber);
+			}
+		}
+	}
+
+	//Highest + 1 rather than lowest free, so deleting a node never lets a later one inherit its number,
+	//and with it the old node ID and the save-data task key that ID is used for.
+	NodeNumber = HighestUsed + 1;
+}
+
 void UDialogueNode::GenerateIDFromText()
 {
 	//When the text for this node is entered, give the node a sensible ID: {SpeakerID}_{FirstFourWords}
@@ -285,6 +312,15 @@ void UDialogueNode::GenerateIDFromText()
 			DialogueAssetName += DialogueBP->GetFName().ToString();
 			DialogueAssetName += "_";
 		}
+	}
+
+	//A node with no text - a pure routing node, or one whose only payload is a bound event - boils FinalString
+	//down to nothing, which would make every text-less node of this speaker collide on one ID. Fall back to the
+	//node number so it stays uniquely addressable, and stays that way no matter how often the graph is edited.
+	if (FinalString.IsEmpty())
+	{
+		AssignNodeNumber();
+		FinalString = FString::Printf(TEXT("Node%d"), NodeNumber);
 	}
 
 	SetID(FName(DialogueAssetName + Prefix + '_' + FinalString));

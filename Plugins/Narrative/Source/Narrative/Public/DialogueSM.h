@@ -178,6 +178,13 @@ public:
 	UPROPERTY(BlueprintReadWrite, Category = "Details - Dialogue Node", meta = (AdvancedDisplay))
 	FName OnPlayNodeFuncName;
 
+	/**Stable number handed out once when the node is created, never reused within the dialogue.
+	A node with no line text can not derive a meaningful ID from it, so it falls back to this number. Without it
+	every text-less node of the same speaker generates the identical ID, and EnsureUniqueID() then hands out
+	_1/_2/_3 suffixes in graph-iteration order - so the IDs reshuffle whenever the graph is edited or merged.*/
+	UPROPERTY()
+	int32 NodeNumber = INDEX_NONE;
+
 	/**The ID of the speaker we are saying this line to. Can be left empty. */
 	UPROPERTY(BlueprintReadWrite, Category = "Details - Dialogue Node")
 	FName DirectedAtSpeakerID;
@@ -221,6 +228,10 @@ private:
 public:
 	virtual void EnsureUniqueID();
 	void GenerateIDFromText();
+
+	/**Gives this node a NodeNumber if it does not have one yet. Idempotent - an already-numbered node keeps its
+	number, which is what makes a text-less node keep the same ID across edits.*/
+	void AssignNodeNumber();
 
 	bool HasDefaultID() const;
 

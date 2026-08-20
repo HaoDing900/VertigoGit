@@ -819,6 +819,15 @@ void UDialogue::ProcessNodeEvents(class UDialogueNode* Node, bool bStartEvents)
 		{
 			ProcessEvent(Func, &Parms);
 		}
+		else if (!Node->OnPlayNodeFuncName.IsNone())
+		{
+			/*The node claims a bound event but the function is gone. OnPlayNodeFuncName is baked from the node ID
+			when the event is created and never refreshed afterwards, so a deleted or renamed event leaves a dangling
+			name behind. Silently doing nothing here looks exactly like the node was skipped, so say so instead -
+			re-double-click the node in the dialogue editor to rebind it.*/
+			UE_LOG(LogNarrative, Warning, TEXT("Dialogue node '%s' is bound to event '%s', but no such function exists on %s. The event will not fire."),
+				*Node->GetID().ToString(), *Node->OnPlayNodeFuncName.ToString(), *GetNameSafe(this));
+		}
 
 		Node->ProcessEvents(OwningPawn, OwningController, OwningComp, bStartEvents ? EEventRuntime::Start : EEventRuntime::End);
 	}
