@@ -13,6 +13,8 @@
 #include "NarrativeEvent.h"
 #include "NarrativeDialogueSettings.h"
 #include "LevelSequencePlayer.h"
+#include "LevelSequence.h"
+#include "LevelSequenceActor.h"
 #include "QuestTask.h"
 #include "Engine/Engine.h"
 #include "Kismet/GameplayStatics.h"
@@ -1006,6 +1008,8 @@ void UNarrativeComponent::DialogueBegan(UDialogue* Dialogue)
 
 void UNarrativeComponent::DialogueFinished(UDialogue* Dialogue, const bool bStartingNewDialogue)
 {
+	//A dialogue-scoped sequence should never outlive the dialogue that started it.
+	StopDialogueLevelSequence();
 
 }
 
@@ -1358,3 +1362,80 @@ bool UNarrativeComponent::Load_Internal(const TArray<FNarrativeSavedQuest>& Save
 	return true;
 }
 
+
+ULevelSequencePlayer* UNarrativeComponent::PlayDialogueLevelSequence(ULevelSequence* LevelSequence, bool bEndLineWhenFinished, float PlayRate, int32 LoopCount, bool bRestoreState, bool bHideHud, float MaxWaitSeconds)
+{
+	if (!LevelSequence)
+	{
+		UE_LOG(LogNarrative, Warning, TEXT("PlayDialogueLevelSequence was given a null Level Sequence, nothing will play."));
+		return nullptr;
+	}
+
+	UWorld* World = GetWorld();
+
+	if (!World)
+	{
+		return nullptr;
+	}
+
+	/*Only ever let one of our sequences be live. A player left running keeps pushing its animation into the character's
+	anim slot at full weight, and the slot normalizes across everything feeding it - so a leftover sequence silently
+	halves the weight of whatever plays next.*/
+	StopDialogueLevelSequence();
+
+	FMovieSceneSequencePlaybackSettings Settings;
+	Settings.bAutoPlay = false;
+	Settings.LoopCount.Value = LoopCount;
+	Settings.PlayRate = PlayRate;
+	Settings.bRestoreState = bRestoreState;
+	Settings.bHideHud = bHideHud;
+
+	ALevelSequenceActor* SequenceActor = nullptr;
+	ULevelSequencePlayer* Player = ULevelSequencePlayer::CreateLevelSequencePlayer(World, LevelSequence, Settings, SequenceActor);
+
+	if (!Player)
+	{
+		UE_LOG(LogNarrative, Warning, TEXT("PlayDialogueLevelSequence failed to create a player for %s."), *GetNameSafe(LevelSequence));
+		return nullptr;
+	}
+
+	OwnedSequencePlayer = Player;
+	OwnedSequenceActor = SequenceActor;
+
+	//Bind before playing - a zero length sequence can report finished from inside Play().
+	if (bEndLineWhenFinished)
+	{
+		EndCurrentLineWhenSequenceFinishes(Player, MaxWaitSeconds);
+	}
+
+	Player->Play();
+
+	return Player;
+}
+
+void UNarrativeComponent::StopDialogueLevelSequence()
+{
+	/*Drop the line-end wait first if it was watching this player, otherwise tearing the player down could advance the
+	very line we're in the middle of setting up.*/
+	if (OwnedSequencePlayer && ExternalSequencePlayer.Get() == OwnedSequencePlayer)
+	{
+		StopWaitingForExternalSequence();
+	}
+
+	if (OwnedSequencePlayer)
+	{
+		OwnedSequencePlayer->Stop();
+		OwnedSequencePlayer = nullptr;
+	}
+
+	if (OwnedSequenceActor)
+	{
+		OwnedSequenceActor->Destroy();
+		OwnedSequenceActor = nullptr;
+	}
+}
+
+ULevelSequencePlayer* UNarrativeComponent::GetDialogueLevelSequencePlayer() const
+{
+	return OwnedSequencePlayer;
+}

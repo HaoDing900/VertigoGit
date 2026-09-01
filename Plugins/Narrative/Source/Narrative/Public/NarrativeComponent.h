@@ -437,6 +437,32 @@ public:
 	UFUNCTION(BlueprintCallable, Category = "Dialogue", meta = (AdvancedDisplay = "MaxWaitSeconds"))
 	void EndCurrentLineWhenSequenceFinishes(class ULevelSequencePlayer* SequencePlayer, float MaxWaitSeconds = 30.f);
 
+	/**
+	* Plays a Level Sequence for the dialogue, and remembers it on this component so a later node can stop it.
+	* Anything this function started earlier is stopped and destroyed first - a leftover sequence player keeps feeding
+	* its animation into the anim slot at full weight, which steals blend weight from whatever plays next.
+	*
+	* bEndLineWhenFinished wires up EndCurrentLineWhenSequenceFinishes for you, so pair it with a line whose duration
+	* is set to "When Sequence Ends".
+	*
+	* bRestoreState controls what happens to everything the sequence touched once it stops - true puts the actors back
+	* the way gameplay had them, false leaves them on the sequence's last frame. Leave it on unless you specifically
+	* want the final pose to hold.
+	*/
+	UFUNCTION(BlueprintCallable, Category = "Dialogue", meta = (AdvancedDisplay = "PlayRate,LoopCount,bRestoreState,bHideHud,MaxWaitSeconds"))
+	class ULevelSequencePlayer* PlayDialogueLevelSequence(class ULevelSequence* LevelSequence, bool bEndLineWhenFinished = true, float PlayRate = 1.f, int32 LoopCount = 0, bool bRestoreState = true, bool bHideHud = true, float MaxWaitSeconds = 30.f);
+
+	/**
+	* Stops and destroys whatever PlayDialogueLevelSequence last started, and drops any line-end wait on it.
+	* Safe to call when nothing is playing. Put this on a node to force the previous node's sequence to end.
+	*/
+	UFUNCTION(BlueprintCallable, Category = "Dialogue")
+	void StopDialogueLevelSequence();
+
+	/**The player PlayDialogueLevelSequence last created, or null if nothing of ours is live.*/
+	UFUNCTION(BlueprintPure, Category = "Dialogue")
+	class ULevelSequencePlayer* GetDialogueLevelSequencePlayer() const;
+
 private:
 
 	UFUNCTION()
@@ -447,6 +473,13 @@ private:
 
 	TWeakObjectPtr<class ULevelSequencePlayer> ExternalSequencePlayer;
 	FTimerHandle ExternalSequenceTimeoutHandle;
+
+	//Sequence started by PlayDialogueLevelSequence. We created these so we destroy them, keeping only one ever live.
+	UPROPERTY(Transient)
+	TObjectPtr<class ULevelSequencePlayer> OwnedSequencePlayer;
+
+	UPROPERTY(Transient)
+	TObjectPtr<class ALevelSequenceActor> OwnedSequenceActor;
 
 public:
 
