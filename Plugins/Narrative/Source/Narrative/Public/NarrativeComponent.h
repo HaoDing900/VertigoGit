@@ -445,12 +445,16 @@ public:
 	* bEndLineWhenFinished wires up EndCurrentLineWhenSequenceFinishes for you, so pair it with a line whose duration
 	* is set to "When Sequence Ends".
 	*
+	* bStopWhenLineEnds is the mirror of that - instead of the sequence ending the line, the line ending stops the
+	* sequence. Turn it on for a sequence that should only last as long as the node that started it, so moving to the
+	* next node kills it. Safe to combine with bEndLineWhenFinished; whichever happens first tears the other down.
+	*
 	* bRestoreState controls what happens to everything the sequence touched once it stops - true puts the actors back
 	* the way gameplay had them, false leaves them on the sequence's last frame. Leave it on unless you specifically
 	* want the final pose to hold.
 	*/
 	UFUNCTION(BlueprintCallable, Category = "Dialogue", meta = (AdvancedDisplay = "PlayRate,LoopCount,bRestoreState,bHideHud,MaxWaitSeconds"))
-	class ULevelSequencePlayer* PlayDialogueLevelSequence(class ULevelSequence* LevelSequence, bool bEndLineWhenFinished = true, float PlayRate = 1.f, int32 LoopCount = 0, bool bRestoreState = true, bool bHideHud = true, float MaxWaitSeconds = 30.f);
+	class ULevelSequencePlayer* PlayDialogueLevelSequence(class ULevelSequence* LevelSequence, bool bEndLineWhenFinished = true, bool bStopWhenLineEnds = false, float PlayRate = 1.f, int32 LoopCount = 0, bool bRestoreState = true, bool bHideHud = true, float MaxWaitSeconds = 30.f);
 
 	/**
 	* Stops and destroys whatever PlayDialogueLevelSequence last started, and drops any line-end wait on it.
@@ -463,6 +467,17 @@ public:
 	UFUNCTION(BlueprintPure, Category = "Dialogue")
 	class ULevelSequencePlayer* GetDialogueLevelSequencePlayer() const;
 
+	/**
+	* Stops whatever PlayDialogueLevelSequence is running the moment the dialogue finishes its current line and moves on.
+	* This is what bStopWhenLineEnds turns on, exposed separately in case you want to arm it from a later node.
+	*/
+	UFUNCTION(BlueprintCallable, Category = "Dialogue")
+	void StopSequenceWhenLineEnds();
+
+	/**Cancels a pending StopSequenceWhenLineEnds, so the sequence is allowed to run past the line. */
+	UFUNCTION(BlueprintCallable, Category = "Dialogue")
+	void StopWaitingForLineEnd();
+
 private:
 
 	UFUNCTION()
@@ -471,8 +486,23 @@ private:
 	//Clears the timeout timer and unbinds from the tracked sequence player.
 	void StopWaitingForExternalSequence();
 
+	UFUNCTION()
+	void OnLineEndedStopSequence_NPC(class UDialogue* Dialogue, class UDialogueNode_NPC* Node, const FDialogueLine& DialogueLine, const FSpeakerInfo& Speaker);
+
+	UFUNCTION()
+	void OnLineEndedStopSequence_Player(class UDialogue* Dialogue, class UDialogueNode_Player* Node, const FDialogueLine& DialogueLine);
+
+	//Shared body of the two line-finished handlers above.
+	void HandleLineEndedStopSequence();
+
 	TWeakObjectPtr<class ULevelSequencePlayer> ExternalSequencePlayer;
 	FTimerHandle ExternalSequenceTimeoutHandle;
+
+	/*Set while we're waiting for a line to end so we can stop our sequence. The frame gets remembered because a
+	Narrative Event sitting on a node's END runs from inside the same call stack that then broadcasts "line finished" -
+	without this we'd kill the sequence in the very frame it started.*/
+	bool bWaitingForLineEndToStopSequence = false;
+	uint64 LineEndWaitStartedFrame = 0;
 
 	//Sequence started by PlayDialogueLevelSequence. We created these so we destroy them, keeping only one ever live.
 	UPROPERTY(Transient)

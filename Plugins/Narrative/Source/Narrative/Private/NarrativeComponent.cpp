@@ -1121,6 +1121,58 @@ void UNarrativeComponent::StopWaitingForExternalSequence()
 	ExternalSequencePlayer = nullptr;
 }
 
+void UNarrativeComponent::StopSequenceWhenLineEnds()
+{
+	if (bWaitingForLineEndToStopSequence)
+	{
+		//Already armed - just re-stamp the frame so the sequence we were handed now gets a full line of its own.
+		LineEndWaitStartedFrame = GFrameCounter;
+		return;
+	}
+
+	bWaitingForLineEndToStopSequence = true;
+	LineEndWaitStartedFrame = GFrameCounter;
+
+	OnNPCDialogueLineFinished.AddDynamic(this, &UNarrativeComponent::OnLineEndedStopSequence_NPC);
+	OnPlayerDialogueLineFinished.AddDynamic(this, &UNarrativeComponent::OnLineEndedStopSequence_Player);
+}
+
+void UNarrativeComponent::StopWaitingForLineEnd()
+{
+	if (!bWaitingForLineEndToStopSequence)
+	{
+		return;
+	}
+
+	bWaitingForLineEndToStopSequence = false;
+
+	OnNPCDialogueLineFinished.RemoveDynamic(this, &UNarrativeComponent::OnLineEndedStopSequence_NPC);
+	OnPlayerDialogueLineFinished.RemoveDynamic(this, &UNarrativeComponent::OnLineEndedStopSequence_Player);
+}
+
+void UNarrativeComponent::OnLineEndedStopSequence_NPC(UDialogue* Dialogue, UDialogueNode_NPC* Node, const FDialogueLine& DialogueLine, const FSpeakerInfo& Speaker)
+{
+	HandleLineEndedStopSequence();
+}
+
+void UNarrativeComponent::OnLineEndedStopSequence_Player(UDialogue* Dialogue, UDialogueNode_Player* Node, const FDialogueLine& DialogueLine)
+{
+	HandleLineEndedStopSequence();
+}
+
+void UNarrativeComponent::HandleLineEndedStopSequence()
+{
+	/*Events placed on the END of a node run inside the same call stack that broadcasts this, so the sequence they
+	just started would die instantly. Let that first broadcast pass and stop on the next line instead.*/
+	if (GFrameCounter == LineEndWaitStartedFrame)
+	{
+		return;
+	}
+
+	//StopDialogueLevelSequence disarms us, so this only ever fires once per armed sequence.
+	StopDialogueLevelSequence();
+}
+
 TArray<UQuest*> UNarrativeComponent::GetFailedQuests() const
 {
 	TArray<UQuest*> FailedQuests;
@@ -1363,7 +1415,7 @@ bool UNarrativeComponent::Load_Internal(const TArray<FNarrativeSavedQuest>& Save
 }
 
 
-ULevelSequencePlayer* UNarrativeComponent::PlayDialogueLevelSequence(ULevelSequence* LevelSequence, bool bEndLineWhenFinished, float PlayRate, int32 LoopCount, bool bRestoreState, bool bHideHud, float MaxWaitSeconds)
+ULevelSequencePlayer* UNarrativeComponent::PlayDialogueLevelSequence(ULevelSequence* LevelSequence, bool bEndLineWhenFinished, bool bStopWhenLineEnds, float PlayRate, int32 LoopCount, bool bRestoreState, bool bHideHud, float MaxWaitSeconds)
 {
 	if (!LevelSequence)
 	{
@@ -1408,6 +1460,11 @@ ULevelSequencePlayer* UNarrativeComponent::PlayDialogueLevelSequence(ULevelSeque
 		EndCurrentLineWhenSequenceFinishes(Player, MaxWaitSeconds);
 	}
 
+	if (bStopWhenLineEnds)
+	{
+		StopSequenceWhenLineEnds();
+	}
+
 	Player->Play();
 
 	return Player;
@@ -1421,6 +1478,9 @@ void UNarrativeComponent::StopDialogueLevelSequence()
 	{
 		StopWaitingForExternalSequence();
 	}
+
+	//Whatever we were armed to stop is going away now, so drop the line-end wait too.
+	StopWaitingForLineEnd();
 
 	if (OwnedSequencePlayer)
 	{
