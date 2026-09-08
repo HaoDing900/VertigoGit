@@ -1,0 +1,8 @@
+{
+	"BuildId": "27405482",
+	"Modules": 
+	{
+		"NarrativeCommonUI": "UnrealEditor-NarrativeCommonUI.dll",
+		"NarrativeCommonUIEditor": "UnrealEditor-NarrativeCommonUIEditor.dll"
+	}
+}

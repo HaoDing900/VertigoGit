@@ -1,0 +1,8 @@
+{
+	"BuildId": "27405482",
+	"Modules": 
+	{
+		"FilmEmulator": "UnrealEditor-FilmEmulator.dll",
+		"FilmEmulatorEditor": "UnrealEditor-FilmEmulatorEditor.dll"
+	}
+}

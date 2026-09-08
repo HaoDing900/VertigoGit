@@ -1,0 +1,9 @@
+{
+	"BuildId": "27405482",
+	"Modules": 
+	{
+		"HaoPrototype": "UnrealEditor-HaoPrototype.dll",
+		"Vertigo": "UnrealEditor-Vertigo.dll",
+		"VertigoEditor": "UnrealEditor-VertigoEditor.dll"
+	}
+}

@@ -16,3 +16,4 @@ Content/Static/** filter=lfs diff=lfs -merge -text
 *.xcf filter=lfs diff=lfs -merge -text
 *.jpg filter=lfs diff=lfs -merge -text
 *.zip filter=lfs diff=lfs -merge -text
+*.dll filter=lfs diff=lfs -merge -text

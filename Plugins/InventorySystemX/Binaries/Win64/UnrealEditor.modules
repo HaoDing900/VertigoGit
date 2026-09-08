@@ -1,0 +1,9 @@
+{
+	"BuildId": "27405482",
+	"Modules": 
+	{
+		"Input_ISX": "UnrealEditor-Input_ISX.dll",
+		"InventorySXEditor": "UnrealEditor-InventorySXEditor.dll",
+		"InventorySystemX": "UnrealEditor-InventorySystemX.dll"
+	}
+}
