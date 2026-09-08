@@ -1,0 +1,97 @@
+#!/bin/sh
+# Block staging a .umap/.uasset whose on-disk content is NOT a real Unreal package.
+#
+# Why the working tree and not the index: git-lfs's clean filter hashes whatever
+# it is given, so a conflict-marker file becomes a perfectly well-formed pointer
+# in the index. The corruption is only visible on disk. A real .umap/.uasset
+# always begins with the Unreal package magic C1 83 2A 9E; if it begins with an
+# LFS pointer header instead, it is either an unresolved merge conflict or an
+# unsmudged pointer, and committing it destroys the asset.
+IFS='
+'
+bad=''
+for f in $(git diff --cached --name-only --diff-filter=AM | grep -E '\.(umap|uasset)$'); do
+	[ -f "$f" ] || continue
+	if head -c 64 "$f" 2>/dev/null | grep -q 'git-lfs\.github\.com/spec'; then
+		if grep -q '^<<<<<<< ' "$f" 2>/dev/null; then
+			bad="$bad$f  (UNRESOLVED MERGE CONFLICT)
+"
+		else
+			bad="$bad$f  (unsmudged LFS pointer - run: git lfs pull)
+"
+		fi
+	fi
+done
+if [ -n "$bad" ]; then
+	echo "ERROR: commit blocked - these are LFS pointers, not real Unreal assets:"
+	printf '  %s' "$bad"
+	echo "Unreal assets are binary and cannot be merged. Pick one side explicitly:"
+	echo "  git checkout --ours   <file>   # keep your version"
+	echo "  git checkout --theirs <file>   # keep the incoming version"
+	echo "  git add <file>"
+	exit 1
+fi
+
+# --- Compiled binaries must stay in sync with C++ ---------------------------
+# Binaries/Win64/UnrealEditor-*.dll are tracked in LFS so collaborators without a
+# compiler can just pull. If source lands in the repo without a DLL that contains it,
+# their editor loads the stale one and every Blueprint node calling a changed function
+# orphans its pins ("Could not find a function named ...").
+#
+# The invariant is about the repo AFTER this commit: the DLLs must be at least as new
+# as the source. So we compare staged source against the DLLs on disk (what the last
+# build produced) rather than demanding a DLL be staged - adding an already-compiled
+# file to git for the first time is perfectly fine and must not be blocked.
+if [ ! -f "$(git rev-parse --git-dir)/MERGE_HEAD" ]; then
+	staged_src=$(git diff --cached --name-only --diff-filter=ACMR | grep -E '^(Source/|Plugins/[^/]+/Source/).*\.(h|cpp|inl|cs)$')
+
+	if [ -n "$staged_src" ]; then
+		build_cmd='  "/g/Epic/UE_5.3/Engine/Build/BatchFiles/Build.bat" VertigoEditor Win64 Development -Project="G:/Epic/Unreal projects/VertigoGit/Vertigo.uproject" -WaitMutex'
+
+		# Newest DLL on disk tells us when the project was last built.
+		newest_dll=''
+		for d in $(git ls-files 'Binaries/Win64/*.dll' 'Plugins/*/Binaries/Win64/*.dll'); do
+			[ -f "$d" ] || continue
+			if [ -z "$newest_dll" ] || [ "$d" -nt "$newest_dll" ]; then
+				newest_dll="$d"
+			fi
+		done
+
+		# 1. Source touched after the last build - the DLLs do not contain these changes.
+		if [ -n "$newest_dll" ]; then
+			stale=''
+			for s in $staged_src; do
+				[ -f "$s" ] || continue
+				if [ "$s" -nt "$newest_dll" ]; then
+					stale="$stale$s
+"
+				fi
+			done
+			if [ -n "$stale" ]; then
+				echo "ERROR: commit blocked - these files changed AFTER the last build:"
+				printf '  %s' "$stale"
+				echo "Rebuild so the committed DLLs actually contain them:"
+				echo "$build_cmd"
+				echo "  git add Binaries/Win64 Plugins/*/Binaries/Win64"
+				echo
+				echo "Intentional? git commit --no-verify"
+				exit 1
+			fi
+		fi
+
+		# 2. Rebuilt, but the fresh DLL is being left out of this commit.
+		unstaged_dll=$(git diff --name-only -- 'Binaries/Win64/*.dll' 'Plugins/*/Binaries/Win64/*.dll')
+		if [ -n "$unstaged_dll" ]; then
+			echo "ERROR: commit blocked - C++ is staged but these rebuilt DLLs are not:"
+			printf '  %s\n' $unstaged_dll
+			echo
+			echo "Stage them so source and binaries go up together:"
+			echo "  git add Binaries/Win64 Plugins/*/Binaries/Win64"
+			echo
+			echo "Intentional? git commit --no-verify"
+			exit 1
+		fi
+	fi
+fi
+
+exit 0

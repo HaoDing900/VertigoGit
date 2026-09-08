@@ -93,3 +93,6 @@ Binaries/Win64/*
 Plugins/*/Binaries/Win64/*
 !Plugins/*/Binaries/Win64/UnrealEditor-*.dll
 !Plugins/*/Binaries/Win64/UnrealEditor.modules
+
+# The git hooks kept in version control (see Build/GitHooks/install.sh)
+!Build/GitHooks/**
