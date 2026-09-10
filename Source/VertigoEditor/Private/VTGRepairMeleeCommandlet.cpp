@@ -1,5 +1,9 @@
 #include "VTGRepairMeleeCommandlet.h"
 #include "Animation/AnimInstance.h"
+#include "Engine/BlueprintGeneratedClass.h"
+#include "EnhancedInputActionDelegateBinding.h"
+#include "InputAction.h"
+#include "UObject/StructOnScope.h"
 #include "Animation/AnimMontage.h"
 #include "Components/SkeletalMeshComponent.h"
 #include "EdGraph/EdGraph.h"
@@ -166,6 +170,34 @@ void Repair(UBlueprint* BP, UEdGraph* Graph)
 	UE_LOG(LogTemp, Display, TEXT("MeleeRepair: retained all %d original EventGraph nodes; added %d"), OriginalCount, Graph->Nodes.Num() - OriginalCount);
 	FBlueprintEditorUtils::MarkBlueprintAsStructurallyModified(BP);
 }
+void RepairSprintStop(UBlueprint* BP, UEdGraph* Graph)
+{
+ const FString SprintMarker(TEXT("VTG sprint stop priority v1"));
+ TSet<FGuid> Originals;for(auto N:Graph->Nodes){check(!N->NodeComment.Contains(SprintMarker));Originals.Add(N->NodeGuid);}
+ UK2Node_CallFunction* Stop=nullptr;
+ for(auto N:Graph->Nodes)if(auto C=Cast<UK2Node_CallFunction>(N))if(C->FunctionReference.GetMemberName()==TEXT("PlayAnimMontage"))
+ {
+  auto P=C->FindPin(TEXT("AnimMontage"));auto Exec=C->FindPin(TEXT("execute"));
+  if(P&&P->DefaultObject&&P->DefaultObject->GetName()==TEXT("ANM_Sa_Walk_F_End_Inplace_Montage")&&Exec&&!Exec->LinkedTo.IsEmpty()){check(!Stop);Stop=C;}
+ }
+ check(Stop);auto Input=Pin(Stop,TEXT("execute"));auto Output=Pin(Stop,TEXT("then"));check(Input->LinkedTo.Num()==1&&!Output->LinkedTo.IsEmpty());
+ auto Before=Input->LinkedTo[0];const auto After=Output->LinkedTo;const int X=Stop->NodePosX-600,Y=Stop->NodePosY;
+ auto Guard=Add<UK2Node_IfThenElse>(Graph,X,Y);Guard->AllocateDefaultPins();
+ auto Attack=Variable<UK2Node_VariableGet>(Graph,BP,TEXT("IsAttacking"),X-500,Y+160);
+ auto Mesh=Variable<UK2Node_VariableGet>(Graph,BP,TEXT("Mesh"),X-950,Y+320);
+ auto Anim=Call(Graph,USkeletalMeshComponent::StaticClass()->FindFunctionByName(TEXT("GetAnimInstance")),X-720,Y+320);
+ auto Playing=Call(Graph,UAnimInstance::StaticClass()->FindFunctionByName(TEXT("IsAnyMontagePlaying")),X-470,Y+320);
+ auto Busy=Call(Graph,UKismetMathLibrary::StaticClass()->FindFunctionByName(TEXT("BooleanOR")),X-220,Y+160);
+ Link(Pin(Mesh,TEXT("Mesh")),Pin(Anim,TEXT("self")));Link(Pin(Anim,TEXT("ReturnValue")),Pin(Playing,TEXT("self")));
+ Link(Pin(Attack,TEXT("IsAttacking")),Pin(Busy,TEXT("A")));Link(Pin(Playing,TEXT("ReturnValue")),Pin(Busy,TEXT("B")));Link(Pin(Busy,TEXT("ReturnValue")),Pin(Guard,TEXT("Condition")));
+ Before->BreakLinkTo(Input);Link(Before,Pin(Guard,TEXT("execute")));Link(Pin(Guard,TEXT("else")),Input);
+ // Skip only the cosmetic stop montage. Always run the original speed/sprint reset.
+ for(auto P:After)Link(Pin(Guard,TEXT("then")),P);
+ int Added=0;for(auto N:Graph->Nodes)if(!Originals.Contains(N->NodeGuid)){N->NodeComment=SprintMarker+TEXT(": locomotion stop must not replace an attack, dodge or reaction");++Added;}
+ for(auto N:Graph->Nodes)Originals.Remove(N->NodeGuid);check(Originals.IsEmpty());
+ UE_LOG(LogTemp,Display,TEXT("SprintPriority: guarded %s, retained original nodes, added %d; speed reset retained"),*Stop->GetName(),Added);
+ FBlueprintEditorUtils::MarkBlueprintAsStructurallyModified(BP);
+}
 bool Compile(UBlueprint* BP)
 {
 	FCompilerResultsLog Results;
@@ -176,7 +208,7 @@ bool Compile(UBlueprint* BP)
 
 // Exercise the real compiled character events and Unreal Montage callbacks in
 // a transient world. No level is loaded, begun, or saved by these tests.
-bool TestRepair(UBlueprint* BP)
+bool TestRepair(UBlueprint* BP, bool SprintTests=false)
 {
 	TGuardValue<bool> AllowScript(GAllowActorScriptExecutionInEditor, true);
 	const auto Init = UWorld::InitializationValues().AllowAudioPlayback(false).RequiresHitProxies(false).CreatePhysicsScene(true).CreateNavigation(false).CreateAISystem(false).ShouldSimulatePhysics(false).SetTransactional(false);
@@ -256,6 +288,30 @@ bool TestRepair(UBlueprint* BP)
 	UAnimMontage* Last = Start(0);
 	for (int32 I = 0; Last && I < FMath::CeilToInt((Last->GetPlayLength() + 1.f) * 60.f); ++I) Tick();
 	Expect(Clean() && Actor->GetCharacterMovement()->MovementMode == MOVE_Walking, TEXT("normal completion still resets the combo"));
+ if(SprintTests)
+ {
+  UFunction* SprintEnd=nullptr;
+  for(auto Binding:CastChecked<UBlueprintGeneratedClass>(BP->GeneratedClass)->DynamicBindingObjects)
+   if(auto Input=Cast<UEnhancedInputActionDelegateBinding>(Binding))for(const auto& B:Input->InputActionDelegateBindings)
+    if(B.InputAction&&B.InputAction->GetName()==TEXT("IA_Sprint")&&B.TriggerEvent==ETriggerEvent::Completed){check(!SprintEnd);SprintEnd=Actor->FindFunction(B.FunctionNameToBind);}
+  check(SprintEnd);UE_LOG(LogTemp,Display,TEXT("SprintPriority: exercising actual input delegate %s"),*SprintEnd->GetName());
+  auto ReleaseSprint=[&](){FStructOnScope Args(SprintEnd);Actor->ProcessEvent(SprintEnd,Args.GetStructMemory());};
+  SetBool(TEXT("NoRunning!SlowDownWalk"),false);
+  for(float Delay:{0.f,.1f,.33f,.6f})
+  {
+   auto FirstPunch=Start(0);for(int I=0;I<FMath::RoundToInt(Delay*60);++I)Tick();
+   Actor->GetCharacterMovement()->MaxWalkSpeed=479;ReleaseSprint();
+   UE_LOG(LogTemp,Display,TEXT("SprintPriority: release at %.2fs first=%s now=%s"),Delay,*GetNameSafe(FirstPunch),*GetNameSafe(Anim->GetCurrentActiveMontage()));
+   Expect(Anim->GetCurrentActiveMontage()==FirstPunch&&Anim->Montage_IsPlaying(FirstPunch),TEXT("sprint release preserves first punch instead of replacing it"));
+   Expect(FMath::IsNearlyEqual(Actor->GetCharacterMovement()->MaxWalkSpeed,250.f),TEXT("sprint speed still resets during attack"));
+   Anim->Montage_Stop(0);Tick();Tick();Run(TEXT("ResetCombo"));
+  }
+  ReleaseSprint();Expect(Anim->Montage_IsPlaying(Reaction),TEXT("idle sprint release still plays original stop montage"));
+  Anim->Montage_Stop(0);Tick();Tick();
+  SetBool(TEXT("NoRunning!SlowDownWalk"),true);ReleaseSprint();Expect(FMath::IsNearlyEqual(Actor->GetCharacterMovement()->MaxWalkSpeed,273.f),TEXT("restricted walk speed branch is preserved"));
+  Anim->Montage_Stop(0);Tick();Tick();SetBool(TEXT("NoRunning!SlowDownWalk"),false);
+  Anim->Montage_Play(Reaction,.1f);auto Instance=Anim->GetActiveInstanceForMontage(Reaction);ReleaseSprint();Expect(Anim->GetActiveInstanceForMontage(Reaction)==Instance,TEXT("sprint release does not restart an existing non-attack montage"));
+ }
 	World->DestroyWorld(false);
 	GEngine->DestroyWorldContext(World);
 	UE_LOG(LogTemp, Display, TEXT("MeleeRepair: headless state tests failures=%d"), Failed);
@@ -289,9 +345,9 @@ int32 UVTGRepairMeleeCommandlet::Main(const FString& Params)
 		}
 		return 0;
 	}
-	if (!Params.Contains(TEXT("VerifyOnly"))) Repair(BP, Graph);
+	if (!Params.Contains(TEXT("VerifyOnly"))) {if(Params.Contains(TEXT("FixSprint")))RepairSprintStop(BP,Graph);else Repair(BP, Graph);}
 	if (!Compile(BP)) return 3;
-	if (Params.Contains(TEXT("Test")) && !TestRepair(BP)) return 5;
+	if (Params.Contains(TEXT("Test")) && !TestRepair(BP,Params.Contains(TEXT("Sprint")))) return 5;
 	if (Params.Contains(TEXT("VerifyOnly"))) return 0;
 	const FString Filename = FPackageName::LongPackageNameToFilename(BP->GetOutermost()->GetName(), FPackageName::GetAssetPackageExtension());
 	FSavePackageArgs SaveArgs;
