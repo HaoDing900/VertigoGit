@@ -148,10 +148,8 @@ void Repair(UBlueprint* BP, UEdGraph* Graph)
 	Insert(Pin(ResetEvent, TEXT("then")), Pin(ClearWindow, TEXT("execute")), Pin(ClearWindow, TEXT("then")));
 
 	// Preserve the death movement state if death interrupted an attack.
-	UK2Node_CallFunction* Walk = nullptr;
-	for (UEdGraphNode* Node : Graph->Nodes)
-		if (auto* C = Cast<UK2Node_CallFunction>(Node); C && C->FunctionReference.GetMemberName() == TEXT("SetMovementMode") && Pin(C, TEXT("NewMovementMode"))->DefaultValue == TEXT("MOVE_Walking"))
-		{ check(!Walk); Walk = C; }
+	auto* Walk = CastChecked<UK2Node_CallFunction>(Named(Graph, TEXT("K2Node_CallFunction_327")));
+	check(Walk->FunctionReference.GetMemberName() == TEXT("SetMovementMode") && Pin(Walk, TEXT("NewMovementMode"))->DefaultValue == TEXT("MOVE_Walking"));
 	check(Walk && Pin(Walk, TEXT("execute"))->LinkedTo.Num() == 1 && Pin(Walk, TEXT("then"))->LinkedTo.Num() == 1);
 	UEdGraphPin* BeforeWalk = Pin(Walk, TEXT("execute"))->LinkedTo[0];
 	UEdGraphPin* AfterWalk = Pin(Walk, TEXT("then"))->LinkedTo[0];
@@ -181,9 +179,9 @@ bool Compile(UBlueprint* BP)
 bool TestRepair(UBlueprint* BP)
 {
 	TGuardValue<bool> AllowScript(GAllowActorScriptExecutionInEditor, true);
-	UWorld* World = UWorld::CreateWorld(EWorldType::Game, false);
+	const auto Init = UWorld::InitializationValues().AllowAudioPlayback(false).RequiresHitProxies(false).CreatePhysicsScene(true).CreateNavigation(false).CreateAISystem(false).ShouldSimulatePhysics(false).SetTransactional(false);
+	UWorld* World = UWorld::CreateWorld(EWorldType::Game, false, TEXT("MeleeRepairTest"), nullptr, true, ERHIFeatureLevel::Num, &Init);
 	GEngine->CreateNewWorldContext(EWorldType::Game).SetCurrentWorld(World);
-	World->InitializeNewWorld(UWorld::InitializationValues().AllowAudioPlayback(false).RequiresHitProxies(false).CreatePhysicsScene(true).CreateNavigation(false).CreateAISystem(false).ShouldSimulatePhysics(false).SetTransactional(false));
 	FActorSpawnParameters Spawn;
 	Spawn.SpawnCollisionHandlingOverride = ESpawnActorCollisionHandlingMethod::AlwaysSpawn;
 	ACharacter* Actor = World->SpawnActor<ACharacter>(BP->GeneratedClass, FTransform::Identity, Spawn);
@@ -237,8 +235,9 @@ bool TestRepair(UBlueprint* BP)
 
 	auto* Reaction = LoadObject<UAnimMontage>(nullptr, TEXT("/Game/Characters/Sa/Anm/MoveStop/ANM_Sa_Walk_F_End_Inplace_Montage.ANM_Sa_Walk_F_End_Inplace_Montage"));
 	check(Reaction);
-	Expect(Anim->Montage_Play(Reaction) > 0.f, TEXT("replacement Montage starts"));
+	Expect(Anim->Montage_Play(Reaction, 0.1f) > 0.f, TEXT("replacement Montage starts"));
 	Tick(); Tick();
+	UE_LOG(LogTemp, Display, TEXT("MeleeRepair: replacement check attacking=%d save=%d window=%d combo=%d movement=%d replacementPlaying=%d attackPlaying=%d reactionLength=%f"), GetBool(TEXT("IsAttacking")), GetBool(TEXT("SaveAttack")), GetBool(TEXT("IsInComboWindow")), Index->GetPropertyValue_InContainer(Actor), int32(Actor->GetCharacterMovement()->MovementMode), Anim->Montage_IsPlaying(Reaction), Anim->Montage_IsPlaying(Second), Reaction->GetPlayLength());
 	Expect(Clean() && Actor->GetCharacterMovement()->MovementMode == MOVE_Walking && Anim->Montage_IsPlaying(Reaction), TEXT("attack clears while a non-attack Montage is still playing"));
 
 	Start(0);
