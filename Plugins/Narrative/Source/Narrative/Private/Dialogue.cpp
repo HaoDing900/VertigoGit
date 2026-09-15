@@ -817,7 +817,12 @@ void UDialogue::ProcessNodeEvents(class UDialogueNode* Node, bool bStartEvents)
 
 		if (UFunction* Func = FindFunction(Node->OnPlayNodeFuncName))
 		{
-			ProcessEvent(Func, &Parms);
+			// Generated dialogue-node Blueprint events fire only when the line starts.
+			// Keep the existing function name and parameters compatible with saved Blueprints.
+			if (bStartEvents)
+			{
+				ProcessEvent(Func, &Parms);
+			}
 		}
 		else if (!Node->OnPlayNodeFuncName.IsNone())
 		{

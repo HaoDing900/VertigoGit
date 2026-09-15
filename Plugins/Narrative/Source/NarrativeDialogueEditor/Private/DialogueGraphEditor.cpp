@@ -1061,7 +1061,7 @@ void FDialogueGraphEditor::OnDialogueNodeDoubleClicked(UEdGraphNode* Node)
 							DNode->DialogueNode->OnPlayNodeFuncName = FName(OnEnteredFuncName);
 							DNode->OnPlayedCustomNode = OnPlayedEvent;
 
-							OnPlayedEvent->NodeComment = FString::Printf(TEXT("This event will automatically be called when this dialogue line starts/finishes. Use the bStarted param to check which occured."));
+							OnPlayedEvent->NodeComment = TEXT("This event fires only when this dialogue line starts. bStarted is always true; the legacy event name is retained for compatibility.");
 							OnPlayedEvent->SetMakeCommentBubbleVisible(true);
 
 							OnPlayedEvent->bCanRenameNode = OnPlayedEvent->bIsEditable = false;
