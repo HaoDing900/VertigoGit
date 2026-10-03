@@ -1,6 +1,7 @@
 #include "VertigoEditor.h"
 #include "PropertyEditorModule.h"
 #include "VTGLevelManagerDetails.h"
+#include "Private/VTGSlideDetails.h"
 #include "Private/VTGMeleeMontageTrace.h"
 #include "Containers/Ticker.h"
 #include "Engine/Engine.h"
@@ -18,7 +19,8 @@ void FVertigoEditorModule::StartupModule()
 {
 	FPropertyEditorModule& PropertyModule = FModuleManager::LoadModuleChecked<FPropertyEditorModule>("PropertyEditor");
 	PropertyModule.RegisterCustomClassLayout(NAME_LevelManagerClass, FOnGetDetailCustomizationInstance::CreateStatic(&FVTGLevelManagerDetails::MakeInstance));
-	PropertyModule.NotifyCustomizationModuleChanged();
+	PropertyModule.RegisterCustomPropertyTypeLayout("VTGSlide", FOnGetPropertyTypeCustomizationInstance::CreateStatic(&FVTGSlideDetails::MakeInstance));
+ PropertyModule.NotifyCustomizationModuleChanged();
  if(FParse::Param(FCommandLine::Get(),TEXT("VTGMeleeTrace")))
  {
   MeleeTraceTicker=FTSTicker::GetCoreTicker().AddTicker(FTickerDelegate::CreateLambda([](float){
@@ -38,5 +40,7 @@ void FVertigoEditorModule::ShutdownModule()
 	{
 		FPropertyEditorModule& PropertyModule = FModuleManager::GetModuleChecked<FPropertyEditorModule>("PropertyEditor");
 		PropertyModule.UnregisterCustomClassLayout(NAME_LevelManagerClass);
+ PropertyModule.UnregisterCustomPropertyTypeLayout("VTGSlide");
 	}
 }
+

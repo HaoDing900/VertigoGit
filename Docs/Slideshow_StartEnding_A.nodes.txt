@@ -1,0 +1,56 @@
+Begin Object Class=/Script/BlueprintGraph.K2Node_CustomEvent Name="K2Node_CustomEvent_0" ExportPath="/Script/BlueprintGraph.K2Node_CustomEvent'/Engine/Transient.SlideshowClipboardSource:EndingNodes.K2Node_CustomEvent_0'"
+   CustomFunctionName="StartEnding_A"
+   NodeGuid=3B704A3E4C2EC8AF515AD69EF37C018B
+   CustomProperties Pin (PinId=8244C13541032FD87C18939D1F11F74D,PinName="OutputDelegate",Direction="EGPD_Output",PinType.PinCategory="delegate",PinType.PinSubCategoryMemberReference=(bSelfContext=True,MemberName="StartEnding_A",MemberGuid=3B704A3E4C2EC8AF515AD69EF37C018B),)
+   CustomProperties Pin (PinId=300D48564C8EE43A006B8E9D1D5023A1,PinName="then",Direction="EGPD_Output",PinType.PinCategory="exec",LinkedTo=(K2Node_AddDelegate_0 E0D47A9D4DA535C367EB86A21CD05975,),)
+   CustomProperties Pin (PinId=C94F0EE447EFF4C41EADD8A299E7A86C,PinName="Slideshow_A",Direction="EGPD_Output",PinType.PinCategory="object",PinType.PinSubCategoryObject="/Script/CoreUObject.Class'/Script/Vertigo.VTGSlideshowDirector'",LinkedTo=(K2Node_AddDelegate_0 BD6810514322FABE99B9298EB5E54ADB,),)
+   CustomProperties Pin (PinId=02920FE1476D7210F9682F87EE28C801,PinName="NarrativeComp",Direction="EGPD_Output",PinType.PinCategory="object",PinType.PinSubCategoryObject="/Script/CoreUObject.Class'/Script/Narrative.NarrativeComponent'",LinkedTo=(K2Node_CallFunction_0 CE1E09934F84794D642F98AF39C2DE9A,),)
+   CustomProperties UserDefinedPin (PinName="Slideshow_A",PinType=(PinCategory="object",PinSubCategoryObject="/Script/CoreUObject.Class'/Script/Vertigo.VTGSlideshowDirector'"),DesiredPinDirection=EGPD_Output)
+   CustomProperties UserDefinedPin (PinName="NarrativeComp",PinType=(PinCategory="object",PinSubCategoryObject="/Script/CoreUObject.Class'/Script/Narrative.NarrativeComponent'"),DesiredPinDirection=EGPD_Output)
+End Object
+Begin Object Class=/Script/BlueprintGraph.K2Node_AddDelegate Name="K2Node_AddDelegate_0" ExportPath="/Script/BlueprintGraph.K2Node_AddDelegate'/Engine/Transient.SlideshowClipboardSource:EndingNodes.K2Node_AddDelegate_0'"
+   DelegateReference=(MemberParent="/Script/CoreUObject.Class'/Script/Vertigo.VTGSlideshowDirector'",MemberName="OnSlideshowClosed")
+   NodePosX=400
+   NodeGuid=1D603D454D411EC176B2E2BA83E77BB6
+   CustomProperties Pin (PinId=E0D47A9D4DA535C367EB86A21CD05975,PinName="execute",PinType.PinCategory="exec",LinkedTo=(K2Node_CustomEvent_0 300D48564C8EE43A006B8E9D1D5023A1,),)
+   CustomProperties Pin (PinId=ACF2E6474F3379D36E350580C66E0B48,PinName="then",Direction="EGPD_Output",PinType.PinCategory="exec",LinkedTo=(K2Node_CallFunction_0 BDC48CF94C8AB3B1B18C08971B9337F3,),)
+   CustomProperties Pin (PinId=BD6810514322FABE99B9298EB5E54ADB,PinName="self",PinFriendlyName=NSLOCTEXT("K2Node", "BaseMCDelegateSelfPinName", "Target"),PinType.PinCategory="object",PinType.PinSubCategoryObject="/Script/CoreUObject.Class'/Script/Vertigo.VTGSlideshowDirector'",LinkedTo=(K2Node_CustomEvent_0 C94F0EE447EFF4C41EADD8A299E7A86C,),)
+   CustomProperties Pin (PinId=EC2F172C4FBCA306537A1BA45B7FC2C1,PinName="Delegate",PinFriendlyName=NSLOCTEXT("K2Node", "PinFriendlyDelegatetName", "Event"),PinType.PinCategory="delegate",PinType.PinSubCategoryMemberReference=(MemberParent="/Script/CoreUObject.Package'/Script/Vertigo'",MemberName="VTGSlideshowClosed__DelegateSignature"),PinType.bIsReference=True,PinType.bIsConst=True,LinkedTo=(K2Node_CustomEvent_1 307D1B1C4818A8AE80D06CBE2EB724A4,),)
+End Object
+Begin Object Class=/Script/BlueprintGraph.K2Node_CallFunction Name="K2Node_CallFunction_0" ExportPath="/Script/BlueprintGraph.K2Node_CallFunction'/Engine/Transient.SlideshowClipboardSource:EndingNodes.K2Node_CallFunction_0'"
+   FunctionReference=(MemberParent="/Script/CoreUObject.Class'/Script/Narrative.NarrativeComponent'",MemberName="BeginDialogue")
+   NodePosX=780
+   AdvancedPinDisplay=Hidden
+   NodeGuid=3D0E1C694D604CDB6714A88D851D8AB7
+   CustomProperties Pin (PinId=BDC48CF94C8AB3B1B18C08971B9337F3,PinName="execute",PinType.PinCategory="exec",LinkedTo=(K2Node_AddDelegate_0 ACF2E6474F3379D36E350580C66E0B48,),)
+   CustomProperties Pin (PinId=9B7CAA054253C6A53A1049907BD92EB8,PinName="then",Direction="EGPD_Output",PinType.PinCategory="exec",)
+   CustomProperties Pin (PinId=CE1E09934F84794D642F98AF39C2DE9A,PinName="self",PinFriendlyName=NSLOCTEXT("K2Node", "Target", "Target"),PinType.PinCategory="object",PinType.PinSubCategoryObject="/Script/CoreUObject.Class'/Script/Narrative.NarrativeComponent'",LinkedTo=(K2Node_CustomEvent_0 02920FE1476D7210F9682F87EE28C801,),)
+   CustomProperties Pin (PinId=D3E4B6DD4F1465FB26FFC99DCAD70505,PinName="Dialogue",PinType.PinCategory="class",PinType.PinSubCategoryObject="/Script/CoreUObject.Class'/Script/Narrative.Dialogue'",PinType.bIsUObjectWrapper=True,)
+   CustomProperties Pin (PinId=90262F254E4F1B3471C111BB0E0597DE,PinName="PlayParams",PinType.PinCategory="struct",PinType.PinSubCategoryObject="/Script/CoreUObject.ScriptStruct'/Script/Narrative.DialoguePlayParams'",PinType.bIsConst=True,DefaultValue="()",AutogeneratedDefaultValue="()",bAdvancedView=True,)
+   CustomProperties Pin (PinId=49B5C0294E3454AB7D7C9BA6191B8DC7,PinName="ReturnValue",Direction="EGPD_Output",PinType.PinCategory="bool",DefaultValue="false",AutogeneratedDefaultValue="false",)
+End Object
+Begin Object Class=/Script/BlueprintGraph.K2Node_CustomEvent Name="K2Node_CustomEvent_1" ExportPath="/Script/BlueprintGraph.K2Node_CustomEvent'/Engine/Transient.SlideshowClipboardSource:EndingNodes.K2Node_CustomEvent_1'"
+   CustomFunctionName="HandleEndingSlideshowClosed"
+   NodePosX=400
+   NodePosY=320
+   NodeGuid=05AD8A6746BF710CEB29CCB00744E060
+   CustomProperties Pin (PinId=307D1B1C4818A8AE80D06CBE2EB724A4,PinName="OutputDelegate",Direction="EGPD_Output",PinType.PinCategory="delegate",PinType.PinSubCategoryMemberReference=(bSelfContext=True,MemberName="HandleEndingSlideshowClosed",MemberGuid=05AD8A6746BF710CEB29CCB00744E060),LinkedTo=(K2Node_AddDelegate_0 EC2F172C4FBCA306537A1BA45B7FC2C1,),)
+   CustomProperties Pin (PinId=5D05F96441692704E46FE589929A66D2,PinName="then",Direction="EGPD_Output",PinType.PinCategory="exec",LinkedTo=(K2Node_CallFunction_1 43FC04E34C5D024293FCFF94891567AA,),)
+End Object
+Begin Object Class=/Script/BlueprintGraph.K2Node_CallFunction Name="K2Node_CallFunction_1" ExportPath="/Script/BlueprintGraph.K2Node_CallFunction'/Engine/Transient.SlideshowClipboardSource:EndingNodes.K2Node_CallFunction_1'"
+   FunctionReference=(MemberParent="/Script/CoreUObject.Class'/Script/Engine.KismetSystemLibrary'",MemberName="PrintString")
+   NodePosX=780
+   NodePosY=320
+   AdvancedPinDisplay=Hidden
+   NodeGuid=4D63E1C94B9648BD808604925553976F
+   CustomProperties Pin (PinId=43FC04E34C5D024293FCFF94891567AA,PinName="execute",PinType.PinCategory="exec",LinkedTo=(K2Node_CustomEvent_1 5D05F96441692704E46FE589929A66D2,),)
+   CustomProperties Pin (PinId=CEBC995048CAF191B9779488BEF99FDD,PinName="then",Direction="EGPD_Output",PinType.PinCategory="exec",)
+   CustomProperties Pin (PinId=9CE9677B486EA8C4A761559182849591,PinName="self",PinFriendlyName=NSLOCTEXT("K2Node", "Target", "Target"),PinType.PinCategory="object",PinType.PinSubCategoryObject="/Script/CoreUObject.Class'/Script/Engine.KismetSystemLibrary'",DefaultObject="/Script/Engine.Default__KismetSystemLibrary",bHidden=True,)
+   CustomProperties Pin (PinId=8AD81AF4414D4969CCF1A78C561C2A3F,PinName="WorldContextObject",PinType.PinCategory="object",PinType.PinSubCategoryObject="/Script/CoreUObject.Class'/Script/CoreUObject.Object'",PinType.bIsConst=True,bHidden=True,)
+   CustomProperties Pin (PinId=D0F7456041A6E12F3936619A2D1F5E39,PinName="InString",PinType.PinCategory="string",DefaultValue="Slideshow closed: replace this Print String with your next-level / credits logic",AutogeneratedDefaultValue="Hello",)
+   CustomProperties Pin (PinId=52D0111043B61D6B6E76C6A9DE14BF65,PinName="bPrintToScreen",PinType.PinCategory="bool",DefaultValue="true",AutogeneratedDefaultValue="true",bAdvancedView=True,)
+   CustomProperties Pin (PinId=4BA9EC8D49E242B8B8A1F19426BD50F5,PinName="bPrintToLog",PinType.PinCategory="bool",DefaultValue="true",AutogeneratedDefaultValue="true",bAdvancedView=True,)
+   CustomProperties Pin (PinId=CE9C5056465881FB7390C693DA3209C4,PinName="TextColor",PinType.PinCategory="struct",PinType.PinSubCategoryObject="/Script/CoreUObject.ScriptStruct'/Script/CoreUObject.LinearColor'",DefaultValue="(R=0.000000,G=0.660000,B=1.000000,A=1.000000)",AutogeneratedDefaultValue="(R=0.000000,G=0.660000,B=1.000000,A=1.000000)",bAdvancedView=True,)
+   CustomProperties Pin (PinId=565A2762407077ED54455FB4004DD314,PinName="Duration",PinType.PinCategory="real",PinType.PinSubCategory="float",DefaultValue="2.000000",AutogeneratedDefaultValue="2.000000",bAdvancedView=True,)
+   CustomProperties Pin (PinId=92679C394D6BB6545C7EA29A6DBDCAE7,PinName="Key",PinType.PinCategory="name",PinType.bIsConst=True,DefaultValue="None",AutogeneratedDefaultValue="None",bAdvancedView=True,)
+End Object

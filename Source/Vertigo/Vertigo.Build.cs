@@ -6,7 +6,7 @@ public class Vertigo : ModuleRules
 	{
 		PCHUsage = PCHUsageMode.UseExplicitOrSharedPCHs;
 
-		PublicDependencyModuleNames.AddRange(new string[] { "Core", "CoreUObject", "Engine" });
+		PublicDependencyModuleNames.AddRange(new string[] { "Core", "CoreUObject", "Engine", "UMG", "Narrative" });
 
 		// "Narrative" lets the SaveCoordinator drive the Narrative plugin's own Save/Load in C++.
 		// "MoviePlayer" (+ Slate/UMG) drives the tunnel loading-screen transitions.
