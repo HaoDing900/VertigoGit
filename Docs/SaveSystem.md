@@ -40,7 +40,7 @@ All of these have a **Target** pin = the Coordinator from step 0.
 | **Get Resume Checkpoint Order** | — | `int` |
 | **Clear Checkpoint** | — | — |
 
-**Bindable events** (red, for ISX inventory — see §6):
+**Bindable events** (red, for Blueprint-only systems — see §6):
 `On Save Subsystems (Slot)`, `On Load Subsystems (Slot)`, `On Slot Saved (Slot)`, `On Slot Loaded (Slot)`.
 
 **VTG Slot Meta** struct fields (from `Get All Slot Metas`, for a load menu):
@@ -61,6 +61,9 @@ All of these have a **Target** pin = the Coordinator from step 0.
 | Player BP | `Is Dead?` | bool | no | Gates the restart key. You already have this. |
 | Any actor that must persist | the **VTG Saveable** interface | (interface) | — | Class Settings → Implemented Interfaces. |
 | └ that actor's vars | each var to persist | any | ✅ **you must tick it** | Tick **SaveGame** in the var's Details panel. |
+| └ optional | **Event On Save Restored** | (interface event) | — | Fires right after a load put the vars back. Restoring a var doesn't re-run what normally reacts to it — re-apply the visible result here (show the weapon, open the door). |
+| `BP_Player_Sa` | VTG Saveable + `CurrentMeleeWeapon` | E_MeleeType | ✅ (done) | **On Save Restored** → `EquipMeleeWeapon(CurrentMeleeWeapon)`, so the hammer comes back after Retry / Load. The player is saved under the fixed id `VTG.Player`. |
+| Pickups (`BP_Hammer`) | the **VTG Saveable** interface | (interface) | — | Nothing else needed: a level-placed saveable actor that was **destroyed** before the save (picked up) is destroyed again on load, so it doesn't reappear next to the restored item. |
 
 > **The one variable rule:** a value is only saved if it lives on a saved object
 > (the Progress Component, or a **VTG Saveable** actor) **and its `SaveGame` box is ticked.**
@@ -153,13 +156,14 @@ or an enum index for more phases.
 
 ---
 
-## 6. Inventory (ISX) hookup
+## 6. Inventory (ISX)
 
-In your GameInstance or HUD Blueprint, once:
-1. `Get Game Instance Subsystem (VTG Save Coordinator)`.
-2. Drag from it → **Bind Event to On Save Subsystems** → make an event that calls **ISX save**,
-   passing the event's `Slot`.
-3. Same with **Bind Event to On Load Subsystems** → **ISX load** with `Slot`.
+The player's ISX inventory (items, ammo, shortcuts, equipped item) is saved into the slot by the
+Coordinator itself (save version 2) - no Blueprint hookup needed. The melee weapon (hammer) is not
+an ISX item; it is saved on `BP_Player_Sa` (section 2).
+
+**On Save Subsystems / On Load Subsystems** stay available for any other Blueprint-only system that
+needs to write its own file next to the slot.
 
 ---
 
@@ -170,6 +174,6 @@ In your GameInstance or HUD Blueprint, once:
   Narrative quests, ISX inventory. Do not read these in BeginPlay.
 - **Stage vs flag:** Stage = "where in the level / what spawns & self-destroys."
   Persistent flag = "sub-progress within a stage." Use a flag for skip-the-intro.
-- **One slot = several files** (`VTG_Slot_N`, `VTG_Manifest_N`, `VTG_Narrative_N`, + ISX) written
+- **One slot = several files** (`VTG_Slot_N`, `VTG_Manifest_N`, `VTG_Narrative_N`) written
   together. Remove with **Delete Slot**, never by hand.
 - **Auto Save = slot 0.** Keep manual saves on slot 1+.

@@ -178,6 +178,7 @@ private:
 	static FString ManifestSlotName(int32 Slot);
 	static FString NarrativeSaveName(int32 Slot);
 
+	static FName ResolveSaveId(AActor* Actor);
 	void GatherWorldState(UWorld* World, UVTGSaveGame* SaveObj);
 	void ApplyWorldState(UWorld* World, UVTGSaveGame* SaveObj);
 
@@ -192,7 +193,17 @@ private:
 	/** Second half of RetryFromCheckpoint, after the fade-out. */
 	void DoRetry();
 
+	/** Every new game world: start a fresh destroyed-actor list and listen for destroys in it. */
+	void HandleWorldActorsInitialized(const FActorsInitializedParams& Params);
+
+	/** Remembers level-placed saveable actors destroyed in play (a pickup that was taken). */
+	void HandleActorDestroyed(AActor* Actor);
+
 	FDelegateHandle PreLoadMapHandle;
+	FDelegateHandle WorldActorsInitializedHandle;
+
+	/** Save ids of this level's placed saveable actors that no longer exist; written into the save. */
+	TSet<FName> DestroyedActorIds;
 
 	/** Used once by GatherWorldState instead of the pawn's transform (checkpoint respawn point). */
 	TOptional<FTransform> RespawnOverride;

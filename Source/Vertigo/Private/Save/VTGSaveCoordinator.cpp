@@ -58,13 +58,36 @@ void UVTGSaveCoordinator::Initialize(FSubsystemCollectionBase& Collection)
 	// PostLoadMapWithWorld fires after a level finishes loading - our cue to apply a pending Load.
 	PostLoadMapHandle = FCoreUObjectDelegates::PostLoadMapWithWorld.AddUObject(this, &UVTGSaveCoordinator::HandlePostLoadMap);
 	PreLoadMapHandle = FCoreUObjectDelegates::PreLoadMap.AddUObject(this, &UVTGSaveCoordinator::HandlePreLoadMap);
+	WorldActorsInitializedHandle = FWorldDelegates::OnWorldInitializedActors.AddUObject(this, &UVTGSaveCoordinator::HandleWorldActorsInitialized);
 }
 
 void UVTGSaveCoordinator::Deinitialize()
 {
 	FCoreUObjectDelegates::PostLoadMapWithWorld.Remove(PostLoadMapHandle);
 	FCoreUObjectDelegates::PreLoadMap.Remove(PreLoadMapHandle);
+	FWorldDelegates::OnWorldInitializedActors.Remove(WorldActorsInitializedHandle);
 	Super::Deinitialize();
+}
+
+void UVTGSaveCoordinator::HandleWorldActorsInitialized(const FActorsInitializedParams& Params)
+{
+	UWorld* World = Params.World;
+	if (!World || !World->IsGameWorld() || World->GetGameInstance() != GetGameInstance())
+	{
+		return;
+	}
+
+	DestroyedActorIds.Reset();
+	World->AddOnActorDestroyedHandler(FOnActorDestroyed::FDelegate::CreateUObject(this, &UVTGSaveCoordinator::HandleActorDestroyed));
+}
+
+void UVTGSaveCoordinator::HandleActorDestroyed(AActor* Actor)
+{
+	// Only actors that came with the map: anything spawned at runtime will simply not be re-spawned.
+	if (Actor && Actor->HasAnyFlags(RF_WasLoaded) && Actor->Implements<UVTGSaveable>())
+	{
+		DestroyedActorIds.Add(ResolveSaveId(Actor));
+	}
 }
 
 // ----------------------------------------------------------------------------------------------
@@ -127,6 +150,18 @@ bool UVTGSaveCoordinator::SaveToSlot(int32 Slot, const FString& UserLabel)
 	return bOk;
 }
 
+FName UVTGSaveCoordinator::ResolveSaveId(AActor* Actor)
+{
+	// The player pawn is spawned at runtime, so its name is not a stable key; give it a fixed one.
+	if (const APawn* Pawn = Cast<APawn>(Actor); Pawn && Pawn->IsPlayerControlled())
+	{
+		return TEXT("VTG.Player");
+	}
+	// Otherwise the actor's override if it gave one, else its (level-stable) name.
+	const FName SaveId = IVTGSaveable::Execute_GetSaveId(Actor);
+	return SaveId.IsNone() ? Actor->GetFName() : SaveId;
+}
+
 void UVTGSaveCoordinator::GatherWorldState(UWorld* World, UVTGSaveGame* SaveObj)
 {
 	if (!World || !SaveObj)
@@ -143,6 +178,11 @@ void UVTGSaveCoordinator::GatherWorldState(UWorld* World, UVTGSaveGame* SaveObj)
 			{
 				UVTGSaveStatics::SerializeSaveGameProperties(Prog, SaveObj->PlayerData);
 			}
+			if (UInventoryComponent* Inventory = Pawn->FindComponentByClass<UInventoryComponent>())
+			{
+				SaveObj->bHasPlayerInventory = true;
+				SaveObj->PlayerInventory = Inventory->GetSaveData();
+			}
 			SaveObj->bHasPlayerTransform = true;
 			SaveObj->PlayerTransform = RespawnOverride.Get(Pawn->GetActorTransform());
 		}
@@ -157,12 +197,7 @@ void UVTGSaveCoordinator::GatherWorldState(UWorld* World, UVTGSaveGame* SaveObj)
 			continue;
 		}
 
-		// Stable key: the actor's override if it gave one, else its (level-stable) name.
-		FName SaveId = IVTGSaveable::Execute_GetSaveId(Actor);
-		if (SaveId == NAME_None)
-		{
-			SaveId = Actor->GetFName();
-		}
+		const FName SaveId = ResolveSaveId(Actor);
 
 		FVTGActorRecord Rec;
 		Rec.SaveId = SaveId;
@@ -175,6 +210,8 @@ void UVTGSaveCoordinator::GatherWorldState(UWorld* World, UVTGSaveGame* SaveObj)
 
 		SaveObj->ActorRecords.Add(SaveId, Rec);
 	}
+
+	SaveObj->DestroyedActors = DestroyedActorIds.Array();
 }
 
 // ----------------------------------------------------------------------------------------------
@@ -308,6 +345,11 @@ void UVTGSaveCoordinator::ApplyWorldState(UWorld* World, UVTGSaveGame* SaveObj)
 			{
 				UVTGSaveStatics::DeserializeSaveGameProperties(Prog, SaveObj->PlayerData);
 			}
+			UInventoryComponent* Inventory = Pawn->FindComponentByClass<UInventoryComponent>();
+			if (Inventory && SaveObj->bHasPlayerInventory)
+			{
+				Inventory->Server_LoadInventoryFromSave(SaveObj->PlayerInventory);
+			}
 			if (SaveObj->bHasPlayerTransform)
 			{
 				Pawn->SetActorTransform(SaveObj->PlayerTransform, false, nullptr, ETeleportType::TeleportPhysics);
@@ -317,6 +359,7 @@ void UVTGSaveCoordinator::ApplyWorldState(UWorld* World, UVTGSaveGame* SaveObj)
 		}
 	}
 
+	const TSet<FName> Destroyed(SaveObj->DestroyedActors);
 	for (TActorIterator<AActor> It(World); It; ++It)
 	{
 		AActor* Actor = *It;
@@ -325,19 +368,21 @@ void UVTGSaveCoordinator::ApplyWorldState(UWorld* World, UVTGSaveGame* SaveObj)
 			continue;
 		}
 
-		FName SaveId = IVTGSaveable::Execute_GetSaveId(Actor);
-		if (SaveId == NAME_None)
+		// Gone when the save was made (e.g. a picked-up item): remove the fresh copy the map spawned.
+		if (Actor->HasAnyFlags(RF_WasLoaded) && Destroyed.Contains(ResolveSaveId(Actor)))
 		{
-			SaveId = Actor->GetFName();
+			Actor->Destroy();
+			continue;
 		}
 
-		if (const FVTGActorRecord* Rec = SaveObj->ActorRecords.Find(SaveId))
+		if (const FVTGActorRecord* Rec = SaveObj->ActorRecords.Find(ResolveSaveId(Actor)))
 		{
 			UVTGSaveStatics::DeserializeSaveGameProperties(Actor, Rec->Data);
 			if (Rec->bHasTransform)
 			{
 				Actor->SetActorTransform(Rec->Transform, false, nullptr, ETeleportType::TeleportPhysics);
 			}
+			IVTGSaveable::Execute_OnSaveRestored(Actor);
 		}
 	}
 }

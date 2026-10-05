@@ -27,7 +27,15 @@ public:
 	UFUNCTION(BlueprintCallable, Category = "Combat", meta = (WorldContext = "WorldContextObject", AutoCreateRefTerm = "ActorsToIgnore"))
 	static TArray<AActor*> FindMeleeTargets(const UObject* WorldContextObject, FVector Center, float Radius, const TArray<AActor*>& ActorsToIgnore);
 
-	/** True if the actor can currently be damaged and has something that reacts to damage. */
+	/** True if the actor is alive, can currently be damaged and has something that reacts to damage. */
 	UFUNCTION(BlueprintPure, Category = "Combat")
 	static bool CanReceiveDamage(const AActor* Actor);
+
+	/**
+	 * False once the actor has died, whichever system it comes from: a UVTGCombatComponent, the Boss
+	 * AI Toolkit (BPC_Boss_Behavior Health <= 0), or an AI Behavior System enemy (its "Dead?" flag).
+	 * Corpses stay in the world for a while; this keeps them out of soft-lock and combat mode.
+	 */
+	UFUNCTION(BlueprintPure, Category = "Combat")
+	static bool IsAlive(const AActor* Actor);
 };

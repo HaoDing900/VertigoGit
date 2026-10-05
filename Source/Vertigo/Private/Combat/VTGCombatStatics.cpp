@@ -1,6 +1,8 @@
 #include "Combat/VTGCombatStatics.h"
 
 #include "Combat/VTGDamageable.h"
+#include "Combat/VTGCombatComponent.h"
+#include "UI/VTGHealthSource.h"
 #include "Components/ActorComponent.h"
 #include "GameFramework/Actor.h"
 #include "Kismet/KismetSystemLibrary.h"
@@ -26,9 +28,39 @@ TArray<AActor*> UVTGCombatStatics::FindMeleeTargets(const UObject* WorldContextO
 	return Overlapping;
 }
 
+bool UVTGCombatStatics::IsAlive(const AActor* Actor)
+{
+	if (!IsValid(Actor))
+	{
+		return false;
+	}
+	if (const UVTGCombatComponent* Combat = Actor->FindComponentByClass<UVTGCombatComponent>())
+	{
+		return Combat->IsAlive();
+	}
+
+	// AI Behavior System enemies (BP_AI_Base) flag their death on the actor.
+	if (const FBoolProperty* Dead = FindFProperty<FBoolProperty>(Actor->GetClass(), TEXT("Dead?")))
+	{
+		if (Dead->GetPropertyValue_InContainer(Actor))
+		{
+			return false;
+		}
+	}
+
+	// Boss AI Toolkit bosses and summons keep health on their behavior component (its "IsAlive?"
+	// interface function is an empty stub, so it can't be asked).
+	FVTGHealthSource Health;
+	if (Health.Find(Actor, TEXT("Health"), TEXT("MaxHealth")))
+	{
+		return Health.GetHealth() > 0.f;
+	}
+	return true;
+}
+
 bool UVTGCombatStatics::CanReceiveDamage(const AActor* Actor)
 {
-	if (!IsValid(Actor) || !Actor->CanBeDamaged())
+	if (!IsValid(Actor) || !Actor->CanBeDamaged() || !IsAlive(Actor))
 	{
 		return false;
 	}

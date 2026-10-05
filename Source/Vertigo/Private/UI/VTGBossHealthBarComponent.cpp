@@ -42,35 +42,24 @@ void UVTGBossHealthBarComponent::EndPlay(const EEndPlayReason::Type EndPlayReaso
 
 bool UVTGBossHealthBarComponent::FindHealthSource()
 {
-	for (UActorComponent* Component : GetOwner()->GetComponents())
-	{
-		UClass* Class = Component->GetClass();
-		FNumericProperty* H = FindFProperty<FNumericProperty>(Class, HealthProperty);
-		FNumericProperty* M = FindFProperty<FNumericProperty>(Class, MaxHealthProperty);
-		FBoolProperty* C = FindFProperty<FBoolProperty>(Class, InCombatProperty);
-		if (H && M && C)
-		{
-			Source = Component;
-			HealthProp = H;
-			MaxHealthProp = M;
-			InCombatProp = C;
-			return true;
-		}
-	}
-	return false;
+	// The combat flag has to live on the same component as the health.
+	InCombatProp = Source.Find(GetOwner(), HealthProperty, MaxHealthProperty)
+		? FindFProperty<FBoolProperty>(Source.Get()->GetClass(), InCombatProperty)
+		: nullptr;
+	return InCombatProp != nullptr;
 }
 
 void UVTGBossHealthBarComponent::TickComponent(float DeltaTime, ELevelTick TickType, FActorComponentTickFunction* ThisTickFunction)
 {
 	Super::TickComponent(DeltaTime, TickType, ThisTickFunction);
-	if (!IsValid(Source))
+	if (!Source.IsValid())
 	{
 		return;
 	}
 
-	const float Health = HealthProp->GetFloatingPointPropertyValue(HealthProp->ContainerPtrToValuePtr<void>(Source));
-	const float MaxHealth = MaxHealthProp->GetFloatingPointPropertyValue(MaxHealthProp->ContainerPtrToValuePtr<void>(Source));
-	const bool bInCombat = InCombatProp->GetPropertyValue_InContainer(Source);
+	const float Health = Source.GetHealth();
+	const float MaxHealth = Source.GetMaxHealth();
+	const bool bInCombat = InCombatProp->GetPropertyValue_InContainer(Source.Get());
 	const bool bDead = Health <= 0.f;
 
 	if (!Bar)

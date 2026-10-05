@@ -2,6 +2,7 @@
 
 #include "CoreMinimal.h"
 #include "GameFramework/SaveGame.h"
+#include "Components/InventoryComponent.h"
 #include "VTGSaveTypes.generated.h"
 
 /**
@@ -9,7 +10,7 @@
  * The coordinator stamps it into every save and you can branch on it in a migration step later.
  * Saving this from day one is the difference between "migrate old saves" and "every playtest is bricked".
  */
-#define VTG_SAVE_VERSION 1
+#define VTG_SAVE_VERSION 2 // 2: player inventory, player as an IVTGSaveable record, destroyed actors
 
 /**
  * Lightweight, human-facing description of a save slot. This is all the load menu needs to draw a
@@ -71,9 +72,9 @@ struct VERTIGO_API FVTGActorRecord
 };
 
 /**
- * The full save payload for one slot - everything Vertigo's own code owns. Narrative and ISX keep
- * their OWN files (the coordinator writes them to matching slots); this object is the glue state:
- * player status + level-placed actor state + the slot meta.
+ * The full save payload for one slot - everything Vertigo's own code owns. Narrative keeps its OWN
+ * file (the coordinator writes it to a matching slot); this object is the glue state:
+ * player status + inventory + level-placed actor state + the slot meta.
  */
 UCLASS()
 class VERTIGO_API UVTGSaveGame : public USaveGame
@@ -89,6 +90,13 @@ public:
 	UPROPERTY()
 	TArray<uint8> PlayerData;
 
+	/** The player's Inventory System X inventory (items, ammo, shortcuts, equipped item). */
+	UPROPERTY()
+	bool bHasPlayerInventory = false;
+
+	UPROPERTY()
+	FInventorySaveData PlayerInventory;
+
 	UPROPERTY()
 	bool bHasPlayerTransform = false;
 
@@ -98,6 +106,10 @@ public:
 	/** Level-placed stateful actors (BPLM children, doors, taken pickups...), keyed by Save Id. */
 	UPROPERTY()
 	TMap<FName, FVTGActorRecord> ActorRecords;
+
+	/** Level-placed saveable actors that had been destroyed (taken pickups...); removed again on load. */
+	UPROPERTY()
+	TArray<FName> DestroyedActors;
 
 	/** Checkpoint flags restored BEFORE the map opens, so BeginPlay can branch on them (ints/enums/bools). */
 	UPROPERTY()

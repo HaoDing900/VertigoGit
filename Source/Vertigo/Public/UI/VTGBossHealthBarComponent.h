@@ -2,6 +2,7 @@
 
 #include "CoreMinimal.h"
 #include "Components/ActorComponent.h"
+#include "UI/VTGHealthSource.h"
 #include "VTGBossHealthBarComponent.generated.h"
 
 class UVTGBossHealthBar;
@@ -55,11 +56,7 @@ protected:
 private:
 	bool FindHealthSource();
 
-	UPROPERTY(Transient)
-	TObjectPtr<UActorComponent> Source;
-
-	FNumericProperty* HealthProp = nullptr;
-	FNumericProperty* MaxHealthProp = nullptr;
+	FVTGHealthSource Source;
 	FBoolProperty* InCombatProp = nullptr;
 
 	UPROPERTY(Transient)

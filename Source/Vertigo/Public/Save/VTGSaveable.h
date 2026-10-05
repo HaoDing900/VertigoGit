@@ -18,7 +18,9 @@ class UVTGSaveable : public UInterface
  * The zero-code path is:
  *   1. Add this interface to the actor (Class Settings -> Implemented Interfaces).
  *   2. Tick "SaveGame" on the variables you want persisted.
- * That's it - no nodes needed. The two functions below are OPTIONAL overrides:
+ * That's it - no nodes needed. A level-placed saveable actor that gets destroyed (a pickup that was
+ * taken) is also remembered, and destroyed again on load.
+ * The functions below are OPTIONAL overrides:
  *   - GetSaveId : override only if the actor's name isn't a stable key (e.g. it's spawned at runtime).
  *                 Leave it and the coordinator uses the actor's name automatically.
  *   - ShouldSaveTransform : override and return true if the actor also moves and you want its
@@ -37,4 +39,12 @@ public:
 	/** Return true to also save/restore this actor's world transform. Default: false. */
 	UFUNCTION(BlueprintNativeEvent, Category = "Save")
 	bool ShouldSaveTransform() const;
+
+	/**
+	 * Called right after a load put this actor's SaveGame variables back. Restoring a variable does
+	 * not re-run whatever normally reacts to it, so re-apply the visible result here: show the
+	 * equipped weapon, open the door that is flagged open, hide the pickup that was taken...
+	 */
+	UFUNCTION(BlueprintNativeEvent, Category = "Save")
+	void OnSaveRestored();
 };
