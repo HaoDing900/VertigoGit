@@ -63,6 +63,43 @@ public:
 	UFUNCTION(BlueprintPure, Category = "Save")
 	bool HasAutoSave() const { return DoesSlotExist(AutoSaveSlot); }
 
+	// ---- Checkpoints ----------------------------------------------------------------------------
+	// A checkpoint is the autosave slot plus three persistent flags (id, level, order), so it rides on
+	// everything above: loading reopens the map, restores Stage/flags before BeginPlay, then player,
+	// actors, quests and inventory one tick later. AVTGCheckpoint calls SaveCheckpoint for you.
+
+	/**
+	 * Autosave as checkpoint CheckpointId; on retry the player respawns at RespawnTransform (not where
+	 * they happened to be standing). Ignored if this level already has a checkpoint with a higher Order,
+	 * so walking back over an earlier checkpoint never moves the respawn backwards.
+	 */
+	UFUNCTION(BlueprintCallable, Category = "Save|Checkpoint")
+	bool SaveCheckpoint(FName CheckpointId, const FTransform& RespawnTransform, int32 Order = 0);
+
+	/**
+	 * Death screen "Retry": fade to black, reload this level's last checkpoint without the loading
+	 * video, fade back in once everything is restored. No checkpoint in this level yet = restart the
+	 * level from its beginning (same stage).
+	 */
+	UFUNCTION(BlueprintCallable, Category = "Save|Checkpoint")
+	bool RetryFromCheckpoint();
+
+	/**
+	 * The checkpoint this level was just loaded from, or None for a normal level start. Valid from
+	 * BeginPlay on (Stage and flags are restored before the map opens), for the whole stay in the
+	 * level. Branch on it in BPLM's OnStageBegin to skip intros the player has already seen.
+	 */
+	UFUNCTION(BlueprintPure, Category = "Save|Checkpoint")
+	FName GetResumeCheckpoint() const { return ResumedCheckpoint; }
+
+	/** Order of the checkpoint returned by GetResumeCheckpoint (meaningless when that is None). */
+	UFUNCTION(BlueprintPure, Category = "Save|Checkpoint")
+	int32 GetResumeCheckpointOrder() const { return GetPersistentInt(CheckpointOrderKey, 0); }
+
+	/** New game: delete the checkpoint save and forget the checkpoint flags. */
+	UFUNCTION(BlueprintCallable, Category = "Save|Checkpoint")
+	void ClearCheckpoint();
+
 	UFUNCTION(BlueprintCallable, Category = "Save")
 	bool DeleteSlot(int32 Slot);
 
@@ -148,6 +185,27 @@ private:
 
 	/** Bound to PostLoadMapWithWorld: applies PendingLoad once the loaded map's actors exist. */
 	void HandlePostLoadMap(UWorld* LoadedWorld);
+
+	/** Bound to PreLoadMap: a map opened by anything other than a load is not a checkpoint resume. */
+	void HandlePreLoadMap(const FString& MapName);
+
+	/** Second half of RetryFromCheckpoint, after the fade-out. */
+	void DoRetry();
+
+	FDelegateHandle PreLoadMapHandle;
+
+	/** Used once by GatherWorldState instead of the pawn's transform (checkpoint respawn point). */
+	TOptional<FTransform> RespawnOverride;
+
+	/** Set while the current level came from a load; see GetResumeCheckpoint. */
+	FName ResumedCheckpoint = NAME_None;
+
+	/** Retry in flight: hide the map change behind black and restore the loading page afterwards. */
+	bool bRetrying = false;
+
+	static const FName CheckpointIdKey;
+	static const FName CheckpointLevelKey;
+	static const FName CheckpointOrderKey;
 
 	/** Save object waiting to be applied after the level finishes opening (the Load path). */
 	UPROPERTY()

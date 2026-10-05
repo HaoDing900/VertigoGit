@@ -34,6 +34,20 @@
 `L_SewerUnderApartment` 隧道下方的深坑其实被一堵整面墙（`SM_Cube80`，X≈-3750）分成两间。玩家从东侧的竖井（≈ -2450, 2600）掉下来，所以 Boss 放在**东侧房间**靠西墙的位置，面朝竖井，相距约 10m。
 新增 `NavMeshBounds_SeaMonsterLair`，只覆盖东侧房间（原有 NavMesh 只到 Z -438，召唤蛋需要导航网格）。
 
+关卡里原来的两个人类敌人（`BP_Enm_BarFighter`，走道上和下层隧道里各一个）已换成 `BP_SeaMonster_Egg`，位置和朝向不变，贴地放置；换之前确认过关卡蓝图、其他 Actor 和 Sequence 都没有引用它们。注意：Boss 死亡时会清掉场上**所有**海怪蛋，包括这两个。
+
+## 检查点
+
+关卡里放了两个 `VTG Checkpoint`（检查点系统见 `Docs/SaveSystem.md` §4）：
+
+| Id | Order | 位置 | 复活点 |
+|---|---|---|---|
+| `SewerStart` | 0 | PlayerStart 上，开局即存 | PlayerStart |
+| `SewerLairDrop` | 10 | 下层管道里，蛋之后、竖井之前（X≈-2450） | X≈-2350，面朝竖井（竖井在 X -2100~-1800） |
+
+Boss 战死亡 → Retry → 回到竖井口，Boss 和蛋全部重置。复活点故意离身后的蛋 >7m：太近的话主角的软锁定会把她转过去面朝蛋。
+这关没有 BPLM / 开场演出，所以不需要按 `Get Resume Checkpoint` 跳过什么。
+
 ## 主角攻击打不到 Boss 的原因与修改
 
 `BP_Player_Sa` 的拳头（`DealPunchDmg`）原来：

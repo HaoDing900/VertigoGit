@@ -1,5 +1,6 @@
 #include "VTGLevelManagerBase.h"
 #include "VTGGameInstanceBase.h"
+#include "Save/VTGSaveCoordinator.h"
 #include "Engine/World.h"
 
 AVTGLevelManagerBase::AVTGLevelManagerBase()
@@ -25,6 +26,13 @@ FName AVTGLevelManagerBase::GetActiveStage() const
 	}
 
 	return NAME_None;
+}
+
+FName AVTGLevelManagerBase::GetResumeCheckpoint() const
+{
+	const UGameInstance* GI = GetGameInstance();
+	const UVTGSaveCoordinator* Save = GI ? GI->GetSubsystem<UVTGSaveCoordinator>() : nullptr;
+	return Save ? Save->GetResumeCheckpoint() : NAME_None;
 }
 
 void AVTGLevelManagerBase::BeginPlay()

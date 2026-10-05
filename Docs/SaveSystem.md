@@ -34,6 +34,11 @@ All of these have a **Target** pin = the Coordinator from step 0.
 | **Set Persistent Name** | `Key` (Name), `Value` (Name) | — |
 | **Get Persistent Name** | `Key` (Name) | `Name` |
 | **Clear Persistent Flags** | — | — |
+| **Save Checkpoint** | `Checkpoint Id` (Name), `Respawn Transform`, `Order` (int) | `bool` (false = older than the current one) |
+| **Retry From Checkpoint** | — | `bool` |
+| **Get Resume Checkpoint** | — | `Name` (None = normal level start) |
+| **Get Resume Checkpoint Order** | — | `int` |
+| **Clear Checkpoint** | — | — |
 
 **Bindable events** (red, for ISX inventory — see §6):
 `On Save Subsystems (Slot)`, `On Load Subsystems (Slot)`, `On Slot Saved (Slot)`, `On Slot Loaded (Slot)`.
@@ -73,38 +78,57 @@ All of these have a **Target** pin = the Coordinator from step 0.
 
 ---
 
-## 4. Checkpoint + death restart
+## 4. Checkpoints + death "Retry"
 
-**A. Set the checkpoint** (e.g. just before a fight):
-`...Coordinator` → **Auto Save**.
+A checkpoint is the autosave slot (0) plus three persistent flags (checkpoint id, level, order),
+so it rides on everything in this doc. Two ways to set one:
 
-**B. Show death screen** (player-defeated event in the Player BP):
-1. **Create Widget** → `Class` = **WBP_Death** → output `Return Value`.
-2. → **Add to Viewport** (`Target` = that Return Value).
-3. **Set** `Is Dead?` = true.
+**A. Place a checkpoint (usual way).** Drag **VTG Checkpoint** (`AVTGCheckpoint`) into the level.
+- The green **box** is the trigger: when the player walks in, the game autosaves.
+- The green **arrow** (`RespawnPoint`) is where - and facing which way - the player respawns.
+  Move/rotate it in the viewport. Retry puts the player on the arrow, NOT where they were standing
+  when they crossed the box (they could have been mid-fall).
+- **Checkpoint Id**: unique in the level (empty = actor name). BPLM reads it back (section 5).
+- **Order**: higher = further along. Walking back into an earlier checkpoint does nothing.
+- **Required Stage**: empty = every stage.
+- A checkpoint placed on the PlayerStart saves as the level begins.
+- Override **Can Activate** to block saving at bad moments; **On Checkpoint Reached** for a toast/sound.
 
-**C. "Press R to restart" — INSIDE WBP_Death (not the Player BP):**
+**B. From a BPLM at a story beat** (end of a cutscene, start of a fight):
+`...Coordinator` → **Save Checkpoint** (`Checkpoint Id`, `Respawn Transform`, `Order`).
+(Plain **Auto Save** still works too - Retry treats any autosave of the current level as its checkpoint.)
 
-The R-key event node does NOT fire in widgets. You must use an override.
+**Death screen:** `WBP_Death` derives from C++ `UVTGDeathScreen`. Buttons are bound by name:
+`RetryButton` → **Retry From Checkpoint**, `MainMenuButton` → opens `Main Menu Level`
+(Class Defaults, set to `M_MainMenu`). The **R** key also retries. Restyle freely, keep the names.
 
-1. My Blueprint panel → **Functions** → **Override** dropdown → **On Key Down**.
-   This gives a function with `My Geometry` and `In Key Event` inputs and a **Return Node**.
-2. Inside it:
-   - `In Key Event` → drag → **Get Key** → output `Key`.
-   - `Key` → drag → **Equal (Key)** node (the `==`), set its other pin to **R**.
-   - → **Branch**.
-   - **True** → `Get Game Instance Subsystem (VTG Save Coordinator)` → **Load Auto Save**.
-3. On the **Return Node**, set **Return Value** = drag a **Handled** node into it
-   (so the key is marked consumed).
+**Retry From Checkpoint** (callable from anywhere):
+fades to black → reloads this level's checkpoint (no tunnel loading video) → fades back in after
+player/actors/quests/inventory are restored. If this level has no checkpoint yet, it restarts the
+level from the top in the same stage.
 
-4. Give the widget focus so On Key Down receives keys. On the widget's **Event Construct**:
-   - **Get Player Controller** → **Set Input Mode UI Only** (`Player Controller` pin),
-     and set **In Widget to Focus = Self**.
-   - (Optional belt-and-braces: **Set Keyboard Focus**, `Target` = **Self**.)
+What a retry gives back: player at the respawn arrow, health full (BP `Health` resets with the
+level), inventory and quests as they were at the checkpoint, every enemy alive again (the fight is
+retried as a whole).
+
+**New game:** call **Clear Checkpoint** (deletes slot 0 and the checkpoint flags), otherwise
+"Continue" / Retry would find the previous run's checkpoint.
 
 ---
 
 ## 5. Resume mid-scene on reload WITHOUT changing Stage
+
+**Checkpoint levels: branch on the checkpoint id.** A retry reopens the whole map, so the BPLM's
+intro sequences / dialogues would play again. In BPLM's **On Stage Begin**, call
+**Get Resume Checkpoint** (on the BPLM itself - it's on `VTG Level Manager Base` - or on the
+Coordinator) and **Switch on Name**:
+- `None` → normal level start, play the intro.
+- a checkpoint id → skip what the player has already seen and set the level up for that point
+  (e.g. `SewerLairDrop` → skip straight to the lair). It's valid from BeginPlay on, for the whole
+  stay in the level.
+
+The older per-flag pattern below still works (BPLM_L2StreetBarFight uses it); use it when you need
+state that isn't tied to one checkpoint.
 
 Use a Persistent flag, because changing Stage destroys stage-gated actors, and because a flag is
 restored **before** the map opens (so BeginPlay can read it). Actor/Progress/Narrative/ISX state is

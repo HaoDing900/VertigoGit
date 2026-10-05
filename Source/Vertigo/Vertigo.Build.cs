@@ -10,6 +10,6 @@ public class Vertigo : ModuleRules
 
 		// "Narrative" lets the SaveCoordinator drive the Narrative plugin's own Save/Load in C++.
 		// "MoviePlayer" (+ Slate/UMG) drives the tunnel loading-screen transitions.
-		PrivateDependencyModuleNames.AddRange(new string[] { "Narrative", "MoviePlayer", "Slate", "SlateCore", "UMG", "DeveloperSettings" });
+		PrivateDependencyModuleNames.AddRange(new string[] { "Narrative", "MoviePlayer", "Slate", "SlateCore", "UMG", "DeveloperSettings", "InputCore" });
 	}
 }

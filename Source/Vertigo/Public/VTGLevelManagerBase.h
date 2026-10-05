@@ -39,6 +39,14 @@ public:
 	UFUNCTION(BlueprintPure, Category = "Stage")
 	FName GetActiveStage() const;
 
+	/**
+	 * The checkpoint this level was restored from (death-screen Retry, Continue), or None for a normal
+	 * start. Valid already in OnStageBegin: branch on it to skip intros / sequences the player has
+	 * already seen and set the level up for that point instead.
+	 */
+	UFUNCTION(BlueprintPure, Category = "Stage")
+	FName GetResumeCheckpoint() const;
+
 	/** Implement in your BPLM child to run the Chain-A / Chain-B logic for the resolved stage. */
 	UFUNCTION(BlueprintImplementableEvent, Category = "Stage")
 	void OnStageBegin(FName Stage);
