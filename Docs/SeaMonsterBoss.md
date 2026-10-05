@@ -96,6 +96,27 @@ Toolkit 自带的 `WB_BossHealth` 只在它的 Demo 玩家里创建，`BP_Player
 - 开局自动放到模型包围盒上方 `Height Above Owner`（25）处；想手动摆位置就关掉 `Place Above Owner`。
 - 其他 Toolkit 小怪要血条，加这个组件、填 Widget Class 即可。
 
+## 音效与战斗音乐
+
+素材全部来自项目里已有的音效包（ProSoundCollectionBonusSounds / Foley），没有改动它们：每个声音在 `Audio/` 下做了一个自己的 SoundCue（音高范围、随机、3D 衰减），原始 wav 不动。
+
+| Cue | 内容 | 用在 |
+|---|---|---|
+| `SC_EggMother_Roar` | 男声低吼 ×2 随机，音高 0.5–0.58，**同时最多 1 个**（降调后约 6 秒长，连续放招不会叠） | 顶人蓄力 0.35s、召唤 0.1s、毒气 0.1s |
+| `SC_EggMother_Swing` / `SC_EggMother_Slam` | 挥动呼啸（降调）/ 低频冲击 | 顶人 0.85s / 0.9s（伤害窗口开始） |
+| `SC_EggMother_Gas` | 中段漏气，音高 0.7–0.8（约 3 秒，和毒气喷发的时长一致） | 毒气 0.6s |
+| `SC_EggMother_EggDrop` | 湿击，降调 | 召唤 0.7s（蛋出现） |
+| `SC_EggMother_Hurt` | 低吼，音量 0.55，**同时最多 1 个**（连击不会叠成一片） | 受击 |
+| `SC_EggMother_Death` | 低吼 + 低频冲击混合，音高 0.44 | 死亡 |
+| `SC_SeaEgg_Hurt` / `SC_SeaEgg_Gas` / `SC_SeaEgg_Death` | 湿击升调 / 短漏气 / 骨裂 + 湿击 | 蛋受击 / 喷毒 0.8s / 死亡 |
+
+- 招式、受击音效 = 对应 Montage 上的 **Play Sound** 通知（`Montages/AM_*`），想换声音或挪时间直接在 Montage 里改。主角打中时已经有自己的击打声，所以受击只加怪物的声音，不再叠击打声。
+- Boss 用 `SA_Large`（整个巢穴都听得到），蛋用 `SA_General`（远处的蛋听不到）。
+- **死亡音效和战斗音乐**：C++ 组件 `UVTGEnemyAudioComponent`（`Source/Vertigo/.../Audio/`），Boss 和蛋上的 `EnemyAudio` 组件。和血条一样从 `BPC_Boss_Behavior` 读 `Health` / `InCombat`，蓝图里不用加节点：
+  - `Combat Music`（只填在 Boss 上）：`07Cyberpunk_Attack__Cue`。进战淡入（2 秒），循环；打死后再响 1.5 秒淡出（3 秒）；没打死就脱战（Toolkit 重置 Boss / Retry）直接淡出。音量 `Music Volume` 0.6。
+  - `Death Sound`：血量归零时在怪物位置播一次。
+  - 换音乐：在 Boss 的 `EnemyAudio` 里换 `Combat Music`。项目里其他合适的：`04Cyberpunk_AttackTheme`、HorrorAndTension 的 `Horror` / `Underground`。
+
 ## 中毒特效
 
 中毒的身上特效是 Toolkit 的状态效果对象 `BP_Effect_Poison` 的 `ParticleEffect`，由 `BPC_StatusEffects.OnSpawnParticle` 挂到角色根组件上。
