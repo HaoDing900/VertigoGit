@@ -7,7 +7,7 @@
 
 namespace
 {
-bool Flag(const UObject *O, FName Name)
+bool CameraLookFlag(const UObject *O, FName Name)
 {
     auto *P = FindFProperty<FBoolProperty>(O->GetClass(), Name);
     return P && P->GetPropertyValue_InContainer(O);
@@ -37,9 +37,10 @@ void UVTGCameraLookAnimInstance::NativeUpdateAnimation(float Dt)
     FRotator Desired = FRotator::ZeroRotator;
     const bool Allowed = bCameraLookEnabled && Pawn && Mesh && PC && PC->IsLocalController() &&
                          PC->PlayerCameraManager && PC->GetViewTarget() == Pawn && !Pawn->IsHidden() &&
-                         !Flag(Pawn, TEXT("IsAttacking")) && !Flag(Pawn, TEXT("IsDodging?")) &&
-                         !Flag(Pawn, TEXT("IsDead?")) && !Flag(Pawn, TEXT("HidePlayerNCam")) &&
-                         !Flag(Pawn, TEXT("bIsLooking"));
+                         !CameraLookFlag(Pawn, TEXT("IsAttacking")) && !CameraLookFlag(Pawn, TEXT("IsDodging?")) &&
+                         !CameraLookFlag(Pawn, TEXT("IsDead?")) && !CameraLookFlag(Pawn, TEXT("HidePlayerNCam")) &&
+                         !CameraLookFlag(Pawn, TEXT("bIsLooking")) &&
+                         !CameraLookFlag(Pawn, TEXT("FixedCameraLevel?"));
     if (Allowed)
         Desired = ClampCameraLook(Pawn->GetActorQuat(), PC->PlayerCameraManager->GetCameraRotation(), MaxLookYaw,
                                   MaxLookPitch);

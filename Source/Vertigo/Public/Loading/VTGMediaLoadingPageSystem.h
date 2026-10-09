@@ -1,5 +1,6 @@
 #pragma once
 
+#include "Containers/Ticker.h"
 #include "CoreMinimal.h"
 #include "Subsystems/GameInstanceSubsystem.h"
 #include "VTGMediaLoadingPageSystem.generated.h"
@@ -20,39 +21,98 @@
  *   - Automatic: any OpenLevel / travel also triggers it, because we hook PreLoadMap. So even plain
  *     UGameplayStatics::OpenLevel elsewhere gets the page (unless disabled).
  *
- * NOTE: loading pages do NOT show in PIE - test in Standalone ("New Editor Window (Standalone)") or a
- * packaged build.
+ * PIE uses a viewport overlay and deferred travel; standalone uses MoviePlayer. Test a
+ * packaged build separately when changing movies or cook configuration.
  */
+class UUserWidget;
+
 UCLASS()
 class VERTIGO_API UVTGMediaLoadingPageSystem : public UGameInstanceSubsystem
 {
-	GENERATED_BODY()
+    GENERATED_BODY()
 
-public:
-	virtual void Initialize(FSubsystemCollectionBase& Collection) override;
-	virtual void Deinitialize() override;
+  public:
+    virtual void Initialize(FSubsystemCollectionBase &Collection) override;
+    virtual void Deinitialize() override;
 
-	/** Arm the media loading page, then travel to LevelName. Use this in place of OpenLevel. */
-	UFUNCTION(BlueprintCallable, Category = "Media Loading Page")
-	void OpenLevelWithLoadingPage(FName LevelName, bool bAbsolute = true, const FString& Options = TEXT(""));
+    /** Arm the media loading page, then travel to LevelName. Use this in place of OpenLevel. */
+    UFUNCTION(BlueprintCallable, Category = "Media Loading Page")
+    void OpenLevelWithLoadingPage(FName LevelName, bool bAbsolute = true, const FString &Options = TEXT(""));
 
-	/** Manually arm the page for the next map load (if you kick off the travel yourself elsewhere). */
-	UFUNCTION(BlueprintCallable, Category = "Media Loading Page")
-	void ArmLoadingPage();
+    /** Menu travel entry: includes a pre-travel fade in PIE as well as standalone. */
+    UFUNCTION(BlueprintCallable, Category = "Media Loading Page",
+              meta = (WorldContext = "WorldContextObject", AdvancedDisplay = "2",
+                      DisplayName = "Open Level With Loading Screen (Object Reference)"))
+    static void OpenLevelWithLoadingScreen(const UObject *WorldContextObject, TSoftObjectPtr<UWorld> Level,
+                                           bool bAbsolute = true, FString Options = TEXT(""));
 
-	/** Runtime on/off without touching Project Settings (e.g. skip the page for a quick reload). */
-	UFUNCTION(BlueprintCallable, Category = "Media Loading Page")
-	void SetLoadingPageEnabled(bool bInEnabled) { bRuntimeEnabled = bInEnabled; }
+    UFUNCTION(BlueprintPure, Category = "Media Loading Page")
+    bool IsLoadingPageVisible() const
+    {
+        return LoadingFade.IsValid();
+    }
 
-private:
-	/** Hooked to FCoreUObjectDelegates::PreLoadMap so every travel arms the page automatically. */
-	void HandlePreLoadMap(const FString& MapName);
+    /** Manually arm the page for the next map load (if you kick off the travel yourself elsewhere). */
+    UFUNCTION(BlueprintCallable, Category = "Media Loading Page")
+    void ArmLoadingPage();
 
-	/** Build FLoadingScreenAttributes from settings and hand them to the engine MoviePlayer. */
-	void SetupLoadingPage();
+    /** Runtime on/off without touching Project Settings (e.g. skip the page for a quick reload). */
+    UFUNCTION(BlueprintCallable, Category = "Media Loading Page")
+    void SetLoadingPageEnabled(bool bInEnabled)
+    {
+        bRuntimeEnabled = bInEnabled;
+    }
 
-	FDelegateHandle PreLoadMapHandle;
+    /** Preview the configured UMG screen in PIE; automatically hides after Duration seconds. */
+    UFUNCTION(BlueprintCallable, Category = "Media Loading Page", meta = (ClampMin = "0.1"))
+    void PreviewLoadingPage(float Duration = 5.0f, FName LevelName = NAME_None);
 
-	/** Gate separate from the settings' bEnabled, for temporary runtime suppression. */
-	bool bRuntimeEnabled = true;
+    UFUNCTION(BlueprintCallable, Category = "Media Loading Page")
+    void HideLoadingPagePreview();
+
+  private:
+    // Keep the UMG owner alive across world teardown and loading-time garbage collection.
+    UPROPERTY(Transient)
+    TObjectPtr<UUserWidget> ActiveLoadingWidget;
+    UPROPERTY(Transient)
+    TObjectPtr<UUserWidget> PreviewWidget;
+    FTimerHandle PreviewTimer;
+    TSharedPtr<class SVTGLoadingFade> LoadingFade;
+    TSharedPtr<class SVTGLoadingFade> PreviewFade;
+    TWeakObjectPtr<class UGameViewportClient> FadeViewport;
+    TWeakObjectPtr<class UGameViewportClient> PreviewViewport;
+    FTSTicker::FDelegateHandle FadeTicker;
+    FTSTicker::FDelegateHandle PreviewFadeTicker;
+    void ClearLoadingTransition();
+    void ClearPreview();
+    bool TickFadeOut(float DeltaTime);
+    bool TickPreviewFadeOut(float DeltaTime);
+
+    /** Hooked to FCoreUObjectDelegates::PreLoadMap so every travel arms the page automatically. */
+    void HandlePreLoadMap(const FString &MapName);
+
+    /** Build FLoadingScreenAttributes from settings and hand them to the engine MoviePlayer. */
+    void SetupLoadingPage();
+    void ApplyLevelContent(UUserWidget *Widget, const FString &LevelName);
+    FString DestinationLevel;
+
+    void HandlePostLoadMap(UWorld *World);
+    bool StartPIELoadingPage();
+    bool TickPIELoading(float DeltaTime);
+    void CancelPIELoading();
+    FTSTicker::FDelegateHandle PIETravelTicker;
+    FDelegateHandle PostLoadMapHandle;
+    FDelegateHandle TravelFailureHandle;
+    bool bPIELoading = false;
+    bool bPIEMapReady = false;
+    FName PendingLevel;
+    FString PendingOptions;
+    bool bPendingAbsolute = true;
+    double PIELoadingStart = 0.0;
+    FDelegateHandle PreLoadMapHandle;
+    FDelegateHandle PlaybackFinishedHandle;
+    void HandlePlaybackFinished();
+
+    /** Gate separate from the settings' bEnabled, for temporary runtime suppression. */
+    bool bRuntimeEnabled = true;
 };

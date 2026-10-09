@@ -1,6 +1,7 @@
 // Copyright Narrative Tools 2022. 
 
 #include "Dialogue.h"
+#include "DialogueHistoryEvents.h"
 #include "NarrativeDialogueSettings.h"
 #include "Internationalization/Internationalization.h"
 #include "Internationalization/Culture.h"
@@ -381,6 +382,7 @@ bool UDialogue::SkipCurrentLine()
 
 bool UDialogue::CanSkipCurrentLine() const
 {
+    if (bWaitingForPlayerResponse || (GetWorld() && GetWorld()->IsPaused())) return false;
 	if (OwningComp)
 	{
 		if (CurrentNode && CurrentNode->bIsSkippable)
@@ -392,8 +394,29 @@ bool UDialogue::CanSkipCurrentLine() const
 	return false;
 }
 
+void UDialogue::SetDialogueAudioPaused(bool bPaused)
+{
+    // SpawnSound2D produces UI audio, which otherwise continues during world pause.
+    if (DialogueAudio) DialogueAudio->SetPaused(bPaused);
+}
+
+void UDialogue::SetAutoAdvance(bool bEnabled)
+{
+    bAutoAdvance = bEnabled;
+    if (bEnabled && bWaitingForManualAdvance && GetWorld())
+    {
+        // Defer to avoid advancing from inside a presentation delegate or a UI callback.
+        GetWorld()->GetTimerManager().SetTimerForNextTick(FTimerDelegate::CreateWeakLambda(this, [this]()
+        {
+            if (bAutoAdvance && bWaitingForManualAdvance && OwningComp)
+                FinishNPCDialogue();
+        }));
+    }
+}
+
 void UDialogue::EndCurrentLine()
 {
+    bExplicitLineAdvance = true;
 	if (CurrentNode)
 	{
 		//Unbind all listeners for line ending, they need to be reset up when the next line plays 
@@ -1029,6 +1052,7 @@ void UDialogue::NPCFinishedTalking()
 		}
 
 		//NPC has finished talking. Let UI know it can show the player replies. Party comps don't need to broadcast this, clients put their own ones up
+		bWaitingForPlayerResponse = true;
 		OwningComp->OnDialogueRepliesAvailable.Broadcast(this, AvailableResponses);
 
 		//Also make sure we stop playing any dialogue audio that was previously playing
@@ -1054,6 +1078,9 @@ void UDialogue::PlayNPCDialogueNode(class UDialogueNode_NPC* NPCReply)
 
 	if (NPCReply)
 	{
+		bWaitingForManualAdvance = false;
+		bExplicitLineAdvance = false;
+		bWaitingForPlayerResponse = false;
 		CurrentNode = NPCReply;
 		CurrentLine = NPCReply->GetRandomLine(OwningComp->GetNetMode() == NM_Standalone);
 		ReplaceStringVariables(NPCReply, CurrentLine, CurrentLine.Text);
@@ -1081,7 +1108,8 @@ void UDialogue::PlayNPCDialogueNode(class UDialogueNode_NPC* NPCReply)
 		if (OwningComp)
 		{
 			//Call delegates and BPNativeEvents
-			OwningComp->OnNPCDialogueLineStarted.Broadcast(this, NPCReply, CurrentLine, CurrentSpeaker);
+			OnNarrativeLinePresented().Broadcast(OwningComp, CurrentSpeaker.SpeakerName, CurrentLine.Text);
+		OwningComp->OnNPCDialogueLineStarted.Broadcast(this, NPCReply, CurrentLine, CurrentSpeaker);
 		}
 
 		OnNPCDialogueLineStarted(NPCReply, CurrentLine, CurrentSpeaker);
@@ -1137,6 +1165,7 @@ void UDialogue::PlayPlayerDialogueNode(class UDialogueNode_Player* PlayerReply)
 		//Player started talking, clear responses 
 		AvailableResponses.Empty();
 
+		bWaitingForPlayerResponse = false;
 		CurrentNode = PlayerReply;
 		
 		ProcessNodeEvents(PlayerReply, true);
@@ -1158,6 +1187,7 @@ void UDialogue::PlayPlayerDialogueNode(class UDialogueNode_Player* PlayerReply)
 		ReplaceStringVariables(PlayerReply, CurrentLine, CurrentLine.Text);
 
 		//Call delegates and BPNativeEvents
+		OnNarrativeLinePresented().Broadcast(OwningComp, PlayerSpeakerInfo.SpeakerName, CurrentLine.Text);
 		OwningComp->OnPlayerDialogueLineStarted.Broadcast(this, PlayerReply, CurrentLine);
 
 		OnPlayerDialogueLineStarted(PlayerReply, CurrentLine);
@@ -1334,6 +1364,14 @@ void UDialogue::PlayNextNPCReply()
 
 void UDialogue::FinishNPCDialogue()
 {
+    const bool bManualRequest = bExplicitLineAdvance;
+    bExplicitLineAdvance = false;
+    if (!bAutoAdvance && !bManualRequest && CurrentNode && CurrentNode->bIsSkippable && !CurrentNode->IsRoutingNode())
+    {
+        bWaitingForManualAdvance = true;
+        return;
+    }
+    bWaitingForManualAdvance = false;
 	//Hard guarantee: a non-skippable "After X Seconds" line never advances before its full duration elapsed.
 	//Anything that tries to finish it early is bounced and rescheduled for the remaining time (0.05s slack
 	//lets the legitimate duration timer through despite float/timer jitter).

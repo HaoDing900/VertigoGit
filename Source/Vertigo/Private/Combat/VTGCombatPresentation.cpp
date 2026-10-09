@@ -153,7 +153,7 @@ void UVTGPlayerPresentationComponent::TickComponent(float Dt, ELevelTick T, FAct
         Hearts->Full = HeartFull;
         Hearts->Empty = HeartEmpty;
         Hearts->Hurt = HeartHurt;
-        Hearts->SetVisibility(ESlateVisibility::HitTestInvisible);
+        Hearts->SetVisibility(ESlateVisibility::Collapsed);
         Hearts->AddToViewport(5);
     }
     for (UActorComponent* C : Pawn->GetComponents())
@@ -166,7 +166,8 @@ void UVTGPlayerPresentationComponent::TickComponent(float Dt, ELevelTick T, FAct
     Hearts->MaxHealth = VTGPresentation::Number(Pawn, TEXT("MaxHealth_Normal"), 100);
     Hearts->HitFlash = H < LastHealth ? .35f : FMath::Max(0.f, Hearts->HitFlash - Dt);
     LastHealth = H;
-    const bool Hidden = VTGPresentation::Flag(Pawn, TEXT("HidePlayerNCam"));
+    const bool Hidden = !VTGPresentation::Flag(Pawn, TEXT("InCombat")) ||
+                        VTGPresentation::Flag(Pawn, TEXT("HidePlayerNCam"));
     Hearts->SetVisibility(Hidden ? ESlateVisibility::Collapsed : ESlateVisibility::HitTestInvisible);
 }
 void UVTGPlayerPresentationComponent::ConsumeBufferedAttack()

@@ -292,7 +292,22 @@ public:
 	UFUNCTION(BlueprintPure, Category = "Dialogue")
 	virtual bool CanSkipCurrentLine() const;
 
-public: 
+public:
+    /** Player preference; authored unskippable and routing nodes keep their timing. */
+    UFUNCTION(BlueprintCallable, Category="Dialogue") void SetAutoAdvance(bool bEnabled);
+    void SetDialogueAudioPaused(bool bPaused);
+    UFUNCTION(BlueprintPure, Category="Dialogue") bool IsAutoAdvanceEnabled() const { return bAutoAdvance; }
+    UFUNCTION(BlueprintPure, Category="Dialogue") bool IsWaitingForManualAdvance() const { return bWaitingForManualAdvance; }
+private:
+    bool bAutoAdvance = true;
+protected:
+    bool bWaitingForPlayerResponse = false;
+public:
+    bool IsWaitingForPlayerResponse() const { return bWaitingForPlayerResponse; }
+private:
+    bool bWaitingForManualAdvance = false;
+    bool bExplicitLineAdvance = false;
+public:
 
 	FORCEINLINE bool IsPlaying() const {return CurrentNode != nullptr; }
 

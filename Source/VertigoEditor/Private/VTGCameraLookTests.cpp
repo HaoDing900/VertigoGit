@@ -44,7 +44,7 @@ bool VTGTestCameraLookPose()
         Prop->SetPropertyValue_InContainer(P, Value);
     };
     for (FName Name : {FName(TEXT("IsAttacking")), FName(TEXT("IsDodging?")), FName(TEXT("IsDead?")),
-                       FName(TEXT("HidePlayerNCam")), FName(TEXT("bIsLooking"))})
+                       FName(TEXT("HidePlayerNCam")), FName(TEXT("bIsLooking")), FName(TEXT("FixedCameraLevel?"))})
         Set(Name, false);
     int Fail = 0;
     auto Expect = [&](bool OK, const TCHAR *Text)
@@ -63,7 +63,10 @@ bool VTGTestCameraLookPose()
     {
         for (int I = 0; I < Count; ++I)
         {
-            Mesh->TickAnimation(1.f / 60.f, false);
+            // Advance look smoothing while keeping the authored idle pose at
+            // one animation time; idle head motion must not affect comparison.
+            A->NativeUpdateAnimation(1.f / 60.f);
+            Mesh->TickAnimation(0.f, false);
             Mesh->RefreshBoneTransforms();
         }
     };
@@ -80,6 +83,23 @@ bool VTGTestCameraLookPose()
     Expect(BoneDelta.Yaw > 25 && BoneDelta.Yaw < 65 && BoneDelta.Pitch > 8 && BoneDelta.Pitch < 38,
            TEXT("actual final head bone follows camera right/up through existing graph and post process"));
     Expect(P->GetActorTransform().Equals(Body), TEXT("camera head look does not rotate or move the character body"));
+    // Fixed-camera mode can keep the pawn as view target, so the existing
+    // view-target guard alone is insufficient. Exercise the authored state.
+    Set(TEXT("FixedCameraLevel?"), true);
+    Frames(90);
+    Expect(A->CameraNeckOffset.IsNearlyZero(.05f) && A->CameraHeadOffset.IsNearlyZero(.05f),
+           TEXT("fixed-camera state returns camera head and neck offsets to neutral"));
+    Expect(Mesh->GetSocketQuaternion(TEXT("head_x")).Equals(Baseline, .01f),
+           TEXT("actual head bone returns to its animation pose in fixed camera"));
+    SetCamera(FRotator(-20, -45, 0));
+    Frames(90);
+    Expect(A->CameraNeckOffset.IsNearlyZero(.05f) && A->CameraHeadOffset.IsNearlyZero(.05f),
+           TEXT("camera motion cannot turn the head while fixed-camera state is active"));
+    Set(TEXT("FixedCameraLevel?"), false);
+    SetCamera(FRotator(20, 45, 0));
+    Frames(90);
+    Expect(Mesh->GetSocketQuaternion(TEXT("head_x")).Equals(Look, .01f),
+           TEXT("leaving fixed camera restores camera head tracking"));
     for (FName Name : {FName(TEXT("IsAttacking")), FName(TEXT("IsDodging?")), FName(TEXT("bIsLooking")),
                        FName(TEXT("HidePlayerNCam"))})
     {

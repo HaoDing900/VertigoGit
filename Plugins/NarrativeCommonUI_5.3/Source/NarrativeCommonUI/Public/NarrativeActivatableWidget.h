@@ -26,6 +26,7 @@ class NARRATIVECOMMONUI_API UNarrativeActivatableWidget : public UCommonActivata
 protected:
 	virtual void NativeDestruct() override;
 
+public:
 	UFUNCTION(BlueprintCallable, Category = "Narrative Activatable Widget")
 	void RegisterBinding(FDataTableRowHandle InputAction, const FInputActionExecutedDelegate& Callback, FInputActionBindingHandle& BindingHandle, FText OverrideDisplayName, const bool bShouldDisplayInActionBar=true);
 
