@@ -11,6 +11,7 @@
 #include "GameFramework/PlayerController.h"
 #include "GameFramework/GameStateBase.h"
 #include "TimerManager.h"
+#include "Containers/Ticker.h"
 #include "Camera/PlayerCameraManager.h"
 #include "Loading/VTGMediaLoadingPageSystem.h"
 
@@ -63,6 +64,7 @@ void UVTGSaveCoordinator::Initialize(FSubsystemCollectionBase& Collection)
 
 void UVTGSaveCoordinator::Deinitialize()
 {
+	CancelPendingRestore();
 	FCoreUObjectDelegates::PostLoadMapWithWorld.Remove(PostLoadMapHandle);
 	FCoreUObjectDelegates::PreLoadMap.Remove(PreLoadMapHandle);
 	FWorldDelegates::OnWorldInitializedActors.Remove(WorldActorsInitializedHandle);
@@ -254,6 +256,7 @@ bool UVTGSaveCoordinator::LoadFromSlot(int32 Slot)
 
 void UVTGSaveCoordinator::HandlePreLoadMap(const FString& MapName)
 {
+	CancelPendingRestore();
 	if (!PendingLoad)
 	{
 		// Plain level change (or a checkpoint-less retry): fresh start, no checkpoint in this level yet.
@@ -264,70 +267,92 @@ void UVTGSaveCoordinator::HandlePreLoadMap(const FString& MapName)
 	}
 }
 
+void UVTGSaveCoordinator::CancelPendingRestore()
+{
+	FTSTicker::GetCoreTicker().RemoveTicker(RestoreTicker);
+	FTSTicker::GetCoreTicker().RemoveTicker(RetryRevealTicker);
+	RestoreTicker.Reset();
+	RetryRevealTicker.Reset();
+}
+
 void UVTGSaveCoordinator::HandlePostLoadMap(UWorld* LoadedWorld)
 {
-	if (!LoadedWorld)
+	if (!LoadedWorld || LoadedWorld->GetGameInstance() != GetGameInstance())
 	{
 		return;
 	}
+	CancelPendingRestore();
 
-	// Retry: stay black until the restored state is in place - otherwise the player is seen at the
-	// PlayerStart for a frame before being moved to the checkpoint.
+	// Keep the existing checkpoint flow hidden until its saved state is restored.
 	APlayerController* RetryPC = bRetrying ? UGameplayStatics::GetPlayerController(LoadedWorld, 0) : nullptr;
 	if (RetryPC && RetryPC->PlayerCameraManager)
 	{
 		RetryPC->PlayerCameraManager->SetManualCameraFade(1.f, FLinearColor::Black, false);
 	}
 
-	// Wait one tick so every actor's BeginPlay has run before we overwrite their state.
-	TWeakObjectPtr<UVTGSaveCoordinator> WeakThis(this);
+	// A BeginPlay tutorial may already have paused the world. A world timer would
+	// leave both the checkpoint restore and its black camera fade blocked forever.
 	TWeakObjectPtr<UWorld> WeakWorld(LoadedWorld);
-	LoadedWorld->GetTimerManager().SetTimerForNextTick([WeakThis, WeakWorld]()
+	RestoreTicker = FTSTicker::GetCoreTicker().AddTicker(FTickerDelegate::CreateWeakLambda(this,
+		[this, WeakWorld](float)
 	{
-		UVTGSaveCoordinator* Self = WeakThis.Get();
+		RestoreTicker.Reset();
 		UWorld* World = WeakWorld.Get();
-		if (!Self || !World)
+		if (!World || GetGameInstance()->GetWorld() != World)
 		{
-			return;
+			return false;
 		}
 
-		if (Self->bRetrying)
+		if (PendingLoad)
 		{
-			Self->bRetrying = false;
-			if (UVTGMediaLoadingPageSystem* LoadingPage = Self->GetGameInstance()->GetSubsystem<UVTGMediaLoadingPageSystem>())
+			const int32 Slot = PendingLoadSlot;
+			// Preserve the existing player, actor, quest and inventory restoration.
+			ApplyWorldState(World, PendingLoad);
+			if (UNarrativeComponent* NC = FindNarrativeComponent(World))
+			{
+				NC->Load(NarrativeSaveName(Slot), 0);
+			}
+			OnLoadSubsystems.Broadcast(Slot);
+			OnSlotLoaded.Broadcast(Slot);
+			PendingLoad = nullptr;
+			PendingLoadSlot = INDEX_NONE;
+		}
+
+		if (bRetrying)
+		{
+			bRetrying = false;
+			if (auto* LoadingPage = GetGameInstance()->GetSubsystem<UVTGMediaLoadingPageSystem>())
 			{
 				LoadingPage->SetLoadingPageEnabled(true);
 			}
 			APlayerController* PC = UGameplayStatics::GetPlayerController(World, 0);
 			if (PC && PC->PlayerCameraManager)
 			{
-				PC->PlayerCameraManager->StartCameraFade(1.f, 0.f, RetryFadeTime, FLinearColor::Black, false, false);
+				TWeakObjectPtr<APlayerCameraManager> Camera(PC->PlayerCameraManager);
+				const double Start = FPlatformTime::Seconds();
+				// Reveal the restored scene even while the tutorial keeps gameplay paused.
+				RetryRevealTicker = FTSTicker::GetCoreTicker().AddTicker(
+					FTickerDelegate::CreateWeakLambda(this, [this, WeakWorld, Camera, Start](float)
+				{
+					if (!Camera.IsValid() || !WeakWorld.IsValid() || GetGameInstance()->GetWorld() != WeakWorld.Get())
+					{
+						RetryRevealTicker.Reset();
+						return false;
+					}
+					const float Alpha = FMath::Clamp(float((FPlatformTime::Seconds() - Start) / RetryFadeTime), 0.f, 1.f);
+					Camera->SetManualCameraFade(1.f - Alpha, FLinearColor::Black, false);
+					if (Alpha >= 1.f)
+					{
+						Camera->StopCameraFade();
+						RetryRevealTicker.Reset();
+						return false;
+					}
+					return true;
+				}));
 			}
 		}
-
-		if (!Self->PendingLoad)
-		{
-			return;
-		}
-
-		const int32 Slot = Self->PendingLoadSlot;
-
-		// 1. Vertigo-owned state (player + level actors).
-		Self->ApplyWorldState(World, Self->PendingLoad);
-
-		// 2. Narrative quest/task state.
-		if (UNarrativeComponent* NC = Self->FindNarrativeComponent(World))
-		{
-			NC->Load(NarrativeSaveName(Slot), 0);
-		}
-
-		// 3. ISX inventory + any Blueprint-only system.
-		Self->OnLoadSubsystems.Broadcast(Slot);
-		Self->OnSlotLoaded.Broadcast(Slot);
-
-		Self->PendingLoad = nullptr;
-		Self->PendingLoadSlot = INDEX_NONE;
-	});
+		return false;
+	}));
 }
 
 void UVTGSaveCoordinator::ApplyWorldState(UWorld* World, UVTGSaveGame* SaveObj)

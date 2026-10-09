@@ -463,11 +463,18 @@ bool UDialogue::SelectDialogueOption(UDialogueNode_Player* Option)
 	//Validate that the option that was selected is actually one of the available options
 	if (CanSelectDialogueOption(Option))// GenerateDialogueChunk() already did this && Option->AreConditionsMet(OwningPawn, OwningController, OwningComp))
 	{
-		PlayPlayerDialogueNode(Option);
-
+		// Clear the old choices before playback: a silent return option can
+		// synchronously publish its parent menu from PlayPlayerDialogueNode.
+		// Broadcasting afterwards clears those new choices and leaves a blank UI.
+		bWaitingForPlayerResponse = false;
 		if (OwningComp)
 		{
 			OwningComp->OnDialogueOptionSelected.Broadcast(this, Option);
+		}
+		// A selection listener is allowed to end the dialogue.
+		if (OwningComp)
+		{
+			PlayPlayerDialogueNode(Option);
 		}
 
 		return true;

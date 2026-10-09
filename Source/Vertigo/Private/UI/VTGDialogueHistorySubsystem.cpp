@@ -1,4 +1,5 @@
 #include "UI/VTGDialogueHistorySubsystem.h"
+#include "UI/VTGSequenceSkipSubsystem.h"
 #include "Blueprint/UserWidget.h"
 #include "Blueprint/WidgetTree.h"
 #include "Components/CanvasPanel.h"
@@ -53,6 +54,7 @@ class FInput : public IInputProcessor
     {
         if (!Owner.IsValid() || !Owner->CanHandleInput())
             return false;
+        if (Event.GetKey() == EKeys::Escape && Owner->GetGameInstance()->GetSubsystem<UVTGSequenceSkipSubsystem>()->HandleEscape(true, Event.IsRepeat())) return true;
         if (Owner->HandleSkipKey(Event.GetKey(), true, Event.IsRepeat())) return true;
         if (Event.GetKey() == EKeys::Escape && !Event.IsRepeat() && Owner->HandleEscape())
         {
@@ -67,6 +69,7 @@ class FInput : public IInputProcessor
     }
     virtual bool HandleKeyUpEvent(FSlateApplication &, const FKeyEvent &Event) override
     {
+        if (Owner.IsValid() && Event.GetKey() == EKeys::Escape && Owner->GetGameInstance()->GetSubsystem<UVTGSequenceSkipSubsystem>()->HandleEscape(false)) return true;
         if (Owner.IsValid() && Owner->HandleSkipKey(Event.GetKey(), false)) return true;
         if (Event.GetKey() == EKeys::Escape && bConsumeEscapeUp)
         {
@@ -427,6 +430,7 @@ void UVTGDialogueHistorySubsystem::OpenHistoryAction(FName) { ShowHistory(); }
 
 void UVTGDialogueHistorySubsystem::TickControls()
 {
+    GetGameInstance()->GetSubsystem<UVTGSequenceSkipSubsystem>()->TickInput(CanHandleInput());
     UpdatePromptLayout();
     BindSkipButton();
     if (bSkipHeld && !CanHandleInput()) SetSkipHeld(false);

@@ -1,5 +1,7 @@
 #include "Animation/VTGCameraLookAnimInstance.h"
 #include "Camera/PlayerCameraManager.h"
+#include "Animation/AnimMontage.h"
+#include "Components/SceneComponent.h"
 #include "Components/SkeletalMeshComponent.h"
 #include "Engine/Blueprint.h"
 #include "Engine/Engine.h"
@@ -44,7 +46,7 @@ bool VTGTestCameraLookPose()
         Prop->SetPropertyValue_InContainer(P, Value);
     };
     for (FName Name : {FName(TEXT("IsAttacking")), FName(TEXT("IsDodging?")), FName(TEXT("IsDead?")),
-                       FName(TEXT("HidePlayerNCam")), FName(TEXT("bIsLooking")), FName(TEXT("FixedCameraLevel?"))})
+                       FName(TEXT("HidePlayerNCam")), FName(TEXT("bIsLooking")), FName(TEXT("FixedCameraLevel?")), FName(TEXT("IsReadingMail"))})
         Set(Name, false);
     int Fail = 0;
     auto Expect = [&](bool OK, const TCHAR *Text)
@@ -112,6 +114,31 @@ bool VTGTestCameraLookPose()
         for (int I = 0; I < 90; ++I)
             A->NativeUpdateAnimation(1.f / 60.f);
     }
+    auto* TerminalProperty = FindFProperty<FObjectPropertyBase>(P->GetClass(), TEXT("Terminal"));
+    auto* Terminal = CastChecked<USceneComponent>(TerminalProperty->GetObjectPropertyValue_InContainer(P));
+    const bool WasVisible = Terminal->IsVisible();
+    Terminal->SetVisibility(true);
+    Frames(90);
+    Expect(A->CameraHeadOffset.IsNearlyZero(.05f) && A->CameraNeckOffset.IsNearlyZero(.05f),
+           TEXT("visible portable terminal disables camera head tracking without reading mail"));
+    Terminal->SetVisibility(false);
+    for (FName Name : {FName(TEXT("Mont_OpenTerminal")), FName(TEXT("Mont_ReadTerminalLoop")), FName(TEXT("Mont_CloseTerminal"))})
+    {
+        auto* Property = FindFProperty<FObjectPropertyBase>(P->GetClass(), Name);
+        auto* Montage = CastChecked<UAnimMontage>(Property->GetObjectPropertyValue_InContainer(P));
+        Expect(A->Montage_Play(Montage) > 0, TEXT("authored terminal montage plays"));
+        Frames(90);
+        Expect(A->CameraHeadOffset.IsNearlyZero(.05f) && A->CameraNeckOffset.IsNearlyZero(.05f),
+               *FString::Printf(TEXT("head tracking yields throughout %s even before prop visibility"), *Name.ToString()));
+        A->Montage_Stop(0);
+    }
+    Set(TEXT("IsReadingMail"), true);
+    Frames(90);
+    Expect(A->CameraHeadOffset.IsNearlyZero(.05f), TEXT("mail reading independently disables camera look"));
+    Set(TEXT("IsReadingMail"), false);
+    Frames(90);
+    Expect(!A->CameraHeadOffset.IsNearlyZero(1.f), TEXT("closing terminal restores camera look"));
+    Terminal->SetVisibility(WasVisible);
     W->DestroyWorld(false);
     GEngine->DestroyWorldContext(W);
     return Fail == 0;

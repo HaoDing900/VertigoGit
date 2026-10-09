@@ -1,5 +1,7 @@
 #include "Animation/VTGCameraLookAnimInstance.h"
 #include "Camera/PlayerCameraManager.h"
+#include "Animation/AnimMontage.h"
+#include "Components/SceneComponent.h"
 #include "Components/SkeletalMeshComponent.h"
 #include "GameFramework/Pawn.h"
 #include "GameFramework/PlayerController.h"
@@ -11,6 +13,24 @@ bool CameraLookFlag(const UObject *O, FName Name)
 {
     auto *P = FindFProperty<FBoolProperty>(O->GetClass(), Name);
     return P && P->GetPropertyValue_InContainer(O);
+}
+UObject* CameraLookObject(const UObject* Owner, FName Name)
+{
+    auto* Property = FindFProperty<FObjectPropertyBase>(Owner->GetClass(), Name);
+    return Property ? Property->GetObjectPropertyValue_InContainer(Owner) : nullptr;
+}
+bool UsingPortableTerminal(const APawn* Pawn, const UAnimInstance* Anim)
+{
+    if (CameraLookFlag(Pawn, TEXT("IsReadingMail"))) return true;
+    // The existing terminal component stays visible until the closing animation finishes.
+    if (const auto* Terminal = Cast<USceneComponent>(CameraLookObject(Pawn, TEXT("Terminal")));
+        Terminal && Terminal->IsVisible()) return true;
+    // Opening starts before the prop is shown; closing can outlast the reading flag.
+    for (FName Name : {FName(TEXT("Mont_OpenTerminal")), FName(TEXT("Mont_ReadTerminalLoop")),
+                      FName(TEXT("Mont_CloseTerminal"))})
+        if (auto* Montage = Cast<UAnimMontage>(CameraLookObject(Pawn, Name));
+            Montage && Anim->Montage_IsActive(Montage)) return true;
+    return false;
 }
 } // namespace
 void UVTGCameraLookAnimInstance::NativeInitializeAnimation()
@@ -40,7 +60,7 @@ void UVTGCameraLookAnimInstance::NativeUpdateAnimation(float Dt)
                          !CameraLookFlag(Pawn, TEXT("IsAttacking")) && !CameraLookFlag(Pawn, TEXT("IsDodging?")) &&
                          !CameraLookFlag(Pawn, TEXT("IsDead?")) && !CameraLookFlag(Pawn, TEXT("HidePlayerNCam")) &&
                          !CameraLookFlag(Pawn, TEXT("bIsLooking")) &&
-                         !CameraLookFlag(Pawn, TEXT("FixedCameraLevel?"));
+                         !CameraLookFlag(Pawn, TEXT("FixedCameraLevel?")) && !UsingPortableTerminal(Pawn, this);
     if (Allowed)
         Desired = ClampCameraLook(Pawn->GetActorQuat(), PC->PlayerCameraManager->GetCameraRotation(), MaxLookYaw,
                                   MaxLookPitch);

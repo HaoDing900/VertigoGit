@@ -1,6 +1,7 @@
 #pragma once
 
 #include "CoreMinimal.h"
+#include "Containers/Ticker.h"
 #include "Subsystems/GameInstanceSubsystem.h"
 #include "Save/VTGSaveTypes.h"
 #include "VTGSaveCoordinator.generated.h"
@@ -186,6 +187,9 @@ private:
 
 	/** Bound to PostLoadMapWithWorld: applies PendingLoad once the loaded map's actors exist. */
 	void HandlePostLoadMap(UWorld* LoadedWorld);
+	void CancelPendingRestore();
+	FTSTicker::FDelegateHandle RestoreTicker;
+	FTSTicker::FDelegateHandle RetryRevealTicker;
 
 	/** Bound to PreLoadMap: a map opened by anything other than a load is not a checkpoint resume. */
 	void HandlePreLoadMap(const FString& MapName);
