@@ -7,6 +7,7 @@
 #include "VTGSaveCoordinator.generated.h"
 
 class UNarrativeComponent;
+class AVTGLevelManagerBase;
 class UVTGSaveGame;
 
 DECLARE_DYNAMIC_MULTICAST_DELEGATE_OneParam(FVTGOnSlotSaved, int32, Slot);
@@ -42,11 +43,23 @@ class VERTIGO_API UVTGSaveCoordinator : public UGameInstanceSubsystem
 
 public:
 
+ void RestoreLevelManager(AVTGLevelManagerBase* Manager) const;
+
 	// ---- Public API: call these from your menu / BPLM ----
 
 	/** Write everything to slot N. UserLabel is shown in the load menu (e.g. a player-typed name). */
 	UFUNCTION(BlueprintCallable, Category = "Save")
 	bool SaveToSlot(int32 Slot, const FString& UserLabel);
+
+ /** Reuse this terminal's manual slot, or take an empty manual slot; never overwrite another save. */
+ UFUNCTION(BlueprintCallable, Category="Save")
+ bool SaveFromTerminal(FText& Result);
+ UFUNCTION(BlueprintPure, Category="Save")
+ int32 GetLatestValidSlot() const;
+ UFUNCTION(BlueprintCallable, Category="Save")
+ bool ContinueLatestSave();
+ UFUNCTION(BlueprintCallable, Category="Save")
+ bool SaveTerminalSlot(int32 Slot, FText& Result);
 
 	/** Read slot N: opens its map, then restores player + actors + subsystems once it has loaded. */
 	UFUNCTION(BlueprintCallable, Category = "Save")
@@ -174,6 +187,8 @@ protected:
 	int32 MaxSlots = 10;
 
 private:
+ friend struct FVTGTerminalSaveRegression;
+ friend struct FVTGLevelProgressRegression;
 
 	static FString SaveSlotName(int32 Slot);
 	static FString ManifestSlotName(int32 Slot);

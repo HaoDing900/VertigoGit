@@ -1,4 +1,7 @@
 #include "Save/VTGSaveCoordinator.h"
+#include "VTGLevelManagerBase.h"
+#include "Misc/PackageName.h"
+#include "AssetRegistry/AssetRegistryModule.h"
 #include "Save/VTGSaveStatics.h"
 #include "Save/VTGSaveable.h"
 #include "Save/VTGPlayerProgressComponent.h"
@@ -16,6 +19,7 @@
 #include "Loading/VTGMediaLoadingPageSystem.h"
 
 #include "NarrativeComponent.h"
+#include "UObject/UnrealType.h"
 
 // Checkpoint bookkeeping lives in the persistent flags, so it is saved and restored with them.
 const FName UVTGSaveCoordinator::CheckpointIdKey(TEXT("VTG.Checkpoint"));
@@ -24,6 +28,28 @@ const FName UVTGSaveCoordinator::CheckpointOrderKey(TEXT("VTG.CheckpointOrder"))
 
 namespace
 {
+ const FName MailFields[] = {TEXT("HasNewMail"), TEXT("Mail_CurrentDialogue"), TEXT("Mail_CurrentDialogueID"), TEXT("Mail_Sender_Name"), TEXT("Mail_Sender_Avt")};
+ bool IsStoryInteraction(const AActor* Actor)
+ {
+  for (const UClass* C=Actor->GetClass(); C; C=C->GetSuperClass())
+   if (C->GetPathName()==TEXT("/Game/Blueprints/BP_0ISXInteractiveCollision.BP_0ISXInteractiveCollision_C")) return true;
+  return false;
+ }
+ void RestoreInteractions(UWorld* World, const UVTGSaveGame* Data, bool Refresh)
+ {
+  for (TActorIterator<AActor> It(World); It; ++It)
+  {
+   const bool* Enabled=Data->InteractionEnabled.Find(It->GetFName());
+   if (!Enabled || !IsStoryInteraction(*It)) continue;
+   if (auto* P=FindFProperty<FBoolProperty>(It->GetClass(), TEXT("CanInteract?")))
+   {
+    P->SetPropertyValue_InContainer(*It,*Enabled);
+    if (Refresh)
+     if (auto* Fn=It->FindFunction(*Enabled ? TEXT("EnableInteract") : TEXT("DisableInteract")); Fn && Fn->ParmsSize==0) It->ProcessEvent(Fn,nullptr);
+   }
+  }
+ }
+
 	// Seconds of fade on each side of a retry.
 	constexpr float RetryFadeTime = 0.4f;
 }
@@ -79,7 +105,10 @@ void UVTGSaveCoordinator::HandleWorldActorsInitialized(const FActorsInitializedP
 		return;
 	}
 
-	DestroyedActorIds.Reset();
+ if (PendingLoad && UGameplayStatics::GetCurrentLevelName(World,true)==PendingLoad->Meta.LevelName) RestoreInteractions(World,PendingLoad,false);
+ // Before world BeginPlay, including trigger overlaps.
+ for (TActorIterator<AVTGLevelManagerBase> It(World); It; ++It) RestoreLevelManager(*It);
+ DestroyedActorIds.Reset();
 	World->AddOnActorDestroyedHandler(FOnActorDestroyed::FDelegate::CreateUObject(this, &UVTGSaveCoordinator::HandleActorDestroyed));
 }
 
@@ -95,6 +124,35 @@ void UVTGSaveCoordinator::HandleActorDestroyed(AActor* Actor)
 // ----------------------------------------------------------------------------------------------
 // Save
 // ----------------------------------------------------------------------------------------------
+
+bool UVTGSaveCoordinator::SaveTerminalSlot(int32 Slot,FText& Result)
+{
+ UWorld* World=GetGameInstance()?GetGameInstance()->GetWorld():nullptr;
+ if(Slot<=AutoSaveSlot||Slot>=MaxSlots||!World||!UGameplayStatics::GetPlayerPawn(World,0)||PendingLoad||bRetrying){
+  Result=NSLOCTEXT("VTGTerminal","CannotSave","Cannot save to this slot right now.");return false;
+ }
+ const bool Success=SaveToSlot(Slot,FString::Printf(TEXT("Manual Save %02d"),Slot));
+ Result=Success?FText::Format(NSLOCTEXT("VTGTerminal","Success","Saved to slot {0}."),FText::AsNumber(Slot)):NSLOCTEXT("VTGTerminal","WriteFailed","The save could not be written. Please try again.");
+ return Success;
+}
+
+bool UVTGSaveCoordinator::SaveFromTerminal(FText& Result)
+{
+ UWorld* World=GetGameInstance()?GetGameInstance()->GetWorld():nullptr;
+ if(!World || !UGameplayStatics::GetPlayerPawn(World,0) || PendingLoad || bRetrying) {
+  Result=NSLOCTEXT("VTGTerminal","Busy","Cannot save during a level transition.");return false;
+ }
+ TArray<FVTGSlotMeta> Metas;GetAllSlotMetas(Metas);
+ int32 Slot=INDEX_NONE;
+ for(const auto& Meta:Metas)
+  if(Meta.SlotIndex!=AutoSaveSlot && Meta.bIsValid && Meta.DisplayLabel==TEXT("Terminal Save")){Slot=Meta.SlotIndex;break;}
+ if(Slot==INDEX_NONE)for(const auto& Meta:Metas)
+  if(Meta.SlotIndex!=AutoSaveSlot && !DoesSlotExist(Meta.SlotIndex)){Slot=Meta.SlotIndex;break;}
+ if(Slot==INDEX_NONE){Result=NSLOCTEXT("VTGTerminal","Full","No empty manual save slot is available.");return false;}
+ const bool Success=SaveToSlot(Slot,TEXT("Terminal Save"));
+ Result=Success?FText::Format(NSLOCTEXT("VTGTerminal","Success","Saved to slot {0}."),FText::AsNumber(Slot)):NSLOCTEXT("VTGTerminal","WriteFailed","The save could not be written. Please try again.");
+ return Success;
+}
 
 bool UVTGSaveCoordinator::SaveToSlot(int32 Slot, const FString& UserLabel)
 {
@@ -142,13 +200,13 @@ bool UVTGSaveCoordinator::SaveToSlot(int32 Slot, const FString& UserLabel)
 	// Narrative keeps its own file (quests + completed-task list) - drive it directly.
 	if (UNarrativeComponent* NC = FindNarrativeComponent(World))
 	{
-		NC->Save(NarrativeSaveName(Slot), 0);
+		bOk &= NC->Save(NarrativeSaveName(Slot), 0);
 	}
 
 	// ISX inventory and any other Blueprint-only system save to the same slot.
 	OnSaveSubsystems.Broadcast(Slot);
 
-	OnSlotSaved.Broadcast(Slot);
+	if (bOk) OnSlotSaved.Broadcast(Slot);
 	return bOk;
 }
 
@@ -171,7 +229,19 @@ void UVTGSaveCoordinator::GatherWorldState(UWorld* World, UVTGSaveGame* SaveObj)
 		return;
 	}
 
-	// Player progress component + pawn transform.
+ if (APawn* Pawn=UGameplayStatics::GetPlayerPawn(World,0))
+  for (FName Name : MailFields)
+   if (FProperty* P=FindFProperty<FProperty>(Pawn->GetClass(),Name))
+   {
+    FString Value;P->ExportText_InContainer(0,Value,Pawn,Pawn,Pawn,PPF_None);
+    SaveObj->PlayerMail.Add(Name,Value);
+   }
+ for (TActorIterator<AActor> It(World); It; ++It)
+  if (IsStoryInteraction(*It))
+   if (auto* P=FindFProperty<FBoolProperty>(It->GetClass(),TEXT("CanInteract?")))
+    SaveObj->InteractionEnabled.Add(It->GetFName(),P->GetPropertyValue_InContainer(*It));
+
+ // Player progress component + pawn transform.
 	if (APlayerController* PC = UGameplayStatics::GetPlayerController(World, 0))
 	{
 		if (APawn* Pawn = PC->GetPawn())
@@ -185,12 +255,23 @@ void UVTGSaveCoordinator::GatherWorldState(UWorld* World, UVTGSaveGame* SaveObj)
 				SaveObj->bHasPlayerInventory = true;
 				SaveObj->PlayerInventory = Inventory->GetSaveData();
 			}
-			SaveObj->bHasPlayerTransform = true;
+			if (SaveObj->Meta.SlotIndex != AutoSaveSlot)
+   {
+    if (auto* Health=FindFProperty<FNumericProperty>(Pawn->GetClass(),TEXT("Health")); Health && (Health->IsFloatingPoint() || Health->IsInteger()))
+    {
+     SaveObj->bHasTerminalHealth=true;
+     SaveObj->TerminalHealth=Health->IsFloatingPoint()?Health->GetFloatingPointPropertyValue(Health->ContainerPtrToValuePtr<void>(Pawn)):double(Health->GetSignedIntPropertyValue(Health->ContainerPtrToValuePtr<void>(Pawn)));
+    }
+   }
+   SaveObj->bHasPlayerTransform = true;
 			SaveObj->PlayerTransform = RespawnOverride.Get(Pawn->GetActorTransform());
 		}
 	}
 
-	// Every actor that opts into saving.
+ for (TActorIterator<AVTGLevelManagerBase> It(World); It; ++It)
+  It->CaptureLevelProgress(SaveObj->LevelProgress.FindOrAdd(It->GetFName()));
+
+ // Every actor that opts into saving.
 	for (TActorIterator<AActor> It(World); It; ++It)
 	{
 		AActor* Actor = *It;
@@ -361,6 +442,13 @@ void UVTGSaveCoordinator::ApplyWorldState(UWorld* World, UVTGSaveGame* SaveObj)
 	{
 		return;
 	}
+ RestoreInteractions(World,SaveObj,true);
+ if (APawn* Pawn=UGameplayStatics::GetPlayerPawn(World,0))
+  for (FName Name : MailFields)
+   if (const FString* Value=SaveObj->PlayerMail.Find(Name))
+    if (FProperty* P=FindFProperty<FProperty>(Pawn->GetClass(),Name))
+     P->ImportText_Direct(**Value,P->ContainerPtrToValuePtr<void>(Pawn),Pawn,PPF_None);
+
 
 	if (APlayerController* PC = UGameplayStatics::GetPlayerController(World, 0))
 	{
@@ -407,9 +495,20 @@ void UVTGSaveCoordinator::ApplyWorldState(UWorld* World, UVTGSaveGame* SaveObj)
 			{
 				Actor->SetActorTransform(Rec->Transform, false, nullptr, ETeleportType::TeleportPhysics);
 			}
-			IVTGSaveable::Execute_OnSaveRestored(Actor);
-		}
-	}
+            IVTGSaveable::Execute_OnSaveRestored(Actor);
+        }
+    }
+    if (SaveObj->bHasTerminalHealth)
+    {
+        if (APawn* Pawn=UGameplayStatics::GetPlayerPawn(World,0))
+        {
+            if (auto* Health=FindFProperty<FNumericProperty>(Pawn->GetClass(),TEXT("Health")); Health && (Health->IsFloatingPoint() || Health->IsInteger()))
+                            {
+                if(Health->IsFloatingPoint()) Health->SetFloatingPointPropertyValue(Health->ContainerPtrToValuePtr<void>(Pawn),SaveObj->TerminalHealth);
+                else Health->SetIntPropertyValue(Health->ContainerPtrToValuePtr<void>(Pawn),int64(SaveObj->TerminalHealth));
+            }
+        }
+    }
 }
 
 // ----------------------------------------------------------------------------------------------
@@ -568,4 +667,46 @@ UNarrativeComponent* UVTGSaveCoordinator::FindNarrativeComponent(UWorld* World) 
 		}
 	}
 	return nullptr;
+}
+
+
+
+
+
+void UVTGSaveCoordinator::RestoreLevelManager(AVTGLevelManagerBase* Manager) const
+{
+ if (!Manager || Manager->HasRestoredLevelProgress() || !PendingLoad || Manager->GetGameInstance() != GetGameInstance()) return;
+ if (UGameplayStatics::GetCurrentLevelName(Manager, true) != PendingLoad->Meta.LevelName) return;
+ if (const auto* Record = PendingLoad->LevelProgress.Find(Manager->GetFName()))
+  Manager->RestoreLevelProgress(*Record);
+}
+
+int32 UVTGSaveCoordinator::GetLatestValidSlot() const
+{
+ int32 Best=INDEX_NONE;
+ FDateTime Latest=FDateTime::MinValue();
+ for (int32 Slot=0; Slot<MaxSlots; ++Slot)
+ {
+  if (!DoesSlotExist(Slot)) continue;
+  const auto* Data=Cast<UVTGSaveGame>(UGameplayStatics::LoadGameFromSlot(SaveSlotName(Slot),0));
+  if (!Data || !Data->Meta.bIsValid || Data->Meta.LevelName.IsEmpty() || Data->Meta.SaveVersion>VTG_SAVE_VERSION) continue;
+  // Cooked IoStore packages cannot be discovered by scanning loose disk files.
+  TArray<FAssetData> Maps;
+  FAssetRegistryModule::GetRegistry().GetAssetsByClass(UWorld::StaticClass()->GetClassPathName(),Maps);
+  const bool MapExists=Maps.ContainsByPredicate([Data](const FAssetData& Asset)
+  {
+   return Asset.PackageName.ToString()==Data->Meta.LevelName || Asset.AssetName.ToString()==Data->Meta.LevelName;
+  });
+  if (!MapExists) continue;
+  if (Best==INDEX_NONE || Data->Meta.SaveTimeUtc>Latest)
+  {Best=Slot;Latest=Data->Meta.SaveTimeUtc;}
+ }
+ return Best;
+}
+
+bool UVTGSaveCoordinator::ContinueLatestSave()
+{
+ if (PendingLoad) return false;
+ const int32 Slot=GetLatestValidSlot();
+ return Slot!=INDEX_NONE && LoadFromSlot(Slot);
 }

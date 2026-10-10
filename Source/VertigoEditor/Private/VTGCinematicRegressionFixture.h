@@ -12,6 +12,7 @@ class UVTGReturnRegressionDialogue : public UDialogue
     GENERATED_BODY()
 public:
     int32 VisibleChoices = 0;
+    void WaitForChoice() { bWaitingForPlayerResponse = true; }
     void Prepare(UNarrativeComponent* Component, UDialogueNode_Player* Option)
     {
         OwningComp = Component;
@@ -39,7 +40,23 @@ public:
     static int32 RepeatCount;
     static int32 FinishCount;
     static bool bPauseAtEvent;
-    UFUNCTION() void Trigger() { ++TriggerCount; if (bPauseAtEvent && Player) Player->Pause(); }
+    static TWeakObjectPtr<UNarrativeComponent> DialogueOwner;
+    UFUNCTION() void Trigger()
+    {
+        ++TriggerCount;
+        if (bPauseAtEvent && Player) Player->Pause();
+        if (DialogueOwner.IsValid())
+        {
+            if (TriggerCount == 1)
+            {
+                auto* Dialogue = NewObject<UVTGReturnRegressionDialogue>(DialogueOwner.Get());
+                Dialogue->OwningComp = DialogueOwner.Get();
+                DialogueOwner->CurrentDialogue = Dialogue;
+            }
+            else
+                DialogueOwner->CurrentDialogue = nullptr; // Later story event must not overtake the choice.
+        }
+    }
     UFUNCTION() void Repeat() { ++RepeatCount; }
     UFUNCTION() void Finished() { ++FinishCount; }
 };

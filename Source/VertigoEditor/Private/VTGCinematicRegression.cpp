@@ -14,6 +14,7 @@ int32 UVTGSequenceRegressionDirector::TriggerCount = 0;
 int32 UVTGSequenceRegressionDirector::RepeatCount = 0;
 int32 UVTGSequenceRegressionDirector::FinishCount = 0;
 bool UVTGSequenceRegressionDirector::bPauseAtEvent = false;
+TWeakObjectPtr<UNarrativeComponent> UVTGSequenceRegressionDirector::DialogueOwner;
 
 #if WITH_DEV_AUTOMATION_TESTS
 IMPLEMENT_SIMPLE_AUTOMATION_TEST(FVTGCinematicRegression, "Vertigo.Dialogue.CinematicRegression",
@@ -84,6 +85,25 @@ bool FVTGCinematicRegression::RunTest(const FString&)
         Player->Play();
         for (int32 i = 0; i < 40 && UVTGSequenceSkipSubsystem::AdvanceFrame(Player); ++i) {}
         TestEqual(TEXT("Resume does not repeat already executed trigger"), UVTGSequenceRegressionDirector::TriggerCount, 3);
+        UVTGSequenceRegressionDirector::TriggerCount = 0;
+        UVTGSequenceRegressionDirector::DialogueOwner = Component;
+        Player->Play();
+        for (int32 i = 0; i < 40 && UVTGSequenceSkipSubsystem::AdvanceFrame(Player); ++i) {}
+        TestEqual(TEXT("Dialogue start interrupts skip before later story events"), UVTGSequenceRegressionDirector::TriggerCount, 1);
+        TestTrue(TEXT("Authored sequence remains playing normally; no artificial pause deadlock"), Player->IsPlaying());
+        TestNotNull(TEXT("New dialogue remains available"), Component->GetCurrentDialogue());
+        const FFrameTime Boundary = Player->GetCurrentTime().Time;
+        TestFalse(TEXT("Active dialogue blocks another skip before options are visible"), UVTGSequenceSkipSubsystem::AdvanceFrame(Player));
+        TestEqual(TEXT("Dialogue guard leaves sequence position unchanged"), Player->GetCurrentTime().Time, Boundary);
+        if (Component->CurrentDialogue)
+        {
+            CastChecked<UVTGReturnRegressionDialogue>(Component->GetCurrentDialogue())->WaitForChoice();
+            TestFalse(TEXT("Waiting for a choice blocks skipping too"), UVTGSequenceSkipSubsystem::AdvanceFrame(Player));
+        }
+        Component->CurrentDialogue = nullptr;
+        UVTGSequenceRegressionDirector::DialogueOwner.Reset();
+        for (int32 i = 0; i < 40 && UVTGSequenceSkipSubsystem::AdvanceFrame(Player); ++i) {}
+        TestEqual(TEXT("After completing dialogue, a new skip preserves remaining events"), UVTGSequenceRegressionDirector::TriggerCount, 3);
         Player->Stop();
     }
     World->DestroyWorld(false);

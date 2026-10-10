@@ -7,11 +7,23 @@
 #include "LevelSequenceActor.h"
 #include "LevelSequencePlayer.h"
 #include "MovieSceneSequenceTickManager.h"
+#include "NarrativeComponent.h"
+#include "UObject/UObjectIterator.h"
 #include "Widgets/Layout/SBorder.h"
 #include "Widgets/SOverlay.h"
 #include "Widgets/Text/STextBlock.h"
 #include "Styling/CoreStyle.h"
 
+bool UVTGSequenceSkipSubsystem::HasActiveDialogue(const UWorld* World)
+{
+    if (!World) return false;
+    // A dialogue may be owned by the level manager, player, or another actor.
+    // Do not rely on the dialogue widget already being visible this frame.
+    for (TObjectIterator<UNarrativeComponent> It; It; ++It)
+        if (!It->IsTemplate() && It->GetWorld() == World && IsValid(It->GetCurrentDialogue()))
+            return true;
+    return false;
+}
 bool UVTGSequenceSkipSubsystem::HandleEscape(bool bDown, bool bRepeat)
 {
     if (!bDown)
@@ -28,7 +40,7 @@ bool UVTGSequenceSkipSubsystem::HandleEscape(bool bDown, bool bRepeat)
     if (bConsumeRelease) return true;
     auto* History = GetGameInstance()->GetSubsystem<UVTGDialogueHistorySubsystem>();
     UWorld* World = GetWorld();
-    if (bRepeat || !World || World->IsPaused() || History->IsHistoryOpen() || bSkipping) return false;
+    if (bRepeat || !World || World->IsPaused() || History->IsHistoryOpen() || HasActiveDialogue(World) || bSkipping) return false;
     Targets.Reset();
     for (TActorIterator<ALevelSequenceActor> It(World); It; ++It)
     {
@@ -48,7 +60,7 @@ bool UVTGSequenceSkipSubsystem::HandleEscape(bool bDown, bool bRepeat)
 bool UVTGSequenceSkipSubsystem::AdvanceFrame(ULevelSequencePlayer* Player)
 {
     if (!IsValid(Player) || !Player->IsPlaying() || Player->IsReversed() ||
-        !Player->GetWorld() || Player->GetWorld()->IsPaused()) return false;
+        !Player->GetWorld() || Player->GetWorld()->IsPaused() || HasActiveDialogue(Player->GetWorld())) return false;
     const FQualifiedFrameTime Current = Player->GetCurrentTime();
     const FFrameTime Next = FMath::Min(Current.Time + FFrameTime(1), Player->GetEndTime().Time);
     // Play sweeps the range. Jump/GoToEndAndStop would drop event tracks.
@@ -58,14 +70,15 @@ bool UVTGSequenceSkipSubsystem::AdvanceFrame(ULevelSequencePlayer* Player)
     // Drain that queue before advancing another authored frame.
     if (IsValid(Player) && Player->GetWorld())
         UMovieSceneSequenceTickManager::Get(Player->GetWorld())->RunLatentActions();
-    return IsValid(Player) && Player->IsPlaying() && Player->GetCurrentTime().Time > Current.Time;
+    return IsValid(Player) && Player->IsPlaying() && !HasActiveDialogue(Player->GetWorld()) &&
+           Player->GetCurrentTime().Time > Current.Time;
 }
 
 void UVTGSequenceSkipSubsystem::TickInput(bool bFocused)
 {
     if (!bHolding && !bSkipping) return;
     if (!bFocused) { bConsumeRelease = false; Cancel(); return; }
-    if (!GetWorld() || GetWorld()->IsPaused()) { Cancel(); return; }
+    if (!GetWorld() || GetWorld()->IsPaused() || HasActiveDialogue(GetWorld())) { Cancel(); return; }
     Targets.RemoveAll([this](const auto& P) { return !P.IsValid() || P->GetWorld() != GetWorld() || !P->IsPlaying(); });
     if (Targets.IsEmpty()) { Cancel(); return; }
     if (!bSkipping)
@@ -83,7 +96,7 @@ void UVTGSequenceSkipSubsystem::TickInput(bool bFocused)
             auto* Player = Targets[Index].Get();
             UWorld* PlaybackWorld = GetWorld();
             if (!AdvanceFrame(Player)) Targets.RemoveAt(Index);
-            if (!GetWorld() || GetWorld() != PlaybackWorld || GetWorld()->IsPaused()) { Cancel(); return; }
+            if (!GetWorld() || GetWorld() != PlaybackWorld || GetWorld()->IsPaused() || HasActiveDialogue(GetWorld())) { Cancel(); return; }
         }
         if (FPlatformTime::Seconds() >= Deadline) break;
     }

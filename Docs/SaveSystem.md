@@ -177,3 +177,77 @@ needs to write its own file next to the slot.
 - **One slot = several files** (`VTG_Slot_N`, `VTG_Manifest_N`, `VTG_Narrative_N`) written
   together. Remove with **Delete Slot**, never by hand.
 - **Auto Save = slot 0.** Keep manual saves on slot 1+.
+
+## Terminal SAVE / LOAD
+
+The existing terminal menu filters ITEM from its runtime tab list and adds one SAVE / LOAD
+entry (reserved index 254). Original assets and existing content page indices are preserved.
+Opening the tab never saves. It opens `UVTGTerminalSavePage` inside the same widget switcher.
+
+The page copies the authored mail screen rectangle (`Overlay_1` / `OverlayForMail`) and clips
+all content inside it. The original terminal frame image is copied from the mail page background and placed behind this rectangle. Left: scrollable slots;
+right: location, timestamp and save description; bottom: Save Game, Load Game, Cancel and Close.
+The selected slot is highlighted. The latest existing save is initially selected, otherwise slot 1.
+
+Slot 0 is a read-only automatic checkpoint. Slots 1..9 support manual saves. Empty slots cannot
+be loaded. Saving over an existing slot and loading a slot require a second explicit confirmation;
+selecting another slot, cancelling or closing the terminal cancels the pending action.
+Results and write/load failures are shown inline. Loading uses `LoadFromSlot`, closes the terminal
+UI and releases pause/UI-only input before map travel completes. No additional main-menu UI is added.
+
+`SaveTerminalSlot(Slot, Result)` validates manual slots and transition state before calling the
+existing save coordinator. Manual saves also capture the player's actual Blueprint Health, while
+checkpoint retry keeps its existing health reset behavior. Map/stage, inventory, quests, persistent
+progress flags and opted-in VTGSaveable actors remain handled by the existing coordinator.
+Unregistered enemy or arbitrary sequence state is not an automatic world snapshot.
+
+The page is never added directly to the viewport. Owner visibility changes and the explicit terminal Close action hide it; reopening refreshes slots and resets confirmation state.
+
+Verification: `-run=VTGAlleyRepair -TerminalSave -VerifyOnly` checks the real terminal blueprint,
+repeated construction, screen geometry/clipping, slot protection, empty-load behavior, overwrite/load
+confirmation, close/reopen behavior, and player position/health serialization. No user save slots
+are written by these tests. Add `-AllowCommandletRendering -PreviewFile=<absolute PNG path>`
+(without `-nullrhi`) to render the actual UMG page. This is not a full in-game load/playthrough test.
+
+The 3D terminal prop visibility must not control the 2D terminal page: inventory can open while the prop remains hidden. The frame regression verifies the original terminal texture and UI visibility with the prop hidden.
+
+
+
+## BPLM progress snapshots (2026-10-09)
+
+New saves capture level-manager Blueprint scalar progress (bool, number, enum, name, string),
+plus the common BPLM GeneralLevelPhase. Runtime references and common camera/input/sequence locks
+are deliberately rebuilt, not deserialized. Actor identity and class must match in the saved map.
+The coordinator restores progress before world BeginPlay; the native manager also restores before
+Blueprint ReceiveBeginPlay/OnStageBegin for actors initialized later. Restoration is idempotent.
+
+BlackMarketEntrance now records the intro, mail notice, distant argument, and meeting sequence
+entries using EnterSavedStoryEvent. Entries already present in a loaded snapshot are suppressed;
+unplayed entries and new-game starts retain the original flow. These are entered-event flags,
+not a serialization of an in-flight dialogue/latent sequence. Save at a settled terminal interaction.
+Player mail context and BP_0ISXInteractiveCollision CanInteract? are also saved; interaction component
+state is refreshed after world initialization, preserving the story's exit lock/unlock.
+
+Old slots still load, but contain no BPLM snapshot or entered-event ledger. They cannot reconstruct
+past event completion. Create a new save after reaching the desired progress with this build.
+Other maps receive scalar BPLM persistence; their unconditional story entry graphs need explicit
+EnterSavedStoryEvent gates where replay suppression is required. UObject references, latent actions,
+and arbitrary Blueprint DoOnce internals are not a general-purpose world snapshot.
+
+Regression: VTGAlleyRepair -LevelProgress -VerifyOnly (in-memory save roundtrip, real entrance BP,
+restored vs future events, fresh new game, coordinator early lookup, duplicate restore guard).
+Blueprint backup: Saved/QA/LevelProgressBefore/BPLM_BlackMarketEntrance.uasset.
+
+## Main menu Continue (2026-10-09)
+
+WBP_MainMenu now inherits VTGMainMenu and retains the original button tree, art, and new-game graph.
+The existing Button is Continue; it is disabled without a readable save whose map is present in the
+asset registry. GetLatestValidSlot compares actual payload timestamps across autosave and manual
+slots; ContinueLatestSave uses the existing LoadFromSlot pipeline, including BPLM restore.
+Map lookup uses AssetRegistry rather than loose-file scanning so cooked IoStore builds work.
+The button's visible label is editable in the Widget Blueprint as before.
+
+Windows build: Development; startup M_MainMenu; 14 mainline maps explicitly cooked; sewer, bunker, test, film-booth and old maps are NeverCook.
+Final output requested on D:/VertigoBuilds/2026-10-09. Saved user slots are not included in the build.
+
+Exact build map manifest: D:/VertigoBuilds/2026-10-09/IncludedMaps.txt.

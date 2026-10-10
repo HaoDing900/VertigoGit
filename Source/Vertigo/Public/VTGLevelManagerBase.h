@@ -2,6 +2,7 @@
 
 #include "CoreMinimal.h"
 #include "GameFramework/Actor.h"
+#include "Save/VTGSaveTypes.h"
 #include "VTGLevelManagerBase.generated.h"
 
 /**
@@ -50,6 +51,18 @@ public:
 	/** Implement in your BPLM child to run the Chain-A / Chain-B logic for the resolved stage. */
 	UFUNCTION(BlueprintImplementableEvent, Category = "Stage")
 	void OnStageBegin(FName Stage);
+
+ /** Only story entries recorded in a loaded save are suppressed. */
+ UFUNCTION(BlueprintCallable, Category="Save|Story")
+ bool EnterSavedStoryEvent(FName EventId);
+ bool HasRestoredLevelProgress() const { return bProgressRestored; }
+ void CaptureLevelProgress(FVTGLevelProgressRecord& Record) const;
+ void RestoreLevelProgress(const FVTGLevelProgressRecord& Record);
+
+private:
+ bool bProgressRestored = false;
+ TSet<FName> StartedStoryEvents;
+ TSet<FName> RestoredStoryEvents;
 
 protected:
 

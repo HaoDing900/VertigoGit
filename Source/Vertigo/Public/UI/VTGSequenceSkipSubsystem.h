@@ -14,6 +14,8 @@ public:
     void TickInput(bool bFocused);
     virtual void Deinitialize() override;
     /** Evaluate one display frame at a time, preserving triggers, repeaters and finish delegates. */
+    /** Story dialogue is an interaction boundary, even before its choices are displayed. */
+    static bool HasActiveDialogue(const UWorld* World);
     static bool AdvanceFrame(ULevelSequencePlayer* Player);
 private:
     TArray<TWeakObjectPtr<ULevelSequencePlayer>> Targets;

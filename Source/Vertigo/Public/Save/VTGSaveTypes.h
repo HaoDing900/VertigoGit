@@ -71,6 +71,17 @@ struct VERTIGO_API FVTGActorRecord
 	FTransform Transform = FTransform::Identity;
 };
 
+/** BPLM progress only; runtime object references are rebuilt by the level. */
+USTRUCT()
+struct VERTIGO_API FVTGLevelProgressRecord
+{
+ GENERATED_BODY()
+ UPROPERTY() FString ClassPath;
+ UPROPERTY() TMap<FName, FString> Values;
+ UPROPERTY() TMap<FName, FString> Types;
+ UPROPERTY() TSet<FName> StartedEvents;
+};
+
 /**
  * The full save payload for one slot - everything Vertigo's own code owns. Narrative keeps its OWN
  * file (the coordinator writes it to a matching slot); this object is the glue state:
@@ -90,6 +101,12 @@ public:
 	UPROPERTY()
 	TArray<uint8> PlayerData;
 
+ /** Terminal saves preserve current health; checkpoint retry retains its existing full-health behavior. */
+ UPROPERTY()
+ bool bHasTerminalHealth = false;
+ UPROPERTY()
+ double TerminalHealth = 0.0;
+
 	/** The player's Inventory System X inventory (items, ammo, shortcuts, equipped item). */
 	UPROPERTY()
 	bool bHasPlayerInventory = false;
@@ -106,6 +123,11 @@ public:
 	/** Level-placed stateful actors (BPLM children, doors, taken pickups...), keyed by Save Id. */
 	UPROPERTY()
 	TMap<FName, FVTGActorRecord> ActorRecords;
+
+ UPROPERTY()
+ TMap<FName, FVTGLevelProgressRecord> LevelProgress;
+ UPROPERTY() TMap<FName, bool> InteractionEnabled;
+ UPROPERTY() TMap<FName, FString> PlayerMail;
 
 	/** Level-placed saveable actors that had been destroyed (taken pickups...); removed again on load. */
 	UPROPERTY()
