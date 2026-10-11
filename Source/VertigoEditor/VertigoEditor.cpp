@@ -15,10 +15,12 @@
 IMPLEMENT_MODULE(FVertigoEditorModule, VertigoEditor)
 
 static const FName NAME_LevelManagerClass("VTGLevelManagerBase");
+namespace VTGSubtitleEditor {void Startup();void Shutdown();}
 
 void FVertigoEditorModule::StartupModule()
 {
  VTGSequenceInspector::Startup();
+ VTGSubtitleEditor::Startup();
 	FPropertyEditorModule& PropertyModule = FModuleManager::LoadModuleChecked<FPropertyEditorModule>("PropertyEditor");
 	PropertyModule.RegisterCustomClassLayout(NAME_LevelManagerClass, FOnGetDetailCustomizationInstance::CreateStatic(&FVTGLevelManagerDetails::MakeInstance));
 	PropertyModule.RegisterCustomPropertyTypeLayout("VTGSlide", FOnGetPropertyTypeCustomizationInstance::CreateStatic(&FVTGSlideDetails::MakeInstance));
@@ -38,6 +40,7 @@ void FVertigoEditorModule::StartupModule()
 void FVertigoEditorModule::ShutdownModule()
 {
  VTGSequenceInspector::Shutdown();
+ VTGSubtitleEditor::Shutdown();
  if(MeleeTraceTicker.IsValid())FTSTicker::GetCoreTicker().RemoveTicker(MeleeTraceTicker);
 	if (FModuleManager::Get().IsModuleLoaded("PropertyEditor"))
 	{

@@ -1,5 +1,6 @@
 #include "VTGSequenceInspector.h"
 #include "UI/VTGSequenceSettings.h"
+#include "UI/VTGSubtitleTrack.h"
 #include "LevelSequence.h"
 #include "MovieScene.h"
 #include "MovieSceneBinding.h"
@@ -103,6 +104,13 @@ void Scan(ULevelSequence* Sequence,TArray<FFinding>& Out,TSet<ULevelSequence*>& 
         }
         if(auto* Repeater=Cast<UMovieSceneEventRepeaterSection>(Section))Event(Repeater->Event,Sequence->GetName()+TEXT(" / Repeater"));
         if(auto* Sub=Cast<UMovieSceneSubSection>(Section))Scan(Cast<ULevelSequence>(Sub->GetSequence()),Out,Seen);
+    }
+    for(auto* Track:Tracks)if(auto* Subtitles=Cast<UMovieSceneVTGSubtitleTrack>(Track))
+    {
+        const auto& Sections=Subtitles->GetAllSections();
+        for(int32 I=0;I<Sections.Num();++I)for(int32 J=I+1;J<Sections.Num();++J)
+            if(Sections[I]->IsActive() && Sections[J]->IsActive() && Sections[I]->GetRange().Overlaps(Sections[J]->GetRange()))
+                Out.Add({Sequence->GetName()+TEXT(" / Subtitles"),TEXT("字幕区间重叠：运行时只显示起点较晚的一条，请调整时间"),true});
     }
 }
 void Refresh()
