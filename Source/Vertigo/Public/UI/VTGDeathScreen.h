@@ -5,6 +5,8 @@
 #include "VTGDeathScreen.generated.h"
 
 class UButton;
+class UImage;
+class UTexture2D;
 
 /**
  * Death screen: "Retry" reloads the last checkpoint (VTG Save Coordinator -> Retry From Checkpoint),
@@ -18,6 +20,21 @@ class VERTIGO_API UVTGDeathScreen : public UUserWidget
 	GENERATED_BODY()
 
 public:
+    /** Standard background. Set once in WBP_Death Class Defaults. */
+    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Death Screen|Background")
+    TObjectPtr<UTexture2D> DefaultDeathImage;
+
+    /** Off by default. An empty override falls back to the standard background. */
+    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Death Screen|Background", meta = (ExposeOnSpawn = true, DisplayName = "Use Other Death Image"))
+    bool bUseOtherDeathImage = false;
+
+    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Death Screen|Background", meta = (ExposeOnSpawn = true, EditCondition = "bUseOtherDeathImage"))
+    TObjectPtr<UTexture2D> OtherDeathImage;
+
+    /** Also supports changing an already-visible instance or returning it to the default image. */
+    UFUNCTION(BlueprintCallable, Category = "Death Screen|Background")
+    void SetDeathBackground(bool bInUseOtherDeathImage, UTexture2D* InOtherDeathImage = nullptr);
+
 	UFUNCTION(BlueprintCallable, Category = "Death Screen")
 	void Retry();
 
@@ -28,6 +45,7 @@ public:
 	TSoftObjectPtr<UWorld> MainMenuLevel;
 
 protected:
+    virtual void NativePreConstruct() override;
 	virtual void NativeOnInitialized() override;
 	virtual void NativeConstruct() override;
 	virtual FReply NativeOnKeyDown(const FGeometry& InGeometry, const FKeyEvent& InKeyEvent) override;
@@ -39,6 +57,13 @@ protected:
 	TObjectPtr<UButton> MainMenuButton;
 
 private:
+    UPROPERTY(meta = (BindWidgetOptional))
+    TObjectPtr<UImage> DeathBackgroundImage;
+
+    UPROPERTY(Transient)
+    FSlateBrush DesignerBackgroundBrush;
+    bool bCapturedBackgroundBrush = false;
+    void RefreshDeathBackground();
 	UFUNCTION()
 	void HandleRetryClicked() { Retry(); }
 

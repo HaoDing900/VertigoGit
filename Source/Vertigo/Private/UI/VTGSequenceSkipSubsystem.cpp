@@ -1,4 +1,6 @@
 #include "UI/VTGSequenceSkipSubsystem.h"
+#include "UI/VTGSequenceSettings.h"
+#include "LevelSequence.h"
 #include "UI/VTGDialogueHistorySubsystem.h"
 #include "Engine/GameInstance.h"
 #include "Engine/GameViewportClient.h"
@@ -24,6 +26,11 @@ bool UVTGSequenceSkipSubsystem::HasActiveDialogue(const UWorld* World)
             return true;
     return false;
 }
+bool UVTGSequenceSkipSubsystem::IsSkipAllowed(ULevelSequence* Sequence)
+{
+    const auto* Settings=Sequence?Cast<UVTGSequenceSettings>(Sequence->GetAssetUserDataOfClass(UVTGSequenceSettings::StaticClass())):nullptr;
+    return Settings && Settings->bAllowSkip;
+}
 bool UVTGSequenceSkipSubsystem::HandleEscape(bool bDown, bool bRepeat)
 {
     if (!bDown)
@@ -47,7 +54,7 @@ bool UVTGSequenceSkipSubsystem::HandleEscape(bool bDown, bool bRepeat)
         auto* Player = It->GetSequencePlayer();
         // Infinite/finite looping background sequences are not story cutscenes.
         if (Player && Player->IsPlaying() && !Player->IsReversed() &&
-            It->PlaybackSettings.LoopCount.Value == 0 && !It->ActorHasTag(TEXT("VTG.NoSkip")))
+            It->PlaybackSettings.LoopCount.Value == 0 && IsSkipAllowed(It->GetSequence()) && !It->ActorHasTag(TEXT("VTG.NoSkip")))
             Targets.AddUnique(Player);
     }
     if (Targets.IsEmpty()) return false;
@@ -59,7 +66,7 @@ bool UVTGSequenceSkipSubsystem::HandleEscape(bool bDown, bool bRepeat)
 
 bool UVTGSequenceSkipSubsystem::AdvanceFrame(ULevelSequencePlayer* Player)
 {
-    if (!IsValid(Player) || !Player->IsPlaying() || Player->IsReversed() ||
+    if (!IsValid(Player) || !IsSkipAllowed(Cast<ULevelSequence>(Player->GetSequence())) || !Player->IsPlaying() || Player->IsReversed() ||
         !Player->GetWorld() || Player->GetWorld()->IsPaused() || HasActiveDialogue(Player->GetWorld())) return false;
     const FQualifiedFrameTime Current = Player->GetCurrentTime();
     const FFrameTime Next = FMath::Min(Current.Time + FFrameTime(1), Player->GetEndTime().Time);

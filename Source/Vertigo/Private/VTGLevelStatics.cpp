@@ -1,6 +1,7 @@
 #include "VTGLevelStatics.h"
 #include "VTGLevelManagerBase.h"
 #include "VTGGameInstanceBase.h"
+#include "Loading/VTGMediaLoadingPageSystem.h"
 #include "Kismet/GameplayStatics.h"
 #include "Engine/World.h"
 #include "Engine/Engine.h"
@@ -56,8 +57,7 @@ void UVTGLevelStatics::OpenLevelWithStage(const UObject* WorldContextObject, FNa
 		}
 	}
 
-	//Same behaviour as the built-in "Open Level (by Name)".
-	UGameplayStatics::OpenLevel(WorldContextObject, LevelName, bAbsolute, Options);
+	UVTGMediaLoadingPageSystem::OpenLevelWithLoadingScreenByName(WorldContextObject, LevelName, bAbsolute, Options);
 }
 
 AActor* UVTGLevelStatics::FindValidActorOfClass(const UObject* WorldContextObject, TSubclassOf<AActor> ActorClass)

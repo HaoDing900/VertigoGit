@@ -3,6 +3,7 @@
 #include "Subsystems/GameInstanceSubsystem.h"
 #include "VTGSequenceSkipSubsystem.generated.h"
 class ULevelSequencePlayer;
+class ULevelSequence;
 
 /** Holds Esc to advance cinematic players through normal Sequencer evaluation. */
 UCLASS()
@@ -17,6 +18,7 @@ public:
     /** Story dialogue is an interaction boundary, even before its choices are displayed. */
     static bool HasActiveDialogue(const UWorld* World);
     static bool AdvanceFrame(ULevelSequencePlayer* Player);
+    static bool IsSkipAllowed(ULevelSequence* Sequence);
 private:
     TArray<TWeakObjectPtr<ULevelSequencePlayer>> Targets;
     bool bHolding = false;

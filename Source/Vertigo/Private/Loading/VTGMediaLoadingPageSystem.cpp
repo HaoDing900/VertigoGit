@@ -1,5 +1,10 @@
 #include "Loading/VTGMediaLoadingPageSystem.h"
 #include "Blueprint/UserWidget.h"
+#include "Blueprint/WidgetTree.h"
+#include "Components/TextBlock.h"
+#include "Components/RichTextBlock.h"
+#include "Widgets/Text/STextBlock.h"
+#include "Widgets/Text/SRichTextBlock.h"
 #include "Engine/Engine.h"
 #include "Engine/GameInstance.h"
 #include "Engine/GameViewportClient.h"
@@ -10,12 +15,22 @@
 #include "Loading/VTGMediaLoadingPageSettings.h"
 #include "MoviePlayer.h"
 #include "SVTGLoadingFade.h"
+#include "Loading/VTGLoadingTransitionTiming.h"
 #include "TimerManager.h"
 #include "UObject/UObjectGlobals.h"
 
+
+void UVTGMediaLoadingPageSystem::CacheLoadingAssets()
+{
+    const auto* Settings = GetDefault<UVTGMediaLoadingPageSettings>();
+    CachedLoadingWidgetClass = Settings->OverlayWidgetClass.LoadSynchronous();
+    CachedLoadingInfo = Settings->LevelLoadingInfo.LoadSynchronous();
+}
 void UVTGMediaLoadingPageSystem::Initialize(FSubsystemCollectionBase &Collection)
 {
     Super::Initialize(Collection);
+    // Prepare UI dependencies during GameInstance startup, rather than while a map swap is blocking.
+    if (FApp::CanEverRender()) CacheLoadingAssets();
     if (IsMoviePlayerEnabled())
         PlaybackFinishedHandle = GetMoviePlayer()->OnMoviePlaybackFinished().AddUObject(
             this, &UVTGMediaLoadingPageSystem::HandlePlaybackFinished);
@@ -29,7 +44,7 @@ void UVTGMediaLoadingPageSystem::Initialize(FSubsystemCollectionBase &Collection
                                                      {
                                                          if (World && World->GetGameInstance() == GetGameInstance())
                                                          {
-                                                             CancelPIELoading();
+                                                             CancelLoadingTransition();
                                                              ClearLoadingTransition();
                                                          }
                                                      });
@@ -45,7 +60,7 @@ void UVTGMediaLoadingPageSystem::Deinitialize()
     FCoreUObjectDelegates::PostLoadMapWithWorld.Remove(PostLoadMapHandle);
     if (GEngine)
         GEngine->OnTravelFailure().Remove(TravelFailureHandle);
-    CancelPIELoading();
+    CancelLoadingTransition();
     if (IsMoviePlayerEnabled())
         GetMoviePlayer()->OnMoviePlaybackFinished().Remove(PlaybackFinishedHandle);
     ClearPreview();
@@ -59,11 +74,18 @@ void UVTGMediaLoadingPageSystem::HandlePreLoadMap(const FString &MapName)
     ClearPreview();
     if (GetWorld() && GetWorld()->WorldType == EWorldType::PIE)
     {
-        if (!bPIELoading)
-            StartPIELoadingPage();
+        if (!bTransitionActive) StartViewportLoadingPage();
         return;
     }
-    SetupLoadingPage();
+    if (!bMovieArmed) SetupLoadingPage();
+    if (bLoadingInViewport && LoadingFade && FadeViewport.IsValid())
+    {
+        FadeViewport->RemoveViewportWidgetContent(LoadingFade.ToSharedRef());
+        bLoadingInViewport = false;
+    }
+    // A raw OpenLevel can reach this delegate after MoviePlayer's own PreLoadMap callback.
+    if (bMovieArmed && IsMoviePlayerEnabled() && !GetMoviePlayer()->IsMovieCurrentlyPlaying())
+        bStartedMovieManually = GetMoviePlayer()->PlayMovie();
 }
 
 void UVTGMediaLoadingPageSystem::ArmLoadingPage()
@@ -73,23 +95,17 @@ void UVTGMediaLoadingPageSystem::ArmLoadingPage()
 
 void UVTGMediaLoadingPageSystem::OpenLevelWithLoadingPage(FName LevelName, bool bAbsolute, const FString &Options)
 {
-    if (bPIELoading)
-        return;
+    if (LevelName.IsNone()) return;
+    if (bTransitionActive || LoadingFade) return;
     DestinationLevel = LevelName.ToString();
-    if (GetWorld() && GetWorld()->WorldType == EWorldType::PIE)
+    if (StartViewportLoadingPage())
     {
-        if (bPIELoading)
-            return; // Ignore double clicks during the menu transition.
-        if (StartPIELoadingPage())
-        {
-            PendingLevel = LevelName;
-            PendingOptions = Options;
-            bPendingAbsolute = bAbsolute;
-            return;
-        }
+        PendingLevel = LevelName;
+        PendingOptions = Options;
+        bPendingAbsolute = bAbsolute;
+        return;
     }
-    // Standalone MoviePlayer takes over at PreLoadMap.
-    SetupLoadingPage();
+    // Disabled/headless/video-only fallback. PreLoadMap still arms MoviePlayer when appropriate.
     UGameplayStatics::OpenLevel(this, LevelName, bAbsolute, Options);
 }
 
@@ -118,7 +134,8 @@ void UVTGMediaLoadingPageSystem::SetupLoadingPage()
         return;
     }
 
-    ClearLoadingTransition();
+    const bool bReuseVisibleScreen = bTransitionActive && LoadingFade.IsValid();
+    if (!bReuseVisibleScreen) ClearLoadingTransition();
     FLoadingScreenAttributes Attributes;
     Attributes.MinimumLoadingScreenDisplayTime = FMath::Max(Settings->MinimumDisplayTime, Settings->FadeInDuration);
     // Dismiss once the new map is ready (but never before MinimumLoadingScreenDisplayTime).
@@ -129,9 +146,11 @@ void UVTGMediaLoadingPageSystem::SetupLoadingPage()
     Attributes.MoviePaths = Settings->MovieNames;
 
     // Optional UMG overlay composited over the movie (vignette / title / grain).
-    if (bHasOverlay)
+    if (bReuseVisibleScreen)
+        Attributes.WidgetLoadingScreen = LoadingFade;
+    else if (bHasOverlay)
     {
-        if (UClass *WidgetClass = Settings->OverlayWidgetClass.LoadSynchronous())
+        if (UClass *WidgetClass = CachedLoadingWidgetClass.Get())
         {
             if (UGameInstance *GI = GetGameInstance())
             {
@@ -150,12 +169,21 @@ void UVTGMediaLoadingPageSystem::SetupLoadingPage()
         Attributes.WidgetLoadingScreen = FLoadingScreenAttributes::NewTestLoadingScreenWidget();
         UE_LOG(LogTemp, Warning, TEXT("Loading page widget could not be created; using fallback."));
     }
-    if (Attributes.WidgetLoadingScreen.IsValid())
+    if (Attributes.WidgetLoadingScreen.IsValid() && !bReuseVisibleScreen)
     {
         LoadingFade =
             SNew(SVTGLoadingFade).Duration(Settings->FadeInDuration)[Attributes.WidgetLoadingScreen.ToSharedRef()];
         Attributes.WidgetLoadingScreen = LoadingFade;
+        ConfigureNewsRotation(ActiveLoadingWidget, DestinationLevel, LoadingFade);
     }
+    if (!bTransitionActive && LoadingFade)
+    {
+        bTransitionActive = true;
+        Timing = FVTGLoadingTransitionTiming();
+        TransitionTicker = FTSTicker::GetCoreTicker().AddTicker(FTickerDelegate::CreateUObject(this, &UVTGMediaLoadingPageSystem::TickLoadingTransition));
+    }
+    bMovieFinished = false;
+    bMovieArmed = true;
     GetMoviePlayer()->SetupLoadingScreen(Attributes);
     UE_LOG(LogTemp, Display, TEXT("VTG loading page armed: %s"), *GetNameSafe(ActiveLoadingWidget));
 }
@@ -166,7 +194,7 @@ void UVTGMediaLoadingPageSystem::PreviewLoadingPage(float Duration, FName LevelN
     UWorld *World = GetWorld();
     if (!World || !FApp::CanEverRender())
         return;
-    UClass *WidgetClass = GetDefault<UVTGMediaLoadingPageSettings>()->OverlayWidgetClass.LoadSynchronous();
+    UClass *WidgetClass = CachedLoadingWidgetClass.Get();
     if (!WidgetClass)
         return;
     PreviewWidget = CreateWidget<UUserWidget>(GetGameInstance(), WidgetClass);
@@ -183,6 +211,7 @@ void UVTGMediaLoadingPageSystem::PreviewLoadingPage(float Duration, FName LevelN
         SNew(SVTGLoadingFade)
             .Duration(GetDefault<UVTGMediaLoadingPageSettings>()->FadeInDuration)[PreviewWidget->TakeWidget()];
     ApplyLevelContent(PreviewWidget, LevelName.IsNone() ? World->GetPackage()->GetName() : LevelName.ToString());
+    ConfigureNewsRotation(PreviewWidget, LevelName.IsNone() ? World->GetPackage()->GetName() : LevelName.ToString(), PreviewFade);
     PreviewViewport = Viewport;
     Viewport->AddViewportWidgetContent(PreviewFade.ToSharedRef(), 10000);
     World->GetTimerManager().SetTimer(PreviewTimer, this, &UVTGMediaLoadingPageSystem::HideLoadingPagePreview,
@@ -235,24 +264,19 @@ static FAutoConsoleCommandWithWorldAndArgs GVTGPreviewLoading(
 
 void UVTGMediaLoadingPageSystem::HandlePlaybackFinished()
 {
-    // MoviePlayer's Slate thread has stopped. Hand the same widget to the game viewport
-    // before the next frame; keep its UMG owner alive until the fade has finished.
-    UGameViewportClient *Viewport = GetGameInstance()->GetGameViewportClient();
-    const float Duration = GetDefault<UVTGMediaLoadingPageSettings>()->FadeOutDuration;
-    if (LoadingFade && Viewport && Duration > 0.0f)
+    if (!bTransitionActive || !LoadingFade) return;
+    // MoviePlayer has released its Slate thread. Keep the identical screen opaque while the new world settles.
+    bMovieFinished = true;
+    bMovieArmed = false;
+    bStartedMovieManually = false;
+    auto* Viewport = GetGameInstance()->GetGameViewportClient();
+    if (Viewport && !bLoadingInViewport)
     {
         FadeViewport = Viewport;
-        LoadingFade->BeginFadeOut(Duration);
-        if (!bPIELoading)
-            Viewport->AddViewportWidgetContent(LoadingFade.ToSharedRef(), 10000);
-        FadeTicker = FTSTicker::GetCoreTicker().AddTicker(
-            FTickerDelegate::CreateUObject(this, &UVTGMediaLoadingPageSystem::TickFadeOut));
-        UE_LOG(LogTemp, Display, TEXT("VTG loading complete: fading out over new level (%.2fs)."), Duration);
+        Viewport->AddViewportWidgetContent(LoadingFade.ToSharedRef(), 10000);
+        bLoadingInViewport = true;
     }
-    else
-        ClearLoadingTransition();
 }
-
 bool UVTGMediaLoadingPageSystem::TickFadeOut(float DeltaTime)
 {
     if (LoadingFade && !LoadingFade->IsFinished())
@@ -271,6 +295,7 @@ void UVTGMediaLoadingPageSystem::ClearLoadingTransition()
         FadeViewport->RemoveViewportWidgetContent(LoadingFade.ToSharedRef());
     FadeViewport.Reset();
     LoadingFade.Reset();
+    bLoadingInViewport = false;
     ActiveLoadingWidget = nullptr;
 }
 
@@ -283,13 +308,23 @@ void UVTGMediaLoadingPageSystem::OpenLevelWithLoadingScreen(const UObject *World
             FName(*Level.ToSoftObjectPath().GetLongPackageName()), bAbsolute, Options);
 }
 
-bool UVTGMediaLoadingPageSystem::StartPIELoadingPage()
+void UVTGMediaLoadingPageSystem::OpenLevelWithLoadingScreenByName(const UObject *WorldContextObject,
+                                                                 FName LevelName, bool bAbsolute, FString Options)
 {
+    if (UGameInstance* GI = UGameplayStatics::GetGameInstance(WorldContextObject))
+        GI->GetSubsystem<UVTGMediaLoadingPageSystem>()->OpenLevelWithLoadingPage(LevelName, bAbsolute, Options);
+    else
+        UGameplayStatics::OpenLevel(WorldContextObject, LevelName, bAbsolute, Options);
+}
+
+bool UVTGMediaLoadingPageSystem::StartViewportLoadingPage()
+{
+    UWorld* World = GetWorld();
     const auto *Settings = GetDefault<UVTGMediaLoadingPageSettings>();
     UGameViewportClient *Viewport = GetGameInstance()->GetGameViewportClient();
-    if (!bRuntimeEnabled || !Settings->bEnabled || !Viewport || !FApp::CanEverRender())
+    if (!World || !bRuntimeEnabled || !Settings->bEnabled || !Viewport || !FApp::CanEverRender())
         return false;
-    UClass *WidgetClass = Settings->OverlayWidgetClass.LoadSynchronous();
+    UClass *WidgetClass = CachedLoadingWidgetClass.Get();
     if (!WidgetClass)
         return false;
     ClearPreview();
@@ -299,63 +334,132 @@ bool UVTGMediaLoadingPageSystem::StartPIELoadingPage()
         return false;
     LoadingFade = SNew(SVTGLoadingFade).Duration(Settings->FadeInDuration)[ActiveLoadingWidget->TakeWidget()];
     ApplyLevelContent(ActiveLoadingWidget, DestinationLevel);
+    ConfigureNewsRotation(ActiveLoadingWidget, DestinationLevel, LoadingFade);
     FadeViewport = Viewport;
     Viewport->AddViewportWidgetContent(LoadingFade.ToSharedRef(), 10000);
-    bPIELoading = true;
-    bPIEMapReady = false;
-    PIELoadingStart = FPlatformTime::Seconds();
-    PIETravelTicker = FTSTicker::GetCoreTicker().AddTicker(
-        FTickerDelegate::CreateUObject(this, &UVTGMediaLoadingPageSystem::TickPIELoading));
-    UE_LOG(LogTemp, Display, TEXT("VTG PIE loading screen shown before travel."));
+    bTransitionActive = true;
+    bMapReady = false;
+    bLoadingInViewport = true;
+    bMovieFinished = World->WorldType == EWorldType::PIE || !IsMoviePlayerEnabled();
+    bMovieArmed = false;
+    bStartedMovieManually = false;
+    Timing = FVTGLoadingTransitionTiming();
+    TransitionTicker = FTSTicker::GetCoreTicker().AddTicker(
+        FTickerDelegate::CreateUObject(this, &UVTGMediaLoadingPageSystem::TickLoadingTransition));
+    UE_LOG(LogTemp, Display, TEXT("VTG loading screen shown in the old world before travel."));
     return true;
 }
 
 void UVTGMediaLoadingPageSystem::HandlePostLoadMap(UWorld *World)
 {
-    if (bPIELoading && World && World->GetGameInstance() == GetGameInstance())
+    if (!World && bTransitionActive)
     {
-        bPIEMapReady = true;
-        UE_LOG(LogTemp, Display, TEXT("VTG PIE destination ready: %s"), *World->GetPackage()->GetName());
+        CancelLoadingTransition();
+        ClearLoadingTransition();
+        return;
+    }
+    if (bTransitionActive && World && World->GetGameInstance() == GetGameInstance())
+    {
+        bMapReady = true;
+        Timing.MarkReady(FPlatformTime::Seconds(), GFrameCounter);
+        if (bStartedMovieManually && IsMoviePlayerEnabled() && GetMoviePlayer()->IsMovieCurrentlyPlaying())
+            GetMoviePlayer()->WaitForMovieToFinish();
+        UE_LOG(LogTemp, Display, TEXT("VTG destination ready: %s"), *World->GetPackage()->GetName());
     }
 }
 
-bool UVTGMediaLoadingPageSystem::TickPIELoading(float DeltaTime)
+bool UVTGMediaLoadingPageSystem::TickLoadingTransition(float DeltaTime)
 {
-    if (!bPIELoading || !LoadingFade)
+    if (!bTransitionActive || !LoadingFade)
     {
-        PIETravelTicker.Reset();
+        TransitionTicker.Reset();
         return false;
     }
-    if (!PendingLevel.IsNone() && LoadingFade->GetRenderOpacity() >= 0.999f)
+    const double Now = FPlatformTime::Seconds();
+    if (LoadingFade->HasStartedDrawing()) Timing.MarkVisible(LoadingFade->GetFirstShownTime());
+    if (!PendingLevel.IsNone() && Timing.CanTravel(GFrameCounter, LoadingFade->IsFullyVisible()))
     {
         const FName Level = PendingLevel;
         PendingLevel = NAME_None;
-        UE_LOG(LogTemp, Display, TEXT("VTG PIE fade-in complete; opening %s"), *Level.ToString());
+        // Arm before OpenLevel: MoviePlayer's PreLoadMap callback is registered before ours.
+        if (GetWorld()->WorldType != EWorldType::PIE && IsMoviePlayerEnabled()) SetupLoadingPage();
+        UE_LOG(LogTemp, Display, TEXT("VTG loading fully visible before travel; opening %s"), *Level.ToString());
         UGameplayStatics::OpenLevel(this, Level, bPendingAbsolute, PendingOptions);
     }
-    if (bPIEMapReady && FPlatformTime::Seconds() - PIELoadingStart >=
-                            FMath::Max(GetDefault<UVTGMediaLoadingPageSettings>()->MinimumDisplayTime,
-                                       GetDefault<UVTGMediaLoadingPageSettings>()->FadeInDuration))
+    const auto* Settings = GetDefault<UVTGMediaLoadingPageSettings>();
+    if (bMapReady && bMovieFinished && Timing.CanReveal(Now, GFrameCounter, Settings->MinimumDisplayTime, Settings->HoldAfterLoadDuration))
     {
-        PIETravelTicker.Reset();
-        HandlePlaybackFinished(); // Reuse the existing viewport overlay rather than adding it twice.
-        bPIELoading = false;
+        TransitionTicker.Reset();
+        bTransitionActive = false;
+        const float Duration = Settings->FadeOutDuration;
+        if (LoadingFade && FadeViewport.IsValid() && Duration > 0.f)
+        {
+            LoadingFade->BeginFadeOut(Duration);
+            FadeTicker = FTSTicker::GetCoreTicker().AddTicker(FTickerDelegate::CreateUObject(this, &UVTGMediaLoadingPageSystem::TickFadeOut));
+        }
+        else ClearLoadingTransition();
+        UE_LOG(LogTemp, Display, TEXT("VTG destination ready and held; fading loading away (%.2fs)."), Duration);
         return false;
     }
     return true;
 }
 
-void UVTGMediaLoadingPageSystem::CancelPIELoading()
+void UVTGMediaLoadingPageSystem::CancelLoadingTransition()
 {
-    FTSTicker::GetCoreTicker().RemoveTicker(PIETravelTicker);
-    PIETravelTicker.Reset();
-    bPIELoading = false;
-    bPIEMapReady = false;
+    FTSTicker::GetCoreTicker().RemoveTicker(TransitionTicker);
+    TransitionTicker.Reset();
+    bTransitionActive = false;
+    bMapReady = false;
+    bMovieFinished = false;
+    bMovieArmed = false;
+    bStartedMovieManually = false;
+    Timing = FVTGLoadingTransitionTiming();
     PendingLevel = NAME_None;
 }
 
 void UVTGMediaLoadingPageSystem::ApplyLevelContent(UUserWidget *Widget, const FString &LevelName)
 {
-    if (const auto *Info = GetDefault<UVTGMediaLoadingPageSettings>()->LevelLoadingInfo.LoadSynchronous())
+    if (const auto *Info = CachedLoadingInfo.Get())
         Info->ApplyToWidget(Widget, LevelName);
+}
+
+void UVTGMediaLoadingPageSystem::ConfigureNewsRotation(UUserWidget *Widget, const FString &LevelName,
+                                                       TSharedPtr<SVTGLoadingFade> Fade)
+{
+    const auto *Info = CachedLoadingInfo.Get();
+    if (!Info || !Widget || !Widget->WidgetTree || !Fade) return;
+    auto Items = Info->GetNewsForLevel(LevelName);
+    if (Items.IsEmpty()) return;
+    // Resolve and retain only Slate text widgets before MoviePlayer starts its loading thread.
+    auto MakeSetter = [Widget](FName Name) -> TFunction<void(const FText &)>
+    {
+        auto *Target = Widget->WidgetTree->FindWidget(Name);
+        if (!Target) return {};
+        auto Slate = Target->GetCachedWidget();
+        if (!Slate) return {};
+        if (Cast<UTextBlock>(Target) && Slate->GetType() == FName(TEXT("STextBlock")))
+        {
+            auto Text = StaticCastSharedPtr<STextBlock>(Slate);
+            return [Text](const FText &Value) { Text->SetText(Value); };
+        }
+        if (Cast<URichTextBlock>(Target) && Slate->GetType() == FName(TEXT("SRichTextBlock")))
+        {
+            auto Text = StaticCastSharedPtr<SRichTextBlock>(Slate);
+            return [Text](const FText &Value) { Text->SetText(Value); };
+        }
+        UE_LOG(LogTemp, Warning, TEXT("Loading news rotation requires a cached text widget: %s"), *Name.ToString());
+        return {};
+    };
+    auto Body = MakeSetter(TEXT("TipText"));
+    if (!Body) return;
+    int32 InitialIndex = 0;
+    if (auto *Text = Cast<UTextBlock>(Widget->WidgetTree->FindWidget(TEXT("TipText"))))
+        for (int32 I = 0; I < Items.Num(); ++I)
+            if (Items[I].Body.EqualTo(Text->GetText())) { InitialIndex = I; break; }
+    auto Update = [Body = MoveTemp(Body)](const FVTGLoadingNews &Item)
+    {
+        if (Body) Body(Item.Body);
+    };
+    Update(Items[InitialIndex]);
+    Fade->SetNewsRotation(MoveTemp(Items), Info->NewsRotationSeconds, InitialIndex, MoveTemp(Update));
 }

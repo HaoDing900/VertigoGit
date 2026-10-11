@@ -67,8 +67,8 @@ Loading 过渡的本质：**你正处在两个关卡之间**——旧世界在�
 | --- | --- |
 | BackgroundArt | 全屏背景。Brush → Image 指定导入的贴图；将 Color and Opacity 改为白色可以显示原图颜色。默认纯色背景。 |
 | EditableLayout | 1920×1080 设计画布，子控件可拖拽调整位置和尺寸。 |
-| Title / Subtitle / ChapterLabel | 主标题、副标题和章节文字，直接修改 Text、Font、Color。 |
-| TipLabel / TipText | 提示标题和正文。TipText 支持自动换行。 |
+| ChapterLabel | 固定城市标识 THE GREAT ABYSS CITY。 |
+| TipLabel / TipText | 固定「大渊城新闻」栏目名与随机新闻正文。正文支持自动换行。 |
 | TunnelLeft / TunnelTop / TunnelRight | 临时的通道线条美术，可自行替换或隐藏。 |
 | LoadingSpinner / LoadingLabel | 原生 Slate 旋转标记和加载文字，可调整大小、颜色和摆放。 |
 
@@ -94,57 +94,54 @@ Minimum Display Time 设置最短停留时间（默认 2.5 秒）；真正加载
 
 ### 淡入 / 淡出
 
-普通 Open Level、Open Level With Stage、读档跳转和返回菜单都会触发同一个自动加载流程。
-Loading 内容在加载开始时淡入；实际加载完成且达到 Minimum Display Time 后，
-同一界面转交新关卡的视口并淡出，结束时自动移除。
+Open Level With Stage、读档跳转和返回菜单现在统一走提前淡入的加载入口。
+Loading 先在旧关卡上淡入；完全显示并经过一帧之后才发起 OpenLevel。
+Standalone 将同一界面交给 MoviePlayer，PIE 保持原视口覆盖。新关卡就绪后仍停留 Hold After Load Duration（默认 0.5 秒），
+同时确保总显示时间达到 Minimum Display Time，再淡出显示新关卡。不会重新随机图片或新闻，也不会在交接时重新淡入。
 Project Settings → Game → VTG Media Loading Page → Transitions：
 Fade In Duration 默认 0.4 秒，Fade Out Duration 默认 0.6 秒，设置为 0 可关闭对应渐变。
 PIE 的 VTG.PreviewLoading 同样演示淡入和淡出；主菜单加载也支持 PIE；独立运行时使用 MoviePlayer 避免阻塞加载动画。
 淡入由 Slate 执行，不依赖蓝图 Tick；淡出使用真实时间，不受游戏时间缩放或暂停影响。
 这是 Loading 界面的透明度渐变；视频如需同样渐变，请使用不透明 UMG 背景覆盖视频。
 
-主菜单 WBP_MainMenu 的原始 Open Level (by Object Reference) 已替换为 Open Level With Loading Screen (Object Reference)，目标 L2Bar 和原执行链保持不变。PIE 先在当前视口显示并淡入，再发起跳转；PostLoadMapWithWorld 确认新世界就绪后开始淡出。连续点击会被合并，跳转失败及结束 PIE 时清理界面。
+主菜单 WBP_MainMenu 的原始 Open Level (by Object Reference) 已替换为 Open Level With Loading Screen (Object Reference)，目标 L2Bar 和原执行链保持不变。PIE 先在当前视口显示并淡入，再发起跳转；PostLoadMapWithWorld 确认新世界就绪、短暂停留并满足最短显示时间后开始淡出。连续点击会被合并，跳转失败及结束 PIE 时清理界面。
 
 
-## 按目标关卡编辑 Loading 文案
+## 简化后的图片和新闻配置
 
-打开 **Content/Widget/Loading/DA_LevelLoadingInfo**（Data Asset），编辑 **关卡列表 / Levels**：
+界面只保留 **THE GREAT ABYSS CITY**、**大渊城新闻**、新闻正文以及 **正在载入** 和转圈标记。地点名、地点介绍和每条新闻的独立标题已移除。
 
-1. 展开一个条目，或按 `+` 新增条目。
-2. **目标关卡 / Level**：用资源选择器指定加载目的地的地图，不是当前所在地图。
-3. 展开 **该关卡文案 / Content**，填写地点名称、地区或章节、地点介绍、新闻或提示标题、新闻或提示正文。介绍与正文支持多行。
-4. 保存数据资产。下次加载该关卡或重新预览时自动读取，无需修改按钮蓝图。
+打开 **Content/Widget/Loading/DA_LevelLoadingInfo**，现在只需要维护三个字段：
 
-目前建立了 L2Bar、L_SewerUnderApartment、L0PastBunker 和 BaseLevel 四个条目。
-L2Bar 已从你修改后的界面原样读取现有文案；其他条目只提供可编辑的地点名称，正文留空待填写。
-空字段会清空对应文字，保留控件布局。每张地图只建一个条目。
-未配置地图使用 **Default Content**，不沿用酒吧或上一关的文案。
+1. **随机图片 / Background Images**：添加导入项目的 Texture2D，每次 Loading 随机选一张。
+2. **新闻正文列表 / News Bodies**：每个条目直接填写正文，无需设置标题，也不再按关卡重复填写。正文使用 FText，保留本地化支持。
+3. **新闻轮换秒数 / News Rotation Seconds**：默认 5 秒随机切换到另一条；设为 0 就每次只显示一条随机新闻。
 
-### 与你当前排版的对应关系
+所有关卡使用同一个图片和新闻列表。空条目被忽略；只有一条新闻时不会反复切换。图片列表为空时使用 Designer 原有背景；新闻列表为空时显示 Designer 的新闻正文。
 
-| 数据字段 | 当前控件名 |
-| --- | --- |
-| Location：地点名称 | Title |
-| Region：地区/章节 | ChapterLabel |
-| Introduction：介绍 | Subtitle |
-| NewsHeading：新闻/提示标题 | TipLabel |
-| NewsBody：新闻/提示正文 | TipText |
+固定标签只在 **WBP_VTGLoadingScreen** 的 Designer 维护一次：`ChapterLabel`、`TipLabel`、`LoadingLabel`。新闻正文对应 `TipText`，图片对应 `BackgroundArt`。字体、位置、尺寸和颜色仍在 Designer 调整。
 
-WBP_VTGLoadingScreen 继续负责所有美术排版，运行时只调用 SetText；不会修改位置、尺寸、字体、颜色、背景或控件层级。
-以后如果重命名文字控件，请同步调整同一数据资产的 **Widget Names**；设为 None 表示不接管该控件。
-增加其他文字块时，可在每关的 **Extra Texts** 里填「控件名 → 文案」。支持 Text Block 和 Rich Text Block。
-已绑定字段的正式游戏文案以数据资产为准，Designer 中的静态 Text 仅作为排版样例。
+旧配置中的图片和新闻正文已经合并到通用列表，保留原 FText 本地化标识；旧地点介绍和新闻标题不再作为可编辑配置显示。迁移命令 `-run=VTGLoadingScreen -Simplify` 可重复执行，不会重复添加相同正文。
 
-### 不切关卡就预览指定文案
+PIE 控制台输入 `VTG.PreviewLoading` 可预览 5 秒。要观察多次轮换，可通过蓝图调用 `Preview Loading Page`，把 Duration 设为 20。默认实际 Loading 最短仅 2.5 秒，因此较快加载时只会看到第一条随机新闻。
 
-运行 PIE，在控制台输入：
+新闻轮换在 Slate 层执行，Standalone 阻塞加载时也可以继续切换；淡出阶段停止轮换。PIE 的同步地图加载期间不能绘制新帧，恢复绘制后继续轮换。
 
-```
-VTG.PreviewLoading L2Bar
-VTG.PreviewLoading L_SewerUnderApartment
-```
+开发校验：`UnrealEditor-Cmd.exe Vertigo.uproject -run=VTGLoadingScreen -VerifyRandomContent -nullrhi -unattended`。
 
-也可以在蓝图调用 **Preview Loading Page**，填写新增的 Level Name 参数。
-不填参数时预览当前关卡的文案。蓝图需要自行排版时，可从数据资产调用 **Get Content For Level** 获取整组字段。
-数据资产在 Project Settings → Game → VTG Media Loading Page → Level Loading Info 中配置，可以替换为同类型的其他资产。
-已放在 Always Cook 的 Loading 目录中。查询仅比较地图软引用，不提前加载整张地图。
+### 关卡切换时序调整
+
+使用 **Open Level With Loading Screen (Name)** 或 **Open Level With Loading Screen (Object Reference)**。这两个入口在旧关卡中先显示 Loading，再安排切关卡；Open Level With Stage、正常读档和死亡界面的返回菜单已接入。关卡床铺与近黑市隧道中剩余的普通 Open Level 节点也已替换。
+
+普通 Open Level 的 PreLoadMap 回调仍提供后备 Loading，但它无法回到调用之前补出旧关卡中的淡入帧。新增 Blueprint 切关卡逻辑请使用上面的入口。
+
+Project Settings → Game → **VTG Media Loading Page → Transitions**：
+
+- Fade In Duration：Loading 淡入，默认 0.4 秒。
+- Hold After Load Duration：新关卡加载完成后继续显示 Loading 的时长，默认 0.5 秒。
+- Fade Out Duration：Loading 淡出显示新场景，默认 0.6 秒。
+- Minimum Display Time：整个 Loading 的最低显示时长，仍为 2.5 秒；长时间加载也不会跳过新增加的完成后停留。
+
+Loading Widget 类、数据资产和其引用的图片会在 GameInstance 启动时预加载，避免切关卡时才读取这些资源。地图本身仍然需要加载；这次调整改变等待期间的显示顺序，不缩短地图的数据加载时间。死亡后的同关卡 checkpoint 重试继续使用原来的黑屏淡入淡出。
+
+时序验证：`-run=VTGLoadingScreen -VerifyTiming -nullrhi -unattended`。Blueprint 入口审查：`-run=VTGLoadingScreen -ConnectTransitions -nullrhi -unattended`；加 `-Apply` 仅迁移审查范围内仍使用普通 Open Level 的节点，并编译保存。

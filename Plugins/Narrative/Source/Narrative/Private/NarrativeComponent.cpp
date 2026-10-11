@@ -1,6 +1,7 @@
 // Copyright Narrative Tools 2022. 
 
 #include "NarrativeComponent.h"
+#include "NarrativeSequenceMontageEvent.h"
 #include "NarrativePartyComponent.h"
 #include "NarrativeSaveGame.h"
 #include "NarrativeFunctionLibrary.h"
@@ -1415,7 +1416,7 @@ bool UNarrativeComponent::Load_Internal(const TArray<FNarrativeSavedQuest>& Save
 }
 
 
-ULevelSequencePlayer* UNarrativeComponent::PlayDialogueLevelSequence(ULevelSequence* LevelSequence, bool bEndLineWhenFinished, bool bStopWhenLineEnds, float PlayRate, int32 LoopCount, bool bRestoreState, bool bHideHud, float MaxWaitSeconds)
+ULevelSequencePlayer* UNarrativeComponent::PlayDialogueLevelSequence(ULevelSequence* LevelSequence, bool bEndLineWhenFinished, bool bStopWhenLineEnds, float PlayRate, int32 LoopCount, bool bRestoreState, bool bHideHud, float MaxWaitSeconds, bool bSuspendMontagesDuringSequence)
 {
 	if (!LevelSequence)
 	{
@@ -1463,6 +1464,11 @@ ULevelSequencePlayer* UNarrativeComponent::PlayDialogueLevelSequence(ULevelSeque
 	if (bStopWhenLineEnds)
 	{
 		StopSequenceWhenLineEnds();
+	}
+
+	if (bSuspendMontagesDuringSequence)
+	{
+		UNarrativeSequenceMontageGuard::Prepare(Player);
 	}
 
 	Player->Play();

@@ -49,6 +49,10 @@ class VERTIGO_API UVTGMediaLoadingPageSettings : public UDeveloperSettings
     UPROPERTY(config, EditAnywhere, Category = "Transitions", meta = (ClampMin = "0.0", UIMax = "3.0"))
     float FadeOutDuration = 0.6f;
 
+    /** Keep the loading page opaque briefly after the new map is ready, even after a long load. */
+    UPROPERTY(config, EditAnywhere, Category = "Transitions", meta = (ClampMin = "0.0", UIMax = "3.0"))
+    float HoldAfterLoadDuration = 0.5f;
+
     /** Loop the last clip until loading finishes (recommended - hides variable load time). */
     UPROPERTY(config, EditAnywhere, Category = "Media Loading Page")
     bool bLoopUntilLoaded = true;

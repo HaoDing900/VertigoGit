@@ -331,7 +331,7 @@ bool UVTGSaveCoordinator::LoadFromSlot(int32 Slot)
 		GI->SetCurrentStage(SaveObj->Meta.Stage);
 	}
 
-	UGameplayStatics::OpenLevel(this, FName(*SaveObj->Meta.LevelName));
+	UVTGMediaLoadingPageSystem::OpenLevelWithLoadingScreenByName(this, FName(*SaveObj->Meta.LevelName));
 	return true;
 }
 

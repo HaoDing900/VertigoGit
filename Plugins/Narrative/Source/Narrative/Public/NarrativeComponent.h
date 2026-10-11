@@ -452,9 +452,10 @@ public:
 	* bRestoreState controls what happens to everything the sequence touched once it stops - true puts the actors back
 	* the way gameplay had them, false leaves them on the sequence's last frame. Leave it on unless you specifically
 	* want the final pose to hold.
+	* bSuspendMontagesDuringSequence saves bound actors’ active Montages, stops them for playback, and resumes them afterward.
 	*/
 	UFUNCTION(BlueprintCallable, Category = "Dialogue", meta = (AdvancedDisplay = "PlayRate,LoopCount,bRestoreState,bHideHud,MaxWaitSeconds"))
-	class ULevelSequencePlayer* PlayDialogueLevelSequence(class ULevelSequence* LevelSequence, bool bEndLineWhenFinished = true, bool bStopWhenLineEnds = false, float PlayRate = 1.f, int32 LoopCount = 0, bool bRestoreState = true, bool bHideHud = true, float MaxWaitSeconds = 30.f);
+	class ULevelSequencePlayer* PlayDialogueLevelSequence(class ULevelSequence* LevelSequence, bool bEndLineWhenFinished = true, bool bStopWhenLineEnds = false, float PlayRate = 1.f, int32 LoopCount = 0, bool bRestoreState = true, bool bHideHud = true, float MaxWaitSeconds = 30.f, bool bSuspendMontagesDuringSequence = false);
 
 	/**
 	* Stops and destroys whatever PlayDialogueLevelSequence last started, and drops any line-end wait on it.

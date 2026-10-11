@@ -3,6 +3,7 @@
 #include "Containers/Ticker.h"
 #include "CoreMinimal.h"
 #include "Subsystems/GameInstanceSubsystem.h"
+#include "Loading/VTGLoadingTransitionTiming.h"
 #include "VTGMediaLoadingPageSystem.generated.h"
 
 /**
@@ -45,6 +46,11 @@ class VERTIGO_API UVTGMediaLoadingPageSystem : public UGameInstanceSubsystem
                       DisplayName = "Open Level With Loading Screen (Object Reference)"))
     static void OpenLevelWithLoadingScreen(const UObject *WorldContextObject, TSoftObjectPtr<UWorld> Level,
                                            bool bAbsolute = true, FString Options = TEXT(""));
+
+    UFUNCTION(BlueprintCallable, Category = "Media Loading Page",
+              meta = (WorldContext = "WorldContextObject", AdvancedDisplay = "2", DisplayName = "Open Level With Loading Screen (Name)"))
+    static void OpenLevelWithLoadingScreenByName(const UObject *WorldContextObject, FName LevelName,
+                                                bool bAbsolute = true, FString Options = TEXT(""));
 
     UFUNCTION(BlueprintPure, Category = "Media Loading Page")
     bool IsLoadingPageVisible() const
@@ -94,21 +100,29 @@ class VERTIGO_API UVTGMediaLoadingPageSystem : public UGameInstanceSubsystem
     /** Build FLoadingScreenAttributes from settings and hand them to the engine MoviePlayer. */
     void SetupLoadingPage();
     void ApplyLevelContent(UUserWidget *Widget, const FString &LevelName);
+    void ConfigureNewsRotation(UUserWidget *Widget, const FString &LevelName, TSharedPtr<class SVTGLoadingFade> Fade);
     FString DestinationLevel;
 
     void HandlePostLoadMap(UWorld *World);
-    bool StartPIELoadingPage();
-    bool TickPIELoading(float DeltaTime);
-    void CancelPIELoading();
-    FTSTicker::FDelegateHandle PIETravelTicker;
+    bool StartViewportLoadingPage();
+    bool TickLoadingTransition(float DeltaTime);
+    void CancelLoadingTransition();
+    FTSTicker::FDelegateHandle TransitionTicker;
     FDelegateHandle PostLoadMapHandle;
     FDelegateHandle TravelFailureHandle;
-    bool bPIELoading = false;
-    bool bPIEMapReady = false;
+    bool bTransitionActive = false;
+    bool bMapReady = false;
     FName PendingLevel;
     FString PendingOptions;
     bool bPendingAbsolute = true;
-    double PIELoadingStart = 0.0;
+    bool bMovieFinished = false;
+    bool bMovieArmed = false;
+    bool bStartedMovieManually = false;
+    bool bLoadingInViewport = false;
+    FVTGLoadingTransitionTiming Timing;
+    UPROPERTY(Transient) TObjectPtr<UClass> CachedLoadingWidgetClass;
+    UPROPERTY(Transient) TObjectPtr<class UVTGLevelLoadingInfo> CachedLoadingInfo;
+    void CacheLoadingAssets();
     FDelegateHandle PreLoadMapHandle;
     FDelegateHandle PlaybackFinishedHandle;
     void HandlePlaybackFinished();

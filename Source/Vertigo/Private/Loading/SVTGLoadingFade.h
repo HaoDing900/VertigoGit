@@ -1,6 +1,7 @@
 #pragma once
 #include "CoreMinimal.h"
 #include "Widgets/SCompoundWidget.h"
+#include "Loading/VTGLevelLoadingInfo.h"
 
 // Slate ticks on MoviePlayer's loading thread. Never access UObjects from this widget's Tick.
 class SVTGLoadingFade : public SCompoundWidget
@@ -35,9 +36,40 @@ class SVTGLoadingFade : public SCompoundWidget
         return bFadingOut && StartedAt >= 0.0 && FPlatformTime::Seconds() - StartedAt >= Duration;
     }
 
+    bool HasStartedDrawing() const { return StartedAt >= 0.0; }
+    double GetFirstShownTime() const { return StartedAt; }
+    bool IsFullyVisible() const { return !bFadingOut && HasStartedDrawing() && GetRenderOpacity() >= 0.999f; }
+
+    // Prepared on the game thread before playback. The callback owns Slate widgets, never UObjects.
+    void SetNewsRotation(TArray<FVTGLoadingNews> Items, float Seconds, int32 InitialIndex,
+                         TFunction<void(const FVTGLoadingNews &)> Update)
+    {
+        NewsItems = MoveTemp(Items);
+        NewsSeconds = FMath::Max(0.f, Seconds);
+        NewsIndex = InitialIndex;
+        UpdateNews = MoveTemp(Update);
+        NewsRandom.Initialize(FMath::Rand());
+    }
+
+    void AdvanceNews(float Seconds)
+    {
+        if (bFadingOut || NewsSeconds <= 0.f || NewsItems.Num() < 2 || !UpdateNews)
+            return;
+        NewsElapsed += Seconds;
+        if (NewsElapsed < NewsSeconds)
+            return;
+        NewsElapsed = FMath::Fmod(NewsElapsed, NewsSeconds);
+        // Uniformly choose any other entry, avoiding consecutive repeats.
+        int32 Next = NewsRandom.RandHelper(NewsItems.Num() - 1);
+        if (Next >= NewsIndex) ++Next;
+        NewsIndex = Next;
+        UpdateNews(NewsItems[NewsIndex]);
+    }
+
     virtual void Tick(const FGeometry &Geometry, double CurrentTime, float DeltaTime) override
     {
         SCompoundWidget::Tick(Geometry, CurrentTime, DeltaTime);
+        AdvanceNews(DeltaTime);
         // Start on the first rendered frame, not during synchronous font/class loading.
         if (StartedAt < 0.0)
             StartedAt = FPlatformTime::Seconds();
@@ -59,4 +91,10 @@ class SVTGLoadingFade : public SCompoundWidget
     float Duration = 0.4f;
     bool bFadingOut = false;
     bool bLoggedHalf = false;
+    TArray<FVTGLoadingNews> NewsItems;
+    TFunction<void(const FVTGLoadingNews &)> UpdateNews;
+    FRandomStream NewsRandom;
+    int32 NewsIndex = 0;
+    float NewsSeconds = 0.f;
+    float NewsElapsed = 0.f;
 };

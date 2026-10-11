@@ -40,109 +40,30 @@ UVTGLoadingScreenCommandlet::UVTGLoadingScreenCommandlet()
     LogToConsole = true;
 }
 
+bool VTGTestLoadingRandomContent();
+bool VTGTestLoadingTransitionTiming();
+int32 VTGConnectLevelLoading(const FString& Params);
+int32 VTGSimplifyLoadingScreen();
+int32 VTGDeathBackground(const FString& Params);
+
 int32 UVTGLoadingScreenCommandlet::Main(const FString &Params)
 {
-    if (FParse::Param(*Params, TEXT("VerifyLevelInfo")))
-    {
-        auto *Info = LoadObject<UVTGLevelLoadingInfo>(nullptr, TEXT("/Game/Widget/Loading/DA_LevelLoadingInfo"));
-        auto *BP = LoadObject<UWidgetBlueprint>(nullptr, TEXT("/Game/Widget/Loading/WBP_VTGLoadingScreen"));
-        if (!Info || !BP || !BP->GeneratedClass)
-            return 30;
-        bool Found;
-        const auto Bar = Info->GetContentForLevel(TEXT("L2Bar"), Found);
-        if (!Found)
-            return 31;
-        for (const TCHAR *Name : {TEXT("/Game/ThirdPerson/Maps/L2Bar"), TEXT("/Game/ThirdPerson/Maps/L2Bar.L2Bar"),
-                                  TEXT("/Game/ThirdPerson/Maps/UEDPIE_12_L2Bar?game=Test"),
-                                  TEXT("World'/Game/ThirdPerson/Maps/L2Bar.L2Bar'")})
-        {
-            const auto Data = Info->GetContentForLevel(Name, Found);
-            if (!Found || !Data.Location.EqualTo(Bar.Location))
-                return 32;
-        }
-        const auto Missing = Info->GetContentForLevel(TEXT("/Game/UnconfiguredMap"), Found);
-        if (Found || !Missing.Location.EqualTo(Info->DefaultContent.Location))
-            return 33;
-        const auto Sewer = Info->GetContentForLevel(TEXT("L_SewerUnderApartment"), Found);
-        if (!Found)
-            return 34;
-        auto *Widget = NewObject<UUserWidget>(GetTransientPackage(), BP->GeneratedClass);
-        Widget->Initialize();
-        UWidget *RootBefore = Widget->WidgetTree->RootWidget;
-        auto *Title = Cast<UTextBlock>(Widget->WidgetTree->FindWidget(Info->WidgetNames.Location));
-        auto *Intro = Cast<UTextBlock>(Widget->WidgetTree->FindWidget(Info->WidgetNames.Introduction));
-        if (!Title || !Intro)
-            return 35;
-        const auto FontBefore = Title->GetFont();
-        const auto SlotBefore = Title->Slot;
-        Info->ApplyToWidget(Widget, TEXT("L2Bar"));
-        if (!Title->GetText().EqualTo(Bar.Location) || !Intro->GetText().EqualTo(Bar.Introduction))
-            return 36;
-        Info->ApplyToWidget(Widget, TEXT("L_SewerUnderApartment"));
-        if (!Title->GetText().EqualTo(Sewer.Location) || !Intro->GetText().EqualTo(Sewer.Introduction))
-            return 37;
-        Info->ApplyToWidget(Widget, TEXT("/Game/UnconfiguredMap"));
-        if (!Title->GetText().EqualTo(Info->DefaultContent.Location))
-            return 38;
-        if (Widget->WidgetTree->RootWidget != RootBefore || Title->Slot != SlotBefore ||
-            !(Title->GetFont() == FontBefore))
-            return 39;
-        UE_LOG(LogTemp, Display,
-               TEXT("Loading info checks PASS: map paths, PIE prefix, destination switch, empty fields, fallback and "
-                    "layout/font preservation."));
-        return 0;
-    }
-
+    if (FParse::Param(*Params, TEXT("VerifyTiming"))) return VTGTestLoadingTransitionTiming()?0:82;
+    if (FParse::Param(*Params, TEXT("ConnectTransitions"))) return VTGConnectLevelLoading(Params);
+    if (FParse::Param(*Params, TEXT("DeathBackground"))) return VTGDeathBackground(Params);
+    if (FParse::Param(*Params, TEXT("VerifyRandomContent")))
+        return VTGTestLoadingRandomContent() ? 0 : 40;
+    if (FParse::Param(*Params, TEXT("Simplify"))) return VTGSimplifyLoadingScreen();
+    if (FParse::Param(*Params, TEXT("VerifyLevelInfo"))) return VTGTestLoadingRandomContent() ? 0 : 40;
     if (FParse::Param(*Params, TEXT("CreateLevelInfo")))
     {
-        const TCHAR *InfoPath = TEXT("/Game/Widget/Loading/DA_LevelLoadingInfo");
-        if (LoadObject<UVTGLevelLoadingInfo>(nullptr, InfoPath))
-        {
-            UE_LOG(LogTemp, Display, TEXT("Existing loading data preserved."));
-            return 0;
-        }
-        auto *BP = LoadObject<UWidgetBlueprint>(nullptr, TEXT("/Game/Widget/Loading/WBP_VTGLoadingScreen"));
-        if (!BP || !BP->WidgetTree)
-            return 20;
-        auto ReadText = [BP](const TCHAR *Name)
-        {
-            auto *Text = Cast<UTextBlock>(BP->WidgetTree->FindWidget(Name));
-            return Text ? Text->GetText() : FText::GetEmpty();
-        };
-        auto *Package = CreatePackage(InfoPath);
+        const TCHAR *Path = TEXT("/Game/Widget/Loading/DA_LevelLoadingInfo");
+        if (LoadObject<UVTGLevelLoadingInfo>(nullptr, Path)) return 0;
+        auto *Package = CreatePackage(Path);
         auto *Info = NewObject<UVTGLevelLoadingInfo>(Package, TEXT("DA_LevelLoadingInfo"), RF_Public | RF_Standalone);
-        Info->DefaultContent.Location = FText::FromString(TEXT("正在载入"));
-        Info->DefaultContent.NewsHeading = FText::FromString(TEXT("旅途提示"));
-        FVTGLevelLoadingEntry Bar;
-        Bar.Level = TSoftObjectPtr<UWorld>(FSoftObjectPath(TEXT("/Game/ThirdPerson/Maps/L2Bar.L2Bar")));
-        Bar.Content.Location = ReadText(TEXT("Title"));
-        Bar.Content.Region = ReadText(TEXT("ChapterLabel"));
-        Bar.Content.Introduction = ReadText(TEXT("Subtitle"));
-        Bar.Content.NewsHeading = ReadText(TEXT("TipLabel"));
-        Bar.Content.NewsBody = ReadText(TEXT("TipText"));
-        Info->Levels.Add(Bar);
-        const TPair<const TCHAR *, const TCHAR *> Seeds[] = {{TEXT("L_SewerUnderApartment"), TEXT("公寓下水道")},
-                                                             {TEXT("L0PastBunker"), TEXT("旧日地堡")},
-                                                             {TEXT("BaseLevel"), TEXT("主菜单")}};
-        for (const auto &Seed : Seeds)
-        {
-            FVTGLevelLoadingEntry Entry;
-            Entry.Level = TSoftObjectPtr<UWorld>(
-                FSoftObjectPath(FString::Printf(TEXT("/Game/ThirdPerson/Maps/%s.%s"), Seed.Key, Seed.Key)));
-            Entry.Content.Location = FText::FromString(Seed.Value);
-            Info->Levels.Add(Entry);
-        }
-        FSavePackageArgs Args;
-        Args.TopLevelFlags = RF_Public | RF_Standalone;
-        if (!UPackage::SavePackage(
-                Package, Info,
-                *FPackageName::LongPackageNameToFilename(InfoPath, FPackageName::GetAssetPackageExtension()), Args))
-            return 21;
-        UE_LOG(LogTemp, Display, TEXT("Loading info created: %d entries; artist Widget Blueprint untouched."),
-               Info->Levels.Num());
-        return 0;
+        FSavePackageArgs Args; Args.TopLevelFlags = RF_Public | RF_Standalone;
+        return UPackage::SavePackage(Package, Info, *FPackageName::LongPackageNameToFilename(Path, FPackageName::GetAssetPackageExtension()), Args) ? 0 : 21;
     }
-
     if (FParse::Param(*Params, TEXT("ConnectMenu")))
     {
         auto *Menu = LoadObject<UBlueprint>(nullptr, TEXT("/Game/ThirdPerson/Blueprints/UI/MainMenu/WBP_MainMenu"));
@@ -245,9 +166,7 @@ int32 UVTGLoadingScreenCommandlet::Main(const FString &Params)
         };
         // All artwork is ordinary UMG content: no runtime code overrides designer properties.
         Rect(TEXT("AccentRule"), 112, 110, 64, 3, Accent);
-        Text(TEXT("ChapterLabel"), TEXT("V E R T I G O   /   深处"), 112, 130, 1000, 50, 18, Muted);
-        Text(TEXT("Title"), TEXT("深水之下"), 105, 210, 950, 130, 64, FLinearColor(.82f, .86f, .82f, 1));
-        Text(TEXT("Subtitle"), TEXT("沿着回声，继续前行。"), 112, 362, 1000, 64, 22, Muted);
+        Text(TEXT("ChapterLabel"), TEXT("THE GREAT ABYSS CITY"), 112, 130, 1000, 50, 18, Muted);
         // A quiet architectural motif; artists may replace this entire canvas with their own art.
         for (int32 I = 0; I < 5; ++I)
         {
@@ -258,7 +177,7 @@ int32 UVTGLoadingScreenCommandlet::Main(const FString &Params)
             Rect(*FString::Printf(TEXT("TunnelRight%d"), I), X + W, Y, 2, H, C);
         }
         Rect(TEXT("FooterRule"), 112, 870, 1696, 1, Muted);
-        Text(TEXT("TipLabel"), TEXT("旅途提示"), 112, 906, 180, 40, 16, Accent);
+        Text(TEXT("TipLabel"), TEXT("大渊城新闻"), 112, 906, 180, 40, 16, Accent);
         auto *Tip = Text(TEXT("TipText"), TEXT("脚步声会在通道中回响。留意来自黑暗深处的动静。"), 112, 948, 1180, 80,
                          22, FLinearColor(.57f, .64f, .62f, 1));
         Tip->SetAutoWrapText(true);

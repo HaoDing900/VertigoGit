@@ -3,6 +3,7 @@
 #include "VTGLevelManagerDetails.h"
 #include "Private/VTGSlideDetails.h"
 #include "Private/VTGMeleeMontageTrace.h"
+#include "Private/VTGSequenceInspector.h"
 #include "Containers/Ticker.h"
 #include "Engine/Engine.h"
 #include "Engine/World.h"
@@ -17,6 +18,7 @@ static const FName NAME_LevelManagerClass("VTGLevelManagerBase");
 
 void FVertigoEditorModule::StartupModule()
 {
+ VTGSequenceInspector::Startup();
 	FPropertyEditorModule& PropertyModule = FModuleManager::LoadModuleChecked<FPropertyEditorModule>("PropertyEditor");
 	PropertyModule.RegisterCustomClassLayout(NAME_LevelManagerClass, FOnGetDetailCustomizationInstance::CreateStatic(&FVTGLevelManagerDetails::MakeInstance));
 	PropertyModule.RegisterCustomPropertyTypeLayout("VTGSlide", FOnGetPropertyTypeCustomizationInstance::CreateStatic(&FVTGSlideDetails::MakeInstance));
@@ -35,6 +37,7 @@ void FVertigoEditorModule::StartupModule()
 
 void FVertigoEditorModule::ShutdownModule()
 {
+ VTGSequenceInspector::Shutdown();
  if(MeleeTraceTicker.IsValid())FTSTicker::GetCoreTicker().RemoveTicker(MeleeTraceTicker);
 	if (FModuleManager::Get().IsModuleLoaded("PropertyEditor"))
 	{

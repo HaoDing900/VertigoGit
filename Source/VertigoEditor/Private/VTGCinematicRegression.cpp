@@ -1,5 +1,6 @@
 #include "VTGCinematicRegressionFixture.h"
 #include "UI/VTGSequenceSkipSubsystem.h"
+#include "UI/VTGSequenceSettings.h"
 #include "Misc/AutomationTest.h"
 #include "Engine/World.h"
 #include "LevelSequence.h"
@@ -43,6 +44,10 @@ bool FVTGCinematicRegression::RunTest(const FString&)
 
     auto* Sequence = NewObject<ULevelSequence>();
     Sequence->Initialize();
+    TestFalse(TEXT("Existing sequence without settings defaults to No Skip"),UVTGSequenceSkipSubsystem::IsSkipAllowed(Sequence));
+    auto* SkipSettings=NewObject<UVTGSequenceSettings>(Sequence);
+    Sequence->AddAssetUserData(SkipSettings);
+    TestFalse(TEXT("New settings default to No Skip"),UVTGSequenceSkipSubsystem::IsSkipAllowed(Sequence));
     auto* DirectorProperty = FindFProperty<FClassProperty>(ULevelSequence::StaticClass(), TEXT("DirectorClass"));
     DirectorProperty->SetObjectPropertyValue_InContainer(Sequence, UVTGSequenceRegressionDirector::StaticClass());
     auto* Scene = Sequence->GetMovieScene();
@@ -69,6 +74,11 @@ bool FVTGCinematicRegression::RunTest(const FString&)
         Player->OnFinished.AddDynamic(Observer, &UVTGSequenceRegressionDirector::Finished);
         UVTGSequenceRegressionDirector::TriggerCount = UVTGSequenceRegressionDirector::RepeatCount = UVTGSequenceRegressionDirector::FinishCount = 0;
         Player->Play();
+        const FFrameTime BeforeOptIn=Player->GetCurrentTime().Time;
+        TestFalse(TEXT("No Skip blocks actual advancement"),UVTGSequenceSkipSubsystem::AdvanceFrame(Player));
+        TestEqual(TEXT("No Skip leaves playback time unchanged"),Player->GetCurrentTime().Time,BeforeOptIn);
+        SkipSettings->bAllowSkip=true;
+        TestTrue(TEXT("Explicit opt-in allows skip"),UVTGSequenceSkipSubsystem::IsSkipAllowed(Sequence));
         for (int32 i = 0; i < 40 && UVTGSequenceSkipSubsystem::AdvanceFrame(Player); ++i) {}
         TestEqual(TEXT("Beginning, middle and last-frame triggers execute once"), UVTGSequenceRegressionDirector::TriggerCount, 3);
         TestTrue(TEXT("Repeaters evaluated throughout skip"), UVTGSequenceRegressionDirector::RepeatCount >= 29);
