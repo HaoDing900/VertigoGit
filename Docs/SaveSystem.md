@@ -144,8 +144,19 @@ only restored **one tick after** load — too late for a BeginPlay decision.
 **B. On level start** (in BPLM, before your existing intro Branch):
 `...Coordinator` → **Get Persistent Int** (`Key` = `L2StreetFightPhase`, `Default Value` = `0`)
 → **Branch** (Condition: the result `== 1`)
-- **True** → call **EnterCombat** (your custom event that does the combat setup, skips the sequences).
-- **False** → play the intro as normal.
+- **True** → initialize NPCs, then call **EnterCombat** (combat setup, skipping the sequences).
+- **False** → check for `2` (completed fight); otherwise play the intro as normal.
+
+**L2 street fight (2026-10-14):** `L2StreetFightPhase` is `0` = intro, `1` = combat,
+`2` = after fight. The BPLM's **L2FightState** component explicitly shows and places FemaleClient
+and places/stops the player in `OnFinished_AfterFight`, after Sequencer restores its old state.
+The final transforms are editable on that component. On a phase-2 load it waits for
+**On Slot Loaded** before rebuilding NPC state; it preserves the saved player transform and
+removes the combat enemy/arena. `L2StreetFightAfterDialoguePending` tracks whether the post-fight
+conversation still needs to run, since Narrative saves quests but not an active dialogue.
+Completion updates the flags in memory; the existing autosave cadence is unchanged, and the
+next manual/autosave records them. Saves created before this fix still contain their old phase;
+a phase-1 save continues to resume combat.
 
 > Make **EnterCombat** a Custom Event holding your combat-setup nodes (set phase, teleport enemy to
 > front, equip, set view target). Call it from BOTH `OnFinished_CombatIntro` and the Branch above.

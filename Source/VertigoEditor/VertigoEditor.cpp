@@ -1,6 +1,11 @@
 #include "VertigoEditor.h"
 #include "PropertyEditorModule.h"
 #include "VTGLevelManagerDetails.h"
+#include "Private/VTGManualLocalization.h"
+#include "Private/VTGDialogueLocalizationDetails.h"
+#include "Private/VTGSubtitleLocalizationDetails.h"
+#include "Private/VTGQuestLocalizationDetails.h"
+#include "Private/VTGMapLocalizationDetails.h"
 #include "Private/VTGSlideDetails.h"
 #include "Private/VTGMeleeMontageTrace.h"
 #include "Private/VTGSequenceInspector.h"
@@ -19,6 +24,10 @@ namespace VTGSubtitleEditor {void Startup();void Shutdown();}
 
 void FVertigoEditorModule::StartupModule()
 {
+ VTGManualLocalization::Startup();
+ VTGDialogueLocalizationDetails::Startup();
+ VTGSubtitleLocalizationDetails::Startup(); VTGQuestLocalizationDetails::Startup();
+ VTGMapLocalizationDetails::Startup();
  VTGSequenceInspector::Startup();
  VTGSubtitleEditor::Startup();
 	FPropertyEditorModule& PropertyModule = FModuleManager::LoadModuleChecked<FPropertyEditorModule>("PropertyEditor");
@@ -39,6 +48,10 @@ void FVertigoEditorModule::StartupModule()
 
 void FVertigoEditorModule::ShutdownModule()
 {
+ VTGManualLocalization::Shutdown();
+ VTGDialogueLocalizationDetails::Shutdown();
+ VTGSubtitleLocalizationDetails::Shutdown(); VTGQuestLocalizationDetails::Shutdown();
+ VTGMapLocalizationDetails::Shutdown();
  VTGSequenceInspector::Shutdown();
  VTGSubtitleEditor::Shutdown();
  if(MeleeTraceTicker.IsValid())FTSTicker::GetCoreTicker().RemoveTicker(MeleeTraceTicker);

@@ -416,7 +416,9 @@ private:
 
 bool FVTGDialogueHistoryTest::RunTest(const FString &)
 {
-    AddExpectedError(TEXT("Failed to load cursor"), EAutomationExpectedErrorFlags::Contains, 2);
+    // NullRHI does not load hardware cursors, so those graphical warnings are not emitted.
+    if (!FParse::Param(FCommandLine::Get(), TEXT("NullRHI")))
+        AddExpectedError(TEXT("Failed to load cursor"), EAutomationExpectedErrorFlags::Contains, 2);
     auto *World = FAutomationEditorCommonUtils::CreateNewMap();
     World->GetWorldSettings()->DefaultGameMode = AGameModeBase::StaticClass();
     const auto RestoreSettings = MakeShared<FVTGRestorePlayWindowSettings>();

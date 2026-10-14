@@ -1,0 +1,251 @@
+[2026.10.11-17.37.04:176][  0]LogTextureFormatManager: Display: Loaded Base TextureFormat: TextureFormatASTC
+[2026.10.11-17.37.04:176][  0]LogTextureFormatManager: Display: Loaded Base TextureFormat: TextureFormatDXT
+[2026.10.11-17.37.04:176][  0]LogTextureFormatManager: Display: Loaded Base TextureFormat: TextureFormatETC2
+[2026.10.11-17.37.04:176][  0]LogTextureFormatManager: Display: Loaded Base TextureFormat: TextureFormatIntelISPCTexComp
+[2026.10.11-17.37.04:176][  0]LogTextureFormatManager: Display: Loaded Base TextureFormat: TextureFormatUncompressed
+[2026.10.11-17.37.04:176][  0]LogTextureFormatOodle: Display: Oodle Texture TFO init; latest sdk version = 2.9.10
+[2026.10.11-17.37.04:176][  0]LogTextureFormatOodle: Display: Oodle Texture loading DLL: oo2tex_win64_2.9.5.dll
+[2026.10.11-17.37.04:177][  0]LogTextureFormatOodle: Display: Oodle Texture loading DLL: oo2tex_win64_2.9.6.dll
+[2026.10.11-17.37.04:177][  0]LogTextureFormatOodle: Display: Oodle Texture loading DLL: oo2tex_win64_2.9.7.dll
+[2026.10.11-17.37.04:177][  0]LogTextureFormatOodle: Display: Oodle Texture loading DLL: oo2tex_win64_2.9.8.dll
+[2026.10.11-17.37.04:177][  0]LogTextureFormatOodle: Display: Oodle Texture loading DLL: oo2tex_win64_2.9.9.dll
+[2026.10.11-17.37.04:178][  0]LogTextureFormatOodle: Display: Oodle Texture loading DLL: oo2tex_win64_2.9.10.dll
+[2026.10.11-17.37.04:178][  0]LogTextureFormatManager: Display: Loaded Base TextureFormat: TextureFormatOodle
+[2026.10.11-17.37.04:188][  0]LogTargetPlatformManager: Display: Loaded TargetPlatform 'Android'
+[2026.10.11-17.37.04:188][  0]LogTargetPlatformManager: Display: Loaded TargetPlatform 'Android_ASTC'
+[2026.10.11-17.37.04:188][  0]LogTargetPlatformManager: Display: Loaded TargetPlatform 'Android_DXT'
+[2026.10.11-17.37.04:188][  0]LogTargetPlatformManager: Display: Loaded TargetPlatform 'Android_ETC2'
+[2026.10.11-17.37.04:188][  0]LogTargetPlatformManager: Display: Loaded TargetPlatform 'AndroidClient'
+[2026.10.11-17.37.04:188][  0]LogTargetPlatformManager: Display: Loaded TargetPlatform 'Android_ASTCClient'
+[2026.10.11-17.37.04:188][  0]LogTargetPlatformManager: Display: Loaded TargetPlatform 'Android_DXTClient'
+[2026.10.11-17.37.04:189][  0]LogTargetPlatformManager: Display: Loaded TargetPlatform 'Android_ETC2Client'
+[2026.10.11-17.37.04:189][  0]LogTargetPlatformManager: Display: Loaded TargetPlatform 'Android_Multi'
+[2026.10.11-17.37.04:189][  0]LogTargetPlatformManager: Display: Loaded TargetPlatform 'Android_MultiClient'
+[2026.10.11-17.37.04:191][  0]LogTargetPlatformManager: Display: Loaded TargetPlatform 'IOS'
+[2026.10.11-17.37.04:191][  0]LogTargetPlatformManager: Display: Loaded TargetPlatform 'IOSClient'
+[2026.10.11-17.37.04:194][  0]LogTargetPlatformManager: Display: Loaded TargetPlatform 'Linux'
+[2026.10.11-17.37.04:194][  0]LogTargetPlatformManager: Display: Loaded TargetPlatform 'LinuxEditor'
+[2026.10.11-17.37.04:194][  0]LogTargetPlatformManager: Display: Loaded TargetPlatform 'LinuxServer'
+[2026.10.11-17.37.04:194][  0]LogTargetPlatformManager: Display: Loaded TargetPlatform 'LinuxClient'
+[2026.10.11-17.37.04:196][  0]LogTargetPlatformManager: Display: Loaded TargetPlatform 'LinuxArm64'
+[2026.10.11-17.37.04:196][  0]LogTargetPlatformManager: Display: Loaded TargetPlatform 'LinuxArm64Server'
+[2026.10.11-17.37.04:196][  0]LogTargetPlatformManager: Display: Loaded TargetPlatform 'LinuxArm64Client'
+[2026.10.11-17.37.04:198][  0]LogTargetPlatformManager: Display: Loaded TargetPlatform 'Mac'
+[2026.10.11-17.37.04:198][  0]LogTargetPlatformManager: Display: Loaded TargetPlatform 'MacEditor'
+[2026.10.11-17.37.04:198][  0]LogTargetPlatformManager: Display: Loaded TargetPlatform 'MacServer'
+[2026.10.11-17.37.04:198][  0]LogTargetPlatformManager: Display: Loaded TargetPlatform 'MacClient'
+[2026.10.11-17.37.04:200][  0]LogTargetPlatformManager: Display: Loaded TargetPlatform 'TVOS'
+[2026.10.11-17.37.04:200][  0]LogTargetPlatformManager: Display: Loaded TargetPlatform 'TVOSClient'
+[2026.10.11-17.37.04:204][  0]LogTargetPlatformManager: Display: Loaded TargetPlatform 'Windows'
+[2026.10.11-17.37.04:204][  0]LogTargetPlatformManager: Display: Loaded TargetPlatform 'WindowsEditor'
+[2026.10.11-17.37.04:204][  0]LogTargetPlatformManager: Display: Loaded TargetPlatform 'WindowsServer'
+[2026.10.11-17.37.04:204][  0]LogTargetPlatformManager: Display: Loaded TargetPlatform 'WindowsClient'
+[2026.10.11-17.37.04:204][  0]LogTargetPlatformManager: Display: Building Assets For WindowsEditor
+[2026.10.11-17.37.04:209][  0]LogAudioDebug: Display: Lib vorbis DLL was dynamically loaded.
+[2026.10.11-17.37.04:248][  0]LogDerivedDataCache: Display: Memory: Max Cache Size: -1 MB
+[2026.10.11-17.37.04:287][  0]LogDerivedDataCache: Display: ../../../Engine/DerivedDataCache/Compressed.ddp: Opened pak cache for reading. (2383 MiB)
+[2026.10.11-17.37.04:289][  0]LogDerivedDataCache: Warning: C:/Users/Hao/AppData/Local/UnrealEngine/Common/DerivedDataCache: Failed to write to C:/Users/Hao/AppData/Local/UnrealEngine/Common/DerivedDataCache/TestData/A1FC20D54F7D8140DBEC099B097F3964/TestData/0/TestData_4kb.dat, this cache store will be disabled. ReadError: 3 (???????????)
+[2026.10.11-17.37.04:289][  0]LogDerivedDataCache: Display: C:/Users/Hao/AppData/Local/UnrealEngine/Common/DerivedDataCache: Performance: Latency=0.03ms. RandomReadSpeed=1209.27MBs, RandomWriteSpeed=0.00MBs. Assigned SpeedClass 'Local'
+[2026.10.11-17.37.04:291][  0]LogShaderCompilers: Display: Using Local Shader Compiler with 13 workers.
+[2026.10.11-17.37.05:164][  0]LogShaderCompilers: Display: Compiling shader autogen file: ../../../../Unreal projects/VertigoGit/Intermediate/ShaderAutogen/PCD3D_SM5/AutogenShaderHeaders.ush
+[2026.10.11-17.37.05:164][  0]LogShaderCompilers: Display: Autogen file is unchanged, skipping write.
+[2026.10.11-17.37.05:179][  0]LogEditorDomain: Display: EditorDomain is Disabled
+[2026.10.11-17.37.05:345][  0]LogDeviceProfileManager: Display: Deviceprofile LinuxArm64Editor not found.
+[2026.10.11-17.37.05:345][  0]LogDeviceProfileManager: Display: Deviceprofile LinuxArm64 not found.
+[2026.10.11-17.37.05:479][  0]LogCsvProfiler: Display: Metadata set : deviceprofile="WindowsEditor"
+[2026.10.11-17.37.05:479][  0]LogShaderCompilers: Display: Compiling shader autogen file: ../../../../Unreal projects/VertigoGit/Intermediate/ShaderAutogen/PCD3D_SM6/AutogenShaderHeaders.ush
+[2026.10.11-17.37.05:479][  0]LogShaderCompilers: Display: Autogen file is unchanged, skipping write.
+[2026.10.11-17.37.05:495][  0]LogTextureEncodingSettings: Display: Texture Encode Speed: Final (cook).
+[2026.10.11-17.37.05:495][  0]LogTextureEncodingSettings: Display: Oodle Texture Encode Speed settings: Fast: RDO Off Lambda=0, Effort=Normal Final: RDO Off Lambda=0, Effort=Normal
+[2026.10.11-17.37.05:495][  0]LogTextureEncodingSettings: Display: Shared linear texture encoding: Disabled
+[2026.10.11-17.37.05:531][  0]LogMeshReduction: Display: Using QuadricMeshReduction for automatic static mesh reduction
+[2026.10.11-17.37.05:531][  0]LogMeshReduction: Display: Using SkeletalMeshReduction for automatic skeletal mesh reduction
+[2026.10.11-17.37.05:531][  0]LogMeshReduction: Display: Using ProxyLODMeshReduction for automatic mesh merging
+[2026.10.11-17.37.05:531][  0]LogMeshReduction: Display: No distributed automatic mesh merging module available
+[2026.10.11-17.37.05:657][  0]LogVirtualization: Display: VirtualizationSystem name found in ini file: None
+[2026.10.11-17.37.05:657][  0]LogVirtualization: Display: FNullVirtualizationSystem mounted, virtualization will be disabled
+[2026.10.11-17.37.05:763][  0]LogWorldPartition: Display: FWorldPartitionClassDescRegistry::Initialize started...
+[2026.10.11-17.37.05:765][  0]LogWorldPartition: Display: FWorldPartitionClassDescRegistry::Initialize took 1 ms
+[2026.10.11-17.37.05:769][  0]Input_ISX: Warning: Input_ISX module has been loaded
+[2026.10.11-17.37.05:780][  0]LogUObjectGlobals: Warning: Failed to find object 'Object /Game/ThirdPerson/Input/IMC_Default.IMC_Default'
+[2026.10.11-17.37.06:661][  0]LogAudio: Display: Registering Engine Module Parameter Interfaces...
+[2026.10.11-17.37.07:450][  0]LogUsd: Warning: Failed to update LibraryPath for USD plugInfo.json file 'G:/Epic/UE_5.3/Engine/Binaries/ThirdParty/USD/UsdResources/Win64/plugins/hdGp/resources/plugInfo.json'
+[2026.10.11-17.37.07:450][  0]LogUsd: Warning: Failed to update LibraryPath for USD plugInfo.json file 'G:/Epic/UE_5.3/Engine/Binaries/ThirdParty/USD/UsdResources/Win64/plugins/usdImaging/resources/plugInfo.json'
+[2026.10.11-17.37.07:451][  0]LogUsd: Warning: Failed to update LibraryPath for USD plugInfo.json file 'G:/Epic/UE_5.3/Engine/Binaries/ThirdParty/USD/UsdResources/Win64/plugins/usdProc/resources/plugInfo.json'
+[2026.10.11-17.37.07:451][  0]LogUsd: Warning: Failed to update LibraryPath for USD plugInfo.json file 'G:/Epic/UE_5.3/Engine/Binaries/ThirdParty/USD/UsdResources/Win64/plugins/usdImagingGL/resources/plugInfo.json'
+[2026.10.11-17.37.07:451][  0]LogUsd: Warning: Failed to update LibraryPath for USD plugInfo.json file 'G:/Epic/UE_5.3/Engine/Binaries/ThirdParty/USD/UsdResources/Win64/plugins/hdStorm/resources/plugInfo.json'
+[2026.10.11-17.37.07:451][  0]LogUsd: Warning: Failed to update LibraryPath for USD plugInfo.json file 'G:/Epic/UE_5.3/Engine/Binaries/ThirdParty/USD/UsdResources/Win64/plugins/glf/resources/plugInfo.json'
+[2026.10.11-17.37.07:451][  0]LogUsd: Warning: Failed to update LibraryPath for USD plugInfo.json file 'G:/Epic/UE_5.3/Engine/Binaries/ThirdParty/USD/UsdResources/Win64/plugins/usdVolImaging/resources/plugInfo.json'
+[2026.10.11-17.37.07:452][  0]LogUsd: Warning: Failed to update LibraryPath for USD plugInfo.json file 'G:/Epic/UE_5.3/Engine/Binaries/ThirdParty/USD/UsdResources/Win64/plugins/hdSt/resources/plugInfo.json'
+[2026.10.11-17.37.07:452][  0]LogUsd: Warning: Failed to update LibraryPath for USD plugInfo.json file 'G:/Epic/UE_5.3/Engine/Binaries/ThirdParty/USD/UsdResources/Win64/plugins/usdProcImaging/resources/plugInfo.json'
+[2026.10.11-17.37.07:452][  0]LogUsd: Warning: Failed to update LibraryPath for USD plugInfo.json file 'G:/Epic/UE_5.3/Engine/Binaries/ThirdParty/USD/UsdResources/Win64/plugins/hio/resources/plugInfo.json'
+[2026.10.11-17.37.07:452][  0]LogUsd: Warning: Failed to update LibraryPath for USD plugInfo.json file 'G:/Epic/UE_5.3/Engine/Binaries/ThirdParty/USD/UsdResources/Win64/plugins/ar/resources/plugInfo.json'
+[2026.10.11-17.37.07:452][  0]LogUsd: Warning: Failed to update LibraryPath for USD plugInfo.json file 'G:/Epic/UE_5.3/Engine/Binaries/ThirdParty/USD/UsdResources/Win64/plugins/hd/resources/plugInfo.json'
+[2026.10.11-17.37.07:453][  0]LogUsd: Warning: Failed to update LibraryPath for USD plugInfo.json file 'G:/Epic/UE_5.3/Engine/Binaries/ThirdParty/USD/UsdResources/Win64/plugins/usdRender/resources/plugInfo.json'
+[2026.10.11-17.37.07:453][  0]LogUsd: Warning: Failed to update LibraryPath for USD plugInfo.json file 'G:/Epic/UE_5.3/Engine/Binaries/ThirdParty/USD/UsdResources/Win64/plugins/usdMtlx/resources/plugInfo.json'
+[2026.10.11-17.37.07:453][  0]LogUsd: Warning: Failed to update LibraryPath for USD plugInfo.json file 'G:/Epic/UE_5.3/Engine/Binaries/ThirdParty/USD/UsdResources/Win64/plugins/usdUI/resources/plugInfo.json'
+[2026.10.11-17.37.07:453][  0]LogUsd: Warning: Failed to update LibraryPath for USD plugInfo.json file 'G:/Epic/UE_5.3/Engine/Binaries/ThirdParty/USD/UsdResources/Win64/plugins/usdSkel/resources/plugInfo.json'
+[2026.10.11-17.37.07:454][  0]LogUsd: Warning: Failed to update LibraryPath for USD plugInfo.json file 'G:/Epic/UE_5.3/Engine/Binaries/ThirdParty/USD/UsdResources/Win64/plugins/usdHydra/resources/plugInfo.json'
+[2026.10.11-17.37.07:454][  0]LogUsd: Warning: Failed to update LibraryPath for USD plugInfo.json file 'G:/Epic/UE_5.3/Engine/Binaries/ThirdParty/USD/UsdResources/Win64/plugins/usdRiImaging/resources/plugInfo.json'
+[2026.10.11-17.37.07:454][  0]LogUsd: Warning: Failed to update LibraryPath for USD plugInfo.json file 'G:/Epic/UE_5.3/Engine/Binaries/ThirdParty/USD/UsdResources/Win64/plugins/sdf/resources/plugInfo.json'
+[2026.10.11-17.37.07:454][  0]LogUsd: Warning: Failed to update LibraryPath for USD plugInfo.json file 'G:/Epic/UE_5.3/Engine/Binaries/ThirdParty/USD/UsdResources/Win64/plugins/usdPhysics/resources/plugInfo.json'
+[2026.10.11-17.37.07:455][  0]LogUsd: Warning: Failed to update LibraryPath for USD plugInfo.json file 'G:/Epic/UE_5.3/Engine/Binaries/ThirdParty/USD/UsdResources/Win64/plugins/usdLux/resources/plugInfo.json'
+[2026.10.11-17.37.07:455][  0]LogUsd: Warning: Failed to update LibraryPath for USD plugInfo.json file 'G:/Epic/UE_5.3/Engine/Binaries/ThirdParty/USD/UsdResources/Win64/plugins/usdVol/resources/plugInfo.json'
+[2026.10.11-17.37.07:455][  0]LogUsd: Warning: Failed to update LibraryPath for USD plugInfo.json file 'G:/Epic/UE_5.3/Engine/Binaries/ThirdParty/USD/UsdResources/Win64/plugins/hgiGL/resources/plugInfo.json'
+[2026.10.11-17.37.07:455][  0]LogUsd: Warning: Failed to update LibraryPath for USD plugInfo.json file 'G:/Epic/UE_5.3/Engine/Binaries/ThirdParty/USD/UsdResources/Win64/plugins/hdx/resources/plugInfo.json'
+[2026.10.11-17.37.07:455][  0]LogUsd: Warning: Failed to update LibraryPath for USD plugInfo.json file 'G:/Epic/UE_5.3/Engine/Binaries/ThirdParty/USD/UsdResources/Win64/plugins/sdrGlslfx/resources/plugInfo.json'
+[2026.10.11-17.37.07:456][  0]LogUsd: Warning: Failed to update LibraryPath for USD plugInfo.json file 'G:/Epic/UE_5.3/Engine/Binaries/ThirdParty/USD/UsdResources/Win64/plugins/usd/resources/plugInfo.json'
+[2026.10.11-17.37.07:456][  0]LogUsd: Warning: Failed to update LibraryPath for USD plugInfo.json file 'G:/Epic/UE_5.3/Engine/Binaries/ThirdParty/USD/UsdResources/Win64/plugins/usdMedia/resources/plugInfo.json'
+[2026.10.11-17.37.07:456][  0]LogUsd: Warning: Failed to update LibraryPath for USD plugInfo.json file 'G:/Epic/UE_5.3/Engine/Binaries/ThirdParty/USD/UsdResources/Win64/plugins/usdRi/resources/plugInfo.json'
+[2026.10.11-17.37.07:457][  0]LogUsd: Warning: Failed to update LibraryPath for USD plugInfo.json file 'G:/Epic/UE_5.3/Engine/Binaries/ThirdParty/USD/UsdResources/Win64/plugins/usdShade/resources/plugInfo.json'
+[2026.10.11-17.37.07:457][  0]LogUsd: Warning: Failed to update LibraryPath for USD plugInfo.json file 'G:/Epic/UE_5.3/Engine/Binaries/ThirdParty/USD/UsdResources/Win64/plugins/usdShaders/resources/plugInfo.json'
+[2026.10.11-17.37.07:457][  0]LogUsd: Warning: Failed to update LibraryPath for USD plugInfo.json file 'G:/Epic/UE_5.3/Engine/Binaries/ThirdParty/USD/UsdResources/Win64/plugins/usdSkelImaging/resources/plugInfo.json'
+[2026.10.11-17.37.07:457][  0]LogUsd: Warning: Failed to update LibraryPath for USD plugInfo.json file 'G:/Epic/UE_5.3/Engine/Binaries/ThirdParty/USD/UsdResources/Win64/plugins/usdAbc/resources/plugInfo.json'
+[2026.10.11-17.37.07:458][  0]LogUsd: Warning: Failed to update LibraryPath for USD plugInfo.json file 'G:/Epic/UE_5.3/Engine/Binaries/ThirdParty/USD/UsdResources/Win64/plugins/usdGeom/resources/plugInfo.json'
+[2026.10.11-17.37.07:458][  0]LogUsd: Warning: Failed to update LibraryPath for USD plugInfo.json file 'G:/Epic/UE_5.3/Engine/Binaries/ThirdParty/USD/UsdResources/Win64/plugins/ndr/resources/plugInfo.json'
+[2026.10.11-17.37.07:458][  0]LogUsd: Warning: Failed to update LibraryPath for USD plugInfo.json file 'G:/Epic/UE_5.3/Engine/Binaries/ThirdParty/USD/UsdResources/Win64/plugins/usd/resources/codegenTemplates/plugInfo.json'
+[2026.10.11-17.37.07:938][  0]LogAudioCaptureCore: Display: No Audio Capture implementations found. Audio input will be silent.
+[2026.10.11-17.37.07:938][  0]LogAudioCaptureCore: Display: No Audio Capture implementations found. Audio input will be silent.
+[2026.10.11-17.37.08:267][  0]LogFabLauncher: Display: FabLauncher (version 0.5.0) active
+[2026.10.11-17.37.08:654][  0]LogAssetRegistry: Warning: Package G:/Epic/Unreal projects/VertigoGit/Content/Style/TextStyle_NarrativeButton_DialogueHintText.uasset is too new. Engine Version: 1009  Package Version: 1012
+[2026.10.11-17.37.08:654][  0]LogAssetRegistry: Warning: Package G:/Epic/Unreal projects/VertigoGit/Content/Style/TextStyle_NarrativeNotification.uasset is too new. Engine Version: 1009  Package Version: 1012
+[2026.10.11-17.37.08:654][  0]LogAssetRegistry: Warning: Package G:/Epic/Unreal projects/VertigoGit/Content/Style/TextStyle_NarrativeMenuHeader.uasset is too new. Engine Version: 1009  Package Version: 1012
+[2026.10.11-17.37.08:654][  0]LogAssetRegistry: Warning: Package G:/Epic/Unreal projects/VertigoGit/Content/Style/TextStyle_NarrativeButton_DialogueHover.uasset is too new. Engine Version: 1009  Package Version: 1012
+[2026.10.11-17.37.08:655][  0]LogAssetRegistry: Warning: Package G:/Epic/Unreal projects/VertigoGit/Content/Style/TextStyle_NarrativeButton_Dialogue.uasset is too new. Engine Version: 1009  Package Version: 1012
+[2026.10.11-17.37.08:655][  0]LogAssetRegistry: Warning: Package G:/Epic/Unreal projects/VertigoGit/Content/Style/TextStyle_NarrativeButtonHovered.uasset is too new. Engine Version: 1009  Package Version: 1012
+[2026.10.11-17.37.08:655][  0]LogAssetRegistry: Warning: Package G:/Epic/Unreal projects/VertigoGit/Content/Style/BorderStyle_Vignette.uasset is too new. Engine Version: 1009  Package Version: 1012
+[2026.10.11-17.37.08:655][  0]LogAssetRegistry: Warning: Package G:/Epic/Unreal projects/VertigoGit/Content/Style/BorderStyle_MenuBackground.uasset is too new. Engine Version: 1009  Package Version: 1012
+[2026.10.11-17.37.08:655][  0]LogAssetRegistry: Warning: Package G:/Epic/Unreal projects/VertigoGit/Content/Style/ButtonStyle_Transparent.uasset is too new. Engine Version: 1009  Package Version: 1012
+[2026.10.11-17.37.08:655][  0]LogAssetRegistry: Warning: Package G:/Epic/Unreal projects/VertigoGit/Content/Style/TextStyle_NarrativeButton.uasset is too new. Engine Version: 1009  Package Version: 1012
+[2026.10.11-17.37.08:656][  0]LogAssetRegistry: Warning: Package G:/Epic/Unreal projects/VertigoGit/Content/Style/ButtonStyle_Narrative.uasset is too new. Engine Version: 1009  Package Version: 1012
+[2026.10.11-17.37.08:656][  0]LogAssetRegistry: Warning: Package G:/Epic/Unreal projects/VertigoGit/Content/Style/BorderStyle_Narrative.uasset is too new. Engine Version: 1009  Package Version: 1012
+[2026.10.11-17.37.08:656][  0]LogAssetRegistry: Warning: Package G:/Epic/Unreal projects/VertigoGit/Content/Style/ButtonStyle_Dialogue.uasset is too new. Engine Version: 1009  Package Version: 1012
+[2026.10.11-17.37.08:674][  0]LogAssetRegistry: Warning: Package G:/Epic/Unreal projects/VertigoGit/Content/NarrativeUI/Widgets/BP_Narrative3Overlay.uasset is too new. Engine Version: 1009  Package Version: 1012
+[2026.10.11-17.37.08:675][  0]LogAssetRegistry: Warning: Package G:/Epic/Unreal projects/VertigoGit/Content/NarrativeUI/Widgets/Editor/StateNode_Node_Body.uasset is too new. Engine Version: 1009  Package Version: 1012
+[2026.10.11-17.37.08:675][  0]LogAssetRegistry: Warning: Package G:/Epic/Unreal projects/VertigoGit/Content/NarrativeUI/Widgets/Editor/StateNode_Node_ColorSpill.uasset is too new. Engine Version: 1009  Package Version: 1012
+[2026.10.11-17.37.08:675][  0]LogAssetRegistry: Warning: Package G:/Epic/Unreal projects/VertigoGit/Content/NarrativeUI/Widgets/BP_QuestJournalQuest.uasset is too new. Engine Version: 1009  Package Version: 1012
+[2026.10.11-17.37.08:675][  0]LogAssetRegistry: Warning: Package G:/Epic/Unreal projects/VertigoGit/Content/NarrativeUI/Widgets/Editor/SpeakerToTarget.uasset is too new. Engine Version: 1009  Package Version: 1012
+[2026.10.11-17.37.08:675][  0]LogAssetRegistry: Warning: Package G:/Epic/Unreal projects/VertigoGit/Content/NarrativeUI/Widgets/BP_QuestTask.uasset is too new. Engine Version: 1009  Package Version: 1012
+[2026.10.11-17.37.08:676][  0]LogAssetRegistry: Warning: Package G:/Epic/Unreal projects/VertigoGit/Content/NarrativeUI/Widgets/WBP_NarrativeButton_DialogueOption.uasset is too new. Engine Version: 1009  Package Version: 1012
+[2026.10.11-17.37.08:676][  0]LogAssetRegistry: Warning: Package G:/Epic/Unreal projects/VertigoGit/Content/NarrativeUI/Widgets/Editor/SoundGenericIcon_1_64x.uasset is too new. Engine Version: 1009  Package Version: 1012
+[2026.10.11-17.37.08:676][  0]LogAssetRegistry: Warning: Package G:/Epic/Unreal projects/VertigoGit/Content/NarrativeUI/Widgets/Editor/icon_layer_not_visible.uasset is too new. Engine Version: 1009  Package Version: 1012
+[2026.10.11-17.37.08:676][  0]LogAssetRegistry: Warning: Package G:/Epic/Unreal projects/VertigoGit/Content/NarrativeUI/Widgets/Editor/anim_24x.uasset is too new. Engine Version: 1009  Package Version: 1012
+[2026.10.11-17.37.08:676][  0]LogAssetRegistry: Warning: Package G:/Epic/Unreal projects/VertigoGit/Content/NarrativeUI/Widgets/W_NarrativeMenu_Dialogue.uasset is too new. Engine Version: 1009  Package Version: 1012
+[2026.10.11-17.37.08:677][  0]LogAssetRegistry: Warning: Package G:/Epic/Unreal projects/VertigoGit/Content/NarrativeUI/Widgets/Editor/WBP_DefaultDialogueNode.uasset is too new. Engine Version: 1009  Package Version: 1012
+[2026.10.11-17.37.08:677][  0]LogAssetRegistry: Warning: Package G:/Epic/Unreal projects/VertigoGit/Content/NarrativeUI/Widgets/Editor/ActionIcon64x64.uasset is too new. Engine Version: 1009  Package Version: 1012
+[2026.10.11-17.37.08:677][  0]LogAssetRegistry: Warning: Package G:/Epic/Unreal projects/VertigoGit/Content/NarrativeUI/Widgets/BP_QuestBranch.uasset is too new. Engine Version: 1009  Package Version: 1012
+[2026.10.11-17.37.08:677][  0]LogAssetRegistry: Warning: Package G:/Epic/Unreal projects/VertigoGit/Content/NarrativeUI/Widgets/Editor/WBP_DefaultQuestNode.uasset is too new. Engine Version: 1009  Package Version: 1012
+[2026.10.11-17.37.08:677][  0]LogAssetRegistry: Warning: Package G:/Epic/Unreal projects/VertigoGit/Content/NarrativeUI/Widgets/Editor/WBP_SpeakerSelector.uasset is too new. Engine Version: 1009  Package Version: 1012
+[2026.10.11-17.37.08:678][  0]LogAssetRegistry: Warning: Package G:/Epic/Unreal projects/VertigoGit/Content/NarrativeUI/Widgets/W_NarrativeMenu_QuestJournal.uasset is too new. Engine Version: 1009  Package Version: 1012
+[2026.10.11-17.37.08:678][  0]LogAssetRegistry: Warning: Package G:/Epic/Unreal projects/VertigoGit/Content/NarrativeUI/Assets/T_DialogueOptionSelector.uasset is too new. Engine Version: 1009  Package Version: 1012
+[2026.10.11-17.37.08:678][  0]LogAssetRegistry: Warning: Package G:/Epic/Unreal projects/VertigoGit/Content/NarrativeUI/Widgets/Editor/icon_Blueprint_Anim_24x.uasset is too new. Engine Version: 1009  Package Version: 1012
+[2026.10.11-17.37.08:678][  0]LogAssetRegistry: Warning: Package G:/Epic/Unreal projects/VertigoGit/Content/NarrativeUI/Assets/T_CloseIcon.uasset is too new. Engine Version: 1009  Package Version: 1012
+[2026.10.11-17.37.08:678][  0]LogAssetRegistry: Warning: Package G:/Epic/Unreal projects/VertigoGit/Content/NarrativeUI/Assets/SourceSansPro-SemiBold.uasset is too new. Engine Version: 1009  Package Version: 1012
+[2026.10.11-17.37.08:679][  0]LogAssetRegistry: Warning: Package G:/Epic/Unreal projects/VertigoGit/Content/NarrativeUI/Assets/T_Grad.uasset is too new. Engine Version: 1009  Package Version: 1012
+[2026.10.11-17.37.08:679][  0]LogAssetRegistry: Warning: Package G:/Epic/Unreal projects/VertigoGit/Content/NarrativeUI/Assets/DT_RichText_QuestJournal.uasset is too new. Engine Version: 1009  Package Version: 1012
+[2026.10.11-17.37.08:679][  0]LogAssetRegistry: Warning: Package G:/Epic/Unreal projects/VertigoGit/Content/NarrativeUI/Assets/SourceSansPro-Regular.uasset is too new. Engine Version: 1009  Package Version: 1012
+[2026.10.11-17.37.08:679][  0]LogAssetRegistry: Warning: Package G:/Epic/Unreal projects/VertigoGit/Content/NarrativeUI/Assets/DT_RichText_NarrativeQuestUpdate.uasset is too new. Engine Version: 1009  Package Version: 1012
+[2026.10.11-17.37.08:679][  0]LogAssetRegistry: Warning: Package G:/Epic/Unreal projects/VertigoGit/Content/NarrativeUI/Audio/Completion_Sound.uasset is too new. Engine Version: 1009  Package Version: 1012
+[2026.10.11-17.37.08:680][  0]LogAssetRegistry: Warning: Package G:/Epic/Unreal projects/VertigoGit/Content/NarrativeUI/Assets/SourceSansPro-Bold_Font.uasset is too new. Engine Version: 1009  Package Version: 1012
+[2026.10.11-17.37.08:680][  0]LogAssetRegistry: Warning: Package G:/Epic/Unreal projects/VertigoGit/Content/NarrativeUI/Audio/Error_Sound.uasset is too new. Engine Version: 1009  Package Version: 1012
+[2026.10.11-17.37.08:680][  0]LogAssetRegistry: Warning: Package G:/Epic/Unreal projects/VertigoGit/Content/NarrativeUI/Assets/Checked.uasset is too new. Engine Version: 1009  Package Version: 1012
+[2026.10.11-17.37.08:680][  0]LogAssetRegistry: Warning: Package G:/Epic/Unreal projects/VertigoGit/Content/NarrativeUI/Assets/SourceSansPro-Bold.uasset is too new. Engine Version: 1009  Package Version: 1012
+[2026.10.11-17.37.08:680][  0]LogAssetRegistry: Warning: Package G:/Epic/Unreal projects/VertigoGit/Content/NarrativeUI/Assets/DT_NarrativeDefaultUIRichText.uasset is too new. Engine Version: 1009  Package Version: 1012
+[2026.10.11-17.37.08:681][  0]LogAssetRegistry: Warning: Package G:/Epic/Unreal projects/VertigoGit/Content/NarrativeUI/Assets/AstroneliPrototype/quest_title_4x.uasset is too new. Engine Version: 1009  Package Version: 1012
+[2026.10.11-17.37.08:681][  0]LogAssetRegistry: Warning: Package G:/Epic/Unreal projects/VertigoGit/Content/NarrativeUI/Assets/AstroneliPrototype/quest_desc_line_4x.uasset is too new. Engine Version: 1009  Package Version: 1012
+[2026.10.11-17.37.08:681][  0]LogAssetRegistry: Warning: Package G:/Epic/Unreal projects/VertigoGit/Content/NarrativeUI/Assets/AstroneliPrototype/bullet_diamond_checked_4x.uasset is too new. Engine Version: 1009  Package Version: 1012
+[2026.10.11-17.37.08:681][  0]LogAssetRegistry: Warning: Package G:/Epic/Unreal projects/VertigoGit/Content/NarrativeUI/Assets/AstroneliPrototype/quest_notification_name_4x.uasset is too new. Engine Version: 1009  Package Version: 1012
+[2026.10.11-17.37.08:681][  0]LogAssetRegistry: Warning: Package G:/Epic/Unreal projects/VertigoGit/Content/NarrativeUI/Assets/AstroneliPrototype/bullet_diamond_4x.uasset is too new. Engine Version: 1009  Package Version: 1012
+[2026.10.11-17.37.08:682][  0]LogAssetRegistry: Warning: Package G:/Epic/Unreal projects/VertigoGit/Content/NarrativeUI/Assets/DT_RichText_NarrativeDialogue.uasset is too new. Engine Version: 1009  Package Version: 1012
+[2026.10.11-17.37.08:682][  0]LogAssetRegistry: Warning: Package G:/Epic/Unreal projects/VertigoGit/Content/NarrativeUI/Assets/AstroneliPrototype/quest_notification_4x.uasset is too new. Engine Version: 1009  Package Version: 1012
+[2026.10.11-17.37.08:682][  0]LogAssetRegistry: Warning: Package G:/Epic/Unreal projects/VertigoGit/Content/NarrativeUI/Assets/Unchecked.uasset is too new. Engine Version: 1009  Package Version: 1012
+[2026.10.11-17.37.08:682][  0]LogAssetRegistry: Warning: Package G:/Epic/Unreal projects/VertigoGit/Content/Materials/UI/ProgressCircle/ProgressCircle/T_IconHoldMask.uasset is too new. Engine Version: 1009  Package Version: 1012
+[2026.10.11-17.37.08:682][  0]LogAssetRegistry: Warning: Package G:/Epic/Unreal projects/VertigoGit/Content/Materials/UI/ProgressCircle/ProgressCircle/MI_ProgressCircle.uasset is too new. Engine Version: 1009  Package Version: 1012
+[2026.10.11-17.37.08:683][  0]LogAssetRegistry: Warning: Package G:/Epic/Unreal projects/VertigoGit/Content/Materials/UI/ProgressCircle/ProgressCircle/M_ProgressCircle.uasset is too new. Engine Version: 1009  Package Version: 1012
+[2026.10.11-17.37.08:683][  0]LogAssetRegistry: Warning: Package G:/Epic/Unreal projects/VertigoGit/Content/Materials/UI/ProgressCircle/ProgressCircle/T_CircularMask.uasset is too new. Engine Version: 1009  Package Version: 1012
+[2026.10.11-17.37.08:683][  0]LogAssetRegistry: Warning: Package G:/Epic/Unreal projects/VertigoGit/Content/Icons/T_Marker_Generic.uasset is too new. Engine Version: 1009  Package Version: 1012
+[2026.10.11-17.37.08:683][  0]LogAssetRegistry: Warning: Package G:/Epic/Unreal projects/VertigoGit/Content/Fonts/RobotoCondensed.uasset is too new. Engine Version: 1009  Package Version: 1012
+[2026.10.11-17.37.08:683][  0]LogAssetRegistry: Warning: Package G:/Epic/Unreal projects/VertigoGit/Content/Fonts/RobotoCondensed-Regular.uasset is too new. Engine Version: 1009  Package Version: 1012
+[2026.10.11-17.37.08:683][  0]LogAssetRegistry: Warning: Package G:/Epic/Unreal projects/VertigoGit/Content/Fonts/RobotoCondensed-BoldItalic.uasset is too new. Engine Version: 1009  Package Version: 1012
+[2026.10.11-17.37.08:684][  0]LogAssetRegistry: Warning: Package G:/Epic/Unreal projects/VertigoGit/Content/Fonts/RobotoCondensed-LightItalic.uasset is too new. Engine Version: 1009  Package Version: 1012
+[2026.10.11-17.37.08:684][  0]LogAssetRegistry: Warning: Package G:/Epic/Unreal projects/VertigoGit/Content/Fonts/RobotoCondensed-Light.uasset is too new. Engine Version: 1009  Package Version: 1012
+[2026.10.11-17.37.08:684][  0]LogAssetRegistry: Warning: Package G:/Epic/Unreal projects/VertigoGit/Content/Fonts/RobotoCondensed-Bold.uasset is too new. Engine Version: 1009  Package Version: 1012
+[2026.10.11-17.37.08:684][  0]LogAssetRegistry: Warning: Package G:/Epic/Unreal projects/VertigoGit/Content/EnvArt/Tunnel/L2Tunnel/M_MovingTunnel.uasset is too old. Min Version: 214  Package Version: 0
+[2026.10.11-17.37.08:705][  0]LogAssetRegistry: Warning: Package G:/Epic/Unreal projects/VertigoGit/Content/ControllerData/DT_NarrativeInputActions.uasset is too new. Engine Version: 1009  Package Version: 1012
+[2026.10.11-17.37.09:857][  0]LogCsvProfiler: Display: Metadata set : largeworldcoordinates="1"
+[2026.10.11-17.37.10:010][  0]LogBlueprint: Warning: [AssetLog] /Game/Widget/Subtitles/WBP_SequenceSubtitles.WBP_SequenceSubtitles: [Compiler] A required widget binding "SubtitleText" of type  Text  was not found.
+[2026.10.11-17.37.10:010][  0]LogBlueprint: Warning: [AssetLog] /Game/Widget/Subtitles/WBP_SequenceSubtitles.WBP_SequenceSubtitles: [Compiler] A required widget binding "SpeakerText" of type  Text  was not found.
+[2026.10.11-17.37.10:010][  0]LogBlueprint: Warning: [AssetLog] /Game/Widget/Subtitles/WBP_SequenceSubtitles.WBP_SequenceSubtitles: [Compiler] A required widget binding "SubtitleText" of type  Text  was not found.
+[2026.10.11-17.37.10:010][  0]LogBlueprint: Warning: [AssetLog] /Game/Widget/Subtitles/WBP_SequenceSubtitles.WBP_SequenceSubtitles: [Compiler] A required widget binding "SpeakerText" of type  Text  was not found.
+[2026.10.11-17.37.10:033][  0]LogTemp: Display: SUBTITLE SAMPLE SAVED 3 lines
+[2026.10.11-17.37.10:033][  0]LogInit: Display: 
+[2026.10.11-17.37.10:034][  0]LogInit: Display: Warning/Error Summary (Unique only)
+[2026.10.11-17.37.10:034][  0]LogInit: Display: -----------------------------------
+[2026.10.11-17.37.10:034][  0]LogInit: Display: LogSsl: Warning: Unable to open ROOT certificate store. Platform provided certificates will not be used
+[2026.10.11-17.37.10:034][  0]LogInit: Display: LogDerivedDataCache: Warning: C:/Users/Hao/AppData/Local/UnrealEngine/Common/DerivedDataCache: Failed to write to C:/Users/Hao/AppData/Local/UnrealEngine/Common/DerivedDataCache/TestData/A1FC20D54F7D8140DBEC099B097F3964/TestData/0/TestData_4kb.dat, this cache store will be disabled. ReadError: 3 (???????????)
+[2026.10.11-17.37.10:034][  0]LogInit: Display: Input_ISX: Warning: Input_ISX module has been loaded
+[2026.10.11-17.37.10:034][  0]LogInit: Display: LogUObjectGlobals: Warning: Failed to find object 'Object /Game/ThirdPerson/Input/IMC_Default.IMC_Default'
+[2026.10.11-17.37.10:034][  0]LogInit: Display: LogUsd: Warning: Failed to update LibraryPath for USD plugInfo.json file 'G:/Epic/UE_5.3/Engine/Binaries/ThirdParty/USD/UsdResources/Win64/plugins/hdGp/resources/plugInfo.json'
+[2026.10.11-17.37.10:035][  0]LogInit: Display: LogUsd: Warning: Failed to update LibraryPath for USD plugInfo.json file 'G:/Epic/UE_5.3/Engine/Binaries/ThirdParty/USD/UsdResources/Win64/plugins/usdImaging/resources/plugInfo.json'
+[2026.10.11-17.37.10:035][  0]LogInit: Display: LogUsd: Warning: Failed to update LibraryPath for USD plugInfo.json file 'G:/Epic/UE_5.3/Engine/Binaries/ThirdParty/USD/UsdResources/Win64/plugins/usdProc/resources/plugInfo.json'
+[2026.10.11-17.37.10:035][  0]LogInit: Display: LogUsd: Warning: Failed to update LibraryPath for USD plugInfo.json file 'G:/Epic/UE_5.3/Engine/Binaries/ThirdParty/USD/UsdResources/Win64/plugins/usdImagingGL/resources/plugInfo.json'
+[2026.10.11-17.37.10:035][  0]LogInit: Display: LogUsd: Warning: Failed to update LibraryPath for USD plugInfo.json file 'G:/Epic/UE_5.3/Engine/Binaries/ThirdParty/USD/UsdResources/Win64/plugins/hdStorm/resources/plugInfo.json'
+[2026.10.11-17.37.10:035][  0]LogInit: Display: LogUsd: Warning: Failed to update LibraryPath for USD plugInfo.json file 'G:/Epic/UE_5.3/Engine/Binaries/ThirdParty/USD/UsdResources/Win64/plugins/glf/resources/plugInfo.json'
+[2026.10.11-17.37.10:036][  0]LogInit: Display: LogUsd: Warning: Failed to update LibraryPath for USD plugInfo.json file 'G:/Epic/UE_5.3/Engine/Binaries/ThirdParty/USD/UsdResources/Win64/plugins/usdVolImaging/resources/plugInfo.json'
+[2026.10.11-17.37.10:036][  0]LogInit: Display: LogUsd: Warning: Failed to update LibraryPath for USD plugInfo.json file 'G:/Epic/UE_5.3/Engine/Binaries/ThirdParty/USD/UsdResources/Win64/plugins/hdSt/resources/plugInfo.json'
+[2026.10.11-17.37.10:036][  0]LogInit: Display: LogUsd: Warning: Failed to update LibraryPath for USD plugInfo.json file 'G:/Epic/UE_5.3/Engine/Binaries/ThirdParty/USD/UsdResources/Win64/plugins/usdProcImaging/resources/plugInfo.json'
+[2026.10.11-17.37.10:036][  0]LogInit: Display: LogUsd: Warning: Failed to update LibraryPath for USD plugInfo.json file 'G:/Epic/UE_5.3/Engine/Binaries/ThirdParty/USD/UsdResources/Win64/plugins/hio/resources/plugInfo.json'
+[2026.10.11-17.37.10:036][  0]LogInit: Display: LogUsd: Warning: Failed to update LibraryPath for USD plugInfo.json file 'G:/Epic/UE_5.3/Engine/Binaries/ThirdParty/USD/UsdResources/Win64/plugins/ar/resources/plugInfo.json'
+[2026.10.11-17.37.10:037][  0]LogInit: Display: LogUsd: Warning: Failed to update LibraryPath for USD plugInfo.json file 'G:/Epic/UE_5.3/Engine/Binaries/ThirdParty/USD/UsdResources/Win64/plugins/hd/resources/plugInfo.json'
+[2026.10.11-17.37.10:037][  0]LogInit: Display: LogUsd: Warning: Failed to update LibraryPath for USD plugInfo.json file 'G:/Epic/UE_5.3/Engine/Binaries/ThirdParty/USD/UsdResources/Win64/plugins/usdRender/resources/plugInfo.json'
+[2026.10.11-17.37.10:037][  0]LogInit: Display: LogUsd: Warning: Failed to update LibraryPath for USD plugInfo.json file 'G:/Epic/UE_5.3/Engine/Binaries/ThirdParty/USD/UsdResources/Win64/plugins/usdMtlx/resources/plugInfo.json'
+[2026.10.11-17.37.10:037][  0]LogInit: Display: LogUsd: Warning: Failed to update LibraryPath for USD plugInfo.json file 'G:/Epic/UE_5.3/Engine/Binaries/ThirdParty/USD/UsdResources/Win64/plugins/usdUI/resources/plugInfo.json'
+[2026.10.11-17.37.10:037][  0]LogInit: Display: LogUsd: Warning: Failed to update LibraryPath for USD plugInfo.json file 'G:/Epic/UE_5.3/Engine/Binaries/ThirdParty/USD/UsdResources/Win64/plugins/usdSkel/resources/plugInfo.json'
+[2026.10.11-17.37.10:037][  0]LogInit: Display: LogUsd: Warning: Failed to update LibraryPath for USD plugInfo.json file 'G:/Epic/UE_5.3/Engine/Binaries/ThirdParty/USD/UsdResources/Win64/plugins/usdHydra/resources/plugInfo.json'
+[2026.10.11-17.37.10:038][  0]LogInit: Display: LogUsd: Warning: Failed to update LibraryPath for USD plugInfo.json file 'G:/Epic/UE_5.3/Engine/Binaries/ThirdParty/USD/UsdResources/Win64/plugins/usdRiImaging/resources/plugInfo.json'
+[2026.10.11-17.37.10:038][  0]LogInit: Display: LogUsd: Warning: Failed to update LibraryPath for USD plugInfo.json file 'G:/Epic/UE_5.3/Engine/Binaries/ThirdParty/USD/UsdResources/Win64/plugins/sdf/resources/plugInfo.json'
+[2026.10.11-17.37.10:038][  0]LogInit: Display: LogUsd: Warning: Failed to update LibraryPath for USD plugInfo.json file 'G:/Epic/UE_5.3/Engine/Binaries/ThirdParty/USD/UsdResources/Win64/plugins/usdPhysics/resources/plugInfo.json'
+[2026.10.11-17.37.10:038][  0]LogInit: Display: LogUsd: Warning: Failed to update LibraryPath for USD plugInfo.json file 'G:/Epic/UE_5.3/Engine/Binaries/ThirdParty/USD/UsdResources/Win64/plugins/usdLux/resources/plugInfo.json'
+[2026.10.11-17.37.10:038][  0]LogInit: Display: LogUsd: Warning: Failed to update LibraryPath for USD plugInfo.json file 'G:/Epic/UE_5.3/Engine/Binaries/ThirdParty/USD/UsdResources/Win64/plugins/usdVol/resources/plugInfo.json'
+[2026.10.11-17.37.10:039][  0]LogInit: Display: LogUsd: Warning: Failed to update LibraryPath for USD plugInfo.json file 'G:/Epic/UE_5.3/Engine/Binaries/ThirdParty/USD/UsdResources/Win64/plugins/hgiGL/resources/plugInfo.json'
+[2026.10.11-17.37.10:039][  0]LogInit: Display: LogUsd: Warning: Failed to update LibraryPath for USD plugInfo.json file 'G:/Epic/UE_5.3/Engine/Binaries/ThirdParty/USD/UsdResources/Win64/plugins/hdx/resources/plugInfo.json'
+[2026.10.11-17.37.10:039][  0]LogInit: Display: LogUsd: Warning: Failed to update LibraryPath for USD plugInfo.json file 'G:/Epic/UE_5.3/Engine/Binaries/ThirdParty/USD/UsdResources/Win64/plugins/sdrGlslfx/resources/plugInfo.json'
+[2026.10.11-17.37.10:039][  0]LogInit: Display: LogUsd: Warning: Failed to update LibraryPath for USD plugInfo.json file 'G:/Epic/UE_5.3/Engine/Binaries/ThirdParty/USD/UsdResources/Win64/plugins/usd/resources/plugInfo.json'
+[2026.10.11-17.37.10:039][  0]LogInit: Display: LogUsd: Warning: Failed to update LibraryPath for USD plugInfo.json file 'G:/Epic/UE_5.3/Engine/Binaries/ThirdParty/USD/UsdResources/Win64/plugins/usdMedia/resources/plugInfo.json'
+[2026.10.11-17.37.10:040][  0]LogInit: Display: LogUsd: Warning: Failed to update LibraryPath for USD plugInfo.json file 'G:/Epic/UE_5.3/Engine/Binaries/ThirdParty/USD/UsdResources/Win64/plugins/usdRi/resources/plugInfo.json'
+[2026.10.11-17.37.10:040][  0]LogInit: Display: LogUsd: Warning: Failed to update LibraryPath for USD plugInfo.json file 'G:/Epic/UE_5.3/Engine/Binaries/ThirdParty/USD/UsdResources/Win64/plugins/usdShade/resources/plugInfo.json'
+[2026.10.11-17.37.10:040][  0]LogInit: Display: LogUsd: Warning: Failed to update LibraryPath for USD plugInfo.json file 'G:/Epic/UE_5.3/Engine/Binaries/ThirdParty/USD/UsdResources/Win64/plugins/usdShaders/resources/plugInfo.json'
+[2026.10.11-17.37.10:040][  0]LogInit: Display: LogUsd: Warning: Failed to update LibraryPath for USD plugInfo.json file 'G:/Epic/UE_5.3/Engine/Binaries/ThirdParty/USD/UsdResources/Win64/plugins/usdSkelImaging/resources/plugInfo.json'
+[2026.10.11-17.37.10:040][  0]LogInit: Display: LogUsd: Warning: Failed to update LibraryPath for USD plugInfo.json file 'G:/Epic/UE_5.3/Engine/Binaries/ThirdParty/USD/UsdResources/Win64/plugins/usdAbc/resources/plugInfo.json'
+[2026.10.11-17.37.10:041][  0]LogInit: Display: LogUsd: Warning: Failed to update LibraryPath for USD plugInfo.json file 'G:/Epic/UE_5.3/Engine/Binaries/ThirdParty/USD/UsdResources/Win64/plugins/usdGeom/resources/plugInfo.json'
+[2026.10.11-17.37.10:041][  0]LogInit: Display: LogUsd: Warning: Failed to update LibraryPath for USD plugInfo.json file 'G:/Epic/UE_5.3/Engine/Binaries/ThirdParty/USD/UsdResources/Win64/plugins/ndr/resources/plugInfo.json'
+[2026.10.11-17.37.10:041][  0]LogInit: Display: LogUsd: Warning: Failed to update LibraryPath for USD plugInfo.json file 'G:/Epic/UE_5.3/Engine/Binaries/ThirdParty/USD/UsdResources/Win64/plugins/usd/resources/codegenTemplates/plugInfo.json'
+[2026.10.11-17.37.10:041][  0]LogInit: Display: LogAssetRegistry: Warning: Package G:/Epic/Unreal projects/VertigoGit/Content/Style/TextStyle_NarrativeMenuHeader.uasset is too new. Engine Version: 1009  Package Version: 1012
+[2026.10.11-17.37.10:041][  0]LogInit: Display: LogAssetRegistry: Warning: Package G:/Epic/Unreal projects/VertigoGit/Content/Style/TextStyle_NarrativeButton_DialogueHintText.uasset is too new. Engine Version: 1009  Package Version: 1012
+[2026.10.11-17.37.10:042][  0]LogInit: Display: LogAssetRegistry: Warning: Package G:/Epic/Unreal projects/VertigoGit/Content/Style/TextStyle_NarrativeNotification.uasset is too new. Engine Version: 1009  Package Version: 1012
+[2026.10.11-17.37.10:042][  0]LogInit: Display: LogAssetRegistry: Warning: Package G:/Epic/Unreal projects/VertigoGit/Content/Style/TextStyle_NarrativeButton_Dialogue.uasset is too new. Engine Version: 1009  Package Version: 1012
+[2026.10.11-17.37.10:042][  0]LogInit: Display: LogAssetRegistry: Warning: Package G:/Epic/Unreal projects/VertigoGit/Content/Style/TextStyle_NarrativeButtonHovered.uasset is too new. Engine Version: 1009  Package Version: 1012
+[2026.10.11-17.37.10:042][  0]LogInit: Display: LogAssetRegistry: Warning: Package G:/Epic/Unreal projects/VertigoGit/Content/Style/TextStyle_NarrativeButton_DialogueHover.uasset is too new. Engine Version: 1009  Package Version: 1012
+[2026.10.11-17.37.10:042][  0]LogInit: Display: LogAssetRegistry: Warning: Package G:/Epic/Unreal projects/VertigoGit/Content/Style/BorderStyle_Vignette.uasset is too new. Engine Version: 1009  Package Version: 1012
+[2026.10.11-17.37.10:043][  0]LogInit: Display: LogAssetRegistry: Warning: Package G:/Epic/Unreal projects/VertigoGit/Content/Style/BorderStyle_MenuBackground.uasset is too new. Engine Version: 1009  Package Version: 1012
+[2026.10.11-17.37.10:043][  0]LogInit: Display: LogAssetRegistry: Warning: Package G:/Epic/Unreal projects/VertigoGit/Content/Style/ButtonStyle_Transparent.uasset is too new. Engine Version: 1009  Package Version: 1012
+[2026.10.11-17.37.10:043][  0]LogInit: Display: LogAssetRegistry: Warning: Package G:/Epic/Unreal projects/VertigoGit/Content/Style/TextStyle_NarrativeButton.uasset is too new. Engine Version: 1009  Package Version: 1012
+[2026.10.11-17.37.10:043][  0]LogInit: Display: LogAssetRegistry: Warning: Package G:/Epic/Unreal projects/VertigoGit/Content/Style/ButtonStyle_Narrative.uasset is too new. Engine Version: 1009  Package Version: 1012
+[2026.10.11-17.37.10:043][  0]LogInit: Display: NOTE: Only first 50 warnings displayed.
+[2026.10.11-17.37.10:043][  0]LogInit: Display: 
+[2026.10.11-17.37.10:043][  0]LogInit: Display: Success - 0 error(s), 108 warning(s)
+[2026.10.11-17.37.10:044][  0]LogInit: Display: 
+
+Execution of commandlet took:  0.03 seconds
+[2026.10.11-17.37.10:264][  0]LogShaderCompilers: Display: ================================================
+[2026.10.11-17.37.10:264][  0]LogShaderCompilers: Display: === FShaderJobCache stats ===
+[2026.10.11-17.37.10:264][  0]LogShaderCompilers: Display: Total job queries 0, among them cache hits 0 (0.00%)
+[2026.10.11-17.37.10:264][  0]LogShaderCompilers: Display: Tracking 0 distinct input hashes that result in 0 distinct outputs (0.00%)
+[2026.10.11-17.37.10:264][  0]LogShaderCompilers: Display: RAM used: 240.00 B of 3.20 GiB budget. Usage: 0.00%
+[2026.10.11-17.37.10:264][  0]LogShaderCompilers: Display: === Shader Compilation stats ===
+[2026.10.11-17.37.10:264][  0]LogShaderCompilers: Display: Shaders Compiled: 0
+[2026.10.11-17.37.10:264][  0]LogShaderCompilers: Display: Jobs assigned 0, completed 0 (0%)
+[2026.10.11-17.37.10:264][  0]LogShaderCompilers: Display: Time at least one job was in flight (either pending or executed): 0.00 s
+[2026.10.11-17.37.10:265][  0]LogShaderCompilers: Display: ================================================
+[2026.10.11-17.37.10:349][  0]LogShaderCompilers: Display: Shaders left to compile 0
+[2026.10.11-17.37.10:790][  0]Input_ISX: Warning: Input_ISX module has been unloaded

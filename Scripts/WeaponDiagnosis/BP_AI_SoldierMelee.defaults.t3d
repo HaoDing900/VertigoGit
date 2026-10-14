@@ -1,0 +1,190 @@
+Begin Object Class=/Game/AI/AIBehaviorSystem/Blueprint/AI/Example/BP_AI_SoldierMelee.BP_AI_SoldierMelee_C Name="Default__BP_AI_SoldierMelee_C" ExportPath="/Game/AI/AIBehaviorSystem/Blueprint/AI/Example/BP_AI_SoldierMelee.BP_AI_SoldierMelee_C'/Game/AI/AIBehaviorSystem/Blueprint/AI/Example/BP_AI_SoldierMelee.Default__BP_AI_SoldierMelee_C'"
+   Begin Object Class=/Script/Engine.CapsuleComponent Name="CollisionCylinder" Archetype="/Script/Engine.CapsuleComponent'/Game/AI/AIBehaviorSystem/Blueprint/AI/BP_AI_Base.Default__BP_AI_Base_C:CollisionCylinder'" ExportPath="/Script/Engine.CapsuleComponent'/Game/AI/AIBehaviorSystem/Blueprint/AI/Example/BP_AI_SoldierMelee.Default__BP_AI_SoldierMelee_C:CollisionCylinder'"
+   End Object
+   Begin Object Class=/Script/Engine.ArrowComponent Name="Arrow" Archetype="/Script/Engine.ArrowComponent'/Game/AI/AIBehaviorSystem/Blueprint/AI/BP_AI_Base.Default__BP_AI_Base_C:Arrow'" ExportPath="/Script/Engine.ArrowComponent'/Game/AI/AIBehaviorSystem/Blueprint/AI/Example/BP_AI_SoldierMelee.Default__BP_AI_SoldierMelee_C:Arrow'"
+   End Object
+   Begin Object Class=/Script/Engine.CharacterMovementComponent Name="CharMoveComp" Archetype="/Script/Engine.CharacterMovementComponent'/Game/AI/AIBehaviorSystem/Blueprint/AI/BP_AI_Base.Default__BP_AI_Base_C:CharMoveComp'" ExportPath="/Script/Engine.CharacterMovementComponent'/Game/AI/AIBehaviorSystem/Blueprint/AI/Example/BP_AI_SoldierMelee.Default__BP_AI_SoldierMelee_C:CharMoveComp'"
+   End Object
+   Begin Object Class=/Script/Engine.SkeletalMeshComponent Name="CharacterMesh0" Archetype="/Script/Engine.SkeletalMeshComponent'/Game/AI/AIBehaviorSystem/Blueprint/AI/BP_AI_Base.Default__BP_AI_Base_C:CharacterMesh0'" ExportPath="/Script/Engine.SkeletalMeshComponent'/Game/AI/AIBehaviorSystem/Blueprint/AI/Example/BP_AI_SoldierMelee.Default__BP_AI_SoldierMelee_C:CharacterMesh0'"
+   End Object
+   Begin Object Name="CollisionCylinder" ExportPath="/Script/Engine.CapsuleComponent'/Game/AI/AIBehaviorSystem/Blueprint/AI/Example/BP_AI_SoldierMelee.Default__BP_AI_SoldierMelee_C:CollisionCylinder'"
+   End Object
+   Begin Object Name="Arrow" ExportPath="/Script/Engine.ArrowComponent'/Game/AI/AIBehaviorSystem/Blueprint/AI/Example/BP_AI_SoldierMelee.Default__BP_AI_SoldierMelee_C:Arrow'"
+   End Object
+   Begin Object Name="CharMoveComp" ExportPath="/Script/Engine.CharacterMovementComponent'/Game/AI/AIBehaviorSystem/Blueprint/AI/Example/BP_AI_SoldierMelee.Default__BP_AI_SoldierMelee_C:CharMoveComp'"
+   End Object
+   Begin Object Name="CharacterMesh0" ExportPath="/Script/Engine.SkeletalMeshComponent'/Game/AI/AIBehaviorSystem/Blueprint/AI/Example/BP_AI_SoldierMelee.Default__BP_AI_SoldierMelee_C:CharacterMesh0'"
+      AnimClass="/Script/Engine.AnimBlueprintGeneratedClass'/Game/AI/AIBehaviorSystem/Demo/Characters/Mannequins/Animations/ABP_MeleeBat.ABP_MeleeBat_C'"
+      OverrideMaterials(0)="/Script/Engine.MaterialInstanceConstant'/Game/AI/AIBehaviorSystem/Demo/Characters/Mannequins/Materials/Instances/Manny/SoldierMelee/MI_Manny_02.MI_Manny_02'"
+      OverrideMaterials(1)="/Script/Engine.MaterialInstanceConstant'/Game/AI/AIBehaviorSystem/Demo/Characters/Mannequins/Materials/Instances/Manny/SoldierMelee/MI_Manny_01.MI_Manny_01'"
+   End Object
+   Weapon=None
+   MeleeHitVFX="/Script/Engine.ParticleSystem'/Game/AI/AIBehaviorSystem/Demo/Particles/P_body_bullet_impact.P_body_bullet_impact'"
+   MeleeHitSound="/Script/Engine.SoundCue'/Game/AI/AIBehaviorSystem/Demo/Audio/Impact/A_Guardian_ImpactL_Cue.A_Guardian_ImpactL_Cue'"
+   WeaponEquipSocket="baseballbat_hand"
+   WeaponUnequipSocket="baseballbat_back"
+   Arrow1=None
+   HealthBar=None
+   StartDialog=None
+   TextOverHead=None
+   ChildActor=None
+   Widget_ScanMark=None
+   MeleeCollisionComponent=None
+   AIBehaviorsComponent=None
+   Timeline_Rotation__Direction_B1D82E3C419EF289277A9A962E94063B=Forward
+   Timeline_Rotation=None
+   TurnRateGamepad=50.000000
+   BehaviorTree="/Script/AIModule.BehaviorTree'/Game/AI/AIBehaviorSystem/Blueprint/AI/BT_Main.BT_Main'"
+   CurrentHealth=100.000000
+   CanBeAssassinated=True
+   Is in Dialogue=False
+   Row Name=""
+   WhistleBlower?=False
+   CanDialog?=False
+   ScanMarkFade=60.000000
+   InDark?=False
+   Sight Radius In Dark=0.000000
+   Range Attack Damage  In Dark=20.000000
+   On EnemyDeath=()
+   UsePointDamage?=True
+   UniversalHitAnim?=False
+   Uni Hit Montage to Play="/Script/Engine.AnimMontage'/Game/AI/AIBehaviorSystem/Demo/Animation/AM_HitReact_Front.AM_HitReact_Front'"
+   UniversalHitVFX?=True
+   UniHitVFX_Emitter="/Script/Engine.ParticleSystem'/Game/Resource/MonsterAi_Kit/BloodFX/P_Blood.P_Blood'"
+   Uni Hit Sound="/Script/Engine.SoundCue'/Game/SFX/FootstepAndFoleySounds/ProSoundCollectionBonusSounds/StereoVersions/Cues/punch_general_body_impact_03_Cue.punch_general_body_impact_03_Cue'"
+   Uni Hit VFX Scale=(X=2.000000,Y=2.000000,Z=2.000000)
+   LaunchDirecion=(X=0.000000,Y=0.000000,Z=0.000000)
+   UniHitVFX_Niagara="/Script/Niagara.NiagaraSystem'/Game/Resource/VFX/BloodPack/Splash/Niagara/NS_BloodSplash_Low.NS_BloodSplash_Low'"
+   Dead?=False
+   ActieStage=""
+   Universal Exists?=False
+   As WBP Enemy Health Bar=None
+   Mesh="/Script/Engine.SkeletalMeshComponent'CharacterMesh0'"
+   CharacterMovement="/Script/Engine.CharacterMovementComponent'CharMoveComp'"
+   CapsuleComponent="/Script/Engine.CapsuleComponent'CollisionCylinder'"
+   ArrowComponent="/Script/Engine.ArrowComponent'Arrow'"
+   BasedMovement=(BaseID=0,MovementBase=None,BoneName="",Location=(X=0.000000,Y=0.000000,Z=0.000000),Rotation=(Pitch=0.000000,Yaw=0.000000,Roll=0.000000),bServerHasBaseComponent=False,bRelativeRotation=False,bServerHasVelocity=False)
+   ReplicatedBasedMovement=(BaseID=0,MovementBase=None,BoneName="",Location=(X=0.000000,Y=0.000000,Z=0.000000),Rotation=(Pitch=0.000000,Yaw=0.000000,Roll=0.000000),bServerHasBaseComponent=False,bRelativeRotation=False,bServerHasVelocity=False)
+   AnimRootMotionTranslationScale=1.000000
+   BaseTranslationOffset=(X=0.000000,Y=0.000000,Z=0.000000)
+   BaseRotationOffset=(X=0.000000,Y=0.000000,Z=0.000000,W=1.000000)
+   ReplicatedServerLastTransformUpdateTimeStamp=0.000000
+   ReplayLastTransformUpdateTimeStamp=0.000000
+   ReplicatedMovementMode=0
+   ReplicatedGravityDirection=(X=0.000000,Y=0.000000,Z=0.000000)
+   bInBaseReplication=False
+   CrouchedEyeHeight=32.000000
+   bIsCrouched=False
+   bPressedJump=False
+   bSimGravityDisabled=False
+   JumpMaxHoldTime=0.000000
+   JumpMaxCount=1
+   JumpCurrentCount=0
+   JumpCurrentCountPreJump=0
+   OnReachedJumpApex=()
+   LandedDelegate=()
+   MovementModeChangedDelegate=()
+   OnCharacterMovementUpdated=()
+   RepRootMotion=(bIsActive=False,AnimMontage=None,Position=0.000000,Location=(X=0.000000,Y=0.000000,Z=0.000000),Rotation=(Pitch=0.000000,Yaw=0.000000,Roll=0.000000),MovementBase=None,MovementBaseBoneName="",bRelativePosition=False,bRelativeRotation=False,AuthoritativeRootMotion=(bHasAdditiveSources=False,bHasOverrideSources=False,bHasOverrideSourcesWithIgnoreZAccumulate=False,bIsAdditiveVelocityApplied=False,LastAccumulatedSettings=(Flags=0),LastPreAdditiveVelocity=(X=0.000000,Y=0.000000,Z=0.000000)),Acceleration=(X=0.000000,Y=0.000000,Z=0.000000),LinearVelocity=(X=0.000000,Y=0.000000,Z=0.000000))
+   bUseControllerRotationPitch=False
+   bUseControllerRotationYaw=False
+   bUseControllerRotationRoll=False
+   bCanAffectNavigationGeneration=False
+   BaseEyeHeight=64.000000
+   AutoPossessPlayer=Disabled
+   AutoPossessAI=PlacedInWorldOrSpawned
+   RemoteViewPitch=0
+   AIControllerClass="/Script/Engine.BlueprintGeneratedClass'/Game/AI/AIBehaviorSystem/Blueprint/AI/BP_EnmAIController.BP_EnmAIController_C'"
+   PlayerState=None
+   Controller=None
+   ReceiveControllerChangedDelegate=()
+   ReceiveRestartedDelegate=()
+   OverrideInputComponentClass=None
+   PrimaryActorTick=(TickGroup=TG_PrePhysics,EndTickGroup=TG_PrePhysics,bTickEvenWhenPaused=False,bCanEverTick=True,bStartWithTickEnabled=True,bAllowTickOnDedicatedServer=True,TickInterval=0.000000)
+   bNetTemporary=False
+   bOnlyRelevantToOwner=False
+   bAlwaysRelevant=False
+   bReplicateMovement=True
+   bCallPreReplication=True
+   bCallPreReplicationForReplay=True
+   bHidden=False
+   bTearOff=False
+   bForceNetAddressable=False
+   bIsMainWorldOnly=False
+   bNetLoadOnClient=True
+   bNetUseOwnerRelevancy=False
+   bRelevantForNetworkReplays=True
+   bRelevantForLevelBounds=True
+   bReplayRewindable=False
+   bAllowTickBeforeBeginPlay=False
+   bAutoDestroyWhenFinished=False
+   bCanBeDamaged=True
+   bBlockInput=False
+   bCollideWhenPlacing=True
+   bFindCameraComponentWhenViewTarget=True
+   bGenerateOverlapEventsDuringLevelStreaming=True
+   bIgnoresOriginShifting=False
+   bEnableAutoLODGeneration=True
+   bIsEditorOnlyActor=False
+   bActorSeamlessTraveled=False
+   bReplicates=True
+   bCanBeInCluster=False
+   bAllowReceiveTickEventOnDedicatedServer=True
+   bReplicateUsingRegisteredSubObjectList=False
+   bActorEnableCollision=True
+   bAsyncPhysicsTickEnabled=False
+   UpdateOverlapsMethodDuringLevelStreaming=UseConfigDefault
+   DefaultUpdateOverlapsMethodDuringLevelStreaming=OnlyUpdateMovable
+   InitialLifeSpan=0.000000
+   CustomTimeDilation=1.000000
+   RayTracingGroupId=-1
+   RuntimeGrid=""
+   ReplicatedMovement=(LocationQuantizationLevel=RoundTwoDecimals,VelocityQuantizationLevel=RoundWholeNumber,RotationQuantizationLevel=ByteComponents)
+   Owner=None
+   NetDriverName="GameNetDriver"
+   Role=ROLE_Authority
+   NetDormancy=DORM_Awake
+   SpawnCollisionHandlingMethod=AdjustIfPossibleButDontSpawnIfColliding
+   AutoReceiveInput=Disabled
+   InputPriority=0
+   InputComponent=None
+   NetCullDistanceSquared=225000000.000000
+   NetUpdateFrequency=100.000000
+   MinNetUpdateFrequency=2.000000
+   NetPriority=3.000000
+   PhysicsReplicationMode=Default
+   Instigator=None
+   RootComponent="/Script/Engine.CapsuleComponent'CollisionCylinder'"
+   PivotOffset=(X=0.000000,Y=0.000000,Z=0.000000)
+   HLODLayer=None
+   ParentComponent=None
+   ContentBundleGuid=00000000000000000000000000000000
+   SpriteScale=1.000000
+   ActorLabel="MyPawn_C-1"
+   FolderPath=""
+   FolderGuid=00000000000000000000000000000000
+   bHiddenEd=False
+   bLockLocation=False
+   bActorLabelEditable=True
+   bEditable=True
+   bListedInSceneOutliner=True
+   bOptimizeBPComponentData=False
+   bCanPlayFromHere=False
+   bIsSpatiallyLoaded=True
+   OnTakeAnyDamage=()
+   OnTakePointDamage=()
+   OnTakeRadialDamage=()
+   OnActorBeginOverlap=()
+   OnActorEndOverlap=()
+   OnBeginCursorOver=()
+   OnEndCursorOver=()
+   OnClicked=()
+   OnReleased=()
+   OnInputTouchBegin=()
+   OnInputTouchEnd=()
+   OnInputTouchEnter=()
+   OnInputTouchLeave=()
+   OnActorHit=()
+   OnDestroyed=()
+   OnEndPlay=()
+End Object

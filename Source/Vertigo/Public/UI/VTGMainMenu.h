@@ -9,6 +9,7 @@ class VERTIGO_API UVTGMainMenu : public UUserWidget
 protected:
  virtual void NativeConstruct() override;
 private:
+ UFUNCTION() void LanguageSelected(FString Item, ESelectInfo::Type SelectionType);
  UFUNCTION() void ContinueGame();
  void RefreshContinue();
 };

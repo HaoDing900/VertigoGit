@@ -1,0 +1,24 @@
+{
+  "/Game/Inventory/InventoryXBased/UMG/Inventory/WB_Inventory": {
+    "focusable": "True"
+  },
+  "/Game/Inventory/InventoryXBased/UMG/TabSwitcher/InTabWidget/WB_TabWidget": {
+    "focusable": "True"
+  },
+  "/Game/Inventory/InventoryXBased/UMG/TabSwitcher/InTabWidget/WB_TabWidget_Map": {
+    "focusable": "True"
+  },
+  "/Game/Inventory/InventoryXBased/UMG/TabSwitcher/InTabWidget/WB_TabWidget_Mail": {
+    "focusable": "True"
+  },
+  "/Game/Inventory/InventoryXBased/UMG/TabSwitcher/InTabWidget/WB_TabWidget_Quest": {
+    "focusable": "True"
+  },
+  "/Game/Inventory/InventoryXBased/UMG/TabSwitcher/WB_TabSwitcher": {
+    "focusable": "True"
+  },
+  "/Game/Inventory/InventoryXBased/UMG/TabSwitcher/WB_TabSwitcherMenu": {
+    "focusable": "False",
+    "tabs": "[]"
+  }
+}

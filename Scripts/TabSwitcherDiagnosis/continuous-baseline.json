@@ -1,0 +1,246 @@
+{
+  "events": [
+    {
+      "start": true
+    },
+    {
+      "world": "BaseLevel",
+      "pawn": "<Object '/Game/ThirdPerson/Maps/UEDPIE_0_BaseLevel.BaseLevel:PersistentLevel.BP_Player_Sa_C_0' (0x000007356A34C400) Class 'BP_Player_Sa_C'>"
+    },
+    {
+      "initial": 3,
+      "buttons": 5,
+      "initial_focus": true
+    },
+    {
+      "step": 0,
+      "key": "Q",
+      "expected": 2,
+      "actual": 2,
+      "focus_retained": true,
+      "pass": true
+    },
+    {
+      "step": 1,
+      "key": "Q",
+      "expected": 1,
+      "actual": 2,
+      "focus_retained": true,
+      "pass": false
+    },
+    {
+      "step": 2,
+      "key": "Q",
+      "expected": 1,
+      "actual": 2,
+      "focus_retained": true,
+      "pass": false
+    },
+    {
+      "step": 3,
+      "key": "Q",
+      "expected": 1,
+      "actual": 2,
+      "focus_retained": true,
+      "pass": false
+    },
+    {
+      "step": 4,
+      "key": "Q",
+      "expected": 1,
+      "actual": 2,
+      "focus_retained": true,
+      "pass": false
+    },
+    {
+      "step": 5,
+      "key": "Q",
+      "expected": 1,
+      "actual": 2,
+      "focus_retained": true,
+      "pass": false
+    },
+    {
+      "step": 6,
+      "key": "Q",
+      "expected": 1,
+      "actual": 2,
+      "focus_retained": true,
+      "pass": false
+    },
+    {
+      "step": 7,
+      "key": "Q",
+      "expected": 1,
+      "actual": 2,
+      "focus_retained": true,
+      "pass": false
+    },
+    {
+      "step": 8,
+      "key": "Q",
+      "expected": 1,
+      "actual": 2,
+      "focus_retained": true,
+      "pass": false
+    },
+    {
+      "step": 9,
+      "key": "Q",
+      "expected": 1,
+      "actual": 2,
+      "focus_retained": true,
+      "pass": false
+    },
+    {
+      "step": 10,
+      "key": "Q",
+      "expected": 1,
+      "actual": 2,
+      "focus_retained": true,
+      "pass": false
+    },
+    {
+      "step": 11,
+      "key": "Q",
+      "expected": 1,
+      "actual": 2,
+      "focus_retained": true,
+      "pass": false
+    },
+    {
+      "step": 12,
+      "key": "E",
+      "expected": 3,
+      "actual": 2,
+      "focus_retained": true,
+      "pass": false
+    },
+    {
+      "step": 13,
+      "key": "E",
+      "expected": 3,
+      "actual": 2,
+      "focus_retained": true,
+      "pass": false
+    },
+    {
+      "step": 14,
+      "key": "E",
+      "expected": 3,
+      "actual": 2,
+      "focus_retained": true,
+      "pass": false
+    },
+    {
+      "step": 15,
+      "key": "E",
+      "expected": 3,
+      "actual": 2,
+      "focus_retained": true,
+      "pass": false
+    },
+    {
+      "step": 16,
+      "key": "E",
+      "expected": 3,
+      "actual": 2,
+      "focus_retained": true,
+      "pass": false
+    },
+    {
+      "step": 17,
+      "key": "E",
+      "expected": 3,
+      "actual": 2,
+      "focus_retained": true,
+      "pass": false
+    },
+    {
+      "step": 18,
+      "key": "E",
+      "expected": 3,
+      "actual": 2,
+      "focus_retained": true,
+      "pass": false
+    },
+    {
+      "step": 19,
+      "key": "E",
+      "expected": 3,
+      "actual": 2,
+      "focus_retained": true,
+      "pass": false
+    },
+    {
+      "step": 20,
+      "key": "E",
+      "expected": 3,
+      "actual": 2,
+      "focus_retained": true,
+      "pass": false
+    },
+    {
+      "step": 21,
+      "key": "E",
+      "expected": 3,
+      "actual": 2,
+      "focus_retained": true,
+      "pass": false
+    },
+    {
+      "step": 22,
+      "key": "E",
+      "expected": 3,
+      "actual": 2,
+      "focus_retained": true,
+      "pass": false
+    },
+    {
+      "step": 23,
+      "key": "E",
+      "expected": 3,
+      "actual": 2,
+      "focus_retained": true,
+      "pass": false
+    },
+    {
+      "step": 24,
+      "key": "Q",
+      "expected": 1,
+      "actual": 2,
+      "focus_retained": true,
+      "pass": false
+    },
+    {
+      "step": 25,
+      "key": "E",
+      "expected": 3,
+      "actual": 2,
+      "focus_retained": true,
+      "pass": false
+    },
+    {
+      "step": 26,
+      "key": "Q",
+      "expected": 1,
+      "actual": 2,
+      "focus_retained": true,
+      "pass": false
+    },
+    {
+      "step": 27,
+      "key": "E",
+      "expected": 3,
+      "actual": 2,
+      "focus_retained": true,
+      "pass": false
+    },
+    {
+      "complete": true,
+      "failures": 27
+    }
+  ],
+  "failures": 27,
+  "scope": "BaseLevel/Sa; each Q/E uses native Slate input on a separate frame; initial focus set once only"
+}

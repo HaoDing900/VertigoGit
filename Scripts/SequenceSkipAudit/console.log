@@ -1,0 +1,1874 @@
+[==========] Running 729 tests from 92 test suites.
+[----------] Global test environment set-up.
+[----------] 35 tests from TestArrayView/0, where TypeParam = <type>
+[ RUN      ] TestArrayView/0.DefaultCtor
+[       OK ] TestArrayView/0.DefaultCtor (0 ms)
+[ RUN      ] TestArrayView/0.CopyCtor
+[       OK ] TestArrayView/0.CopyCtor (0 ms)
+[ RUN      ] TestArrayView/0.CopyAssignment
+[       OK ] TestArrayView/0.CopyAssignment (0 ms)
+[ RUN      ] TestArrayView/0.CreateFromArray
+[       OK ] TestArrayView/0.CreateFromArray (0 ms)
+[ RUN      ] TestArrayView/0.CreateFromVector
+[       OK ] TestArrayView/0.CreateFromVector (0 ms)
+[ RUN      ] TestArrayView/0.CreateConstFromArray
+[       OK ] TestArrayView/0.CreateConstFromArray (0 ms)
+[ RUN      ] TestArrayView/0.CreateConstFromVector
+[       OK ] TestArrayView/0.CreateConstFromVector (0 ms)
+[ RUN      ] TestArrayView/0.CreateFromVectorDifferent
+[       OK ] TestArrayView/0.CreateFromVectorDifferent (0 ms)
+[ RUN      ] TestArrayView/0.CreateFromPtr
+[       OK ] TestArrayView/0.CreateFromPtr (0 ms)
+[ RUN      ] TestArrayView/0.CreateFromPtrDifferent
+[       OK ] TestArrayView/0.CreateFromPtrDifferent (0 ms)
+[ RUN      ] TestArrayView/0.CreateConstFromPtr
+[       OK ] TestArrayView/0.CreateConstFromPtr (0 ms)
+[ RUN      ] TestArrayView/0.CreateFromLValue
+[       OK ] TestArrayView/0.CreateFromLValue (0 ms)
+[ RUN      ] TestArrayView/0.CreateConstFromLValueConst
+[       OK ] TestArrayView/0.CreateConstFromLValueConst (0 ms)
+[ RUN      ] TestArrayView/0.CreateFromRValue
+[       OK ] TestArrayView/0.CreateFromRValue (0 ms)
+[ RUN      ] TestArrayView/0.CreateConstFromLValue
+[       OK ] TestArrayView/0.CreateConstFromLValue (0 ms)
+[ RUN      ] TestArrayView/0.RValueTContainerAssignment
+[       OK ] TestArrayView/0.RValueTContainerAssignment (0 ms)
+[ RUN      ] TestArrayView/0.MixDifferentTypesTContainerAssignment
+[       OK ] TestArrayView/0.MixDifferentTypesTContainerAssignment (0 ms)
+[ RUN      ] TestArrayView/0.NonConstFromConstAssignment
+[       OK ] TestArrayView/0.NonConstFromConstAssignment (0 ms)
+[ RUN      ] TestArrayView/0.ConstFromNonConstAssignment
+[       OK ] TestArrayView/0.ConstFromNonConstAssignment (0 ms)
+[ RUN      ] TestArrayView/0.ConstFromConstDifferentTypeAssignment
+[       OK ] TestArrayView/0.ConstFromConstDifferentTypeAssignment (0 ms)
+[ RUN      ] TestArrayView/0.ConstFromNonConstDifferentTypeAssignment
+[       OK ] TestArrayView/0.ConstFromNonConstDifferentTypeAssignment (0 ms)
+[ RUN      ] TestArrayView/0.NonConstFromConstDifferentTypeAssignment
+[       OK ] TestArrayView/0.NonConstFromConstDifferentTypeAssignment (0 ms)
+[ RUN      ] TestArrayView/0.NonConstFromNonConstDifferentTypeAssignment
+[       OK ] TestArrayView/0.NonConstFromNonConstDifferentTypeAssignment (0 ms)
+[ RUN      ] TestArrayView/0.ImplicitCastToVector
+[       OK ] TestArrayView/0.ImplicitCastToVector (0 ms)
+[ RUN      ] TestArrayView/0.ChangeElement
+[       OK ] TestArrayView/0.ChangeElement (0 ms)
+[ RUN      ] TestArrayView/0.DifferentSize
+[       OK ] TestArrayView/0.DifferentSize (0 ms)
+[ RUN      ] TestArrayView/0.ConstAt
+[       OK ] TestArrayView/0.ConstAt (0 ms)
+[ RUN      ] TestArrayView/0.ConstIndexOperator
+[       OK ] TestArrayView/0.ConstIndexOperator (0 ms)
+[ RUN      ] TestArrayView/0.NonConstBeginEnd
+[       OK ] TestArrayView/0.NonConstBeginEnd (0 ms)
+[ RUN      ] TestArrayView/0.Subview
+[       OK ] TestArrayView/0.Subview (0 ms)
+[ RUN      ] TestArrayView/0.SubviewSize
+[       OK ] TestArrayView/0.SubviewSize (0 ms)
+[ RUN      ] TestArrayView/0.SubviewFirst
+[       OK ] TestArrayView/0.SubviewFirst (0 ms)
+[ RUN      ] TestArrayView/0.SubviewLast
+[       OK ] TestArrayView/0.SubviewLast (0 ms)
+[ RUN      ] TestArrayView/0.CompareArrayViews
+[       OK ] TestArrayView/0.CompareArrayViews (0 ms)
+[ RUN      ] TestArrayView/0.CompareWithVector
+[       OK ] TestArrayView/0.CompareWithVector (0 ms)
+[----------] 35 tests from TestArrayView/0 (0 ms total)
+
+[----------] 35 tests from TestArrayView/1, where TypeParam = <type>
+[ RUN      ] TestArrayView/1.DefaultCtor
+[       OK ] TestArrayView/1.DefaultCtor (0 ms)
+[ RUN      ] TestArrayView/1.CopyCtor
+[       OK ] TestArrayView/1.CopyCtor (0 ms)
+[ RUN      ] TestArrayView/1.CopyAssignment
+[       OK ] TestArrayView/1.CopyAssignment (0 ms)
+[ RUN      ] TestArrayView/1.CreateFromArray
+[       OK ] TestArrayView/1.CreateFromArray (0 ms)
+[ RUN      ] TestArrayView/1.CreateFromVector
+[       OK ] TestArrayView/1.CreateFromVector (0 ms)
+[ RUN      ] TestArrayView/1.CreateConstFromArray
+[       OK ] TestArrayView/1.CreateConstFromArray (0 ms)
+[ RUN      ] TestArrayView/1.CreateConstFromVector
+[       OK ] TestArrayView/1.CreateConstFromVector (0 ms)
+[ RUN      ] TestArrayView/1.CreateFromVectorDifferent
+[       OK ] TestArrayView/1.CreateFromVectorDifferent (0 ms)
+[ RUN      ] TestArrayView/1.CreateFromPtr
+[       OK ] TestArrayView/1.CreateFromPtr (0 ms)
+[ RUN      ] TestArrayView/1.CreateFromPtrDifferent
+[       OK ] TestArrayView/1.CreateFromPtrDifferent (0 ms)
+[ RUN      ] TestArrayView/1.CreateConstFromPtr
+[       OK ] TestArrayView/1.CreateConstFromPtr (0 ms)
+[ RUN      ] TestArrayView/1.CreateFromLValue
+[       OK ] TestArrayView/1.CreateFromLValue (0 ms)
+[ RUN      ] TestArrayView/1.CreateConstFromLValueConst
+[       OK ] TestArrayView/1.CreateConstFromLValueConst (0 ms)
+[ RUN      ] TestArrayView/1.CreateFromRValue
+[       OK ] TestArrayView/1.CreateFromRValue (0 ms)
+[ RUN      ] TestArrayView/1.CreateConstFromLValue
+[       OK ] TestArrayView/1.CreateConstFromLValue (0 ms)
+[ RUN      ] TestArrayView/1.RValueTContainerAssignment
+[       OK ] TestArrayView/1.RValueTContainerAssignment (0 ms)
+[ RUN      ] TestArrayView/1.MixDifferentTypesTContainerAssignment
+[       OK ] TestArrayView/1.MixDifferentTypesTContainerAssignment (0 ms)
+[ RUN      ] TestArrayView/1.NonConstFromConstAssignment
+[       OK ] TestArrayView/1.NonConstFromConstAssignment (0 ms)
+[ RUN      ] TestArrayView/1.ConstFromNonConstAssignment
+[       OK ] TestArrayView/1.ConstFromNonConstAssignment (0 ms)
+[ RUN      ] TestArrayView/1.ConstFromConstDifferentTypeAssignment
+[       OK ] TestArrayView/1.ConstFromConstDifferentTypeAssignment (0 ms)
+[ RUN      ] TestArrayView/1.ConstFromNonConstDifferentTypeAssignment
+[       OK ] TestArrayView/1.ConstFromNonConstDifferentTypeAssignment (0 ms)
+[ RUN      ] TestArrayView/1.NonConstFromConstDifferentTypeAssignment
+[       OK ] TestArrayView/1.NonConstFromConstDifferentTypeAssignment (0 ms)
+[ RUN      ] TestArrayView/1.NonConstFromNonConstDifferentTypeAssignment
+[       OK ] TestArrayView/1.NonConstFromNonConstDifferentTypeAssignment (0 ms)
+[ RUN      ] TestArrayView/1.ImplicitCastToVector
+[       OK ] TestArrayView/1.ImplicitCastToVector (0 ms)
+[ RUN      ] TestArrayView/1.ChangeElement
+[       OK ] TestArrayView/1.ChangeElement (0 ms)
+[ RUN      ] TestArrayView/1.DifferentSize
+[       OK ] TestArrayView/1.DifferentSize (0 ms)
+[ RUN      ] TestArrayView/1.ConstAt
+[       OK ] TestArrayView/1.ConstAt (0 ms)
+[ RUN      ] TestArrayView/1.ConstIndexOperator
+[       OK ] TestArrayView/1.ConstIndexOperator (0 ms)
+[ RUN      ] TestArrayView/1.NonConstBeginEnd
+[       OK ] TestArrayView/1.NonConstBeginEnd (0 ms)
+[ RUN      ] TestArrayView/1.Subview
+[       OK ] TestArrayView/1.Subview (0 ms)
+[ RUN      ] TestArrayView/1.SubviewSize
+[       OK ] TestArrayView/1.SubviewSize (0 ms)
+[ RUN      ] TestArrayView/1.SubviewFirst
+[       OK ] TestArrayView/1.SubviewFirst (0 ms)
+[ RUN      ] TestArrayView/1.SubviewLast
+[       OK ] TestArrayView/1.SubviewLast (0 ms)
+[ RUN      ] TestArrayView/1.CompareArrayViews
+[       OK ] TestArrayView/1.CompareArrayViews (0 ms)
+[ RUN      ] TestArrayView/1.CompareWithVector
+[       OK ] TestArrayView/1.CompareWithVector (0 ms)
+[----------] 35 tests from TestArrayView/1 (1 ms total)
+
+[----------] 35 tests from TestArrayView/2, where TypeParam = <type>
+[ RUN      ] TestArrayView/2.DefaultCtor
+[       OK ] TestArrayView/2.DefaultCtor (0 ms)
+[ RUN      ] TestArrayView/2.CopyCtor
+[       OK ] TestArrayView/2.CopyCtor (0 ms)
+[ RUN      ] TestArrayView/2.CopyAssignment
+[       OK ] TestArrayView/2.CopyAssignment (0 ms)
+[ RUN      ] TestArrayView/2.CreateFromArray
+[       OK ] TestArrayView/2.CreateFromArray (0 ms)
+[ RUN      ] TestArrayView/2.CreateFromVector
+[       OK ] TestArrayView/2.CreateFromVector (0 ms)
+[ RUN      ] TestArrayView/2.CreateConstFromArray
+[       OK ] TestArrayView/2.CreateConstFromArray (0 ms)
+[ RUN      ] TestArrayView/2.CreateConstFromVector
+[       OK ] TestArrayView/2.CreateConstFromVector (0 ms)
+[ RUN      ] TestArrayView/2.CreateFromVectorDifferent
+[       OK ] TestArrayView/2.CreateFromVectorDifferent (0 ms)
+[ RUN      ] TestArrayView/2.CreateFromPtr
+[       OK ] TestArrayView/2.CreateFromPtr (0 ms)
+[ RUN      ] TestArrayView/2.CreateFromPtrDifferent
+[       OK ] TestArrayView/2.CreateFromPtrDifferent (0 ms)
+[ RUN      ] TestArrayView/2.CreateConstFromPtr
+[       OK ] TestArrayView/2.CreateConstFromPtr (0 ms)
+[ RUN      ] TestArrayView/2.CreateFromLValue
+[       OK ] TestArrayView/2.CreateFromLValue (0 ms)
+[ RUN      ] TestArrayView/2.CreateConstFromLValueConst
+[       OK ] TestArrayView/2.CreateConstFromLValueConst (0 ms)
+[ RUN      ] TestArrayView/2.CreateFromRValue
+[       OK ] TestArrayView/2.CreateFromRValue (0 ms)
+[ RUN      ] TestArrayView/2.CreateConstFromLValue
+[       OK ] TestArrayView/2.CreateConstFromLValue (0 ms)
+[ RUN      ] TestArrayView/2.RValueTContainerAssignment
+[       OK ] TestArrayView/2.RValueTContainerAssignment (0 ms)
+[ RUN      ] TestArrayView/2.MixDifferentTypesTContainerAssignment
+[       OK ] TestArrayView/2.MixDifferentTypesTContainerAssignment (0 ms)
+[ RUN      ] TestArrayView/2.NonConstFromConstAssignment
+[       OK ] TestArrayView/2.NonConstFromConstAssignment (0 ms)
+[ RUN      ] TestArrayView/2.ConstFromNonConstAssignment
+[       OK ] TestArrayView/2.ConstFromNonConstAssignment (0 ms)
+[ RUN      ] TestArrayView/2.ConstFromConstDifferentTypeAssignment
+[       OK ] TestArrayView/2.ConstFromConstDifferentTypeAssignment (0 ms)
+[ RUN      ] TestArrayView/2.ConstFromNonConstDifferentTypeAssignment
+[       OK ] TestArrayView/2.ConstFromNonConstDifferentTypeAssignment (0 ms)
+[ RUN      ] TestArrayView/2.NonConstFromConstDifferentTypeAssignment
+[       OK ] TestArrayView/2.NonConstFromConstDifferentTypeAssignment (0 ms)
+[ RUN      ] TestArrayView/2.NonConstFromNonConstDifferentTypeAssignment
+[       OK ] TestArrayView/2.NonConstFromNonConstDifferentTypeAssignment (0 ms)
+[ RUN      ] TestArrayView/2.ImplicitCastToVector
+[       OK ] TestArrayView/2.ImplicitCastToVector (0 ms)
+[ RUN      ] TestArrayView/2.ChangeElement
+[       OK ] TestArrayView/2.ChangeElement (0 ms)
+[ RUN      ] TestArrayView/2.DifferentSize
+[       OK ] TestArrayView/2.DifferentSize (0 ms)
+[ RUN      ] TestArrayView/2.ConstAt
+[       OK ] TestArrayView/2.ConstAt (0 ms)
+[ RUN      ] TestArrayView/2.ConstIndexOperator
+[       OK ] TestArrayView/2.ConstIndexOperator (0 ms)
+[ RUN      ] TestArrayView/2.NonConstBeginEnd
+[       OK ] TestArrayView/2.NonConstBeginEnd (0 ms)
+[ RUN      ] TestArrayView/2.Subview
+[       OK ] TestArrayView/2.Subview (0 ms)
+[ RUN      ] TestArrayView/2.SubviewSize
+[       OK ] TestArrayView/2.SubviewSize (0 ms)
+[ RUN      ] TestArrayView/2.SubviewFirst
+[       OK ] TestArrayView/2.SubviewFirst (0 ms)
+[ RUN      ] TestArrayView/2.SubviewLast
+[       OK ] TestArrayView/2.SubviewLast (0 ms)
+[ RUN      ] TestArrayView/2.CompareArrayViews
+[       OK ] TestArrayView/2.CompareArrayViews (0 ms)
+[ RUN      ] TestArrayView/2.CompareWithVector
+[       OK ] TestArrayView/2.CompareWithVector (0 ms)
+[----------] 35 tests from TestArrayView/2 (0 ms total)
+
+[----------] 35 tests from TestArrayView/3, where TypeParam = <type>
+[ RUN      ] TestArrayView/3.DefaultCtor
+[       OK ] TestArrayView/3.DefaultCtor (0 ms)
+[ RUN      ] TestArrayView/3.CopyCtor
+[       OK ] TestArrayView/3.CopyCtor (0 ms)
+[ RUN      ] TestArrayView/3.CopyAssignment
+[       OK ] TestArrayView/3.CopyAssignment (0 ms)
+[ RUN      ] TestArrayView/3.CreateFromArray
+[       OK ] TestArrayView/3.CreateFromArray (0 ms)
+[ RUN      ] TestArrayView/3.CreateFromVector
+[       OK ] TestArrayView/3.CreateFromVector (0 ms)
+[ RUN      ] TestArrayView/3.CreateConstFromArray
+[       OK ] TestArrayView/3.CreateConstFromArray (0 ms)
+[ RUN      ] TestArrayView/3.CreateConstFromVector
+[       OK ] TestArrayView/3.CreateConstFromVector (0 ms)
+[ RUN      ] TestArrayView/3.CreateFromVectorDifferent
+[       OK ] TestArrayView/3.CreateFromVectorDifferent (0 ms)
+[ RUN      ] TestArrayView/3.CreateFromPtr
+[       OK ] TestArrayView/3.CreateFromPtr (0 ms)
+[ RUN      ] TestArrayView/3.CreateFromPtrDifferent
+[       OK ] TestArrayView/3.CreateFromPtrDifferent (0 ms)
+[ RUN      ] TestArrayView/3.CreateConstFromPtr
+[       OK ] TestArrayView/3.CreateConstFromPtr (0 ms)
+[ RUN      ] TestArrayView/3.CreateFromLValue
+[       OK ] TestArrayView/3.CreateFromLValue (0 ms)
+[ RUN      ] TestArrayView/3.CreateConstFromLValueConst
+[       OK ] TestArrayView/3.CreateConstFromLValueConst (0 ms)
+[ RUN      ] TestArrayView/3.CreateFromRValue
+[       OK ] TestArrayView/3.CreateFromRValue (0 ms)
+[ RUN      ] TestArrayView/3.CreateConstFromLValue
+[       OK ] TestArrayView/3.CreateConstFromLValue (0 ms)
+[ RUN      ] TestArrayView/3.RValueTContainerAssignment
+[       OK ] TestArrayView/3.RValueTContainerAssignment (0 ms)
+[ RUN      ] TestArrayView/3.MixDifferentTypesTContainerAssignment
+[       OK ] TestArrayView/3.MixDifferentTypesTContainerAssignment (0 ms)
+[ RUN      ] TestArrayView/3.NonConstFromConstAssignment
+[       OK ] TestArrayView/3.NonConstFromConstAssignment (0 ms)
+[ RUN      ] TestArrayView/3.ConstFromNonConstAssignment
+[       OK ] TestArrayView/3.ConstFromNonConstAssignment (0 ms)
+[ RUN      ] TestArrayView/3.ConstFromConstDifferentTypeAssignment
+[       OK ] TestArrayView/3.ConstFromConstDifferentTypeAssignment (0 ms)
+[ RUN      ] TestArrayView/3.ConstFromNonConstDifferentTypeAssignment
+[       OK ] TestArrayView/3.ConstFromNonConstDifferentTypeAssignment (0 ms)
+[ RUN      ] TestArrayView/3.NonConstFromConstDifferentTypeAssignment
+[       OK ] TestArrayView/3.NonConstFromConstDifferentTypeAssignment (0 ms)
+[ RUN      ] TestArrayView/3.NonConstFromNonConstDifferentTypeAssignment
+[       OK ] TestArrayView/3.NonConstFromNonConstDifferentTypeAssignment (0 ms)
+[ RUN      ] TestArrayView/3.ImplicitCastToVector
+[       OK ] TestArrayView/3.ImplicitCastToVector (0 ms)
+[ RUN      ] TestArrayView/3.ChangeElement
+[       OK ] TestArrayView/3.ChangeElement (0 ms)
+[ RUN      ] TestArrayView/3.DifferentSize
+[       OK ] TestArrayView/3.DifferentSize (0 ms)
+[ RUN      ] TestArrayView/3.ConstAt
+[       OK ] TestArrayView/3.ConstAt (0 ms)
+[ RUN      ] TestArrayView/3.ConstIndexOperator
+[       OK ] TestArrayView/3.ConstIndexOperator (0 ms)
+[ RUN      ] TestArrayView/3.NonConstBeginEnd
+[       OK ] TestArrayView/3.NonConstBeginEnd (0 ms)
+[ RUN      ] TestArrayView/3.Subview
+[       OK ] TestArrayView/3.Subview (0 ms)
+[ RUN      ] TestArrayView/3.SubviewSize
+[       OK ] TestArrayView/3.SubviewSize (0 ms)
+[ RUN      ] TestArrayView/3.SubviewFirst
+[       OK ] TestArrayView/3.SubviewFirst (0 ms)
+[ RUN      ] TestArrayView/3.SubviewLast
+[       OK ] TestArrayView/3.SubviewLast (0 ms)
+[ RUN      ] TestArrayView/3.CompareArrayViews
+[       OK ] TestArrayView/3.CompareArrayViews (0 ms)
+[ RUN      ] TestArrayView/3.CompareWithVector
+[       OK ] TestArrayView/3.CompareWithVector (0 ms)
+[----------] 35 tests from TestArrayView/3 (0 ms total)
+
+[----------] 35 tests from TestArrayView/4, where TypeParam = <type>
+[ RUN      ] TestArrayView/4.DefaultCtor
+[       OK ] TestArrayView/4.DefaultCtor (0 ms)
+[ RUN      ] TestArrayView/4.CopyCtor
+[       OK ] TestArrayView/4.CopyCtor (0 ms)
+[ RUN      ] TestArrayView/4.CopyAssignment
+[       OK ] TestArrayView/4.CopyAssignment (0 ms)
+[ RUN      ] TestArrayView/4.CreateFromArray
+[       OK ] TestArrayView/4.CreateFromArray (0 ms)
+[ RUN      ] TestArrayView/4.CreateFromVector
+[       OK ] TestArrayView/4.CreateFromVector (0 ms)
+[ RUN      ] TestArrayView/4.CreateConstFromArray
+[       OK ] TestArrayView/4.CreateConstFromArray (0 ms)
+[ RUN      ] TestArrayView/4.CreateConstFromVector
+[       OK ] TestArrayView/4.CreateConstFromVector (0 ms)
+[ RUN      ] TestArrayView/4.CreateFromVectorDifferent
+[       OK ] TestArrayView/4.CreateFromVectorDifferent (0 ms)
+[ RUN      ] TestArrayView/4.CreateFromPtr
+[       OK ] TestArrayView/4.CreateFromPtr (0 ms)
+[ RUN      ] TestArrayView/4.CreateFromPtrDifferent
+[       OK ] TestArrayView/4.CreateFromPtrDifferent (0 ms)
+[ RUN      ] TestArrayView/4.CreateConstFromPtr
+[       OK ] TestArrayView/4.CreateConstFromPtr (0 ms)
+[ RUN      ] TestArrayView/4.CreateFromLValue
+[       OK ] TestArrayView/4.CreateFromLValue (0 ms)
+[ RUN      ] TestArrayView/4.CreateConstFromLValueConst
+[       OK ] TestArrayView/4.CreateConstFromLValueConst (0 ms)
+[ RUN      ] TestArrayView/4.CreateFromRValue
+[       OK ] TestArrayView/4.CreateFromRValue (0 ms)
+[ RUN      ] TestArrayView/4.CreateConstFromLValue
+[       OK ] TestArrayView/4.CreateConstFromLValue (0 ms)
+[ RUN      ] TestArrayView/4.RValueTContainerAssignment
+[       OK ] TestArrayView/4.RValueTContainerAssignment (0 ms)
+[ RUN      ] TestArrayView/4.MixDifferentTypesTContainerAssignment
+[       OK ] TestArrayView/4.MixDifferentTypesTContainerAssignment (0 ms)
+[ RUN      ] TestArrayView/4.NonConstFromConstAssignment
+[       OK ] TestArrayView/4.NonConstFromConstAssignment (0 ms)
+[ RUN      ] TestArrayView/4.ConstFromNonConstAssignment
+[       OK ] TestArrayView/4.ConstFromNonConstAssignment (0 ms)
+[ RUN      ] TestArrayView/4.ConstFromConstDifferentTypeAssignment
+[       OK ] TestArrayView/4.ConstFromConstDifferentTypeAssignment (0 ms)
+[ RUN      ] TestArrayView/4.ConstFromNonConstDifferentTypeAssignment
+[       OK ] TestArrayView/4.ConstFromNonConstDifferentTypeAssignment (0 ms)
+[ RUN      ] TestArrayView/4.NonConstFromConstDifferentTypeAssignment
+[       OK ] TestArrayView/4.NonConstFromConstDifferentTypeAssignment (0 ms)
+[ RUN      ] TestArrayView/4.NonConstFromNonConstDifferentTypeAssignment
+[       OK ] TestArrayView/4.NonConstFromNonConstDifferentTypeAssignment (0 ms)
+[ RUN      ] TestArrayView/4.ImplicitCastToVector
+[       OK ] TestArrayView/4.ImplicitCastToVector (0 ms)
+[ RUN      ] TestArrayView/4.ChangeElement
+[       OK ] TestArrayView/4.ChangeElement (0 ms)
+[ RUN      ] TestArrayView/4.DifferentSize
+[       OK ] TestArrayView/4.DifferentSize (0 ms)
+[ RUN      ] TestArrayView/4.ConstAt
+[       OK ] TestArrayView/4.ConstAt (0 ms)
+[ RUN      ] TestArrayView/4.ConstIndexOperator
+[       OK ] TestArrayView/4.ConstIndexOperator (0 ms)
+[ RUN      ] TestArrayView/4.NonConstBeginEnd
+[       OK ] TestArrayView/4.NonConstBeginEnd (0 ms)
+[ RUN      ] TestArrayView/4.Subview
+[       OK ] TestArrayView/4.Subview (0 ms)
+[ RUN      ] TestArrayView/4.SubviewSize
+[       OK ] TestArrayView/4.SubviewSize (0 ms)
+[ RUN      ] TestArrayView/4.SubviewFirst
+[       OK ] TestArrayView/4.SubviewFirst (0 ms)
+[ RUN      ] TestArrayView/4.SubviewLast
+[       OK ] TestArrayView/4.SubviewLast (0 ms)
+[ RUN      ] TestArrayView/4.CompareArrayViews
+[       OK ] TestArrayView/4.CompareArrayViews (0 ms)
+[ RUN      ] TestArrayView/4.CompareWithVector
+[       OK ] TestArrayView/4.CompareWithVector (0 ms)
+[----------] 35 tests from TestArrayView/4 (0 ms total)
+
+[----------] 35 tests from TestArrayView/5, where TypeParam = <type>
+[ RUN      ] TestArrayView/5.DefaultCtor
+[       OK ] TestArrayView/5.DefaultCtor (0 ms)
+[ RUN      ] TestArrayView/5.CopyCtor
+[       OK ] TestArrayView/5.CopyCtor (0 ms)
+[ RUN      ] TestArrayView/5.CopyAssignment
+[       OK ] TestArrayView/5.CopyAssignment (0 ms)
+[ RUN      ] TestArrayView/5.CreateFromArray
+[       OK ] TestArrayView/5.CreateFromArray (0 ms)
+[ RUN      ] TestArrayView/5.CreateFromVector
+[       OK ] TestArrayView/5.CreateFromVector (0 ms)
+[ RUN      ] TestArrayView/5.CreateConstFromArray
+[       OK ] TestArrayView/5.CreateConstFromArray (0 ms)
+[ RUN      ] TestArrayView/5.CreateConstFromVector
+[       OK ] TestArrayView/5.CreateConstFromVector (0 ms)
+[ RUN      ] TestArrayView/5.CreateFromVectorDifferent
+[       OK ] TestArrayView/5.CreateFromVectorDifferent (0 ms)
+[ RUN      ] TestArrayView/5.CreateFromPtr
+[       OK ] TestArrayView/5.CreateFromPtr (0 ms)
+[ RUN      ] TestArrayView/5.CreateFromPtrDifferent
+[       OK ] TestArrayView/5.CreateFromPtrDifferent (0 ms)
+[ RUN      ] TestArrayView/5.CreateConstFromPtr
+[       OK ] TestArrayView/5.CreateConstFromPtr (0 ms)
+[ RUN      ] TestArrayView/5.CreateFromLValue
+[       OK ] TestArrayView/5.CreateFromLValue (0 ms)
+[ RUN      ] TestArrayView/5.CreateConstFromLValueConst
+[       OK ] TestArrayView/5.CreateConstFromLValueConst (0 ms)
+[ RUN      ] TestArrayView/5.CreateFromRValue
+[       OK ] TestArrayView/5.CreateFromRValue (0 ms)
+[ RUN      ] TestArrayView/5.CreateConstFromLValue
+[       OK ] TestArrayView/5.CreateConstFromLValue (0 ms)
+[ RUN      ] TestArrayView/5.RValueTContainerAssignment
+[       OK ] TestArrayView/5.RValueTContainerAssignment (0 ms)
+[ RUN      ] TestArrayView/5.MixDifferentTypesTContainerAssignment
+[       OK ] TestArrayView/5.MixDifferentTypesTContainerAssignment (0 ms)
+[ RUN      ] TestArrayView/5.NonConstFromConstAssignment
+[       OK ] TestArrayView/5.NonConstFromConstAssignment (0 ms)
+[ RUN      ] TestArrayView/5.ConstFromNonConstAssignment
+[       OK ] TestArrayView/5.ConstFromNonConstAssignment (0 ms)
+[ RUN      ] TestArrayView/5.ConstFromConstDifferentTypeAssignment
+[       OK ] TestArrayView/5.ConstFromConstDifferentTypeAssignment (0 ms)
+[ RUN      ] TestArrayView/5.ConstFromNonConstDifferentTypeAssignment
+[       OK ] TestArrayView/5.ConstFromNonConstDifferentTypeAssignment (0 ms)
+[ RUN      ] TestArrayView/5.NonConstFromConstDifferentTypeAssignment
+[       OK ] TestArrayView/5.NonConstFromConstDifferentTypeAssignment (0 ms)
+[ RUN      ] TestArrayView/5.NonConstFromNonConstDifferentTypeAssignment
+[       OK ] TestArrayView/5.NonConstFromNonConstDifferentTypeAssignment (0 ms)
+[ RUN      ] TestArrayView/5.ImplicitCastToVector
+[       OK ] TestArrayView/5.ImplicitCastToVector (0 ms)
+[ RUN      ] TestArrayView/5.ChangeElement
+[       OK ] TestArrayView/5.ChangeElement (0 ms)
+[ RUN      ] TestArrayView/5.DifferentSize
+[       OK ] TestArrayView/5.DifferentSize (0 ms)
+[ RUN      ] TestArrayView/5.ConstAt
+[       OK ] TestArrayView/5.ConstAt (0 ms)
+[ RUN      ] TestArrayView/5.ConstIndexOperator
+[       OK ] TestArrayView/5.ConstIndexOperator (0 ms)
+[ RUN      ] TestArrayView/5.NonConstBeginEnd
+[       OK ] TestArrayView/5.NonConstBeginEnd (0 ms)
+[ RUN      ] TestArrayView/5.Subview
+[       OK ] TestArrayView/5.Subview (0 ms)
+[ RUN      ] TestArrayView/5.SubviewSize
+[       OK ] TestArrayView/5.SubviewSize (0 ms)
+[ RUN      ] TestArrayView/5.SubviewFirst
+[       OK ] TestArrayView/5.SubviewFirst (0 ms)
+[ RUN      ] TestArrayView/5.SubviewLast
+[       OK ] TestArrayView/5.SubviewLast (0 ms)
+[ RUN      ] TestArrayView/5.CompareArrayViews
+[       OK ] TestArrayView/5.CompareArrayViews (0 ms)
+[ RUN      ] TestArrayView/5.CompareWithVector
+[       OK ] TestArrayView/5.CompareWithVector (0 ms)
+[----------] 35 tests from TestArrayView/5 (0 ms total)
+
+[----------] 2 tests from TestStringView
+[ RUN      ] TestStringView.CompareWithStringView
+[       OK ] TestStringView.CompareWithStringView (0 ms)
+[ RUN      ] TestStringView.CompareWithString
+[       OK ] TestStringView.CompareWithString (0 ms)
+[----------] 2 tests from TestStringView (0 ms total)
+
+[----------] 3 tests from BinaryStreamWriterTest
+[ RUN      ] BinaryStreamWriterTest.SetName
+[       OK ] BinaryStreamWriterTest.SetName (1 ms)
+[ RUN      ] BinaryStreamWriterTest.SetControlName
+[       OK ] BinaryStreamWriterTest.SetControlName (0 ms)
+[ RUN      ] BinaryStreamWriterTest.SetJointRowCount
+[       OK ] BinaryStreamWriterTest.SetJointRowCount (0 ms)
+[----------] 3 tests from BinaryStreamWriterTest (1 ms total)
+
+[----------] 1 test from FilterSkinWeightsTest
+[ RUN      ] FilterSkinWeightsTest.RemoveAllJoints
+[       OK ] FilterSkinWeightsTest.RemoveAllJoints (0 ms)
+[----------] 1 test from FilterSkinWeightsTest (0 ms total)
+
+[----------] 6 tests from LODConstraint
+[ RUN      ] LODConstraint.GetMaxLOD
+[       OK ] LODConstraint.GetMaxLOD (0 ms)
+[ RUN      ] LODConstraint.GetMinLOD
+[       OK ] LODConstraint.GetMinLOD (0 ms)
+[ RUN      ] LODConstraint.GetLODCount
+[       OK ] LODConstraint.GetLODCount (0 ms)
+[ RUN      ] LODConstraint.HasImpactOn
+[       OK ] LODConstraint.HasImpactOn (0 ms)
+[ RUN      ] LODConstraint.ClampTo
+[       OK ] LODConstraint.ClampTo (0 ms)
+[ RUN      ] LODConstraint.ApplyTo
+[       OK ] LODConstraint.ApplyTo (0 ms)
+[----------] 6 tests from LODConstraint (0 ms total)
+
+[----------] 4 tests from LODMappingTest
+[ RUN      ] LODMappingTest.SetLODRangeMax
+[       OK ] LODMappingTest.SetLODRangeMax (0 ms)
+[ RUN      ] LODMappingTest.SetLODRangeMin
+[       OK ] LODMappingTest.SetLODRangeMin (0 ms)
+[ RUN      ] LODMappingTest.SetLODRangeMaxMin
+[       OK ] LODMappingTest.SetLODRangeMaxMin (0 ms)
+[ RUN      ] LODMappingTest.SetLODRangeExact
+[       OK ] LODMappingTest.SetLODRangeExact (0 ms)
+[----------] 4 tests from LODMappingTest (0 ms total)
+
+[----------] 1 test from StreamReadWriteAPICopyIntegrationTest/0, where TypeParam = <type>
+[ RUN      ] StreamReadWriteAPICopyIntegrationTest/0.VerifyAllDNADataAfterSetFromThroughAPI
+[       OK ] StreamReadWriteAPICopyIntegrationTest/0.VerifyAllDNADataAfterSetFromThroughAPI (0 ms)
+[----------] 1 test from StreamReadWriteAPICopyIntegrationTest/0 (0 ms total)
+
+[----------] 1 test from StreamReadWriteAPICopyIntegrationTest/1, where TypeParam = <type>
+[ RUN      ] StreamReadWriteAPICopyIntegrationTest/1.VerifyAllDNADataAfterSetFromThroughAPI
+[       OK ] StreamReadWriteAPICopyIntegrationTest/1.VerifyAllDNADataAfterSetFromThroughAPI (0 ms)
+[----------] 1 test from StreamReadWriteAPICopyIntegrationTest/1 (0 ms total)
+
+[----------] 1 test from StreamReadWriteAPICopyIntegrationTest/2, where TypeParam = <type>
+[ RUN      ] StreamReadWriteAPICopyIntegrationTest/2.VerifyAllDNADataAfterSetFromThroughAPI
+[       OK ] StreamReadWriteAPICopyIntegrationTest/2.VerifyAllDNADataAfterSetFromThroughAPI (0 ms)
+[----------] 1 test from StreamReadWriteAPICopyIntegrationTest/2 (0 ms total)
+
+[----------] 1 test from StreamReadWriteAPICopyIntegrationTest/3, where TypeParam = <type>
+[ RUN      ] StreamReadWriteAPICopyIntegrationTest/3.VerifyAllDNADataAfterSetFromThroughAPI
+[       OK ] StreamReadWriteAPICopyIntegrationTest/3.VerifyAllDNADataAfterSetFromThroughAPI (0 ms)
+[----------] 1 test from StreamReadWriteAPICopyIntegrationTest/3 (0 ms total)
+
+[----------] 1 test from StreamReadWriteAPICopyIntegrationTest/4, where TypeParam = <type>
+[ RUN      ] StreamReadWriteAPICopyIntegrationTest/4.VerifyAllDNADataAfterSetFromThroughAPI
+[       OK ] StreamReadWriteAPICopyIntegrationTest/4.VerifyAllDNADataAfterSetFromThroughAPI (1 ms)
+[----------] 1 test from StreamReadWriteAPICopyIntegrationTest/4 (1 ms total)
+
+[----------] 1 test from StreamReadWriteAPICopyIntegrationTest/5, where TypeParam = <type>
+[ RUN      ] StreamReadWriteAPICopyIntegrationTest/5.VerifyAllDNADataAfterSetFromThroughAPI
+[       OK ] StreamReadWriteAPICopyIntegrationTest/5.VerifyAllDNADataAfterSetFromThroughAPI (0 ms)
+[----------] 1 test from StreamReadWriteAPICopyIntegrationTest/5 (0 ms total)
+
+[----------] 1 test from StreamReadWriteAPICopyIntegrationTest/6, where TypeParam = <type>
+[ RUN      ] StreamReadWriteAPICopyIntegrationTest/6.VerifyAllDNADataAfterSetFromThroughAPI
+[       OK ] StreamReadWriteAPICopyIntegrationTest/6.VerifyAllDNADataAfterSetFromThroughAPI (0 ms)
+[----------] 1 test from StreamReadWriteAPICopyIntegrationTest/6 (0 ms total)
+
+[----------] 1 test from StreamReadWriteAPICopyIntegrationTest/7, where TypeParam = <type>
+[ RUN      ] StreamReadWriteAPICopyIntegrationTest/7.VerifyAllDNADataAfterSetFromThroughAPI
+[       OK ] StreamReadWriteAPICopyIntegrationTest/7.VerifyAllDNADataAfterSetFromThroughAPI (0 ms)
+[----------] 1 test from StreamReadWriteAPICopyIntegrationTest/7 (0 ms total)
+
+[----------] 1 test from StreamReadWriteAPICopyIntegrationTest/8, where TypeParam = <type>
+[ RUN      ] StreamReadWriteAPICopyIntegrationTest/8.VerifyAllDNADataAfterSetFromThroughAPI
+[       OK ] StreamReadWriteAPICopyIntegrationTest/8.VerifyAllDNADataAfterSetFromThroughAPI (0 ms)
+[----------] 1 test from StreamReadWriteAPICopyIntegrationTest/8 (0 ms total)
+
+[----------] 1 test from StreamReadWriteAPICopyIntegrationTest/9, where TypeParam = <type>
+[ RUN      ] StreamReadWriteAPICopyIntegrationTest/9.VerifyAllDNADataAfterSetFromThroughAPI
+[       OK ] StreamReadWriteAPICopyIntegrationTest/9.VerifyAllDNADataAfterSetFromThroughAPI (0 ms)
+[----------] 1 test from StreamReadWriteAPICopyIntegrationTest/9 (0 ms total)
+
+[----------] 1 test from StreamReadWriteAPICopyIntegrationTest/10, where TypeParam = <type>
+[ RUN      ] StreamReadWriteAPICopyIntegrationTest/10.VerifyAllDNADataAfterSetFromThroughAPI
+[       OK ] StreamReadWriteAPICopyIntegrationTest/10.VerifyAllDNADataAfterSetFromThroughAPI (0 ms)
+[----------] 1 test from StreamReadWriteAPICopyIntegrationTest/10 (0 ms total)
+
+[----------] 1 test from StreamReadWriteAPICopyIntegrationTest/11, where TypeParam = <type>
+[ RUN      ] StreamReadWriteAPICopyIntegrationTest/11.VerifyAllDNADataAfterSetFromThroughAPI
+[       OK ] StreamReadWriteAPICopyIntegrationTest/11.VerifyAllDNADataAfterSetFromThroughAPI (0 ms)
+[----------] 1 test from StreamReadWriteAPICopyIntegrationTest/11 (0 ms total)
+
+[----------] 1 test from StreamReadWriteRawCopyIntegrationTest/0, where TypeParam = <type>
+[ RUN      ] StreamReadWriteRawCopyIntegrationTest/0.VerifySetFromCopiesEvenUnknownData
+[       OK ] StreamReadWriteRawCopyIntegrationTest/0.VerifySetFromCopiesEvenUnknownData (0 ms)
+[----------] 1 test from StreamReadWriteRawCopyIntegrationTest/0 (0 ms total)
+
+[----------] 1 test from StreamReadWriteRawCopyIntegrationTest/1, where TypeParam = <type>
+[ RUN      ] StreamReadWriteRawCopyIntegrationTest/1.VerifySetFromCopiesEvenUnknownData
+[       OK ] StreamReadWriteRawCopyIntegrationTest/1.VerifySetFromCopiesEvenUnknownData (1 ms)
+[----------] 1 test from StreamReadWriteRawCopyIntegrationTest/1 (1 ms total)
+
+[----------] 1 test from StreamReadWriteRawCopyIntegrationTest/2, where TypeParam = <type>
+[ RUN      ] StreamReadWriteRawCopyIntegrationTest/2.VerifySetFromCopiesEvenUnknownData
+[       OK ] StreamReadWriteRawCopyIntegrationTest/2.VerifySetFromCopiesEvenUnknownData (0 ms)
+[----------] 1 test from StreamReadWriteRawCopyIntegrationTest/2 (0 ms total)
+
+[----------] 1 test from StreamReadWriteRawCopyIntegrationTest/3, where TypeParam = <type>
+[ RUN      ] StreamReadWriteRawCopyIntegrationTest/3.VerifySetFromCopiesEvenUnknownData
+[       OK ] StreamReadWriteRawCopyIntegrationTest/3.VerifySetFromCopiesEvenUnknownData (0 ms)
+[----------] 1 test from StreamReadWriteRawCopyIntegrationTest/3 (0 ms total)
+
+[----------] 1 test from StreamReadWriteRawCopyIntegrationTest/4, where TypeParam = <type>
+[ RUN      ] StreamReadWriteRawCopyIntegrationTest/4.VerifySetFromCopiesEvenUnknownData
+[       OK ] StreamReadWriteRawCopyIntegrationTest/4.VerifySetFromCopiesEvenUnknownData (0 ms)
+[----------] 1 test from StreamReadWriteRawCopyIntegrationTest/4 (0 ms total)
+
+[----------] 1 test from StreamReadWriteRawCopyIntegrationTest/5, where TypeParam = <type>
+[ RUN      ] StreamReadWriteRawCopyIntegrationTest/5.VerifySetFromCopiesEvenUnknownData
+[       OK ] StreamReadWriteRawCopyIntegrationTest/5.VerifySetFromCopiesEvenUnknownData (0 ms)
+[----------] 1 test from StreamReadWriteRawCopyIntegrationTest/5 (0 ms total)
+
+[----------] 1 test from StreamReadWriteRawCopyIntegrationTest/6, where TypeParam = <type>
+[ RUN      ] StreamReadWriteRawCopyIntegrationTest/6.VerifySetFromCopiesEvenUnknownData
+[       OK ] StreamReadWriteRawCopyIntegrationTest/6.VerifySetFromCopiesEvenUnknownData (0 ms)
+[----------] 1 test from StreamReadWriteRawCopyIntegrationTest/6 (0 ms total)
+
+[----------] 1 test from StreamReadWriteRawCopyIntegrationTest/7, where TypeParam = <type>
+[ RUN      ] StreamReadWriteRawCopyIntegrationTest/7.VerifySetFromCopiesEvenUnknownData
+[       OK ] StreamReadWriteRawCopyIntegrationTest/7.VerifySetFromCopiesEvenUnknownData (0 ms)
+[----------] 1 test from StreamReadWriteRawCopyIntegrationTest/7 (0 ms total)
+
+[----------] 1 test from StreamReadWriteRawCopyIntegrationTest/8, where TypeParam = <type>
+[ RUN      ] StreamReadWriteRawCopyIntegrationTest/8.VerifySetFromCopiesEvenUnknownData
+[       OK ] StreamReadWriteRawCopyIntegrationTest/8.VerifySetFromCopiesEvenUnknownData (0 ms)
+[----------] 1 test from StreamReadWriteRawCopyIntegrationTest/8 (0 ms total)
+
+[----------] 1 test from StreamReadWriteRawCopyIntegrationTest/9, where TypeParam = <type>
+[ RUN      ] StreamReadWriteRawCopyIntegrationTest/9.VerifySetFromCopiesEvenUnknownData
+[       OK ] StreamReadWriteRawCopyIntegrationTest/9.VerifySetFromCopiesEvenUnknownData (0 ms)
+[----------] 1 test from StreamReadWriteRawCopyIntegrationTest/9 (0 ms total)
+
+[----------] 1 test from StreamReadWriteRawCopyIntegrationTest/10, where TypeParam = <type>
+[ RUN      ] StreamReadWriteRawCopyIntegrationTest/10.VerifySetFromCopiesEvenUnknownData
+[       OK ] StreamReadWriteRawCopyIntegrationTest/10.VerifySetFromCopiesEvenUnknownData (0 ms)
+[----------] 1 test from StreamReadWriteRawCopyIntegrationTest/10 (0 ms total)
+
+[----------] 1 test from StreamReadWriteRawCopyIntegrationTest/11, where TypeParam = <type>
+[ RUN      ] StreamReadWriteRawCopyIntegrationTest/11.VerifySetFromCopiesEvenUnknownData
+[       OK ] StreamReadWriteRawCopyIntegrationTest/11.VerifySetFromCopiesEvenUnknownData (0 ms)
+[----------] 1 test from StreamReadWriteRawCopyIntegrationTest/11 (0 ms total)
+
+[----------] 1 test from StreamReadWriteRawCopyIntegrationTest/12, where TypeParam = <type>
+[ RUN      ] StreamReadWriteRawCopyIntegrationTest/12.VerifySetFromCopiesEvenUnknownData
+[       OK ] StreamReadWriteRawCopyIntegrationTest/12.VerifySetFromCopiesEvenUnknownData (0 ms)
+[----------] 1 test from StreamReadWriteRawCopyIntegrationTest/12 (0 ms total)
+
+[----------] 1 test from StreamReadWriteRawCopyIntegrationTest/13, where TypeParam = <type>
+[ RUN      ] StreamReadWriteRawCopyIntegrationTest/13.VerifySetFromCopiesEvenUnknownData
+[       OK ] StreamReadWriteRawCopyIntegrationTest/13.VerifySetFromCopiesEvenUnknownData (0 ms)
+[----------] 1 test from StreamReadWriteRawCopyIntegrationTest/13 (0 ms total)
+
+[----------] 1 test from StreamReadWriteRawCopyIntegrationTest/14, where TypeParam = <type>
+[ RUN      ] StreamReadWriteRawCopyIntegrationTest/14.VerifySetFromCopiesEvenUnknownData
+[       OK ] StreamReadWriteRawCopyIntegrationTest/14.VerifySetFromCopiesEvenUnknownData (0 ms)
+[----------] 1 test from StreamReadWriteRawCopyIntegrationTest/14 (0 ms total)
+
+[----------] 1 test from StreamReadWriteRawCopyIntegrationTest/15, where TypeParam = <type>
+[ RUN      ] StreamReadWriteRawCopyIntegrationTest/15.VerifySetFromCopiesEvenUnknownData
+[       OK ] StreamReadWriteRawCopyIntegrationTest/15.VerifySetFromCopiesEvenUnknownData (0 ms)
+[----------] 1 test from StreamReadWriteRawCopyIntegrationTest/15 (0 ms total)
+
+[----------] 1 test from StreamReadWriteRawCopyIntegrationTest/16, where TypeParam = <type>
+[ RUN      ] StreamReadWriteRawCopyIntegrationTest/16.VerifySetFromCopiesEvenUnknownData
+[       OK ] StreamReadWriteRawCopyIntegrationTest/16.VerifySetFromCopiesEvenUnknownData (0 ms)
+[----------] 1 test from StreamReadWriteRawCopyIntegrationTest/16 (0 ms total)
+
+[----------] 1 test from StreamReadWriteRawCopyIntegrationTest/17, where TypeParam = <type>
+[ RUN      ] StreamReadWriteRawCopyIntegrationTest/17.VerifySetFromCopiesEvenUnknownData
+[       OK ] StreamReadWriteRawCopyIntegrationTest/17.VerifySetFromCopiesEvenUnknownData (0 ms)
+[----------] 1 test from StreamReadWriteRawCopyIntegrationTest/17 (0 ms total)
+
+[----------] 1 test from StreamReadWriteMultipleIntegrationTest/0, where TypeParam = <type>
+[ RUN      ] StreamReadWriteMultipleIntegrationTest/0.ReadWriteTwoDNAsToSameStream
+[       OK ] StreamReadWriteMultipleIntegrationTest/0.ReadWriteTwoDNAsToSameStream (1 ms)
+[----------] 1 test from StreamReadWriteMultipleIntegrationTest/0 (1 ms total)
+
+[----------] 1 test from StreamReadWriteMultipleIntegrationTest/1, where TypeParam = <type>
+[ RUN      ] StreamReadWriteMultipleIntegrationTest/1.ReadWriteTwoDNAsToSameStream
+[       OK ] StreamReadWriteMultipleIntegrationTest/1.ReadWriteTwoDNAsToSameStream (0 ms)
+[----------] 1 test from StreamReadWriteMultipleIntegrationTest/1 (0 ms total)
+
+[----------] 1 test from StreamReadWriteMultipleIntegrationTest/2, where TypeParam = <type>
+[ RUN      ] StreamReadWriteMultipleIntegrationTest/2.ReadWriteTwoDNAsToSameStream
+[       OK ] StreamReadWriteMultipleIntegrationTest/2.ReadWriteTwoDNAsToSameStream (0 ms)
+[----------] 1 test from StreamReadWriteMultipleIntegrationTest/2 (0 ms total)
+
+[----------] 1 test from StreamReadWriteMultipleIntegrationTest/3, where TypeParam = <type>
+[ RUN      ] StreamReadWriteMultipleIntegrationTest/3.ReadWriteTwoDNAsToSameStream
+[       OK ] StreamReadWriteMultipleIntegrationTest/3.ReadWriteTwoDNAsToSameStream (0 ms)
+[----------] 1 test from StreamReadWriteMultipleIntegrationTest/3 (0 ms total)
+
+[----------] 1 test from StreamReadWriteMultipleIntegrationTest/4, where TypeParam = <type>
+[ RUN      ] StreamReadWriteMultipleIntegrationTest/4.ReadWriteTwoDNAsToSameStream
+[       OK ] StreamReadWriteMultipleIntegrationTest/4.ReadWriteTwoDNAsToSameStream (1 ms)
+[----------] 1 test from StreamReadWriteMultipleIntegrationTest/4 (1 ms total)
+
+[----------] 1 test from StreamReadWriteMultipleIntegrationTest/5, where TypeParam = <type>
+[ RUN      ] StreamReadWriteMultipleIntegrationTest/5.ReadWriteTwoDNAsToSameStream
+[       OK ] StreamReadWriteMultipleIntegrationTest/5.ReadWriteTwoDNAsToSameStream (0 ms)
+[----------] 1 test from StreamReadWriteMultipleIntegrationTest/5 (0 ms total)
+
+[----------] 1 test from StreamReadWriteMultipleIntegrationTest/6, where TypeParam = <type>
+[ RUN      ] StreamReadWriteMultipleIntegrationTest/6.ReadWriteTwoDNAsToSameStream
+[       OK ] StreamReadWriteMultipleIntegrationTest/6.ReadWriteTwoDNAsToSameStream (0 ms)
+[----------] 1 test from StreamReadWriteMultipleIntegrationTest/6 (0 ms total)
+
+[----------] 1 test from StreamReadWriteMultipleIntegrationTest/7, where TypeParam = <type>
+[ RUN      ] StreamReadWriteMultipleIntegrationTest/7.ReadWriteTwoDNAsToSameStream
+[       OK ] StreamReadWriteMultipleIntegrationTest/7.ReadWriteTwoDNAsToSameStream (0 ms)
+[----------] 1 test from StreamReadWriteMultipleIntegrationTest/7 (0 ms total)
+
+[----------] 1 test from StreamReadWriteMultipleIntegrationTest/8, where TypeParam = <type>
+[ RUN      ] StreamReadWriteMultipleIntegrationTest/8.ReadWriteTwoDNAsToSameStream
+[       OK ] StreamReadWriteMultipleIntegrationTest/8.ReadWriteTwoDNAsToSameStream (0 ms)
+[----------] 1 test from StreamReadWriteMultipleIntegrationTest/8 (0 ms total)
+
+[----------] 1 test from StreamReadWriteMultipleIntegrationTest/9, where TypeParam = <type>
+[ RUN      ] StreamReadWriteMultipleIntegrationTest/9.ReadWriteTwoDNAsToSameStream
+[       OK ] StreamReadWriteMultipleIntegrationTest/9.ReadWriteTwoDNAsToSameStream (0 ms)
+[----------] 1 test from StreamReadWriteMultipleIntegrationTest/9 (0 ms total)
+
+[----------] 1 test from PolyAllocIntegrationTest
+[ RUN      ] PolyAllocIntegrationTest.InstantiateTypes
+[       OK ] PolyAllocIntegrationTest.InstantiateTypes (0 ms)
+[----------] 1 test from PolyAllocIntegrationTest (0 ms total)
+
+[----------] 13 tests from ScopedPtrTest
+[ RUN      ] ScopedPtrTest.EmptyConstruction
+[       OK ] ScopedPtrTest.EmptyConstruction (0 ms)
+[ RUN      ] ScopedPtrTest.ProperCleanup
+[       OK ] ScopedPtrTest.ProperCleanup (0 ms)
+[ RUN      ] ScopedPtrTest.MoveAssign
+[       OK ] ScopedPtrTest.MoveAssign (0 ms)
+[ RUN      ] ScopedPtrTest.MoveConstruct
+[       OK ] ScopedPtrTest.MoveConstruct (0 ms)
+[ RUN      ] ScopedPtrTest.ReAssign
+[       OK ] ScopedPtrTest.ReAssign (0 ms)
+[ RUN      ] ScopedPtrTest.Reset
+[       OK ] ScopedPtrTest.Reset (0 ms)
+[ RUN      ] ScopedPtrTest.UseNewDelete
+[       OK ] ScopedPtrTest.UseNewDelete (0 ms)
+[ RUN      ] ScopedPtrTest.UseNewDeleteForArrays
+[       OK ] ScopedPtrTest.UseNewDeleteForArrays (0 ms)
+[ RUN      ] ScopedPtrTest.CustomDestroyer
+[       OK ] ScopedPtrTest.CustomDestroyer (0 ms)
+[ RUN      ] ScopedPtrTest.MoveAssignWithCustomDestroyer
+[       OK ] ScopedPtrTest.MoveAssignWithCustomDestroyer (0 ms)
+[ RUN      ] ScopedPtrTest.MoveConstructWithCustomDestroyer
+[       OK ] ScopedPtrTest.MoveConstructWithCustomDestroyer (0 ms)
+[ RUN      ] ScopedPtrTest.UseDefaultCreateDestroy
+[       OK ] ScopedPtrTest.UseDefaultCreateDestroy (0 ms)
+[ RUN      ] ScopedPtrTest.StoreDerivedInBasePointer
+[       OK ] ScopedPtrTest.StoreDerivedInBasePointer (0 ms)
+[----------] 13 tests from ScopedPtrTest (0 ms total)
+
+[----------] 4 tests from ArenaMemoryResourceTest
+[ RUN      ] ArenaMemoryResourceTest.EnsureArenaServesAllocations
+[       OK ] ArenaMemoryResourceTest.EnsureArenaServesAllocations (0 ms)
+[ RUN      ] ArenaMemoryResourceTest.EnsureDeallocationAreNoop
+[       OK ] ArenaMemoryResourceTest.EnsureDeallocationAreNoop (0 ms)
+[ RUN      ] ArenaMemoryResourceTest.EnsureGrowthFactorIsHonored
+[       OK ] ArenaMemoryResourceTest.EnsureGrowthFactorIsHonored (0 ms)
+[ RUN      ] ArenaMemoryResourceTest.EnsureAlignmentRequirementsAreHonored
+[       OK ] ArenaMemoryResourceTest.EnsureAlignmentRequirementsAreHonored (0 ms)
+[----------] 4 tests from ArenaMemoryResourceTest (0 ms total)
+
+[----------] 2 tests from ManagedInstanceTest
+[ RUN      ] ManagedInstanceTest.UniqueInstance
+[       OK ] ManagedInstanceTest.UniqueInstance (0 ms)
+[ RUN      ] ManagedInstanceTest.SharedInstance
+[       OK ] ManagedInstanceTest.SharedInstance (0 ms)
+[----------] 2 tests from ManagedInstanceTest (0 ms total)
+
+[----------] 3 tests from ConditionalTableTest
+[ RUN      ] ConditionalTableTest.OutputClamped
+[       OK ] ConditionalTableTest.OutputClamped (0 ms)
+[ RUN      ] ConditionalTableTest.OutputIsAccumulated
+[       OK ] ConditionalTableTest.OutputIsAccumulated (0 ms)
+[ RUN      ] ConditionalTableTest.OutputIsResetOnEachCalculation
+[       OK ] ConditionalTableTest.OutputIsResetOnEachCalculation (0 ms)
+[----------] 3 tests from ConditionalTableTest (0 ms total)
+
+[----------] 2 tests from ControlsTest
+[ RUN      ] ControlsTest.GUIToRawMapping
+[       OK ] ControlsTest.GUIToRawMapping (0 ms)
+[ RUN      ] ControlsTest.PSDsAppendToOutput
+[       OK ] ControlsTest.PSDsAppendToOutput (0 ms)
+[----------] 2 tests from ControlsTest (0 ms total)
+
+[----------] 1 test from ScalarJointsFactoryTest
+[ RUN      ] ScalarJointsFactoryTest.NeutralJointsAreCopied
+[       OK ] ScalarJointsFactoryTest.NeutralJointsAreCopied (0 ms)
+[----------] 1 test from ScalarJointsFactoryTest (0 ms total)
+
+[----------] 1 test from LODRegionTest
+[ RUN      ] LODRegionTest.ConstructFromFixtures
+[       OK ] LODRegionTest.ConstructFromFixtures (0 ms)
+[----------] 1 test from LODRegionTest (0 ms total)
+
+[----------] 1 test from ScalarJointStorageBuilderTest
+[ RUN      ] ScalarJointStorageBuilderTest.LayoutOptimization
+[       OK ] ScalarJointStorageBuilderTest.LayoutOptimization (0 ms)
+[----------] 1 test from ScalarJointStorageBuilderTest (0 ms total)
+
+[----------] 1 test from SSEJointStorageBuilderTest/0, where TypeParam = <type>
+[ RUN      ] SSEJointStorageBuilderTest/0.LayoutOptimization
+[       OK ] SSEJointStorageBuilderTest/0.LayoutOptimization (0 ms)
+[----------] 1 test from SSEJointStorageBuilderTest/0 (0 ms total)
+
+[----------] 3 tests from PSDMatrixTest
+[ RUN      ] PSDMatrixTest.OutputsAreClamped
+[       OK ] PSDMatrixTest.OutputsAreClamped (0 ms)
+[ RUN      ] PSDMatrixTest.OutputsKeepExistingProduct
+[       OK ] PSDMatrixTest.OutputsKeepExistingProduct (0 ms)
+[ RUN      ] PSDMatrixTest.RowsSpecifyDestinationIndex
+[       OK ] PSDMatrixTest.RowsSpecifyDestinationIndex (0 ms)
+[----------] 3 tests from PSDMatrixTest (0 ms total)
+
+[----------] 3 tests from RigLogicTest
+[ RUN      ] RigLogicTest.EvaluateRigInstance
+[       OK ] RigLogicTest.EvaluateRigInstance (0 ms)
+[ RUN      ] RigLogicTest.AccessJointVariableAttributeIndices
+[       OK ] RigLogicTest.AccessJointVariableAttributeIndices (1 ms)
+[ RUN      ] RigLogicTest.DumpStateThenRestore
+[       OK ] RigLogicTest.DumpStateThenRestore (0 ms)
+[----------] 3 tests from RigLogicTest (1 ms total)
+
+[----------] 2 tests from TransformationTest
+[ RUN      ] TransformationTest.AccessByIndex
+[       OK ] TransformationTest.AccessByIndex (0 ms)
+[ RUN      ] TransformationTest.TransformationIterator
+[       OK ] TransformationTest.TransformationIterator (0 ms)
+[----------] 2 tests from TransformationTest (0 ms total)
+
+[----------] 2 tests from StatusProviderIntegrationTest
+[ RUN      ] StatusProviderIntegrationTest.SetAndCheckStatus
+[       OK ] StatusProviderIntegrationTest.SetAndCheckStatus (0 ms)
+[ RUN      ] StatusProviderIntegrationTest.UsePreSetHook
+[       OK ] StatusProviderIntegrationTest.UsePreSetHook (0 ms)
+[----------] 2 tests from StatusProviderIntegrationTest (0 ms total)
+
+[----------] 26 tests from BinaryInputArchiveTest
+[ RUN      ] BinaryInputArchiveTest.StreamExtractionOperator
+[       OK ] BinaryInputArchiveTest.StreamExtractionOperator (0 ms)
+[ RUN      ] BinaryInputArchiveTest.ArchiveOffset
+[       OK ] BinaryInputArchiveTest.ArchiveOffset (0 ms)
+[ RUN      ] BinaryInputArchiveTest.ArchiveOffsetRepositionsStream
+[       OK ] BinaryInputArchiveTest.ArchiveOffsetRepositionsStream (0 ms)
+[ RUN      ] BinaryInputArchiveTest.ArchiveSizeIsRelativeToOffset
+[       OK ] BinaryInputArchiveTest.ArchiveSizeIsRelativeToOffset (0 ms)
+[ RUN      ] BinaryInputArchiveTest.LittleEndianDataDeserialization
+[       OK ] BinaryInputArchiveTest.LittleEndianDataDeserialization (0 ms)
+[ RUN      ] BinaryInputArchiveTest.PrimitiveTypeDeserialization
+[       OK ] BinaryInputArchiveTest.PrimitiveTypeDeserialization (0 ms)
+[ RUN      ] BinaryInputArchiveTest.ComplexTypeDeserialization
+[       OK ] BinaryInputArchiveTest.ComplexTypeDeserialization (0 ms)
+[ RUN      ] BinaryInputArchiveTest.FreeSerialize
+[       OK ] BinaryInputArchiveTest.FreeSerialize (0 ms)
+[ RUN      ] BinaryInputArchiveTest.FreeLoad
+[       OK ] BinaryInputArchiveTest.FreeLoad (0 ms)
+[ RUN      ] BinaryInputArchiveTest.StringDeserialization
+[       OK ] BinaryInputArchiveTest.StringDeserialization (0 ms)
+[ RUN      ] BinaryInputArchiveTest.BlobDeserialization
+[       OK ] BinaryInputArchiveTest.BlobDeserialization (0 ms)
+[ RUN      ] BinaryInputArchiveTest.VectorOfInt8TypeDeserialization
+[       OK ] BinaryInputArchiveTest.VectorOfInt8TypeDeserialization (0 ms)
+[ RUN      ] BinaryInputArchiveTest.VectorOfInt16TypeDeserialization
+[       OK ] BinaryInputArchiveTest.VectorOfInt16TypeDeserialization (0 ms)
+[ RUN      ] BinaryInputArchiveTest.VectorOfInt32TypeDeserialization
+[       OK ] BinaryInputArchiveTest.VectorOfInt32TypeDeserialization (0 ms)
+[ RUN      ] BinaryInputArchiveTest.VectorOfInt64TypeDeserialization
+[       OK ] BinaryInputArchiveTest.VectorOfInt64TypeDeserialization (0 ms)
+[ RUN      ] BinaryInputArchiveTest.VectorOfFloatTypeDeserialization
+[       OK ] BinaryInputArchiveTest.VectorOfFloatTypeDeserialization (0 ms)
+[ RUN      ] BinaryInputArchiveTest.VectorOfDoubleTypeDeserialization
+[       OK ] BinaryInputArchiveTest.VectorOfDoubleTypeDeserialization (0 ms)
+[ RUN      ] BinaryInputArchiveTest.VectorOfComplexTypeDeserialization
+[       OK ] BinaryInputArchiveTest.VectorOfComplexTypeDeserialization (0 ms)
+[ RUN      ] BinaryInputArchiveTest.DynArrayOfPrimitiveStructsDeserialization
+[       OK ] BinaryInputArchiveTest.DynArrayOfPrimitiveStructsDeserialization (0 ms)
+[ RUN      ] BinaryInputArchiveTest.VectorOfTypeConstructibleFromMemoryResourceDeserialization
+[       OK ] BinaryInputArchiveTest.VectorOfTypeConstructibleFromMemoryResourceDeserialization (0 ms)
+[ RUN      ] BinaryInputArchiveTest.VectorOfStringDeserialization
+[       OK ] BinaryInputArchiveTest.VectorOfStringDeserialization (0 ms)
+[ RUN      ] BinaryInputArchiveTest.VectorOfPairOfStringsDeserialization
+[       OK ] BinaryInputArchiveTest.VectorOfPairOfStringsDeserialization (0 ms)
+[ RUN      ] BinaryInputArchiveTest.VectorOfVectorOfPrimitiveTypeDeserialization
+[       OK ] BinaryInputArchiveTest.VectorOfVectorOfPrimitiveTypeDeserialization (0 ms)
+[ RUN      ] BinaryInputArchiveTest.MixedNestedTypes
+[       OK ] BinaryInputArchiveTest.MixedNestedTypes (0 ms)
+[ RUN      ] BinaryInputArchiveTest.AttachUserData
+[       OK ] BinaryInputArchiveTest.AttachUserData (0 ms)
+[ RUN      ] BinaryInputArchiveTest.LoadVersionedType
+[       OK ] BinaryInputArchiveTest.LoadVersionedType (0 ms)
+[----------] 26 tests from BinaryInputArchiveTest (0 ms total)
+
+[----------] 20 tests from BinaryOutputArchiveTest
+[ RUN      ] BinaryOutputArchiveTest.StreamInsertionOperator
+[       OK ] BinaryOutputArchiveTest.StreamInsertionOperator (0 ms)
+[ RUN      ] BinaryOutputArchiveTest.ArchiveOffset
+[       OK ] BinaryOutputArchiveTest.ArchiveOffset (0 ms)
+[ RUN      ] BinaryOutputArchiveTest.ArchiveSizeIsRelativeToOffset
+[       OK ] BinaryOutputArchiveTest.ArchiveSizeIsRelativeToOffset (0 ms)
+[ RUN      ] BinaryOutputArchiveTest.LittleEndianDataSerialization
+[       OK ] BinaryOutputArchiveTest.LittleEndianDataSerialization (0 ms)
+[ RUN      ] BinaryOutputArchiveTest.PrimitiveTypeSerialization
+[       OK ] BinaryOutputArchiveTest.PrimitiveTypeSerialization (0 ms)
+[ RUN      ] BinaryOutputArchiveTest.ComplexTypeSerialization
+[       OK ] BinaryOutputArchiveTest.ComplexTypeSerialization (0 ms)
+[ RUN      ] BinaryOutputArchiveTest.FreeSerialize
+[       OK ] BinaryOutputArchiveTest.FreeSerialize (0 ms)
+[ RUN      ] BinaryOutputArchiveTest.FreeSave
+[       OK ] BinaryOutputArchiveTest.FreeSave (0 ms)
+[ RUN      ] BinaryOutputArchiveTest.StringSerialization
+[       OK ] BinaryOutputArchiveTest.StringSerialization (0 ms)
+[ RUN      ] BinaryOutputArchiveTest.BlobSerialization
+[       OK ] BinaryOutputArchiveTest.BlobSerialization (0 ms)
+[ RUN      ] BinaryOutputArchiveTest.VectorOfIntegerTypeSerialization
+[       OK ] BinaryOutputArchiveTest.VectorOfIntegerTypeSerialization (0 ms)
+[ RUN      ] BinaryOutputArchiveTest.VectorOfFloatTypeSerialization
+[       OK ] BinaryOutputArchiveTest.VectorOfFloatTypeSerialization (0 ms)
+[ RUN      ] BinaryOutputArchiveTest.VectorOfComplexTypeSerialization
+[       OK ] BinaryOutputArchiveTest.VectorOfComplexTypeSerialization (0 ms)
+[ RUN      ] BinaryOutputArchiveTest.DynArrayOfPrimitiveStructSerialization
+[       OK ] BinaryOutputArchiveTest.DynArrayOfPrimitiveStructSerialization (0 ms)
+[ RUN      ] BinaryOutputArchiveTest.VectorOfStringSerialization
+[       OK ] BinaryOutputArchiveTest.VectorOfStringSerialization (0 ms)
+[ RUN      ] BinaryOutputArchiveTest.VectorOfPairOfStringsSerialization
+[       OK ] BinaryOutputArchiveTest.VectorOfPairOfStringsSerialization (0 ms)
+[ RUN      ] BinaryOutputArchiveTest.VectorOfVectorOfPrimitiveTypeSerialization
+[       OK ] BinaryOutputArchiveTest.VectorOfVectorOfPrimitiveTypeSerialization (0 ms)
+[ RUN      ] BinaryOutputArchiveTest.MixedNestedTypes
+[       OK ] BinaryOutputArchiveTest.MixedNestedTypes (0 ms)
+[ RUN      ] BinaryOutputArchiveTest.AttachUserData
+[       OK ] BinaryOutputArchiveTest.AttachUserData (0 ms)
+[ RUN      ] BinaryOutputArchiveTest.SaveVersionedType
+[       OK ] BinaryOutputArchiveTest.SaveVersionedType (0 ms)
+[----------] 20 tests from BinaryOutputArchiveTest (0 ms total)
+
+[----------] 8 tests from JSONInputArchiveTest
+[ RUN      ] JSONInputArchiveTest.InputPrimitiveStruct
+[       OK ] JSONInputArchiveTest.InputPrimitiveStruct (0 ms)
+[ RUN      ] JSONInputArchiveTest.InputEmptyVector
+[       OK ] JSONInputArchiveTest.InputEmptyVector (0 ms)
+[ RUN      ] JSONInputArchiveTest.InputVectorOfPrimitives
+[       OK ] JSONInputArchiveTest.InputVectorOfPrimitives (0 ms)
+[ RUN      ] JSONInputArchiveTest.InputBlob
+[       OK ] JSONInputArchiveTest.InputBlob (0 ms)
+[ RUN      ] JSONInputArchiveTest.InputCharArray
+[       OK ] JSONInputArchiveTest.InputCharArray (0 ms)
+[ RUN      ] JSONInputArchiveTest.InputVectorOfStructs
+[       OK ] JSONInputArchiveTest.InputVectorOfStructs (0 ms)
+[ RUN      ] JSONInputArchiveTest.InputNestedStructs
+[       OK ] JSONInputArchiveTest.InputNestedStructs (0 ms)
+[ RUN      ] JSONInputArchiveTest.TransparentStruct
+[       OK ] JSONInputArchiveTest.TransparentStruct (0 ms)
+[----------] 8 tests from JSONInputArchiveTest (0 ms total)
+
+[----------] 8 tests from JSONOutputArchiveTest
+[ RUN      ] JSONOutputArchiveTest.OutputPrimitiveStruct
+[       OK ] JSONOutputArchiveTest.OutputPrimitiveStruct (0 ms)
+[ RUN      ] JSONOutputArchiveTest.OutputVectorOfPrimitives
+[       OK ] JSONOutputArchiveTest.OutputVectorOfPrimitives (0 ms)
+[ RUN      ] JSONOutputArchiveTest.OutputBlob
+[       OK ] JSONOutputArchiveTest.OutputBlob (0 ms)
+[ RUN      ] JSONOutputArchiveTest.OutputCharArray
+[       OK ] JSONOutputArchiveTest.OutputCharArray (0 ms)
+[ RUN      ] JSONOutputArchiveTest.OutputVectorOfStructs
+[       OK ] JSONOutputArchiveTest.OutputVectorOfStructs (0 ms)
+[ RUN      ] JSONOutputArchiveTest.OutputNestedStructs
+[       OK ] JSONOutputArchiveTest.OutputNestedStructs (0 ms)
+[ RUN      ] JSONOutputArchiveTest.OutputEmptyVector
+[       OK ] JSONOutputArchiveTest.OutputEmptyVector (0 ms)
+[ RUN      ] JSONOutputArchiveTest.TransparentStruct
+[       OK ] JSONOutputArchiveTest.TransparentStruct (0 ms)
+[----------] 8 tests from JSONOutputArchiveTest (0 ms total)
+
+[----------] 3 tests from ArchiveOffsetTest
+[ RUN      ] ArchiveOffsetTest.SwapInstances
+[       OK ] ArchiveOffsetTest.SwapInstances (0 ms)
+[ RUN      ] ArchiveOffsetTest.MoveInstances
+[       OK ] ArchiveOffsetTest.MoveInstances (0 ms)
+[ RUN      ] ArchiveOffsetTest.MoveAfterTemporaryProxy
+[       OK ] ArchiveOffsetTest.MoveAfterTemporaryProxy (0 ms)
+[----------] 3 tests from ArchiveOffsetTest (0 ms total)
+
+[----------] 3 tests from ArchiveSizeTest
+[ RUN      ] ArchiveSizeTest.SwapInstances
+[       OK ] ArchiveSizeTest.SwapInstances (0 ms)
+[ RUN      ] ArchiveSizeTest.MoveInstances
+[       OK ] ArchiveSizeTest.MoveInstances (0 ms)
+[ RUN      ] ArchiveSizeTest.MoveAfterTemporaryProxy
+[       OK ] ArchiveSizeTest.MoveAfterTemporaryProxy (0 ms)
+[----------] 3 tests from ArchiveSizeTest (0 ms total)
+
+[----------] 2 tests from CharInputStreamBufTest
+[ RUN      ] CharInputStreamBufTest.InputString
+[       OK ] CharInputStreamBufTest.InputString (0 ms)
+[ RUN      ] CharInputStreamBufTest.InputMixedDataTypes
+[       OK ] CharInputStreamBufTest.InputMixedDataTypes (0 ms)
+[----------] 2 tests from CharInputStreamBufTest (0 ms total)
+
+[----------] 3 tests from CharOutputStreamBufTest
+[ RUN      ] CharOutputStreamBufTest.OutputSingleString
+[       OK ] CharOutputStreamBufTest.OutputSingleString (0 ms)
+[ RUN      ] CharOutputStreamBufTest.OutputMultipleStrings
+[       OK ] CharOutputStreamBufTest.OutputMultipleStrings (0 ms)
+[ RUN      ] CharOutputStreamBufTest.OutputMixedDataTypes
+[       OK ] CharOutputStreamBufTest.OutputMixedDataTypes (0 ms)
+[----------] 3 tests from CharOutputStreamBufTest (0 ms total)
+
+[----------] 15 tests from DynArrayTest
+[ RUN      ] DynArrayTest.CreateEmpty
+[       OK ] DynArrayTest.CreateEmpty (0 ms)
+[ RUN      ] DynArrayTest.CreateUninitialized
+[       OK ] DynArrayTest.CreateUninitialized (0 ms)
+[ RUN      ] DynArrayTest.CreateInitialized
+[       OK ] DynArrayTest.CreateInitialized (0 ms)
+[ RUN      ] DynArrayTest.CreateFromRange
+[       OK ] DynArrayTest.CreateFromRange (0 ms)
+[ RUN      ] DynArrayTest.CreateFromEmptyRange
+[       OK ] DynArrayTest.CreateFromEmptyRange (0 ms)
+[ RUN      ] DynArrayTest.CreateFromPointerSize
+[       OK ] DynArrayTest.CreateFromPointerSize (0 ms)
+[ RUN      ] DynArrayTest.CopyConstruct
+[       OK ] DynArrayTest.CopyConstruct (0 ms)
+[ RUN      ] DynArrayTest.CopyAssign
+[       OK ] DynArrayTest.CopyAssign (0 ms)
+[ RUN      ] DynArrayTest.MoveConstruct
+[       OK ] DynArrayTest.MoveConstruct (0 ms)
+[ RUN      ] DynArrayTest.MoveAssign
+[       OK ] DynArrayTest.MoveAssign (0 ms)
+[ RUN      ] DynArrayTest.SubscriptOperator
+[       OK ] DynArrayTest.SubscriptOperator (0 ms)
+[ RUN      ] DynArrayTest.ResizeToSmaller
+[       OK ] DynArrayTest.ResizeToSmaller (0 ms)
+[ RUN      ] DynArrayTest.ResizeToLarger
+[       OK ] DynArrayTest.ResizeToLarger (0 ms)
+[ RUN      ] DynArrayTest.ResizeUninitializedToSmaller
+[       OK ] DynArrayTest.ResizeUninitializedToSmaller (0 ms)
+[ RUN      ] DynArrayTest.ResizeUninitializedToLarger
+[       OK ] DynArrayTest.ResizeUninitializedToLarger (0 ms)
+[----------] 15 tests from DynArrayTest (0 ms total)
+
+[----------] 27 tests from T128Test/0, where TypeParam = <type>
+[ RUN      ] T128Test/0.CheckSize
+[       OK ] T128Test/0.CheckSize (0 ms)
+[ RUN      ] T128Test/0.Equality
+[       OK ] T128Test/0.Equality (0 ms)
+[ RUN      ] T128Test/0.Inequality
+[       OK ] T128Test/0.Inequality (0 ms)
+[ RUN      ] T128Test/0.LessThan
+[       OK ] T128Test/0.LessThan (0 ms)
+[ RUN      ] T128Test/0.LessThanOrEqual
+[       OK ] T128Test/0.LessThanOrEqual (0 ms)
+[ RUN      ] T128Test/0.GreaterThan
+[       OK ] T128Test/0.GreaterThan (0 ms)
+[ RUN      ] T128Test/0.GreaterThanOrEqual
+[       OK ] T128Test/0.GreaterThanOrEqual (0 ms)
+[ RUN      ] T128Test/0.BitwiseAND
+[       OK ] T128Test/0.BitwiseAND (0 ms)
+[ RUN      ] T128Test/0.BitwiseOR
+[       OK ] T128Test/0.BitwiseOR (0 ms)
+[ RUN      ] T128Test/0.BitwiseXOR
+[       OK ] T128Test/0.BitwiseXOR (0 ms)
+[ RUN      ] T128Test/0.BitwiseNOT
+[       OK ] T128Test/0.BitwiseNOT (0 ms)
+[ RUN      ] T128Test/0.ConstructFromArgs
+[       OK ] T128Test/0.ConstructFromArgs (0 ms)
+[ RUN      ] T128Test/0.ConstructFromSingleValue
+[       OK ] T128Test/0.ConstructFromSingleValue (0 ms)
+[ RUN      ] T128Test/0.FromAlignedSource
+[       OK ] T128Test/0.FromAlignedSource (0 ms)
+[ RUN      ] T128Test/0.AlignedLoadStore
+[       OK ] T128Test/0.AlignedLoadStore (0 ms)
+[ RUN      ] T128Test/0.FromUnalignedSource
+[       OK ] T128Test/0.FromUnalignedSource (0 ms)
+[ RUN      ] T128Test/0.UnalignedLoadStore
+[       OK ] T128Test/0.UnalignedLoadStore (0 ms)
+[ RUN      ] T128Test/0.LoadSingleValue
+[       OK ] T128Test/0.LoadSingleValue (0 ms)
+[ RUN      ] T128Test/0.Sum
+[       OK ] T128Test/0.Sum (0 ms)
+[ RUN      ] T128Test/0.CompoundAssignmentAdd
+[       OK ] T128Test/0.CompoundAssignmentAdd (0 ms)
+[ RUN      ] T128Test/0.CompoundAssignmentSub
+[       OK ] T128Test/0.CompoundAssignmentSub (0 ms)
+[ RUN      ] T128Test/0.CompoundAssignmentMul
+[       OK ] T128Test/0.CompoundAssignmentMul (0 ms)
+[ RUN      ] T128Test/0.CompoundAssignmentDiv
+[       OK ] T128Test/0.CompoundAssignmentDiv (0 ms)
+[ RUN      ] T128Test/0.OperatorAdd
+[       OK ] T128Test/0.OperatorAdd (0 ms)
+[ RUN      ] T128Test/0.OperatorSub
+[       OK ] T128Test/0.OperatorSub (0 ms)
+[ RUN      ] T128Test/0.OperatorMul
+[       OK ] T128Test/0.OperatorMul (0 ms)
+[ RUN      ] T128Test/0.OperatorDiv
+[       OK ] T128Test/0.OperatorDiv (0 ms)
+[----------] 27 tests from T128Test/0 (0 ms total)
+
+[----------] 3 tests from T128Test
+[ RUN      ] T128Test.TransposeSquareScalar
+[       OK ] T128Test.TransposeSquareScalar (0 ms)
+[ RUN      ] T128Test.AbsScalar
+[       OK ] T128Test.AbsScalar (0 ms)
+[ RUN      ] T128Test.AndNotScalar
+[       OK ] T128Test.AndNotScalar (0 ms)
+[----------] 3 tests from T128Test (0 ms total)
+
+[----------] 27 tests from T256Test/0, where TypeParam = <type>
+[ RUN      ] T256Test/0.CheckSize
+[       OK ] T256Test/0.CheckSize (0 ms)
+[ RUN      ] T256Test/0.Equality
+[       OK ] T256Test/0.Equality (0 ms)
+[ RUN      ] T256Test/0.Inequality
+[       OK ] T256Test/0.Inequality (0 ms)
+[ RUN      ] T256Test/0.LessThan
+[       OK ] T256Test/0.LessThan (0 ms)
+[ RUN      ] T256Test/0.LessThanOrEqual
+[       OK ] T256Test/0.LessThanOrEqual (0 ms)
+[ RUN      ] T256Test/0.GreaterThan
+[       OK ] T256Test/0.GreaterThan (0 ms)
+[ RUN      ] T256Test/0.GreaterThanOrEqual
+[       OK ] T256Test/0.GreaterThanOrEqual (0 ms)
+[ RUN      ] T256Test/0.BitwiseAND
+[       OK ] T256Test/0.BitwiseAND (0 ms)
+[ RUN      ] T256Test/0.BitwiseOR
+[       OK ] T256Test/0.BitwiseOR (0 ms)
+[ RUN      ] T256Test/0.BitwiseXOR
+[       OK ] T256Test/0.BitwiseXOR (0 ms)
+[ RUN      ] T256Test/0.BitwiseNOT
+[       OK ] T256Test/0.BitwiseNOT (0 ms)
+[ RUN      ] T256Test/0.ConstructFromArgs
+[       OK ] T256Test/0.ConstructFromArgs (0 ms)
+[ RUN      ] T256Test/0.ConstructFromSingleValue
+[       OK ] T256Test/0.ConstructFromSingleValue (0 ms)
+[ RUN      ] T256Test/0.FromAlignedSource
+[       OK ] T256Test/0.FromAlignedSource (0 ms)
+[ RUN      ] T256Test/0.AlignedLoadStore
+[       OK ] T256Test/0.AlignedLoadStore (0 ms)
+[ RUN      ] T256Test/0.FromUnalignedSource
+[       OK ] T256Test/0.FromUnalignedSource (0 ms)
+[ RUN      ] T256Test/0.UnalignedLoadStore
+[       OK ] T256Test/0.UnalignedLoadStore (0 ms)
+[ RUN      ] T256Test/0.LoadSingleValue
+[       OK ] T256Test/0.LoadSingleValue (0 ms)
+[ RUN      ] T256Test/0.Sum
+[       OK ] T256Test/0.Sum (0 ms)
+[ RUN      ] T256Test/0.CompoundAssignmentAdd
+[       OK ] T256Test/0.CompoundAssignmentAdd (0 ms)
+[ RUN      ] T256Test/0.CompoundAssignmentSub
+[       OK ] T256Test/0.CompoundAssignmentSub (0 ms)
+[ RUN      ] T256Test/0.CompoundAssignmentMul
+[       OK ] T256Test/0.CompoundAssignmentMul (0 ms)
+[ RUN      ] T256Test/0.CompoundAssignmentDiv
+[       OK ] T256Test/0.CompoundAssignmentDiv (0 ms)
+[ RUN      ] T256Test/0.OperatorAdd
+[       OK ] T256Test/0.OperatorAdd (0 ms)
+[ RUN      ] T256Test/0.OperatorSub
+[       OK ] T256Test/0.OperatorSub (0 ms)
+[ RUN      ] T256Test/0.OperatorMul
+[       OK ] T256Test/0.OperatorMul (0 ms)
+[ RUN      ] T256Test/0.OperatorDiv
+[       OK ] T256Test/0.OperatorDiv (0 ms)
+[----------] 27 tests from T256Test/0 (0 ms total)
+
+[----------] 3 tests from T256Test
+[ RUN      ] T256Test.TransposeSquareScalar
+[       OK ] T256Test.TransposeSquareScalar (0 ms)
+[ RUN      ] T256Test.AbsScalar
+[       OK ] T256Test.AbsScalar (0 ms)
+[ RUN      ] T256Test.AndNotScalar
+[       OK ] T256Test.AndNotScalar (0 ms)
+[----------] 3 tests from T256Test (0 ms total)
+
+[----------] 30 tests from StreamTest/0, where TypeParam = <type>
+[ RUN      ] StreamTest/0.OpenExistingFileForRead
+D:\build\++UE5\Sync\Engine\Plugins\Animation\RigLogic\Source\RigLogicLibTest\Private\triotests\TestStreams.cpp(12): error: Failed
+Error opening file
+[  FAILED  ] StreamTest/0.OpenExistingFileForRead, where TypeParam = <type> (1 ms)
+[ RUN      ] StreamTest/0.OpenExistingFileForWrite
+D:\build\++UE5\Sync\Engine\Plugins\Animation\RigLogic\Source\RigLogicLibTest\Private\triotests\TestStreams.cpp(22): error: Failed
+Error opening file
+[  FAILED  ] StreamTest/0.OpenExistingFileForWrite, where TypeParam = <type> (0 ms)
+[ RUN      ] StreamTest/0.OpenExistingFileForReadWrite
+D:\build\++UE5\Sync\Engine\Plugins\Animation\RigLogic\Source\RigLogicLibTest\Private\triotests\TestStreams.cpp(33): error: Failed
+Error opening file
+[  FAILED  ] StreamTest/0.OpenExistingFileForReadWrite, where TypeParam = <type> (0 ms)
+[ RUN      ] StreamTest/0.OpenNonExistingFileForRead
+[       OK ] StreamTest/0.OpenNonExistingFileForRead (0 ms)
+[ RUN      ] StreamTest/0.OpenNonExistingFileForWrite
+D:\build\++UE5\Sync\Engine\Plugins\Animation\RigLogic\Source\RigLogicLibTest\Private\triotests\TestStreams.cpp(49): error: Failed
+Error opening file
+[  FAILED  ] StreamTest/0.OpenNonExistingFileForWrite, where TypeParam = <type> (1 ms)
+[ RUN      ] StreamTest/0.OpenNonExistingFileForReadWrite
+D:\build\++UE5\Sync\Engine\Plugins\Animation\RigLogic\Source\RigLogicLibTest\Private\triotests\TestStreams.cpp(58): error: Failed
+Error opening file
+[  FAILED  ] StreamTest/0.OpenNonExistingFileForReadWrite, where TypeParam = <type> (0 ms)
+[ RUN      ] StreamTest/0.OpenEmptyFile
+D:\build\++UE5\Sync\Engine\Plugins\Animation\RigLogic\Source\RigLogicLibTest\Private\triotests\TestStreams.cpp(68): error: Failed
+Error opening file
+[  FAILED  ] StreamTest/0.OpenEmptyFile, where TypeParam = <type> (0 ms)
+[ RUN      ] StreamTest/0.OpenAlreadyOpenFile
+D:\build\++UE5\Sync\Engine\Plugins\Animation\RigLogic\Source\RigLogicLibTest\Private\triotests\TestStreams.cpp(78): error: Failed
+Error opening file
+[  FAILED  ] StreamTest/0.OpenAlreadyOpenFile, where TypeParam = <type> (0 ms)
+[ RUN      ] StreamTest/0.ReadSuccess
+D:\build\++UE5\Sync\Engine\Plugins\Animation\RigLogic\Source\RigLogicLibTest\Private\triotests\TestStreams.cpp(92): error: Failed
+Error opening file
+[  FAILED  ] StreamTest/0.ReadSuccess, where TypeParam = <type> (0 ms)
+[ RUN      ] StreamTest/0.ReadMoreThanBytesAvailable
+D:\build\++UE5\Sync\Engine\Plugins\Animation\RigLogic\Source\RigLogicLibTest\Private\triotests\TestStreams.cpp(113): error: Failed
+Error opening file
+[  FAILED  ] StreamTest/0.ReadMoreThanBytesAvailable, where TypeParam = <type> (0 ms)
+[ RUN      ] StreamTest/0.ReadFromEmptyFile
+D:\build\++UE5\Sync\Engine\Plugins\Animation\RigLogic\Source\RigLogicLibTest\Private\triotests\TestStreams.cpp(129): error: Failed
+Error opening file
+[  FAILED  ] StreamTest/0.ReadFromEmptyFile, where TypeParam = <type> (0 ms)
+[ RUN      ] StreamTest/0.ReadFromUnopenedStream
+[       OK ] StreamTest/0.ReadFromUnopenedStream (1 ms)
+[ RUN      ] StreamTest/0.ReadFromWriteOnlyStream
+D:\build\++UE5\Sync\Engine\Plugins\Animation\RigLogic\Source\RigLogicLibTest\Private\triotests\TestStreams.cpp(150): error: Failed
+Error opening file
+[  FAILED  ] StreamTest/0.ReadFromWriteOnlyStream, where TypeParam = <type> (0 ms)
+[ RUN      ] StreamTest/0.ReadIntoNullBuffer
+[       OK ] StreamTest/0.ReadIntoNullBuffer (0 ms)
+[ RUN      ] StreamTest/0.ReadIntoNullWritable
+[       OK ] StreamTest/0.ReadIntoNullWritable (0 ms)
+[ RUN      ] StreamTest/0.SeekSuccess
+D:\build\++UE5\Sync\Engine\Plugins\Animation\RigLogic\Source\RigLogicLibTest\Private\triotests\TestStreams.cpp(186): error: Failed
+Error opening file
+[  FAILED  ] StreamTest/0.SeekSuccess, where TypeParam = <type> (0 ms)
+[ RUN      ] StreamTest/0.SeekToEOF
+D:\build\++UE5\Sync\Engine\Plugins\Animation\RigLogic\Source\RigLogicLibTest\Private\triotests\TestStreams.cpp(208): error: Failed
+Error opening file
+[  FAILED  ] StreamTest/0.SeekToEOF, where TypeParam = <type> (0 ms)
+[ RUN      ] StreamTest/0.SeekOutOfBounds
+D:\build\++UE5\Sync\Engine\Plugins\Animation\RigLogic\Source\RigLogicLibTest\Private\triotests\TestStreams.cpp(223): error: Failed
+Error opening file
+[  FAILED  ] StreamTest/0.SeekOutOfBounds, where TypeParam = <type> (0 ms)
+[ RUN      ] StreamTest/0.SeekUnopenedStream
+[       OK ] StreamTest/0.SeekUnopenedStream (0 ms)
+[ RUN      ] StreamTest/0.WriteSuccess
+D:\build\++UE5\Sync\Engine\Plugins\Animation\RigLogic\Source\RigLogicLibTest\Private\triotests\TestStreams.cpp(248): error: Failed
+Error opening file
+[  FAILED  ] StreamTest/0.WriteSuccess, where TypeParam = <type> (0 ms)
+[ RUN      ] StreamTest/0.WriteIntoEmptyFile
+D:\build\++UE5\Sync\Engine\Plugins\Animation\RigLogic\Source\RigLogicLibTest\Private\triotests\TestStreams.cpp(270): error: Failed
+Error opening file
+[  FAILED  ] StreamTest/0.WriteIntoEmptyFile, where TypeParam = <type> (1 ms)
+[ RUN      ] StreamTest/0.WriteIntoUnopenedStream
+[       OK ] StreamTest/0.WriteIntoUnopenedStream (0 ms)
+[ RUN      ] StreamTest/0.WriteIntoReadOnlyStream
+D:\build\++UE5\Sync\Engine\Plugins\Animation\RigLogic\Source\RigLogicLibTest\Private\triotests\TestStreams.cpp(297): error: Failed
+Error opening file
+[  FAILED  ] StreamTest/0.WriteIntoReadOnlyStream, where TypeParam = <type> (0 ms)
+[ RUN      ] StreamTest/0.WriteFromNullBuffer
+[       OK ] StreamTest/0.WriteFromNullBuffer (0 ms)
+[ RUN      ] StreamTest/0.WriteFromNullReadable
+[       OK ] StreamTest/0.WriteFromNullReadable (0 ms)
+[ RUN      ] StreamTest/0.ReadAfterClose
+D:\build\++UE5\Sync\Engine\Plugins\Animation\RigLogic\Source\RigLogicLibTest\Private\triotests\TestStreams.cpp(328): error: Failed
+Error opening file
+[  FAILED  ] StreamTest/0.ReadAfterClose, where TypeParam = <type> (0 ms)
+[ RUN      ] StreamTest/0.WriteAfterClose
+D:\build\++UE5\Sync\Engine\Plugins\Animation\RigLogic\Source\RigLogicLibTest\Private\triotests\TestStreams.cpp(345): error: Failed
+Error opening file
+[  FAILED  ] StreamTest/0.WriteAfterClose, where TypeParam = <type> (0 ms)
+[ RUN      ] StreamTest/0.SeekAfterClose
+D:\build\++UE5\Sync\Engine\Plugins\Animation\RigLogic\Source\RigLogicLibTest\Private\triotests\TestStreams.cpp(361): error: Failed
+Error opening file
+[  FAILED  ] StreamTest/0.SeekAfterClose, where TypeParam = <type> (0 ms)
+[ RUN      ] StreamTest/0.PersistenceIntegrationTest
+D:\build\++UE5\Sync\Engine\Plugins\Animation\RigLogic\Source\RigLogicLibTest\Private\triotests\TestStreamsIntegration.cpp(15): error: Failed
+Error opening file
+[  FAILED  ] StreamTest/0.PersistenceIntegrationTest, where TypeParam = <type> (0 ms)
+[ RUN      ] StreamTest/0.ReopenStreamContinueWork
+D:\build\++UE5\Sync\Engine\Plugins\Animation\RigLogic\Source\RigLogicLibTest\Private\triotests\TestStreamsIntegration.cpp(63): error: Failed
+Error opening file
+[  FAILED  ] StreamTest/0.ReopenStreamContinueWork, where TypeParam = <type> (0 ms)
+[----------] 30 tests from StreamTest/0 (4 ms total)
+
+[----------] 30 tests from StreamTest/1, where TypeParam = <type>
+[ RUN      ] StreamTest/1.OpenExistingFileForRead
+D:\build\++UE5\Sync\Engine\Plugins\Animation\RigLogic\Source\RigLogicLibTest\Private\triotests\TestStreams.cpp(12): error: Failed
+Error opening file
+[  FAILED  ] StreamTest/1.OpenExistingFileForRead, where TypeParam = <type> (1 ms)
+[ RUN      ] StreamTest/1.OpenExistingFileForWrite
+D:\build\++UE5\Sync\Engine\Plugins\Animation\RigLogic\Source\RigLogicLibTest\Private\triotests\TestStreams.cpp(22): error: Failed
+Error opening file
+[  FAILED  ] StreamTest/1.OpenExistingFileForWrite, where TypeParam = <type> (0 ms)
+[ RUN      ] StreamTest/1.OpenExistingFileForReadWrite
+D:\build\++UE5\Sync\Engine\Plugins\Animation\RigLogic\Source\RigLogicLibTest\Private\triotests\TestStreams.cpp(33): error: Failed
+Error opening file
+[  FAILED  ] StreamTest/1.OpenExistingFileForReadWrite, where TypeParam = <type> (0 ms)
+[ RUN      ] StreamTest/1.OpenNonExistingFileForRead
+[       OK ] StreamTest/1.OpenNonExistingFileForRead (0 ms)
+[ RUN      ] StreamTest/1.OpenNonExistingFileForWrite
+D:\build\++UE5\Sync\Engine\Plugins\Animation\RigLogic\Source\RigLogicLibTest\Private\triotests\TestStreams.cpp(49): error: Failed
+Error opening file
+[  FAILED  ] StreamTest/1.OpenNonExistingFileForWrite, where TypeParam = <type> (0 ms)
+[ RUN      ] StreamTest/1.OpenNonExistingFileForReadWrite
+D:\build\++UE5\Sync\Engine\Plugins\Animation\RigLogic\Source\RigLogicLibTest\Private\triotests\TestStreams.cpp(58): error: Failed
+Error opening file
+[  FAILED  ] StreamTest/1.OpenNonExistingFileForReadWrite, where TypeParam = <type> (0 ms)
+[ RUN      ] StreamTest/1.OpenEmptyFile
+D:\build\++UE5\Sync\Engine\Plugins\Animation\RigLogic\Source\RigLogicLibTest\Private\triotests\TestStreams.cpp(68): error: Failed
+Error opening file
+[  FAILED  ] StreamTest/1.OpenEmptyFile, where TypeParam = <type> (0 ms)
+[ RUN      ] StreamTest/1.OpenAlreadyOpenFile
+D:\build\++UE5\Sync\Engine\Plugins\Animation\RigLogic\Source\RigLogicLibTest\Private\triotests\TestStreams.cpp(78): error: Failed
+Error opening file
+[  FAILED  ] StreamTest/1.OpenAlreadyOpenFile, where TypeParam = <type> (1 ms)
+[ RUN      ] StreamTest/1.ReadSuccess
+D:\build\++UE5\Sync\Engine\Plugins\Animation\RigLogic\Source\RigLogicLibTest\Private\triotests\TestStreams.cpp(92): error: Failed
+Error opening file
+[  FAILED  ] StreamTest/1.ReadSuccess, where TypeParam = <type> (0 ms)
+[ RUN      ] StreamTest/1.ReadMoreThanBytesAvailable
+D:\build\++UE5\Sync\Engine\Plugins\Animation\RigLogic\Source\RigLogicLibTest\Private\triotests\TestStreams.cpp(113): error: Failed
+Error opening file
+[  FAILED  ] StreamTest/1.ReadMoreThanBytesAvailable, where TypeParam = <type> (0 ms)
+[ RUN      ] StreamTest/1.ReadFromEmptyFile
+D:\build\++UE5\Sync\Engine\Plugins\Animation\RigLogic\Source\RigLogicLibTest\Private\triotests\TestStreams.cpp(129): error: Failed
+Error opening file
+[  FAILED  ] StreamTest/1.ReadFromEmptyFile, where TypeParam = <type> (0 ms)
+[ RUN      ] StreamTest/1.ReadFromUnopenedStream
+[       OK ] StreamTest/1.ReadFromUnopenedStream (0 ms)
+[ RUN      ] StreamTest/1.ReadFromWriteOnlyStream
+D:\build\++UE5\Sync\Engine\Plugins\Animation\RigLogic\Source\RigLogicLibTest\Private\triotests\TestStreams.cpp(150): error: Failed
+Error opening file
+[  FAILED  ] StreamTest/1.ReadFromWriteOnlyStream, where TypeParam = <type> (0 ms)
+[ RUN      ] StreamTest/1.ReadIntoNullBuffer
+[       OK ] StreamTest/1.ReadIntoNullBuffer (1 ms)
+[ RUN      ] StreamTest/1.ReadIntoNullWritable
+[       OK ] StreamTest/1.ReadIntoNullWritable (0 ms)
+[ RUN      ] StreamTest/1.SeekSuccess
+D:\build\++UE5\Sync\Engine\Plugins\Animation\RigLogic\Source\RigLogicLibTest\Private\triotests\TestStreams.cpp(186): error: Failed
+Error opening file
+[  FAILED  ] StreamTest/1.SeekSuccess, where TypeParam = <type> (0 ms)
+[ RUN      ] StreamTest/1.SeekToEOF
+D:\build\++UE5\Sync\Engine\Plugins\Animation\RigLogic\Source\RigLogicLibTest\Private\triotests\TestStreams.cpp(208): error: Failed
+Error opening file
+[  FAILED  ] StreamTest/1.SeekToEOF, where TypeParam = <type> (0 ms)
+[ RUN      ] StreamTest/1.SeekOutOfBounds
+D:\build\++UE5\Sync\Engine\Plugins\Animation\RigLogic\Source\RigLogicLibTest\Private\triotests\TestStreams.cpp(223): error: Failed
+Error opening file
+[  FAILED  ] StreamTest/1.SeekOutOfBounds, where TypeParam = <type> (0 ms)
+[ RUN      ] StreamTest/1.SeekUnopenedStream
+[       OK ] StreamTest/1.SeekUnopenedStream (0 ms)
+[ RUN      ] StreamTest/1.WriteSuccess
+D:\build\++UE5\Sync\Engine\Plugins\Animation\RigLogic\Source\RigLogicLibTest\Private\triotests\TestStreams.cpp(248): error: Failed
+Error opening file
+[  FAILED  ] StreamTest/1.WriteSuccess, where TypeParam = <type> (1 ms)
+[ RUN      ] StreamTest/1.WriteIntoEmptyFile
+D:\build\++UE5\Sync\Engine\Plugins\Animation\RigLogic\Source\RigLogicLibTest\Private\triotests\TestStreams.cpp(270): error: Failed
+Error opening file
+[  FAILED  ] StreamTest/1.WriteIntoEmptyFile, where TypeParam = <type> (0 ms)
+[ RUN      ] StreamTest/1.WriteIntoUnopenedStream
+[       OK ] StreamTest/1.WriteIntoUnopenedStream (0 ms)
+[ RUN      ] StreamTest/1.WriteIntoReadOnlyStream
+D:\build\++UE5\Sync\Engine\Plugins\Animation\RigLogic\Source\RigLogicLibTest\Private\triotests\TestStreams.cpp(297): error: Failed
+Error opening file
+[  FAILED  ] StreamTest/1.WriteIntoReadOnlyStream, where TypeParam = <type> (0 ms)
+[ RUN      ] StreamTest/1.WriteFromNullBuffer
+[       OK ] StreamTest/1.WriteFromNullBuffer (0 ms)
+[ RUN      ] StreamTest/1.WriteFromNullReadable
+[       OK ] StreamTest/1.WriteFromNullReadable (0 ms)
+[ RUN      ] StreamTest/1.ReadAfterClose
+D:\build\++UE5\Sync\Engine\Plugins\Animation\RigLogic\Source\RigLogicLibTest\Private\triotests\TestStreams.cpp(328): error: Failed
+Error opening file
+[  FAILED  ] StreamTest/1.ReadAfterClose, where TypeParam = <type> (1 ms)
+[ RUN      ] StreamTest/1.WriteAfterClose
+D:\build\++UE5\Sync\Engine\Plugins\Animation\RigLogic\Source\RigLogicLibTest\Private\triotests\TestStreams.cpp(345): error: Failed
+Error opening file
+[  FAILED  ] StreamTest/1.WriteAfterClose, where TypeParam = <type> (0 ms)
+[ RUN      ] StreamTest/1.SeekAfterClose
+D:\build\++UE5\Sync\Engine\Plugins\Animation\RigLogic\Source\RigLogicLibTest\Private\triotests\TestStreams.cpp(361): error: Failed
+Error opening file
+[  FAILED  ] StreamTest/1.SeekAfterClose, where TypeParam = <type> (0 ms)
+[ RUN      ] StreamTest/1.PersistenceIntegrationTest
+D:\build\++UE5\Sync\Engine\Plugins\Animation\RigLogic\Source\RigLogicLibTest\Private\triotests\TestStreamsIntegration.cpp(15): error: Failed
+Error opening file
+[  FAILED  ] StreamTest/1.PersistenceIntegrationTest, where TypeParam = <type> (0 ms)
+[ RUN      ] StreamTest/1.ReopenStreamContinueWork
+D:\build\++UE5\Sync\Engine\Plugins\Animation\RigLogic\Source\RigLogicLibTest\Private\triotests\TestStreamsIntegration.cpp(63): error: Failed
+Error opening file
+[  FAILED  ] StreamTest/1.ReopenStreamContinueWork, where TypeParam = <type> (0 ms)
+[----------] 30 tests from StreamTest/1 (5 ms total)
+
+[----------] 24 tests from FilteredDNAInputArchiveTest/FilteredDNAInputArchiveTest
+[ RUN      ] FilteredDNAInputArchiveTest/FilteredDNAInputArchiveTest.FilterJoints/0
+[       OK ] FilteredDNAInputArchiveTest/FilteredDNAInputArchiveTest.FilterJoints/0 (0 ms)
+[ RUN      ] FilteredDNAInputArchiveTest/FilteredDNAInputArchiveTest.FilterJoints/1
+[       OK ] FilteredDNAInputArchiveTest/FilteredDNAInputArchiveTest.FilterJoints/1 (1 ms)
+[ RUN      ] FilteredDNAInputArchiveTest/FilteredDNAInputArchiveTest.FilterJoints/2
+[       OK ] FilteredDNAInputArchiveTest/FilteredDNAInputArchiveTest.FilterJoints/2 (0 ms)
+[ RUN      ] FilteredDNAInputArchiveTest/FilteredDNAInputArchiveTest.FilterJoints/3
+[       OK ] FilteredDNAInputArchiveTest/FilteredDNAInputArchiveTest.FilterJoints/3 (0 ms)
+[ RUN      ] FilteredDNAInputArchiveTest/FilteredDNAInputArchiveTest.FilterJoints/4
+[       OK ] FilteredDNAInputArchiveTest/FilteredDNAInputArchiveTest.FilterJoints/4 (0 ms)
+[ RUN      ] FilteredDNAInputArchiveTest/FilteredDNAInputArchiveTest.FilterJoints/5
+[       OK ] FilteredDNAInputArchiveTest/FilteredDNAInputArchiveTest.FilterJoints/5 (0 ms)
+[ RUN      ] FilteredDNAInputArchiveTest/FilteredDNAInputArchiveTest.FilterBlendShapes/0
+[       OK ] FilteredDNAInputArchiveTest/FilteredDNAInputArchiveTest.FilterBlendShapes/0 (0 ms)
+[ RUN      ] FilteredDNAInputArchiveTest/FilteredDNAInputArchiveTest.FilterBlendShapes/1
+[       OK ] FilteredDNAInputArchiveTest/FilteredDNAInputArchiveTest.FilterBlendShapes/1 (0 ms)
+[ RUN      ] FilteredDNAInputArchiveTest/FilteredDNAInputArchiveTest.FilterBlendShapes/2
+[       OK ] FilteredDNAInputArchiveTest/FilteredDNAInputArchiveTest.FilterBlendShapes/2 (0 ms)
+[ RUN      ] FilteredDNAInputArchiveTest/FilteredDNAInputArchiveTest.FilterBlendShapes/3
+[       OK ] FilteredDNAInputArchiveTest/FilteredDNAInputArchiveTest.FilterBlendShapes/3 (0 ms)
+[ RUN      ] FilteredDNAInputArchiveTest/FilteredDNAInputArchiveTest.FilterBlendShapes/4
+[       OK ] FilteredDNAInputArchiveTest/FilteredDNAInputArchiveTest.FilterBlendShapes/4 (0 ms)
+[ RUN      ] FilteredDNAInputArchiveTest/FilteredDNAInputArchiveTest.FilterBlendShapes/5
+[       OK ] FilteredDNAInputArchiveTest/FilteredDNAInputArchiveTest.FilterBlendShapes/5 (0 ms)
+[ RUN      ] FilteredDNAInputArchiveTest/FilteredDNAInputArchiveTest.FilterAnimatedMaps/0
+[       OK ] FilteredDNAInputArchiveTest/FilteredDNAInputArchiveTest.FilterAnimatedMaps/0 (0 ms)
+[ RUN      ] FilteredDNAInputArchiveTest/FilteredDNAInputArchiveTest.FilterAnimatedMaps/1
+[       OK ] FilteredDNAInputArchiveTest/FilteredDNAInputArchiveTest.FilterAnimatedMaps/1 (0 ms)
+[ RUN      ] FilteredDNAInputArchiveTest/FilteredDNAInputArchiveTest.FilterAnimatedMaps/2
+[       OK ] FilteredDNAInputArchiveTest/FilteredDNAInputArchiveTest.FilterAnimatedMaps/2 (0 ms)
+[ RUN      ] FilteredDNAInputArchiveTest/FilteredDNAInputArchiveTest.FilterAnimatedMaps/3
+[       OK ] FilteredDNAInputArchiveTest/FilteredDNAInputArchiveTest.FilterAnimatedMaps/3 (0 ms)
+[ RUN      ] FilteredDNAInputArchiveTest/FilteredDNAInputArchiveTest.FilterAnimatedMaps/4
+[       OK ] FilteredDNAInputArchiveTest/FilteredDNAInputArchiveTest.FilterAnimatedMaps/4 (0 ms)
+[ RUN      ] FilteredDNAInputArchiveTest/FilteredDNAInputArchiveTest.FilterAnimatedMaps/5
+[       OK ] FilteredDNAInputArchiveTest/FilteredDNAInputArchiveTest.FilterAnimatedMaps/5 (0 ms)
+[ RUN      ] FilteredDNAInputArchiveTest/FilteredDNAInputArchiveTest.FilterDefinition/0
+[       OK ] FilteredDNAInputArchiveTest/FilteredDNAInputArchiveTest.FilterDefinition/0 (0 ms)
+[ RUN      ] FilteredDNAInputArchiveTest/FilteredDNAInputArchiveTest.FilterDefinition/1
+[       OK ] FilteredDNAInputArchiveTest/FilteredDNAInputArchiveTest.FilterDefinition/1 (0 ms)
+[ RUN      ] FilteredDNAInputArchiveTest/FilteredDNAInputArchiveTest.FilterDefinition/2
+[       OK ] FilteredDNAInputArchiveTest/FilteredDNAInputArchiveTest.FilterDefinition/2 (0 ms)
+[ RUN      ] FilteredDNAInputArchiveTest/FilteredDNAInputArchiveTest.FilterDefinition/3
+[       OK ] FilteredDNAInputArchiveTest/FilteredDNAInputArchiveTest.FilterDefinition/3 (0 ms)
+[ RUN      ] FilteredDNAInputArchiveTest/FilteredDNAInputArchiveTest.FilterDefinition/4
+[       OK ] FilteredDNAInputArchiveTest/FilteredDNAInputArchiveTest.FilterDefinition/4 (0 ms)
+[ RUN      ] FilteredDNAInputArchiveTest/FilteredDNAInputArchiveTest.FilterDefinition/5
+[       OK ] FilteredDNAInputArchiveTest/FilteredDNAInputArchiveTest.FilterDefinition/5 (0 ms)
+[----------] 24 tests from FilteredDNAInputArchiveTest/FilteredDNAInputArchiveTest (1 ms total)
+
+[----------] 4 tests from GeometryFilteringTest/GeometryFilteringTest
+[ RUN      ] GeometryFilteringTest/GeometryFilteringTest.IncludeBlendShapeTargets/0
+[       OK ] GeometryFilteringTest/GeometryFilteringTest.IncludeBlendShapeTargets/0 (1 ms)
+[ RUN      ] GeometryFilteringTest/GeometryFilteringTest.IncludeBlendShapeTargets/1
+[       OK ] GeometryFilteringTest/GeometryFilteringTest.IncludeBlendShapeTargets/1 (0 ms)
+[ RUN      ] GeometryFilteringTest/GeometryFilteringTest.IgnoreBlendShapeTargets/0
+[       OK ] GeometryFilteringTest/GeometryFilteringTest.IgnoreBlendShapeTargets/0 (0 ms)
+[ RUN      ] GeometryFilteringTest/GeometryFilteringTest.IgnoreBlendShapeTargets/1
+[       OK ] GeometryFilteringTest/GeometryFilteringTest.IgnoreBlendShapeTargets/1 (0 ms)
+[----------] 4 tests from GeometryFilteringTest/GeometryFilteringTest (1 ms total)
+
+[----------] 6 tests from FilteredDNAInputArchiveTest/FilterLODsTest
+[ RUN      ] FilteredDNAInputArchiveTest/FilterLODsTest.KeepJointsNotInLODs/0
+[       OK ] FilteredDNAInputArchiveTest/FilterLODsTest.KeepJointsNotInLODs/0 (0 ms)
+[ RUN      ] FilteredDNAInputArchiveTest/FilterLODsTest.KeepJointsNotInLODs/1
+[       OK ] FilteredDNAInputArchiveTest/FilterLODsTest.KeepJointsNotInLODs/1 (0 ms)
+[ RUN      ] FilteredDNAInputArchiveTest/FilterLODsTest.KeepJointsNotInLODs/2
+[       OK ] FilteredDNAInputArchiveTest/FilterLODsTest.KeepJointsNotInLODs/2 (0 ms)
+[ RUN      ] FilteredDNAInputArchiveTest/FilterLODsTest.KeepJointsNotInLODs/3
+[       OK ] FilteredDNAInputArchiveTest/FilterLODsTest.KeepJointsNotInLODs/3 (0 ms)
+[ RUN      ] FilteredDNAInputArchiveTest/FilterLODsTest.KeepJointsNotInLODs/4
+[       OK ] FilteredDNAInputArchiveTest/FilterLODsTest.KeepJointsNotInLODs/4 (0 ms)
+[ RUN      ] FilteredDNAInputArchiveTest/FilterLODsTest.KeepJointsNotInLODs/5
+[       OK ] FilteredDNAInputArchiveTest/FilterLODsTest.KeepJointsNotInLODs/5 (0 ms)
+[----------] 6 tests from FilteredDNAInputArchiveTest/FilterLODsTest (0 ms total)
+
+[----------] 4 tests from AlignedMemoryResourceTest/AlignedMemoryResourceTest
+[ RUN      ] AlignedMemoryResourceTest/AlignedMemoryResourceTest.AlignmentRequirementHonored/0
+[       OK ] AlignedMemoryResourceTest/AlignedMemoryResourceTest.AlignmentRequirementHonored/0 (0 ms)
+[ RUN      ] AlignedMemoryResourceTest/AlignedMemoryResourceTest.AlignmentRequirementHonored/1
+[       OK ] AlignedMemoryResourceTest/AlignedMemoryResourceTest.AlignmentRequirementHonored/1 (0 ms)
+[ RUN      ] AlignedMemoryResourceTest/AlignedMemoryResourceTest.AlignmentRequirementHonored/2
+[       OK ] AlignedMemoryResourceTest/AlignedMemoryResourceTest.AlignmentRequirementHonored/2 (0 ms)
+[ RUN      ] AlignedMemoryResourceTest/AlignedMemoryResourceTest.AlignmentRequirementHonored/3
+[       OK ] AlignedMemoryResourceTest/AlignedMemoryResourceTest.AlignmentRequirementHonored/3 (0 ms)
+[----------] 4 tests from AlignedMemoryResourceTest/AlignedMemoryResourceTest (0 ms total)
+
+[----------] 2 tests from AnimatedMapsTest/AnimatedMapsTest
+[ RUN      ] AnimatedMapsTest/AnimatedMapsTest.LODLimitsCondTableSize/0
+[       OK ] AnimatedMapsTest/AnimatedMapsTest.LODLimitsCondTableSize/0 (0 ms)
+[ RUN      ] AnimatedMapsTest/AnimatedMapsTest.LODLimitsCondTableSize/1
+[       OK ] AnimatedMapsTest/AnimatedMapsTest.LODLimitsCondTableSize/1 (0 ms)
+[----------] 2 tests from AnimatedMapsTest/AnimatedMapsTest (0 ms total)
+
+[----------] 4 tests from BlendShapesTest/BlendShapesTest
+[ RUN      ] BlendShapesTest/BlendShapesTest.Calculate/0
+[       OK ] BlendShapesTest/BlendShapesTest.Calculate/0 (0 ms)
+[ RUN      ] BlendShapesTest/BlendShapesTest.Calculate/1
+[       OK ] BlendShapesTest/BlendShapesTest.Calculate/1 (0 ms)
+[ RUN      ] BlendShapesTest/BlendShapesTest.Calculate/2
+[       OK ] BlendShapesTest/BlendShapesTest.Calculate/2 (0 ms)
+[ RUN      ] BlendShapesTest/BlendShapesTest.Calculate/3
+[       OK ] BlendShapesTest/BlendShapesTest.Calculate/3 (0 ms)
+[----------] 4 tests from BlendShapesTest/BlendShapesTest (0 ms total)
+
+[----------] 7 tests from ConditionalTableTest/ConditionalTableTest
+[ RUN      ] ConditionalTableTest/ConditionalTableTest.CheckCalculationBorderCases/0
+[       OK ] ConditionalTableTest/ConditionalTableTest.CheckCalculationBorderCases/0 (0 ms)
+[ RUN      ] ConditionalTableTest/ConditionalTableTest.CheckCalculationBorderCases/1
+[       OK ] ConditionalTableTest/ConditionalTableTest.CheckCalculationBorderCases/1 (0 ms)
+[ RUN      ] ConditionalTableTest/ConditionalTableTest.CheckCalculationBorderCases/2
+[       OK ] ConditionalTableTest/ConditionalTableTest.CheckCalculationBorderCases/2 (0 ms)
+[ RUN      ] ConditionalTableTest/ConditionalTableTest.CheckCalculationBorderCases/3
+[       OK ] ConditionalTableTest/ConditionalTableTest.CheckCalculationBorderCases/3 (0 ms)
+[ RUN      ] ConditionalTableTest/ConditionalTableTest.CheckCalculationBorderCases/4
+[       OK ] ConditionalTableTest/ConditionalTableTest.CheckCalculationBorderCases/4 (0 ms)
+[ RUN      ] ConditionalTableTest/ConditionalTableTest.CheckCalculationBorderCases/5
+[       OK ] ConditionalTableTest/ConditionalTableTest.CheckCalculationBorderCases/5 (0 ms)
+[ RUN      ] ConditionalTableTest/ConditionalTableTest.CheckCalculationBorderCases/6
+[       OK ] ConditionalTableTest/ConditionalTableTest.CheckCalculationBorderCases/6 (0 ms)
+[----------] 7 tests from ConditionalTableTest/ConditionalTableTest (0 ms total)
+
+[----------] 9 tests from IRLConditionalTableTest/IRLConditionalTableTest
+[ RUN      ] IRLConditionalTableTest/IRLConditionalTableTest.InterleavedInputsAndOutputs/0
+[       OK ] IRLConditionalTableTest/IRLConditionalTableTest.InterleavedInputsAndOutputs/0 (0 ms)
+[ RUN      ] IRLConditionalTableTest/IRLConditionalTableTest.InterleavedInputsAndOutputs/1
+[       OK ] IRLConditionalTableTest/IRLConditionalTableTest.InterleavedInputsAndOutputs/1 (0 ms)
+[ RUN      ] IRLConditionalTableTest/IRLConditionalTableTest.InterleavedInputsAndOutputs/2
+[       OK ] IRLConditionalTableTest/IRLConditionalTableTest.InterleavedInputsAndOutputs/2 (0 ms)
+[ RUN      ] IRLConditionalTableTest/IRLConditionalTableTest.InterleavedInputsAndOutputs/3
+[       OK ] IRLConditionalTableTest/IRLConditionalTableTest.InterleavedInputsAndOutputs/3 (0 ms)
+[ RUN      ] IRLConditionalTableTest/IRLConditionalTableTest.InterleavedInputsAndOutputs/4
+[       OK ] IRLConditionalTableTest/IRLConditionalTableTest.InterleavedInputsAndOutputs/4 (0 ms)
+[ RUN      ] IRLConditionalTableTest/IRLConditionalTableTest.InterleavedInputsAndOutputs/5
+[       OK ] IRLConditionalTableTest/IRLConditionalTableTest.InterleavedInputsAndOutputs/5 (0 ms)
+[ RUN      ] IRLConditionalTableTest/IRLConditionalTableTest.InterleavedInputsAndOutputs/6
+[       OK ] IRLConditionalTableTest/IRLConditionalTableTest.InterleavedInputsAndOutputs/6 (0 ms)
+[ RUN      ] IRLConditionalTableTest/IRLConditionalTableTest.InterleavedInputsAndOutputs/7
+[       OK ] IRLConditionalTableTest/IRLConditionalTableTest.InterleavedInputsAndOutputs/7 (0 ms)
+[ RUN      ] IRLConditionalTableTest/IRLConditionalTableTest.InterleavedInputsAndOutputs/8
+[       OK ] IRLConditionalTableTest/IRLConditionalTableTest.InterleavedInputsAndOutputs/8 (0 ms)
+[----------] 9 tests from IRLConditionalTableTest/IRLConditionalTableTest (0 ms total)
+
+[----------] 44 tests from ScalarJointCalculationStrategyTest/ScalarJointCalculationStrategyTest
+[ RUN      ] ScalarJointCalculationStrategyTest/ScalarJointCalculationStrategyTest.Block4Padded/0
+[       OK ] ScalarJointCalculationStrategyTest/ScalarJointCalculationStrategyTest.Block4Padded/0 (1 ms)
+[ RUN      ] ScalarJointCalculationStrategyTest/ScalarJointCalculationStrategyTest.Block4Padded/1
+[       OK ] ScalarJointCalculationStrategyTest/ScalarJointCalculationStrategyTest.Block4Padded/1 (0 ms)
+[ RUN      ] ScalarJointCalculationStrategyTest/ScalarJointCalculationStrategyTest.Block4Padded/2
+[       OK ] ScalarJointCalculationStrategyTest/ScalarJointCalculationStrategyTest.Block4Padded/2 (0 ms)
+[ RUN      ] ScalarJointCalculationStrategyTest/ScalarJointCalculationStrategyTest.Block4Padded/3
+[       OK ] ScalarJointCalculationStrategyTest/ScalarJointCalculationStrategyTest.Block4Padded/3 (0 ms)
+[ RUN      ] ScalarJointCalculationStrategyTest/ScalarJointCalculationStrategyTest.Block4Exact/0
+[       OK ] ScalarJointCalculationStrategyTest/ScalarJointCalculationStrategyTest.Block4Exact/0 (0 ms)
+[ RUN      ] ScalarJointCalculationStrategyTest/ScalarJointCalculationStrategyTest.Block4Exact/1
+[       OK ] ScalarJointCalculationStrategyTest/ScalarJointCalculationStrategyTest.Block4Exact/1 (0 ms)
+[ RUN      ] ScalarJointCalculationStrategyTest/ScalarJointCalculationStrategyTest.Block4Exact/2
+[       OK ] ScalarJointCalculationStrategyTest/ScalarJointCalculationStrategyTest.Block4Exact/2 (0 ms)
+[ RUN      ] ScalarJointCalculationStrategyTest/ScalarJointCalculationStrategyTest.Block4Exact/3
+[       OK ] ScalarJointCalculationStrategyTest/ScalarJointCalculationStrategyTest.Block4Exact/3 (0 ms)
+[ RUN      ] ScalarJointCalculationStrategyTest/ScalarJointCalculationStrategyTest.Block8Padded/0
+[       OK ] ScalarJointCalculationStrategyTest/ScalarJointCalculationStrategyTest.Block8Padded/0 (0 ms)
+[ RUN      ] ScalarJointCalculationStrategyTest/ScalarJointCalculationStrategyTest.Block8Padded/1
+[       OK ] ScalarJointCalculationStrategyTest/ScalarJointCalculationStrategyTest.Block8Padded/1 (0 ms)
+[ RUN      ] ScalarJointCalculationStrategyTest/ScalarJointCalculationStrategyTest.Block8Padded/2
+[       OK ] ScalarJointCalculationStrategyTest/ScalarJointCalculationStrategyTest.Block8Padded/2 (0 ms)
+[ RUN      ] ScalarJointCalculationStrategyTest/ScalarJointCalculationStrategyTest.Block8Padded/3
+[       OK ] ScalarJointCalculationStrategyTest/ScalarJointCalculationStrategyTest.Block8Padded/3 (0 ms)
+[ RUN      ] ScalarJointCalculationStrategyTest/ScalarJointCalculationStrategyTest.Block8Exact/0
+[       OK ] ScalarJointCalculationStrategyTest/ScalarJointCalculationStrategyTest.Block8Exact/0 (0 ms)
+[ RUN      ] ScalarJointCalculationStrategyTest/ScalarJointCalculationStrategyTest.Block8Exact/1
+[       OK ] ScalarJointCalculationStrategyTest/ScalarJointCalculationStrategyTest.Block8Exact/1 (0 ms)
+[ RUN      ] ScalarJointCalculationStrategyTest/ScalarJointCalculationStrategyTest.Block8Exact/2
+[       OK ] ScalarJointCalculationStrategyTest/ScalarJointCalculationStrategyTest.Block8Exact/2 (0 ms)
+[ RUN      ] ScalarJointCalculationStrategyTest/ScalarJointCalculationStrategyTest.Block8Exact/3
+[       OK ] ScalarJointCalculationStrategyTest/ScalarJointCalculationStrategyTest.Block8Exact/3 (0 ms)
+[ RUN      ] ScalarJointCalculationStrategyTest/ScalarJointCalculationStrategyTest.Block12Padded/0
+[       OK ] ScalarJointCalculationStrategyTest/ScalarJointCalculationStrategyTest.Block12Padded/0 (0 ms)
+[ RUN      ] ScalarJointCalculationStrategyTest/ScalarJointCalculationStrategyTest.Block12Padded/1
+[       OK ] ScalarJointCalculationStrategyTest/ScalarJointCalculationStrategyTest.Block12Padded/1 (0 ms)
+[ RUN      ] ScalarJointCalculationStrategyTest/ScalarJointCalculationStrategyTest.Block12Padded/2
+[       OK ] ScalarJointCalculationStrategyTest/ScalarJointCalculationStrategyTest.Block12Padded/2 (0 ms)
+[ RUN      ] ScalarJointCalculationStrategyTest/ScalarJointCalculationStrategyTest.Block12Padded/3
+[       OK ] ScalarJointCalculationStrategyTest/ScalarJointCalculationStrategyTest.Block12Padded/3 (0 ms)
+[ RUN      ] ScalarJointCalculationStrategyTest/ScalarJointCalculationStrategyTest.Block12Exact/0
+[       OK ] ScalarJointCalculationStrategyTest/ScalarJointCalculationStrategyTest.Block12Exact/0 (0 ms)
+[ RUN      ] ScalarJointCalculationStrategyTest/ScalarJointCalculationStrategyTest.Block12Exact/1
+[       OK ] ScalarJointCalculationStrategyTest/ScalarJointCalculationStrategyTest.Block12Exact/1 (0 ms)
+[ RUN      ] ScalarJointCalculationStrategyTest/ScalarJointCalculationStrategyTest.Block12Exact/2
+[       OK ] ScalarJointCalculationStrategyTest/ScalarJointCalculationStrategyTest.Block12Exact/2 (0 ms)
+[ RUN      ] ScalarJointCalculationStrategyTest/ScalarJointCalculationStrategyTest.Block12Exact/3
+[       OK ] ScalarJointCalculationStrategyTest/ScalarJointCalculationStrategyTest.Block12Exact/3 (0 ms)
+[ RUN      ] ScalarJointCalculationStrategyTest/ScalarJointCalculationStrategyTest.Block16Padded/0
+[       OK ] ScalarJointCalculationStrategyTest/ScalarJointCalculationStrategyTest.Block16Padded/0 (0 ms)
+[ RUN      ] ScalarJointCalculationStrategyTest/ScalarJointCalculationStrategyTest.Block16Padded/1
+[       OK ] ScalarJointCalculationStrategyTest/ScalarJointCalculationStrategyTest.Block16Padded/1 (0 ms)
+[ RUN      ] ScalarJointCalculationStrategyTest/ScalarJointCalculationStrategyTest.Block16Padded/2
+[       OK ] ScalarJointCalculationStrategyTest/ScalarJointCalculationStrategyTest.Block16Padded/2 (0 ms)
+[ RUN      ] ScalarJointCalculationStrategyTest/ScalarJointCalculationStrategyTest.Block16Padded/3
+[       OK ] ScalarJointCalculationStrategyTest/ScalarJointCalculationStrategyTest.Block16Padded/3 (0 ms)
+[ RUN      ] ScalarJointCalculationStrategyTest/ScalarJointCalculationStrategyTest.Block16Exact/0
+[       OK ] ScalarJointCalculationStrategyTest/ScalarJointCalculationStrategyTest.Block16Exact/0 (0 ms)
+[ RUN      ] ScalarJointCalculationStrategyTest/ScalarJointCalculationStrategyTest.Block16Exact/1
+[       OK ] ScalarJointCalculationStrategyTest/ScalarJointCalculationStrategyTest.Block16Exact/1 (0 ms)
+[ RUN      ] ScalarJointCalculationStrategyTest/ScalarJointCalculationStrategyTest.Block16Exact/2
+[       OK ] ScalarJointCalculationStrategyTest/ScalarJointCalculationStrategyTest.Block16Exact/2 (0 ms)
+[ RUN      ] ScalarJointCalculationStrategyTest/ScalarJointCalculationStrategyTest.Block16Exact/3
+[       OK ] ScalarJointCalculationStrategyTest/ScalarJointCalculationStrategyTest.Block16Exact/3 (0 ms)
+[ RUN      ] ScalarJointCalculationStrategyTest/ScalarJointCalculationStrategyTest.MultipleBlocks/0
+[       OK ] ScalarJointCalculationStrategyTest/ScalarJointCalculationStrategyTest.MultipleBlocks/0 (0 ms)
+[ RUN      ] ScalarJointCalculationStrategyTest/ScalarJointCalculationStrategyTest.MultipleBlocks/1
+[       OK ] ScalarJointCalculationStrategyTest/ScalarJointCalculationStrategyTest.MultipleBlocks/1 (0 ms)
+[ RUN      ] ScalarJointCalculationStrategyTest/ScalarJointCalculationStrategyTest.MultipleBlocks/2
+[       OK ] ScalarJointCalculationStrategyTest/ScalarJointCalculationStrategyTest.MultipleBlocks/2 (0 ms)
+[ RUN      ] ScalarJointCalculationStrategyTest/ScalarJointCalculationStrategyTest.MultipleBlocks/3
+[       OK ] ScalarJointCalculationStrategyTest/ScalarJointCalculationStrategyTest.MultipleBlocks/3 (0 ms)
+[ RUN      ] ScalarJointCalculationStrategyTest/ScalarJointCalculationStrategyTest.InputRegionA/0
+[       OK ] ScalarJointCalculationStrategyTest/ScalarJointCalculationStrategyTest.InputRegionA/0 (0 ms)
+[ RUN      ] ScalarJointCalculationStrategyTest/ScalarJointCalculationStrategyTest.InputRegionA/1
+[       OK ] ScalarJointCalculationStrategyTest/ScalarJointCalculationStrategyTest.InputRegionA/1 (0 ms)
+[ RUN      ] ScalarJointCalculationStrategyTest/ScalarJointCalculationStrategyTest.InputRegionA/2
+[       OK ] ScalarJointCalculationStrategyTest/ScalarJointCalculationStrategyTest.InputRegionA/2 (0 ms)
+[ RUN      ] ScalarJointCalculationStrategyTest/ScalarJointCalculationStrategyTest.InputRegionA/3
+[       OK ] ScalarJointCalculationStrategyTest/ScalarJointCalculationStrategyTest.InputRegionA/3 (0 ms)
+[ RUN      ] ScalarJointCalculationStrategyTest/ScalarJointCalculationStrategyTest.InputRegionB/0
+[       OK ] ScalarJointCalculationStrategyTest/ScalarJointCalculationStrategyTest.InputRegionB/0 (0 ms)
+[ RUN      ] ScalarJointCalculationStrategyTest/ScalarJointCalculationStrategyTest.InputRegionB/1
+[       OK ] ScalarJointCalculationStrategyTest/ScalarJointCalculationStrategyTest.InputRegionB/1 (0 ms)
+[ RUN      ] ScalarJointCalculationStrategyTest/ScalarJointCalculationStrategyTest.InputRegionB/2
+[       OK ] ScalarJointCalculationStrategyTest/ScalarJointCalculationStrategyTest.InputRegionB/2 (0 ms)
+[ RUN      ] ScalarJointCalculationStrategyTest/ScalarJointCalculationStrategyTest.InputRegionB/3
+[       OK ] ScalarJointCalculationStrategyTest/ScalarJointCalculationStrategyTest.InputRegionB/3 (0 ms)
+[----------] 44 tests from ScalarJointCalculationStrategyTest/ScalarJointCalculationStrategyTest (1 ms total)
+
+[----------] 44 tests from SSEJointCalculationStrategyTest/SSEJointCalculationStrategyTest
+[ RUN      ] SSEJointCalculationStrategyTest/SSEJointCalculationStrategyTest.Block4Padded/0
+[       OK ] SSEJointCalculationStrategyTest/SSEJointCalculationStrategyTest.Block4Padded/0 (0 ms)
+[ RUN      ] SSEJointCalculationStrategyTest/SSEJointCalculationStrategyTest.Block4Padded/1
+[       OK ] SSEJointCalculationStrategyTest/SSEJointCalculationStrategyTest.Block4Padded/1 (0 ms)
+[ RUN      ] SSEJointCalculationStrategyTest/SSEJointCalculationStrategyTest.Block4Padded/2
+[       OK ] SSEJointCalculationStrategyTest/SSEJointCalculationStrategyTest.Block4Padded/2 (0 ms)
+[ RUN      ] SSEJointCalculationStrategyTest/SSEJointCalculationStrategyTest.Block4Padded/3
+[       OK ] SSEJointCalculationStrategyTest/SSEJointCalculationStrategyTest.Block4Padded/3 (0 ms)
+[ RUN      ] SSEJointCalculationStrategyTest/SSEJointCalculationStrategyTest.Block4Exact/0
+[       OK ] SSEJointCalculationStrategyTest/SSEJointCalculationStrategyTest.Block4Exact/0 (0 ms)
+[ RUN      ] SSEJointCalculationStrategyTest/SSEJointCalculationStrategyTest.Block4Exact/1
+[       OK ] SSEJointCalculationStrategyTest/SSEJointCalculationStrategyTest.Block4Exact/1 (0 ms)
+[ RUN      ] SSEJointCalculationStrategyTest/SSEJointCalculationStrategyTest.Block4Exact/2
+[       OK ] SSEJointCalculationStrategyTest/SSEJointCalculationStrategyTest.Block4Exact/2 (0 ms)
+[ RUN      ] SSEJointCalculationStrategyTest/SSEJointCalculationStrategyTest.Block4Exact/3
+[       OK ] SSEJointCalculationStrategyTest/SSEJointCalculationStrategyTest.Block4Exact/3 (0 ms)
+[ RUN      ] SSEJointCalculationStrategyTest/SSEJointCalculationStrategyTest.Block8Padded/0
+[       OK ] SSEJointCalculationStrategyTest/SSEJointCalculationStrategyTest.Block8Padded/0 (0 ms)
+[ RUN      ] SSEJointCalculationStrategyTest/SSEJointCalculationStrategyTest.Block8Padded/1
+[       OK ] SSEJointCalculationStrategyTest/SSEJointCalculationStrategyTest.Block8Padded/1 (0 ms)
+[ RUN      ] SSEJointCalculationStrategyTest/SSEJointCalculationStrategyTest.Block8Padded/2
+[       OK ] SSEJointCalculationStrategyTest/SSEJointCalculationStrategyTest.Block8Padded/2 (0 ms)
+[ RUN      ] SSEJointCalculationStrategyTest/SSEJointCalculationStrategyTest.Block8Padded/3
+[       OK ] SSEJointCalculationStrategyTest/SSEJointCalculationStrategyTest.Block8Padded/3 (0 ms)
+[ RUN      ] SSEJointCalculationStrategyTest/SSEJointCalculationStrategyTest.Block8Exact/0
+[       OK ] SSEJointCalculationStrategyTest/SSEJointCalculationStrategyTest.Block8Exact/0 (0 ms)
+[ RUN      ] SSEJointCalculationStrategyTest/SSEJointCalculationStrategyTest.Block8Exact/1
+[       OK ] SSEJointCalculationStrategyTest/SSEJointCalculationStrategyTest.Block8Exact/1 (0 ms)
+[ RUN      ] SSEJointCalculationStrategyTest/SSEJointCalculationStrategyTest.Block8Exact/2
+[       OK ] SSEJointCalculationStrategyTest/SSEJointCalculationStrategyTest.Block8Exact/2 (0 ms)
+[ RUN      ] SSEJointCalculationStrategyTest/SSEJointCalculationStrategyTest.Block8Exact/3
+[       OK ] SSEJointCalculationStrategyTest/SSEJointCalculationStrategyTest.Block8Exact/3 (0 ms)
+[ RUN      ] SSEJointCalculationStrategyTest/SSEJointCalculationStrategyTest.Block12Padded/0
+[       OK ] SSEJointCalculationStrategyTest/SSEJointCalculationStrategyTest.Block12Padded/0 (0 ms)
+[ RUN      ] SSEJointCalculationStrategyTest/SSEJointCalculationStrategyTest.Block12Padded/1
+[       OK ] SSEJointCalculationStrategyTest/SSEJointCalculationStrategyTest.Block12Padded/1 (0 ms)
+[ RUN      ] SSEJointCalculationStrategyTest/SSEJointCalculationStrategyTest.Block12Padded/2
+[       OK ] SSEJointCalculationStrategyTest/SSEJointCalculationStrategyTest.Block12Padded/2 (0 ms)
+[ RUN      ] SSEJointCalculationStrategyTest/SSEJointCalculationStrategyTest.Block12Padded/3
+[       OK ] SSEJointCalculationStrategyTest/SSEJointCalculationStrategyTest.Block12Padded/3 (0 ms)
+[ RUN      ] SSEJointCalculationStrategyTest/SSEJointCalculationStrategyTest.Block12Exact/0
+[       OK ] SSEJointCalculationStrategyTest/SSEJointCalculationStrategyTest.Block12Exact/0 (0 ms)
+[ RUN      ] SSEJointCalculationStrategyTest/SSEJointCalculationStrategyTest.Block12Exact/1
+[       OK ] SSEJointCalculationStrategyTest/SSEJointCalculationStrategyTest.Block12Exact/1 (0 ms)
+[ RUN      ] SSEJointCalculationStrategyTest/SSEJointCalculationStrategyTest.Block12Exact/2
+[       OK ] SSEJointCalculationStrategyTest/SSEJointCalculationStrategyTest.Block12Exact/2 (0 ms)
+[ RUN      ] SSEJointCalculationStrategyTest/SSEJointCalculationStrategyTest.Block12Exact/3
+[       OK ] SSEJointCalculationStrategyTest/SSEJointCalculationStrategyTest.Block12Exact/3 (0 ms)
+[ RUN      ] SSEJointCalculationStrategyTest/SSEJointCalculationStrategyTest.Block16Padded/0
+[       OK ] SSEJointCalculationStrategyTest/SSEJointCalculationStrategyTest.Block16Padded/0 (0 ms)
+[ RUN      ] SSEJointCalculationStrategyTest/SSEJointCalculationStrategyTest.Block16Padded/1
+[       OK ] SSEJointCalculationStrategyTest/SSEJointCalculationStrategyTest.Block16Padded/1 (0 ms)
+[ RUN      ] SSEJointCalculationStrategyTest/SSEJointCalculationStrategyTest.Block16Padded/2
+[       OK ] SSEJointCalculationStrategyTest/SSEJointCalculationStrategyTest.Block16Padded/2 (0 ms)
+[ RUN      ] SSEJointCalculationStrategyTest/SSEJointCalculationStrategyTest.Block16Padded/3
+[       OK ] SSEJointCalculationStrategyTest/SSEJointCalculationStrategyTest.Block16Padded/3 (0 ms)
+[ RUN      ] SSEJointCalculationStrategyTest/SSEJointCalculationStrategyTest.Block16Exact/0
+[       OK ] SSEJointCalculationStrategyTest/SSEJointCalculationStrategyTest.Block16Exact/0 (0 ms)
+[ RUN      ] SSEJointCalculationStrategyTest/SSEJointCalculationStrategyTest.Block16Exact/1
+[       OK ] SSEJointCalculationStrategyTest/SSEJointCalculationStrategyTest.Block16Exact/1 (0 ms)
+[ RUN      ] SSEJointCalculationStrategyTest/SSEJointCalculationStrategyTest.Block16Exact/2
+[       OK ] SSEJointCalculationStrategyTest/SSEJointCalculationStrategyTest.Block16Exact/2 (0 ms)
+[ RUN      ] SSEJointCalculationStrategyTest/SSEJointCalculationStrategyTest.Block16Exact/3
+[       OK ] SSEJointCalculationStrategyTest/SSEJointCalculationStrategyTest.Block16Exact/3 (0 ms)
+[ RUN      ] SSEJointCalculationStrategyTest/SSEJointCalculationStrategyTest.MultipleBlocks/0
+[       OK ] SSEJointCalculationStrategyTest/SSEJointCalculationStrategyTest.MultipleBlocks/0 (0 ms)
+[ RUN      ] SSEJointCalculationStrategyTest/SSEJointCalculationStrategyTest.MultipleBlocks/1
+[       OK ] SSEJointCalculationStrategyTest/SSEJointCalculationStrategyTest.MultipleBlocks/1 (0 ms)
+[ RUN      ] SSEJointCalculationStrategyTest/SSEJointCalculationStrategyTest.MultipleBlocks/2
+[       OK ] SSEJointCalculationStrategyTest/SSEJointCalculationStrategyTest.MultipleBlocks/2 (0 ms)
+[ RUN      ] SSEJointCalculationStrategyTest/SSEJointCalculationStrategyTest.MultipleBlocks/3
+[       OK ] SSEJointCalculationStrategyTest/SSEJointCalculationStrategyTest.MultipleBlocks/3 (0 ms)
+[ RUN      ] SSEJointCalculationStrategyTest/SSEJointCalculationStrategyTest.InputRegionA/0
+[       OK ] SSEJointCalculationStrategyTest/SSEJointCalculationStrategyTest.InputRegionA/0 (0 ms)
+[ RUN      ] SSEJointCalculationStrategyTest/SSEJointCalculationStrategyTest.InputRegionA/1
+[       OK ] SSEJointCalculationStrategyTest/SSEJointCalculationStrategyTest.InputRegionA/1 (0 ms)
+[ RUN      ] SSEJointCalculationStrategyTest/SSEJointCalculationStrategyTest.InputRegionA/2
+[       OK ] SSEJointCalculationStrategyTest/SSEJointCalculationStrategyTest.InputRegionA/2 (0 ms)
+[ RUN      ] SSEJointCalculationStrategyTest/SSEJointCalculationStrategyTest.InputRegionA/3
+[       OK ] SSEJointCalculationStrategyTest/SSEJointCalculationStrategyTest.InputRegionA/3 (0 ms)
+[ RUN      ] SSEJointCalculationStrategyTest/SSEJointCalculationStrategyTest.InputRegionB/0
+[       OK ] SSEJointCalculationStrategyTest/SSEJointCalculationStrategyTest.InputRegionB/0 (0 ms)
+[ RUN      ] SSEJointCalculationStrategyTest/SSEJointCalculationStrategyTest.InputRegionB/1
+[       OK ] SSEJointCalculationStrategyTest/SSEJointCalculationStrategyTest.InputRegionB/1 (0 ms)
+[ RUN      ] SSEJointCalculationStrategyTest/SSEJointCalculationStrategyTest.InputRegionB/2
+[       OK ] SSEJointCalculationStrategyTest/SSEJointCalculationStrategyTest.InputRegionB/2 (0 ms)
+[ RUN      ] SSEJointCalculationStrategyTest/SSEJointCalculationStrategyTest.InputRegionB/3
+[       OK ] SSEJointCalculationStrategyTest/SSEJointCalculationStrategyTest.InputRegionB/3 (0 ms)
+[----------] 44 tests from SSEJointCalculationStrategyTest/SSEJointCalculationStrategyTest (0 ms total)
+
+[----------] 59 tests from LODTestSuite/LODRegionTest
+[ RUN      ] LODTestSuite/LODRegionTest.ConstructLODRegionFromVaryingParameters/0
+[       OK ] LODTestSuite/LODRegionTest.ConstructLODRegionFromVaryingParameters/0 (0 ms)
+[ RUN      ] LODTestSuite/LODRegionTest.ConstructLODRegionFromVaryingParameters/1
+[       OK ] LODTestSuite/LODRegionTest.ConstructLODRegionFromVaryingParameters/1 (0 ms)
+[ RUN      ] LODTestSuite/LODRegionTest.ConstructLODRegionFromVaryingParameters/2
+[       OK ] LODTestSuite/LODRegionTest.ConstructLODRegionFromVaryingParameters/2 (0 ms)
+[ RUN      ] LODTestSuite/LODRegionTest.ConstructLODRegionFromVaryingParameters/3
+[       OK ] LODTestSuite/LODRegionTest.ConstructLODRegionFromVaryingParameters/3 (0 ms)
+[ RUN      ] LODTestSuite/LODRegionTest.ConstructLODRegionFromVaryingParameters/4
+[       OK ] LODTestSuite/LODRegionTest.ConstructLODRegionFromVaryingParameters/4 (0 ms)
+[ RUN      ] LODTestSuite/LODRegionTest.ConstructLODRegionFromVaryingParameters/5
+[       OK ] LODTestSuite/LODRegionTest.ConstructLODRegionFromVaryingParameters/5 (0 ms)
+[ RUN      ] LODTestSuite/LODRegionTest.ConstructLODRegionFromVaryingParameters/6
+[       OK ] LODTestSuite/LODRegionTest.ConstructLODRegionFromVaryingParameters/6 (0 ms)
+[ RUN      ] LODTestSuite/LODRegionTest.ConstructLODRegionFromVaryingParameters/7
+[       OK ] LODTestSuite/LODRegionTest.ConstructLODRegionFromVaryingParameters/7 (0 ms)
+[ RUN      ] LODTestSuite/LODRegionTest.ConstructLODRegionFromVaryingParameters/8
+[       OK ] LODTestSuite/LODRegionTest.ConstructLODRegionFromVaryingParameters/8 (0 ms)
+[ RUN      ] LODTestSuite/LODRegionTest.ConstructLODRegionFromVaryingParameters/9
+[       OK ] LODTestSuite/LODRegionTest.ConstructLODRegionFromVaryingParameters/9 (0 ms)
+[ RUN      ] LODTestSuite/LODRegionTest.ConstructLODRegionFromVaryingParameters/10
+[       OK ] LODTestSuite/LODRegionTest.ConstructLODRegionFromVaryingParameters/10 (0 ms)
+[ RUN      ] LODTestSuite/LODRegionTest.ConstructLODRegionFromVaryingParameters/11
+[       OK ] LODTestSuite/LODRegionTest.ConstructLODRegionFromVaryingParameters/11 (0 ms)
+[ RUN      ] LODTestSuite/LODRegionTest.ConstructLODRegionFromVaryingParameters/12
+[       OK ] LODTestSuite/LODRegionTest.ConstructLODRegionFromVaryingParameters/12 (0 ms)
+[ RUN      ] LODTestSuite/LODRegionTest.ConstructLODRegionFromVaryingParameters/13
+[       OK ] LODTestSuite/LODRegionTest.ConstructLODRegionFromVaryingParameters/13 (0 ms)
+[ RUN      ] LODTestSuite/LODRegionTest.ConstructLODRegionFromVaryingParameters/14
+[       OK ] LODTestSuite/LODRegionTest.ConstructLODRegionFromVaryingParameters/14 (0 ms)
+[ RUN      ] LODTestSuite/LODRegionTest.ConstructLODRegionFromVaryingParameters/15
+[       OK ] LODTestSuite/LODRegionTest.ConstructLODRegionFromVaryingParameters/15 (0 ms)
+[ RUN      ] LODTestSuite/LODRegionTest.ConstructLODRegionFromVaryingParameters/16
+[       OK ] LODTestSuite/LODRegionTest.ConstructLODRegionFromVaryingParameters/16 (0 ms)
+[ RUN      ] LODTestSuite/LODRegionTest.ConstructLODRegionFromVaryingParameters/17
+[       OK ] LODTestSuite/LODRegionTest.ConstructLODRegionFromVaryingParameters/17 (0 ms)
+[ RUN      ] LODTestSuite/LODRegionTest.ConstructLODRegionFromVaryingParameters/18
+[       OK ] LODTestSuite/LODRegionTest.ConstructLODRegionFromVaryingParameters/18 (0 ms)
+[ RUN      ] LODTestSuite/LODRegionTest.ConstructLODRegionFromVaryingParameters/19
+[       OK ] LODTestSuite/LODRegionTest.ConstructLODRegionFromVaryingParameters/19 (0 ms)
+[ RUN      ] LODTestSuite/LODRegionTest.ConstructLODRegionFromVaryingParameters/20
+[       OK ] LODTestSuite/LODRegionTest.ConstructLODRegionFromVaryingParameters/20 (0 ms)
+[ RUN      ] LODTestSuite/LODRegionTest.ConstructLODRegionFromVaryingParameters/21
+[       OK ] LODTestSuite/LODRegionTest.ConstructLODRegionFromVaryingParameters/21 (0 ms)
+[ RUN      ] LODTestSuite/LODRegionTest.ConstructLODRegionFromVaryingParameters/22
+[       OK ] LODTestSuite/LODRegionTest.ConstructLODRegionFromVaryingParameters/22 (0 ms)
+[ RUN      ] LODTestSuite/LODRegionTest.ConstructLODRegionFromVaryingParameters/23
+[       OK ] LODTestSuite/LODRegionTest.ConstructLODRegionFromVaryingParameters/23 (0 ms)
+[ RUN      ] LODTestSuite/LODRegionTest.ConstructLODRegionFromVaryingParameters/24
+[       OK ] LODTestSuite/LODRegionTest.ConstructLODRegionFromVaryingParameters/24 (0 ms)
+[ RUN      ] LODTestSuite/LODRegionTest.ConstructLODRegionFromVaryingParameters/25
+[       OK ] LODTestSuite/LODRegionTest.ConstructLODRegionFromVaryingParameters/25 (0 ms)
+[ RUN      ] LODTestSuite/LODRegionTest.ConstructLODRegionFromVaryingParameters/26
+[       OK ] LODTestSuite/LODRegionTest.ConstructLODRegionFromVaryingParameters/26 (0 ms)
+[ RUN      ] LODTestSuite/LODRegionTest.ConstructLODRegionFromVaryingParameters/27
+[       OK ] LODTestSuite/LODRegionTest.ConstructLODRegionFromVaryingParameters/27 (0 ms)
+[ RUN      ] LODTestSuite/LODRegionTest.ConstructLODRegionFromVaryingParameters/28
+[       OK ] LODTestSuite/LODRegionTest.ConstructLODRegionFromVaryingParameters/28 (0 ms)
+[ RUN      ] LODTestSuite/LODRegionTest.ConstructLODRegionFromVaryingParameters/29
+[       OK ] LODTestSuite/LODRegionTest.ConstructLODRegionFromVaryingParameters/29 (0 ms)
+[ RUN      ] LODTestSuite/LODRegionTest.ConstructLODRegionFromVaryingParameters/30
+[       OK ] LODTestSuite/LODRegionTest.ConstructLODRegionFromVaryingParameters/30 (0 ms)
+[ RUN      ] LODTestSuite/LODRegionTest.ConstructLODRegionFromVaryingParameters/31
+[       OK ] LODTestSuite/LODRegionTest.ConstructLODRegionFromVaryingParameters/31 (0 ms)
+[ RUN      ] LODTestSuite/LODRegionTest.ConstructLODRegionFromVaryingParameters/32
+[       OK ] LODTestSuite/LODRegionTest.ConstructLODRegionFromVaryingParameters/32 (0 ms)
+[ RUN      ] LODTestSuite/LODRegionTest.ConstructLODRegionFromVaryingParameters/33
+[       OK ] LODTestSuite/LODRegionTest.ConstructLODRegionFromVaryingParameters/33 (0 ms)
+[ RUN      ] LODTestSuite/LODRegionTest.ConstructLODRegionFromVaryingParameters/34
+[       OK ] LODTestSuite/LODRegionTest.ConstructLODRegionFromVaryingParameters/34 (0 ms)
+[ RUN      ] LODTestSuite/LODRegionTest.ConstructLODRegionFromVaryingParameters/35
+[       OK ] LODTestSuite/LODRegionTest.ConstructLODRegionFromVaryingParameters/35 (0 ms)
+[ RUN      ] LODTestSuite/LODRegionTest.ConstructLODRegionFromVaryingParameters/36
+[       OK ] LODTestSuite/LODRegionTest.ConstructLODRegionFromVaryingParameters/36 (0 ms)
+[ RUN      ] LODTestSuite/LODRegionTest.ConstructLODRegionFromVaryingParameters/37
+[       OK ] LODTestSuite/LODRegionTest.ConstructLODRegionFromVaryingParameters/37 (0 ms)
+[ RUN      ] LODTestSuite/LODRegionTest.ConstructLODRegionFromVaryingParameters/38
+[       OK ] LODTestSuite/LODRegionTest.ConstructLODRegionFromVaryingParameters/38 (0 ms)
+[ RUN      ] LODTestSuite/LODRegionTest.ConstructLODRegionFromVaryingParameters/39
+[       OK ] LODTestSuite/LODRegionTest.ConstructLODRegionFromVaryingParameters/39 (0 ms)
+[ RUN      ] LODTestSuite/LODRegionTest.ConstructLODRegionFromVaryingParameters/40
+[       OK ] LODTestSuite/LODRegionTest.ConstructLODRegionFromVaryingParameters/40 (0 ms)
+[ RUN      ] LODTestSuite/LODRegionTest.ConstructLODRegionFromVaryingParameters/41
+[       OK ] LODTestSuite/LODRegionTest.ConstructLODRegionFromVaryingParameters/41 (0 ms)
+[ RUN      ] LODTestSuite/LODRegionTest.ConstructLODRegionFromVaryingParameters/42
+[       OK ] LODTestSuite/LODRegionTest.ConstructLODRegionFromVaryingParameters/42 (0 ms)
+[ RUN      ] LODTestSuite/LODRegionTest.ConstructLODRegionFromVaryingParameters/43
+[       OK ] LODTestSuite/LODRegionTest.ConstructLODRegionFromVaryingParameters/43 (0 ms)
+[ RUN      ] LODTestSuite/LODRegionTest.ConstructLODRegionFromVaryingParameters/44
+[       OK ] LODTestSuite/LODRegionTest.ConstructLODRegionFromVaryingParameters/44 (0 ms)
+[ RUN      ] LODTestSuite/LODRegionTest.ConstructLODRegionFromVaryingParameters/45
+[       OK ] LODTestSuite/LODRegionTest.ConstructLODRegionFromVaryingParameters/45 (0 ms)
+[ RUN      ] LODTestSuite/LODRegionTest.ConstructLODRegionFromVaryingParameters/46
+[       OK ] LODTestSuite/LODRegionTest.ConstructLODRegionFromVaryingParameters/46 (0 ms)
+[ RUN      ] LODTestSuite/LODRegionTest.ConstructLODRegionFromVaryingParameters/47
+[       OK ] LODTestSuite/LODRegionTest.ConstructLODRegionFromVaryingParameters/47 (0 ms)
+[ RUN      ] LODTestSuite/LODRegionTest.ConstructLODRegionFromVaryingParameters/48
+[       OK ] LODTestSuite/LODRegionTest.ConstructLODRegionFromVaryingParameters/48 (0 ms)
+[ RUN      ] LODTestSuite/LODRegionTest.ConstructLODRegionFromVaryingParameters/49
+[       OK ] LODTestSuite/LODRegionTest.ConstructLODRegionFromVaryingParameters/49 (0 ms)
+[ RUN      ] LODTestSuite/LODRegionTest.ConstructLODRegionFromVaryingParameters/50
+[       OK ] LODTestSuite/LODRegionTest.ConstructLODRegionFromVaryingParameters/50 (0 ms)
+[ RUN      ] LODTestSuite/LODRegionTest.ConstructLODRegionFromVaryingParameters/51
+[       OK ] LODTestSuite/LODRegionTest.ConstructLODRegionFromVaryingParameters/51 (0 ms)
+[ RUN      ] LODTestSuite/LODRegionTest.ConstructLODRegionFromVaryingParameters/52
+[       OK ] LODTestSuite/LODRegionTest.ConstructLODRegionFromVaryingParameters/52 (0 ms)
+[ RUN      ] LODTestSuite/LODRegionTest.ConstructLODRegionFromVaryingParameters/53
+[       OK ] LODTestSuite/LODRegionTest.ConstructLODRegionFromVaryingParameters/53 (0 ms)
+[ RUN      ] LODTestSuite/LODRegionTest.ConstructLODRegionFromVaryingParameters/54
+[       OK ] LODTestSuite/LODRegionTest.ConstructLODRegionFromVaryingParameters/54 (0 ms)
+[ RUN      ] LODTestSuite/LODRegionTest.ConstructLODRegionFromVaryingParameters/55
+[       OK ] LODTestSuite/LODRegionTest.ConstructLODRegionFromVaryingParameters/55 (0 ms)
+[ RUN      ] LODTestSuite/LODRegionTest.ConstructLODRegionFromVaryingParameters/56
+[       OK ] LODTestSuite/LODRegionTest.ConstructLODRegionFromVaryingParameters/56 (0 ms)
+[ RUN      ] LODTestSuite/LODRegionTest.ConstructLODRegionFromVaryingParameters/57
+[       OK ] LODTestSuite/LODRegionTest.ConstructLODRegionFromVaryingParameters/57 (0 ms)
+[ RUN      ] LODTestSuite/LODRegionTest.ConstructLODRegionFromVaryingParameters/58
+[       OK ] LODTestSuite/LODRegionTest.ConstructLODRegionFromVaryingParameters/58 (0 ms)
+[----------] 59 tests from LODTestSuite/LODRegionTest (1 ms total)
+
+[----------] 9 tests from Base64Test/Base64Test
+[ RUN      ] Base64Test/Base64Test.EncodeDecodeSize/0
+[       OK ] Base64Test/Base64Test.EncodeDecodeSize/0 (0 ms)
+[ RUN      ] Base64Test/Base64Test.EncodeDecodeSize/1
+[       OK ] Base64Test/Base64Test.EncodeDecodeSize/1 (0 ms)
+[ RUN      ] Base64Test/Base64Test.EncodeDecodeSize/2
+[       OK ] Base64Test/Base64Test.EncodeDecodeSize/2 (0 ms)
+[ RUN      ] Base64Test/Base64Test.EncodeDecodeSize/3
+[       OK ] Base64Test/Base64Test.EncodeDecodeSize/3 (0 ms)
+[ RUN      ] Base64Test/Base64Test.EncodeDecodeSize/4
+[       OK ] Base64Test/Base64Test.EncodeDecodeSize/4 (0 ms)
+[ RUN      ] Base64Test/Base64Test.EncodeDecodeSize/5
+[       OK ] Base64Test/Base64Test.EncodeDecodeSize/5 (0 ms)
+[ RUN      ] Base64Test/Base64Test.EncodeDecodeSize/6
+[       OK ] Base64Test/Base64Test.EncodeDecodeSize/6 (0 ms)
+[ RUN      ] Base64Test/Base64Test.EncodeDecodeSize/7
+[       OK ] Base64Test/Base64Test.EncodeDecodeSize/7 (0 ms)
+[ RUN      ] Base64Test/Base64Test.EncodeDecodeSize/8
+[       OK ] Base64Test/Base64Test.EncodeDecodeSize/8 (0 ms)
+[----------] 9 tests from Base64Test/Base64Test (0 ms total)
+
+[----------] Global test environment tear-down
+[==========] 729 tests from 92 test suites ran. (20 ms total)
+[  PASSED  ] 685 tests.
+[  FAILED  ] 44 tests, listed below:
+[  FAILED  ] StreamTest/0.OpenExistingFileForRead, where TypeParam = <type>
+[  FAILED  ] StreamTest/0.OpenExistingFileForWrite, where TypeParam = <type>
+[  FAILED  ] StreamTest/0.OpenExistingFileForReadWrite, where TypeParam = <type>
+[  FAILED  ] StreamTest/0.OpenNonExistingFileForWrite, where TypeParam = <type>
+[  FAILED  ] StreamTest/0.OpenNonExistingFileForReadWrite, where TypeParam = <type>
+[  FAILED  ] StreamTest/0.OpenEmptyFile, where TypeParam = <type>
+[  FAILED  ] StreamTest/0.OpenAlreadyOpenFile, where TypeParam = <type>
+[  FAILED  ] StreamTest/0.ReadSuccess, where TypeParam = <type>
+[  FAILED  ] StreamTest/0.ReadMoreThanBytesAvailable, where TypeParam = <type>
+[  FAILED  ] StreamTest/0.ReadFromEmptyFile, where TypeParam = <type>
+[  FAILED  ] StreamTest/0.ReadFromWriteOnlyStream, where TypeParam = <type>
+[  FAILED  ] StreamTest/0.SeekSuccess, where TypeParam = <type>
+[  FAILED  ] StreamTest/0.SeekToEOF, where TypeParam = <type>
+[  FAILED  ] StreamTest/0.SeekOutOfBounds, where TypeParam = <type>
+[  FAILED  ] StreamTest/0.WriteSuccess, where TypeParam = <type>
+[  FAILED  ] StreamTest/0.WriteIntoEmptyFile, where TypeParam = <type>
+[  FAILED  ] StreamTest/0.WriteIntoReadOnlyStream, where TypeParam = <type>
+[  FAILED  ] StreamTest/0.ReadAfterClose, where TypeParam = <type>
+[  FAILED  ] StreamTest/0.WriteAfterClose, where TypeParam = <type>
+[  FAILED  ] StreamTest/0.SeekAfterClose, where TypeParam = <type>
+[  FAILED  ] StreamTest/0.PersistenceIntegrationTest, where TypeParam = <type>
+[  FAILED  ] StreamTest/0.ReopenStreamContinueWork, where TypeParam = <type>
+[  FAILED  ] StreamTest/1.OpenExistingFileForRead, where TypeParam = <type>
+[  FAILED  ] StreamTest/1.OpenExistingFileForWrite, where TypeParam = <type>
+[  FAILED  ] StreamTest/1.OpenExistingFileForReadWrite, where TypeParam = <type>
+[  FAILED  ] StreamTest/1.OpenNonExistingFileForWrite, where TypeParam = <type>
+[  FAILED  ] StreamTest/1.OpenNonExistingFileForReadWrite, where TypeParam = <type>
+[  FAILED  ] StreamTest/1.OpenEmptyFile, where TypeParam = <type>
+[  FAILED  ] StreamTest/1.OpenAlreadyOpenFile, where TypeParam = <type>
+[  FAILED  ] StreamTest/1.ReadSuccess, where TypeParam = <type>
+[  FAILED  ] StreamTest/1.ReadMoreThanBytesAvailable, where TypeParam = <type>
+[  FAILED  ] StreamTest/1.ReadFromEmptyFile, where TypeParam = <type>
+[  FAILED  ] StreamTest/1.ReadFromWriteOnlyStream, where TypeParam = <type>
+[  FAILED  ] StreamTest/1.SeekSuccess, where TypeParam = <type>
+[  FAILED  ] StreamTest/1.SeekToEOF, where TypeParam = <type>
+[  FAILED  ] StreamTest/1.SeekOutOfBounds, where TypeParam = <type>
+[  FAILED  ] StreamTest/1.WriteSuccess, where TypeParam = <type>
+[  FAILED  ] StreamTest/1.WriteIntoEmptyFile, where TypeParam = <type>
+[  FAILED  ] StreamTest/1.WriteIntoReadOnlyStream, where TypeParam = <type>
+[  FAILED  ] StreamTest/1.ReadAfterClose, where TypeParam = <type>
+[  FAILED  ] StreamTest/1.WriteAfterClose, where TypeParam = <type>
+[  FAILED  ] StreamTest/1.SeekAfterClose, where TypeParam = <type>
+[  FAILED  ] StreamTest/1.PersistenceIntegrationTest, where TypeParam = <type>
+[  FAILED  ] StreamTest/1.ReopenStreamContinueWork, where TypeParam = <type>
+
+44 FAILED TESTS

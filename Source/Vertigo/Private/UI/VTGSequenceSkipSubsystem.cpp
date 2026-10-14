@@ -128,7 +128,7 @@ void UVTGSequenceSkipSubsystem::ShowHint()
     Hint = SNew(SOverlay) + SOverlay::Slot().HAlign(HAlign_Right).VAlign(VAlign_Bottom).Padding(40)
         [SNew(SBorder).BorderImage(FCoreStyle::Get().GetBrush("WhiteBrush"))
         .BorderBackgroundColor(FLinearColor(0,0,0,.7f)).Padding(16)
-        [SNew(STextBlock).Text_Lambda([this]() { return FText::FromString(bSkipping ? TEXT("Skipping...") : TEXT("Hold Esc to skip")); })
+        [SNew(STextBlock).Text_Lambda([this]() { return bSkipping ? NSLOCTEXT("VTGSequence", "Skipping", "Skipping...") : NSLOCTEXT("VTGSequence", "SkipHint", "Hold Esc to skip"); })
         .Font(FCoreStyle::GetDefaultFontStyle("Regular", 20))]];
     Hint->SetVisibility(EVisibility::HitTestInvisible);
     HintViewport = Viewport;

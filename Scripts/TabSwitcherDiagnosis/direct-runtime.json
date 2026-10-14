@@ -1,0 +1,44 @@
+{
+  "events": [
+    {
+      "api": "start"
+    },
+    {
+      "world": "Entry",
+      "widget": "<Object '/Engine/Transient.UnrealEdEngine_0:BP_VTG_GameInstance_C_0.WB_TabSwitcher_C_0' (0x000008218266F600) Class 'WB_TabSwitcher_C'>"
+    },
+    {
+      "menu": "<Object '/Engine/Transient.UnrealEdEngine_0:BP_VTG_GameInstance_C_0.WB_TabSwitcher_C_0.WidgetTree_0.WB_TabSwitcher' (0x0000082182666600) Class 'WB_TabSwitcherMenu_C'>",
+      "visible": true,
+      "tabs": "[{}, {}, {}, {}, {}]",
+      "buttons": "[\"/Game/Inventory/InventoryXBased/UMG/TabSwitcher/WB_TabButton.WB_TabButton_C'/Engine/Transient.UnrealEdEngine_0:BP_VTG_GameInstance_C_0.WB_TabSwitcher_C_0.WidgetTree_0.WB_TabSwitcher.WidgetTree_0.WB_TabButton_C_0'\", \"/Game/Inventory/InventoryXBased/UMG/TabSwitcher/WB_TabButton.WB_TabButton_C'/Engine/Transient.UnrealEdEngine_0:BP_VTG_GameInstance_C_0.WB_TabSwitcher_C_0.WidgetTree_0.WB_TabSwitcher.WidgetTree_0.WB_TabButton_C_1'\", \"/Game/Inventory/InventoryXBased/UMG/TabSwitcher/WB_TabButton.WB_TabButton_C'/Engine/Transient.UnrealEdEngine_0:BP_VTG_GameInstance_C_0.WB_TabSwitcher_C_0.WidgetTree_0.WB_TabSwitcher.WidgetTree_0.WB_TabButton_C_2'\", \"/Game/Inventory/InventoryXBased/UMG/TabSwitcher/WB_TabButton.WB_TabButton_C'/Engine/Transient.UnrealEdEngine_0:BP_VTG_GameInstance_C_0.WB_TabSwitcher_C_0.WidgetTree_0.WB_TabSwitcher.WidgetTree_0.WB_TabButton_C_3'\", \"/Game/Inventory/InventoryXBased/UMG/TabSwitcher/WB_TabButton.WB_TabButton_C'/Engine/Transient.UnrealEdEngine_0:BP_VTG_GameInstance_C_0.WB_TabSwitcher_C_0.WidgetTree_0.WB_TabSwitcher.WidgetTree_0.WB_TabButton_C_4'\"]",
+      "active": "0"
+    },
+    {
+      "visible": true,
+      "keyboard_focus": false,
+      "descendant_focus": true
+    },
+    {
+      "focus_widgets": [
+        [
+          "WB_TabSwitcher_C_0",
+          false,
+          true
+        ],
+        [
+          "WB_NoteBase",
+          true,
+          false
+        ]
+      ]
+    },
+    {
+      "after_E": "1"
+    },
+    {
+      "after_Q": "0"
+    }
+  ],
+  "scope": "isolated PIE widget runtime; no keyboard routing yet"
+}

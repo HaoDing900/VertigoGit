@@ -1,0 +1,175 @@
+[2026.10.12-04.11.59:812][  0]LogD3D12RHI: Display: Creating D3D12 RHI with Max Feature Level SM6
+[2026.10.12-04.12.00:027][  0]LogD3D12RHI: Display: Not using pipeline state disk cache per r.D3D12.PSO.DiskCache=0
+[2026.10.12-04.12.00:027][  0]LogD3D12RHI: Display: Not using driver-optimized pipeline state disk cache per r.D3D12.PSO.DriverOptimizedDiskCache=0
+[2026.10.12-04.12.00:063][  0]LogTextureFormatManager: Display: Loaded Base TextureFormat: TextureFormatASTC
+[2026.10.12-04.12.00:063][  0]LogTextureFormatManager: Display: Loaded Base TextureFormat: TextureFormatDXT
+[2026.10.12-04.12.00:063][  0]LogTextureFormatManager: Display: Loaded Base TextureFormat: TextureFormatETC2
+[2026.10.12-04.12.00:063][  0]LogTextureFormatManager: Display: Loaded Base TextureFormat: TextureFormatIntelISPCTexComp
+[2026.10.12-04.12.00:063][  0]LogTextureFormatManager: Display: Loaded Base TextureFormat: TextureFormatUncompressed
+[2026.10.12-04.12.00:063][  0]LogTextureFormatOodle: Display: Oodle Texture TFO init; latest sdk version = 2.9.10
+[2026.10.12-04.12.00:063][  0]LogTextureFormatOodle: Display: Oodle Texture loading DLL: oo2tex_win64_2.9.5.dll
+[2026.10.12-04.12.00:064][  0]LogTextureFormatOodle: Display: Oodle Texture loading DLL: oo2tex_win64_2.9.6.dll
+[2026.10.12-04.12.00:064][  0]LogTextureFormatOodle: Display: Oodle Texture loading DLL: oo2tex_win64_2.9.7.dll
+[2026.10.12-04.12.00:064][  0]LogTextureFormatOodle: Display: Oodle Texture loading DLL: oo2tex_win64_2.9.8.dll
+[2026.10.12-04.12.00:065][  0]LogTextureFormatOodle: Display: Oodle Texture loading DLL: oo2tex_win64_2.9.9.dll
+[2026.10.12-04.12.00:065][  0]LogTextureFormatOodle: Display: Oodle Texture loading DLL: oo2tex_win64_2.9.10.dll
+[2026.10.12-04.12.00:065][  0]LogTextureFormatManager: Display: Loaded Base TextureFormat: TextureFormatOodle
+[2026.10.12-04.12.00:077][  0]LogTargetPlatformManager: Display: Loaded TargetPlatform 'Android'
+[2026.10.12-04.12.00:077][  0]LogTargetPlatformManager: Display: Loaded TargetPlatform 'Android_ASTC'
+[2026.10.12-04.12.00:077][  0]LogTargetPlatformManager: Display: Loaded TargetPlatform 'Android_DXT'
+[2026.10.12-04.12.00:077][  0]LogTargetPlatformManager: Display: Loaded TargetPlatform 'Android_ETC2'
+[2026.10.12-04.12.00:077][  0]LogTargetPlatformManager: Display: Loaded TargetPlatform 'AndroidClient'
+[2026.10.12-04.12.00:077][  0]LogTargetPlatformManager: Display: Loaded TargetPlatform 'Android_ASTCClient'
+[2026.10.12-04.12.00:077][  0]LogTargetPlatformManager: Display: Loaded TargetPlatform 'Android_DXTClient'
+[2026.10.12-04.12.00:077][  0]LogTargetPlatformManager: Display: Loaded TargetPlatform 'Android_ETC2Client'
+[2026.10.12-04.12.00:077][  0]LogTargetPlatformManager: Display: Loaded TargetPlatform 'Android_Multi'
+[2026.10.12-04.12.00:077][  0]LogTargetPlatformManager: Display: Loaded TargetPlatform 'Android_MultiClient'
+[2026.10.12-04.12.00:080][  0]LogTargetPlatformManager: Display: Loaded TargetPlatform 'IOS'
+[2026.10.12-04.12.00:080][  0]LogTargetPlatformManager: Display: Loaded TargetPlatform 'IOSClient'
+[2026.10.12-04.12.00:082][  0]LogTargetPlatformManager: Display: Loaded TargetPlatform 'Linux'
+[2026.10.12-04.12.00:082][  0]LogTargetPlatformManager: Display: Loaded TargetPlatform 'LinuxEditor'
+[2026.10.12-04.12.00:082][  0]LogTargetPlatformManager: Display: Loaded TargetPlatform 'LinuxServer'
+[2026.10.12-04.12.00:082][  0]LogTargetPlatformManager: Display: Loaded TargetPlatform 'LinuxClient'
+[2026.10.12-04.12.00:085][  0]LogTargetPlatformManager: Display: Loaded TargetPlatform 'LinuxArm64'
+[2026.10.12-04.12.00:085][  0]LogTargetPlatformManager: Display: Loaded TargetPlatform 'LinuxArm64Server'
+[2026.10.12-04.12.00:085][  0]LogTargetPlatformManager: Display: Loaded TargetPlatform 'LinuxArm64Client'
+[2026.10.12-04.12.00:087][  0]LogTargetPlatformManager: Display: Loaded TargetPlatform 'Mac'
+[2026.10.12-04.12.00:087][  0]LogTargetPlatformManager: Display: Loaded TargetPlatform 'MacEditor'
+[2026.10.12-04.12.00:087][  0]LogTargetPlatformManager: Display: Loaded TargetPlatform 'MacServer'
+[2026.10.12-04.12.00:087][  0]LogTargetPlatformManager: Display: Loaded TargetPlatform 'MacClient'
+[2026.10.12-04.12.00:089][  0]LogTargetPlatformManager: Display: Loaded TargetPlatform 'TVOS'
+[2026.10.12-04.12.00:089][  0]LogTargetPlatformManager: Display: Loaded TargetPlatform 'TVOSClient'
+[2026.10.12-04.12.00:093][  0]LogTargetPlatformManager: Display: Loaded TargetPlatform 'Windows'
+[2026.10.12-04.12.00:093][  0]LogTargetPlatformManager: Display: Loaded TargetPlatform 'WindowsEditor'
+[2026.10.12-04.12.00:093][  0]LogTargetPlatformManager: Display: Loaded TargetPlatform 'WindowsServer'
+[2026.10.12-04.12.00:093][  0]LogTargetPlatformManager: Display: Loaded TargetPlatform 'WindowsClient'
+[2026.10.12-04.12.00:093][  0]LogTargetPlatformManager: Display: Building Assets For WindowsEditor
+[2026.10.12-04.12.00:099][  0]LogAudioDebug: Display: Lib vorbis DLL was dynamically loaded.
+[2026.10.12-04.12.00:138][  0]LogDerivedDataCache: Display: Memory: Max Cache Size: -1 MB
+[2026.10.12-04.12.00:173][  0]LogDerivedDataCache: Display: ../../../Engine/DerivedDataCache/Compressed.ddp: Opened pak cache for reading. (2383 MiB)
+[2026.10.12-04.12.00:179][  0]LogDerivedDataCache: Display: C:/Users/Hao/AppData/Local/UnrealEngine/Common/DerivedDataCache: Performance: Latency=0.03ms. RandomReadSpeed=1555.18MBs, RandomWriteSpeed=176.07MBs. Assigned SpeedClass 'Local'
+[2026.10.12-04.12.00:182][  0]LogShaderCompilers: Display: Using Local Shader Compiler with 13 workers.
+[2026.10.12-04.12.00:956][  0]LogShaderCompilers: Display: Compiling shader autogen file: ../../../../Unreal projects/VertigoGit/Intermediate/ShaderAutogen/PCD3D_SM6/AutogenShaderHeaders.ush
+[2026.10.12-04.12.00:957][  0]LogShaderCompilers: Display: Autogen file is unchanged, skipping write.
+[2026.10.12-04.12.01:322][  0]LogEditorDomain: Display: EditorDomain is Disabled
+[2026.10.12-04.12.01:499][  0]LogTextureEncodingSettings: Display: Texture Encode Speed: Final (cook).
+[2026.10.12-04.12.01:499][  0]LogTextureEncodingSettings: Display: Oodle Texture Encode Speed settings: Fast: RDO Off Lambda=0, Effort=Normal Final: RDO Off Lambda=0, Effort=Normal
+[2026.10.12-04.12.01:499][  0]LogTextureEncodingSettings: Display: Shared linear texture encoding: Disabled
+[2026.10.12-04.12.01:500][  0]LogDeviceProfileManager: Display: Deviceprofile LinuxArm64Editor not found.
+[2026.10.12-04.12.01:500][  0]LogDeviceProfileManager: Display: Deviceprofile LinuxArm64 not found.
+[2026.10.12-04.12.01:684][  0]LogCsvProfiler: Display: Metadata set : deviceprofile="WindowsEditor"
+[2026.10.12-04.12.01:684][  0]LogShaderCompilers: Display: Compiling shader autogen file: ../../../../Unreal projects/VertigoGit/Intermediate/ShaderAutogen/PCD3D_SM5/AutogenShaderHeaders.ush
+[2026.10.12-04.12.01:684][  0]LogShaderCompilers: Display: Autogen file is unchanged, skipping write.
+[2026.10.12-04.12.09:202][  0]LogDerivedDataCache: Display: C:/Users/Hao/AppData/Local/UnrealEngine/Common/DerivedDataCache: Cache put found non-deterministic value with new hash 455d504e44b312d786efb2090eb490fea70e648f and existing hash 4bd50740263e83ef77415dd00177a87ad98eb84f for GlobalShaderMap/d4bf61b16ede435b1313fa465f0f1a752ad588c5 from 'GlobalShaderMap [PCD3D_SM6, /Engine/Private/DeferredLightPixelShaders.usf]'
+[2026.10.12-04.12.09:279][  0]LogMeshReduction: Display: Using QuadricMeshReduction for automatic static mesh reduction
+[2026.10.12-04.12.09:279][  0]LogMeshReduction: Display: Using SkeletalMeshReduction for automatic skeletal mesh reduction
+[2026.10.12-04.12.09:279][  0]LogMeshReduction: Display: Using ProxyLODMeshReduction for automatic mesh merging
+[2026.10.12-04.12.09:279][  0]LogMeshReduction: Display: No distributed automatic mesh merging module available
+[2026.10.12-04.12.09:436][  0]LogVirtualization: Display: VirtualizationSystem name found in ini file: None
+[2026.10.12-04.12.09:436][  0]LogVirtualization: Display: FNullVirtualizationSystem mounted, virtualization will be disabled
+[2026.10.12-04.12.09:572][  0]LogWorldPartition: Display: FWorldPartitionClassDescRegistry::Initialize started...
+[2026.10.12-04.12.09:574][  0]LogWorldPartition: Display: FWorldPartitionClassDescRegistry::Initialize took 1 ms
+[2026.10.12-04.12.09:576][  0]Input_ISX: Warning: Input_ISX module has been loaded
+[2026.10.12-04.12.09:590][  0]LogUObjectGlobals: Warning: Failed to find object 'Object /Game/ThirdPerson/Input/IMC_Default.IMC_Default'
+[2026.10.12-04.12.09:889][  0]LogAudio: Display: Registering Engine Module Parameter Interfaces...
+[2026.10.12-04.12.11:485][  0]LogAudioCaptureCore: Display: No Audio Capture implementations found. Audio input will be silent.
+[2026.10.12-04.12.11:485][  0]LogAudioCaptureCore: Display: No Audio Capture implementations found. Audio input will be silent.
+[2026.10.12-04.12.11:974][  0]LogFabLauncher: Display: FabLauncher (version 0.5.0) active
+[2026.10.12-04.12.12:406][  0]LogAssetRegistry: Warning: Package G:/Epic/Unreal projects/VertigoGit/Content/Style/TextStyle_NarrativeNotification.uasset is too new. Engine Version: 1009  Package Version: 1012
+[2026.10.12-04.12.12:406][  0]LogAssetRegistry: Warning: Package G:/Epic/Unreal projects/VertigoGit/Content/Style/TextStyle_NarrativeButton_DialogueHover.uasset is too new. Engine Version: 1009  Package Version: 1012
+[2026.10.12-04.12.12:407][  0]LogAssetRegistry: Warning: Package G:/Epic/Unreal projects/VertigoGit/Content/Style/TextStyle_NarrativeButton_DialogueHintText.uasset is too new. Engine Version: 1009  Package Version: 1012
+[2026.10.12-04.12.12:407][  0]LogAssetRegistry: Warning: Package G:/Epic/Unreal projects/VertigoGit/Content/Style/TextStyle_NarrativeButton_Dialogue.uasset is too new. Engine Version: 1009  Package Version: 1012
+[2026.10.12-04.12.12:407][  0]LogAssetRegistry: Warning: Package G:/Epic/Unreal projects/VertigoGit/Content/Style/TextStyle_NarrativeMenuHeader.uasset is too new. Engine Version: 1009  Package Version: 1012
+[2026.10.12-04.12.12:407][  0]LogAssetRegistry: Warning: Package G:/Epic/Unreal projects/VertigoGit/Content/Style/ButtonStyle_Transparent.uasset is too new. Engine Version: 1009  Package Version: 1012
+[2026.10.12-04.12.12:407][  0]LogAssetRegistry: Warning: Package G:/Epic/Unreal projects/VertigoGit/Content/Style/ButtonStyle_Narrative.uasset is too new. Engine Version: 1009  Package Version: 1012
+[2026.10.12-04.12.12:408][  0]LogAssetRegistry: Warning: Package G:/Epic/Unreal projects/VertigoGit/Content/Style/TextStyle_NarrativeButtonHovered.uasset is too new. Engine Version: 1009  Package Version: 1012
+[2026.10.12-04.12.12:408][  0]LogAssetRegistry: Warning: Package G:/Epic/Unreal projects/VertigoGit/Content/Style/ButtonStyle_Dialogue.uasset is too new. Engine Version: 1009  Package Version: 1012
+[2026.10.12-04.12.12:408][  0]LogAssetRegistry: Warning: Package G:/Epic/Unreal projects/VertigoGit/Content/Style/BorderStyle_Vignette.uasset is too new. Engine Version: 1009  Package Version: 1012
+[2026.10.12-04.12.12:408][  0]LogAssetRegistry: Warning: Package G:/Epic/Unreal projects/VertigoGit/Content/Style/BorderStyle_MenuBackground.uasset is too new. Engine Version: 1009  Package Version: 1012
+[2026.10.12-04.12.12:408][  0]LogAssetRegistry: Warning: Package G:/Epic/Unreal projects/VertigoGit/Content/Style/TextStyle_NarrativeButton.uasset is too new. Engine Version: 1009  Package Version: 1012
+[2026.10.12-04.12.12:408][  0]LogAssetRegistry: Warning: Package G:/Epic/Unreal projects/VertigoGit/Content/Style/BorderStyle_Narrative.uasset is too new. Engine Version: 1009  Package Version: 1012
+[2026.10.12-04.12.12:425][  0]LogAssetRegistry: Warning: Package G:/Epic/Unreal projects/VertigoGit/Content/NarrativeUI/Widgets/BP_QuestJournalQuest.uasset is too new. Engine Version: 1009  Package Version: 1012
+[2026.10.12-04.12.12:425][  0]LogAssetRegistry: Warning: Package G:/Epic/Unreal projects/VertigoGit/Content/NarrativeUI/Widgets/Editor/StateNode_Node_Body.uasset is too new. Engine Version: 1009  Package Version: 1012
+[2026.10.12-04.12.12:425][  0]LogAssetRegistry: Warning: Package G:/Epic/Unreal projects/VertigoGit/Content/NarrativeUI/Widgets/W_NarrativeMenu_Dialogue.uasset is too new. Engine Version: 1009  Package Version: 1012
+[2026.10.12-04.12.12:426][  0]LogAssetRegistry: Warning: Package G:/Epic/Unreal projects/VertigoGit/Content/NarrativeUI/Widgets/BP_Narrative3Overlay.uasset is too new. Engine Version: 1009  Package Version: 1012
+[2026.10.12-04.12.12:426][  0]LogAssetRegistry: Warning: Package G:/Epic/Unreal projects/VertigoGit/Content/NarrativeUI/Widgets/Editor/WBP_SpeakerSelector.uasset is too new. Engine Version: 1009  Package Version: 1012
+[2026.10.12-04.12.12:426][  0]LogAssetRegistry: Warning: Package G:/Epic/Unreal projects/VertigoGit/Content/NarrativeUI/Widgets/Editor/SoundGenericIcon_1_64x.uasset is too new. Engine Version: 1009  Package Version: 1012
+[2026.10.12-04.12.12:426][  0]LogAssetRegistry: Warning: Package G:/Epic/Unreal projects/VertigoGit/Content/NarrativeUI/Widgets/Editor/icon_layer_not_visible.uasset is too new. Engine Version: 1009  Package Version: 1012
+[2026.10.12-04.12.12:426][  0]LogAssetRegistry: Warning: Package G:/Epic/Unreal projects/VertigoGit/Content/NarrativeUI/Widgets/Editor/SpeakerToTarget.uasset is too new. Engine Version: 1009  Package Version: 1012
+[2026.10.12-04.12.12:426][  0]LogAssetRegistry: Warning: Package G:/Epic/Unreal projects/VertigoGit/Content/NarrativeUI/Widgets/BP_QuestTask.uasset is too new. Engine Version: 1009  Package Version: 1012
+[2026.10.12-04.12.12:427][  0]LogAssetRegistry: Warning: Package G:/Epic/Unreal projects/VertigoGit/Content/NarrativeUI/Widgets/WBP_NarrativeButton_DialogueOption.uasset is too new. Engine Version: 1009  Package Version: 1012
+[2026.10.12-04.12.12:427][  0]LogAssetRegistry: Warning: Package G:/Epic/Unreal projects/VertigoGit/Content/NarrativeUI/Widgets/BP_QuestBranch.uasset is too new. Engine Version: 1009  Package Version: 1012
+[2026.10.12-04.12.12:427][  0]LogAssetRegistry: Warning: Package G:/Epic/Unreal projects/VertigoGit/Content/NarrativeUI/Widgets/Editor/StateNode_Node_ColorSpill.uasset is too new. Engine Version: 1009  Package Version: 1012
+[2026.10.12-04.12.12:427][  0]LogAssetRegistry: Warning: Package G:/Epic/Unreal projects/VertigoGit/Content/NarrativeUI/Widgets/Editor/icon_Blueprint_Anim_24x.uasset is too new. Engine Version: 1009  Package Version: 1012
+[2026.10.12-04.12.12:427][  0]LogAssetRegistry: Warning: Package G:/Epic/Unreal projects/VertigoGit/Content/NarrativeUI/Widgets/Editor/ActionIcon64x64.uasset is too new. Engine Version: 1009  Package Version: 1012
+[2026.10.12-04.12.12:428][  0]LogAssetRegistry: Warning: Package G:/Epic/Unreal projects/VertigoGit/Content/NarrativeUI/Widgets/Editor/anim_24x.uasset is too new. Engine Version: 1009  Package Version: 1012
+[2026.10.12-04.12.12:428][  0]LogAssetRegistry: Warning: Package G:/Epic/Unreal projects/VertigoGit/Content/NarrativeUI/Widgets/Editor/WBP_DefaultDialogueNode.uasset is too new. Engine Version: 1009  Package Version: 1012
+[2026.10.12-04.12.12:428][  0]LogAssetRegistry: Warning: Package G:/Epic/Unreal projects/VertigoGit/Content/NarrativeUI/Assets/Unchecked.uasset is too new. Engine Version: 1009  Package Version: 1012
+[2026.10.12-04.12.12:428][  0]LogAssetRegistry: Warning: Package G:/Epic/Unreal projects/VertigoGit/Content/NarrativeUI/Audio/Completion_Sound.uasset is too new. Engine Version: 1009  Package Version: 1012
+[2026.10.12-04.12.12:428][  0]LogAssetRegistry: Warning: Package G:/Epic/Unreal projects/VertigoGit/Content/NarrativeUI/Assets/T_DialogueOptionSelector.uasset is too new. Engine Version: 1009  Package Version: 1012
+[2026.10.12-04.12.12:428][  0]LogAssetRegistry: Warning: Package G:/Epic/Unreal projects/VertigoGit/Content/NarrativeUI/Assets/T_Grad.uasset is too new. Engine Version: 1009  Package Version: 1012
+[2026.10.12-04.12.12:429][  0]LogAssetRegistry: Warning: Package G:/Epic/Unreal projects/VertigoGit/Content/NarrativeUI/Widgets/Editor/WBP_DefaultQuestNode.uasset is too new. Engine Version: 1009  Package Version: 1012
+[2026.10.12-04.12.12:429][  0]LogAssetRegistry: Warning: Package G:/Epic/Unreal projects/VertigoGit/Content/NarrativeUI/Assets/SourceSansPro-Bold.uasset is too new. Engine Version: 1009  Package Version: 1012
+[2026.10.12-04.12.12:429][  0]LogAssetRegistry: Warning: Package G:/Epic/Unreal projects/VertigoGit/Content/NarrativeUI/Assets/SourceSansPro-Bold_Font.uasset is too new. Engine Version: 1009  Package Version: 1012
+[2026.10.12-04.12.12:429][  0]LogAssetRegistry: Warning: Package G:/Epic/Unreal projects/VertigoGit/Content/NarrativeUI/Assets/DT_RichText_NarrativeQuestUpdate.uasset is too new. Engine Version: 1009  Package Version: 1012
+[2026.10.12-04.12.12:429][  0]LogAssetRegistry: Warning: Package G:/Epic/Unreal projects/VertigoGit/Content/NarrativeUI/Widgets/W_NarrativeMenu_QuestJournal.uasset is too new. Engine Version: 1009  Package Version: 1012
+[2026.10.12-04.12.12:430][  0]LogAssetRegistry: Warning: Package G:/Epic/Unreal projects/VertigoGit/Content/NarrativeUI/Assets/DT_NarrativeDefaultUIRichText.uasset is too new. Engine Version: 1009  Package Version: 1012
+[2026.10.12-04.12.12:430][  0]LogAssetRegistry: Warning: Package G:/Epic/Unreal projects/VertigoGit/Content/NarrativeUI/Assets/DT_RichText_QuestJournal.uasset is too new. Engine Version: 1009  Package Version: 1012
+[2026.10.12-04.12.12:430][  0]LogAssetRegistry: Warning: Package G:/Epic/Unreal projects/VertigoGit/Content/NarrativeUI/Assets/AstroneliPrototype/quest_title_4x.uasset is too new. Engine Version: 1009  Package Version: 1012
+[2026.10.12-04.12.12:430][  0]LogAssetRegistry: Warning: Package G:/Epic/Unreal projects/VertigoGit/Content/NarrativeUI/Assets/Checked.uasset is too new. Engine Version: 1009  Package Version: 1012
+[2026.10.12-04.12.12:430][  0]LogAssetRegistry: Warning: Package G:/Epic/Unreal projects/VertigoGit/Content/NarrativeUI/Assets/AstroneliPrototype/quest_desc_line_4x.uasset is too new. Engine Version: 1009  Package Version: 1012
+[2026.10.12-04.12.12:431][  0]LogAssetRegistry: Warning: Package G:/Epic/Unreal projects/VertigoGit/Content/NarrativeUI/Assets/AstroneliPrototype/quest_notification_name_4x.uasset is too new. Engine Version: 1009  Package Version: 1012
+[2026.10.12-04.12.12:431][  0]LogAssetRegistry: Warning: Package G:/Epic/Unreal projects/VertigoGit/Content/NarrativeUI/Assets/T_CloseIcon.uasset is too new. Engine Version: 1009  Package Version: 1012
+[2026.10.12-04.12.12:431][  0]LogAssetRegistry: Warning: Package G:/Epic/Unreal projects/VertigoGit/Content/NarrativeUI/Assets/AstroneliPrototype/quest_notification_4x.uasset is too new. Engine Version: 1009  Package Version: 1012
+[2026.10.12-04.12.12:431][  0]LogAssetRegistry: Warning: Package G:/Epic/Unreal projects/VertigoGit/Content/NarrativeUI/Assets/DT_RichText_NarrativeDialogue.uasset is too new. Engine Version: 1009  Package Version: 1012
+[2026.10.12-04.12.12:431][  0]LogAssetRegistry: Warning: Package G:/Epic/Unreal projects/VertigoGit/Content/NarrativeUI/Assets/AstroneliPrototype/bullet_diamond_checked_4x.uasset is too new. Engine Version: 1009  Package Version: 1012
+[2026.10.12-04.12.12:431][  0]LogAssetRegistry: Warning: Package G:/Epic/Unreal projects/VertigoGit/Content/NarrativeUI/Assets/AstroneliPrototype/bullet_diamond_4x.uasset is too new. Engine Version: 1009  Package Version: 1012
+[2026.10.12-04.12.12:432][  0]LogAssetRegistry: Warning: Package G:/Epic/Unreal projects/VertigoGit/Content/NarrativeUI/Assets/SourceSansPro-SemiBold.uasset is too new. Engine Version: 1009  Package Version: 1012
+[2026.10.12-04.12.12:432][  0]LogAssetRegistry: Warning: Package G:/Epic/Unreal projects/VertigoGit/Content/NarrativeUI/Assets/SourceSansPro-Regular.uasset is too new. Engine Version: 1009  Package Version: 1012
+[2026.10.12-04.12.12:432][  0]LogAssetRegistry: Warning: Package G:/Epic/Unreal projects/VertigoGit/Content/NarrativeUI/Audio/Error_Sound.uasset is too new. Engine Version: 1009  Package Version: 1012
+[2026.10.12-04.12.12:432][  0]LogAssetRegistry: Warning: Package G:/Epic/Unreal projects/VertigoGit/Content/Materials/UI/ProgressCircle/ProgressCircle/MI_ProgressCircle.uasset is too new. Engine Version: 1009  Package Version: 1012
+[2026.10.12-04.12.12:432][  0]LogAssetRegistry: Warning: Package G:/Epic/Unreal projects/VertigoGit/Content/Materials/UI/ProgressCircle/ProgressCircle/T_CircularMask.uasset is too new. Engine Version: 1009  Package Version: 1012
+[2026.10.12-04.12.12:433][  0]LogAssetRegistry: Warning: Package G:/Epic/Unreal projects/VertigoGit/Content/Materials/UI/ProgressCircle/ProgressCircle/T_IconHoldMask.uasset is too new. Engine Version: 1009  Package Version: 1012
+[2026.10.12-04.12.12:433][  0]LogAssetRegistry: Warning: Package G:/Epic/Unreal projects/VertigoGit/Content/Materials/UI/ProgressCircle/ProgressCircle/M_ProgressCircle.uasset is too new. Engine Version: 1009  Package Version: 1012
+[2026.10.12-04.12.12:433][  0]LogAssetRegistry: Warning: Package G:/Epic/Unreal projects/VertigoGit/Content/Fonts/RobotoCondensed.uasset is too new. Engine Version: 1009  Package Version: 1012
+[2026.10.12-04.12.12:433][  0]LogAssetRegistry: Warning: Package G:/Epic/Unreal projects/VertigoGit/Content/Icons/T_Marker_Generic.uasset is too new. Engine Version: 1009  Package Version: 1012
+[2026.10.12-04.12.12:433][  0]LogAssetRegistry: Warning: Package G:/Epic/Unreal projects/VertigoGit/Content/Fonts/RobotoCondensed-Regular.uasset is too new. Engine Version: 1009  Package Version: 1012
+[2026.10.12-04.12.12:433][  0]LogAssetRegistry: Warning: Package G:/Epic/Unreal projects/VertigoGit/Content/Fonts/RobotoCondensed-Light.uasset is too new. Engine Version: 1009  Package Version: 1012
+[2026.10.12-04.12.12:434][  0]LogAssetRegistry: Warning: Package G:/Epic/Unreal projects/VertigoGit/Content/Fonts/RobotoCondensed-Bold.uasset is too new. Engine Version: 1009  Package Version: 1012
+[2026.10.12-04.12.12:434][  0]LogAssetRegistry: Warning: Package G:/Epic/Unreal projects/VertigoGit/Content/Fonts/RobotoCondensed-BoldItalic.uasset is too new. Engine Version: 1009  Package Version: 1012
+[2026.10.12-04.12.12:434][  0]LogAssetRegistry: Warning: Package G:/Epic/Unreal projects/VertigoGit/Content/Fonts/RobotoCondensed-LightItalic.uasset is too new. Engine Version: 1009  Package Version: 1012
+[2026.10.12-04.12.12:434][  0]LogAssetRegistry: Warning: Package G:/Epic/Unreal projects/VertigoGit/Content/EnvArt/Tunnel/L2Tunnel/M_MovingTunnel.uasset is too old. Min Version: 214  Package Version: 0
+[2026.10.12-04.12.12:454][  0]LogAssetRegistry: Warning: Package G:/Epic/Unreal projects/VertigoGit/Content/ControllerData/DT_NarrativeInputActions.uasset is too new. Engine Version: 1009  Package Version: 1012
+[2026.10.12-04.12.13:628][  0]LogCsvProfiler: Display: Metadata set : largeworldcoordinates="1"
+[2026.10.12-04.12.13:661][  0]LogMaterial: Display: Missing cached shadermap for M_DynamicMeshComponentVtxColor in PCD3D_SM6, Default, SM6, Editor (DDC key hash: 7e2a96a6ca54530298f8f065a58f2140695bb4c4), compiling. 
+[2026.10.12-04.12.13:780][  0]LogMaterial: Display: Missing cached shadermap for PhAT_NoCollisionMaterial in PCD3D_SM6, Default, SM6, Editor (DDC key hash: eb5843bdd8cd58c4b96aed05b235b59fa279e917), compiling. 
+[2026.10.12-04.12.13:966][  0]LogOutputDevice: Warning: 
+
+Script Stack (0 frames) :
+
+[2026.10.12-04.12.13:966][  0]LogWindows: Error: appError called: Fatal error: [File:D:\build\++UE5\Sync\Engine\Source\Runtime\CoreUObject\Private\Templates\Casts.cpp] [Line: 10] 
+Cast of Package /Engine/Transient to Engine failed
+
+
+
+
+
+[2026.10.12-04.12.15:264][  0]LogWindows: Error: === Critical error: ===
+[2026.10.12-04.12.15:264][  0]LogWindows: Error: 
+[2026.10.12-04.12.15:264][  0]LogWindows: Error: Fatal error: [File:D:\build\++UE5\Sync\Engine\Source\Runtime\CoreUObject\Private\Templates\Casts.cpp] [Line: 10] 
+[2026.10.12-04.12.15:265][  0]LogWindows: Error: Cast of Package /Engine/Transient to Engine failed
+[2026.10.12-04.12.15:265][  0]LogWindows: Error: 
+[2026.10.12-04.12.15:265][  0]LogWindows: Error: 
+[2026.10.12-04.12.15:265][  0]LogWindows: Error: [Callstack] 0x00007ffe876a8cfe UnrealEditor-CoreUObject.dll!UnknownFunction []
+[2026.10.12-04.12.15:265][  0]LogWindows: Error: [Callstack] 0x00007ffe7f009f00 UnrealEditor-Engine.dll!UnknownFunction []
+[2026.10.12-04.12.15:265][  0]LogWindows: Error: [Callstack] 0x00007ffe7f01c3cd UnrealEditor-Engine.dll!UnknownFunction []
+[2026.10.12-04.12.15:265][  0]LogWindows: Error: [Callstack] 0x00007ffde6e1dd71 UnrealEditor-VertigoEditor.dll!MapLabelsRepair::Run() [G:\Epic\Unreal projects\VertigoGit\Source\VertigoEditor\Private\VTGMapLabelsRepair.inl:76]
+[2026.10.12-04.12.15:265][  0]LogWindows: Error: [Callstack] 0x00007ffde6e12a39 UnrealEditor-VertigoEditor.dll!UVTGAlleyRepairCommandlet::Main() [G:\Epic\Unreal projects\VertigoGit\Source\VertigoEditor\Private\VTGAlleyRepairCommandlet.cpp:32]
+[2026.10.12-04.12.15:266][  0]LogWindows: Error: [Callstack] 0x00007ff6ed38733f UnrealEditor-Cmd.exe!UnknownFunction []
+[2026.10.12-04.12.15:266][  0]LogWindows: Error: [Callstack] 0x00007ff6ed37cfb6 UnrealEditor-Cmd.exe!UnknownFunction []
+[2026.10.12-04.12.15:266][  0]LogWindows: Error: [Callstack] 0x00007ff6ed37d37a UnrealEditor-Cmd.exe!UnknownFunction []
+[2026.10.12-04.12.15:266][  0]LogWindows: Error: [Callstack] 0x00007ff6ed380854 UnrealEditor-Cmd.exe!UnknownFunction []
+[2026.10.12-04.12.15:266][  0]LogWindows: Error: [Callstack] 0x00007ff6ed396984 UnrealEditor-Cmd.exe!UnknownFunction []
+[2026.10.12-04.12.15:266][  0]LogWindows: Error: [Callstack] 0x00007ff6ed398eb6 UnrealEditor-Cmd.exe!UnknownFunction []
+[2026.10.12-04.12.15:266][  0]LogWindows: Error: [Callstack] 0x00007fff8d7e7374 KERNEL32.DLL!UnknownFunction []
+[2026.10.12-04.12.15:266][  0]LogWindows: Error: 

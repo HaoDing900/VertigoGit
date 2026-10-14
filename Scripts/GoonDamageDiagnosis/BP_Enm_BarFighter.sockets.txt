@@ -1,0 +1,4 @@
+hand_rSocket bone=hand_r index=66
+hand_lSocket bone=hand_l index=20
+foot_rSocket bone=None index=-1
+foot_lSocket bone=None index=-1

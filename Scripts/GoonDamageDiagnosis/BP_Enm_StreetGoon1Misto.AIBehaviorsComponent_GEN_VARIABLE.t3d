@@ -1,0 +1,8 @@
+Begin Object Class=/Game/AI/AIBehaviorSystem/Blueprint/Component/BP_AIBehaviorsComponent.BP_AIBehaviorsComponent_C Name="AIBehaviorsComponent_GEN_VARIABLE" ExportPath="/Game/AI/AIBehaviorSystem/Blueprint/Component/BP_AIBehaviorsComponent.BP_AIBehaviorsComponent_C'/Game/AI/AIBehaviorSystem/Blueprint/AI/BP_AI_Base.BP_AI_Base_C:AIBehaviorsComponent_GEN_VARIABLE'"
+   TargetTags(1)="Companion"
+   RangeAttackDamage=30.000000
+   RangeAttackTransition=(DelayTrigger_32_95F10044455582D048D1F491B2BDF0E9=1.000000)
+   StrafeTransition=(DelayTrigger_32_95F10044455582D048D1F491B2BDF0E9=1.000000)
+   HitBehaviorConfig=(BehaviorType_11_95F10044455582D048D1F491B2BDF0E9=NewEnumerator13,MovementSpeedType_9_DC13AF8D4C808DEA73B857B927C25649=NewEnumerator4,OnSenseFoundTarget_24_BB2146224A02E9B1E7719892B6C1471D=NewEnumerator12,OnSenseLoseTarget_25_69B7D5134B845CE6ABFFD59F61D5E5BB=NewEnumerator13)
+   Use_Dead_Ragdoll=False
+End Object

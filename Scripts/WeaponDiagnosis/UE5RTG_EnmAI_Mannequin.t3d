@@ -1,0 +1,692 @@
+Begin Object Class=/Script/Engine.Skeleton Name="UE5RTG_EnmAI_Mannequin" ExportPath="/Script/Engine.Skeleton'/Game/AI/AIBehaviorSystem/Demo/Characters/Mannequins/Meshes/UE5RTG_EnmAI_Mannequin.UE5RTG_EnmAI_Mannequin'"
+   Begin Object Class=/Script/Engine.AnimCurveMetaData Name="AnimCurveMetaData_0" ExportPath="/Script/Engine.AnimCurveMetaData'/Game/AI/AIBehaviorSystem/Demo/Characters/Mannequins/Meshes/UE5RTG_EnmAI_Mannequin.UE5RTG_EnmAI_Mannequin:AnimCurveMetaData_0'"
+   End Object
+   Begin Object Class=/Script/Engine.BlendProfile Name="FastFeet" ExportPath="/Script/Engine.BlendProfile'/Game/AI/AIBehaviorSystem/Demo/Characters/Mannequins/Meshes/UE5RTG_EnmAI_Mannequin.UE5RTG_EnmAI_Mannequin:FastFeet'"
+   End Object
+   Begin Object Class=/Script/Engine.BlendProfile Name="LeftFingersMask" ExportPath="/Script/Engine.BlendProfile'/Game/AI/AIBehaviorSystem/Demo/Characters/Mannequins/Meshes/UE5RTG_EnmAI_Mannequin.UE5RTG_EnmAI_Mannequin:LeftFingersMask'"
+   End Object
+   Begin Object Class=/Script/Engine.BlendProfile Name="LowerBodyMask" ExportPath="/Script/Engine.BlendProfile'/Game/AI/AIBehaviorSystem/Demo/Characters/Mannequins/Meshes/UE5RTG_EnmAI_Mannequin.UE5RTG_EnmAI_Mannequin:LowerBodyMask'"
+   End Object
+   Begin Object Class=/Script/Engine.BlendProfile Name="UpperBodyLowerBodySplitMask" ExportPath="/Script/Engine.BlendProfile'/Game/AI/AIBehaviorSystem/Demo/Characters/Mannequins/Meshes/UE5RTG_EnmAI_Mannequin.UE5RTG_EnmAI_Mannequin:UpperBodyLowerBodySplitMask'"
+   End Object
+   Begin Object Class=/Script/Engine.BlendProfile Name="UpperBodyMask" ExportPath="/Script/Engine.BlendProfile'/Game/AI/AIBehaviorSystem/Demo/Characters/Mannequins/Meshes/UE5RTG_EnmAI_Mannequin.UE5RTG_EnmAI_Mannequin:UpperBodyMask'"
+   End Object
+   Begin Object Class=/Script/Engine.SkeletalMeshSocket Name="SkeletalMeshSocket_0" ExportPath="/Script/Engine.SkeletalMeshSocket'/Game/AI/AIBehaviorSystem/Demo/Characters/Mannequins/Meshes/UE5RTG_EnmAI_Mannequin.UE5RTG_EnmAI_Mannequin:SkeletalMeshSocket_0'"
+   End Object
+   Begin Object Class=/Script/Engine.SkeletalMeshSocket Name="SkeletalMeshSocket_1" ExportPath="/Script/Engine.SkeletalMeshSocket'/Game/AI/AIBehaviorSystem/Demo/Characters/Mannequins/Meshes/UE5RTG_EnmAI_Mannequin.UE5RTG_EnmAI_Mannequin:SkeletalMeshSocket_1'"
+   End Object
+   Begin Object Class=/Script/Engine.SkeletalMeshSocket Name="SkeletalMeshSocket_10" ExportPath="/Script/Engine.SkeletalMeshSocket'/Game/AI/AIBehaviorSystem/Demo/Characters/Mannequins/Meshes/UE5RTG_EnmAI_Mannequin.UE5RTG_EnmAI_Mannequin:SkeletalMeshSocket_10'"
+   End Object
+   Begin Object Class=/Script/Engine.SkeletalMeshSocket Name="SkeletalMeshSocket_11" ExportPath="/Script/Engine.SkeletalMeshSocket'/Game/AI/AIBehaviorSystem/Demo/Characters/Mannequins/Meshes/UE5RTG_EnmAI_Mannequin.UE5RTG_EnmAI_Mannequin:SkeletalMeshSocket_11'"
+   End Object
+   Begin Object Class=/Script/Engine.SkeletalMeshSocket Name="SkeletalMeshSocket_12" ExportPath="/Script/Engine.SkeletalMeshSocket'/Game/AI/AIBehaviorSystem/Demo/Characters/Mannequins/Meshes/UE5RTG_EnmAI_Mannequin.UE5RTG_EnmAI_Mannequin:SkeletalMeshSocket_12'"
+   End Object
+   Begin Object Class=/Script/Engine.SkeletalMeshSocket Name="SkeletalMeshSocket_13" ExportPath="/Script/Engine.SkeletalMeshSocket'/Game/AI/AIBehaviorSystem/Demo/Characters/Mannequins/Meshes/UE5RTG_EnmAI_Mannequin.UE5RTG_EnmAI_Mannequin:SkeletalMeshSocket_13'"
+   End Object
+   Begin Object Class=/Script/Engine.SkeletalMeshSocket Name="SkeletalMeshSocket_14" ExportPath="/Script/Engine.SkeletalMeshSocket'/Game/AI/AIBehaviorSystem/Demo/Characters/Mannequins/Meshes/UE5RTG_EnmAI_Mannequin.UE5RTG_EnmAI_Mannequin:SkeletalMeshSocket_14'"
+   End Object
+   Begin Object Class=/Script/Engine.SkeletalMeshSocket Name="SkeletalMeshSocket_15" ExportPath="/Script/Engine.SkeletalMeshSocket'/Game/AI/AIBehaviorSystem/Demo/Characters/Mannequins/Meshes/UE5RTG_EnmAI_Mannequin.UE5RTG_EnmAI_Mannequin:SkeletalMeshSocket_15'"
+   End Object
+   Begin Object Class=/Script/Engine.SkeletalMeshSocket Name="SkeletalMeshSocket_16" ExportPath="/Script/Engine.SkeletalMeshSocket'/Game/AI/AIBehaviorSystem/Demo/Characters/Mannequins/Meshes/UE5RTG_EnmAI_Mannequin.UE5RTG_EnmAI_Mannequin:SkeletalMeshSocket_16'"
+   End Object
+   Begin Object Class=/Script/Engine.SkeletalMeshSocket Name="SkeletalMeshSocket_17" ExportPath="/Script/Engine.SkeletalMeshSocket'/Game/AI/AIBehaviorSystem/Demo/Characters/Mannequins/Meshes/UE5RTG_EnmAI_Mannequin.UE5RTG_EnmAI_Mannequin:SkeletalMeshSocket_17'"
+   End Object
+   Begin Object Class=/Script/Engine.SkeletalMeshSocket Name="SkeletalMeshSocket_2" ExportPath="/Script/Engine.SkeletalMeshSocket'/Game/AI/AIBehaviorSystem/Demo/Characters/Mannequins/Meshes/UE5RTG_EnmAI_Mannequin.UE5RTG_EnmAI_Mannequin:SkeletalMeshSocket_2'"
+   End Object
+   Begin Object Class=/Script/Engine.SkeletalMeshSocket Name="SkeletalMeshSocket_3" ExportPath="/Script/Engine.SkeletalMeshSocket'/Game/AI/AIBehaviorSystem/Demo/Characters/Mannequins/Meshes/UE5RTG_EnmAI_Mannequin.UE5RTG_EnmAI_Mannequin:SkeletalMeshSocket_3'"
+   End Object
+   Begin Object Class=/Script/Engine.SkeletalMeshSocket Name="SkeletalMeshSocket_4" ExportPath="/Script/Engine.SkeletalMeshSocket'/Game/AI/AIBehaviorSystem/Demo/Characters/Mannequins/Meshes/UE5RTG_EnmAI_Mannequin.UE5RTG_EnmAI_Mannequin:SkeletalMeshSocket_4'"
+   End Object
+   Begin Object Class=/Script/Engine.SkeletalMeshSocket Name="SkeletalMeshSocket_5" ExportPath="/Script/Engine.SkeletalMeshSocket'/Game/AI/AIBehaviorSystem/Demo/Characters/Mannequins/Meshes/UE5RTG_EnmAI_Mannequin.UE5RTG_EnmAI_Mannequin:SkeletalMeshSocket_5'"
+   End Object
+   Begin Object Class=/Script/Engine.SkeletalMeshSocket Name="SkeletalMeshSocket_6" ExportPath="/Script/Engine.SkeletalMeshSocket'/Game/AI/AIBehaviorSystem/Demo/Characters/Mannequins/Meshes/UE5RTG_EnmAI_Mannequin.UE5RTG_EnmAI_Mannequin:SkeletalMeshSocket_6'"
+   End Object
+   Begin Object Class=/Script/Engine.SkeletalMeshSocket Name="SkeletalMeshSocket_7" ExportPath="/Script/Engine.SkeletalMeshSocket'/Game/AI/AIBehaviorSystem/Demo/Characters/Mannequins/Meshes/UE5RTG_EnmAI_Mannequin.UE5RTG_EnmAI_Mannequin:SkeletalMeshSocket_7'"
+   End Object
+   Begin Object Class=/Script/Engine.SkeletalMeshSocket Name="SkeletalMeshSocket_8" ExportPath="/Script/Engine.SkeletalMeshSocket'/Game/AI/AIBehaviorSystem/Demo/Characters/Mannequins/Meshes/UE5RTG_EnmAI_Mannequin.UE5RTG_EnmAI_Mannequin:SkeletalMeshSocket_8'"
+   End Object
+   Begin Object Class=/Script/Engine.SkeletalMeshSocket Name="SkeletalMeshSocket_9" ExportPath="/Script/Engine.SkeletalMeshSocket'/Game/AI/AIBehaviorSystem/Demo/Characters/Mannequins/Meshes/UE5RTG_EnmAI_Mannequin.UE5RTG_EnmAI_Mannequin:SkeletalMeshSocket_9'"
+   End Object
+   Begin Object Name="AnimCurveMetaData_0" ExportPath="/Script/Engine.AnimCurveMetaData'/Game/AI/AIBehaviorSystem/Demo/Characters/Mannequins/Meshes/UE5RTG_EnmAI_Mannequin.UE5RTG_EnmAI_Mannequin:AnimCurveMetaData_0'"
+      CurveMetaData=(("MoveData_Speed", ()),("base_pose", ()),("calf_l_back_50", ()),("calf_l_back_120", ()),("calf_l_back_90", ()),("calf_l_back_150", ()),("calf_r_back_50", ()),("calf_r_back_120", ()),("calf_r_back_90", ()),("calf_r_back_150", ()),("clavicle_l_fwd_30", ()),("clavicle_l_down_20", ()),("clavicle_l_back_30", ()),("clavicle_l_up_40", ()),("clavicle_r_fwd_30", ()),("clavicle_r_down_20", ()),("clavicle_r_back_30", ()),("clavicle_r_up_40", ()),("clavicle_r_back_310", ()),("clavicle_r_up_401", ()),("foot_l_down_60", ()),("foot_l_up_35", ()),("foot_r_up_35", ()),("foot_r_down_60", ()),("hand_l_down_90", ()),("hand_l_up_20", ()),("hand_l_up_90", ()),("hand_r_up_90", ()),("hand_r_down_90", ()),("hand_r_up_20", ()),("Pose_0", ()),("Pose_1", ()),("Pose_2", ()),("Pose_3", ()),("Pose_4", ()),("Pose_5", ()),("Pose_6", ()),("Pose_7", ()),("Pose_8", ()),("lowerarm_l_in_110", ()),("lowerarm_l_in_35", ()),("lowerarm_l_out_35", ()),("lowerarm_l_in_50", ()),("lowerarm_l_in_75", ()),("lowerarm_l_in_10", ()),("lowerarm_l_out_10", ()),("lowerarm_l_in_90", ()),("lowerarm_r_in_10", ()),("lowerarm_r_out_10", ()),("lowerarm_r_out_35", ()),("lowerarm_r_in_75", ()),("lowerarm_r_in_50", ()),("lowerarm_r_in_110", ()),("lowerarm_r_in_35", ()),("lowerarm_r_in_90", ()),("thigh_l_bck_10", ()),("thigh_l_fwd_10", ()),("thigh_l_in_45_out_90", ()),("thigh_l_fwd_90", ()),("thigh_l_bck_90", ()),("thigh_l_bck_50", ()),("thigh_l_out_110", ()),("thigh_l_out_10", ()),("thigh_l_fwd_45", ()),("thigh_l_in_50", ()),("thigh_l_fwd_110", ()),("thigh_l_out_55", ()),("thigh_l_out_85", ()),("thigh_r_fwd_10", ()),("thigh_r_out_55", ()),("thigh_r_fwd_90", ()),("thigh_r_fwd_45", ()),("thigh_r_bck_10", ()),("thigh_r_out_85", ()),("thigh_r_in_50", ()),("thigh_r_out_10", ()),("thigh_r_out_110", ()),("thigh_r_bck_50", ()),("thigh_r_bck_90", ()),("thigh_r_in_45_out_90", ()),("thigh_r_fwd_110", ()),("upperarm_l_back_45", ()),("upperarm_l_out_55", ()),("upperarm_l_out110_twist_in_70", ()),("upperarm_l_out_85", ()),("upperarm_l_fwd_110", ()),("upperarm_l_in_10", ()),("upperarm_l_out110_twist_out_70", ()),("upperarm_l_out_twist_a", ()),("upperarm_l_fwd_15", ()),("upperarm_l_out_15", ()),("upperarm_l_back_10", ()),("upperarm_l_out110", ()),("upperarm_l_fwd_twist_in_a", ()),("upperarm_l_fwd_90", ()),("upperarm_r_out_15", ()),("upperarm_r_fwd_15", ()),("upperarm_r_out_twist_a", ()),("upperarm_r_out110_twist_in_70", ()),("upperarm_r_fwd_90", ()),("upperarm_r_out110", ()),("upperarm_r_back_10", ()),("upperarm_r_out_85", ()),("upperarm_r_in_10", ()),("upperarm_r_back_45", ()),("upperarm_r_out110_twist_out_70", ()),("upperarm_r_out_55", ()),("upperarm_r_fwd_twist_in_a", ()),("upperarm_r_fwd_110", ()),("Distance", ()),("RemainingTurnYaw", ()),("TurnYawWeight", ()),("GroundDistance", ()),("DisableLHandIK", ()),("ScaleDownWeaponR", ()),("DisableLegIK", ()),("blendParent1", ()),("DisableRHandIK", ()),("DisableLeftHandPoseOverride", ()),("applyHipfireOverridePose", ()),("DisableHandIKRetargeting", ()),("lowerarm_r_in_80", ()),("lowerarm_l_in_80", ()),("calf_r_back_130", ()),("calf_l_back_130", ()),("Pose_9", ()),("mask_geo", ()),("blendOrient1", ()),("DistanceToApex", ()),("DistanceCurve", ()),("SnapSwordToBackJoint", ()),("TravelModeCorrectiveOverride", ()),("Q_Targeting_Jog", ()),("DisableSwordSnappingToBack", ()),("DisableSpeedWarping", ()),("SwordInWorldCorrectiveOverride", ()),("LightStrike", ()),("DisableCloth", ()),("DisableFacialAnimOverride", ()),("EnableLeftHandIK", ()),("DisableLeftHandIK", ()),("WeaponScale", ()),("sleeveFix", ()),("MeleeTwist", ()),("SwordHideAlpha", ()),("upperarm_r_out_15 ", ()),("upperarm_r_fwd_15 ", ()),("upperarm_r_out_twist_a ", ()),("upperarm_r_out110_twist_in_70 ", ()),("upperarm_r_out110 ", ()),("base_pose ", ()),("upperarm_r_back_10 ", ()),("upperarm_r_out_85 ", ()),("upperarm_r_in_10 ", ()),("upperarm_r_back_45 ", ()),("upperarm_r_out110_twist_out_70 ", ()),("upperarm_r_fwd_110 ", ()),("lowerarm_r_in_35 ", ()),("upperarm_r_out_55 ", ()),("upperarm_r_fwd_90 ", ()),("root", ()),("spine_01", ()))
+   End Object
+   Begin Object Name="FastFeet" ExportPath="/Script/Engine.BlendProfile'/Game/AI/AIBehaviorSystem/Demo/Characters/Mannequins/Meshes/UE5RTG_EnmAI_Mannequin.UE5RTG_EnmAI_Mannequin:FastFeet'"
+      OwningSkeleton="/Script/Engine.Skeleton'UE5RTG_EnmAI_Mannequin'"
+      ProfileEntries(0)=(BoneReference=(BoneName="ik_foot_root"),BlendScale=0.500000)
+      ProfileEntries(1)=(BoneReference=(BoneName="ik_foot_l"),BlendScale=0.500000)
+      ProfileEntries(2)=(BoneReference=(BoneName="ik_foot_r"),BlendScale=0.500000)
+      ProfileEntries(3)=(BoneReference=(BoneName="thigh_l"),BlendScale=0.500000)
+      ProfileEntries(4)=(BoneReference=(BoneName="calf_l"),BlendScale=0.500000)
+      ProfileEntries(5)=(BoneReference=(BoneName="foot_l"),BlendScale=0.500000)
+      ProfileEntries(6)=(BoneReference=(BoneName="ball_l"),BlendScale=0.500000)
+      ProfileEntries(7)=(BoneReference=(BoneName="ankle_bck_l"),BlendScale=0.500000)
+      ProfileEntries(8)=(BoneReference=(BoneName="ankle_fwd_l"),BlendScale=0.500000)
+      ProfileEntries(9)=(BoneReference=(BoneName="calf_twist_02_l"),BlendScale=0.500000)
+      ProfileEntries(10)=(BoneReference=(BoneName="calf_twistCor_02_l"),BlendScale=0.500000)
+      ProfileEntries(11)=(BoneReference=(BoneName="calf_twist_01_l"),BlendScale=0.500000)
+      ProfileEntries(12)=(BoneReference=(BoneName="calf_correctiveRoot_l"),BlendScale=0.500000)
+      ProfileEntries(13)=(BoneReference=(BoneName="calf_kneeBack_l"),BlendScale=0.500000)
+      ProfileEntries(14)=(BoneReference=(BoneName="calf_knee_l"),BlendScale=0.500000)
+      ProfileEntries(15)=(BoneReference=(BoneName="thigh_twist_01_l"),BlendScale=0.500000)
+      ProfileEntries(16)=(BoneReference=(BoneName="thigh_twistCor_01_l"),BlendScale=0.500000)
+      ProfileEntries(17)=(BoneReference=(BoneName="thigh_twist_02_l"),BlendScale=0.500000)
+      ProfileEntries(18)=(BoneReference=(BoneName="thigh_twistCor_02_l"),BlendScale=0.500000)
+      ProfileEntries(19)=(BoneReference=(BoneName="thigh_correctiveRoot_l"),BlendScale=0.500000)
+      ProfileEntries(20)=(BoneReference=(BoneName="thigh_bck_l"),BlendScale=0.500000)
+      ProfileEntries(21)=(BoneReference=(BoneName="thigh_fwd_l"),BlendScale=0.500000)
+      ProfileEntries(22)=(BoneReference=(BoneName="thigh_out_l"),BlendScale=0.500000)
+      ProfileEntries(23)=(BoneReference=(BoneName="thigh_bck_lwr_l"),BlendScale=0.500000)
+      ProfileEntries(24)=(BoneReference=(BoneName="thigh_in_l"),BlendScale=0.500000)
+      ProfileEntries(25)=(BoneReference=(BoneName="thigh_fwd_lwr_l"),BlendScale=0.500000)
+      ProfileEntries(26)=(BoneReference=(BoneName="thigh_r"),BlendScale=0.500000)
+      ProfileEntries(27)=(BoneReference=(BoneName="calf_r"),BlendScale=0.500000)
+      ProfileEntries(28)=(BoneReference=(BoneName="foot_r"),BlendScale=0.500000)
+      ProfileEntries(29)=(BoneReference=(BoneName="ball_r"),BlendScale=0.500000)
+      ProfileEntries(30)=(BoneReference=(BoneName="ankle_fwd_r"),BlendScale=0.500000)
+      ProfileEntries(31)=(BoneReference=(BoneName="ankle_bck_r"),BlendScale=0.500000)
+      ProfileEntries(32)=(BoneReference=(BoneName="calf_twist_02_r"),BlendScale=0.500000)
+      ProfileEntries(33)=(BoneReference=(BoneName="calf_twistCor_02_r"),BlendScale=0.500000)
+      ProfileEntries(34)=(BoneReference=(BoneName="calf_twist_01_r"),BlendScale=0.500000)
+      ProfileEntries(35)=(BoneReference=(BoneName="calf_correctiveRoot_r"),BlendScale=0.500000)
+      ProfileEntries(36)=(BoneReference=(BoneName="calf_kneeBack_r"),BlendScale=0.500000)
+      ProfileEntries(37)=(BoneReference=(BoneName="calf_knee_r"),BlendScale=0.500000)
+      ProfileEntries(38)=(BoneReference=(BoneName="thigh_twist_01_r"),BlendScale=0.500000)
+      ProfileEntries(39)=(BoneReference=(BoneName="thigh_twistCor_01_r"),BlendScale=0.500000)
+      ProfileEntries(40)=(BoneReference=(BoneName="thigh_twist_02_r"),BlendScale=0.500000)
+      ProfileEntries(41)=(BoneReference=(BoneName="thigh_twistCor_02_r"),BlendScale=0.500000)
+      ProfileEntries(42)=(BoneReference=(BoneName="thigh_correctiveRoot_r"),BlendScale=0.500000)
+      ProfileEntries(43)=(BoneReference=(BoneName="thigh_fwd_r"),BlendScale=0.500000)
+      ProfileEntries(44)=(BoneReference=(BoneName="thigh_bck_r"),BlendScale=0.500000)
+      ProfileEntries(45)=(BoneReference=(BoneName="thigh_out_r"),BlendScale=0.500000)
+      ProfileEntries(46)=(BoneReference=(BoneName="thigh_in_r"),BlendScale=0.500000)
+      ProfileEntries(47)=(BoneReference=(BoneName="thigh_bck_lwr_r"),BlendScale=0.500000)
+      ProfileEntries(48)=(BoneReference=(BoneName="thigh_fwd_lwr_r"),BlendScale=0.500000)
+      Mode=TimeFactor
+   End Object
+   Begin Object Name="LeftFingersMask" ExportPath="/Script/Engine.BlendProfile'/Game/AI/AIBehaviorSystem/Demo/Characters/Mannequins/Meshes/UE5RTG_EnmAI_Mannequin.UE5RTG_EnmAI_Mannequin:LeftFingersMask'"
+      OwningSkeleton="/Script/Engine.Skeleton'UE5RTG_EnmAI_Mannequin'"
+      ProfileEntries(0)=(BoneReference=(BoneName="middle_metacarpal_l"),BlendScale=1.000000)
+      ProfileEntries(1)=(BoneReference=(BoneName="middle_01_l"),BlendScale=1.000000)
+      ProfileEntries(2)=(BoneReference=(BoneName="middle_02_l"),BlendScale=1.000000)
+      ProfileEntries(3)=(BoneReference=(BoneName="middle_03_l"),BlendScale=1.000000)
+      ProfileEntries(4)=(BoneReference=(BoneName="pinky_metacarpal_l"),BlendScale=1.000000)
+      ProfileEntries(5)=(BoneReference=(BoneName="pinky_01_l"),BlendScale=1.000000)
+      ProfileEntries(6)=(BoneReference=(BoneName="pinky_02_l"),BlendScale=1.000000)
+      ProfileEntries(7)=(BoneReference=(BoneName="pinky_03_l"),BlendScale=1.000000)
+      ProfileEntries(8)=(BoneReference=(BoneName="ring_metacarpal_l"),BlendScale=1.000000)
+      ProfileEntries(9)=(BoneReference=(BoneName="ring_01_l"),BlendScale=1.000000)
+      ProfileEntries(10)=(BoneReference=(BoneName="ring_02_l"),BlendScale=1.000000)
+      ProfileEntries(11)=(BoneReference=(BoneName="ring_03_l"),BlendScale=1.000000)
+      ProfileEntries(12)=(BoneReference=(BoneName="thumb_01_l"),BlendScale=1.000000)
+      ProfileEntries(13)=(BoneReference=(BoneName="thumb_02_l"),BlendScale=1.000000)
+      ProfileEntries(14)=(BoneReference=(BoneName="thumb_03_l"),BlendScale=1.000000)
+      ProfileEntries(15)=(BoneReference=(BoneName="index_metacarpal_l"),BlendScale=1.000000)
+      ProfileEntries(16)=(BoneReference=(BoneName="index_01_l"),BlendScale=1.000000)
+      ProfileEntries(17)=(BoneReference=(BoneName="index_02_l"),BlendScale=1.000000)
+      ProfileEntries(18)=(BoneReference=(BoneName="index_03_l"),BlendScale=1.000000)
+      ProfileEntries(19)=(BoneReference=(BoneName="hand_l"),BlendScale=1.000000)
+      ProfileEntries(20)=(BoneReference=(BoneName="ik_hand_l"),BlendScale=1.000000)
+      Mode=BlendMask
+   End Object
+   Begin Object Name="LowerBodyMask" ExportPath="/Script/Engine.BlendProfile'/Game/AI/AIBehaviorSystem/Demo/Characters/Mannequins/Meshes/UE5RTG_EnmAI_Mannequin.UE5RTG_EnmAI_Mannequin:LowerBodyMask'"
+      OwningSkeleton="/Script/Engine.Skeleton'UE5RTG_EnmAI_Mannequin'"
+      ProfileEntries(0)=(BoneReference=(BoneName="pelvis"),BlendScale=0.900000)
+      ProfileEntries(1)=(BoneReference=(BoneName="thigh_r"),BlendScale=1.000000)
+      ProfileEntries(2)=(BoneReference=(BoneName="calf_r"),BlendScale=1.000000)
+      ProfileEntries(3)=(BoneReference=(BoneName="foot_r"),BlendScale=1.000000)
+      ProfileEntries(4)=(BoneReference=(BoneName="ball_r"),BlendScale=1.000000)
+      ProfileEntries(5)=(BoneReference=(BoneName="ankle_fwd_r"),BlendScale=1.000000)
+      ProfileEntries(6)=(BoneReference=(BoneName="ankle_bck_r"),BlendScale=1.000000)
+      ProfileEntries(7)=(BoneReference=(BoneName="calf_twist_02_r"),BlendScale=1.000000)
+      ProfileEntries(8)=(BoneReference=(BoneName="calf_twistCor_02_r"),BlendScale=1.000000)
+      ProfileEntries(9)=(BoneReference=(BoneName="calf_twist_01_r"),BlendScale=1.000000)
+      ProfileEntries(10)=(BoneReference=(BoneName="calf_correctiveRoot_r"),BlendScale=1.000000)
+      ProfileEntries(11)=(BoneReference=(BoneName="calf_kneeBack_r"),BlendScale=1.000000)
+      ProfileEntries(12)=(BoneReference=(BoneName="calf_knee_r"),BlendScale=1.000000)
+      ProfileEntries(13)=(BoneReference=(BoneName="thigh_twist_01_r"),BlendScale=1.000000)
+      ProfileEntries(14)=(BoneReference=(BoneName="thigh_twistCor_01_r"),BlendScale=1.000000)
+      ProfileEntries(15)=(BoneReference=(BoneName="thigh_twist_02_r"),BlendScale=1.000000)
+      ProfileEntries(16)=(BoneReference=(BoneName="thigh_twistCor_02_r"),BlendScale=1.000000)
+      ProfileEntries(17)=(BoneReference=(BoneName="thigh_correctiveRoot_r"),BlendScale=1.000000)
+      ProfileEntries(18)=(BoneReference=(BoneName="thigh_fwd_r"),BlendScale=1.000000)
+      ProfileEntries(19)=(BoneReference=(BoneName="thigh_bck_r"),BlendScale=1.000000)
+      ProfileEntries(20)=(BoneReference=(BoneName="thigh_out_r"),BlendScale=1.000000)
+      ProfileEntries(21)=(BoneReference=(BoneName="thigh_in_r"),BlendScale=1.000000)
+      ProfileEntries(22)=(BoneReference=(BoneName="thigh_bck_lwr_r"),BlendScale=1.000000)
+      ProfileEntries(23)=(BoneReference=(BoneName="thigh_fwd_lwr_r"),BlendScale=1.000000)
+      ProfileEntries(24)=(BoneReference=(BoneName="thigh_l"),BlendScale=1.000000)
+      ProfileEntries(25)=(BoneReference=(BoneName="calf_l"),BlendScale=1.000000)
+      ProfileEntries(26)=(BoneReference=(BoneName="foot_l"),BlendScale=1.000000)
+      ProfileEntries(27)=(BoneReference=(BoneName="ball_l"),BlendScale=1.000000)
+      ProfileEntries(28)=(BoneReference=(BoneName="ankle_bck_l"),BlendScale=1.000000)
+      ProfileEntries(29)=(BoneReference=(BoneName="ankle_fwd_l"),BlendScale=1.000000)
+      ProfileEntries(30)=(BoneReference=(BoneName="calf_twist_02_l"),BlendScale=1.000000)
+      ProfileEntries(31)=(BoneReference=(BoneName="calf_twistCor_02_l"),BlendScale=1.000000)
+      ProfileEntries(32)=(BoneReference=(BoneName="calf_twist_01_l"),BlendScale=1.000000)
+      ProfileEntries(33)=(BoneReference=(BoneName="calf_correctiveRoot_l"),BlendScale=1.000000)
+      ProfileEntries(34)=(BoneReference=(BoneName="calf_kneeBack_l"),BlendScale=1.000000)
+      ProfileEntries(35)=(BoneReference=(BoneName="calf_knee_l"),BlendScale=1.000000)
+      ProfileEntries(36)=(BoneReference=(BoneName="thigh_twist_01_l"),BlendScale=1.000000)
+      ProfileEntries(37)=(BoneReference=(BoneName="thigh_twistCor_01_l"),BlendScale=1.000000)
+      ProfileEntries(38)=(BoneReference=(BoneName="thigh_twist_02_l"),BlendScale=1.000000)
+      ProfileEntries(39)=(BoneReference=(BoneName="thigh_twistCor_02_l"),BlendScale=1.000000)
+      ProfileEntries(40)=(BoneReference=(BoneName="thigh_correctiveRoot_l"),BlendScale=1.000000)
+      ProfileEntries(41)=(BoneReference=(BoneName="thigh_bck_l"),BlendScale=1.000000)
+      ProfileEntries(42)=(BoneReference=(BoneName="thigh_fwd_l"),BlendScale=1.000000)
+      ProfileEntries(43)=(BoneReference=(BoneName="thigh_out_l"),BlendScale=1.000000)
+      ProfileEntries(44)=(BoneReference=(BoneName="thigh_bck_lwr_l"),BlendScale=1.000000)
+      ProfileEntries(45)=(BoneReference=(BoneName="thigh_in_l"),BlendScale=1.000000)
+      ProfileEntries(46)=(BoneReference=(BoneName="thigh_fwd_lwr_l"),BlendScale=1.000000)
+      ProfileEntries(47)=(BoneReference=(BoneName="spine_04"),BlendScale=0.600000)
+      ProfileEntries(48)=(BoneReference=(BoneName="spine_04_latissimus_r"),BlendScale=0.250000)
+      ProfileEntries(49)=(BoneReference=(BoneName="spine_04_latissimus_l"),BlendScale=0.250000)
+      ProfileEntries(50)=(BoneReference=(BoneName="spine_05"),BlendScale=0.500000)
+      ProfileEntries(51)=(BoneReference=(BoneName="spine_03"),BlendScale=0.700000)
+      ProfileEntries(52)=(BoneReference=(BoneName="spine_02"),BlendScale=0.800000)
+      ProfileEntries(53)=(BoneReference=(BoneName="spine_01"),BlendScale=0.850000)
+      ProfileEntries(54)=(BoneReference=(BoneName="ik_foot_root"),BlendScale=1.000000)
+      ProfileEntries(55)=(BoneReference=(BoneName="ik_foot_l"),BlendScale=1.000000)
+      ProfileEntries(56)=(BoneReference=(BoneName="ik_foot_r"),BlendScale=1.000000)
+      Mode=BlendMask
+   End Object
+   Begin Object Name="UpperBodyLowerBodySplitMask" ExportPath="/Script/Engine.BlendProfile'/Game/AI/AIBehaviorSystem/Demo/Characters/Mannequins/Meshes/UE5RTG_EnmAI_Mannequin.UE5RTG_EnmAI_Mannequin:UpperBodyLowerBodySplitMask'"
+      OwningSkeleton="/Script/Engine.Skeleton'UE5RTG_EnmAI_Mannequin'"
+      ProfileEntries(0)=(BoneReference=(BoneName="ik_hand_root"),BlendScale=1.000000)
+      ProfileEntries(1)=(BoneReference=(BoneName="ik_hand_gun"),BlendScale=1.000000)
+      ProfileEntries(2)=(BoneReference=(BoneName="ik_hand_r"),BlendScale=1.000000)
+      ProfileEntries(3)=(BoneReference=(BoneName="ik_hand_l"),BlendScale=1.000000)
+      ProfileEntries(4)=(BoneReference=(BoneName="pelvis"),BlendScale=0.100000)
+      ProfileEntries(5)=(BoneReference=(BoneName="spine_01"),BlendScale=0.200000)
+      ProfileEntries(6)=(BoneReference=(BoneName="spine_02"),BlendScale=0.300000)
+      ProfileEntries(7)=(BoneReference=(BoneName="spine_03"),BlendScale=0.400000)
+      ProfileEntries(8)=(BoneReference=(BoneName="spine_04"),BlendScale=0.500000)
+      ProfileEntries(9)=(BoneReference=(BoneName="spine_05"),BlendScale=0.600000)
+      ProfileEntries(10)=(BoneReference=(BoneName="clavicle_l"),BlendScale=0.750000)
+      ProfileEntries(11)=(BoneReference=(BoneName="upperarm_l"),BlendScale=1.000000)
+      ProfileEntries(12)=(BoneReference=(BoneName="lowerarm_l"),BlendScale=1.000000)
+      ProfileEntries(13)=(BoneReference=(BoneName="lowerarm_twist_02_l"),BlendScale=1.000000)
+      ProfileEntries(14)=(BoneReference=(BoneName="lowerarm_twist_01_l"),BlendScale=1.000000)
+      ProfileEntries(15)=(BoneReference=(BoneName="lowerarm_correctiveRoot_l"),BlendScale=1.000000)
+      ProfileEntries(16)=(BoneReference=(BoneName="lowerarm_in_l"),BlendScale=1.000000)
+      ProfileEntries(17)=(BoneReference=(BoneName="lowerarm_out_l"),BlendScale=1.000000)
+      ProfileEntries(18)=(BoneReference=(BoneName="lowerarm_fwd_l"),BlendScale=1.000000)
+      ProfileEntries(19)=(BoneReference=(BoneName="lowerarm_bck_l"),BlendScale=1.000000)
+      ProfileEntries(20)=(BoneReference=(BoneName="hand_l"),BlendScale=1.000000)
+      ProfileEntries(21)=(BoneReference=(BoneName="middle_metacarpal_l"),BlendScale=1.000000)
+      ProfileEntries(22)=(BoneReference=(BoneName="middle_01_l"),BlendScale=1.000000)
+      ProfileEntries(23)=(BoneReference=(BoneName="middle_02_l"),BlendScale=1.000000)
+      ProfileEntries(24)=(BoneReference=(BoneName="middle_03_l"),BlendScale=1.000000)
+      ProfileEntries(25)=(BoneReference=(BoneName="pinky_metacarpal_l"),BlendScale=1.000000)
+      ProfileEntries(26)=(BoneReference=(BoneName="pinky_01_l"),BlendScale=1.000000)
+      ProfileEntries(27)=(BoneReference=(BoneName="pinky_02_l"),BlendScale=1.000000)
+      ProfileEntries(28)=(BoneReference=(BoneName="pinky_03_l"),BlendScale=1.000000)
+      ProfileEntries(29)=(BoneReference=(BoneName="ring_metacarpal_l"),BlendScale=1.000000)
+      ProfileEntries(30)=(BoneReference=(BoneName="ring_01_l"),BlendScale=1.000000)
+      ProfileEntries(31)=(BoneReference=(BoneName="ring_02_l"),BlendScale=1.000000)
+      ProfileEntries(32)=(BoneReference=(BoneName="ring_03_l"),BlendScale=1.000000)
+      ProfileEntries(33)=(BoneReference=(BoneName="thumb_01_l"),BlendScale=1.000000)
+      ProfileEntries(34)=(BoneReference=(BoneName="thumb_02_l"),BlendScale=1.000000)
+      ProfileEntries(35)=(BoneReference=(BoneName="thumb_03_l"),BlendScale=1.000000)
+      ProfileEntries(36)=(BoneReference=(BoneName="index_metacarpal_l"),BlendScale=1.000000)
+      ProfileEntries(37)=(BoneReference=(BoneName="index_01_l"),BlendScale=1.000000)
+      ProfileEntries(38)=(BoneReference=(BoneName="index_02_l"),BlendScale=1.000000)
+      ProfileEntries(39)=(BoneReference=(BoneName="index_03_l"),BlendScale=1.000000)
+      ProfileEntries(40)=(BoneReference=(BoneName="wrist_inner_l"),BlendScale=1.000000)
+      ProfileEntries(41)=(BoneReference=(BoneName="wrist_outer_l"),BlendScale=1.000000)
+      ProfileEntries(42)=(BoneReference=(BoneName="weapon_l"),BlendScale=1.000000)
+      ProfileEntries(43)=(BoneReference=(BoneName="upperarm_twist_01_l"),BlendScale=1.000000)
+      ProfileEntries(44)=(BoneReference=(BoneName="upperarm_twistCor_01_l"),BlendScale=1.000000)
+      ProfileEntries(45)=(BoneReference=(BoneName="upperarm_twist_02_l"),BlendScale=1.000000)
+      ProfileEntries(46)=(BoneReference=(BoneName="upperarm_tricep_l"),BlendScale=1.000000)
+      ProfileEntries(47)=(BoneReference=(BoneName="upperarm_bicep_l"),BlendScale=1.000000)
+      ProfileEntries(48)=(BoneReference=(BoneName="upperarm_twistCor_02_l"),BlendScale=1.000000)
+      ProfileEntries(49)=(BoneReference=(BoneName="upperarm_correctiveRoot_l"),BlendScale=1.000000)
+      ProfileEntries(50)=(BoneReference=(BoneName="upperarm_bck_l"),BlendScale=1.000000)
+      ProfileEntries(51)=(BoneReference=(BoneName="upperarm_fwd_l"),BlendScale=1.000000)
+      ProfileEntries(52)=(BoneReference=(BoneName="upperarm_in_l"),BlendScale=1.000000)
+      ProfileEntries(53)=(BoneReference=(BoneName="upperarm_out_l"),BlendScale=1.000000)
+      ProfileEntries(54)=(BoneReference=(BoneName="clavicle_out_l"),BlendScale=1.000000)
+      ProfileEntries(55)=(BoneReference=(BoneName="clavicle_scap_l"),BlendScale=1.000000)
+      ProfileEntries(56)=(BoneReference=(BoneName="clavicle_pec_l"),BlendScale=1.000000)
+      ProfileEntries(57)=(BoneReference=(BoneName="clavicle_pec_r"),BlendScale=1.000000)
+      ProfileEntries(58)=(BoneReference=(BoneName="clavicle_r"),BlendScale=0.750000)
+      ProfileEntries(59)=(BoneReference=(BoneName="upperarm_r"),BlendScale=1.000000)
+      ProfileEntries(60)=(BoneReference=(BoneName="lowerarm_r"),BlendScale=1.000000)
+      ProfileEntries(61)=(BoneReference=(BoneName="lowerarm_twist_02_r"),BlendScale=1.000000)
+      ProfileEntries(62)=(BoneReference=(BoneName="lowerarm_twist_01_r"),BlendScale=1.000000)
+      ProfileEntries(63)=(BoneReference=(BoneName="lowerarm_correctiveRoot_r"),BlendScale=1.000000)
+      ProfileEntries(64)=(BoneReference=(BoneName="lowerarm_out_r"),BlendScale=1.000000)
+      ProfileEntries(65)=(BoneReference=(BoneName="lowerarm_in_r"),BlendScale=1.000000)
+      ProfileEntries(66)=(BoneReference=(BoneName="lowerarm_fwd_r"),BlendScale=1.000000)
+      ProfileEntries(67)=(BoneReference=(BoneName="lowerarm_bck_r"),BlendScale=1.000000)
+      ProfileEntries(68)=(BoneReference=(BoneName="hand_r"),BlendScale=1.000000)
+      ProfileEntries(69)=(BoneReference=(BoneName="middle_metacarpal_r"),BlendScale=1.000000)
+      ProfileEntries(70)=(BoneReference=(BoneName="middle_01_r"),BlendScale=1.000000)
+      ProfileEntries(71)=(BoneReference=(BoneName="middle_02_r"),BlendScale=1.000000)
+      ProfileEntries(72)=(BoneReference=(BoneName="middle_03_r"),BlendScale=1.000000)
+      ProfileEntries(73)=(BoneReference=(BoneName="pinky_metacarpal_r"),BlendScale=1.000000)
+      ProfileEntries(74)=(BoneReference=(BoneName="pinky_01_r"),BlendScale=1.000000)
+      ProfileEntries(75)=(BoneReference=(BoneName="pinky_02_r"),BlendScale=1.000000)
+      ProfileEntries(76)=(BoneReference=(BoneName="pinky_03_r"),BlendScale=1.000000)
+      ProfileEntries(77)=(BoneReference=(BoneName="ring_metacarpal_r"),BlendScale=1.000000)
+      ProfileEntries(78)=(BoneReference=(BoneName="ring_01_r"),BlendScale=1.000000)
+      ProfileEntries(79)=(BoneReference=(BoneName="ring_02_r"),BlendScale=1.000000)
+      ProfileEntries(80)=(BoneReference=(BoneName="ring_03_r"),BlendScale=1.000000)
+      ProfileEntries(81)=(BoneReference=(BoneName="thumb_01_r"),BlendScale=1.000000)
+      ProfileEntries(82)=(BoneReference=(BoneName="thumb_02_r"),BlendScale=1.000000)
+      ProfileEntries(83)=(BoneReference=(BoneName="thumb_03_r"),BlendScale=1.000000)
+      ProfileEntries(84)=(BoneReference=(BoneName="index_metacarpal_r"),BlendScale=1.000000)
+      ProfileEntries(85)=(BoneReference=(BoneName="index_01_r"),BlendScale=1.000000)
+      ProfileEntries(86)=(BoneReference=(BoneName="index_02_r"),BlendScale=1.000000)
+      ProfileEntries(87)=(BoneReference=(BoneName="index_03_r"),BlendScale=1.000000)
+      ProfileEntries(88)=(BoneReference=(BoneName="wrist_inner_r"),BlendScale=1.000000)
+      ProfileEntries(89)=(BoneReference=(BoneName="wrist_outer_r"),BlendScale=1.000000)
+      ProfileEntries(90)=(BoneReference=(BoneName="weapon_r"),BlendScale=1.000000)
+      ProfileEntries(91)=(BoneReference=(BoneName="upperarm_twist_01_r"),BlendScale=1.000000)
+      ProfileEntries(92)=(BoneReference=(BoneName="upperarm_twistCor_01_r"),BlendScale=1.000000)
+      ProfileEntries(93)=(BoneReference=(BoneName="upperarm_twist_02_r"),BlendScale=1.000000)
+      ProfileEntries(94)=(BoneReference=(BoneName="upperarm_tricep_r"),BlendScale=1.000000)
+      ProfileEntries(95)=(BoneReference=(BoneName="upperarm_bicep_r"),BlendScale=1.000000)
+      ProfileEntries(96)=(BoneReference=(BoneName="upperarm_twistCor_02_r"),BlendScale=1.000000)
+      ProfileEntries(97)=(BoneReference=(BoneName="upperarm_correctiveRoot_r"),BlendScale=1.000000)
+      ProfileEntries(98)=(BoneReference=(BoneName="upperarm_bck_r"),BlendScale=1.000000)
+      ProfileEntries(99)=(BoneReference=(BoneName="upperarm_in_r"),BlendScale=1.000000)
+      ProfileEntries(100)=(BoneReference=(BoneName="upperarm_fwd_r"),BlendScale=1.000000)
+      ProfileEntries(101)=(BoneReference=(BoneName="upperarm_out_r"),BlendScale=1.000000)
+      ProfileEntries(102)=(BoneReference=(BoneName="clavicle_out_r"),BlendScale=1.000000)
+      ProfileEntries(103)=(BoneReference=(BoneName="clavicle_scap_r"),BlendScale=1.000000)
+      ProfileEntries(104)=(BoneReference=(BoneName="neck_01"),BlendScale=0.750000)
+      ProfileEntries(105)=(BoneReference=(BoneName="neck_02"),BlendScale=1.000000)
+      ProfileEntries(106)=(BoneReference=(BoneName="head"),BlendScale=1.000000)
+      Mode=BlendMask
+   End Object
+   Begin Object Name="UpperBodyMask" ExportPath="/Script/Engine.BlendProfile'/Game/AI/AIBehaviorSystem/Demo/Characters/Mannequins/Meshes/UE5RTG_EnmAI_Mannequin.UE5RTG_EnmAI_Mannequin:UpperBodyMask'"
+      OwningSkeleton="/Script/Engine.Skeleton'UE5RTG_EnmAI_Mannequin'"
+      ProfileEntries(0)=(BoneReference=(BoneName="lowerarm_r"),BlendScale=0.850000)
+      ProfileEntries(1)=(BoneReference=(BoneName="lowerarm_twist_02_r"),BlendScale=1.000000)
+      ProfileEntries(2)=(BoneReference=(BoneName="lowerarm_twist_01_r"),BlendScale=1.000000)
+      ProfileEntries(3)=(BoneReference=(BoneName="lowerarm_correctiveRoot_r"),BlendScale=1.000000)
+      ProfileEntries(4)=(BoneReference=(BoneName="lowerarm_out_r"),BlendScale=1.000000)
+      ProfileEntries(5)=(BoneReference=(BoneName="lowerarm_in_r"),BlendScale=1.000000)
+      ProfileEntries(6)=(BoneReference=(BoneName="lowerarm_fwd_r"),BlendScale=1.000000)
+      ProfileEntries(7)=(BoneReference=(BoneName="lowerarm_bck_r"),BlendScale=1.000000)
+      ProfileEntries(8)=(BoneReference=(BoneName="hand_r"),BlendScale=1.000000)
+      ProfileEntries(9)=(BoneReference=(BoneName="middle_metacarpal_r"),BlendScale=1.000000)
+      ProfileEntries(10)=(BoneReference=(BoneName="middle_01_r"),BlendScale=1.000000)
+      ProfileEntries(11)=(BoneReference=(BoneName="middle_02_r"),BlendScale=1.000000)
+      ProfileEntries(12)=(BoneReference=(BoneName="middle_03_r"),BlendScale=1.000000)
+      ProfileEntries(13)=(BoneReference=(BoneName="pinky_metacarpal_r"),BlendScale=1.000000)
+      ProfileEntries(14)=(BoneReference=(BoneName="pinky_01_r"),BlendScale=1.000000)
+      ProfileEntries(15)=(BoneReference=(BoneName="pinky_02_r"),BlendScale=1.000000)
+      ProfileEntries(16)=(BoneReference=(BoneName="pinky_03_r"),BlendScale=1.000000)
+      ProfileEntries(17)=(BoneReference=(BoneName="ring_metacarpal_r"),BlendScale=1.000000)
+      ProfileEntries(18)=(BoneReference=(BoneName="ring_01_r"),BlendScale=1.000000)
+      ProfileEntries(19)=(BoneReference=(BoneName="ring_02_r"),BlendScale=1.000000)
+      ProfileEntries(20)=(BoneReference=(BoneName="ring_03_r"),BlendScale=1.000000)
+      ProfileEntries(21)=(BoneReference=(BoneName="thumb_01_r"),BlendScale=1.000000)
+      ProfileEntries(22)=(BoneReference=(BoneName="thumb_02_r"),BlendScale=1.000000)
+      ProfileEntries(23)=(BoneReference=(BoneName="thumb_03_r"),BlendScale=1.000000)
+      ProfileEntries(24)=(BoneReference=(BoneName="index_metacarpal_r"),BlendScale=1.000000)
+      ProfileEntries(25)=(BoneReference=(BoneName="index_01_r"),BlendScale=1.000000)
+      ProfileEntries(26)=(BoneReference=(BoneName="index_02_r"),BlendScale=1.000000)
+      ProfileEntries(27)=(BoneReference=(BoneName="index_03_r"),BlendScale=1.000000)
+      ProfileEntries(28)=(BoneReference=(BoneName="wrist_inner_r"),BlendScale=1.000000)
+      ProfileEntries(29)=(BoneReference=(BoneName="wrist_outer_r"),BlendScale=1.000000)
+      ProfileEntries(30)=(BoneReference=(BoneName="weapon_r"),BlendScale=1.000000)
+      ProfileEntries(31)=(BoneReference=(BoneName="upperarm_r"),BlendScale=0.750000)
+      ProfileEntries(32)=(BoneReference=(BoneName="clavicle_r"),BlendScale=0.650000)
+      ProfileEntries(33)=(BoneReference=(BoneName="clavicle_out_r"),BlendScale=0.650000)
+      ProfileEntries(34)=(BoneReference=(BoneName="clavicle_scap_r"),BlendScale=0.650000)
+      ProfileEntries(35)=(BoneReference=(BoneName="clavicle_l"),BlendScale=0.650000)
+      ProfileEntries(36)=(BoneReference=(BoneName="upperarm_l"),BlendScale=0.750000)
+      ProfileEntries(37)=(BoneReference=(BoneName="lowerarm_l"),BlendScale=0.850000)
+      ProfileEntries(38)=(BoneReference=(BoneName="lowerarm_twist_02_l"),BlendScale=1.000000)
+      ProfileEntries(39)=(BoneReference=(BoneName="lowerarm_twist_01_l"),BlendScale=1.000000)
+      ProfileEntries(40)=(BoneReference=(BoneName="lowerarm_correctiveRoot_l"),BlendScale=1.000000)
+      ProfileEntries(41)=(BoneReference=(BoneName="lowerarm_in_l"),BlendScale=1.000000)
+      ProfileEntries(42)=(BoneReference=(BoneName="lowerarm_out_l"),BlendScale=1.000000)
+      ProfileEntries(43)=(BoneReference=(BoneName="lowerarm_fwd_l"),BlendScale=1.000000)
+      ProfileEntries(44)=(BoneReference=(BoneName="lowerarm_bck_l"),BlendScale=1.000000)
+      ProfileEntries(45)=(BoneReference=(BoneName="hand_l"),BlendScale=1.000000)
+      ProfileEntries(46)=(BoneReference=(BoneName="middle_metacarpal_l"),BlendScale=1.000000)
+      ProfileEntries(47)=(BoneReference=(BoneName="middle_01_l"),BlendScale=1.000000)
+      ProfileEntries(48)=(BoneReference=(BoneName="middle_02_l"),BlendScale=1.000000)
+      ProfileEntries(49)=(BoneReference=(BoneName="middle_03_l"),BlendScale=1.000000)
+      ProfileEntries(50)=(BoneReference=(BoneName="pinky_metacarpal_l"),BlendScale=1.000000)
+      ProfileEntries(51)=(BoneReference=(BoneName="pinky_01_l"),BlendScale=1.000000)
+      ProfileEntries(52)=(BoneReference=(BoneName="pinky_02_l"),BlendScale=1.000000)
+      ProfileEntries(53)=(BoneReference=(BoneName="pinky_03_l"),BlendScale=1.000000)
+      ProfileEntries(54)=(BoneReference=(BoneName="ring_metacarpal_l"),BlendScale=1.000000)
+      ProfileEntries(55)=(BoneReference=(BoneName="ring_01_l"),BlendScale=1.000000)
+      ProfileEntries(56)=(BoneReference=(BoneName="ring_02_l"),BlendScale=1.000000)
+      ProfileEntries(57)=(BoneReference=(BoneName="ring_03_l"),BlendScale=1.000000)
+      ProfileEntries(58)=(BoneReference=(BoneName="thumb_01_l"),BlendScale=1.000000)
+      ProfileEntries(59)=(BoneReference=(BoneName="thumb_02_l"),BlendScale=1.000000)
+      ProfileEntries(60)=(BoneReference=(BoneName="thumb_03_l"),BlendScale=1.000000)
+      ProfileEntries(61)=(BoneReference=(BoneName="index_metacarpal_l"),BlendScale=1.000000)
+      ProfileEntries(62)=(BoneReference=(BoneName="index_01_l"),BlendScale=1.000000)
+      ProfileEntries(63)=(BoneReference=(BoneName="index_02_l"),BlendScale=1.000000)
+      ProfileEntries(64)=(BoneReference=(BoneName="index_03_l"),BlendScale=1.000000)
+      ProfileEntries(65)=(BoneReference=(BoneName="wrist_inner_l"),BlendScale=1.000000)
+      ProfileEntries(66)=(BoneReference=(BoneName="wrist_outer_l"),BlendScale=1.000000)
+      ProfileEntries(67)=(BoneReference=(BoneName="weapon_l"),BlendScale=1.000000)
+      ProfileEntries(68)=(BoneReference=(BoneName="upperarm_twist_01_l"),BlendScale=0.850000)
+      ProfileEntries(69)=(BoneReference=(BoneName="upperarm_twistCor_01_l"),BlendScale=0.850000)
+      ProfileEntries(70)=(BoneReference=(BoneName="upperarm_twist_02_l"),BlendScale=0.850000)
+      ProfileEntries(71)=(BoneReference=(BoneName="upperarm_tricep_l"),BlendScale=0.850000)
+      ProfileEntries(72)=(BoneReference=(BoneName="upperarm_bicep_l"),BlendScale=0.850000)
+      ProfileEntries(73)=(BoneReference=(BoneName="upperarm_twistCor_02_l"),BlendScale=0.850000)
+      ProfileEntries(74)=(BoneReference=(BoneName="upperarm_correctiveRoot_l"),BlendScale=0.850000)
+      ProfileEntries(75)=(BoneReference=(BoneName="upperarm_bck_l"),BlendScale=0.850000)
+      ProfileEntries(76)=(BoneReference=(BoneName="upperarm_fwd_l"),BlendScale=0.850000)
+      ProfileEntries(77)=(BoneReference=(BoneName="upperarm_in_l"),BlendScale=0.850000)
+      ProfileEntries(78)=(BoneReference=(BoneName="upperarm_out_l"),BlendScale=0.850000)
+      ProfileEntries(79)=(BoneReference=(BoneName="clavicle_out_l"),BlendScale=0.650000)
+      ProfileEntries(80)=(BoneReference=(BoneName="clavicle_scap_l"),BlendScale=0.650000)
+      ProfileEntries(81)=(BoneReference=(BoneName="upperarm_correctiveRoot_r"),BlendScale=0.850000)
+      ProfileEntries(82)=(BoneReference=(BoneName="upperarm_bck_r"),BlendScale=0.850000)
+      ProfileEntries(83)=(BoneReference=(BoneName="upperarm_in_r"),BlendScale=0.850000)
+      ProfileEntries(84)=(BoneReference=(BoneName="upperarm_fwd_r"),BlendScale=0.850000)
+      ProfileEntries(85)=(BoneReference=(BoneName="upperarm_out_r"),BlendScale=0.850000)
+      ProfileEntries(86)=(BoneReference=(BoneName="upperarm_twist_01_r"),BlendScale=0.850000)
+      ProfileEntries(87)=(BoneReference=(BoneName="upperarm_twistCor_01_r"),BlendScale=0.850000)
+      ProfileEntries(88)=(BoneReference=(BoneName="upperarm_twist_02_r"),BlendScale=0.850000)
+      ProfileEntries(89)=(BoneReference=(BoneName="upperarm_tricep_r"),BlendScale=0.850000)
+      ProfileEntries(90)=(BoneReference=(BoneName="upperarm_bicep_r"),BlendScale=0.850000)
+      ProfileEntries(91)=(BoneReference=(BoneName="upperarm_twistCor_02_r"),BlendScale=0.850000)
+      ProfileEntries(92)=(BoneReference=(BoneName="neck_01"),BlendScale=0.750000)
+      ProfileEntries(93)=(BoneReference=(BoneName="neck_02"),BlendScale=0.750000)
+      ProfileEntries(94)=(BoneReference=(BoneName="head"),BlendScale=0.850000)
+      ProfileEntries(95)=(BoneReference=(BoneName="spine_01"),BlendScale=0.100000)
+      ProfileEntries(96)=(BoneReference=(BoneName="spine_02"),BlendScale=0.200000)
+      ProfileEntries(97)=(BoneReference=(BoneName="spine_03"),BlendScale=0.300000)
+      ProfileEntries(98)=(BoneReference=(BoneName="spine_04"),BlendScale=0.400000)
+      ProfileEntries(99)=(BoneReference=(BoneName="spine_05"),BlendScale=0.500000)
+      ProfileEntries(100)=(BoneReference=(BoneName="ik_hand_root"),BlendScale=1.000000)
+      ProfileEntries(101)=(BoneReference=(BoneName="ik_hand_gun"),BlendScale=1.000000)
+      ProfileEntries(102)=(BoneReference=(BoneName="ik_hand_r"),BlendScale=1.000000)
+      ProfileEntries(103)=(BoneReference=(BoneName="ik_hand_l"),BlendScale=1.000000)
+      ProfileEntries(104)=(BoneReference=(BoneName="spine_04_latissimus_l"),BlendScale=0.500000)
+      ProfileEntries(105)=(BoneReference=(BoneName="spine_04_latissimus_r"),BlendScale=0.500000)
+      Mode=BlendMask
+   End Object
+   Begin Object Name="SkeletalMeshSocket_0" ExportPath="/Script/Engine.SkeletalMeshSocket'/Game/AI/AIBehaviorSystem/Demo/Characters/Mannequins/Meshes/UE5RTG_EnmAI_Mannequin.UE5RTG_EnmAI_Mannequin:SkeletalMeshSocket_0'"
+      SocketName="weapon_r_muzzle"
+      BoneName="weapon_r"
+      RelativeLocation=(X=45.000000,Y=0.000000,Z=25.000000)
+   End Object
+   Begin Object Name="SkeletalMeshSocket_1" ExportPath="/Script/Engine.SkeletalMeshSocket'/Game/AI/AIBehaviorSystem/Demo/Characters/Mannequins/Meshes/UE5RTG_EnmAI_Mannequin.UE5RTG_EnmAI_Mannequin:SkeletalMeshSocket_1'"
+      SocketName="foot_r_Socket"
+      BoneName="foot_r"
+      RelativeRotation=(Pitch=0.000000,Yaw=-90.000000,Roll=-90.000000)
+   End Object
+   Begin Object Name="SkeletalMeshSocket_10" ExportPath="/Script/Engine.SkeletalMeshSocket'/Game/AI/AIBehaviorSystem/Demo/Characters/Mannequins/Meshes/UE5RTG_EnmAI_Mannequin.UE5RTG_EnmAI_Mannequin:SkeletalMeshSocket_10'"
+      SocketName="upperarm_lSocket"
+      BoneName="upperarm_l"
+   End Object
+   Begin Object Name="SkeletalMeshSocket_11" ExportPath="/Script/Engine.SkeletalMeshSocket'/Game/AI/AIBehaviorSystem/Demo/Characters/Mannequins/Meshes/UE5RTG_EnmAI_Mannequin.UE5RTG_EnmAI_Mannequin:SkeletalMeshSocket_11'"
+      SocketName="upperarm_rSocket"
+      BoneName="upperarm_r"
+   End Object
+   Begin Object Name="SkeletalMeshSocket_12" ExportPath="/Script/Engine.SkeletalMeshSocket'/Game/AI/AIBehaviorSystem/Demo/Characters/Mannequins/Meshes/UE5RTG_EnmAI_Mannequin.UE5RTG_EnmAI_Mannequin:SkeletalMeshSocket_12'"
+      SocketName="middle_03_rSocket"
+      BoneName="middle_03_r"
+   End Object
+   Begin Object Name="SkeletalMeshSocket_13" ExportPath="/Script/Engine.SkeletalMeshSocket'/Game/AI/AIBehaviorSystem/Demo/Characters/Mannequins/Meshes/UE5RTG_EnmAI_Mannequin.UE5RTG_EnmAI_Mannequin:SkeletalMeshSocket_13'"
+      SocketName="middle_03_lSocket"
+      BoneName="middle_03_l"
+   End Object
+   Begin Object Name="SkeletalMeshSocket_14" ExportPath="/Script/Engine.SkeletalMeshSocket'/Game/AI/AIBehaviorSystem/Demo/Characters/Mannequins/Meshes/UE5RTG_EnmAI_Mannequin.UE5RTG_EnmAI_Mannequin:SkeletalMeshSocket_14'"
+      SocketName="hand_rSocket"
+      BoneName="hand_r"
+   End Object
+   Begin Object Name="SkeletalMeshSocket_15" ExportPath="/Script/Engine.SkeletalMeshSocket'/Game/AI/AIBehaviorSystem/Demo/Characters/Mannequins/Meshes/UE5RTG_EnmAI_Mannequin.UE5RTG_EnmAI_Mannequin:SkeletalMeshSocket_15'"
+      SocketName="hand_lSocket"
+      BoneName="hand_l"
+   End Object
+   Begin Object Name="SkeletalMeshSocket_16" ExportPath="/Script/Engine.SkeletalMeshSocket'/Game/AI/AIBehaviorSystem/Demo/Characters/Mannequins/Meshes/UE5RTG_EnmAI_Mannequin.UE5RTG_EnmAI_Mannequin:SkeletalMeshSocket_16'"
+      SocketName="ball_rSocket"
+      BoneName="ball_r"
+   End Object
+   Begin Object Name="SkeletalMeshSocket_17" ExportPath="/Script/Engine.SkeletalMeshSocket'/Game/AI/AIBehaviorSystem/Demo/Characters/Mannequins/Meshes/UE5RTG_EnmAI_Mannequin.UE5RTG_EnmAI_Mannequin:SkeletalMeshSocket_17'"
+      SocketName="ball_lSocket"
+      BoneName="ball_l"
+   End Object
+   Begin Object Name="SkeletalMeshSocket_2" ExportPath="/Script/Engine.SkeletalMeshSocket'/Game/AI/AIBehaviorSystem/Demo/Characters/Mannequins/Meshes/UE5RTG_EnmAI_Mannequin.UE5RTG_EnmAI_Mannequin:SkeletalMeshSocket_2'"
+      SocketName="foot_l_Socket"
+      BoneName="foot_l"
+      RelativeRotation=(Pitch=0.000000,Yaw=90.000000,Roll=-90.000000)
+   End Object
+   Begin Object Name="SkeletalMeshSocket_3" ExportPath="/Script/Engine.SkeletalMeshSocket'/Game/AI/AIBehaviorSystem/Demo/Characters/Mannequins/Meshes/UE5RTG_EnmAI_Mannequin.UE5RTG_EnmAI_Mannequin:SkeletalMeshSocket_3'"
+      SocketName="neck_02Socket"
+      BoneName="neck_02"
+   End Object
+   Begin Object Name="SkeletalMeshSocket_4" ExportPath="/Script/Engine.SkeletalMeshSocket'/Game/AI/AIBehaviorSystem/Demo/Characters/Mannequins/Meshes/UE5RTG_EnmAI_Mannequin.UE5RTG_EnmAI_Mannequin:SkeletalMeshSocket_4'"
+      SocketName="baseballbat_back"
+      BoneName="spine_03"
+      RelativeLocation=(X=49.069113,Y=-18.222132,Z=27.686031)
+      RelativeRotation=(Pitch=0.000088,Yaw=-90.001029,Roll=-125.000909)
+   End Object
+   Begin Object Name="SkeletalMeshSocket_5" ExportPath="/Script/Engine.SkeletalMeshSocket'/Game/AI/AIBehaviorSystem/Demo/Characters/Mannequins/Meshes/UE5RTG_EnmAI_Mannequin.UE5RTG_EnmAI_Mannequin:SkeletalMeshSocket_5'"
+      SocketName="riflehand_r"
+      BoneName="hand_r"
+      RelativeLocation=(X=-6.478447,Y=5.572819,Z=-1.271815)
+      RelativeRotation=(Pitch=13.364302,Yaw=95.053127,Roll=4.574203)
+   End Object
+   Begin Object Name="SkeletalMeshSocket_6" ExportPath="/Script/Engine.SkeletalMeshSocket'/Game/AI/AIBehaviorSystem/Demo/Characters/Mannequins/Meshes/UE5RTG_EnmAI_Mannequin.UE5RTG_EnmAI_Mannequin:SkeletalMeshSocket_6'"
+      SocketName="rifleback"
+      BoneName="spine_03"
+      RelativeLocation=(X=29.831653,Y=-18.221790,Z=25.544095)
+      RelativeRotation=(Pitch=0.000074,Yaw=-90.000940,Roll=179.999188)
+   End Object
+   Begin Object Name="SkeletalMeshSocket_7" ExportPath="/Script/Engine.SkeletalMeshSocket'/Game/AI/AIBehaviorSystem/Demo/Characters/Mannequins/Meshes/UE5RTG_EnmAI_Mannequin.UE5RTG_EnmAI_Mannequin:SkeletalMeshSocket_7'"
+      SocketName="baseballbat_hand"
+      BoneName="weapon_r"
+      RelativeLocation=(X=0.976998,Y=9.056197,Z=-10.117842)
+      RelativeRotation=(Pitch=18.746801,Yaw=-7.096131,Roll=-21.173515)
+   End Object
+   Begin Object Name="SkeletalMeshSocket_8" ExportPath="/Script/Engine.SkeletalMeshSocket'/Game/AI/AIBehaviorSystem/Demo/Characters/Mannequins/Meshes/UE5RTG_EnmAI_Mannequin.UE5RTG_EnmAI_Mannequin:SkeletalMeshSocket_8'"
+      SocketName="spine_04Socket"
+      BoneName="spine_04"
+   End Object
+   Begin Object Name="SkeletalMeshSocket_9" ExportPath="/Script/Engine.SkeletalMeshSocket'/Game/AI/AIBehaviorSystem/Demo/Characters/Mannequins/Meshes/UE5RTG_EnmAI_Mannequin.UE5RTG_EnmAI_Mannequin:SkeletalMeshSocket_9'"
+      SocketName="headSocket"
+      BoneName="head"
+   End Object
+   BoneTree(1)=(TranslationRetargetingMode=AnimationScaled)
+   BoneTree(2)=(TranslationRetargetingMode=AnimationScaled)
+   BoneTree(3)=(TranslationRetargetingMode=AnimationScaled)
+   BoneTree(4)=(TranslationRetargetingMode=AnimationScaled)
+   BoneTree(5)=(TranslationRetargetingMode=AnimationScaled)
+   BoneTree(6)=(TranslationRetargetingMode=AnimationScaled)
+   BoneTree(7)=(TranslationRetargetingMode=AnimationScaled)
+   BoneTree(8)=(TranslationRetargetingMode=AnimationScaled)
+   BoneTree(9)=(TranslationRetargetingMode=AnimationScaled)
+   BoneTree(10)=(TranslationRetargetingMode=AnimationScaled)
+   BoneTree(11)=(TranslationRetargetingMode=AnimationScaled)
+   BoneTree(12)=(TranslationRetargetingMode=AnimationScaled)
+   BoneTree(13)=(TranslationRetargetingMode=AnimationScaled)
+   BoneTree(14)=(TranslationRetargetingMode=AnimationScaled)
+   BoneTree(15)=(TranslationRetargetingMode=AnimationScaled)
+   BoneTree(16)=(TranslationRetargetingMode=AnimationScaled)
+   BoneTree(17)=(TranslationRetargetingMode=AnimationScaled)
+   BoneTree(18)=(TranslationRetargetingMode=AnimationScaled)
+   BoneTree(19)=(TranslationRetargetingMode=AnimationScaled)
+   BoneTree(20)=(TranslationRetargetingMode=AnimationScaled)
+   BoneTree(21)=(TranslationRetargetingMode=AnimationScaled)
+   BoneTree(22)=(TranslationRetargetingMode=AnimationScaled)
+   BoneTree(23)=(TranslationRetargetingMode=AnimationScaled)
+   BoneTree(24)=(TranslationRetargetingMode=AnimationScaled)
+   BoneTree(25)=(TranslationRetargetingMode=AnimationScaled)
+   BoneTree(26)=(TranslationRetargetingMode=AnimationScaled)
+   BoneTree(27)=(TranslationRetargetingMode=AnimationScaled)
+   BoneTree(28)=(TranslationRetargetingMode=AnimationScaled)
+   BoneTree(29)=(TranslationRetargetingMode=AnimationScaled)
+   BoneTree(30)=(TranslationRetargetingMode=AnimationScaled)
+   BoneTree(31)=(TranslationRetargetingMode=AnimationScaled)
+   BoneTree(32)=(TranslationRetargetingMode=AnimationScaled)
+   BoneTree(33)=(TranslationRetargetingMode=AnimationScaled)
+   BoneTree(34)=(TranslationRetargetingMode=AnimationScaled)
+   BoneTree(35)=(TranslationRetargetingMode=AnimationScaled)
+   BoneTree(36)=(TranslationRetargetingMode=AnimationScaled)
+   BoneTree(37)=(TranslationRetargetingMode=AnimationScaled)
+   BoneTree(38)=(TranslationRetargetingMode=AnimationScaled)
+   BoneTree(39)=(TranslationRetargetingMode=AnimationScaled)
+   BoneTree(40)=(TranslationRetargetingMode=AnimationScaled)
+   BoneTree(41)=(TranslationRetargetingMode=AnimationScaled)
+   BoneTree(42)=(TranslationRetargetingMode=AnimationScaled)
+   BoneTree(43)=(TranslationRetargetingMode=AnimationScaled)
+   BoneTree(44)=(TranslationRetargetingMode=AnimationScaled)
+   BoneTree(45)=(TranslationRetargetingMode=AnimationScaled)
+   BoneTree(46)=(TranslationRetargetingMode=AnimationScaled)
+   BoneTree(47)=(TranslationRetargetingMode=AnimationScaled)
+   BoneTree(48)=(TranslationRetargetingMode=AnimationScaled)
+   BoneTree(49)=(TranslationRetargetingMode=AnimationScaled)
+   BoneTree(50)=(TranslationRetargetingMode=AnimationScaled)
+   BoneTree(51)=(TranslationRetargetingMode=AnimationScaled)
+   BoneTree(52)=(TranslationRetargetingMode=AnimationScaled)
+   BoneTree(53)=(TranslationRetargetingMode=AnimationScaled)
+   BoneTree(54)=(TranslationRetargetingMode=AnimationScaled)
+   BoneTree(55)=(TranslationRetargetingMode=AnimationScaled)
+   BoneTree(56)=(TranslationRetargetingMode=AnimationScaled)
+   BoneTree(57)=(TranslationRetargetingMode=AnimationScaled)
+   BoneTree(58)=(TranslationRetargetingMode=AnimationScaled)
+   BoneTree(59)=(TranslationRetargetingMode=AnimationScaled)
+   BoneTree(60)=(TranslationRetargetingMode=AnimationScaled)
+   BoneTree(61)=(TranslationRetargetingMode=AnimationScaled)
+   BoneTree(62)=(TranslationRetargetingMode=AnimationScaled)
+   BoneTree(63)=(TranslationRetargetingMode=AnimationScaled)
+   BoneTree(64)=(TranslationRetargetingMode=AnimationScaled)
+   BoneTree(65)=(TranslationRetargetingMode=AnimationScaled)
+   BoneTree(66)=(TranslationRetargetingMode=AnimationScaled)
+   BoneTree(67)=(TranslationRetargetingMode=AnimationScaled)
+   BoneTree(68)=(TranslationRetargetingMode=AnimationScaled)
+   BoneTree(69)=(TranslationRetargetingMode=AnimationScaled)
+   BoneTree(70)=(TranslationRetargetingMode=AnimationScaled)
+   BoneTree(71)=(TranslationRetargetingMode=AnimationScaled)
+   BoneTree(72)=(TranslationRetargetingMode=AnimationScaled)
+   BoneTree(73)=(TranslationRetargetingMode=AnimationScaled)
+   BoneTree(74)=(TranslationRetargetingMode=AnimationScaled)
+   BoneTree(75)=(TranslationRetargetingMode=AnimationScaled)
+   BoneTree(76)=(TranslationRetargetingMode=AnimationScaled)
+   BoneTree(77)=(TranslationRetargetingMode=AnimationScaled)
+   BoneTree(78)=(TranslationRetargetingMode=AnimationScaled)
+   BoneTree(79)=(TranslationRetargetingMode=AnimationScaled)
+   BoneTree(80)=(TranslationRetargetingMode=AnimationScaled)
+   BoneTree(81)=(TranslationRetargetingMode=AnimationScaled)
+   BoneTree(82)=(TranslationRetargetingMode=AnimationScaled)
+   BoneTree(83)=(TranslationRetargetingMode=AnimationScaled)
+   BoneTree(84)=(TranslationRetargetingMode=AnimationScaled)
+   BoneTree(85)=(TranslationRetargetingMode=AnimationScaled)
+   BoneTree(86)=(TranslationRetargetingMode=AnimationScaled)
+   BoneTree(87)=(TranslationRetargetingMode=AnimationScaled)
+   BoneTree(88)=(TranslationRetargetingMode=AnimationScaled)
+   BoneTree(89)=(TranslationRetargetingMode=AnimationScaled)
+   BoneTree(90)=(TranslationRetargetingMode=AnimationScaled)
+   BoneTree(91)=(TranslationRetargetingMode=AnimationScaled)
+   BoneTree(92)=(TranslationRetargetingMode=AnimationScaled)
+   BoneTree(93)=(TranslationRetargetingMode=AnimationScaled)
+   BoneTree(94)=(TranslationRetargetingMode=AnimationScaled)
+   BoneTree(95)=(TranslationRetargetingMode=AnimationScaled)
+   BoneTree(96)=(TranslationRetargetingMode=AnimationScaled)
+   BoneTree(97)=(TranslationRetargetingMode=AnimationScaled)
+   BoneTree(98)=(TranslationRetargetingMode=AnimationScaled)
+   BoneTree(99)=(TranslationRetargetingMode=AnimationScaled)
+   BoneTree(100)=(TranslationRetargetingMode=AnimationScaled)
+   BoneTree(101)=(TranslationRetargetingMode=AnimationScaled)
+   BoneTree(102)=(TranslationRetargetingMode=AnimationScaled)
+   BoneTree(103)=(TranslationRetargetingMode=AnimationScaled)
+   BoneTree(104)=(TranslationRetargetingMode=AnimationScaled)
+   BoneTree(105)=(TranslationRetargetingMode=AnimationScaled)
+   BoneTree(106)=(TranslationRetargetingMode=AnimationScaled)
+   BoneTree(107)=(TranslationRetargetingMode=AnimationScaled)
+   BoneTree(108)=(TranslationRetargetingMode=AnimationScaled)
+   BoneTree(109)=(TranslationRetargetingMode=Skeleton)
+   BoneTree(110)=(TranslationRetargetingMode=Skeleton)
+   BoneTree(111)=(TranslationRetargetingMode=Skeleton)
+   BoneTree(112)=(TranslationRetargetingMode=AnimationScaled)
+   BoneTree(113)=(TranslationRetargetingMode=AnimationScaled)
+   BoneTree(114)=(TranslationRetargetingMode=AnimationScaled)
+   BoneTree(115)=(TranslationRetargetingMode=AnimationScaled)
+   BoneTree(116)=(TranslationRetargetingMode=AnimationScaled)
+   BoneTree(117)=(TranslationRetargetingMode=AnimationScaled)
+   BoneTree(118)=(TranslationRetargetingMode=AnimationScaled)
+   BoneTree(119)=(TranslationRetargetingMode=AnimationScaled)
+   BoneTree(120)=(TranslationRetargetingMode=AnimationScaled)
+   BoneTree(121)=(TranslationRetargetingMode=AnimationScaled)
+   BoneTree(122)=(TranslationRetargetingMode=AnimationScaled)
+   BoneTree(123)=(TranslationRetargetingMode=AnimationScaled)
+   BoneTree(124)=(TranslationRetargetingMode=AnimationScaled)
+   BoneTree(125)=(TranslationRetargetingMode=AnimationScaled)
+   BoneTree(126)=(TranslationRetargetingMode=AnimationScaled)
+   BoneTree(127)=(TranslationRetargetingMode=AnimationScaled)
+   BoneTree(128)=(TranslationRetargetingMode=AnimationScaled)
+   BoneTree(129)=(TranslationRetargetingMode=AnimationScaled)
+   BoneTree(130)=(TranslationRetargetingMode=AnimationScaled)
+   BoneTree(131)=(TranslationRetargetingMode=AnimationScaled)
+   BoneTree(132)=(TranslationRetargetingMode=Skeleton)
+   BoneTree(133)=(TranslationRetargetingMode=Skeleton)
+   BoneTree(134)=(TranslationRetargetingMode=Skeleton)
+   BoneTree(135)=(TranslationRetargetingMode=AnimationScaled)
+   BoneTree(136)=(TranslationRetargetingMode=AnimationScaled)
+   BoneTree(137)=(TranslationRetargetingMode=AnimationScaled)
+   BoneTree(138)=(TranslationRetargetingMode=AnimationScaled)
+   BoneTree(139)=(TranslationRetargetingMode=AnimationScaled)
+   BoneTree(140)=(TranslationRetargetingMode=AnimationScaled)
+   BoneTree(141)=(TranslationRetargetingMode=AnimationScaled)
+   BoneTree(142)=(TranslationRetargetingMode=AnimationScaled)
+   BoneTree(143)=(TranslationRetargetingMode=AnimationScaled)
+   BoneTree(144)=(TranslationRetargetingMode=AnimationScaled)
+   BoneTree(145)=(TranslationRetargetingMode=AnimationScaled)
+   BoneTree(146)=(TranslationRetargetingMode=AnimationScaled)
+   BoneTree(147)=(TranslationRetargetingMode=AnimationScaled)
+   BoneTree(148)=(TranslationRetargetingMode=AnimationScaled)
+   BoneTree(149)=(TranslationRetargetingMode=AnimationScaled)
+   BoneTree(150)=(TranslationRetargetingMode=AnimationScaled)
+   BoneTree(151)=(TranslationRetargetingMode=AnimationScaled)
+   BoneTree(248)=()
+   VirtualBoneGuid=5690A75F48865043DE69E6A28CAF5304
+   CompatibleSkeletons(0)="/Game/EnvArt/MiamiClub/Characters/CH03/Meshes/SK_CH03.SK_CH03"
+   CompatibleSkeletons(1)="/Game/EnvArt/MiamiClub/Characters/CH01/Meshes/SK_CH01.SK_CH01"
+   CompatibleSkeletons(2)="/Game/EnvArt/MiamiClub/Characters/CH02/Meshes/SK_CH02.SK_CH02"
+   Sockets(0)="/Script/Engine.SkeletalMeshSocket'SkeletalMeshSocket_0'"
+   Sockets(1)="/Script/Engine.SkeletalMeshSocket'SkeletalMeshSocket_1'"
+   Sockets(2)="/Script/Engine.SkeletalMeshSocket'SkeletalMeshSocket_2'"
+   Sockets(3)="/Script/Engine.SkeletalMeshSocket'SkeletalMeshSocket_5'"
+   Sockets(4)="/Script/Engine.SkeletalMeshSocket'SkeletalMeshSocket_6'"
+   Sockets(5)="/Script/Engine.SkeletalMeshSocket'SkeletalMeshSocket_4'"
+   Sockets(6)="/Script/Engine.SkeletalMeshSocket'SkeletalMeshSocket_7'"
+   Sockets(7)="/Script/Engine.SkeletalMeshSocket'SkeletalMeshSocket_3'"
+   Sockets(8)="/Script/Engine.SkeletalMeshSocket'SkeletalMeshSocket_8'"
+   Sockets(9)="/Script/Engine.SkeletalMeshSocket'SkeletalMeshSocket_9'"
+   Sockets(10)="/Script/Engine.SkeletalMeshSocket'SkeletalMeshSocket_10'"
+   Sockets(11)="/Script/Engine.SkeletalMeshSocket'SkeletalMeshSocket_11'"
+   Sockets(12)="/Script/Engine.SkeletalMeshSocket'SkeletalMeshSocket_12'"
+   Sockets(13)="/Script/Engine.SkeletalMeshSocket'SkeletalMeshSocket_13'"
+   Sockets(14)="/Script/Engine.SkeletalMeshSocket'SkeletalMeshSocket_14'"
+   Sockets(15)="/Script/Engine.SkeletalMeshSocket'SkeletalMeshSocket_15'"
+   Sockets(16)="/Script/Engine.SkeletalMeshSocket'SkeletalMeshSocket_16'"
+   Sockets(17)="/Script/Engine.SkeletalMeshSocket'SkeletalMeshSocket_17'"
+   BlendProfiles(0)="/Script/Engine.BlendProfile'UpperBodyMask'"
+   BlendProfiles(1)="/Script/Engine.BlendProfile'LowerBodyMask'"
+   BlendProfiles(2)="/Script/Engine.BlendProfile'FastFeet'"
+   BlendProfiles(3)="/Script/Engine.BlendProfile'LeftFingersMask'"
+   BlendProfiles(4)="/Script/Engine.BlendProfile'UpperBodyLowerBodySplitMask'"
+   SlotGroups(0)=(SlotNames=("FullBody","DefaultSlot","UpperBody","FullBodyAdditivePreAim","UpperBodyAdditive","UpperBodyDynAdditiveBase","UpperBodyDynAdditive","UpperSlot","FaceSlot","FullBodySlot"))
+   SlotGroups(1)=(GroupName="AdditiveGroup",SlotNames=("AdditiveHitReact"))
+   SlotGroups(2)=(GroupName="NBody",SlotNames=("NUpperSlot"))
+   SlotGroups(3)=(GroupName="NFace",SlotNames=("NFaceSlot"))
+   PreviewSkeletalMesh="/Game/AI/AIBehaviorSystem/Demo/Characters/Mannequins/Meshes/UE5RTG_SKM_Manny.UE5RTG_SKM_Manny"
+   AnimationNotifies(0)="SaveAttack"
+   AnimationNotifies(1)="ResetCombo"
+   AnimationNotifies(2)="l_foot_plant"
+   AnimationNotifies(3)="r_foot_plant"
+   AnimationNotifies(4)="AN_FootPlant_Left_C"
+   AnimationNotifies(5)="AN_FootPlant_Right_C"
+   AnimationNotifies(6)="OrionLanded"
+   AnimationNotifies(7)="AN_FootPlant_Left"
+   AnimationNotifies(8)="LyraContextEffects"
+   AnimationNotifies(9)="AN_FootPlant_Right"
+   AnimationNotifies(10)="death"
+   AssetUserData(0)="/Script/Engine.AnimCurveMetaData'AnimCurveMetaData_0'"
+End Object

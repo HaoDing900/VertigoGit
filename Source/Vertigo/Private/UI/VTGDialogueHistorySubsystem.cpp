@@ -244,7 +244,7 @@ void UVTGDialogueHistorySubsystem::ShowHistory()
                             0, 0, 0,
                             20)[SNew(SHorizontalBox) +
                                 SHorizontalBox::Slot().FillWidth(1)[SNew(STextBlock)
-                                                                        .Text(FText::FromString(TEXT("对话记录")))
+                                                                        .Text(NSLOCTEXT("VTGDialogue", "HistoryTitle", "对话记录"))
                                                                         .Font(FSlateFontInfo(Font, 28))] +
                                 SHorizontalBox::Slot().AutoWidth()[SNew(SButton).OnClicked_Lambda(
                                     [this]()
@@ -252,12 +252,12 @@ void UVTGDialogueHistorySubsystem::ShowHistory()
                                         HideHistory();
                                         return FReply::Handled();
                                     })[SNew(STextBlock)
-                                           .Text(FText::FromString(TEXT("返回对话")))
+                                           .Text(NSLOCTEXT("VTGDialogue", "ReturnToDialogue", "返回对话"))
                                            .Font(FSlateFontInfo(Font, 16))]]] +
                         SVerticalBox::Slot().FillHeight(1)[Scroll.ToSharedRef()] +
                         SVerticalBox::Slot().AutoHeight().Padding(0, 18, 0, 0)
                             [SNew(STextBlock)
-                                 .Text(FText::FromString(TEXT("滚轮浏览记录 · 向下滚到末尾后继续滚动 / Esc 返回对话")))
+                                 .Text(NSLOCTEXT("VTGDialogue", "HistoryHelp", "滚轮浏览记录 · 向下滚到末尾后继续滚动 / Esc 返回对话"))
                                  .Font(FSlateFontInfo(Font, 14))
                                  .ColorAndOpacity(FLinearColor(.5f, .6f, .6f, 1))]]];
     PreviousFocus = FSlateApplication::Get().GetUserFocusedWidget(0);
@@ -275,7 +275,7 @@ void UVTGDialogueHistorySubsystem::RebuildRows()
     Scroll->ClearChildren();
     if (Entries.IsEmpty())
         Scroll
-            ->AddSlot()[SNew(STextBlock).Text(FText::FromString(TEXT("暂无对话记录"))).Font(FSlateFontInfo(Font, 18))];
+            ->AddSlot()[SNew(STextBlock).Text(NSLOCTEXT("VTGDialogue", "HistoryEmpty", "暂无对话记录")).Font(FSlateFontInfo(Font, 18))];
     for (const auto &Entry : Entries)
     {
         Scroll->AddSlot().Padding(0, 0, 16,
@@ -286,7 +286,7 @@ void UVTGDialogueHistorySubsystem::RebuildRows()
                                                           .Font(FSlateFontInfo(Font, 16))
                                                           .ColorAndOpacity(FLinearColor(.3f, .7f, .65f, 1))] +
                                       SVerticalBox::Slot().AutoHeight()[SNew(STextBlock)
-                                                                            .Text(VTGDialogueLog::PlainText(Entry.Text))
+                                                                            .Text_Lambda([Text=Entry.Text](){return VTGDialogueLog::PlainText(Text);})
                                                                             .Font(FSlateFontInfo(Font, 20))
                                                                             .AutoWrapText(true)]];
     }
@@ -423,7 +423,7 @@ void UVTGDialogueHistorySubsystem::ToggleAutoAdvance(FName)
         if (!It->IsTemplate() && It->GetWorld() == GetWorld() && It->IsInDialogue())
             It->GetCurrentDialogue()->SetAutoAdvance(bAutoAdvance);
     if (BoundMenu.IsValid()) BoundMenu->SetBindingDisplayName(AutoHandle,
-        FText::FromString(bAutoAdvance ? TEXT("Auto: ON") : TEXT("Auto: OFF")));
+        bAutoAdvance ? NSLOCTEXT("VTGDialogue", "AutoOn", "Auto: ON") : NSLOCTEXT("VTGDialogue", "AutoOff", "Auto: OFF"));
 }
 
 void UVTGDialogueHistorySubsystem::OpenHistoryAction(FName) { ShowHistory(); }
@@ -450,15 +450,15 @@ void UVTGDialogueHistorySubsystem::TickControls()
         Row.RowName = TEXT("ToggleAuto");
         FInputActionExecutedDelegate Callback;
         Callback.BindDynamic(this, &UVTGDialogueHistorySubsystem::ToggleAutoAdvance);
-        It->RegisterBinding(Row, Callback, AutoHandle, FText::FromString(bAutoAdvance ? TEXT("Auto: ON") : TEXT("Auto: OFF")));
+        It->RegisterBinding(Row, Callback, AutoHandle, bAutoAdvance ? NSLOCTEXT("VTGDialogue", "AutoOn", "Auto: ON") : NSLOCTEXT("VTGDialogue", "AutoOff", "Auto: OFF"));
         Row.RowName = TEXT("History");
         Callback.BindDynamic(this, &UVTGDialogueHistorySubsystem::OpenHistoryAction);
         FInputActionBindingHandle HistoryHandle;
-        It->RegisterBinding(Row, Callback, HistoryHandle, FText::FromString(TEXT("History")));
+        It->RegisterBinding(Row, Callback, HistoryHandle, NSLOCTEXT("VTGDialogue", "History", "History"));
         Row.RowName = TEXT("SkipHold");
         Callback.BindDynamic(this, &UVTGDialogueHistorySubsystem::SkipPromptClicked);
         FInputActionBindingHandle SkipHandle;
-        It->RegisterBinding(Row, Callback, SkipHandle, FText::FromString(TEXT("Skip (Hold)")));
+        It->RegisterBinding(Row, Callback, SkipHandle, NSLOCTEXT("VTGDialogue", "SkipHold", "Skip (Hold)"));
         return;
     }
 }
@@ -650,7 +650,11 @@ void UVTGDialogueHistorySubsystem::BindSkipButton()
     {
         auto* Button = Cast<UCommonButtonBase>(Entry);
         auto* Label = Cast<UCommonTextBlock>(Entry->GetWidgetFromName(TEXT("Text_ActionName")));
-        if (!Button || !Label || Label->GetText().ToString() != TEXT("Skip (Hold)")) continue;
+        if (!Button || !Label) continue;
+        // Stable text identity, never the player-visible translated wording.
+        const auto Namespace=FTextInspector::GetNamespace(Label->GetText());
+        const auto Key=FTextInspector::GetKey(Label->GetText());
+        if (!Namespace.IsSet() || !Key.IsSet() || Namespace.GetValue()!=TEXT("VTGDialogue") || Key.GetValue()!=TEXT("SkipHold")) continue;
         if (SkipButton.Get() == Button) return;
         if (SkipButton.IsValid())
         {

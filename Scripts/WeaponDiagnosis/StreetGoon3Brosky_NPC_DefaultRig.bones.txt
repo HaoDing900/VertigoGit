@@ -1,0 +1,1 @@
+ASSET /Game/Characters/NPC/StreetGoons/Meshes/StreetGoon3Brosky_NPC_DefaultRig.StreetGoon3Brosky_NPC_DefaultRig

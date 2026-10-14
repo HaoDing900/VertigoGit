@@ -1,0 +1,47 @@
+Using bundled DotNet SDK version: 6.0.302
+Running UnrealBuildTool: dotnet "..\..\Engine\Binaries\DotNET\UnrealBuildTool\UnrealBuildTool.dll" VertigoEditor Win64 Development "-Project=G:/Epic/Unreal projects/VertigoGit/Vertigo.uproject" -WaitMutex "-Log=G:/Epic/Unreal projects/VertigoGit/Scripts/L2FightDiagnosis/build.log"
+Log file: G:\Epic\Unreal projects\VertigoGit\Scripts\L2FightDiagnosis\build.log
+Using 'git status' to determine working set for adaptive non-unity build (G:\Epic\Unreal projects\VertigoGit).
+Parsing headers for VertigoEditor
+  Running Internal UnrealHeaderTool "G:\Epic\Unreal projects\VertigoGit\Vertigo.uproject" "G:\Epic\Unreal projects\VertigoGit\Intermediate\Build\Win64\VertigoEditor\Development\VertigoEditor.uhtmanifest" -WarningsAsErrors -installed
+Total of 0 written
+Reflection code generated for VertigoEditor in 0.9719177 seconds
+Building VertigoEditor...
+Using Visual Studio 2022 14.41.34120 toolchain (C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.41.34120) and Windows 10.0.16299.0 SDK (C:\Program Files (x86)\Windows Kits\10).
+[Upgrade]
+[Upgrade] Using backward-compatible build settings. The latest version of UE sets the following values by default, which may require code changes:
+[Upgrade]     CppStandard = CppStandardVersion.Default        => Updates C++ Standard to C++20 (Previously: CppStandardVersion.Cpp17).
+[Upgrade]     WindowsPlatform.bStrictConformanceMode = true   => Updates MSVC strict conformance mode to true (Previously: false).
+[Upgrade] Suppress this message by setting 'DefaultBuildSettings = BuildSettingsVersion.V4;' in VertigoEditor.Target.cs, and explicitly overriding settings that differ from the new defaults.
+[Upgrade]
+[Adaptive Build] Excluded from Vertigo unity file: VTGL2FightStateComponent.cpp, VTGSaveCoordinator.cpp, VTGDialogueHistorySubsystem.cpp, VTGLocalizationSubsystem.cpp, VTGMainMenu.cpp, VTGMapLocationNode.cpp, VTGSequenceSkipSubsystem.cpp, VTGTerminalSaveLibrary.cpp, VTGTerminalSavePage.cpp
+[Adaptive Build] Excluded from VertigoEditor unity file: VertigoEditor.cpp, VTGAlleyRepairCommandlet.cpp, VTGDialogueHistoryTest.cpp, VTGDialogueLocalizationDetails.cpp, VTGDialogueLocalizationTests.cpp, VTGL2FightRepairCommandlet.cpp, VTGLocalizationCommandlet.cpp, VTGLocalizationTests.cpp, VTGManualLocalization.cpp, VTGMapLocalizationDetails.cpp, VTGQuestLocalizationDetails.cpp, VTGQuestLocalizationTests.cpp, VTGSubtitleLocalizationDetails.cpp, VTGSubtitleLocalizationTests.cpp
+[Adaptive Build] Excluded from Narrative unity file: Dialogue.cpp
+[Adaptive Build] Excluded from NarrativeQuestEditor unity file: QuestEditorDetails.cpp
+[Adaptive Build] Excluded from NarrativeDialogueEditor unity file: DialogueEditorDetails.cpp
+Determining max actions to execute in parallel (8 physical cores, 16 logical cores)
+  Executing up to 8 processes, one per physical core
+------ Building 15 action(s) started ------
+[1/15] Compile [x64] Module.Vertigo.3.cpp
+[2/15] Compile [x64] VTGMainMenu.cpp
+[3/15] Compile [x64] Module.Vertigo.2.cpp
+[4/15] Compile [x64] VTGTerminalSavePage.cpp
+G:\Epic\Unreal projects\VertigoGit\Source\Vertigo\Private\UI\VTGTerminalSavePage.cpp(27): warning C4996: 'UButton::IsFocusable': Direct access to IsFocusable is deprecated. Please use the getter. Please update your code to the new API before upgrading to the next release, otherwise your project will no longer compile.
+G:\Epic\Unreal projects\VertigoGit\Source\Vertigo\Private\UI\VTGTerminalSavePage.cpp(38): warning C4996: 'UButton::IsFocusable': Direct access to IsFocusable is deprecated. Please use the getter. Please update your code to the new API before upgrading to the next release, otherwise your project will no longer compile.
+[5/15] Compile [x64] VTGL2FightStateComponent.cpp
+[6/15] Compile [x64] VTGSaveCoordinator.cpp
+[7/15] Compile [x64] Module.Vertigo.5.cpp
+[8/15] Compile [x64] VTGL2FightRepairCommandlet.cpp
+[9/15] Compile [x64] Module.Vertigo.4.cpp
+[10/15] Link [x64] UnrealEditor-Vertigo.lib
+  ���ڴ����� G:\Epic\Unreal projects\VertigoGit\Intermediate\Build\Win64\x64\UnrealEditor\Development\Vertigo\UnrealEditor-Vertigo.lib �Ͷ��� G:\Epic\Unreal projects\VertigoGit\Intermediate\Build\Win64\x64\UnrealEditor\Development\Vertigo\UnrealEditor-Vertigo.exp
+[11/15] Compile [x64] VTGAlleyRepairCommandlet.cpp
+[12/15] Link [x64] UnrealEditor-VertigoEditor.lib
+  ���ڴ����� G:\Epic\Unreal projects\VertigoGit\Intermediate\Build\Win64\x64\UnrealEditor\Development\VertigoEditor\UnrealEditor-VertigoEditor.lib �Ͷ��� G:\Epic\Unreal projects\VertigoGit\Intermediate\Build\Win64\x64\UnrealEditor\Development\VertigoEditor\UnrealEditor-VertigoEditor.exp
+[13/15] Link [x64] UnrealEditor-Vertigo.dll
+  ���ڴ����� G:\Epic\Unreal projects\VertigoGit\Intermediate\Build\Win64\x64\UnrealEditor\Development\Vertigo\UnrealEditor-Vertigo.sup.lib �Ͷ��� G:\Epic\Unreal projects\VertigoGit\Intermediate\Build\Win64\x64\UnrealEditor\Development\Vertigo\UnrealEditor-Vertigo.sup.exp
+[14/15] Link [x64] UnrealEditor-VertigoEditor.dll
+  ���ڴ����� G:\Epic\Unreal projects\VertigoGit\Intermediate\Build\Win64\x64\UnrealEditor\Development\VertigoEditor\UnrealEditor-VertigoEditor.sup.lib �Ͷ��� G:\Epic\Unreal projects\VertigoGit\Intermediate\Build\Win64\x64\UnrealEditor\Development\VertigoEditor\UnrealEditor-VertigoEditor.sup.exp
+[15/15] WriteMetadata VertigoEditor.target
+Total time in Parallel executor: 8.91 seconds
+Total execution time: 10.99 seconds

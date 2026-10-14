@@ -1,0 +1,445 @@
+[2026.10.11-03.49.39:235][  0]LogTextureFormatManager: Display: Loaded Base TextureFormat: TextureFormatASTC
+[2026.10.11-03.49.39:235][  0]LogTextureFormatManager: Display: Loaded Base TextureFormat: TextureFormatDXT
+[2026.10.11-03.49.39:235][  0]LogTextureFormatManager: Display: Loaded Base TextureFormat: TextureFormatETC2
+[2026.10.11-03.49.39:235][  0]LogTextureFormatManager: Display: Loaded Base TextureFormat: TextureFormatIntelISPCTexComp
+[2026.10.11-03.49.39:235][  0]LogTextureFormatManager: Display: Loaded Base TextureFormat: TextureFormatUncompressed
+[2026.10.11-03.49.39:235][  0]LogTextureFormatOodle: Display: Oodle Texture TFO init; latest sdk version = 2.9.10
+[2026.10.11-03.49.39:235][  0]LogTextureFormatOodle: Display: Oodle Texture loading DLL: oo2tex_win64_2.9.5.dll
+[2026.10.11-03.49.39:235][  0]LogTextureFormatOodle: Display: Oodle Texture loading DLL: oo2tex_win64_2.9.6.dll
+[2026.10.11-03.49.39:235][  0]LogTextureFormatOodle: Display: Oodle Texture loading DLL: oo2tex_win64_2.9.7.dll
+[2026.10.11-03.49.39:235][  0]LogTextureFormatOodle: Display: Oodle Texture loading DLL: oo2tex_win64_2.9.8.dll
+[2026.10.11-03.49.39:236][  0]LogTextureFormatOodle: Display: Oodle Texture loading DLL: oo2tex_win64_2.9.9.dll
+[2026.10.11-03.49.39:236][  0]LogTextureFormatOodle: Display: Oodle Texture loading DLL: oo2tex_win64_2.9.10.dll
+[2026.10.11-03.49.39:236][  0]LogTextureFormatManager: Display: Loaded Base TextureFormat: TextureFormatOodle
+[2026.10.11-03.49.39:247][  0]LogTargetPlatformManager: Display: Loaded TargetPlatform 'Android'
+[2026.10.11-03.49.39:247][  0]LogTargetPlatformManager: Display: Loaded TargetPlatform 'Android_ASTC'
+[2026.10.11-03.49.39:247][  0]LogTargetPlatformManager: Display: Loaded TargetPlatform 'Android_DXT'
+[2026.10.11-03.49.39:247][  0]LogTargetPlatformManager: Display: Loaded TargetPlatform 'Android_ETC2'
+[2026.10.11-03.49.39:247][  0]LogTargetPlatformManager: Display: Loaded TargetPlatform 'AndroidClient'
+[2026.10.11-03.49.39:247][  0]LogTargetPlatformManager: Display: Loaded TargetPlatform 'Android_ASTCClient'
+[2026.10.11-03.49.39:247][  0]LogTargetPlatformManager: Display: Loaded TargetPlatform 'Android_DXTClient'
+[2026.10.11-03.49.39:247][  0]LogTargetPlatformManager: Display: Loaded TargetPlatform 'Android_ETC2Client'
+[2026.10.11-03.49.39:247][  0]LogTargetPlatformManager: Display: Loaded TargetPlatform 'Android_Multi'
+[2026.10.11-03.49.39:247][  0]LogTargetPlatformManager: Display: Loaded TargetPlatform 'Android_MultiClient'
+[2026.10.11-03.49.39:249][  0]LogTargetPlatformManager: Display: Loaded TargetPlatform 'IOS'
+[2026.10.11-03.49.39:249][  0]LogTargetPlatformManager: Display: Loaded TargetPlatform 'IOSClient'
+[2026.10.11-03.49.39:252][  0]LogTargetPlatformManager: Display: Loaded TargetPlatform 'Linux'
+[2026.10.11-03.49.39:252][  0]LogTargetPlatformManager: Display: Loaded TargetPlatform 'LinuxEditor'
+[2026.10.11-03.49.39:252][  0]LogTargetPlatformManager: Display: Loaded TargetPlatform 'LinuxServer'
+[2026.10.11-03.49.39:252][  0]LogTargetPlatformManager: Display: Loaded TargetPlatform 'LinuxClient'
+[2026.10.11-03.49.39:254][  0]LogTargetPlatformManager: Display: Loaded TargetPlatform 'LinuxArm64'
+[2026.10.11-03.49.39:254][  0]LogTargetPlatformManager: Display: Loaded TargetPlatform 'LinuxArm64Server'
+[2026.10.11-03.49.39:254][  0]LogTargetPlatformManager: Display: Loaded TargetPlatform 'LinuxArm64Client'
+[2026.10.11-03.49.39:256][  0]LogTargetPlatformManager: Display: Loaded TargetPlatform 'Mac'
+[2026.10.11-03.49.39:256][  0]LogTargetPlatformManager: Display: Loaded TargetPlatform 'MacEditor'
+[2026.10.11-03.49.39:256][  0]LogTargetPlatformManager: Display: Loaded TargetPlatform 'MacServer'
+[2026.10.11-03.49.39:256][  0]LogTargetPlatformManager: Display: Loaded TargetPlatform 'MacClient'
+[2026.10.11-03.49.39:258][  0]LogTargetPlatformManager: Display: Loaded TargetPlatform 'TVOS'
+[2026.10.11-03.49.39:258][  0]LogTargetPlatformManager: Display: Loaded TargetPlatform 'TVOSClient'
+[2026.10.11-03.49.39:263][  0]LogTargetPlatformManager: Display: Loaded TargetPlatform 'Windows'
+[2026.10.11-03.49.39:263][  0]LogTargetPlatformManager: Display: Loaded TargetPlatform 'WindowsEditor'
+[2026.10.11-03.49.39:263][  0]LogTargetPlatformManager: Display: Loaded TargetPlatform 'WindowsServer'
+[2026.10.11-03.49.39:263][  0]LogTargetPlatformManager: Display: Loaded TargetPlatform 'WindowsClient'
+[2026.10.11-03.49.39:263][  0]LogTargetPlatformManager: Display: Building Assets For WindowsEditor
+[2026.10.11-03.49.39:268][  0]LogAudioDebug: Display: Lib vorbis DLL was dynamically loaded.
+[2026.10.11-03.49.39:307][  0]LogDerivedDataCache: Display: Memory: Max Cache Size: -1 MB
+[2026.10.11-03.49.39:340][  0]LogDerivedDataCache: Display: ../../../Engine/DerivedDataCache/Compressed.ddp: Opened pak cache for reading. (2383 MiB)
+[2026.10.11-03.49.39:342][  0]LogDerivedDataCache: Warning: C:/Users/Hao/AppData/Local/UnrealEngine/Common/DerivedDataCache: Failed to write to C:/Users/Hao/AppData/Local/UnrealEngine/Common/DerivedDataCache/TestData/DE2C02B84DA9F7BF6CEC0687D89ECA64/TestData/0/TestData_4kb.dat, this cache store will be disabled. ReadError: 3 (???????????)
+[2026.10.11-03.49.39:342][  0]LogDerivedDataCache: Display: C:/Users/Hao/AppData/Local/UnrealEngine/Common/DerivedDataCache: Performance: Latency=0.03ms. RandomReadSpeed=1596.03MBs, RandomWriteSpeed=0.00MBs. Assigned SpeedClass 'Local'
+[2026.10.11-03.49.39:343][  0]LogShaderCompilers: Display: Using Local Shader Compiler with 13 workers.
+[2026.10.11-03.49.40:137][  0]LogShaderCompilers: Display: Compiling shader autogen file: ../../../../Unreal projects/VertigoGit/Intermediate/ShaderAutogen/PCD3D_SM5/AutogenShaderHeaders.ush
+[2026.10.11-03.49.40:137][  0]LogShaderCompilers: Display: Autogen file is unchanged, skipping write.
+[2026.10.11-03.49.40:146][  0]LogEditorDomain: Display: EditorDomain is Disabled
+[2026.10.11-03.49.40:292][  0]LogDeviceProfileManager: Display: Deviceprofile LinuxArm64Editor not found.
+[2026.10.11-03.49.40:292][  0]LogDeviceProfileManager: Display: Deviceprofile LinuxArm64 not found.
+[2026.10.11-03.49.40:414][  0]LogCsvProfiler: Display: Metadata set : deviceprofile="WindowsEditor"
+[2026.10.11-03.49.40:414][  0]LogShaderCompilers: Display: Compiling shader autogen file: ../../../../Unreal projects/VertigoGit/Intermediate/ShaderAutogen/PCD3D_SM6/AutogenShaderHeaders.ush
+[2026.10.11-03.49.40:414][  0]LogShaderCompilers: Display: Autogen file is unchanged, skipping write.
+[2026.10.11-03.49.40:428][  0]LogTextureEncodingSettings: Display: Texture Encode Speed: Final (cook).
+[2026.10.11-03.49.40:428][  0]LogTextureEncodingSettings: Display: Oodle Texture Encode Speed settings: Fast: RDO Off Lambda=0, Effort=Normal Final: RDO Off Lambda=0, Effort=Normal
+[2026.10.11-03.49.40:428][  0]LogTextureEncodingSettings: Display: Shared linear texture encoding: Disabled
+[2026.10.11-03.49.40:458][  0]LogMeshReduction: Display: Using QuadricMeshReduction for automatic static mesh reduction
+[2026.10.11-03.49.40:458][  0]LogMeshReduction: Display: Using SkeletalMeshReduction for automatic skeletal mesh reduction
+[2026.10.11-03.49.40:458][  0]LogMeshReduction: Display: Using ProxyLODMeshReduction for automatic mesh merging
+[2026.10.11-03.49.40:458][  0]LogMeshReduction: Display: No distributed automatic mesh merging module available
+[2026.10.11-03.49.40:588][  0]LogVirtualization: Display: VirtualizationSystem name found in ini file: None
+[2026.10.11-03.49.40:588][  0]LogVirtualization: Display: FNullVirtualizationSystem mounted, virtualization will be disabled
+[2026.10.11-03.49.40:711][  0]LogWorldPartition: Display: FWorldPartitionClassDescRegistry::Initialize started...
+[2026.10.11-03.49.40:713][  0]LogWorldPartition: Display: FWorldPartitionClassDescRegistry::Initialize took 1 ms
+[2026.10.11-03.49.40:715][  0]Input_ISX: Warning: Input_ISX module has been loaded
+[2026.10.11-03.49.40:732][  0]LogUObjectGlobals: Warning: Failed to find object 'Object /Game/ThirdPerson/Input/IMC_Default.IMC_Default'
+[2026.10.11-03.49.41:054][  0]LogAudio: Display: Registering Engine Module Parameter Interfaces...
+[2026.10.11-03.49.42:294][  0]LogUsd: Warning: Failed to update LibraryPath for USD plugInfo.json file 'G:/Epic/UE_5.3/Engine/Binaries/ThirdParty/USD/UsdResources/Win64/plugins/glf/resources/plugInfo.json'
+[2026.10.11-03.49.42:295][  0]LogUsd: Warning: Failed to update LibraryPath for USD plugInfo.json file 'G:/Epic/UE_5.3/Engine/Binaries/ThirdParty/USD/UsdResources/Win64/plugins/usdImaging/resources/plugInfo.json'
+[2026.10.11-03.49.42:295][  0]LogUsd: Warning: Failed to update LibraryPath for USD plugInfo.json file 'G:/Epic/UE_5.3/Engine/Binaries/ThirdParty/USD/UsdResources/Win64/plugins/usdSkel/resources/plugInfo.json'
+[2026.10.11-03.49.42:295][  0]LogUsd: Warning: Failed to update LibraryPath for USD plugInfo.json file 'G:/Epic/UE_5.3/Engine/Binaries/ThirdParty/USD/UsdResources/Win64/plugins/usdImagingGL/resources/plugInfo.json'
+[2026.10.11-03.49.42:296][  0]LogUsd: Warning: Failed to update LibraryPath for USD plugInfo.json file 'G:/Epic/UE_5.3/Engine/Binaries/ThirdParty/USD/UsdResources/Win64/plugins/usdPhysics/resources/plugInfo.json'
+[2026.10.11-03.49.42:296][  0]LogUsd: Warning: Failed to update LibraryPath for USD plugInfo.json file 'G:/Epic/UE_5.3/Engine/Binaries/ThirdParty/USD/UsdResources/Win64/plugins/hdStorm/resources/plugInfo.json'
+[2026.10.11-03.49.42:296][  0]LogUsd: Warning: Failed to update LibraryPath for USD plugInfo.json file 'G:/Epic/UE_5.3/Engine/Binaries/ThirdParty/USD/UsdResources/Win64/plugins/usdMtlx/resources/plugInfo.json'
+[2026.10.11-03.49.42:297][  0]LogUsd: Warning: Failed to update LibraryPath for USD plugInfo.json file 'G:/Epic/UE_5.3/Engine/Binaries/ThirdParty/USD/UsdResources/Win64/plugins/usdVol/resources/plugInfo.json'
+[2026.10.11-03.49.42:297][  0]LogUsd: Warning: Failed to update LibraryPath for USD plugInfo.json file 'G:/Epic/UE_5.3/Engine/Binaries/ThirdParty/USD/UsdResources/Win64/plugins/hd/resources/plugInfo.json'
+[2026.10.11-03.49.42:297][  0]LogUsd: Warning: Failed to update LibraryPath for USD plugInfo.json file 'G:/Epic/UE_5.3/Engine/Binaries/ThirdParty/USD/UsdResources/Win64/plugins/hdx/resources/plugInfo.json'
+[2026.10.11-03.49.42:297][  0]LogUsd: Warning: Failed to update LibraryPath for USD plugInfo.json file 'G:/Epic/UE_5.3/Engine/Binaries/ThirdParty/USD/UsdResources/Win64/plugins/usdVolImaging/resources/plugInfo.json'
+[2026.10.11-03.49.42:298][  0]LogUsd: Warning: Failed to update LibraryPath for USD plugInfo.json file 'G:/Epic/UE_5.3/Engine/Binaries/ThirdParty/USD/UsdResources/Win64/plugins/usdShaders/resources/plugInfo.json'
+[2026.10.11-03.49.42:298][  0]LogUsd: Warning: Failed to update LibraryPath for USD plugInfo.json file 'G:/Epic/UE_5.3/Engine/Binaries/ThirdParty/USD/UsdResources/Win64/plugins/hdSt/resources/plugInfo.json'
+[2026.10.11-03.49.42:298][  0]LogUsd: Warning: Failed to update LibraryPath for USD plugInfo.json file 'G:/Epic/UE_5.3/Engine/Binaries/ThirdParty/USD/UsdResources/Win64/plugins/usdGeom/resources/plugInfo.json'
+[2026.10.11-03.49.42:299][  0]LogUsd: Warning: Failed to update LibraryPath for USD plugInfo.json file 'G:/Epic/UE_5.3/Engine/Binaries/ThirdParty/USD/UsdResources/Win64/plugins/hdGp/resources/plugInfo.json'
+[2026.10.11-03.49.42:299][  0]LogUsd: Warning: Failed to update LibraryPath for USD plugInfo.json file 'G:/Epic/UE_5.3/Engine/Binaries/ThirdParty/USD/UsdResources/Win64/plugins/usdProc/resources/plugInfo.json'
+[2026.10.11-03.49.42:299][  0]LogUsd: Warning: Failed to update LibraryPath for USD plugInfo.json file 'G:/Epic/UE_5.3/Engine/Binaries/ThirdParty/USD/UsdResources/Win64/plugins/usdProcImaging/resources/plugInfo.json'
+[2026.10.11-03.49.42:299][  0]LogUsd: Warning: Failed to update LibraryPath for USD plugInfo.json file 'G:/Epic/UE_5.3/Engine/Binaries/ThirdParty/USD/UsdResources/Win64/plugins/hio/resources/plugInfo.json'
+[2026.10.11-03.49.42:300][  0]LogUsd: Warning: Failed to update LibraryPath for USD plugInfo.json file 'G:/Epic/UE_5.3/Engine/Binaries/ThirdParty/USD/UsdResources/Win64/plugins/hgiGL/resources/plugInfo.json'
+[2026.10.11-03.49.42:300][  0]LogUsd: Warning: Failed to update LibraryPath for USD plugInfo.json file 'G:/Epic/UE_5.3/Engine/Binaries/ThirdParty/USD/UsdResources/Win64/plugins/usdRender/resources/plugInfo.json'
+[2026.10.11-03.49.42:300][  0]LogUsd: Warning: Failed to update LibraryPath for USD plugInfo.json file 'G:/Epic/UE_5.3/Engine/Binaries/ThirdParty/USD/UsdResources/Win64/plugins/usdSkelImaging/resources/plugInfo.json'
+[2026.10.11-03.49.42:301][  0]LogUsd: Warning: Failed to update LibraryPath for USD plugInfo.json file 'G:/Epic/UE_5.3/Engine/Binaries/ThirdParty/USD/UsdResources/Win64/plugins/usdHydra/resources/plugInfo.json'
+[2026.10.11-03.49.42:301][  0]LogUsd: Warning: Failed to update LibraryPath for USD plugInfo.json file 'G:/Epic/UE_5.3/Engine/Binaries/ThirdParty/USD/UsdResources/Win64/plugins/sdrGlslfx/resources/plugInfo.json'
+[2026.10.11-03.49.42:301][  0]LogUsd: Warning: Failed to update LibraryPath for USD plugInfo.json file 'G:/Epic/UE_5.3/Engine/Binaries/ThirdParty/USD/UsdResources/Win64/plugins/sdf/resources/plugInfo.json'
+[2026.10.11-03.49.42:301][  0]LogUsd: Warning: Failed to update LibraryPath for USD plugInfo.json file 'G:/Epic/UE_5.3/Engine/Binaries/ThirdParty/USD/UsdResources/Win64/plugins/usdUI/resources/plugInfo.json'
+[2026.10.11-03.49.42:302][  0]LogUsd: Warning: Failed to update LibraryPath for USD plugInfo.json file 'G:/Epic/UE_5.3/Engine/Binaries/ThirdParty/USD/UsdResources/Win64/plugins/usdRiImaging/resources/plugInfo.json'
+[2026.10.11-03.49.42:302][  0]LogUsd: Warning: Failed to update LibraryPath for USD plugInfo.json file 'G:/Epic/UE_5.3/Engine/Binaries/ThirdParty/USD/UsdResources/Win64/plugins/usdMedia/resources/plugInfo.json'
+[2026.10.11-03.49.42:302][  0]LogUsd: Warning: Failed to update LibraryPath for USD plugInfo.json file 'G:/Epic/UE_5.3/Engine/Binaries/ThirdParty/USD/UsdResources/Win64/plugins/usd/resources/plugInfo.json'
+[2026.10.11-03.49.42:302][  0]LogUsd: Warning: Failed to update LibraryPath for USD plugInfo.json file 'G:/Epic/UE_5.3/Engine/Binaries/ThirdParty/USD/UsdResources/Win64/plugins/usdRi/resources/plugInfo.json'
+[2026.10.11-03.49.42:303][  0]LogUsd: Warning: Failed to update LibraryPath for USD plugInfo.json file 'G:/Epic/UE_5.3/Engine/Binaries/ThirdParty/USD/UsdResources/Win64/plugins/ndr/resources/plugInfo.json'
+[2026.10.11-03.49.42:303][  0]LogUsd: Warning: Failed to update LibraryPath for USD plugInfo.json file 'G:/Epic/UE_5.3/Engine/Binaries/ThirdParty/USD/UsdResources/Win64/plugins/usdLux/resources/plugInfo.json'
+[2026.10.11-03.49.42:303][  0]LogUsd: Warning: Failed to update LibraryPath for USD plugInfo.json file 'G:/Epic/UE_5.3/Engine/Binaries/ThirdParty/USD/UsdResources/Win64/plugins/usdAbc/resources/plugInfo.json'
+[2026.10.11-03.49.42:304][  0]LogUsd: Warning: Failed to update LibraryPath for USD plugInfo.json file 'G:/Epic/UE_5.3/Engine/Binaries/ThirdParty/USD/UsdResources/Win64/plugins/usdShade/resources/plugInfo.json'
+[2026.10.11-03.49.42:304][  0]LogUsd: Warning: Failed to update LibraryPath for USD plugInfo.json file 'G:/Epic/UE_5.3/Engine/Binaries/ThirdParty/USD/UsdResources/Win64/plugins/ar/resources/plugInfo.json'
+[2026.10.11-03.49.42:304][  0]LogUsd: Warning: Failed to update LibraryPath for USD plugInfo.json file 'G:/Epic/UE_5.3/Engine/Binaries/ThirdParty/USD/UsdResources/Win64/plugins/usd/resources/codegenTemplates/plugInfo.json'
+[2026.10.11-03.49.42:609][  0]LogAudioCaptureCore: Display: No Audio Capture implementations found. Audio input will be silent.
+[2026.10.11-03.49.42:609][  0]LogAudioCaptureCore: Display: No Audio Capture implementations found. Audio input will be silent.
+[2026.10.11-03.49.43:157][  0]LogFabLauncher: Display: FabLauncher (version 0.5.0) active
+[2026.10.11-03.49.43:542][  0]LogAssetRegistry: Warning: Package G:/Epic/Unreal projects/VertigoGit/Content/Style/TextStyle_NarrativeNotification.uasset is too new. Engine Version: 1009  Package Version: 1012
+[2026.10.11-03.49.43:542][  0]LogAssetRegistry: Warning: Package G:/Epic/Unreal projects/VertigoGit/Content/Style/TextStyle_NarrativeButton_DialogueHover.uasset is too new. Engine Version: 1009  Package Version: 1012
+[2026.10.11-03.49.43:543][  0]LogAssetRegistry: Warning: Package G:/Epic/Unreal projects/VertigoGit/Content/Style/TextStyle_NarrativeButton_DialogueHintText.uasset is too new. Engine Version: 1009  Package Version: 1012
+[2026.10.11-03.49.43:543][  0]LogAssetRegistry: Warning: Package G:/Epic/Unreal projects/VertigoGit/Content/Style/TextStyle_NarrativeButtonHovered.uasset is too new. Engine Version: 1009  Package Version: 1012
+[2026.10.11-03.49.43:543][  0]LogAssetRegistry: Warning: Package G:/Epic/Unreal projects/VertigoGit/Content/Style/TextStyle_NarrativeMenuHeader.uasset is too new. Engine Version: 1009  Package Version: 1012
+[2026.10.11-03.49.43:543][  0]LogAssetRegistry: Warning: Package G:/Epic/Unreal projects/VertigoGit/Content/Style/TextStyle_NarrativeButton_Dialogue.uasset is too new. Engine Version: 1009  Package Version: 1012
+[2026.10.11-03.49.43:543][  0]LogAssetRegistry: Warning: Package G:/Epic/Unreal projects/VertigoGit/Content/Style/ButtonStyle_Transparent.uasset is too new. Engine Version: 1009  Package Version: 1012
+[2026.10.11-03.49.43:544][  0]LogAssetRegistry: Warning: Package G:/Epic/Unreal projects/VertigoGit/Content/Style/ButtonStyle_Dialogue.uasset is too new. Engine Version: 1009  Package Version: 1012
+[2026.10.11-03.49.43:544][  0]LogAssetRegistry: Warning: Package G:/Epic/Unreal projects/VertigoGit/Content/Style/BorderStyle_Narrative.uasset is too new. Engine Version: 1009  Package Version: 1012
+[2026.10.11-03.49.43:544][  0]LogAssetRegistry: Warning: Package G:/Epic/Unreal projects/VertigoGit/Content/Style/TextStyle_NarrativeButton.uasset is too new. Engine Version: 1009  Package Version: 1012
+[2026.10.11-03.49.43:544][  0]LogAssetRegistry: Warning: Package G:/Epic/Unreal projects/VertigoGit/Content/Style/BorderStyle_Vignette.uasset is too new. Engine Version: 1009  Package Version: 1012
+[2026.10.11-03.49.43:544][  0]LogAssetRegistry: Warning: Package G:/Epic/Unreal projects/VertigoGit/Content/Style/ButtonStyle_Narrative.uasset is too new. Engine Version: 1009  Package Version: 1012
+[2026.10.11-03.49.43:544][  0]LogAssetRegistry: Warning: Package G:/Epic/Unreal projects/VertigoGit/Content/Style/BorderStyle_MenuBackground.uasset is too new. Engine Version: 1009  Package Version: 1012
+[2026.10.11-03.49.43:560][  0]LogAssetRegistry: Warning: Package G:/Epic/Unreal projects/VertigoGit/Content/NarrativeUI/Widgets/Editor/SpeakerToTarget.uasset is too new. Engine Version: 1009  Package Version: 1012
+[2026.10.11-03.49.43:560][  0]LogAssetRegistry: Warning: Package G:/Epic/Unreal projects/VertigoGit/Content/NarrativeUI/Widgets/Editor/StateNode_Node_ColorSpill.uasset is too new. Engine Version: 1009  Package Version: 1012
+[2026.10.11-03.49.43:560][  0]LogAssetRegistry: Warning: Package G:/Epic/Unreal projects/VertigoGit/Content/NarrativeUI/Widgets/BP_Narrative3Overlay.uasset is too new. Engine Version: 1009  Package Version: 1012
+[2026.10.11-03.49.43:561][  0]LogAssetRegistry: Warning: Package G:/Epic/Unreal projects/VertigoGit/Content/NarrativeUI/Widgets/Editor/SoundGenericIcon_1_64x.uasset is too new. Engine Version: 1009  Package Version: 1012
+[2026.10.11-03.49.43:561][  0]LogAssetRegistry: Warning: Package G:/Epic/Unreal projects/VertigoGit/Content/NarrativeUI/Widgets/BP_QuestJournalQuest.uasset is too new. Engine Version: 1009  Package Version: 1012
+[2026.10.11-03.49.43:561][  0]LogAssetRegistry: Warning: Package G:/Epic/Unreal projects/VertigoGit/Content/NarrativeUI/Widgets/WBP_NarrativeButton_DialogueOption.uasset is too new. Engine Version: 1009  Package Version: 1012
+[2026.10.11-03.49.43:561][  0]LogAssetRegistry: Warning: Package G:/Epic/Unreal projects/VertigoGit/Content/NarrativeUI/Widgets/Editor/icon_layer_not_visible.uasset is too new. Engine Version: 1009  Package Version: 1012
+[2026.10.11-03.49.43:562][  0]LogAssetRegistry: Warning: Package G:/Epic/Unreal projects/VertigoGit/Content/NarrativeUI/Widgets/Editor/icon_Blueprint_Anim_24x.uasset is too new. Engine Version: 1009  Package Version: 1012
+[2026.10.11-03.49.43:562][  0]LogAssetRegistry: Warning: Package G:/Epic/Unreal projects/VertigoGit/Content/NarrativeUI/Widgets/Editor/WBP_SpeakerSelector.uasset is too new. Engine Version: 1009  Package Version: 1012
+[2026.10.11-03.49.43:562][  0]LogAssetRegistry: Warning: Package G:/Epic/Unreal projects/VertigoGit/Content/NarrativeUI/Widgets/Editor/StateNode_Node_Body.uasset is too new. Engine Version: 1009  Package Version: 1012
+[2026.10.11-03.49.43:562][  0]LogAssetRegistry: Warning: Package G:/Epic/Unreal projects/VertigoGit/Content/NarrativeUI/Widgets/W_NarrativeMenu_QuestJournal.uasset is too new. Engine Version: 1009  Package Version: 1012
+[2026.10.11-03.49.43:562][  0]LogAssetRegistry: Warning: Package G:/Epic/Unreal projects/VertigoGit/Content/NarrativeUI/Widgets/Editor/ActionIcon64x64.uasset is too new. Engine Version: 1009  Package Version: 1012
+[2026.10.11-03.49.43:563][  0]LogAssetRegistry: Warning: Package G:/Epic/Unreal projects/VertigoGit/Content/NarrativeUI/Assets/Unchecked.uasset is too new. Engine Version: 1009  Package Version: 1012
+[2026.10.11-03.49.43:563][  0]LogAssetRegistry: Warning: Package G:/Epic/Unreal projects/VertigoGit/Content/NarrativeUI/Widgets/Editor/anim_24x.uasset is too new. Engine Version: 1009  Package Version: 1012
+[2026.10.11-03.49.43:563][  0]LogAssetRegistry: Warning: Package G:/Epic/Unreal projects/VertigoGit/Content/NarrativeUI/Widgets/BP_QuestTask.uasset is too new. Engine Version: 1009  Package Version: 1012
+[2026.10.11-03.49.43:563][  0]LogAssetRegistry: Warning: Package G:/Epic/Unreal projects/VertigoGit/Content/NarrativeUI/Audio/Error_Sound.uasset is too new. Engine Version: 1009  Package Version: 1012
+[2026.10.11-03.49.43:563][  0]LogAssetRegistry: Warning: Package G:/Epic/Unreal projects/VertigoGit/Content/NarrativeUI/Widgets/Editor/WBP_DefaultQuestNode.uasset is too new. Engine Version: 1009  Package Version: 1012
+[2026.10.11-03.49.43:563][  0]LogAssetRegistry: Warning: Package G:/Epic/Unreal projects/VertigoGit/Content/NarrativeUI/Widgets/W_NarrativeMenu_Dialogue.uasset is too new. Engine Version: 1009  Package Version: 1012
+[2026.10.11-03.49.43:564][  0]LogAssetRegistry: Warning: Package G:/Epic/Unreal projects/VertigoGit/Content/NarrativeUI/Assets/T_Grad.uasset is too new. Engine Version: 1009  Package Version: 1012
+[2026.10.11-03.49.43:564][  0]LogAssetRegistry: Warning: Package G:/Epic/Unreal projects/VertigoGit/Content/NarrativeUI/Assets/SourceSansPro-Regular.uasset is too new. Engine Version: 1009  Package Version: 1012
+[2026.10.11-03.49.43:564][  0]LogAssetRegistry: Warning: Package G:/Epic/Unreal projects/VertigoGit/Content/NarrativeUI/Assets/SourceSansPro-Bold_Font.uasset is too new. Engine Version: 1009  Package Version: 1012
+[2026.10.11-03.49.43:564][  0]LogAssetRegistry: Warning: Package G:/Epic/Unreal projects/VertigoGit/Content/NarrativeUI/Audio/Completion_Sound.uasset is too new. Engine Version: 1009  Package Version: 1012
+[2026.10.11-03.49.43:564][  0]LogAssetRegistry: Warning: Package G:/Epic/Unreal projects/VertigoGit/Content/NarrativeUI/Assets/T_CloseIcon.uasset is too new. Engine Version: 1009  Package Version: 1012
+[2026.10.11-03.49.43:565][  0]LogAssetRegistry: Warning: Package G:/Epic/Unreal projects/VertigoGit/Content/NarrativeUI/Assets/T_DialogueOptionSelector.uasset is too new. Engine Version: 1009  Package Version: 1012
+[2026.10.11-03.49.43:565][  0]LogAssetRegistry: Warning: Package G:/Epic/Unreal projects/VertigoGit/Content/NarrativeUI/Assets/DT_RichText_NarrativeQuestUpdate.uasset is too new. Engine Version: 1009  Package Version: 1012
+[2026.10.11-03.49.43:565][  0]LogAssetRegistry: Warning: Package G:/Epic/Unreal projects/VertigoGit/Content/NarrativeUI/Assets/DT_RichText_QuestJournal.uasset is too new. Engine Version: 1009  Package Version: 1012
+[2026.10.11-03.49.43:565][  0]LogAssetRegistry: Warning: Package G:/Epic/Unreal projects/VertigoGit/Content/NarrativeUI/Assets/Checked.uasset is too new. Engine Version: 1009  Package Version: 1012
+[2026.10.11-03.49.43:565][  0]LogAssetRegistry: Warning: Package G:/Epic/Unreal projects/VertigoGit/Content/NarrativeUI/Assets/AstroneliPrototype/quest_title_4x.uasset is too new. Engine Version: 1009  Package Version: 1012
+[2026.10.11-03.49.43:566][  0]LogAssetRegistry: Warning: Package G:/Epic/Unreal projects/VertigoGit/Content/NarrativeUI/Assets/AstroneliPrototype/bullet_diamond_4x.uasset is too new. Engine Version: 1009  Package Version: 1012
+[2026.10.11-03.49.43:566][  0]LogAssetRegistry: Warning: Package G:/Epic/Unreal projects/VertigoGit/Content/NarrativeUI/Assets/AstroneliPrototype/bullet_diamond_checked_4x.uasset is too new. Engine Version: 1009  Package Version: 1012
+[2026.10.11-03.49.43:566][  0]LogAssetRegistry: Warning: Package G:/Epic/Unreal projects/VertigoGit/Content/NarrativeUI/Assets/AstroneliPrototype/quest_desc_line_4x.uasset is too new. Engine Version: 1009  Package Version: 1012
+[2026.10.11-03.49.43:566][  0]LogAssetRegistry: Warning: Package G:/Epic/Unreal projects/VertigoGit/Content/NarrativeUI/Assets/AstroneliPrototype/quest_notification_4x.uasset is too new. Engine Version: 1009  Package Version: 1012
+[2026.10.11-03.49.43:566][  0]LogAssetRegistry: Warning: Package G:/Epic/Unreal projects/VertigoGit/Content/NarrativeUI/Assets/SourceSansPro-SemiBold.uasset is too new. Engine Version: 1009  Package Version: 1012
+[2026.10.11-03.49.43:566][  0]LogAssetRegistry: Warning: Package G:/Epic/Unreal projects/VertigoGit/Content/NarrativeUI/Assets/AstroneliPrototype/quest_notification_name_4x.uasset is too new. Engine Version: 1009  Package Version: 1012
+[2026.10.11-03.49.43:567][  0]LogAssetRegistry: Warning: Package G:/Epic/Unreal projects/VertigoGit/Content/NarrativeUI/Assets/SourceSansPro-Bold.uasset is too new. Engine Version: 1009  Package Version: 1012
+[2026.10.11-03.49.43:567][  0]LogAssetRegistry: Warning: Package G:/Epic/Unreal projects/VertigoGit/Content/NarrativeUI/Assets/DT_NarrativeDefaultUIRichText.uasset is too new. Engine Version: 1009  Package Version: 1012
+[2026.10.11-03.49.43:567][  0]LogAssetRegistry: Warning: Package G:/Epic/Unreal projects/VertigoGit/Content/NarrativeUI/Assets/DT_RichText_NarrativeDialogue.uasset is too new. Engine Version: 1009  Package Version: 1012
+[2026.10.11-03.49.43:567][  0]LogAssetRegistry: Warning: Package G:/Epic/Unreal projects/VertigoGit/Content/NarrativeUI/Widgets/Editor/WBP_DefaultDialogueNode.uasset is too new. Engine Version: 1009  Package Version: 1012
+[2026.10.11-03.49.43:567][  0]LogAssetRegistry: Warning: Package G:/Epic/Unreal projects/VertigoGit/Content/NarrativeUI/Widgets/BP_QuestBranch.uasset is too new. Engine Version: 1009  Package Version: 1012
+[2026.10.11-03.49.43:568][  0]LogAssetRegistry: Warning: Package G:/Epic/Unreal projects/VertigoGit/Content/Materials/UI/ProgressCircle/ProgressCircle/MI_ProgressCircle.uasset is too new. Engine Version: 1009  Package Version: 1012
+[2026.10.11-03.49.43:568][  0]LogAssetRegistry: Warning: Package G:/Epic/Unreal projects/VertigoGit/Content/Materials/UI/ProgressCircle/ProgressCircle/T_IconHoldMask.uasset is too new. Engine Version: 1009  Package Version: 1012
+[2026.10.11-03.49.43:568][  0]LogAssetRegistry: Warning: Package G:/Epic/Unreal projects/VertigoGit/Content/Materials/UI/ProgressCircle/ProgressCircle/M_ProgressCircle.uasset is too new. Engine Version: 1009  Package Version: 1012
+[2026.10.11-03.49.43:568][  0]LogAssetRegistry: Warning: Package G:/Epic/Unreal projects/VertigoGit/Content/Materials/UI/ProgressCircle/ProgressCircle/T_CircularMask.uasset is too new. Engine Version: 1009  Package Version: 1012
+[2026.10.11-03.49.43:568][  0]LogAssetRegistry: Warning: Package G:/Epic/Unreal projects/VertigoGit/Content/Icons/T_Marker_Generic.uasset is too new. Engine Version: 1009  Package Version: 1012
+[2026.10.11-03.49.43:569][  0]LogAssetRegistry: Warning: Package G:/Epic/Unreal projects/VertigoGit/Content/Fonts/RobotoCondensed.uasset is too new. Engine Version: 1009  Package Version: 1012
+[2026.10.11-03.49.43:569][  0]LogAssetRegistry: Warning: Package G:/Epic/Unreal projects/VertigoGit/Content/Fonts/RobotoCondensed-BoldItalic.uasset is too new. Engine Version: 1009  Package Version: 1012
+[2026.10.11-03.49.43:569][  0]LogAssetRegistry: Warning: Package G:/Epic/Unreal projects/VertigoGit/Content/Fonts/RobotoCondensed-LightItalic.uasset is too new. Engine Version: 1009  Package Version: 1012
+[2026.10.11-03.49.43:569][  0]LogAssetRegistry: Warning: Package G:/Epic/Unreal projects/VertigoGit/Content/Fonts/RobotoCondensed-Bold.uasset is too new. Engine Version: 1009  Package Version: 1012
+[2026.10.11-03.49.43:569][  0]LogAssetRegistry: Warning: Package G:/Epic/Unreal projects/VertigoGit/Content/Fonts/RobotoCondensed-Regular.uasset is too new. Engine Version: 1009  Package Version: 1012
+[2026.10.11-03.49.43:569][  0]LogAssetRegistry: Warning: Package G:/Epic/Unreal projects/VertigoGit/Content/Fonts/RobotoCondensed-Light.uasset is too new. Engine Version: 1009  Package Version: 1012
+[2026.10.11-03.49.43:570][  0]LogAssetRegistry: Warning: Package G:/Epic/Unreal projects/VertigoGit/Content/EnvArt/Tunnel/L2Tunnel/M_MovingTunnel.uasset is too old. Min Version: 214  Package Version: 0
+[2026.10.11-03.49.43:593][  0]LogAssetRegistry: Warning: Package G:/Epic/Unreal projects/VertigoGit/Content/ControllerData/DT_NarrativeInputActions.uasset is too new. Engine Version: 1009  Package Version: 1012
+[2026.10.11-03.49.44:752][  0]LogCsvProfiler: Display: Metadata set : largeworldcoordinates="1"
+[2026.10.11-03.49.44:906][  0]LogPythonScriptCommandlet: Display: Running Python script: G:/Epic/Unreal projects/VertigoGit/Scripts/WeaponDiagnosis/inspect.py
+[2026.10.11-03.49.46:029][  0]LogUObjectGlobals: Warning: [AssetLog] G:\Epic\Unreal projects\VertigoGit\Content\Resource\AdvWeaponLaser\Meshes\SM_Aiming_Laser_01.uasset: Failed to load '/Game/AdvWeaponLaser/Materials/AH-PEQ17/M_AH-PEQ17': Can't find file.
+[2026.10.11-03.49.46:030][  0]LogLinker: Warning: [AssetLog] G:\Epic\Unreal projects\VertigoGit\Content\Resource\AdvWeaponLaser\Meshes\SM_Aiming_Laser_01.uasset: VerifyImport: Failed to load package for import object 'Package /Game/AdvWeaponLaser/Materials/AH-PEQ17/M_AH-PEQ17'
+[2026.10.11-03.49.46:568][  0]LogGameplayTags: Warning: [AssetLog] G:\Epic\Unreal projects\VertigoGit\Content\Resource\StealthSystem\Player\Components\StealthComponent.uasset: Invalid GameplayTag StealthSystem.Global.EyeColor found in object K2Node_CallFunction_6.
+[2026.10.11-03.49.46:568][  0]LogGameplayTags: Warning: [AssetLog] G:\Epic\Unreal projects\VertigoGit\Content\Resource\StealthSystem\Player\Components\StealthComponent.uasset: Invalid GameplayTag StealthSystem.Player.Status.RaisedSuspicion found in object K2Node_CallFunction_7.
+[2026.10.11-03.49.46:569][  0]LogGameplayTags: Warning: [AssetLog] G:\Epic\Unreal projects\VertigoGit\Content\Resource\StealthSystem\Player\Components\StealthComponent.uasset: Invalid GameplayTag StealthSystem.Player.Status.Concealed found in object K2Node_CallFunction_5.
+[2026.10.11-03.49.46:569][  0]LogGameplayTags: Warning: [AssetLog] G:\Epic\Unreal projects\VertigoGit\Content\Resource\StealthSystem\Player\Components\StealthComponent.uasset: Invalid GameplayTag StealthSystem.Player.Status.Concealed found in object K2Node_CallFunction_10.
+[2026.10.11-03.49.46:569][  0]LogGameplayTags: Warning: [AssetLog] G:\Epic\Unreal projects\VertigoGit\Content\Resource\StealthSystem\Player\Components\StealthComponent.uasset: Invalid GameplayTag StealthSystem.Player.Status.Concealed found in object K2Node_CallFunction_6.
+[2026.10.11-03.49.46:570][  0]LogGameplayTags: Warning: [AssetLog] G:\Epic\Unreal projects\VertigoGit\Content\Resource\StealthSystem\Player\Components\StealthComponent.uasset: Invalid GameplayTag StealthSystem.Player.Status.Spotted found in object K2Node_CallFunction_18.
+[2026.10.11-03.49.46:573][  0]LogGameplayTags: Warning: [AssetLog] G:\Epic\Unreal projects\VertigoGit\Content\Resource\StealthSystem\Player\Components\StealthComponent.uasset: Invalid GameplayTag StealthSystem.Global.EyeColor.Blue found in property /Script/GameplayTagsEditor.GameplayTagsK2Node_SwitchGameplayTag:PinTags.PinTags.
+[2026.10.11-03.49.46:573][  0]LogGameplayTags: Warning: [AssetLog] G:\Epic\Unreal projects\VertigoGit\Content\Resource\StealthSystem\Player\Components\StealthComponent.uasset: Invalid GameplayTag StealthSystem.Global.EyeColor.Yellow found in property /Script/GameplayTagsEditor.GameplayTagsK2Node_SwitchGameplayTag:PinTags.PinTags.
+[2026.10.11-03.49.46:573][  0]LogGameplayTags: Warning: [AssetLog] G:\Epic\Unreal projects\VertigoGit\Content\Resource\StealthSystem\Player\Components\StealthComponent.uasset: Invalid GameplayTag StealthSystem.Global.EyeColor.Red found in property /Script/GameplayTagsEditor.GameplayTagsK2Node_SwitchGameplayTag:PinTags.PinTags.
+[2026.10.11-03.49.48:057][  0]LogBlueprint: Warning: [AssetLog] G:\Epic\Unreal projects\VertigoGit\Content\Characters\NPC\Bolt\ABP_Bolt.uasset: [Compiler] Transform (Modify) Bone - Bone: root  - No components to modify selected.  Either Rotation, Translation, or Scale should be set to something other than Ignore
+[2026.10.11-03.49.53:852][  0]LogAnimation: Warning: PoseAsset /Game/AI/AIBehaviorSystem/Demo/Characters/Mannequins/Rigs/Poses/Manny/Manny_calf_l_pose.Manny_calf_l_pose is out-of-date with its source animation /Game/AI/AIBehaviorSystem/Demo/Characters/Mannequins/Rigs/Poses/Manny/Manny_calf_l_anim.Manny_calf_l_anim 8E2B50DD07CBD0EC07FCDD7DE6C03CCF vs CC78212CC2D05F60DB49B336943F61D9
+[2026.10.11-03.49.53:859][  0]LogAnimation: Warning: PoseAsset /Game/AI/AIBehaviorSystem/Demo/Characters/Mannequins/Rigs/Poses/Manny/Manny_calf_r_pose.Manny_calf_r_pose is out-of-date with its source animation /Game/AI/AIBehaviorSystem/Demo/Characters/Mannequins/Rigs/Poses/Manny/Manny_calf_r_anim.Manny_calf_r_anim 7894484DF77F696ECE86F5E48B21970F vs 8FE1687880D683625E543FF1464725DB
+[2026.10.11-03.49.53:865][  0]LogAnimation: Warning: PoseAsset /Game/AI/AIBehaviorSystem/Demo/Characters/Mannequins/Rigs/Poses/Manny/Manny_clavicle_l_pose.Manny_clavicle_l_pose is out-of-date with its source animation /Game/AI/AIBehaviorSystem/Demo/Characters/Mannequins/Rigs/Poses/Manny/Manny_clavicle_l_anim.Manny_clavicle_l_anim 6CEA229F225BD38F08A7E79F1708B2C3 vs 85F8EF1345C47A8C9C76736EC7A3FE90
+[2026.10.11-03.49.53:871][  0]LogAnimation: Warning: PoseAsset /Game/AI/AIBehaviorSystem/Demo/Characters/Mannequins/Rigs/Poses/Manny/Manny_clavicle_r_pose.Manny_clavicle_r_pose is out-of-date with its source animation /Game/AI/AIBehaviorSystem/Demo/Characters/Mannequins/Rigs/Poses/Manny/Manny_clavicle_r_anim.Manny_clavicle_r_anim 5011953F65839BC59E3AB711A254A94E vs ADA1E6650A76F8713148B97EF6AF9A89
+[2026.10.11-03.49.53:877][  0]LogAnimation: Warning: PoseAsset /Game/AI/AIBehaviorSystem/Demo/Characters/Mannequins/Rigs/Poses/Manny/Manny_foot_l_pose.Manny_foot_l_pose is out-of-date with its source animation /Game/AI/AIBehaviorSystem/Demo/Characters/Mannequins/Rigs/Poses/Manny/Manny_foot_l_anim.Manny_foot_l_anim E1CD278520DDF4FB187D1CBC17C34C12 vs 27DE3409653F529F13DE46FBC2B19C83
+[2026.10.11-03.49.53:884][  0]LogAnimation: Warning: PoseAsset /Game/AI/AIBehaviorSystem/Demo/Characters/Mannequins/Rigs/Poses/Manny/Manny_foot_r_pose.Manny_foot_r_pose is out-of-date with its source animation /Game/AI/AIBehaviorSystem/Demo/Characters/Mannequins/Rigs/Poses/Manny/Manny_foot_r_anim.Manny_foot_r_anim 9B48B63BBAECCB8F6D4567982FCD3450 vs 73E77D69CA585135BF157B81788D5D86
+[2026.10.11-03.49.53:890][  0]LogAnimation: Warning: PoseAsset /Game/AI/AIBehaviorSystem/Demo/Characters/Mannequins/Rigs/Poses/Manny/Manny_hand_l_pose.Manny_hand_l_pose is out-of-date with its source animation /Game/AI/AIBehaviorSystem/Demo/Characters/Mannequins/Rigs/Poses/Manny/Manny_hand_l_anim.Manny_hand_l_anim 9B42FC91272EF6C74D20196D6DFE60F4 vs AB6FD63C9D139264C0008EDBECC735F0
+[2026.10.11-03.49.53:896][  0]LogAnimation: Warning: PoseAsset /Game/AI/AIBehaviorSystem/Demo/Characters/Mannequins/Rigs/Poses/Manny/Manny_hand_r_pose.Manny_hand_r_pose is out-of-date with its source animation /Game/AI/AIBehaviorSystem/Demo/Characters/Mannequins/Rigs/Poses/Manny/Manny_hand_r_anim.Manny_hand_r_anim 23D2F7543DE7F7C42CEDA5C43C0F6FB1 vs 93329CC316356DE7E397D2DEB2E3AFD1
+[2026.10.11-03.49.53:902][  0]LogAnimation: Warning: PoseAsset /Game/AI/AIBehaviorSystem/Demo/Characters/Mannequins/Rigs/Poses/Manny/Manny_lowerarm_l_pose.Manny_lowerarm_l_pose is out-of-date with its source animation /Game/AI/AIBehaviorSystem/Demo/Characters/Mannequins/Rigs/Poses/Manny/Manny_lowerarm_l_anim.Manny_lowerarm_l_anim C5886899902BFF210DE43F818588A597 vs 011865FD95B823CF80CFFC7D480E61C6
+[2026.10.11-03.49.53:909][  0]LogAnimation: Warning: PoseAsset /Game/AI/AIBehaviorSystem/Demo/Characters/Mannequins/Rigs/Poses/Manny/Manny_lowerarm_r_pose.Manny_lowerarm_r_pose is out-of-date with its source animation /Game/AI/AIBehaviorSystem/Demo/Characters/Mannequins/Rigs/Poses/Manny/Manny_lowerarm_r_anim.Manny_lowerarm_r_anim 875F291D3A6E3ECDAF9BE4BCE6F094DD vs 1BB05015D9BFA1ECD7E35B013381E1BD
+[2026.10.11-03.49.53:915][  0]LogAnimation: Warning: PoseAsset /Game/AI/AIBehaviorSystem/Demo/Characters/Mannequins/Rigs/Poses/Manny/Manny_thigh_l_pose.Manny_thigh_l_pose is out-of-date with its source animation /Game/AI/AIBehaviorSystem/Demo/Characters/Mannequins/Rigs/Poses/Manny/Manny_thigh_l_anim.Manny_thigh_l_anim 44456FC574BD040D2281CA549C0C8191 vs 4CB65F0128C1D0D989355D4955DCE16F
+[2026.10.11-03.49.53:921][  0]LogAnimation: Warning: PoseAsset /Game/AI/AIBehaviorSystem/Demo/Characters/Mannequins/Rigs/Poses/Manny/Manny_thigh_r_pose.Manny_thigh_r_pose is out-of-date with its source animation /Game/AI/AIBehaviorSystem/Demo/Characters/Mannequins/Rigs/Poses/Manny/Manny_thigh_r_anim.Manny_thigh_r_anim 364BC1D823C760EAFC55654DBF9144FE vs E90CD50BD93DFBC0B3D7B8B240DA9861
+[2026.10.11-03.49.53:928][  0]LogAnimation: Warning: PoseAsset /Game/AI/AIBehaviorSystem/Demo/Characters/Mannequins/Rigs/Poses/Manny/Manny_upperarm_l_pose.Manny_upperarm_l_pose is out-of-date with its source animation /Game/AI/AIBehaviorSystem/Demo/Characters/Mannequins/Rigs/Poses/Manny/Manny_upperarm_l_anim.Manny_upperarm_l_anim E74586CE1E5E44B3F8048DBFC7950641 vs 664563D92C58772CAB9EEAD42C191D1A
+[2026.10.11-03.49.53:934][  0]LogAnimation: Warning: PoseAsset /Game/AI/AIBehaviorSystem/Demo/Characters/Mannequins/Rigs/Poses/Manny/Manny_upperarm_r_pose.Manny_upperarm_r_pose is out-of-date with its source animation /Game/AI/AIBehaviorSystem/Demo/Characters/Mannequins/Rigs/Poses/Manny/Manny_upperarm_r_anim.Manny_upperarm_r_anim 63B9CCF17675B52E40416075E3A9DDE3 vs 9AAB8175306B1E429602738D99BAB05C
+[2026.10.11-03.49.54:878][  0]LogAnimation: Warning: AnimMontage (AnimMontage /Game/Characters/Monster/StrandedStarspine/Anm/ANM_StrandedStarSpine_8Roar_Montage.ANM_StrandedStarSpine_8Roar_Montage) contains a Segment for Slot (DefaultSlot) for which the playable length 3.833333 is out-of-sync with the represented AnimationSequence its length 3.916667 (AnimSequence /Game/Characters/Monster/StrandedStarspine/Anm/ANM_StrandedStarSpine_8Roar.ANM_StrandedStarSpine_8Roar). Please up-date the segment and resave.
+[2026.10.11-03.49.54:879][  0]LogAnimMontage: Warning: [AssetLog] G:\Epic\Unreal projects\VertigoGit\Content\Characters\Monster\StrandedStarspine\Anm\ANM_StrandedStarSpine_3VomitBomb_Montage1.uasset: Branching Point 'Notify_Damage_C' overlaps with 'Notify_Execute_C' at time: 3.458863. One of them will not get triggered!
+[2026.10.11-03.49.54:879][  0]LogAnimation: Warning: AnimMontage (AnimMontage /Game/Characters/Monster/StrandedStarspine/Anm/ANM_StrandedStarSpine_2CanonAtk_Montage.ANM_StrandedStarSpine_2CanonAtk_Montage) contains a Segment for Slot (DefaultSlot) for which the playable length 7.291667 is out-of-sync with the represented AnimationSequence its length 7.875000 (AnimSequence /Game/Characters/Monster/StrandedStarspine/Anm/ANM_StrandedStarSpine_2CanonAtk.ANM_StrandedStarSpine_2CanonAtk). Please up-date the segment and resave.
+[2026.10.11-03.49.55:579][  0]LogPython: Warning: G:/Epic/Unreal projects/VertigoGit/Scripts/WeaponDiagnosis/inspect.py:10: DeprecationWarning: Character: Property 'controller_class' on 'BP_Enm_SteetGoon3_Brosky_C' is deprecated: 'controller_class' was renamed to 'ai_controller_class'.
+  v=c.get_editor_property(name)
+
+[2026.10.11-03.49.55:580][  0]LogPython: Warning: G:/Epic/Unreal projects/VertigoGit/Scripts/WeaponDiagnosis/inspect.py:10: DeprecationWarning: Character: Property 'life_span' on 'BP_Enm_SteetGoon3_Brosky_C' is deprecated: 'life_span' was renamed to 'initial_life_span'.
+  v=c.get_editor_property(name)
+
+[2026.10.11-03.49.55:580][  0]LogPython: Warning: G:/Epic/Unreal projects/VertigoGit/Scripts/WeaponDiagnosis/inspect.py:10: DeprecationWarning: Character: Property 'on_actor_touch' on 'BP_Enm_SteetGoon3_Brosky_C' is deprecated: 'on_actor_touch' was renamed to 'on_actor_begin_overlap'.
+  v=c.get_editor_property(name)
+
+[2026.10.11-03.49.55:580][  0]LogPython: Warning: G:/Epic/Unreal projects/VertigoGit/Scripts/WeaponDiagnosis/inspect.py:10: DeprecationWarning: Character: Property 'on_actor_un_touch' on 'BP_Enm_SteetGoon3_Brosky_C' is deprecated: 'on_actor_un_touch' was renamed to 'on_actor_end_overlap'.
+  v=c.get_editor_property(name)
+
+[2026.10.11-03.49.55:580][  0]LogPython: Warning: G:/Epic/Unreal projects/VertigoGit/Scripts/WeaponDiagnosis/inspect.py:10: DeprecationWarning: Character: Property 'player_replication_info' on 'BP_Enm_SteetGoon3_Brosky_C' is deprecated: 'player_replication_info' was renamed to 'player_state'.
+  v=c.get_editor_property(name)
+
+[2026.10.11-03.49.55:583][  0]LogPython: Warning: G:/Epic/Unreal projects/VertigoGit/Scripts/WeaponDiagnosis/inspect.py:21: DeprecationWarning: BoxComponent: Property 'b_absolute_translation' on 'BoxComponent' is deprecated: 'b_absolute_translation' was renamed to 'absolute_location'.
+  try:lines.append('  '+name+' = '+str(o.get_editor_property(name)))
+
+[2026.10.11-03.49.55:583][  0]LogPython: Warning: G:/Epic/Unreal projects/VertigoGit/Scripts/WeaponDiagnosis/inspect.py:21: DeprecationWarning: BoxComponent: Property 'can_be_character_base' on 'BoxComponent' is deprecated: 'can_be_character_base' was renamed to 'can_character_step_up_on'.
+  try:lines.append('  '+name+' = '+str(o.get_editor_property(name)))
+
+[2026.10.11-03.49.55:584][  0]LogPython: Warning: G:/Epic/Unreal projects/VertigoGit/Scripts/WeaponDiagnosis/inspect.py:21: DeprecationWarning: BoxComponent: Property 'modify_frequency' on 'BoxComponent' is deprecated: 'modify_frequency' was renamed to 'mobility'.
+  try:lines.append('  '+name+' = '+str(o.get_editor_property(name)))
+
+[2026.10.11-03.49.55:584][  0]LogPython: Warning: G:/Epic/Unreal projects/VertigoGit/Scripts/WeaponDiagnosis/inspect.py:21: DeprecationWarning: BoxComponent: Property 'relative_translation' on 'BoxComponent' is deprecated: 'relative_translation' was renamed to 'relative_location'.
+  try:lines.append('  '+name+' = '+str(o.get_editor_property(name)))
+
+[2026.10.11-03.49.55:585][  0]LogPython: Warning: G:/Epic/Unreal projects/VertigoGit/Scripts/WeaponDiagnosis/inspect.py:21: DeprecationWarning: WidgetComponent: Property 'b_absolute_translation' on 'WidgetComponent' is deprecated: 'b_absolute_translation' was renamed to 'absolute_location'.
+  try:lines.append('  '+name+' = '+str(o.get_editor_property(name)))
+
+[2026.10.11-03.49.55:585][  0]LogPython: Warning: G:/Epic/Unreal projects/VertigoGit/Scripts/WeaponDiagnosis/inspect.py:21: DeprecationWarning: WidgetComponent: Property 'can_be_character_base' on 'WidgetComponent' is deprecated: 'can_be_character_base' was renamed to 'can_character_step_up_on'.
+  try:lines.append('  '+name+' = '+str(o.get_editor_property(name)))
+
+[2026.10.11-03.49.55:585][  0]LogPython: Warning: G:/Epic/Unreal projects/VertigoGit/Scripts/WeaponDiagnosis/inspect.py:21: DeprecationWarning: WidgetComponent: Property 'modify_frequency' on 'WidgetComponent' is deprecated: 'modify_frequency' was renamed to 'mobility'.
+  try:lines.append('  '+name+' = '+str(o.get_editor_property(name)))
+
+[2026.10.11-03.49.55:586][  0]LogPython: Warning: G:/Epic/Unreal projects/VertigoGit/Scripts/WeaponDiagnosis/inspect.py:21: DeprecationWarning: WidgetComponent: Property 'relative_translation' on 'WidgetComponent' is deprecated: 'relative_translation' was renamed to 'relative_location'.
+  try:lines.append('  '+name+' = '+str(o.get_editor_property(name)))
+
+[2026.10.11-03.49.55:586][  0]LogPython: Warning: G:/Epic/Unreal projects/VertigoGit/Scripts/WeaponDiagnosis/inspect.py:21: DeprecationWarning: ArrowComponent: Property 'b_absolute_translation' on 'ArrowComponent' is deprecated: 'b_absolute_translation' was renamed to 'absolute_location'.
+  try:lines.append('  '+name+' = '+str(o.get_editor_property(name)))
+
+[2026.10.11-03.49.55:587][  0]LogPython: Warning: G:/Epic/Unreal projects/VertigoGit/Scripts/WeaponDiagnosis/inspect.py:21: DeprecationWarning: ArrowComponent: Property 'can_be_character_base' on 'ArrowComponent' is deprecated: 'can_be_character_base' was renamed to 'can_character_step_up_on'.
+  try:lines.append('  '+name+' = '+str(o.get_editor_property(name)))
+
+[2026.10.11-03.49.55:587][  0]LogPython: Warning: G:/Epic/Unreal projects/VertigoGit/Scripts/WeaponDiagnosis/inspect.py:21: DeprecationWarning: ArrowComponent: Property 'modify_frequency' on 'ArrowComponent' is deprecated: 'modify_frequency' was renamed to 'mobility'.
+  try:lines.append('  '+name+' = '+str(o.get_editor_property(name)))
+
+[2026.10.11-03.49.55:587][  0]LogPython: Warning: G:/Epic/Unreal projects/VertigoGit/Scripts/WeaponDiagnosis/inspect.py:21: DeprecationWarning: ArrowComponent: Property 'relative_translation' on 'ArrowComponent' is deprecated: 'relative_translation' was renamed to 'relative_location'.
+  try:lines.append('  '+name+' = '+str(o.get_editor_property(name)))
+
+[2026.10.11-03.49.55:588][  0]LogPython: Warning: G:/Epic/Unreal projects/VertigoGit/Scripts/WeaponDiagnosis/inspect.py:21: DeprecationWarning: SkeletalMeshComponent: Property 'animation_blueprint' on 'SkeletalMeshComponent' is deprecated: 'animation_blueprint' was renamed to 'anim_blueprint_generated_class'.
+  try:lines.append('  '+name+' = '+str(o.get_editor_property(name)))
+
+[2026.10.11-03.49.55:588][  0]LogPython: Warning: G:/Epic/Unreal projects/VertigoGit/Scripts/WeaponDiagnosis/inspect.py:21: DeprecationWarning: SkeletalMeshComponent: Property 'b_absolute_translation' on 'SkeletalMeshComponent' is deprecated: 'b_absolute_translation' was renamed to 'absolute_location'.
+  try:lines.append('  '+name+' = '+str(o.get_editor_property(name)))
+
+[2026.10.11-03.49.55:589][  0]LogPython: Warning: G:/Epic/Unreal projects/VertigoGit/Scripts/WeaponDiagnosis/inspect.py:21: DeprecationWarning: SkeletalMeshComponent: Property 'b_ignore_master_pose_component_lod' on 'SkeletalMeshComponent' is deprecated: 'b_ignore_master_pose_component_lod' was renamed to 'ignore_leader_pose_component_lod'.
+  try:lines.append('  '+name+' = '+str(o.get_editor_property(name)))
+
+[2026.10.11-03.49.55:589][  0]LogPython: Warning: G:/Epic/Unreal projects/VertigoGit/Scripts/WeaponDiagnosis/inspect.py:21: DeprecationWarning: SkeletalMeshComponent: Property 'b_propagate_curves_to_slaves' on 'SkeletalMeshComponent' is deprecated: 'b_propagate_curves_to_slaves' was renamed to 'propagate_curves_to_followers'.
+  try:lines.append('  '+name+' = '+str(o.get_editor_property(name)))
+
+[2026.10.11-03.49.55:590][  0]LogPython: Warning: G:/Epic/Unreal projects/VertigoGit/Scripts/WeaponDiagnosis/inspect.py:21: DeprecationWarning: SkeletalMeshComponent: Property 'b_use_bounds_from_master_pose_component' on 'SkeletalMeshComponent' is deprecated: 'b_use_bounds_from_master_pose_component' was renamed to 'use_bounds_from_leader_pose_component'.
+  try:lines.append('  '+name+' = '+str(o.get_editor_property(name)))
+
+[2026.10.11-03.49.55:590][  0]LogPython: Warning: G:/Epic/Unreal projects/VertigoGit/Scripts/WeaponDiagnosis/inspect.py:21: DeprecationWarning: SkeletalMeshComponent: Property 'can_be_character_base' on 'SkeletalMeshComponent' is deprecated: 'can_be_character_base' was renamed to 'can_character_step_up_on'.
+  try:lines.append('  '+name+' = '+str(o.get_editor_property(name)))
+
+[2026.10.11-03.49.55:590][  0]LogPython: Warning: G:/Epic/Unreal projects/VertigoGit/Scripts/WeaponDiagnosis/inspect.py:21: DeprecationWarning: SkeletalMeshComponent: Property 'master_pose_component' on 'SkeletalMeshComponent' is deprecated: 'master_pose_component' was renamed to 'leader_pose_component'.
+  try:lines.append('  '+name+' = '+str(o.get_editor_property(name)))
+
+[2026.10.11-03.49.55:591][  0]LogPython: Warning: G:/Epic/Unreal projects/VertigoGit/Scripts/WeaponDiagnosis/inspect.py:21: DeprecationWarning: SkeletalMeshComponent: Property 'mesh_component_update_flag' on 'SkeletalMeshComponent' is deprecated: 'mesh_component_update_flag' was renamed to 'visibility_based_anim_tick_option'.
+  try:lines.append('  '+name+' = '+str(o.get_editor_property(name)))
+
+[2026.10.11-03.49.55:591][  0]LogPython: Warning: G:/Epic/Unreal projects/VertigoGit/Scripts/WeaponDiagnosis/inspect.py:21: DeprecationWarning: SkeletalMeshComponent: Property 'modify_frequency' on 'SkeletalMeshComponent' is deprecated: 'modify_frequency' was renamed to 'mobility'.
+  try:lines.append('  '+name+' = '+str(o.get_editor_property(name)))
+
+[2026.10.11-03.49.55:591][  0]LogPython: Warning: G:/Epic/Unreal projects/VertigoGit/Scripts/WeaponDiagnosis/inspect.py:21: DeprecationWarning: SkeletalMeshComponent: Property 'relative_translation' on 'SkeletalMeshComponent' is deprecated: 'relative_translation' was renamed to 'relative_location'.
+  try:lines.append('  '+name+' = '+str(o.get_editor_property(name)))
+
+[2026.10.11-03.49.55:592][  0]LogPython: Warning: G:/Epic/Unreal projects/VertigoGit/Scripts/WeaponDiagnosis/inspect.py:21: DeprecationWarning: SkeletalMeshComponent: Property 'skeletal_mesh' on 'SkeletalMeshComponent' is deprecated: Use USkeletalMeshComponent::GetSkeletalMeshAsset() or GetSkinnedAsset() instead.
+  try:lines.append('  '+name+' = '+str(o.get_editor_property(name)))
+
+[2026.10.11-03.49.55:592][  0]LogPython: Warning: G:/Epic/Unreal projects/VertigoGit/Scripts/WeaponDiagnosis/inspect.py:21: DeprecationWarning: StaticMeshComponent: Property 'b_absolute_translation' on 'StaticMeshComponent' is deprecated: 'b_absolute_translation' was renamed to 'absolute_location'.
+  try:lines.append('  '+name+' = '+str(o.get_editor_property(name)))
+
+[2026.10.11-03.49.55:592][  0]LogPython: Warning: G:/Epic/Unreal projects/VertigoGit/Scripts/WeaponDiagnosis/inspect.py:21: DeprecationWarning: StaticMeshComponent: Property 'can_be_character_base' on 'StaticMeshComponent' is deprecated: 'can_be_character_base' was renamed to 'can_character_step_up_on'.
+  try:lines.append('  '+name+' = '+str(o.get_editor_property(name)))
+
+[2026.10.11-03.49.55:593][  0]LogPython: Warning: G:/Epic/Unreal projects/VertigoGit/Scripts/WeaponDiagnosis/inspect.py:21: DeprecationWarning: StaticMeshComponent: Property 'modify_frequency' on 'StaticMeshComponent' is deprecated: 'modify_frequency' was renamed to 'mobility'.
+  try:lines.append('  '+name+' = '+str(o.get_editor_property(name)))
+
+[2026.10.11-03.49.55:593][  0]LogPython: Warning: G:/Epic/Unreal projects/VertigoGit/Scripts/WeaponDiagnosis/inspect.py:21: DeprecationWarning: StaticMeshComponent: Property 'relative_translation' on 'StaticMeshComponent' is deprecated: 'relative_translation' was renamed to 'relative_location'.
+  try:lines.append('  '+name+' = '+str(o.get_editor_property(name)))
+
+[2026.10.11-03.49.55:600][  0]LogPython: Warning: G:/Epic/Unreal projects/VertigoGit/Scripts/WeaponDiagnosis/inspect.py:21: DeprecationWarning: ChildActorComponent: Property 'b_absolute_translation' on 'ChildActorComponent' is deprecated: 'b_absolute_translation' was renamed to 'absolute_location'.
+  try:lines.append('  '+name+' = '+str(o.get_editor_property(name)))
+
+[2026.10.11-03.49.55:600][  0]LogPython: Warning: G:/Epic/Unreal projects/VertigoGit/Scripts/WeaponDiagnosis/inspect.py:21: DeprecationWarning: ChildActorComponent: Property 'modify_frequency' on 'ChildActorComponent' is deprecated: 'modify_frequency' was renamed to 'mobility'.
+  try:lines.append('  '+name+' = '+str(o.get_editor_property(name)))
+
+[2026.10.11-03.49.55:600][  0]LogPython: Warning: G:/Epic/Unreal projects/VertigoGit/Scripts/WeaponDiagnosis/inspect.py:21: DeprecationWarning: ChildActorComponent: Property 'relative_translation' on 'ChildActorComponent' is deprecated: 'relative_translation' was renamed to 'relative_location'.
+  try:lines.append('  '+name+' = '+str(o.get_editor_property(name)))
+
+[2026.10.11-03.49.55:602][  0]LogPython: Warning: G:/Epic/Unreal projects/VertigoGit/Scripts/WeaponDiagnosis/inspect.py:21: DeprecationWarning: CapsuleComponent: Property 'b_absolute_translation' on 'CapsuleComponent' is deprecated: 'b_absolute_translation' was renamed to 'absolute_location'.
+  try:lines.append('  '+name+' = '+str(o.get_editor_property(name)))
+
+[2026.10.11-03.49.55:602][  0]LogPython: Warning: G:/Epic/Unreal projects/VertigoGit/Scripts/WeaponDiagnosis/inspect.py:21: DeprecationWarning: CapsuleComponent: Property 'can_be_character_base' on 'CapsuleComponent' is deprecated: 'can_be_character_base' was renamed to 'can_character_step_up_on'.
+  try:lines.append('  '+name+' = '+str(o.get_editor_property(name)))
+
+[2026.10.11-03.49.55:603][  0]LogPython: Warning: G:/Epic/Unreal projects/VertigoGit/Scripts/WeaponDiagnosis/inspect.py:21: DeprecationWarning: CapsuleComponent: Property 'capsule_height' on 'CapsuleComponent' is deprecated: 'capsule_height' was renamed to 'capsule_half_height'.
+  try:lines.append('  '+name+' = '+str(o.get_editor_property(name)))
+
+[2026.10.11-03.49.55:603][  0]LogPython: Warning: G:/Epic/Unreal projects/VertigoGit/Scripts/WeaponDiagnosis/inspect.py:21: DeprecationWarning: CapsuleComponent: Property 'modify_frequency' on 'CapsuleComponent' is deprecated: 'modify_frequency' was renamed to 'mobility'.
+  try:lines.append('  '+name+' = '+str(o.get_editor_property(name)))
+
+[2026.10.11-03.49.55:603][  0]LogPython: Warning: G:/Epic/Unreal projects/VertigoGit/Scripts/WeaponDiagnosis/inspect.py:21: DeprecationWarning: CapsuleComponent: Property 'relative_translation' on 'CapsuleComponent' is deprecated: 'relative_translation' was renamed to 'relative_location'.
+  try:lines.append('  '+name+' = '+str(o.get_editor_property(name)))
+
+[2026.10.11-03.49.55:607][  0]LogPython: Warning: G:/Epic/Unreal projects/VertigoGit/Scripts/WeaponDiagnosis/inspect.py:21: DeprecationWarning: CharacterMovementComponent: Property 'accel_rate' on 'CharacterMovementComponent' is deprecated: 'accel_rate' was renamed to 'max_acceleration'.
+  try:lines.append('  '+name+' = '+str(o.get_editor_property(name)))
+
+[2026.10.11-03.49.55:607][  0]LogPython: Warning: G:/Epic/Unreal projects/VertigoGit/Scripts/WeaponDiagnosis/inspect.py:21: DeprecationWarning: CharacterMovementComponent: Property 'air_speed' on 'CharacterMovementComponent' is deprecated: 'air_speed' was renamed to 'max_fly_speed'.
+  try:lines.append('  '+name+' = '+str(o.get_editor_property(name)))
+
+[2026.10.11-03.49.55:607][  0]LogPython: Warning: G:/Epic/Unreal projects/VertigoGit/Scripts/WeaponDiagnosis/inspect.py:21: DeprecationWarning: CharacterMovementComponent: Property 'b_crouch_moves_character_down' on 'CharacterMovementComponent' is deprecated: 'b_crouch_moves_character_down' was renamed to 'crouch_maintains_base_location'.
+  try:lines.append('  '+name+' = '+str(o.get_editor_property(name)))
+
+[2026.10.11-03.49.55:608][  0]LogPython: Warning: G:/Epic/Unreal projects/VertigoGit/Scripts/WeaponDiagnosis/inspect.py:21: DeprecationWarning: CharacterMovementComponent: Property 'b_orient_to_movement' on 'CharacterMovementComponent' is deprecated: 'b_orient_to_movement' was renamed to 'orient_rotation_to_movement'.
+  try:lines.append('  '+name+' = '+str(o.get_editor_property(name)))
+
+[2026.10.11-03.49.55:608][  0]LogPython: Warning: G:/Epic/Unreal projects/VertigoGit/Scripts/WeaponDiagnosis/inspect.py:21: DeprecationWarning: CharacterMovementComponent: Property 'braking_deceleration' on 'CharacterMovementComponent' is deprecated: 'braking_deceleration' was renamed to 'braking_deceleration_walking'.
+  try:lines.append('  '+name+' = '+str(o.get_editor_property(name)))
+
+[2026.10.11-03.49.55:609][  0]LogPython: Warning: G:/Epic/Unreal projects/VertigoGit/Scripts/WeaponDiagnosis/inspect.py:21: DeprecationWarning: CharacterMovementComponent: Property 'crouch_height' on 'CharacterMovementComponent' is deprecated: 'crouch_height' was renamed to 'crouched_half_height'.
+  try:lines.append('  '+name+' = '+str(o.get_editor_property(name)))
+
+[2026.10.11-03.49.55:609][  0]LogPython: Warning: G:/Epic/Unreal projects/VertigoGit/Scripts/WeaponDiagnosis/inspect.py:21: DeprecationWarning: CharacterMovementComponent: Property 'ground_speed' on 'CharacterMovementComponent' is deprecated: 'ground_speed' was renamed to 'max_walk_speed'.
+  try:lines.append('  '+name+' = '+str(o.get_editor_property(name)))
+
+[2026.10.11-03.49.55:609][  0]LogPython: Warning: G:/Epic/Unreal projects/VertigoGit/Scripts/WeaponDiagnosis/inspect.py:21: DeprecationWarning: CharacterMovementComponent: Property 'jump_z' on 'CharacterMovementComponent' is deprecated: 'jump_z' was renamed to 'jump_z_velocity'.
+  try:lines.append('  '+name+' = '+str(o.get_editor_property(name)))
+
+[2026.10.11-03.49.55:610][  0]LogPython: Warning: G:/Epic/Unreal projects/VertigoGit/Scripts/WeaponDiagnosis/inspect.py:21: DeprecationWarning: CharacterMovementComponent: Property 'nav_mesh_projection_capsule_height_scale_down' on 'CharacterMovementComponent' is deprecated: 'nav_mesh_projection_capsule_height_scale_down' was renamed to 'nav_mesh_projection_height_scale_down'.
+  try:lines.append('  '+name+' = '+str(o.get_editor_property(name)))
+
+[2026.10.11-03.49.55:610][  0]LogPython: Warning: G:/Epic/Unreal projects/VertigoGit/Scripts/WeaponDiagnosis/inspect.py:21: DeprecationWarning: CharacterMovementComponent: Property 'nav_mesh_projection_capsule_height_scale_up' on 'CharacterMovementComponent' is deprecated: 'nav_mesh_projection_capsule_height_scale_up' was renamed to 'nav_mesh_projection_height_scale_up'.
+  try:lines.append('  '+name+' = '+str(o.get_editor_property(name)))
+
+[2026.10.11-03.49.55:611][  0]LogPython: Warning: G:/Epic/Unreal projects/VertigoGit/Scripts/WeaponDiagnosis/inspect.py:21: DeprecationWarning: CharacterMovementComponent: Property 'water_speed' on 'CharacterMovementComponent' is deprecated: 'water_speed' was renamed to 'max_swim_speed'.
+  try:lines.append('  '+name+' = '+str(o.get_editor_property(name)))
+
+[2026.10.11-03.49.55:646][  0]LogPython: Warning: G:/Epic/Unreal projects/VertigoGit/Scripts/WeaponDiagnosis/inspect.py:10: DeprecationWarning: Character: Property 'controller_class' on 'BP_AI_SoldierMelee_C' is deprecated: 'controller_class' was renamed to 'ai_controller_class'.
+  v=c.get_editor_property(name)
+
+[2026.10.11-03.49.55:646][  0]LogPython: Warning: G:/Epic/Unreal projects/VertigoGit/Scripts/WeaponDiagnosis/inspect.py:10: DeprecationWarning: Character: Property 'life_span' on 'BP_AI_SoldierMelee_C' is deprecated: 'life_span' was renamed to 'initial_life_span'.
+  v=c.get_editor_property(name)
+
+[2026.10.11-03.49.55:646][  0]LogPython: Warning: G:/Epic/Unreal projects/VertigoGit/Scripts/WeaponDiagnosis/inspect.py:10: DeprecationWarning: Character: Property 'on_actor_touch' on 'BP_AI_SoldierMelee_C' is deprecated: 'on_actor_touch' was renamed to 'on_actor_begin_overlap'.
+  v=c.get_editor_property(name)
+
+[2026.10.11-03.49.55:647][  0]LogPython: Warning: G:/Epic/Unreal projects/VertigoGit/Scripts/WeaponDiagnosis/inspect.py:10: DeprecationWarning: Character: Property 'on_actor_un_touch' on 'BP_AI_SoldierMelee_C' is deprecated: 'on_actor_un_touch' was renamed to 'on_actor_end_overlap'.
+  v=c.get_editor_property(name)
+
+[2026.10.11-03.49.55:647][  0]LogPython: Warning: G:/Epic/Unreal projects/VertigoGit/Scripts/WeaponDiagnosis/inspect.py:10: DeprecationWarning: Character: Property 'player_replication_info' on 'BP_AI_SoldierMelee_C' is deprecated: 'player_replication_info' was renamed to 'player_state'.
+  v=c.get_editor_property(name)
+
+[2026.10.11-03.49.55:679][  0]LogPythonScriptCommandlet: Display: Python script executed successfully
+[2026.10.11-03.49.55:679][  0]LogInit: Display: 
+[2026.10.11-03.49.55:679][  0]LogInit: Display: Warning/Error Summary (Unique only)
+[2026.10.11-03.49.55:679][  0]LogInit: Display: -----------------------------------
+[2026.10.11-03.49.55:679][  0]LogInit: Display: LogSsl: Warning: Unable to open ROOT certificate store. Platform provided certificates will not be used
+[2026.10.11-03.49.55:679][  0]LogInit: Display: LogDerivedDataCache: Warning: C:/Users/Hao/AppData/Local/UnrealEngine/Common/DerivedDataCache: Failed to write to C:/Users/Hao/AppData/Local/UnrealEngine/Common/DerivedDataCache/TestData/DE2C02B84DA9F7BF6CEC0687D89ECA64/TestData/0/TestData_4kb.dat, this cache store will be disabled. ReadError: 3 (???????????)
+[2026.10.11-03.49.55:679][  0]LogInit: Display: Input_ISX: Warning: Input_ISX module has been loaded
+[2026.10.11-03.49.55:679][  0]LogInit: Display: LogUObjectGlobals: Warning: Failed to find object 'Object /Game/ThirdPerson/Input/IMC_Default.IMC_Default'
+[2026.10.11-03.49.55:680][  0]LogInit: Display: LogUsd: Warning: Failed to update LibraryPath for USD plugInfo.json file 'G:/Epic/UE_5.3/Engine/Binaries/ThirdParty/USD/UsdResources/Win64/plugins/glf/resources/plugInfo.json'
+[2026.10.11-03.49.55:680][  0]LogInit: Display: LogUsd: Warning: Failed to update LibraryPath for USD plugInfo.json file 'G:/Epic/UE_5.3/Engine/Binaries/ThirdParty/USD/UsdResources/Win64/plugins/usdImaging/resources/plugInfo.json'
+[2026.10.11-03.49.55:680][  0]LogInit: Display: LogUsd: Warning: Failed to update LibraryPath for USD plugInfo.json file 'G:/Epic/UE_5.3/Engine/Binaries/ThirdParty/USD/UsdResources/Win64/plugins/usdSkel/resources/plugInfo.json'
+[2026.10.11-03.49.55:680][  0]LogInit: Display: LogUsd: Warning: Failed to update LibraryPath for USD plugInfo.json file 'G:/Epic/UE_5.3/Engine/Binaries/ThirdParty/USD/UsdResources/Win64/plugins/usdImagingGL/resources/plugInfo.json'
+[2026.10.11-03.49.55:680][  0]LogInit: Display: LogUsd: Warning: Failed to update LibraryPath for USD plugInfo.json file 'G:/Epic/UE_5.3/Engine/Binaries/ThirdParty/USD/UsdResources/Win64/plugins/usdPhysics/resources/plugInfo.json'
+[2026.10.11-03.49.55:681][  0]LogInit: Display: LogUsd: Warning: Failed to update LibraryPath for USD plugInfo.json file 'G:/Epic/UE_5.3/Engine/Binaries/ThirdParty/USD/UsdResources/Win64/plugins/hdStorm/resources/plugInfo.json'
+[2026.10.11-03.49.55:681][  0]LogInit: Display: LogUsd: Warning: Failed to update LibraryPath for USD plugInfo.json file 'G:/Epic/UE_5.3/Engine/Binaries/ThirdParty/USD/UsdResources/Win64/plugins/usdMtlx/resources/plugInfo.json'
+[2026.10.11-03.49.55:681][  0]LogInit: Display: LogUsd: Warning: Failed to update LibraryPath for USD plugInfo.json file 'G:/Epic/UE_5.3/Engine/Binaries/ThirdParty/USD/UsdResources/Win64/plugins/usdVol/resources/plugInfo.json'
+[2026.10.11-03.49.55:681][  0]LogInit: Display: LogUsd: Warning: Failed to update LibraryPath for USD plugInfo.json file 'G:/Epic/UE_5.3/Engine/Binaries/ThirdParty/USD/UsdResources/Win64/plugins/hd/resources/plugInfo.json'
+[2026.10.11-03.49.55:681][  0]LogInit: Display: LogUsd: Warning: Failed to update LibraryPath for USD plugInfo.json file 'G:/Epic/UE_5.3/Engine/Binaries/ThirdParty/USD/UsdResources/Win64/plugins/hdx/resources/plugInfo.json'
+[2026.10.11-03.49.55:682][  0]LogInit: Display: LogUsd: Warning: Failed to update LibraryPath for USD plugInfo.json file 'G:/Epic/UE_5.3/Engine/Binaries/ThirdParty/USD/UsdResources/Win64/plugins/usdVolImaging/resources/plugInfo.json'
+[2026.10.11-03.49.55:682][  0]LogInit: Display: LogUsd: Warning: Failed to update LibraryPath for USD plugInfo.json file 'G:/Epic/UE_5.3/Engine/Binaries/ThirdParty/USD/UsdResources/Win64/plugins/usdShaders/resources/plugInfo.json'
+[2026.10.11-03.49.55:682][  0]LogInit: Display: LogUsd: Warning: Failed to update LibraryPath for USD plugInfo.json file 'G:/Epic/UE_5.3/Engine/Binaries/ThirdParty/USD/UsdResources/Win64/plugins/hdSt/resources/plugInfo.json'
+[2026.10.11-03.49.55:682][  0]LogInit: Display: LogUsd: Warning: Failed to update LibraryPath for USD plugInfo.json file 'G:/Epic/UE_5.3/Engine/Binaries/ThirdParty/USD/UsdResources/Win64/plugins/usdGeom/resources/plugInfo.json'
+[2026.10.11-03.49.55:682][  0]LogInit: Display: LogUsd: Warning: Failed to update LibraryPath for USD plugInfo.json file 'G:/Epic/UE_5.3/Engine/Binaries/ThirdParty/USD/UsdResources/Win64/plugins/hdGp/resources/plugInfo.json'
+[2026.10.11-03.49.55:682][  0]LogInit: Display: LogUsd: Warning: Failed to update LibraryPath for USD plugInfo.json file 'G:/Epic/UE_5.3/Engine/Binaries/ThirdParty/USD/UsdResources/Win64/plugins/usdProc/resources/plugInfo.json'
+[2026.10.11-03.49.55:683][  0]LogInit: Display: LogUsd: Warning: Failed to update LibraryPath for USD plugInfo.json file 'G:/Epic/UE_5.3/Engine/Binaries/ThirdParty/USD/UsdResources/Win64/plugins/usdProcImaging/resources/plugInfo.json'
+[2026.10.11-03.49.55:683][  0]LogInit: Display: LogUsd: Warning: Failed to update LibraryPath for USD plugInfo.json file 'G:/Epic/UE_5.3/Engine/Binaries/ThirdParty/USD/UsdResources/Win64/plugins/hio/resources/plugInfo.json'
+[2026.10.11-03.49.55:683][  0]LogInit: Display: LogUsd: Warning: Failed to update LibraryPath for USD plugInfo.json file 'G:/Epic/UE_5.3/Engine/Binaries/ThirdParty/USD/UsdResources/Win64/plugins/hgiGL/resources/plugInfo.json'
+[2026.10.11-03.49.55:683][  0]LogInit: Display: LogUsd: Warning: Failed to update LibraryPath for USD plugInfo.json file 'G:/Epic/UE_5.3/Engine/Binaries/ThirdParty/USD/UsdResources/Win64/plugins/usdRender/resources/plugInfo.json'
+[2026.10.11-03.49.55:683][  0]LogInit: Display: LogUsd: Warning: Failed to update LibraryPath for USD plugInfo.json file 'G:/Epic/UE_5.3/Engine/Binaries/ThirdParty/USD/UsdResources/Win64/plugins/usdSkelImaging/resources/plugInfo.json'
+[2026.10.11-03.49.55:684][  0]LogInit: Display: LogUsd: Warning: Failed to update LibraryPath for USD plugInfo.json file 'G:/Epic/UE_5.3/Engine/Binaries/ThirdParty/USD/UsdResources/Win64/plugins/usdHydra/resources/plugInfo.json'
+[2026.10.11-03.49.55:684][  0]LogInit: Display: LogUsd: Warning: Failed to update LibraryPath for USD plugInfo.json file 'G:/Epic/UE_5.3/Engine/Binaries/ThirdParty/USD/UsdResources/Win64/plugins/sdrGlslfx/resources/plugInfo.json'
+[2026.10.11-03.49.55:684][  0]LogInit: Display: LogUsd: Warning: Failed to update LibraryPath for USD plugInfo.json file 'G:/Epic/UE_5.3/Engine/Binaries/ThirdParty/USD/UsdResources/Win64/plugins/sdf/resources/plugInfo.json'
+[2026.10.11-03.49.55:684][  0]LogInit: Display: LogUsd: Warning: Failed to update LibraryPath for USD plugInfo.json file 'G:/Epic/UE_5.3/Engine/Binaries/ThirdParty/USD/UsdResources/Win64/plugins/usdUI/resources/plugInfo.json'
+[2026.10.11-03.49.55:684][  0]LogInit: Display: LogUsd: Warning: Failed to update LibraryPath for USD plugInfo.json file 'G:/Epic/UE_5.3/Engine/Binaries/ThirdParty/USD/UsdResources/Win64/plugins/usdRiImaging/resources/plugInfo.json'
+[2026.10.11-03.49.55:685][  0]LogInit: Display: LogUsd: Warning: Failed to update LibraryPath for USD plugInfo.json file 'G:/Epic/UE_5.3/Engine/Binaries/ThirdParty/USD/UsdResources/Win64/plugins/usdMedia/resources/plugInfo.json'
+[2026.10.11-03.49.55:685][  0]LogInit: Display: LogUsd: Warning: Failed to update LibraryPath for USD plugInfo.json file 'G:/Epic/UE_5.3/Engine/Binaries/ThirdParty/USD/UsdResources/Win64/plugins/usd/resources/plugInfo.json'
+[2026.10.11-03.49.55:685][  0]LogInit: Display: LogUsd: Warning: Failed to update LibraryPath for USD plugInfo.json file 'G:/Epic/UE_5.3/Engine/Binaries/ThirdParty/USD/UsdResources/Win64/plugins/usdRi/resources/plugInfo.json'
+[2026.10.11-03.49.55:685][  0]LogInit: Display: LogUsd: Warning: Failed to update LibraryPath for USD plugInfo.json file 'G:/Epic/UE_5.3/Engine/Binaries/ThirdParty/USD/UsdResources/Win64/plugins/ndr/resources/plugInfo.json'
+[2026.10.11-03.49.55:685][  0]LogInit: Display: LogUsd: Warning: Failed to update LibraryPath for USD plugInfo.json file 'G:/Epic/UE_5.3/Engine/Binaries/ThirdParty/USD/UsdResources/Win64/plugins/usdLux/resources/plugInfo.json'
+[2026.10.11-03.49.55:686][  0]LogInit: Display: LogUsd: Warning: Failed to update LibraryPath for USD plugInfo.json file 'G:/Epic/UE_5.3/Engine/Binaries/ThirdParty/USD/UsdResources/Win64/plugins/usdAbc/resources/plugInfo.json'
+[2026.10.11-03.49.55:686][  0]LogInit: Display: LogUsd: Warning: Failed to update LibraryPath for USD plugInfo.json file 'G:/Epic/UE_5.3/Engine/Binaries/ThirdParty/USD/UsdResources/Win64/plugins/usdShade/resources/plugInfo.json'
+[2026.10.11-03.49.55:686][  0]LogInit: Display: LogUsd: Warning: Failed to update LibraryPath for USD plugInfo.json file 'G:/Epic/UE_5.3/Engine/Binaries/ThirdParty/USD/UsdResources/Win64/plugins/ar/resources/plugInfo.json'
+[2026.10.11-03.49.55:686][  0]LogInit: Display: LogUsd: Warning: Failed to update LibraryPath for USD plugInfo.json file 'G:/Epic/UE_5.3/Engine/Binaries/ThirdParty/USD/UsdResources/Win64/plugins/usd/resources/codegenTemplates/plugInfo.json'
+[2026.10.11-03.49.55:686][  0]LogInit: Display: LogAssetRegistry: Warning: Package G:/Epic/Unreal projects/VertigoGit/Content/Style/TextStyle_NarrativeNotification.uasset is too new. Engine Version: 1009  Package Version: 1012
+[2026.10.11-03.49.55:686][  0]LogInit: Display: LogAssetRegistry: Warning: Package G:/Epic/Unreal projects/VertigoGit/Content/Style/TextStyle_NarrativeButton_DialogueHintText.uasset is too new. Engine Version: 1009  Package Version: 1012
+[2026.10.11-03.49.55:687][  0]LogInit: Display: LogAssetRegistry: Warning: Package G:/Epic/Unreal projects/VertigoGit/Content/Style/TextStyle_NarrativeButton_Dialogue.uasset is too new. Engine Version: 1009  Package Version: 1012
+[2026.10.11-03.49.55:687][  0]LogInit: Display: LogAssetRegistry: Warning: Package G:/Epic/Unreal projects/VertigoGit/Content/Style/TextStyle_NarrativeButton_DialogueHover.uasset is too new. Engine Version: 1009  Package Version: 1012
+[2026.10.11-03.49.55:687][  0]LogInit: Display: LogAssetRegistry: Warning: Package G:/Epic/Unreal projects/VertigoGit/Content/Style/TextStyle_NarrativeMenuHeader.uasset is too new. Engine Version: 1009  Package Version: 1012
+[2026.10.11-03.49.55:687][  0]LogInit: Display: LogAssetRegistry: Warning: Package G:/Epic/Unreal projects/VertigoGit/Content/Style/TextStyle_NarrativeButtonHovered.uasset is too new. Engine Version: 1009  Package Version: 1012
+[2026.10.11-03.49.55:687][  0]LogInit: Display: LogAssetRegistry: Warning: Package G:/Epic/Unreal projects/VertigoGit/Content/Style/ButtonStyle_Transparent.uasset is too new. Engine Version: 1009  Package Version: 1012
+[2026.10.11-03.49.55:688][  0]LogInit: Display: LogAssetRegistry: Warning: Package G:/Epic/Unreal projects/VertigoGit/Content/Style/ButtonStyle_Dialogue.uasset is too new. Engine Version: 1009  Package Version: 1012
+[2026.10.11-03.49.55:688][  0]LogInit: Display: LogAssetRegistry: Warning: Package G:/Epic/Unreal projects/VertigoGit/Content/Style/BorderStyle_Narrative.uasset is too new. Engine Version: 1009  Package Version: 1012
+[2026.10.11-03.49.55:688][  0]LogInit: Display: LogAssetRegistry: Warning: Package G:/Epic/Unreal projects/VertigoGit/Content/Style/TextStyle_NarrativeButton.uasset is too new. Engine Version: 1009  Package Version: 1012
+[2026.10.11-03.49.55:688][  0]LogInit: Display: LogAssetRegistry: Warning: Package G:/Epic/Unreal projects/VertigoGit/Content/Style/BorderStyle_Vignette.uasset is too new. Engine Version: 1009  Package Version: 1012
+[2026.10.11-03.49.55:688][  0]LogInit: Display: NOTE: Only first 50 warnings displayed.
+[2026.10.11-03.49.55:688][  0]LogInit: Display: 
+[2026.10.11-03.49.55:688][  0]LogInit: Display: Success - 0 error(s), 189 warning(s)
+[2026.10.11-03.49.55:689][  0]LogInit: Display: 
+
+Execution of commandlet took:  10.79 seconds
+[2026.10.11-03.49.56:312][  0]LogShaderCompilers: Display: ================================================
+[2026.10.11-03.49.56:312][  0]LogShaderCompilers: Display: === FShaderJobCache stats ===
+[2026.10.11-03.49.56:312][  0]LogShaderCompilers: Display: Total job queries 0, among them cache hits 0 (0.00%)
+[2026.10.11-03.49.56:312][  0]LogShaderCompilers: Display: Tracking 0 distinct input hashes that result in 0 distinct outputs (0.00%)
+[2026.10.11-03.49.56:313][  0]LogShaderCompilers: Display: RAM used: 240.00 B of 3.20 GiB budget. Usage: 0.00%
+[2026.10.11-03.49.56:313][  0]LogShaderCompilers: Display: === Shader Compilation stats ===
+[2026.10.11-03.49.56:313][  0]LogShaderCompilers: Display: Shaders Compiled: 0
+[2026.10.11-03.49.56:313][  0]LogShaderCompilers: Display: Jobs assigned 0, completed 0 (0%)
+[2026.10.11-03.49.56:313][  0]LogShaderCompilers: Display: Time at least one job was in flight (either pending or executed): 0.00 s
+[2026.10.11-03.49.56:313][  0]LogShaderCompilers: Display: ================================================
+[2026.10.11-03.49.56:373][  0]LogShaderCompilers: Display: Shaders left to compile 0
+[2026.10.11-03.49.57:033][  0]Input_ISX: Warning: Input_ISX module has been unloaded

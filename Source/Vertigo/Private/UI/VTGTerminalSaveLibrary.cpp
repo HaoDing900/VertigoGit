@@ -65,6 +65,9 @@ bool UVTGTerminalSaveLibrary::HandleTerminalSave(UUserWidget* Terminal, uint8 In
   Page->OpenForTerminal(Terminal,ScreenSource);
   Switcher->SetVisibility(ESlateVisibility::SelfHitTestInvisible);
   Switcher->SetActiveWidget(Page);
+  // This branch bypasses SetActiveTab's page focus. Keep Q/E on this terminal
+  // when the old page becomes inactive; the save buttons do not take focus.
+  Terminal->SetFocus();
  }
  // Tab selection only opens the page. SaveFromTerminal is called by its button's OnClicked.
  return true;

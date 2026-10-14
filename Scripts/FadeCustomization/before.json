@@ -1,0 +1,15 @@
+{
+  "TimeBeforeKill": "2.0",
+  "HoldDurationUntilFade": "0.0",
+  "DisableFade?": "False",
+  "referencers": [
+    "/Game/LevelNSequence/BPLM",
+    "/Game/LevelNSequence/In_Level/L2Tunnel/BPLM_L2TunnelCine",
+    "/Game/LevelNSequence/In_Level/L5Clinic/BPLM_Clinic",
+    "/Game/Narrative/Dialogues/Levels/L2BarNStreetOutside/L2_Bar_NPC",
+    "/Game/LevelNSequence/In_Level/L2BarStreet/BPLM_L2StreetBarFight",
+    "/Game/ThirdPerson/Blueprints/BP_Player_Sa",
+    "/Game/LevelNSequence/In_Level/LS_PureBlack3s_NoUI",
+    "/Game/LevelNSequence/In_Level/L2Bar/LS_L2Bar_Intro_BlackScreen+TalkWithFemaleClient"
+  ]
+}

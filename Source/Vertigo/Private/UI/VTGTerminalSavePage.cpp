@@ -107,10 +107,11 @@ void UVTGTerminalSavePage::RefreshSlots()
  SlotList->ClearChildren();SlotButtons.Reset();
  for(const auto& M:Metas){
   auto* Row=WidgetTree->ConstructWidget<UVTGTerminalSlotButton>();Row->Setup(this,M.SlotIndex);
-  FString Title=M.SlotIndex==0?TEXT("AUTO SAVE"):FString::Printf(TEXT("MANUAL %02d"),M.SlotIndex);
-  FString Summary=M.bIsValid?FPackageName::GetShortName(M.LevelName).Replace(TEXT("_"),TEXT(" ")):TEXT("Empty slot");
-  if(M.bIsValid)Summary+=TEXT("  |  ")+FText::AsDateTime(M.SaveTimeUtc,EDateTimeStyle::Short,EDateTimeStyle::Short).ToString();
-  Row->SetContent(Text(NAME_None,FText::FromString(Title+TEXT("\n")+Summary),17));CastChecked<UButtonSlot>(Row->GetContent()->Slot)->SetHorizontalAlignment(HAlign_Fill);
+  const FText Number=FText::AsCultureInvariant(FString::Printf(TEXT("%02d"),M.SlotIndex));
+  const FText Title=M.SlotIndex==0?NSLOCTEXT("VTGTerminal","AutoSave","AUTO SAVE"):FText::Format(NSLOCTEXT("VTGTerminal","ManualSlot","MANUAL {Slot}"),FFormatNamedArguments{{TEXT("Slot"),Number}});
+  FText Summary=NSLOCTEXT("VTGTerminal","EmptySlot","Empty slot");
+  if(M.bIsValid)Summary=FText::Format(NSLOCTEXT("VTGTerminal","SlotSummary","{Level}  |  {Date}"),FFormatNamedArguments{{TEXT("Level"),FText::AsCultureInvariant(FPackageName::GetShortName(M.LevelName).Replace(TEXT("_"),TEXT(" ")))},{TEXT("Date"),FText::AsDateTime(M.SaveTimeUtc,EDateTimeStyle::Short,EDateTimeStyle::Short)}});
+  Row->SetContent(Text(NAME_None,FText::Format(NSLOCTEXT("VTGTerminal","SlotRow","{Title}\n{Summary}"),FFormatNamedArguments{{TEXT("Title"),Title},{TEXT("Summary"),Summary}}),17));CastChecked<UButtonSlot>(Row->GetContent()->Slot)->SetHorizontalAlignment(HAlign_Fill);
   FButtonStyle Style=Row->GetStyle();Style.NormalPadding=FMargin(16,12);Style.PressedPadding=FMargin(16,14,16,10);Row->SetStyle(Style);
   SlotList->AddChild(Row);SlotButtons.Add(Row);
  }
@@ -122,10 +123,11 @@ void UVTGTerminalSavePage::UpdateSelection()
  if(!SaveButton)return;
  const auto* M=Metas.FindByPredicate([&](const FVTGSlotMeta& Value){return Value.SlotIndex==SelectedSlot;});
  for(int32 I=0;I<SlotButtons.Num();++I){auto* B=SlotButtons[I].Get();auto Style=B->GetStyle();Style.Normal.TintColor=FSlateColor(Metas[I].SlotIndex==SelectedSlot?FLinearColor(.1f,.4f,.41f):FLinearColor(.035f,.12f,.14f));Style.Hovered.TintColor=FSlateColor(FLinearColor(.12f,.46f,.48f));B->SetStyle(Style);}
- FString Info=SelectedSlot==0?TEXT("AUTO SAVE\n\nRead-only checkpoint"):FString::Printf(TEXT("MANUAL SAVE %02d"),SelectedSlot);
- if(M&&M->bIsValid)Info+=TEXT("\n\n")+FPackageName::GetShortName(M->LevelName).Replace(TEXT("_"),TEXT(" "))+TEXT("\n\n")+FText::AsDateTime(M->SaveTimeUtc,EDateTimeStyle::Medium,EDateTimeStyle::Short).ToString()+TEXT("\n\n")+M->DisplayLabel;
- else Info+=TEXT("\n\nEmpty slot\n\nSave your current position and progress here.");
- DetailText->SetText(FText::FromString(Info));
+ const FText Heading=SelectedSlot==0?NSLOCTEXT("VTGTerminal","AutoCheckpoint","AUTO SAVE\n\nRead-only checkpoint"):FText::Format(NSLOCTEXT("VTGTerminal","ManualSaveHeading","MANUAL SAVE {Slot}"),FFormatNamedArguments{{TEXT("Slot"),FText::AsCultureInvariant(FString::Printf(TEXT("%02d"),SelectedSlot))}});
+ FText Info;
+ if(M&&M->bIsValid)Info=FText::Format(NSLOCTEXT("VTGTerminal","ValidSlotDetail","{Heading}\n\n{Level}\n\n{Date}\n\n{Label}"),FFormatNamedArguments{{TEXT("Heading"),Heading},{TEXT("Level"),FText::AsCultureInvariant(FPackageName::GetShortName(M->LevelName).Replace(TEXT("_"),TEXT(" ")))},{TEXT("Date"),FText::AsDateTime(M->SaveTimeUtc,EDateTimeStyle::Medium,EDateTimeStyle::Short)},{TEXT("Label"),FText::AsCultureInvariant(M->DisplayLabel)}});
+ else Info=FText::Format(NSLOCTEXT("VTGTerminal","EmptySlotDetail","{Heading}\n\nEmpty slot\n\nSave your current position and progress here."),FFormatNamedArguments{{TEXT("Heading"),Heading}});
+ DetailText->SetText(Info);
  SaveButton->SetIsEnabled(M&&SelectedSlot>0&&!Busy&&PendingAction!=2);LoadButton->SetIsEnabled(M&&M->bIsValid&&!Busy&&PendingAction!=1);
  CastChecked<UTextBlock>(SaveButton->GetContent())->SetText(PendingAction==1?NSLOCTEXT("VTGTerminal","Overwrite","CONFIRM SAVE"):NSLOCTEXT("VTGTerminal","SaveButton","SAVE GAME"));
  CastChecked<UTextBlock>(LoadButton->GetContent())->SetText(PendingAction==2?NSLOCTEXT("VTGTerminal","ConfirmLoad","CONFIRM LOAD"):NSLOCTEXT("VTGTerminal","LoadButton","LOAD GAME"));

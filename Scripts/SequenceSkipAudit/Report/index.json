@@ -1,0 +1,79 @@
+﻿{
+	"devices": [
+		{
+			"deviceName": "DESKTOP-N4CR9V5",
+			"instance": "DESKTOP-N4CR9V5-2E6F70514F88FD0A63D17E96D362F6A3-67CB1904477A58F7154AE595D14E0DD8",
+			"platform": "WindowsEditor",
+			"oSVersion": "Windows 10 (22H2) [10.0.19045.6456] ",
+			"model": "Default",
+			"gPU": "NVIDIA GeForce RTX 5070",
+			"cPUModel": "AMD Ryzen 7 7800X3D 8-Core Processor           ",
+			"rAMInGB": 64,
+			"renderMode": "SM5",
+			"rHI": "",
+			"appInstanceLog": ""
+		}
+	],
+	"reportCreatedOn": "2026.10.11-00.57.05",
+	"succeeded": 0,
+	"succeededWithWarnings": 1,
+	"failed": 0,
+	"notRun": 0,
+	"inProcess": 0,
+	"totalDuration": 0.056428801268339157,
+	"comparisonExported": false,
+	"comparisonExportDirectory": "",
+	"tests": [
+		{
+			"testDisplayName": "CinematicRegression",
+			"fullTestPath": "Vertigo.Dialogue.CinematicRegression",
+			"state": "Success",
+			"deviceInstance": [
+				"DESKTOP-N4CR9V5-2E6F70514F88FD0A63D17E96D362F6A3-67CB1904477A58F7154AE595D14E0DD8"
+			],
+			"duration": 0.056428801268339157,
+			"dateTime": "0001.01.01-00.00.00",
+			"entries": [
+				{
+					"event":
+					{
+						"type": "Warning",
+						"message": "LogUObjectGlobals: Failed to find object 'Object /Game/ThirdPerson/Input/IMC_Default.IMC_Default'",
+						"context": "",
+						"artifact": "00000000000000000000000000000000"
+					},
+					"filename": "",
+					"lineNumber": 0,
+					"timestamp": "2026.10.11-05.57.05"
+				},
+				{
+					"event":
+					{
+						"type": "Warning",
+						"message": "LogNarrative: Narrative tried finding the asset for Task PlayDialogueNode, but couldn't find it.",
+						"context": "",
+						"artifact": "00000000000000000000000000000000"
+					},
+					"filename": "G:\\Epic\\Unreal projects\\VertigoGit\\Plugins\\Narrative\\Source\\Narrative\\Private\\Dialogue.cpp",
+					"lineNumber": 1450,
+					"timestamp": "2026.10.11-05.57.05"
+				},
+				{
+					"event":
+					{
+						"type": "Warning",
+						"message": "LogNarrative: Narrative wasn't able to find the avatar for the player, as a SpeakerAvatarClass wasn't set, no actors with tag 'Player' were found, and OwningPawn was invalid.",
+						"context": "",
+						"artifact": "00000000000000000000000000000000"
+					},
+					"filename": "G:\\Epic\\Unreal projects\\VertigoGit\\Plugins\\Narrative\\Source\\Narrative\\Private\\Dialogue.cpp",
+					"lineNumber": 636,
+					"timestamp": "2026.10.11-05.57.05"
+				}
+			],
+			"warnings": 3,
+			"errors": 0,
+			"artifacts": []
+		}
+	]
+}

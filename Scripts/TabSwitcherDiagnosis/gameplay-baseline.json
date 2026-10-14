@@ -1,0 +1,177 @@
+{
+  "events": [
+    {
+      "api": "start"
+    },
+    {
+      "world": "BaseLevel",
+      "pc": "<Object '/Game/ThirdPerson/Maps/UEDPIE_0_BaseLevel.BaseLevel:PersistentLevel.PC_Game_VTG_C_0' (0x000005CE0DBDB400) Class 'PC_Game_VTG_C'>",
+      "pawn": "<Object '/Game/ThirdPerson/Maps/UEDPIE_0_BaseLevel.BaseLevel:PersistentLevel.BP_Player_Sa_C_0' (0x000005CE23F6C400) Class 'BP_Player_Sa_C'>"
+    },
+    {
+      "bIsActionMode": "Character: Failed to find property 'bIsActionMode' for attribute 'bIsActionMode' on 'BP_Player_Sa_C'"
+    },
+    {
+      "AC_Inventory_HUD_Component": "<Object '/Game/ThirdPerson/Maps/UEDPIE_0_BaseLevel.BaseLevel:PersistentLevel.BP_Player_Sa_C_0.AC_Inventory_HUD_Component' (0x000005CE396E8700) Class 'AC_Inventory_HUD_Component_C'>"
+    },
+    {
+      "widgets": [
+        {
+          "name": "WB_TabSwitcher_C_0",
+          "class": "WB_TabSwitcher_C",
+          "visible": false,
+          "focus": false,
+          "descendant_focus": false
+        },
+        {
+          "name": "WB_TabSwitcher_C_1",
+          "class": "WB_TabSwitcher_C",
+          "visible": true,
+          "focus": false,
+          "descendant_focus": false
+        },
+        {
+          "name": "WB_TabSwitcher",
+          "class": "WB_TabSwitcherMenu_C",
+          "visible": true,
+          "focus": false,
+          "descendant_focus": false
+        },
+        {
+          "name": "WB_TabSwitcher",
+          "class": "WB_TabSwitcherMenu_C",
+          "visible": true,
+          "focus": false,
+          "descendant_focus": false
+        },
+        {
+          "name": "WB_TabButton",
+          "class": "WB_TabButton_C",
+          "visible": false,
+          "focus": false,
+          "descendant_focus": false
+        },
+        {
+          "name": "WB_TabButton_C_0",
+          "class": "WB_TabButton_C",
+          "visible": true,
+          "focus": false,
+          "descendant_focus": false
+        },
+        {
+          "name": "WB_TabButton_C_1",
+          "class": "WB_TabButton_C",
+          "visible": true,
+          "focus": false,
+          "descendant_focus": false
+        },
+        {
+          "name": "WB_TabButton_C_2",
+          "class": "WB_TabButton_C",
+          "visible": true,
+          "focus": false,
+          "descendant_focus": false
+        },
+        {
+          "name": "WB_TabButton_C_3",
+          "class": "WB_TabButton_C",
+          "visible": true,
+          "focus": false,
+          "descendant_focus": false
+        },
+        {
+          "name": "WB_TabButton_C_4",
+          "class": "WB_TabButton_C",
+          "visible": true,
+          "focus": false,
+          "descendant_focus": false
+        },
+        {
+          "name": "WB_TabButton",
+          "class": "WB_TabButton_C",
+          "visible": false,
+          "focus": false,
+          "descendant_focus": false
+        },
+        {
+          "name": "WB_TabButton_C_0",
+          "class": "WB_TabButton_C",
+          "visible": true,
+          "focus": false,
+          "descendant_focus": false
+        },
+        {
+          "name": "WB_TabButton_C_1",
+          "class": "WB_TabButton_C",
+          "visible": true,
+          "focus": false,
+          "descendant_focus": false
+        },
+        {
+          "name": "WB_TabButton_C_2",
+          "class": "WB_TabButton_C",
+          "visible": true,
+          "focus": false,
+          "descendant_focus": false
+        },
+        {
+          "name": "WB_TabButton_C_3",
+          "class": "WB_TabButton_C",
+          "visible": true,
+          "focus": false,
+          "descendant_focus": false
+        },
+        {
+          "name": "WB_TabButton_C_4",
+          "class": "WB_TabButton_C",
+          "visible": true,
+          "focus": false,
+          "descendant_focus": false
+        },
+        {
+          "name": "WB_TabWidget_3",
+          "class": "WB_TabWidget_Mail_C",
+          "visible": true,
+          "focus": false,
+          "descendant_focus": false
+        },
+        {
+          "name": "WB_TabWidget_3",
+          "class": "WB_TabWidget_Mail_C",
+          "visible": true,
+          "focus": false,
+          "descendant_focus": false
+        },
+        {
+          "name": "WB_TabWidget_2",
+          "class": "WB_TabWidget_Map_C",
+          "visible": true,
+          "focus": false,
+          "descendant_focus": false
+        },
+        {
+          "name": "WB_TabWidget_2",
+          "class": "WB_TabWidget_Map_C",
+          "visible": true,
+          "focus": false,
+          "descendant_focus": false
+        },
+        {
+          "name": "WB_TabWidget_Quest",
+          "class": "WB_TabWidget_Quest_C",
+          "visible": true,
+          "focus": false,
+          "descendant_focus": false
+        },
+        {
+          "name": "WB_TabWidget_Quest",
+          "class": "WB_TabWidget_Quest_C",
+          "visible": true,
+          "focus": false,
+          "descendant_focus": false
+        }
+      ]
+    }
+  ],
+  "scope": "normal PIE in BaseLevel with actual player; Tab input through player controller and Q/E through Slate"
+}

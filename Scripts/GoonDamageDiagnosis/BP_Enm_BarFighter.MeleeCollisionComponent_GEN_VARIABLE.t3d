@@ -1,0 +1,3 @@
+Begin Object Class=/Game/AI/AIBehaviorSystem/Blueprint/Component/BP_CollisionComponent.BP_CollisionComponent_C Name="MeleeCollisionComponent_GEN_VARIABLE" ExportPath="/Game/AI/AIBehaviorSystem/Blueprint/Component/BP_CollisionComponent.BP_CollisionComponent_C'/Game/AI/AIBehaviorSystem/Blueprint/AI/BP_AI_Base.BP_AI_Base_C:MeleeCollisionComponent_GEN_VARIABLE'"
+   ObjectTypeCollide(0)=ObjectTypeQuery4
+End Object

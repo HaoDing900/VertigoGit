@@ -1,0 +1,249 @@
+Begin Object Class=/Script/UMGEditor.WidgetBlueprint Name="WBP_BossHealthBar" ExportPath="/Script/UMGEditor.WidgetBlueprint'/Game/Widget/BossHealthBar/WBP_BossHealthBar.WBP_BossHealthBar'"
+   Begin Object Class=/Script/UMG.WidgetTree Name="WidgetTree" Archetype="/Script/UMG.WidgetTree'/Script/UMGEditor.Default__WidgetBlueprint:WidgetTree'" ExportPath="/Script/UMG.WidgetTree'/Game/Widget/BossHealthBar/WBP_BossHealthBar.WBP_BossHealthBar:WidgetTree'"
+      Begin Object Class=/Script/UMG.Border Name="BarEdge" ExportPath="/Script/UMG.Border'/Game/Widget/BossHealthBar/WBP_BossHealthBar.WBP_BossHealthBar:WidgetTree.BarEdge'"
+         Begin Object Class=/Script/UMG.BorderSlot Name="BorderSlot_0" ExportPath="/Script/UMG.BorderSlot'/Game/Widget/BossHealthBar/WBP_BossHealthBar.WBP_BossHealthBar:WidgetTree.BarEdge.BorderSlot_0'"
+         End Object
+      End Object
+      Begin Object Class=/Script/UMG.SizeBox Name="BarSize" ExportPath="/Script/UMG.SizeBox'/Game/Widget/BossHealthBar/WBP_BossHealthBar.WBP_BossHealthBar:WidgetTree.BarSize'"
+         Begin Object Class=/Script/UMG.SizeBoxSlot Name="SizeBoxSlot_0" ExportPath="/Script/UMG.SizeBoxSlot'/Game/Widget/BossHealthBar/WBP_BossHealthBar.WBP_BossHealthBar:WidgetTree.BarSize.SizeBoxSlot_0'"
+         End Object
+      End Object
+      Begin Object Class=/Script/UMG.CanvasPanel Name="Root" ExportPath="/Script/UMG.CanvasPanel'/Game/Widget/BossHealthBar/WBP_BossHealthBar.WBP_BossHealthBar:WidgetTree.Root'"
+         Begin Object Class=/Script/UMG.CanvasPanelSlot Name="CanvasPanelSlot_0" ExportPath="/Script/UMG.CanvasPanelSlot'/Game/Widget/BossHealthBar/WBP_BossHealthBar.WBP_BossHealthBar:WidgetTree.Root.CanvasPanelSlot_0'"
+         End Object
+      End Object
+      Begin Object Class=/Script/UMG.VerticalBox Name="BarFrame" ExportPath="/Script/UMG.VerticalBox'/Game/Widget/BossHealthBar/WBP_BossHealthBar.WBP_BossHealthBar:WidgetTree.BarFrame'"
+         Begin Object Class=/Script/UMG.VerticalBoxSlot Name="VerticalBoxSlot_0" ExportPath="/Script/UMG.VerticalBoxSlot'/Game/Widget/BossHealthBar/WBP_BossHealthBar.WBP_BossHealthBar:WidgetTree.BarFrame.VerticalBoxSlot_0'"
+         End Object
+         Begin Object Class=/Script/UMG.VerticalBoxSlot Name="VerticalBoxSlot_1" ExportPath="/Script/UMG.VerticalBoxSlot'/Game/Widget/BossHealthBar/WBP_BossHealthBar.WBP_BossHealthBar:WidgetTree.BarFrame.VerticalBoxSlot_1'"
+         End Object
+      End Object
+      Begin Object Class=/Script/UMG.HorizontalBox Name="Header" ExportPath="/Script/UMG.HorizontalBox'/Game/Widget/BossHealthBar/WBP_BossHealthBar.WBP_BossHealthBar:WidgetTree.Header'"
+         Begin Object Class=/Script/UMG.HorizontalBoxSlot Name="HorizontalBoxSlot_0" ExportPath="/Script/UMG.HorizontalBoxSlot'/Game/Widget/BossHealthBar/WBP_BossHealthBar.WBP_BossHealthBar:WidgetTree.Header.HorizontalBoxSlot_0'"
+         End Object
+         Begin Object Class=/Script/UMG.HorizontalBoxSlot Name="HorizontalBoxSlot_1" ExportPath="/Script/UMG.HorizontalBoxSlot'/Game/Widget/BossHealthBar/WBP_BossHealthBar.WBP_BossHealthBar:WidgetTree.Header.HorizontalBoxSlot_1'"
+         End Object
+         Begin Object Class=/Script/UMG.HorizontalBoxSlot Name="HorizontalBoxSlot_2" ExportPath="/Script/UMG.HorizontalBoxSlot'/Game/Widget/BossHealthBar/WBP_BossHealthBar.WBP_BossHealthBar:WidgetTree.Header.HorizontalBoxSlot_2'"
+         End Object
+      End Object
+      Begin Object Class=/Script/UMG.TextBlock Name="BossNameText" ExportPath="/Script/UMG.TextBlock'/Game/Widget/BossHealthBar/WBP_BossHealthBar.WBP_BossHealthBar:WidgetTree.BossNameText'"
+      End Object
+      Begin Object Class=/Script/UMG.Spacer Name="HeaderGap" ExportPath="/Script/UMG.Spacer'/Game/Widget/BossHealthBar/WBP_BossHealthBar.WBP_BossHealthBar:WidgetTree.HeaderGap'"
+      End Object
+      Begin Object Class=/Script/UMG.TextBlock Name="DamageText" ExportPath="/Script/UMG.TextBlock'/Game/Widget/BossHealthBar/WBP_BossHealthBar.WBP_BossHealthBar:WidgetTree.DamageText'"
+      End Object
+      Begin Object Class=/Script/UMG.Overlay Name="BarLayers" ExportPath="/Script/UMG.Overlay'/Game/Widget/BossHealthBar/WBP_BossHealthBar.WBP_BossHealthBar:WidgetTree.BarLayers'"
+         Begin Object Class=/Script/UMG.OverlaySlot Name="OverlaySlot_0" ExportPath="/Script/UMG.OverlaySlot'/Game/Widget/BossHealthBar/WBP_BossHealthBar.WBP_BossHealthBar:WidgetTree.BarLayers.OverlaySlot_0'"
+         End Object
+         Begin Object Class=/Script/UMG.OverlaySlot Name="OverlaySlot_1" ExportPath="/Script/UMG.OverlaySlot'/Game/Widget/BossHealthBar/WBP_BossHealthBar.WBP_BossHealthBar:WidgetTree.BarLayers.OverlaySlot_1'"
+         End Object
+         Begin Object Class=/Script/UMG.OverlaySlot Name="OverlaySlot_2" ExportPath="/Script/UMG.OverlaySlot'/Game/Widget/BossHealthBar/WBP_BossHealthBar.WBP_BossHealthBar:WidgetTree.BarLayers.OverlaySlot_2'"
+         End Object
+      End Object
+      Begin Object Class=/Script/UMG.Image Name="BarBacking" ExportPath="/Script/UMG.Image'/Game/Widget/BossHealthBar/WBP_BossHealthBar.WBP_BossHealthBar:WidgetTree.BarBacking'"
+      End Object
+      Begin Object Class=/Script/UMG.ProgressBar Name="DamageTrailBar" ExportPath="/Script/UMG.ProgressBar'/Game/Widget/BossHealthBar/WBP_BossHealthBar.WBP_BossHealthBar:WidgetTree.DamageTrailBar'"
+      End Object
+      Begin Object Class=/Script/UMG.ProgressBar Name="HealthBar" ExportPath="/Script/UMG.ProgressBar'/Game/Widget/BossHealthBar/WBP_BossHealthBar.WBP_BossHealthBar:WidgetTree.HealthBar'"
+      End Object
+   End Object
+   Begin Object Class=/Script/Engine.EdGraph Name="EventGraph" ExportPath="/Script/Engine.EdGraph'/Game/Widget/BossHealthBar/WBP_BossHealthBar.WBP_BossHealthBar:EventGraph'"
+      Begin Object Class=/Script/BlueprintGraph.K2Node_Event Name="K2Node_Event_0" ExportPath="/Script/BlueprintGraph.K2Node_Event'/Game/Widget/BossHealthBar/WBP_BossHealthBar.WBP_BossHealthBar:EventGraph.K2Node_Event_0'"
+      End Object
+      Begin Object Class=/Script/BlueprintGraph.K2Node_Event Name="K2Node_Event_1" ExportPath="/Script/BlueprintGraph.K2Node_Event'/Game/Widget/BossHealthBar/WBP_BossHealthBar.WBP_BossHealthBar:EventGraph.K2Node_Event_1'"
+      End Object
+      Begin Object Class=/Script/BlueprintGraph.K2Node_Event Name="K2Node_Event_2" ExportPath="/Script/BlueprintGraph.K2Node_Event'/Game/Widget/BossHealthBar/WBP_BossHealthBar.WBP_BossHealthBar:EventGraph.K2Node_Event_2'"
+      End Object
+   End Object
+   Begin Object Class=/Script/Engine.EdGraph Name="ExecuteUbergraph_WBP_BossHealthBar" ExportPath="/Script/Engine.EdGraph'/Game/Widget/BossHealthBar/WBP_BossHealthBar.WBP_BossHealthBar:ExecuteUbergraph_WBP_BossHealthBar'"
+   End Object
+   Begin Object Name="WidgetTree" ExportPath="/Script/UMG.WidgetTree'/Game/Widget/BossHealthBar/WBP_BossHealthBar.WBP_BossHealthBar:WidgetTree'"
+      Begin Object Name="BarEdge" ExportPath="/Script/UMG.Border'/Game/Widget/BossHealthBar/WBP_BossHealthBar.WBP_BossHealthBar:WidgetTree.BarEdge'"
+         Begin Object Name="BorderSlot_0" ExportPath="/Script/UMG.BorderSlot'/Game/Widget/BossHealthBar/WBP_BossHealthBar.WBP_BossHealthBar:WidgetTree.BarEdge.BorderSlot_0'"
+            Padding=(Left=1.000000,Top=1.000000,Right=1.000000,Bottom=1.000000)
+            Parent="/Script/UMG.Border'WBP_BossHealthBar:WidgetTree.BarEdge'"
+            Content="/Script/UMG.Overlay'WBP_BossHealthBar:WidgetTree.BarLayers'"
+         End Object
+         Padding=(Left=1.000000,Top=1.000000,Right=1.000000,Bottom=1.000000)
+         BrushColor=(R=0.420000,G=0.380000,B=0.300000,A=0.900000)
+         Slots(0)="/Script/UMG.BorderSlot'BorderSlot_0'"
+      End Object
+      Begin Object Name="BarSize" ExportPath="/Script/UMG.SizeBox'/Game/Widget/BossHealthBar/WBP_BossHealthBar.WBP_BossHealthBar:WidgetTree.BarSize'"
+         Begin Object Name="SizeBoxSlot_0" ExportPath="/Script/UMG.SizeBoxSlot'/Game/Widget/BossHealthBar/WBP_BossHealthBar.WBP_BossHealthBar:WidgetTree.BarSize.SizeBoxSlot_0'"
+            Parent="/Script/UMG.SizeBox'WBP_BossHealthBar:WidgetTree.BarSize'"
+            Content="/Script/UMG.Border'WBP_BossHealthBar:WidgetTree.BarEdge'"
+         End Object
+         HeightOverride=14.000000
+         bOverride_HeightOverride=True
+         Slots(0)="/Script/UMG.SizeBoxSlot'SizeBoxSlot_0'"
+      End Object
+      Begin Object Name="Root" ExportPath="/Script/UMG.CanvasPanel'/Game/Widget/BossHealthBar/WBP_BossHealthBar.WBP_BossHealthBar:WidgetTree.Root'"
+         Begin Object Name="CanvasPanelSlot_0" ExportPath="/Script/UMG.CanvasPanelSlot'/Game/Widget/BossHealthBar/WBP_BossHealthBar.WBP_BossHealthBar:WidgetTree.Root.CanvasPanelSlot_0'"
+            LayoutData=(Offsets=(Top=-72.000000,Right=1100.000000,Bottom=58.000000),Anchors=(Minimum=(X=0.500000,Y=1.000000),Maximum=(X=0.500000,Y=1.000000)),Alignment=(X=0.500000,Y=1.000000))
+            Parent="/Script/UMG.CanvasPanel'WBP_BossHealthBar:WidgetTree.Root'"
+            Content="/Script/UMG.VerticalBox'WBP_BossHealthBar:WidgetTree.BarFrame'"
+         End Object
+         Slots(0)="/Script/UMG.CanvasPanelSlot'CanvasPanelSlot_0'"
+         bExpandedInDesigner=True
+         Visibility=HitTestInvisible
+      End Object
+      Begin Object Name="BarFrame" ExportPath="/Script/UMG.VerticalBox'/Game/Widget/BossHealthBar/WBP_BossHealthBar.WBP_BossHealthBar:WidgetTree.BarFrame'"
+         Begin Object Name="VerticalBoxSlot_0" ExportPath="/Script/UMG.VerticalBoxSlot'/Game/Widget/BossHealthBar/WBP_BossHealthBar.WBP_BossHealthBar:WidgetTree.BarFrame.VerticalBoxSlot_0'"
+            Padding=(Left=2.000000,Right=2.000000,Bottom=6.000000)
+            Parent="/Script/UMG.VerticalBox'WBP_BossHealthBar:WidgetTree.BarFrame'"
+            Content="/Script/UMG.HorizontalBox'WBP_BossHealthBar:WidgetTree.Header'"
+         End Object
+         Begin Object Name="VerticalBoxSlot_1" ExportPath="/Script/UMG.VerticalBoxSlot'/Game/Widget/BossHealthBar/WBP_BossHealthBar.WBP_BossHealthBar:WidgetTree.BarFrame.VerticalBoxSlot_1'"
+            Parent="/Script/UMG.VerticalBox'WBP_BossHealthBar:WidgetTree.BarFrame'"
+            Content="/Script/UMG.SizeBox'WBP_BossHealthBar:WidgetTree.BarSize'"
+         End Object
+         Slots(0)="/Script/UMG.VerticalBoxSlot'VerticalBoxSlot_0'"
+         Slots(1)="/Script/UMG.VerticalBoxSlot'VerticalBoxSlot_1'"
+         bExpandedInDesigner=True
+      End Object
+      Begin Object Name="Header" ExportPath="/Script/UMG.HorizontalBox'/Game/Widget/BossHealthBar/WBP_BossHealthBar.WBP_BossHealthBar:WidgetTree.Header'"
+         Begin Object Name="HorizontalBoxSlot_0" ExportPath="/Script/UMG.HorizontalBoxSlot'/Game/Widget/BossHealthBar/WBP_BossHealthBar.WBP_BossHealthBar:WidgetTree.Header.HorizontalBoxSlot_0'"
+            VerticalAlignment=VAlign_Bottom
+            Parent="/Script/UMG.HorizontalBox'WBP_BossHealthBar:WidgetTree.Header'"
+            Content="/Script/UMG.TextBlock'WBP_BossHealthBar:WidgetTree.BossNameText'"
+         End Object
+         Begin Object Name="HorizontalBoxSlot_1" ExportPath="/Script/UMG.HorizontalBoxSlot'/Game/Widget/BossHealthBar/WBP_BossHealthBar.WBP_BossHealthBar:WidgetTree.Header.HorizontalBoxSlot_1'"
+            Size=(SizeRule=Fill)
+            Parent="/Script/UMG.HorizontalBox'WBP_BossHealthBar:WidgetTree.Header'"
+            Content="/Script/UMG.Spacer'WBP_BossHealthBar:WidgetTree.HeaderGap'"
+         End Object
+         Begin Object Name="HorizontalBoxSlot_2" ExportPath="/Script/UMG.HorizontalBoxSlot'/Game/Widget/BossHealthBar/WBP_BossHealthBar.WBP_BossHealthBar:WidgetTree.Header.HorizontalBoxSlot_2'"
+            VerticalAlignment=VAlign_Bottom
+            Parent="/Script/UMG.HorizontalBox'WBP_BossHealthBar:WidgetTree.Header'"
+            Content="/Script/UMG.TextBlock'WBP_BossHealthBar:WidgetTree.DamageText'"
+         End Object
+         Slots(0)="/Script/UMG.HorizontalBoxSlot'HorizontalBoxSlot_0'"
+         Slots(1)="/Script/UMG.HorizontalBoxSlot'HorizontalBoxSlot_1'"
+         Slots(2)="/Script/UMG.HorizontalBoxSlot'HorizontalBoxSlot_2'"
+         bExpandedInDesigner=True
+      End Object
+      Begin Object Name="BossNameText" ExportPath="/Script/UMG.TextBlock'/Game/Widget/BossHealthBar/WBP_BossHealthBar.WBP_BossHealthBar:WidgetTree.BossNameText'"
+         Text=NSLOCTEXT("", "FB2DAD584DA9D8A414ED04A7DFF3265E", "Boss Name")
+         ColorAndOpacity=(SpecifiedColor=(R=0.930000,G=0.890000,B=0.800000,A=1.000000))
+         Font=(FontObject="/Script/Engine.Font'/Game/Fonts/Noto_Sans_SC/static/NotoSansSC-Regular_Font.NotoSansSC-Regular_Font'",TypefaceFontName="Default",Size=22.000000,LetterSpacing=120)
+         ShadowColorAndOpacity=(R=0.000000,G=0.000000,B=0.000000,A=0.850000)
+      End Object
+      Begin Object Name="HeaderGap" ExportPath="/Script/UMG.Spacer'/Game/Widget/BossHealthBar/WBP_BossHealthBar.WBP_BossHealthBar:WidgetTree.HeaderGap'"
+      End Object
+      Begin Object Name="DamageText" ExportPath="/Script/UMG.TextBlock'/Game/Widget/BossHealthBar/WBP_BossHealthBar.WBP_BossHealthBar:WidgetTree.DamageText'"
+         ColorAndOpacity=(SpecifiedColor=(R=0.970000,G=0.950000,B=0.900000,A=1.000000))
+         Font=(FontObject="/Script/Engine.Font'/Game/Fonts/Exo/Exo-SemiBold_Font.Exo-SemiBold_Font'",TypefaceFontName="Default",Size=18.000000,LetterSpacing=40)
+         ShadowColorAndOpacity=(R=0.000000,G=0.000000,B=0.000000,A=0.850000)
+         Justification=Right
+      End Object
+      Begin Object Name="BarLayers" ExportPath="/Script/UMG.Overlay'/Game/Widget/BossHealthBar/WBP_BossHealthBar.WBP_BossHealthBar:WidgetTree.BarLayers'"
+         Begin Object Name="OverlaySlot_0" ExportPath="/Script/UMG.OverlaySlot'/Game/Widget/BossHealthBar/WBP_BossHealthBar.WBP_BossHealthBar:WidgetTree.BarLayers.OverlaySlot_0'"
+            HorizontalAlignment=HAlign_Fill
+            VerticalAlignment=VAlign_Fill
+            Parent="/Script/UMG.Overlay'WBP_BossHealthBar:WidgetTree.BarLayers'"
+            Content="/Script/UMG.Image'WBP_BossHealthBar:WidgetTree.BarBacking'"
+         End Object
+         Begin Object Name="OverlaySlot_1" ExportPath="/Script/UMG.OverlaySlot'/Game/Widget/BossHealthBar/WBP_BossHealthBar.WBP_BossHealthBar:WidgetTree.BarLayers.OverlaySlot_1'"
+            HorizontalAlignment=HAlign_Fill
+            VerticalAlignment=VAlign_Fill
+            Parent="/Script/UMG.Overlay'WBP_BossHealthBar:WidgetTree.BarLayers'"
+            Content="/Script/UMG.ProgressBar'WBP_BossHealthBar:WidgetTree.DamageTrailBar'"
+         End Object
+         Begin Object Name="OverlaySlot_2" ExportPath="/Script/UMG.OverlaySlot'/Game/Widget/BossHealthBar/WBP_BossHealthBar.WBP_BossHealthBar:WidgetTree.BarLayers.OverlaySlot_2'"
+            HorizontalAlignment=HAlign_Fill
+            VerticalAlignment=VAlign_Fill
+            Parent="/Script/UMG.Overlay'WBP_BossHealthBar:WidgetTree.BarLayers'"
+            Content="/Script/UMG.ProgressBar'WBP_BossHealthBar:WidgetTree.HealthBar'"
+         End Object
+         Slots(0)="/Script/UMG.OverlaySlot'OverlaySlot_0'"
+         Slots(1)="/Script/UMG.OverlaySlot'OverlaySlot_1'"
+         Slots(2)="/Script/UMG.OverlaySlot'OverlaySlot_2'"
+      End Object
+      Begin Object Name="BarBacking" ExportPath="/Script/UMG.Image'/Game/Widget/BossHealthBar/WBP_BossHealthBar.WBP_BossHealthBar:WidgetTree.BarBacking'"
+         ColorAndOpacity=(R=0.020000,G=0.015000,B=0.015000,A=0.850000)
+      End Object
+      Begin Object Name="DamageTrailBar" ExportPath="/Script/UMG.ProgressBar'/Game/Widget/BossHealthBar/WBP_BossHealthBar.WBP_BossHealthBar:WidgetTree.DamageTrailBar'"
+         WidgetStyle=(BackgroundImage=(DrawAs=Image,ImageType=NoImage,ImageSize=(X=32.000000,Y=32.000000),Margin=(Left=0.000000,Top=0.000000,Right=0.000000,Bottom=0.000000),TintColor=(SpecifiedColor=(R=0.000000,G=0.000000,B=0.000000,A=0.000000)),ResourceName=""),FillImage=(DrawAs=Image,ImageType=NoImage,ImageSize=(X=32.000000,Y=32.000000),Margin=(Left=0.000000,Top=0.000000,Right=0.000000,Bottom=0.000000),ResourceName=""),MarqueeImage=(Tiling=NoTile,ImageType=NoImage,ImageSize=(X=32.000000,Y=32.000000),ResourceName=""))
+         Percent=1.000000
+         FillColorAndOpacity=(R=0.930000,G=0.740000,B=0.380000,A=1.000000)
+      End Object
+      Begin Object Name="HealthBar" ExportPath="/Script/UMG.ProgressBar'/Game/Widget/BossHealthBar/WBP_BossHealthBar.WBP_BossHealthBar:WidgetTree.HealthBar'"
+         WidgetStyle=(BackgroundImage=(DrawAs=Image,ImageType=NoImage,ImageSize=(X=32.000000,Y=32.000000),Margin=(Left=0.000000,Top=0.000000,Right=0.000000,Bottom=0.000000),TintColor=(SpecifiedColor=(R=0.000000,G=0.000000,B=0.000000,A=0.000000)),ResourceName=""),FillImage=(DrawAs=Image,ImageType=NoImage,ImageSize=(X=32.000000,Y=32.000000),Margin=(Left=0.000000,Top=0.000000,Right=0.000000,Bottom=0.000000),ResourceObject="/Script/Engine.Material'/Game/Widget/BossHealthBar/M_BossHealth_Caustics.M_BossHealth_Caustics'",ResourceName=""),MarqueeImage=(Tiling=NoTile,ImageType=NoImage,ImageSize=(X=32.000000,Y=32.000000),ResourceName=""))
+         Percent=1.000000
+         BarFillStyle=Scale
+      End Object
+      RootWidget="/Script/UMG.CanvasPanel'Root'"
+   End Object
+   Begin Object Name="EventGraph" ExportPath="/Script/Engine.EdGraph'/Game/Widget/BossHealthBar/WBP_BossHealthBar.WBP_BossHealthBar:EventGraph'"
+      Begin Object Name="K2Node_Event_0" ExportPath="/Script/BlueprintGraph.K2Node_Event'/Game/Widget/BossHealthBar/WBP_BossHealthBar.WBP_BossHealthBar:EventGraph.K2Node_Event_0'"
+         EventReference=(MemberParent="/Script/CoreUObject.Class'/Script/UMG.UserWidget'",MemberName="PreConstruct")
+         bOverrideFunction=True
+         EnabledState=Disabled
+         bCommentBubblePinned=True
+         bCommentBubbleVisible=True
+         NodeComment="This node is disabled and will not be called.\nDrag off pins to build functionality."
+         NodeGuid=98989F61446797B28A9303A6014DF642
+         CustomProperties Pin (PinId=57BE11D14527F15E57E2A4A6310B90EC,PinName="OutputDelegate",Direction="EGPD_Output",PinType.PinCategory="delegate",PinType.PinSubCategory="",PinType.PinSubCategoryObject=None,PinType.PinSubCategoryMemberReference=(MemberParent="/Script/CoreUObject.Class'/Script/UMG.UserWidget'",MemberName="PreConstruct"),PinType.PinValueType=(),PinType.ContainerType=None,PinType.bIsReference=False,PinType.bIsConst=False,PinType.bIsWeakPointer=False,PinType.bIsUObjectWrapper=False,PinType.bSerializeAsSinglePrecisionFloat=False,PersistentGuid=00000000000000000000000000000000,bHidden=False,bNotConnectable=False,bDefaultValueIsReadOnly=False,bDefaultValueIsIgnored=False,bAdvancedView=False,bOrphanedPin=False,)
+         CustomProperties Pin (PinId=78D4CA984A6E19310F7D35834B537264,PinName="then",Direction="EGPD_Output",PinType.PinCategory="exec",PinType.PinSubCategory="",PinType.PinSubCategoryObject=None,PinType.PinSubCategoryMemberReference=(),PinType.PinValueType=(),PinType.ContainerType=None,PinType.bIsReference=False,PinType.bIsConst=False,PinType.bIsWeakPointer=False,PinType.bIsUObjectWrapper=False,PinType.bSerializeAsSinglePrecisionFloat=False,PersistentGuid=00000000000000000000000000000000,bHidden=False,bNotConnectable=False,bDefaultValueIsReadOnly=False,bDefaultValueIsIgnored=False,bAdvancedView=False,bOrphanedPin=False,)
+         CustomProperties Pin (PinId=684623B64299CCDAE2DA38AFC4D9EEEB,PinName="IsDesignTime",PinToolTip="Is Design Time\nBoolean",Direction="EGPD_Output",PinType.PinCategory="bool",PinType.PinSubCategory="",PinType.PinSubCategoryObject=None,PinType.PinSubCategoryMemberReference=(),PinType.PinValueType=(),PinType.ContainerType=None,PinType.bIsReference=False,PinType.bIsConst=False,PinType.bIsWeakPointer=False,PinType.bIsUObjectWrapper=False,PinType.bSerializeAsSinglePrecisionFloat=False,DefaultValue="false",AutogeneratedDefaultValue="false",PersistentGuid=00000000000000000000000000000000,bHidden=False,bNotConnectable=False,bDefaultValueIsReadOnly=False,bDefaultValueIsIgnored=False,bAdvancedView=False,bOrphanedPin=False,)
+      End Object
+      Begin Object Name="K2Node_Event_1" ExportPath="/Script/BlueprintGraph.K2Node_Event'/Game/Widget/BossHealthBar/WBP_BossHealthBar.WBP_BossHealthBar:EventGraph.K2Node_Event_1'"
+         EventReference=(MemberParent="/Script/CoreUObject.Class'/Script/UMG.UserWidget'",MemberName="Construct")
+         bOverrideFunction=True
+         NodePosY=208
+         EnabledState=Disabled
+         bCommentBubblePinned=True
+         bCommentBubbleVisible=True
+         NodeComment="This node is disabled and will not be called.\r\nDrag off pins to build functionality."
+         NodeGuid=A744074247BA6CAB814E488E73FB126B
+         CustomProperties Pin (PinId=EF5DD06C44CE27A7210371A58EB1AE5B,PinName="OutputDelegate",Direction="EGPD_Output",PinType.PinCategory="delegate",PinType.PinSubCategory="",PinType.PinSubCategoryObject=None,PinType.PinSubCategoryMemberReference=(MemberParent="/Script/CoreUObject.Class'/Script/UMG.UserWidget'",MemberName="Construct"),PinType.PinValueType=(),PinType.ContainerType=None,PinType.bIsReference=False,PinType.bIsConst=False,PinType.bIsWeakPointer=False,PinType.bIsUObjectWrapper=False,PinType.bSerializeAsSinglePrecisionFloat=False,PersistentGuid=00000000000000000000000000000000,bHidden=False,bNotConnectable=False,bDefaultValueIsReadOnly=False,bDefaultValueIsIgnored=False,bAdvancedView=False,bOrphanedPin=False,)
+         CustomProperties Pin (PinId=E63808424D9F219F200BBA8ECDC5EC7E,PinName="then",Direction="EGPD_Output",PinType.PinCategory="exec",PinType.PinSubCategory="",PinType.PinSubCategoryObject=None,PinType.PinSubCategoryMemberReference=(),PinType.PinValueType=(),PinType.ContainerType=None,PinType.bIsReference=False,PinType.bIsConst=False,PinType.bIsWeakPointer=False,PinType.bIsUObjectWrapper=False,PinType.bSerializeAsSinglePrecisionFloat=False,PersistentGuid=00000000000000000000000000000000,bHidden=False,bNotConnectable=False,bDefaultValueIsReadOnly=False,bDefaultValueIsIgnored=False,bAdvancedView=False,bOrphanedPin=False,)
+      End Object
+      Begin Object Name="K2Node_Event_2" ExportPath="/Script/BlueprintGraph.K2Node_Event'/Game/Widget/BossHealthBar/WBP_BossHealthBar.WBP_BossHealthBar:EventGraph.K2Node_Event_2'"
+         EventReference=(MemberParent="/Script/CoreUObject.Class'/Script/UMG.UserWidget'",MemberName="Tick")
+         bOverrideFunction=True
+         NodePosY=416
+         EnabledState=Disabled
+         bCommentBubblePinned=True
+         bCommentBubbleVisible=True
+         NodeComment="This node is disabled and will not be called.\nDrag off pins to build functionality."
+         NodeGuid=7C2A5E8C42F356E12EB7309455EE9AB8
+         CustomProperties Pin (PinId=4C0A84F5410646EC2E3038B9313D660D,PinName="OutputDelegate",Direction="EGPD_Output",PinType.PinCategory="delegate",PinType.PinSubCategory="",PinType.PinSubCategoryObject=None,PinType.PinSubCategoryMemberReference=(MemberParent="/Script/CoreUObject.Class'/Script/UMG.UserWidget'",MemberName="Tick"),PinType.PinValueType=(),PinType.ContainerType=None,PinType.bIsReference=False,PinType.bIsConst=False,PinType.bIsWeakPointer=False,PinType.bIsUObjectWrapper=False,PinType.bSerializeAsSinglePrecisionFloat=False,PersistentGuid=00000000000000000000000000000000,bHidden=False,bNotConnectable=False,bDefaultValueIsReadOnly=False,bDefaultValueIsIgnored=False,bAdvancedView=False,bOrphanedPin=False,)
+         CustomProperties Pin (PinId=3E7E3A19474E5EDB2D464A83AE26C7E6,PinName="then",Direction="EGPD_Output",PinType.PinCategory="exec",PinType.PinSubCategory="",PinType.PinSubCategoryObject=None,PinType.PinSubCategoryMemberReference=(),PinType.PinValueType=(),PinType.ContainerType=None,PinType.bIsReference=False,PinType.bIsConst=False,PinType.bIsWeakPointer=False,PinType.bIsUObjectWrapper=False,PinType.bSerializeAsSinglePrecisionFloat=False,PersistentGuid=00000000000000000000000000000000,bHidden=False,bNotConnectable=False,bDefaultValueIsReadOnly=False,bDefaultValueIsIgnored=False,bAdvancedView=False,bOrphanedPin=False,)
+         CustomProperties Pin (PinId=65B6F75C4F85AE180AE90F93D2E74768,PinName="MyGeometry",PinToolTip="My Geometry\nGeometry Structure\n\nThe space allotted for this widget",Direction="EGPD_Output",PinType.PinCategory="struct",PinType.PinSubCategory="",PinType.PinSubCategoryObject="/Script/CoreUObject.ScriptStruct'/Script/SlateCore.Geometry'",PinType.PinSubCategoryMemberReference=(),PinType.PinValueType=(),PinType.ContainerType=None,PinType.bIsReference=False,PinType.bIsConst=False,PinType.bIsWeakPointer=False,PinType.bIsUObjectWrapper=False,PinType.bSerializeAsSinglePrecisionFloat=False,PersistentGuid=00000000000000000000000000000000,bHidden=False,bNotConnectable=False,bDefaultValueIsReadOnly=False,bDefaultValueIsIgnored=False,bAdvancedView=False,bOrphanedPin=False,)
+         CustomProperties Pin (PinId=29E0CAB34F9B89106DCAD7814EAF9276,PinName="InDeltaTime",PinToolTip="In Delta Time\nFloat (single-precision)\n\nReal time passed since last tick",Direction="EGPD_Output",PinType.PinCategory="real",PinType.PinSubCategory="float",PinType.PinSubCategoryObject=None,PinType.PinSubCategoryMemberReference=(),PinType.PinValueType=(),PinType.ContainerType=None,PinType.bIsReference=False,PinType.bIsConst=False,PinType.bIsWeakPointer=False,PinType.bIsUObjectWrapper=False,PinType.bSerializeAsSinglePrecisionFloat=False,DefaultValue="0.0",AutogeneratedDefaultValue="0.0",PersistentGuid=00000000000000000000000000000000,bHidden=False,bNotConnectable=False,bDefaultValueIsReadOnly=False,bDefaultValueIsIgnored=False,bAdvancedView=False,bOrphanedPin=False,)
+      End Object
+      Schema="/Script/CoreUObject.Class'/Script/BlueprintGraph.EdGraphSchema_K2'"
+      Nodes(0)="/Script/BlueprintGraph.K2Node_Event'K2Node_Event_0'"
+      Nodes(1)="/Script/BlueprintGraph.K2Node_Event'K2Node_Event_1'"
+      Nodes(2)="/Script/BlueprintGraph.K2Node_Event'K2Node_Event_2'"
+      bAllowDeletion=False
+      GraphGuid=E0CF389546D36E7C9B2C2AA7CEAAA41B
+   End Object
+   Begin Object Name="ExecuteUbergraph_WBP_BossHealthBar" ExportPath="/Script/Engine.EdGraph'/Game/Widget/BossHealthBar/WBP_BossHealthBar.WBP_BossHealthBar:ExecuteUbergraph_WBP_BossHealthBar'"
+      Schema="/Script/CoreUObject.Class'/Script/BlueprintGraph.EdGraphSchema_K2'"
+      GraphGuid=E31EF9FC469463BB0DECD2971616663C
+   End Object
+   TickPrediction=WillTick
+   TickPredictionReason="Native"
+   ParentClass="/Script/CoreUObject.Class'/Script/Vertigo.VTGBossHealthBar'"
+   BlueprintSystemVersion=2
+   UbergraphPages(0)="/Script/Engine.EdGraph'EventGraph'"
+   CategorySorting(0)="WBP Boss Health Bar"
+   CategorySorting(1)="Boss Health Bar"
+   CategorySorting(2)="Appearance"
+   CategorySorting(3)="Input"
+   CategorySorting(4)="Interaction"
+   CategorySorting(5)="Performance"
+   CategorySorting(6)="Layout"
+   CategorySorting(7)="Behavior"
+   CategorySorting(8)="Render Transform"
+   CategorySorting(9)="Localization"
+   CategorySorting(10)="Rendering"
+   CategorySorting(11)="Navigation"
+   CategorySorting(12)="Event Graph"
+   LastEditedDocuments(0)=(EditedObjectPath="/Game/Widget/BossHealthBar/WBP_BossHealthBar.WBP_BossHealthBar:EventGraph",SavedViewOffset=(X=-1047.089509,Y=-423.887191),SavedZoomAmount=0.500000)
+   GeneratedClass="/Script/UMG.WidgetBlueprintGeneratedClass'WBP_BossHealthBar_C'"
+   bLegacyNeedToPurgeSkelRefs=False
+   BlueprintGuid=4EEAE41843F5D4F934797FABF98E598D
+End Object

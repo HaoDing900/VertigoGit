@@ -1,0 +1,83 @@
+Log started at 10/11/2026 01:06:28 (2026-10-11T06:06:28Z)
+No config file at C:\Users\Hao\Documents\Unreal Engine\UnrealBuildTool\BuildConfiguration.xml
+Configuration will be read from:
+  C:\Users\Hao\AppData\Roaming\Unreal Engine\UnrealBuildTool\BuildConfiguration.xml
+Log file: G:\Epic\Unreal projects\VertigoGit\Scripts\SequenceInspector\build.log
+
+Setting temp directory to 'C:\Users\Hao\AppData\Local\Temp\UnrealBuildTool\bfefd05e'
+    Registering build platform: UnrealBuildTool.AndroidPlatformFactory
+    Registering build platform: UnrealBuildTool.IOSPlatformFactory
+    Registering build platform: UnrealBuildTool.LinuxPlatformFactory
+    Registering build platform: UnrealBuildTool.MacPlatformFactory
+    Registering build platform: UnrealBuildTool.TVOSPlatformFactory
+    Registering build platform: UnrealBuildTool.WindowsPlatformFactory
+Found Windows 10 SDK root at C:\Program Files (x86)\Windows Kits\10 (1)
+Found Windows 10 SDK root at C:\Program Files (x86)\Windows Kits\10 (2)
+Found Windows 10 SDK version 10.0.16299.0 at C:\Program Files (x86)\Windows Kits\10
+Found Universal CRT version 10.0.16299.0 at C:\Program Files (x86)\Windows Kits\10
+Win64 Installed SDK(s): MinVersion_Sdk=10.0.00000.0, MaxVersion_Sdk=10.9.99999.0, CurrentVersion_Sdk=10.0.16299.0, Version_AutoSdk=10.0.18362.0, CurrentVersion_AutoSdk=
+        Registering build platform: Win64 - buildable: True
+Command line: G:\Epic\UE_5.3\Engine\Binaries\DotNET\UnrealBuildTool\UnrealBuildTool.dll VertigoEditor Win64 Development "-Project=G:/Epic/Unreal projects/VertigoGit/Vertigo.uproject" -WaitMutex -FromMsBuild "-Log=G:/Epic/Unreal projects/VertigoGit/Scripts/SequenceInspector/build.log"
+Using 'git status' to determine working set for adaptive non-unity build (G:\Epic\Unreal projects\VertigoGit).
+UnrealHeaderTool needs to run because SavedTimestamp is older than HeaderFileTimestamp (G:\Epic\Unreal projects\VertigoGit\Source\Vertigo\Public\UI\VTGSequenceSkipSubsystem.h) for module Vertigo
+Parsing headers for VertigoEditor
+  Running Internal UnrealHeaderTool "G:\Epic\Unreal projects\VertigoGit\Vertigo.uproject" "G:\Epic\Unreal projects\VertigoGit\Intermediate\Build\Win64\VertigoEditor\Development\VertigoEditor.uhtmanifest" -WarningsAsErrors -installed
+Step - Exports
+       Exporter Stats skipped
+       Exporter Json skipped
+       Running exporter CodeGen
+Total of 0 written
+Reflection code generated for VertigoEditor in 0.7294341 seconds
+UnrealEditor-VertigoEditor.lib: Produced item "G:\Epic\Unreal projects\VertigoGit\Intermediate\Build\Win64\x64\UnrealEditor\Development\VertigoEditor\UnrealEditor-VertigoEditor.lib" doesn't exist.
+VTGCinematicRegression.cpp: Dependency G:\Epic\Unreal projects\VertigoGit\Source\Vertigo\Public\UI\VTGSequenceSkipSubsystem.h is newer than the last execution of the action: 10/11/2026 01:06:24 vs 10/11/2026 01:06:08
+VTGSequenceInspector.cpp: Produced item "G:\Epic\Unreal projects\VertigoGit\Intermediate\Build\Win64\x64\UnrealEditor\Development\VertigoEditor\VTGSequenceInspector.cpp.obj" doesn't exist.
+VTGSequenceSkipSubsystem.cpp: Produced item "G:\Epic\Unreal projects\VertigoGit\Intermediate\Build\Win64\x64\UnrealEditor\Development\Vertigo\VTGSequenceSkipSubsystem.cpp.obj" doesn't exist.
+Module.Vertigo.3.cpp: Dependency G:\Epic\Unreal projects\VertigoGit\Source\Vertigo\Public\UI\VTGSequenceSkipSubsystem.h is newer than the last execution of the action: 10/11/2026 01:06:24 vs 10/11/2026 01:05:54
+UnrealEditor-Vertigo.dll: Produced item "G:\Epic\Unreal projects\VertigoGit\Binaries\Win64\UnrealEditor-Vertigo.pdb" doesn't exist.
+UnrealEditor-VertigoEditor.dll: Produced item "G:\Epic\Unreal projects\VertigoGit\Binaries\Win64\UnrealEditor-VertigoEditor.pdb" doesn't exist.
+Module.Vertigo.4.cpp: Dependency G:\Epic\Unreal projects\VertigoGit\Source\Vertigo\Public\UI\VTGSequenceSkipSubsystem.h is newer than the last execution of the action: 10/11/2026 01:06:24 vs 10/11/2026 01:06:01
+UnrealEditor-Vertigo.lib: Produced item "G:\Epic\Unreal projects\VertigoGit\Intermediate\Build\Win64\x64\UnrealEditor\Development\Vertigo\UnrealEditor-Vertigo.lib" doesn't exist.
+VertigoEditor.target: Prerequisite UnrealEditor-Vertigo.dll is produced by outdated action.
+Checking for live coding mutex: Global\LiveCoding_G++Epic+UE_5.3+Engine+Binaries+Win64+UnrealEditor.exe
+Building VertigoEditor...
+Using Visual Studio 2022 14.41.34120 toolchain (C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.41.34120) and Windows 10.0.16299.0 SDK (C:\Program Files (x86)\Windows Kits\10).
+[Upgrade]
+[Upgrade] Using backward-compatible build settings. The latest version of UE sets the following values by default, which may require code changes:
+[Upgrade]     CppStandard = CppStandardVersion.Default        => Updates C++ Standard to C++20 (Previously: CppStandardVersion.Cpp17).
+[Upgrade]     WindowsPlatform.bStrictConformanceMode = true   => Updates MSVC strict conformance mode to true (Previously: false).
+[Upgrade] Suppress this message by setting 'DefaultBuildSettings = BuildSettingsVersion.V4;' in VertigoEditor.Target.cs, and explicitly overriding settings that differ from the new defaults.
+[Upgrade]
+[Adaptive Build] Excluded from Vertigo unity file: VTGLevelStatics.cpp, VTGLevelLoadingInfo.cpp, VTGMediaLoadingPageSystem.cpp, VTGSaveCoordinator.cpp, VTGDeathScreen.cpp, VTGSequenceSkipSubsystem.cpp
+[Adaptive Build] Excluded from VertigoEditor unity file: VertigoEditor.cpp, VTGBroskySocketCommandlet.cpp, VTGCinematicRegression.cpp, VTGCustomizeFadeCommandlet.cpp, VTGDeathBackground.cpp, VTGGoonDamageCommandlet.cpp, VTGLoadingRandomContentTests.cpp, VTGLoadingScreenCommandlet.cpp, VTGLoadingTransitionTests.cpp, VTGSequenceInspector.cpp, VTGSequenceMontageCommandlet.cpp, VTGSequenceMontageTests.cpp, VTGSimplifyLoadingScreen.cpp
+[Adaptive Build] Excluded from Narrative unity file: NarrativeComponent.cpp, NarrativeSequenceMontageEvent.cpp
+Determining max actions to execute in parallel (8 physical cores, 16 logical cores)
+  Executing up to 8 processes, one per physical core
+Adding event matcher: CompileEventMatcher
+Adding event matcher: LinkEventMatcher
+Adding event matcher: MicrosoftEventMatcher
+Adding event matcher: XoreaxEventMatcher
+------ Building 10 action(s) started ------
+[1/10] Compile [x64] Module.Vertigo.3.cpp
+[2/10] Compile [x64] VTGSequenceSkipSubsystem.cpp
+[3/10] Compile [x64] VTGCinematicRegression.cpp
+[4/10] Compile [x64] VTGSequenceInspector.cpp
+[5/10] Link [x64] UnrealEditor-VertigoEditor.lib
+  ���ڴ����� G:\Epic\Unreal projects\VertigoGit\Intermediate\Build\Win64\x64\UnrealEditor\Development\VertigoEditor\UnrealEditor-VertigoEditor.lib �Ͷ��� G:\Epic\Unreal projects\VertigoGit\Intermediate\Build\Win64\x64\UnrealEditor\Development\VertigoEditor\UnrealEditor-VertigoEditor.exp
+[6/10] Compile [x64] Module.Vertigo.4.cpp
+G:\Epic\Unreal projects\VertigoGit\Source\Vertigo\Private\UI\VTGTerminalSavePage.cpp(27): warning C4996: 'UButton::IsFocusable': Direct access to IsFocusable is deprecated. Please use the getter. Please update your code to the new API before upgrading to the next release, otherwise your project will no longer compile.
+G:\Epic\Unreal projects\VertigoGit\Source\Vertigo\Private\UI\VTGTerminalSavePage.cpp(38): warning C4996: 'UButton::IsFocusable': Direct access to IsFocusable is deprecated. Please use the getter. Please update your code to the new API before upgrading to the next release, otherwise your project will no longer compile.
+[7/10] Link [x64] UnrealEditor-Vertigo.lib
+  ���ڴ����� G:\Epic\Unreal projects\VertigoGit\Intermediate\Build\Win64\x64\UnrealEditor\Development\Vertigo\UnrealEditor-Vertigo.lib �Ͷ��� G:\Epic\Unreal projects\VertigoGit\Intermediate\Build\Win64\x64\UnrealEditor\Development\Vertigo\UnrealEditor-Vertigo.exp
+[8/10] Link [x64] UnrealEditor-Vertigo.dll
+  ���ڴ����� G:\Epic\Unreal projects\VertigoGit\Intermediate\Build\Win64\x64\UnrealEditor\Development\Vertigo\UnrealEditor-Vertigo.sup.lib �Ͷ��� G:\Epic\Unreal projects\VertigoGit\Intermediate\Build\Win64\x64\UnrealEditor\Development\Vertigo\UnrealEditor-Vertigo.sup.exp
+[9/10] Link [x64] UnrealEditor-VertigoEditor.dll
+  ���ڴ����� G:\Epic\Unreal projects\VertigoGit\Intermediate\Build\Win64\x64\UnrealEditor\Development\VertigoEditor\UnrealEditor-VertigoEditor.sup.lib �Ͷ��� G:\Epic\Unreal projects\VertigoGit\Intermediate\Build\Win64\x64\UnrealEditor\Development\VertigoEditor\UnrealEditor-VertigoEditor.sup.exp
+[10/10] WriteMetadata VertigoEditor.target
+Total time in Parallel executor: 9.13 seconds
+Total execution time: 10.69 seconds
+WriteFileIfChanged() wrote 0 changed files of 0 requested writes.
+Timeline:
+
+[ 0.000]
+[ 0.000](+10.692) <unknown>
+[10.692]

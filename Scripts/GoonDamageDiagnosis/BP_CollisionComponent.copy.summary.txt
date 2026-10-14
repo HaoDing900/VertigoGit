@@ -1,0 +1,1960 @@
+K2Node_BreakStruct_0
+StructType="/Script/Engine.UserDefinedStruct'/Game/AI/AIBehaviorSystem/Blueprint/Struct/F_CollCompHitActors.F_CollCompHitActors'"
+ F_CollCompHitActors => K2Node_GetArrayItem_0 D4C740C048C5AF883C4041ABDC4443E9, default 
+ HitActors_8_12180EF74F4BA7D53FD5AC84FDE6E1BF => K2Node_CallArrayFunction_0 0E56E80349C2398CBA373C92F8CB7F50, default 
+K2Node_CallArrayFunction_0
+FunctionReference=(MemberParent="/Script/CoreUObject.Class'/Script/Engine.KismetArrayLibrary'",MemberName="Array_Add")
+ execute => K2Node_IfThenElse_0 0BA485C74427A03DBC84E7A7F098EA21, default 
+ self =>  default "/Script/Engine.Default__KismetArrayLibrary"
+ TargetArray => K2Node_BreakStruct_0 8E23D2A945867909A56321A129E4AC1A, default 
+ NewItem => K2Node_VariableGet_1 23EDB73647C4813F33C59EB601D5FE72, default 
+ ReturnValue =>  default "0"
+K2Node_CallFunction_0
+FunctionReference=(MemberName="GetHitActorsIndex",MemberGuid=131542774783D1DB4C1206ABF0008CE6,bSelfContext=True)
+ execute => K2Node_FunctionEntry_0 63F3AEC347AFEE09AD2080BE5AEB55F8, default 
+ then => K2Node_IfThenElse_0 7ABE04BF4EABE3D5511C4990FF39B818, default 
+ Component => K2Node_FunctionEntry_0 3803E3FA48A0957C5C08A6ABF52F960C, default 
+ Index => K2Node_CallFunction_1 7B0202DD4B7A555F3A680090B8078BC7,K2Node_GetArrayItem_0 869FA72743CC52248578FC9322B38C7D, default "0"
+K2Node_CallFunction_1
+FunctionReference=(MemberParent="/Script/CoreUObject.Class'/Script/Engine.KismetMathLibrary'",MemberName="GreaterEqual_IntInt")
+ self =>  default "/Script/Engine.Default__KismetMathLibrary"
+ A => K2Node_CallFunction_0 132CFCDA4A8DD69E55DEF09C58401DE3, default "0"
+ B =>  default "0"
+ ReturnValue => K2Node_IfThenElse_0 37DE980645887E4DD94BD7A4CD70AFE3, default "false"
+K2Node_FunctionEntry_0
+FunctionReference=(MemberName="AddHitActor")
+ then => K2Node_CallFunction_0 BE312A814B4938DDD114C28350C17672, default 
+ Component => K2Node_CallFunction_0 CAF880C848DF2F4EC2B7E48608703958, default 
+K2Node_GetArrayItem_0
+ Array => K2Node_VariableGet_0 9D1F514C432A3F280D28B0AF81032055, default 
+ Dimension 1 => K2Node_CallFunction_0 132CFCDA4A8DD69E55DEF09C58401DE3, default "0"
+ Output => K2Node_BreakStruct_0 66D2A33F49CC04498FF40D876471B0EC, default 
+K2Node_IfThenElse_0
+ execute => K2Node_CallFunction_0 A9407D094D88F7014D6676A7EB5BC047, default 
+ Condition => K2Node_CallFunction_1 4ABF073A48102C4BCF4970A6CCD214FE, default "true"
+ then => K2Node_CallArrayFunction_0 2B72C68F4CB68FB47484A18E147527BC, default 
+K2Node_VariableGet_0
+VariableReference=(MemberName="HitActors",MemberGuid=2A6A7803456CEE288378129DA9284922,bSelfContext=True)
+ HitActors => K2Node_GetArrayItem_0 030AA4374D284525FE250795DEC4BB56, default 
+K2Node_VariableGet_1
+VariableReference=(MemberScope="AddHitActor",MemberName="HitActor")
+ HitActor => K2Node_CallArrayFunction_0 8F870B234C0C78265661DFB2003423B9, default 
+K2Node_Composite_0
+NodeComment="Update previous socket positions"
+NodeComment="Update sockets locations and perform trace on Tick"
+NodeComment="Check make sure it\'s wasn\'t already hit and not ignored actor tag."
+NodeComment="Multi sphere trace from last socket position to current socket position"
+StructType="/Script/Engine.UserDefinedStruct'/Game/AI/AIBehaviorSystem/Blueprint/Struct/F_CollisionComponent.F_CollisionComponent'"
+ F_CollisionComponent => K2Node_MacroInstance_3 2A9F8B7A4AF186A99B06549BEC497F32, default 
+ Component_2_3941386A40A6BCBCE45808A34CB04791 => K2Node_MacroInstance_1 DF4FB7464F701EDF6049A1B25858194E,K2Node_CallFunction_5 BC1A3F234C8883C953E80EB5783F0983,K2Node_Knot_3 6100818B4B45E42AF42C6C8B94A04A67, default 
+ Sockets_6_12180EF74F4BA7D53FD5AC84FDE6E1BF => K2Node_MacroInstance_18 EB11E27F4C98BA9316285EAFC68A335E, default 
+StructType="/Script/Engine.UserDefinedStruct'/Game/AI/AIBehaviorSystem/Blueprint/Struct/F_CollisionComponent.F_CollisionComponent'"
+ F_CollisionComponent => K2Node_MacroInstance_2 2A9F8B7A4AF186A99B06549BEC497F32, default 
+ Component_2_3941386A40A6BCBCE45808A34CB04791 => K2Node_MacroInstance_6 48480F0A45505AEE2D41318FF596557A,K2Node_Knot_0 846900164EB21BB7E28385B6DD02D666,K2Node_CallFunction_986 B2CFFD5C48C784200145C690D7EEEC3F, default 
+ Sockets_6_12180EF74F4BA7D53FD5AC84FDE6E1BF => K2Node_MacroInstance_0 EB11E27F4C98BA9316285EAFC68A335E, default 
+FunctionReference=(MemberParent="/Script/CoreUObject.Class'/Script/Engine.KismetArrayLibrary'",MemberName="Array_Contains")
+ self =>  default "/Script/Engine.Default__KismetArrayLibrary"
+ TargetArray => K2Node_CallFunction_0 7499C3A24D78E39A136838AF4B353A14, default 
+ ItemToFind => K2Node_CallFunction_241 081F04394C8A04B87A5D149D52DAEB2C, default 
+ ReturnValue => K2Node_CallFunction_2 40C0D6A3486DE8D2355C8F9F5FE0C1EA, default "false"
+FunctionReference=(MemberParent="/Script/CoreUObject.Class'/Script/Engine.KismetArrayLibrary'",MemberName="Array_Contains")
+ self =>  default "/Script/Engine.Default__KismetArrayLibrary"
+ TargetArray => K2Node_VariableGet_3 48233D444AEB88A57D4B7B9ED54DDD87, default 
+ ItemToFind => K2Node_MacroInstance_4 56C2E5DC497BDE6E232D6B8165990BB0, default 
+ ReturnValue => K2Node_CallFunction_4 DA903EEE48F486DEB130C0B38C06F796, default "false"
+ execute => K2Node_CallFunction_8 D79E11454043950BE381569D14AEFDA7, default 
+ HitResult => K2Node_Knot_16 49922C1E40FBBF4D48DE2A805EED44CF, default 
+FunctionReference=(MemberName="GetHitActors",MemberGuid=E3ED168E4E0D9366B6C658823E251C4D,bSelfContext=True)
+ Component => K2Node_Knot_5 31F7307844A1BE006730E59064261E14, default 
+ HitActors => K2Node_CallArrayFunction_1 B1144CD8476D88090F8D5DB2F83419EF, default 
+FunctionReference=(MemberParent="/Script/CoreUObject.Class'/Script/Engine.KismetSystemLibrary'",MemberName="SphereTraceMultiForObjects")
+ execute => K2Node_MacroInstance_0 D06573F34858BF818BD5C3ABF23846D5, default 
+ then => K2Node_MacroInstance_61 5C57E3754D7F2F694644688BE01C9196, default 
+ self =>  default "/Script/Engine.Default__KismetSystemLibrary"
+ Start => K2Node_CallFunction_312 4C8C10884013FC014E7C7E9647A91F5E, default "0
+ End => K2Node_CallFunction_986 04D917F84DB025A63C59FF83962CF657, default "0
+ Radius => K2Node_VariableGet_5 EE10D14244F87D0B2B30929CB5F02A4D, default "0.0"
+ ObjectTypes => K2Node_VariableGet_137 872365204464645387777C876CFCE06C, default "ObjectTypeQuery1"
+ bTraceComplex =>  default "false"
+ ActorsToIgnore => K2Node_CallFunction_7 F6B7177B42BBABBA2FAC61B1E886DC1E, default 
+ DrawDebugType => K2Node_VariableGet_525 7DE53413499DEAA03FBB7785379593D2, default "None"
+ OutHits => K2Node_MacroInstance_61 ADC359BA41D3C9C4E3448C9902CED9F2, default 
+ bIgnoreSelf =>  default "true"
+ TraceColor =>  default "(R=1.000000
+ TraceHitColor =>  default "(R=0.000000
+ DrawTime =>  default "2.000000"
+ ReturnValue =>  default "false"
+FunctionReference=(MemberName="ActivateTrace",MemberGuid=81EECAC94F805064B55F6EA21BC65967,bSelfContext=True)
+ execute => K2Node_IfThenElse_52 AEE0DDDD48D07D6D02A5C49E858117C4, default 
+FunctionReference=(MemberParent="/Script/CoreUObject.Class'/Script/Engine.KismetMathLibrary'",MemberName="Not_PreBool")
+ self =>  default "/Script/Engine.Default__KismetMathLibrary"
+ A => K2Node_CallArrayFunction_1 63A62D044BC6615A76FF56BF052B4CB3, default "false"
+ ReturnValue => K2Node_IfThenElse_83 296F637546945A4DA084F6BD47B476A3, default "false"
+FunctionReference=(MemberParent="/Script/CoreUObject.Class'/Script/Engine.GameplayStatics'",MemberName="BreakHitResult")
+ self =>  default "/Script/Engine.Default__GameplayStatics"
+ Hit => K2Node_Knot_2 B7F8ECF34501F223CD37549B1080B13E, default 
+ bBlockingHit =>  default "false"
+ bInitialOverlap =>  default "false"
+ Time =>  default "0.0"
+ Distance =>  default "0.0"
+ Location =>  default "0
+ ImpactPoint =>  default "0
+ Normal =>  default "0
+ ImpactNormal =>  default "0
+ HitActor => K2Node_Knot_17 7E3F4E194B072BDC6EB21B9DBDE5C0A9,K2Node_CallArrayFunction_1 145659624DD0478D4264E0B7EBFCC43E, default 
+ HitBoneName =>  default "None"
+ BoneName =>  default "None"
+ HitItem =>  default "0"
+ ElementIndex =>  default "0"
+ FaceIndex =>  default "0"
+ TraceStart =>  default "0
+ TraceEnd =>  default "0
+FunctionReference=(MemberParent="/Script/CoreUObject.Class'/Script/Engine.BlueprintMapLibrary'",MemberName="Map_Find")
+ self =>  default "/Script/Engine.Default__BlueprintMapLibrary"
+ TargetMap => K2Node_VariableGet_181 5970DB824C548BE1CC3684B577BBFE89, default 
+ Key => K2Node_CallFunction_6 29FC6C74467CDA6030C534BBD7270C8D, default 
+ Value => K2Node_CallFunction_1 409500034B5C770540DEE9955923F439, default 
+ ReturnValue =>  default "false"
+FunctionReference=(MemberParent="/Script/CoreUObject.Class'/Script/Engine.KismetMathLibrary'",MemberName="Not_PreBool")
+ self =>  default "/Script/Engine.Default__KismetMathLibrary"
+ A => K2Node_CallArrayFunction_2 87AA73414611B32B20C2279207D36D67, default "false"
+ ReturnValue => K2Node_IfThenElse_0 4DBEF368429D0B82D8505AA02EA6D0FB, default "false"
+FunctionReference=(MemberName="GetUniqueSocketName",MemberGuid=171E4E2D406EF8BFC28B8AAAD8ABB10A,bSelfContext=True)
+ Component => K2Node_BreakStruct_0 1D55971245198C100CB443B8D790F52B, default 
+ SocketName => K2Node_Knot_4 6C75A3694B9F6E5112829D902A866CBD, default "None"
+ UniqueName => K2Node_CallFunction_50 074FF8874DDC6B724A7A0EB68D08E230, default "None"
+FunctionReference=(MemberParent="/Script/CoreUObject.Class'/Script/Engine.BlueprintMapLibrary'",MemberName="Map_Add")
+ execute => K2Node_MacroInstance_18 D06573F34858BF818BD5C3ABF23846D5, default 
+ self =>  default "/Script/Engine.Default__BlueprintMapLibrary"
+ TargetMap => K2Node_VariableGet_67 05F5A920490EFC6F79591884C0F3FD81, default 
+ Key => K2Node_CallFunction_5 B0596297456437B136F7A18F4380564B, default 
+ Value => K2Node_CallFunction_987 04D917F84DB025A63C59FF83962CF657, default 
+FunctionReference=(MemberName="GetUniqueSocketName",MemberGuid=171E4E2D406EF8BFC28B8AAAD8ABB10A,bSelfContext=True)
+ Component => K2Node_Knot_0 A7B8DFC142859757678B76A254263330, default 
+ SocketName => K2Node_Knot_27 0181080440AA540527136982E1D85A3A, default "None"
+ UniqueName => K2Node_CallFunction_312 B9773EDE4FB19D0DC209989170C7A62F, default "None"
+FunctionReference=(MemberName="GetHitActors",MemberGuid=E3ED168E4E0D9366B6C658823E251C4D,bSelfContext=True)
+ Component => K2Node_Knot_0 A7B8DFC142859757678B76A254263330, default 
+ HitActors => K2Node_CallFunction_1 5CFD7C7B4C5247690C6A0290FA57EC9F, default 
+FunctionReference=(MemberName="AddHitActor",MemberGuid=2954904645F667F89B72759DD7CFB4FF,bSelfContext=True)
+ execute => K2Node_IfThenElse_0 8E2D515C4981A9312E8495BA3B532FF4, default 
+ then => K2Node_CallDelegate_6 1F79F76948216B1ED8ED3E89198B940A, default 
+ Component => K2Node_Knot_1 3536EDE248C898823F3B34ACA3B5B740, default 
+ HitActor => K2Node_Knot_6 8CEDAD55406F1C15C22549936A2C72DE, default 
+FunctionReference=(MemberParent="/Script/CoreUObject.Class'/Script/Engine.SceneComponent'",MemberName="GetSocketLocation")
+ self => K2Node_BreakStruct_1 46AFE7C54AE41A95614DE995DC12EC85, default 
+ InSocketName => K2Node_Knot_27 0181080440AA540527136982E1D85A3A, default "None"
+ ReturnValue => K2Node_CallFunction_1 EF6283A340005FEDB5399EAFC474E91F, default "0
+FunctionReference=(MemberParent="/Script/CoreUObject.Class'/Script/Engine.SceneComponent'",MemberName="GetSocketLocation")
+ self => K2Node_Knot_3 4EF01C1E4B09F178BB6A9D8C5CE3803A, default 
+ InSocketName => K2Node_Knot_4 6C75A3694B9F6E5112829D902A866CBD, default "None"
+ ReturnValue => K2Node_CallFunction_50 7687E4FC4A9BA4F38736F69A59EFF41D, default "0
+FunctionReference=(MemberName="UpdateLastSocketPositions",MemberGuid=A7D2B1E94B702078CB626F992B187AF8,bSelfContext=True)
+ execute => K2Node_ExecutionSequence_56 A281802A42279AB8B2D9EE85555E25AF, default 
+ then => K2Node_VariableSet_10 83C0BB4C4881E09128C84A86FD96B5FA, default 
+CustomFunctionName="UpdateLastSocketPositions"
+ then => K2Node_MacroInstance_3 DD4D77B9467ECCE6E45A2F984C98141E, default 
+CustomFunctionName="ActivateTrace"
+ then => K2Node_MacroInstance_2 DD4D77B9467ECCE6E45A2F984C98141E, default 
+EventReference=(MemberParent="/Script/CoreUObject.Class'/Script/Engine.ActorComponent'",MemberName="ReceiveTick")
+ then => K2Node_IfThenElse_26 E92698784D51A8F853265DADE96CD7ED, default 
+ DeltaSeconds =>  default "0.0"
+ execute => K2Node_IfThenElse_26 C1CA4C2249A9B17AB5DE5987000B0EE6, default 
+ then_0 => K2Node_IfThenElse_52 E1AF22A74E4A68582A0449BC2CC6DBF9, default 
+ then_1 => K2Node_CallFunction_99 AE712CC346542446311786A1F44A8934, default 
+ execute => K2Node_MacroInstance_4 C4EC4FD74E0310989AE45BA643E98C07, default 
+ Condition => K2Node_CallFunction_4 8874C66540E7F444A50A37BEDE0993C6, default "true"
+ then => K2Node_CallFunction_8 0B15B6334E3AE975AAB550A7C51E1720, default 
+ execute => K2Node_Event_1 B67A9D3E4C1C6A73541A5E82833D9DD7, default 
+ Condition => K2Node_VariableGet_34 498D3FE045E705B1B490A99D3E8B8F07, default "false"
+ then => K2Node_ExecutionSequence_56 6C0727B14CAD117E059EA1AE27B87514, default 
+ execute => K2Node_ExecutionSequence_56 405E72DB4BBF3BD3C600EEA4E9108CA9, default 
+ Condition => K2Node_VariableGet_24 3947623D4C3A11282E959985D50FD444, default "true"
+ then => K2Node_CallFunction_159 E5EED5B04FCE54620C1523B311DEBE06, default 
+ execute => K2Node_MacroInstance_61 D8371DA84DA8D5BBCC25529EB29DAE38, default 
+ Condition => K2Node_CallFunction_2 D0BD5CA84716AE7E490539B7EC63D4DF, default "true"
+ then => K2Node_MacroInstance_4 07337E4C4A9A19CCFC16049A184ADB9C, default 
+ InputPin => K2Node_BreakStruct_1 46AFE7C54AE41A95614DE995DC12EC85, default 
+ OutputPin => K2Node_CallFunction_6 D04849C24659F68699133ABFD427E4D3,K2Node_CallFunction_7 F24D4A5747B2ACA8A7FEAA97EA53ED27,K2Node_Knot_5 3251664B462CF0678C3D40A860B3FD17, default 
+ InputPin => K2Node_Knot_5 31F7307844A1BE006730E59064261E14, default 
+ OutputPin => K2Node_CallFunction_8 F21C2DEF42E09E0E6E7AE88B346B822F, default 
+ InputPin => K2Node_Knot_2 B7F8ECF34501F223CD37549B1080B13E, default 
+ OutputPin => K2Node_CallDelegate_6 55EE3A2C43325D13CAA7FD9289A0C0A3, default 
+ InputPin => K2Node_CallFunction_241 081F04394C8A04B87A5D149D52DAEB2C, default 
+ OutputPin => K2Node_Knot_7 1AEEEF614B0DE613DF57179AD0A675D7, default 
+ InputPin => K2Node_MacroInstance_61 66E7ACE6404B0F9420C09798B476C9ED, default 
+ OutputPin => K2Node_CallFunction_241 2FF76D0944DF90E3B86359AD707EAFCA,K2Node_Knot_16 D8191A9C43E5878B29BF16AA27ADC4AA, default 
+ InputPin => K2Node_MacroInstance_0 F8893AFA48A818A31028FCBE280384E0, default 
+ OutputPin => K2Node_CallFunction_986 67E65810437C137C0DBC6DAEA23B36E6,K2Node_CallFunction_6 6AE03C5B4E70E419EB33E1B770826687, default 
+ InputPin => K2Node_BreakStruct_0 1D55971245198C100CB443B8D790F52B, default 
+ OutputPin => K2Node_CallFunction_987 B2CFFD5C48C784200145C690D7EEEC3F, default 
+ InputPin => K2Node_MacroInstance_18 F8893AFA48A818A31028FCBE280384E0, default 
+ OutputPin => K2Node_CallFunction_987 67E65810437C137C0DBC6DAEA23B36E6,K2Node_CallFunction_5 1D880279490C1C6C2E1551B0AA0FB0FE, default 
+ InputPin => K2Node_Knot_0 A7B8DFC142859757678B76A254263330, default 
+ OutputPin => K2Node_Knot_1 AFE2DBE3496CF4270DF7C68EC39E3125,K2Node_CallFunction_0 9130231B433B009D4C6837A7FE0F85F8, default 
+ InputPin => K2Node_Knot_7 D40694384311A2BCAF89A6BEEA589867, default 
+ OutputPin => K2Node_CallFunction_8 F75C13DF4A1716801E017292A3C312BF, default 
+ InputPin => K2Node_Knot_17 7A86AE144EDB997222B7C8A3AD8CE744, default 
+ OutputPin => K2Node_Knot_6 A850A6F6448EDC39C2D41398D9DB35D1,K2Node_VariableGet_4 84E01B594DA2C0EC9C7FDC86F270B2AF, default 
+ Exec => K2Node_MacroInstance_6 82CB74EF4D0FD19004DE55826F83E27B, default 
+ Array => K2Node_BreakStruct_1 992289A44911348B2BF0CBBD8BE927D3, default 
+ LoopBody => K2Node_CallFunction_1 50B131BE473A32CD9D4CCA88FC0FEF32, default 
+ Array Element => K2Node_Knot_27 697A0F474243D35CBC66A0BFFC33CBDD, default 
+ exec => K2Node_MacroInstance_3 EE130F67424E75A651A8F3BD017E7490, default 
+ InputObject => K2Node_BreakStruct_0 1D55971245198C100CB443B8D790F52B, default 
+ Is Valid => K2Node_MacroInstance_18 055A919442005B7DDFB72DBBFF9ED3FA, default 
+ Exec => K2Node_MacroInstance_1 6D988EF64AF00621FAC1AD9116DEC8EC, default 
+ Array => K2Node_BreakStruct_0 7B2A8F0840E15230F0917FB6F78B63AE, default 
+ LoopBody => K2Node_CallFunction_50 69ADA6244B87B442F6508CB2C9312BB8, default 
+ Array Element => K2Node_Knot_4 F6F81B844406E1CA65B7ADBE451BDBF1, default 
+ Exec => K2Node_CustomEvent_59 45842A364CEE723F5587BCA03AA1179D, default 
+ Array => K2Node_VariableGet_1 144D401B4ECDF59F1288A48475E266C3, default 
+ LoopBody => K2Node_MacroInstance_6 1C4F857A41DBD873E379F1A5C92F911B, default 
+ Array Element => K2Node_BreakStruct_1 6FF3475D489052FB0213C3B8E190D8AE, default 
+ Exec => K2Node_CustomEvent_30 D7A567464F71457C4EE9D78700368A9F, default 
+ Array => K2Node_VariableGet_2 144D401B4ECDF59F1288A48475E266C3, default 
+ LoopBody => K2Node_MacroInstance_1 801E85D4485B1ECD17BDEFA832644C97, default 
+ Array Element => K2Node_BreakStruct_0 257BADBA4A67042DDC82FE91025200FF, default 
+ Exec => K2Node_IfThenElse_83 435F6AC7427C60C113240AAEADB1F76A, default 
+ Array => K2Node_VariableGet_4 7760DD444CB67CA5A972C6BC3DA3F8CA, default 
+ LoopBody => K2Node_IfThenElse_0 A168A9DA470241951A3D8EBE717170E7, default 
+ Array Element => K2Node_CallArrayFunction_2 936A5A1B44E4FFB1A2631FBE21AA525D, default 
+ exec => K2Node_MacroInstance_2 EE130F67424E75A651A8F3BD017E7490, default 
+ InputObject => K2Node_BreakStruct_1 46AFE7C54AE41A95614DE995DC12EC85, default 
+ Is Valid => K2Node_MacroInstance_0 055A919442005B7DDFB72DBBFF9ED3FA, default 
+ Exec => K2Node_CallFunction_1 75EF90644077B49879B6F3AD9452C157, default 
+ Array => K2Node_CallFunction_1 9F30BE674EFFFA00C9D9BA8855ADB0F4, default 
+ LoopBody => K2Node_IfThenElse_83 5D9D3AAC4400F0E5D8E0428A5861633C, default 
+ Array Element => K2Node_Knot_2 27346A1E412680277A18ADA073EA39F8, default 
+VariableReference=(MemberName="CollisionComponents",MemberGuid=C62A36B4433911F87AC90194DA6E10FE,bSelfContext=True)
+ CollisionComponents => K2Node_MacroInstance_2 CFB09FCC46773CEDB3ADE780FD12720F, default 
+VariableReference=(MemberName="ObjectTypeCollide",MemberGuid=933DBFE141725CC9D4C5AEBBF5C15A48,bSelfContext=True)
+ ObjectTypeCollide => K2Node_CallFunction_1 20D49E07491CC71915B00AB0F8E863CB, default "ObjectTypeQuery1"
+VariableReference=(MemberName="LastSocketLocations",MemberGuid=EEE160474C197DB39E93CFA444A791CB,bSelfContext=True)
+ LastSocketLocations => K2Node_CallFunction_312 128DC0C64FB48CDED592A39E0BD83B9A, default 
+VariableReference=(MemberName="CollisionComponents",MemberGuid=C62A36B4433911F87AC90194DA6E10FE,bSelfContext=True)
+ CollisionComponents => K2Node_MacroInstance_3 CFB09FCC46773CEDB3ADE780FD12720F, default 
+VariableReference=(MemberName="TraceActive",MemberGuid=6CED58034CBA7B83872AC693D6F94237,bSelfContext=True)
+ TraceActive => K2Node_IfThenElse_52 6061E61D4395F8B10182A08337DAA0D9, default "false"
+VariableReference=(MemberName="IgnoredActorTag",MemberGuid=E7741D5647DBECB8D57FEE8FAF341C4C,bSelfContext=True)
+ IgnoredActorTag => K2Node_CallArrayFunction_2 E83ABA8048B27172DADFE58B5EF1A688, default 
+VariableReference=(MemberName="CollisionActive",MemberGuid=91DABD0D440029D8889C768B105D8538,bSelfContext=True)
+ CollisionActive => K2Node_IfThenElse_26 1B79B7994B4371B01AA559BA8E69DB31, default "false"
+VariableReference=(MemberParent="/Script/CoreUObject.Class'/Script/Engine.Actor'",MemberName="Tags")
+ Tags => K2Node_MacroInstance_4 C6FA1CEE41A87B0C6C107BBD8FD771B8, default 
+ self => K2Node_Knot_7 D40694384311A2BCAF89A6BEEA589867, default 
+VariableReference=(MemberName="TraceRadius",MemberGuid=471913044E21ECACA2F0958D87A16536,bSelfContext=True)
+ TraceRadius => K2Node_CallFunction_1 374AA3904291A0456C6B86A6E46A8D6D, default "0.0"
+VariableReference=(MemberName="VisualizeTrace",MemberGuid=17EB284849DF8166F76CDEA9A542C912,bSelfContext=True)
+ VisualizeTrace => K2Node_CallFunction_1 EC87DBDE46F5A84F22FF48B7BC9498E3, default "None"
+VariableReference=(MemberName="LastSocketLocations",MemberGuid=EEE160474C197DB39E93CFA444A791CB,bSelfContext=True)
+ LastSocketLocations => K2Node_CallFunction_50 B2D186BF44066884C0A51D8B7C9652F8, default 
+VariableReference=(MemberName="TraceActive",MemberGuid=6CED58034CBA7B83872AC693D6F94237,bSelfContext=True)
+ execute => K2Node_CallFunction_99 0EDF0DF848C74F4DA1D02DA120146D46, default 
+ TraceActive =>  default "true"
+ Output_Get =>  default "false"
+EdGraphNode_Comment_0
+NodeComment="Collision Update Tick"
+EdGraphNode_Comment_1
+NodeComment="Activate and deactivate collision traces"
+EdGraphNode_Comment_18
+NodeComment="Set collision"
+EdGraphNode_Comment_2
+NodeComment="Spawn VFX and Sound"
+EdGraphNode_Comment_3
+NodeComment="Apply Damage"
+K2Node_CallArrayFunction_0
+FunctionReference=(MemberParent="/Script/CoreUObject.Class'/Script/Engine.KismetArrayLibrary'",MemberName="Array_Clear")
+ execute => K2Node_CustomEvent_141 8F768D57421EA03CE5A0AA94AEE48554, default 
+ then => K2Node_VariableSet_101 2C37C5714DCB1F35B36659801D2F96F7, default 
+ self =>  default "/Script/Engine.Default__KismetArrayLibrary"
+ TargetArray => K2Node_VariableGet_0 6C9D9D8541D018AE818F4F98B4FAF2D1, default 
+K2Node_CallDelegate_58
+ execute => K2Node_VariableSet_101 EC3D64794C5627FF293884A9EBE64D3A, default 
+ CollisionPart => K2Node_Knot_20 D082AAC64DB2EFCB53E51499E657F398, default "NewEnumerator8"
+K2Node_CallDelegate_59
+ execute => K2Node_VariableSet_9 2C3961864C49353D7A199B8B096DC63F, default 
+K2Node_CallFunction_0
+FunctionReference=(MemberName="EnableCollision",MemberGuid=085345D44FCBA754800A229AE33C077D,bSelfContext=True)
+ execute => K2Node_CustomEvent_1 5BB86E924E501DA67B9CCF94F5A9F045, default 
+ CollisionPart => K2Node_CustomEvent_1 C1D004194E5FFD00C1CD708D8C165D0E, default "NewEnumerator8"
+K2Node_CallFunction_1
+FunctionReference=(MemberName="DisableCollision",MemberGuid=88DD8CF44C23B9549F171EA620F70D61,bSelfContext=True)
+ execute => K2Node_CustomEvent_6 451108E84D10BCBA2BCD89B76C8C38E6, default 
+K2Node_CallFunction_12
+FunctionReference=(MemberParent="/Script/CoreUObject.Class'/Script/Engine.GameplayStatics'",MemberName="ApplyPointDamage")
+ execute => K2Node_CustomEvent_4 CD8F82C2482763A982415F9775313AD1, default 
+ self =>  default "/Script/Engine.Default__GameplayStatics"
+ DamagedActor => K2Node_CallFunction_13 748DB765452A2EA6364050BB875E55E1, default 
+ BaseDamage => K2Node_CustomEvent_4 EB33278F424B32AF08DD729648CD5D78, default "0.0"
+ HitFromDirection => K2Node_CallFunction_4189 CF16B6B947E794FD1B999988CB330257, default "0
+ HitInfo => K2Node_CustomEvent_4 16BA981D4E60E81B20A0B0823C032199, default 
+ DamageCauser => K2Node_Knot_5 210A3EFD453EB5268F4EE3AFBE123A80, default 
+ ReturnValue =>  default "0.0"
+K2Node_CallFunction_13
+FunctionReference=(MemberParent="/Script/CoreUObject.Class'/Script/Engine.GameplayStatics'",MemberName="BreakHitResult")
+ self =>  default "/Script/Engine.Default__GameplayStatics"
+ Hit => K2Node_CustomEvent_4 16BA981D4E60E81B20A0B0823C032199, default 
+ bBlockingHit =>  default "false"
+ bInitialOverlap =>  default "false"
+ Time =>  default "0.0"
+ Distance =>  default "0.0"
+ Location =>  default "0
+ ImpactPoint =>  default "0
+ Normal =>  default "0
+ ImpactNormal =>  default "0
+ HitActor => K2Node_CallFunction_12 9BA782464CF514233CE89CB9B5812D85,K2Node_CallFunction_14 0D334EEC490C9741EADD01A85CD78019, default 
+ HitBoneName =>  default "None"
+ BoneName =>  default "None"
+ HitItem =>  default "0"
+ ElementIndex =>  default "0"
+ FaceIndex =>  default "0"
+ TraceStart =>  default "0
+ TraceEnd =>  default "0
+K2Node_CallFunction_1352
+FunctionReference=(MemberName="UpdateLastSocketPositions",MemberGuid=A7D2B1E94B702078CB626F992B187AF8,bSelfContext=True)
+ execute => K2Node_VariableSet_2 F58C85C3497DA181A0AFFF88EEE0A94A, default 
+K2Node_CallFunction_14
+FunctionReference=(MemberParent="/Script/CoreUObject.Class'/Script/Engine.Actor'",MemberName="K2_GetActorLocation")
+ self => K2Node_CallFunction_13 748DB765452A2EA6364050BB875E55E1, default 
+ ReturnValue => K2Node_CallFunction_4189 4FCAFFB04D365A7802CCA39266265372, default "0
+K2Node_CallFunction_15
+FunctionReference=(MemberName="GetOwner",bSelfContext=True)
+ ReturnValue => K2Node_CallFunction_22 0D334EEC490C9741EADD01A85CD78019,K2Node_Knot_5 6F95129D43728F6BF7D34F8F2C4675F2, default 
+K2Node_CallFunction_16
+FunctionReference=(MemberParent="/Script/CoreUObject.Class'/Script/Engine.GameplayStatics'",MemberName="SpawnEmitterAtLocation")
+ execute => K2Node_IfThenElse_0 D9F7673E4A8CA5A551348BB812A845BD, default 
+ then => K2Node_CallFunction_19 B43D66A94C35FAFBBEC1D38AB0D9F098, default 
+ self =>  default "/Script/Engine.Default__GameplayStatics"
+ EmitterTemplate => K2Node_CustomEvent_2 3888121B4F388508C7E44FA7EBA4A6B4, default 
+ Location => K2Node_CallFunction_21 FB929B9B4575EE0D40AE6A883FF3AA36, default "0
+ Rotation =>  default "0
+ Scale => K2Node_CustomEvent_2 C00615F942BF5021A3578AB7581D17AA, default "1.000000
+ bAutoDestroy =>  default "true"
+ PoolingMethod =>  default "None"
+ bAutoActivateSystem =>  default "true"
+K2Node_CallFunction_19
+FunctionReference=(MemberParent="/Script/CoreUObject.Class'/Script/Engine.GameplayStatics'",MemberName="SpawnSoundAtLocation")
+ execute => K2Node_CallFunction_16 6220445943670E7F6674DFA5B82D2470,K2Node_CallFunction_2 0F46E7294D4C5EB0D3032583C39FD75F, default 
+ self =>  default "/Script/Engine.Default__GameplayStatics"
+ Sound => K2Node_CustomEvent_2 A9D3AB5240FE79A0069AEFA8E09200EE, default 
+ Location => K2Node_CallFunction_21 FB929B9B4575EE0D40AE6A883FF3AA36, default "0
+ Rotation =>  default "0
+ VolumeMultiplier =>  default "1.000000"
+ PitchMultiplier =>  default "1.000000"
+ StartTime =>  default "0.000000"
+ AttenuationSettings =>  default "None"
+ ConcurrencySettings =>  default "None"
+ bAutoDestroy =>  default "true"
+K2Node_CallFunction_2
+FunctionReference=(MemberParent="/Script/CoreUObject.Class'/Script/Niagara.NiagaraFunctionLibrary'",MemberName="SpawnSystemAtLocation")
+ execute => K2Node_IfThenElse_0 F40AB4AE4D751AFABBCDC2B270881BF3, default 
+ then => K2Node_CallFunction_19 B43D66A94C35FAFBBEC1D38AB0D9F098, default 
+ self =>  default "/Script/Niagara.Default__NiagaraFunctionLibrary"
+ SystemTemplate => K2Node_CustomEvent_2 5822AB5C406B8ADD5540CEBA5DD220E0, default 
+ Location => K2Node_CallFunction_21 FB929B9B4575EE0D40AE6A883FF3AA36, default "0
+ Rotation =>  default "0
+ Scale => K2Node_CustomEvent_2 C00615F942BF5021A3578AB7581D17AA, default "1.000000
+ bAutoDestroy =>  default "true"
+ bAutoActivate =>  default "true"
+ PoolingMethod =>  default "None"
+ bPreCullCheck =>  default "true"
+K2Node_CallFunction_20
+FunctionReference=(MemberName="Multicast_Spawn Hit VFX and Sound",MemberGuid=0B27F8B1471DA77804C936994D9D6235,bSelfContext=True)
+ execute => K2Node_CustomEvent_5 0B93301B4938D5D014C0BBAC043CACF1, default 
+ HitResult => K2Node_CustomEvent_5 9E3999AA4424BCF8F0D03ABFC14E9EAA, default 
+ EmitterTemplate => K2Node_CustomEvent_5 6A7EC9EF43B1B403E72DDEBF68AFAE24, default 
+ Sound => K2Node_CustomEvent_5 39F6A41245BCAE3E0F0864A5890DC617, default 
+ VFX Scale => K2Node_CustomEvent_5 DA2923224FCE433495E3B98474ED666B, default "1.000000
+ Niagara => K2Node_CustomEvent_5 AFEB7673409FE6C93EF83F820F26C9BB, default 
+K2Node_CallFunction_21
+FunctionReference=(MemberParent="/Script/CoreUObject.Class'/Script/Engine.GameplayStatics'",MemberName="BreakHitResult")
+ self =>  default "/Script/Engine.Default__GameplayStatics"
+ Hit => K2Node_CustomEvent_2 F12331EF4F3C361541661DB5F72D119A, default 
+ bBlockingHit =>  default "false"
+ bInitialOverlap =>  default "false"
+ Time =>  default "0.0"
+ Distance =>  default "0.0"
+ Location =>  default "0
+ ImpactPoint => K2Node_CallFunction_16 CD0FCB9842E4CAEE2326F2B635CCC944,K2Node_CallFunction_19 CCAE75DD455E49DEEC5734B00A543C3B,K2Node_CallFunction_2 301E5C59482BADF8A71AA195E49F77A5, default "0
+ Normal =>  default "0
+ ImpactNormal =>  default "0
+ HitActor => K2Node_DynamicCast_0 890CF53340B345459C63B09D87A90EFB, default 
+ HitBoneName =>  default "None"
+ BoneName =>  default "None"
+ HitItem =>  default "0"
+ ElementIndex =>  default "0"
+ FaceIndex =>  default "0"
+ TraceStart =>  default "0
+ TraceEnd =>  default "0
+K2Node_CallFunction_22
+FunctionReference=(MemberParent="/Script/CoreUObject.Class'/Script/Engine.Actor'",MemberName="K2_GetActorLocation")
+ self => K2Node_CallFunction_15 1E7DA9E04EF6F7A9473F43834F08709F, default 
+ ReturnValue => K2Node_CallFunction_4189 495609194A5CE22ED29549900175F136, default "0
+K2Node_CallFunction_4189
+FunctionReference=(MemberParent="/Script/CoreUObject.Class'/Script/Engine.KismetMathLibrary'",MemberName="GetDirectionUnitVector")
+ self =>  default "/Script/Engine.Default__KismetMathLibrary"
+ From => K2Node_CallFunction_22 9BEF3B714AF8D6D02D2FB8BE2F9A54C5, default "0
+ To => K2Node_CallFunction_14 9BEF3B714AF8D6D02D2FB8BE2F9A54C5, default "0
+ ReturnValue => K2Node_CallFunction_12 215541364EE0185F05C225B0147C5BBE, default "0
+K2Node_CustomEvent_1
+CustomFunctionName="Server_EnableCollision"
+ then => K2Node_CallFunction_0 583D17A9448397BC92AEF789B60441DB, default 
+ CollisionPart => K2Node_CallFunction_0 C228C6484E4444DC205AD595E5525AF6, default "NewEnumerator8"
+K2Node_CustomEvent_141
+CustomFunctionName="EnableCollision"
+ then => K2Node_CallArrayFunction_0 C13FC65A4D8A793B544CEE8310A626E5, default 
+ CollisionPart => K2Node_Knot_19 7C54425D4579B7D51F63C88405CDBF52, default "NewEnumerator8"
+K2Node_CustomEvent_150
+CustomFunctionName="DisableCollision"
+ then => K2Node_VariableSet_177 2C37C5714DCB1F35B36659801D2F96F7, default 
+K2Node_CustomEvent_2
+CustomFunctionName="Multicast_Spawn Hit VFX and Sound"
+ then => K2Node_DynamicCast_0 1E8CC53E4BC0E6AA6221B69DAF9FFA47, default 
+ HitResult => K2Node_CallFunction_21 080963A1458494C7E2AA60ADDE94147F, default 
+ EmitterTemplate => K2Node_CallFunction_16 6A9FEAE9442E1C9068B2AA911B803366, default 
+ Sound => K2Node_CallFunction_19 D41CD5E5417898A99B5D92AFFA3E982C, default 
+ VFX Scale => K2Node_CallFunction_16 47EE3C694EF08AAC3B55628433F93C1D,K2Node_CallFunction_2 4ADBFAB647973B74E2B67FA99806A497, default "1.000000
+ Niagara => K2Node_CallFunction_2 9459EF0D4738E8704BC93FA171BF75DA, default 
+K2Node_CustomEvent_3
+CustomFunctionName="SetCollisions"
+ then => K2Node_VariableSet_2 FAA179584FEBC6059B4453A95A266F65, default 
+ CollComps => K2Node_VariableSet_2 845DC34F44677D7620C6A59690B849EE, default 
+K2Node_CustomEvent_4
+CustomFunctionName="ApplyDamageToActor"
+ then => K2Node_CallFunction_12 0D5BC2044565C34F6D0DFE92CDC3670A, default 
+ Hit => K2Node_CallFunction_13 8D19C1FC481D1DB27ED89FB20DA7EEEE,K2Node_CallFunction_12 252D65E84174C6BFBD26E08E95F9F7A9, default 
+ BaseDamage => K2Node_CallFunction_12 70BF026540BDFA9BA73CC695F790CF26, default 
+K2Node_CustomEvent_5
+CustomFunctionName="Server_Spawn Hit VFX and Sound"
+ then => K2Node_CallFunction_20 89352A6747FEE70FA93ABB8795D52082, default 
+ HitResult => K2Node_CallFunction_20 A2FCE01D405B1A79353B2AA3A587455A, default 
+ EmitterTemplate => K2Node_CallFunction_20 A3C7D9A845144AB3DCF5F4A36FA5243B, default 
+ Sound => K2Node_CallFunction_20 C7B650174235B49DBEE6CA8838B47196, default 
+ VFX Scale => K2Node_CallFunction_20 7C6EE4794320A17F423184A49481B84B, default "1.000000
+ Niagara => K2Node_CallFunction_20 F7CE7CFF4FB797020F089495DF181DBC, default 
+K2Node_CustomEvent_6
+CustomFunctionName="Server_DisableCollision"
+ then => K2Node_CallFunction_1 7265850A4DF6891DB18FD094E4E963BE, default 
+K2Node_DynamicCast_0
+ execute => K2Node_CustomEvent_2 56FC99294A8B3135E63EAEA895F2DC6B, default 
+ then => K2Node_IfThenElse_1 F1BA1B06463CDA7D85430BBA9DF82928, default 
+ Object => K2Node_CallFunction_21 FB86E42741BF320B0556B4BEE5A20774, default 
+ AsBP Player Sa => K2Node_VariableGet_2 F3D3B49F4DB9CC70820DA2BE2B9BF0A7, default 
+K2Node_IfThenElse_0
+ execute => K2Node_IfThenElse_1 1FD4933A45AB1DCF4037378E9EE94B9B, default 
+ Condition => K2Node_VariableGet_1 DE1BDE7E4E659B349A837BB453C978BC, default "true"
+ then => K2Node_CallFunction_2 88CD48A64B464F2362A64AA4E0D48B66, default 
+ else => K2Node_CallFunction_16 688F39314C58F69DF3CCE487765F25DC, default 
+K2Node_IfThenElse_1
+ execute => K2Node_DynamicCast_0 15A0BC854B57C983EB2A468BD852DF93, default 
+ Condition => K2Node_VariableGet_2 DE2B7EDE4FCD84DA5261C8AD7AEF912E, default "true"
+ else => K2Node_IfThenElse_0 0A2AE20C4DC6EE9EB4BDB5AC253C2927, default 
+K2Node_Knot_19
+ InputPin => K2Node_CustomEvent_141 E7E2EDAA440BFE71140864A4E9304E1F, default "(INVALID)"
+ OutputPin => K2Node_Knot_20 58C04C9E4A0CB19E6C6A72B02365E66B, default 
+K2Node_Knot_20
+ InputPin => K2Node_Knot_19 5EAEBC9D4B3B03F7BAE0A1AB2A4ED9F0, default "(INVALID)"
+ OutputPin => K2Node_CallDelegate_58 498964524B5D1B73B83E42BD9F6D2E82, default 
+K2Node_Knot_5
+ InputPin => K2Node_CallFunction_15 1E7DA9E04EF6F7A9473F43834F08709F, default 
+ OutputPin => K2Node_CallFunction_12 009C487C438859E1E73442BAA3641B5C, default 
+K2Node_VariableGet_0
+VariableReference=(MemberName="HitActors",MemberGuid=2A6A7803456CEE288378129DA9284922,bSelfContext=True)
+ HitActors => K2Node_CallArrayFunction_0 ADD77F884A1F7B7A16B630BFE1B442C6, default 
+K2Node_VariableGet_1
+VariableReference=(MemberName="Niagara",MemberGuid=55AAF31C49B5D152CC4C028BDB2E84F8,bSelfContext=True)
+ Niagara => K2Node_IfThenElse_0 1A80AC8F4BF60958858E25B1B635E5D1, default "false"
+K2Node_VariableGet_2
+VariableReference=(MemberParent="/Script/Engine.BlueprintGeneratedClass'/Game/ThirdPerson/Blueprints/BP_Player_Sa.BP_Player_Sa_C'",MemberName="IsDodging?",MemberGuid=C68C97A24A34BFC3407830944AC8ADFC)
+ IsDodging? => K2Node_IfThenElse_1 17BB73484179CB9C1B67A791491ED9E9, default "false"
+ self => K2Node_DynamicCast_0 8B4904E240040EF0565B0AA1DC67D0D0, default 
+K2Node_VariableSet_101
+VariableReference=(MemberName="CollisionActive",MemberGuid=91DABD0D440029D8889C768B105D8538,bSelfContext=True)
+ execute => K2Node_CallArrayFunction_0 814B401F473560E5CCE91186C0DA438D, default 
+ then => K2Node_CallDelegate_58 3CB7D58844ADE77602B66D9DEC2B1EBA, default 
+ CollisionActive =>  default "true"
+ Output_Get =>  default "false"
+K2Node_VariableSet_177
+VariableReference=(MemberName="CollisionActive",MemberGuid=91DABD0D440029D8889C768B105D8538,bSelfContext=True)
+ execute => K2Node_CustomEvent_150 1564053E44FD941A46E042ACE25A0D9A, default 
+ then => K2Node_VariableSet_9 015250A742D283047C2D42BAA6541D35, default 
+ CollisionActive =>  default "false"
+ Output_Get =>  default "false"
+K2Node_VariableSet_2
+VariableReference=(MemberName="CollisionComponents",MemberGuid=C62A36B4433911F87AC90194DA6E10FE,bSelfContext=True)
+ execute => K2Node_CustomEvent_3 D5C8A0F3445AA915B74176A6EAB39B0F, default 
+ then => K2Node_CallFunction_1352 AE712CC346542446311786A1F44A8934, default 
+ CollisionComponents => K2Node_CustomEvent_3 5D394CCF40810C1B7867DC8611261B21, default 
+K2Node_VariableSet_9
+VariableReference=(MemberName="TraceActive",MemberGuid=6CED58034CBA7B83872AC693D6F94237,bSelfContext=True)
+ execute => K2Node_VariableSet_177 EC3D64794C5627FF293884A9EBE64D3A, default 
+ then => K2Node_CallDelegate_59 9B57D3184E973F8029375A97E38DA8DE, default 
+ TraceActive =>  default "false"
+ Output_Get =>  default "false"
+EdGraphNode_Comment_1
+NodeComment="If element was not found by this component, add as new one with owner as hit actor to ignore him"
+K2Node_BreakStruct_1
+StructType="/Script/Engine.UserDefinedStruct'/Game/AI/AIBehaviorSystem/Blueprint/Struct/F_CollCompHitActors.F_CollCompHitActors'"
+ F_CollCompHitActors => K2Node_GetArrayItem_0 B8E3A85344A38D16B7903FBD9274AC63, default 
+ HitActors_8_12180EF74F4BA7D53FD5AC84FDE6E1BF => K2Node_FunctionResult_1 1A2A8C7744BD1E06DF4869A71BED6A27, default 
+K2Node_BreakStruct_2
+StructType="/Script/Engine.UserDefinedStruct'/Game/AI/AIBehaviorSystem/Blueprint/Struct/F_CollCompHitActors.F_CollCompHitActors'"
+ F_CollCompHitActors => K2Node_GetArrayItem_1 B8E3A85344A38D16B7903FBD9274AC63, default 
+ HitActors_8_12180EF74F4BA7D53FD5AC84FDE6E1BF => K2Node_FunctionResult_2 1A2A8C7744BD1E06DF4869A71BED6A27, default 
+K2Node_CallArrayFunction_0
+FunctionReference=(MemberParent="/Script/CoreUObject.Class'/Script/Engine.KismetArrayLibrary'",MemberName="Array_Add")
+ execute => K2Node_IfThenElse_1 4EF084D24502C2365ED0B0AC4E4BE9B3, default 
+ then => K2Node_FunctionResult_1 98D70B7B40BABDAFBE33FCA540B20478, default 
+ self =>  default "/Script/Engine.Default__KismetArrayLibrary"
+ TargetArray => K2Node_VariableGet_2 A0C0FB844E2403526A3EA9A61A80964D, default 
+ NewItem => K2Node_MakeStruct_0 EB2A281E476E7909E3EB929C93C8ABE9, default 
+ ReturnValue => K2Node_GetArrayItem_0 6BCF7CC2423DF7B59075A4A0DE566DD8, default "0"
+K2Node_CallFunction_1
+FunctionReference=(MemberName="GetHitActorsIndex",MemberGuid=131542774783D1DB4C1206ABF0008CE6,bSelfContext=True)
+ execute => K2Node_FunctionEntry_0 40AA778C4EB040CFB07D9CAAB0C7BC59, default 
+ then => K2Node_IfThenElse_1 4CDD44FC4EE4536E7CD5099A6766D216, default 
+ Component => K2Node_FunctionEntry_0 297634254AA99E27284875A4087AC247, default 
+ Index => K2Node_CallFunction_2 C6ED3D6B413FC84E8A901F8155998109,K2Node_GetArrayItem_1 6BCF7CC2423DF7B59075A4A0DE566DD8, default "0"
+K2Node_CallFunction_2
+FunctionReference=(MemberParent="/Script/CoreUObject.Class'/Script/Engine.KismetMathLibrary'",MemberName="GreaterEqual_IntInt")
+ self =>  default "/Script/Engine.Default__KismetMathLibrary"
+ A => K2Node_CallFunction_1 FA74EFB44F6955B9F12F7D8C59605197, default "0"
+ B =>  default "0"
+ ReturnValue => K2Node_IfThenElse_1 DDA2BCB24EF549AE807AB18FC545CDEB, default "false"
+K2Node_CallFunction_3
+FunctionReference=(MemberName="GetOwner",bSelfContext=True)
+ ReturnValue => K2Node_MakeArray_0 1877B3A54EC193F92BA4E496FCA39DFD, default 
+K2Node_FunctionEntry_0
+FunctionReference=(MemberName="GetHitActors")
+ then => K2Node_CallFunction_1 5B72D2F645A2809D02227DA98C077513, default 
+ Component => K2Node_CallFunction_1 599C044C49A89D1844170BAEA0D30336, default 
+K2Node_FunctionResult_1
+FunctionReference=(MemberName="GetHitActorsIndex")
+ execute => K2Node_CallArrayFunction_0 C5D73F6743AA20077D9363ABAD0F9B21, default 
+ HitActors => K2Node_BreakStruct_1 1720979E4867C35EFE1B52B42316CC97, default 
+K2Node_FunctionResult_2
+FunctionReference=(MemberName="GetHitActorsIndex")
+ execute => K2Node_IfThenElse_1 50F75553405A9836488AA19F1F46A9EB, default 
+ HitActors => K2Node_BreakStruct_2 DC35EBE84862285C4060758683647D15, default 
+K2Node_GetArrayItem_0
+ Array => K2Node_VariableGet_3 A0C0FB844E2403526A3EA9A61A80964D, default 
+ Dimension 1 => K2Node_CallArrayFunction_0 A4876E27413C40AFBB78F1A0B11EE731, default "0"
+ Output => K2Node_BreakStruct_1 92C5B526428A3AACBE4AE391C0696EB8, default 
+K2Node_GetArrayItem_1
+ Array => K2Node_VariableGet_4 A0C0FB844E2403526A3EA9A61A80964D, default 
+ Dimension 1 => K2Node_CallFunction_1 FA74EFB44F6955B9F12F7D8C59605197, default "0"
+ Output => K2Node_BreakStruct_2 92C5B526428A3AACBE4AE391C0696EB8, default 
+K2Node_IfThenElse_1
+ execute => K2Node_CallFunction_1 DABB234F453C37E8C648EB8CE61836F2, default 
+ Condition => K2Node_CallFunction_2 C948BBD1459F6906A4159382CCC6C71F, default "true"
+ then => K2Node_FunctionResult_2 98D70B7B40BABDAFBE33FCA540B20478, default 
+ else => K2Node_CallArrayFunction_0 2E1D52EF48A83A18991C6ABD95DA6E81, default 
+K2Node_MakeArray_0
+ Array => K2Node_MakeStruct_0 4D6FE6AC4E6D8544BC8044AB7BA18FA2, default 
+ [0] => K2Node_CallFunction_3 23773A6E4572B20DEC99DBA7C951FE74, default 
+K2Node_MakeStruct_0
+StructType="/Script/Engine.UserDefinedStruct'/Game/AI/AIBehaviorSystem/Blueprint/Struct/F_CollCompHitActors.F_CollCompHitActors'"
+ F_CollCompHitActors => K2Node_CallArrayFunction_0 3969944B4ABFBCF899CABF9037C896C2, default 
+ Component_2_3941386A40A6BCBCE45808A34CB04791 => K2Node_VariableGet_0 619C1B5A45AA9383C95780B9B9050D6F, default 
+ HitActors_8_12180EF74F4BA7D53FD5AC84FDE6E1BF => K2Node_MakeArray_0 3BFA40D349F2BC41972DA0B50892F50F, default 
+K2Node_VariableGet_0
+VariableReference=(MemberScope="GetHitActors",MemberName="Component")
+ Component => K2Node_MakeStruct_0 7C9BB8BC4614C803D9D81985A1B806E8, default 
+K2Node_VariableGet_2
+VariableReference=(MemberName="HitActors",MemberGuid=2A6A7803456CEE288378129DA9284922,bSelfContext=True)
+ HitActors => K2Node_CallArrayFunction_0 319078104D0A5C4C5EEA6FAB0ABCE326, default 
+K2Node_VariableGet_3
+VariableReference=(MemberName="HitActors",MemberGuid=2A6A7803456CEE288378129DA9284922,bSelfContext=True)
+ HitActors => K2Node_GetArrayItem_0 E4ED829D417467E1F364C5BF68064441, default 
+K2Node_VariableGet_4
+VariableReference=(MemberName="HitActors",MemberGuid=2A6A7803456CEE288378129DA9284922,bSelfContext=True)
+ HitActors => K2Node_GetArrayItem_1 E4ED829D417467E1F364C5BF68064441, default 
+K2Node_BreakStruct_0
+StructType="/Script/Engine.UserDefinedStruct'/Game/AI/AIBehaviorSystem/Blueprint/Struct/F_CollCompHitActors.F_CollCompHitActors'"
+ F_CollCompHitActors => K2Node_MacroInstance_0 9E0497404E7FAC6BD39964899AEF9365, default 
+ Component_2_3941386A40A6BCBCE45808A34CB04791 => K2Node_CallFunction_0 5087BD194AE277429E55DBAFA571F8C8, default 
+K2Node_CallFunction_0
+FunctionReference=(MemberParent="/Script/CoreUObject.Class'/Script/Engine.KismetMathLibrary'",MemberName="EqualEqual_ObjectObject")
+ self =>  default "/Script/Engine.Default__KismetMathLibrary"
+ A => K2Node_BreakStruct_0 BD6AD45447E933AE5036C0BF8219424B, default 
+ B => K2Node_VariableGet_1 193F22534C439DAA72D2F683C2D17F1E, default 
+ ReturnValue => K2Node_IfThenElse_0 1AD1C034450562D5EAA60CB46CBA9E10, default "false"
+K2Node_FunctionEntry_0
+FunctionReference=(MemberName="GetHitActorsIndex")
+ then => K2Node_MacroInstance_0 381CD8AA420D61F9DDC5E98E63B1DE51, default 
+K2Node_FunctionResult_0
+FunctionReference=(MemberName="GetHitActorsIndex")
+ execute => K2Node_MacroInstance_0 57CED01D4CEDBB0EDC666B97A7764A2F, default 
+ Index =>  default "-1"
+K2Node_FunctionResult_1
+FunctionReference=(MemberName="GetHitActorsIndex")
+ execute => K2Node_IfThenElse_0 DE0C04AA4FEDB5913C7BFDA1C2F697B0, default 
+ Index => K2Node_MacroInstance_0 2BF20460452F391E43C856A97C580B7B, default "0"
+K2Node_IfThenElse_0
+ execute => K2Node_MacroInstance_0 DFE8ED8543EAC2CC291B809CDE5A47CF, default 
+ Condition => K2Node_CallFunction_0 3A2AE5C14F13C3163FC484ACB19DA239, default "true"
+ then => K2Node_FunctionResult_1 98D70B7B40BABDAFBE33FCA540B20478, default 
+K2Node_MacroInstance_0
+ Exec => K2Node_FunctionEntry_0 40AA778C4EB040CFB07D9CAAB0C7BC59, default 
+ Array => K2Node_VariableGet_0 4225D8AA4B5C8189E163F8B5EC2A3CF2, default 
+ LoopBody => K2Node_IfThenElse_0 5D3D7D5F4D79951CDD7973A7C66E6B23, default 
+ Array Element => K2Node_BreakStruct_0 99A6F48E4CB302EADF0D7FA9D0178C6F, default 
+ Array Index => K2Node_FunctionResult_1 1A2A8C7744BD1E06DF4869A71BED6A27, default 
+ Completed => K2Node_FunctionResult_0 98D70B7B40BABDAFBE33FCA540B20478, default 
+K2Node_VariableGet_0
+VariableReference=(MemberName="HitActors",MemberGuid=2A6A7803456CEE288378129DA9284922,bSelfContext=True)
+ HitActors => K2Node_MacroInstance_0 C22539B84F37033312A21CA902D75693, default 
+K2Node_VariableGet_1
+VariableReference=(MemberScope="GetHitActorsIndex",MemberName="Component")
+ Component => K2Node_CallFunction_0 8173A7C9482550BE316807A1D3F866FD, default 
+EdGraphNode_Comment_2
+NodeComment="Generate unique socket name in case 2 components has sockets with same names"
+K2Node_CallFunction_0
+FunctionReference=(MemberParent="/Script/CoreUObject.Class'/Script/Engine.KismetSystemLibrary'",MemberName="GetDisplayName")
+ self =>  default "/Script/Engine.Default__KismetSystemLibrary"
+ Object => K2Node_FunctionEntry_0 E546A6BC40B913388132129FC8EBB414, default 
+ ReturnValue => K2Node_CommutativeAssociativeBinaryOperator_0 7D602B8A490EF81DC7001BAF6CE49190, default 
+K2Node_CallFunction_1
+FunctionReference=(MemberParent="/Script/CoreUObject.Class'/Script/Engine.KismetStringLibrary'",MemberName="Conv_NameToString")
+ self =>  default "/Script/Engine.Default__KismetStringLibrary"
+ InName => K2Node_FunctionEntry_0 F448BBF044302BEC961E44B0F45AFCB5, default "None"
+ ReturnValue => K2Node_CommutativeAssociativeBinaryOperator_0 8E6BF0F84A0E45FB3DDE3EA7F3099AF2, default 
+K2Node_CallFunction_2
+FunctionReference=(MemberParent="/Script/CoreUObject.Class'/Script/Engine.KismetStringLibrary'",MemberName="Conv_StringToName")
+ self =>  default "/Script/Engine.Default__KismetStringLibrary"
+ InString => K2Node_CommutativeAssociativeBinaryOperator_0 5BF798254C2A9DB397F239BF75DE4A49, default 
+ ReturnValue => K2Node_FunctionResult_0 C74CBD714D19FCE1D053459A4B71A86D, default "None"
+K2Node_CommutativeAssociativeBinaryOperator_0
+FunctionReference=(MemberParent="/Script/CoreUObject.Class'/Script/Engine.KismetStringLibrary'",MemberName="Concat_StrStr")
+ self =>  default "/Script/Engine.Default__KismetStringLibrary"
+ A => K2Node_CallFunction_0 6898B258453EBD1F379EC28EA1A34AD4, default 
+ B => K2Node_CallFunction_1 3099FA7D48794FBB92F55AAD28B9B756, default 
+ ReturnValue => K2Node_CallFunction_2 FE7A36DD414B6D3F6D905F8024FF53FC, default 
+K2Node_FunctionEntry_0
+FunctionReference=(MemberName="GetUniqueSocketName")
+ then => K2Node_FunctionResult_0 6985275D457432F348934886CD77E82C, default 
+ Component => K2Node_CallFunction_0 CCBB42B8430D3BB290ADCBBAD2E986A4, default 
+ SocketName => K2Node_CallFunction_1 7748CFB84F9EE35C99A69C9B84BAD677, default 
+K2Node_FunctionResult_0
+FunctionReference=(MemberName="GetUniqueSocketName")
+ execute => K2Node_FunctionEntry_0 B566A07144C449B006E0A0B52D8E5A2C, default 
+ UniqueName => K2Node_CallFunction_2 D9004AB54A59AB62894CE09B0860A6F2, default "None"
+K2Node_FunctionEntry_7
+FunctionReference=(MemberName="IsCollisionActive")
+ then => K2Node_FunctionResult_0 E35CAE394272A40439C5FC9A6BDF9CD3, default 
+K2Node_FunctionResult_0
+FunctionReference=(MemberName="IsCollisionActive")
+ execute => K2Node_FunctionEntry_7 4678426E42651C52298082AA8079B1D6, default 
+ Result => K2Node_VariableGet_255 D1385C8443708EF24ED09B9B84271504, default "false"
+K2Node_VariableGet_255
+VariableReference=(MemberName="TraceActive",MemberGuid=6CED58034CBA7B83872AC693D6F94237,bSelfContext=True)
+ TraceActive => K2Node_FunctionResult_0 D094741E4A04131206013DBD693F6445, default "false"
+K2Node_FunctionEntry_43
+FunctionReference=(MemberName="OnCollisionDisabled")
+K2Node_FunctionEntry_14
+FunctionReference=(MemberName="OnCollisionEnabled")
+ CollisionPart =>  default "NewEnumerator8"
+K2Node_FunctionEntry_238
+FunctionReference=(MemberName="OnHit")
+K2Node_CustomEvent_141
+CustomFunctionName="EnableCollision"
+ then => K2Node_CallArrayFunction_0 C13FC65A4D8A793B544CEE8310A626E5, default 
+ CollisionPart => K2Node_CallDelegate_58 498964524B5D1B73B83E42BD9F6D2E82, default "NewEnumerator8"
+K2Node_CustomEvent_150
+CustomFunctionName="DisableCollision"
+ then => K2Node_VariableSet_177 2C37C5714DCB1F35B36659801D2F96F7, default 
+K2Node_VariableSet_101
+VariableReference=(MemberName="CollisionActive",MemberGuid=91DABD0D440029D8889C768B105D8538,bSelfContext=True)
+ execute => K2Node_CallArrayFunction_0 814B401F473560E5CCE91186C0DA438D, default 
+ then => K2Node_CallDelegate_58 3CB7D58844ADE77602B66D9DEC2B1EBA, default 
+ CollisionActive =>  default "true"
+K2Node_VariableSet_177
+VariableReference=(MemberName="CollisionActive",MemberGuid=91DABD0D440029D8889C768B105D8538,bSelfContext=True)
+ execute => K2Node_CustomEvent_150 1564053E44FD941A46E042ACE25A0D9A, default 
+ then => K2Node_VariableSet_9 015250A742D283047C2D42BAA6541D35, default 
+ CollisionActive =>  default "false"
+EdGraphNode_Comment_1
+NodeComment="Activate and deactivate collision traces"
+K2Node_CallDelegate_58
+ execute => K2Node_VariableSet_101 EC3D64794C5627FF293884A9EBE64D3A, default 
+ CollisionPart => K2Node_CustomEvent_141 E7E2EDAA440BFE71140864A4E9304E1F, default "NewEnumerator8"
+K2Node_CallDelegate_59
+ execute => K2Node_VariableSet_9 2C3961864C49353D7A199B8B096DC63F, default 
+EdGraphNode_Comment_18
+NodeComment="Set collision"
+K2Node_Knot_19
+ InputPin =>  default "(INVALID)"
+K2Node_Knot_20
+ InputPin =>  default "(INVALID)"
+K2Node_VariableSet_9
+VariableReference=(MemberName="TraceActive",MemberGuid=6CED58034CBA7B83872AC693D6F94237,bSelfContext=True)
+ execute => K2Node_VariableSet_177 EC3D64794C5627FF293884A9EBE64D3A, default 
+ then => K2Node_CallDelegate_59 9B57D3184E973F8029375A97E38DA8DE, default 
+ TraceActive =>  default "false"
+K2Node_CustomEvent_3
+CustomFunctionName="SetCollisions"
+ then => K2Node_VariableSet_2 FAA179584FEBC6059B4453A95A266F65, default 
+ CollComps => K2Node_VariableSet_2 845DC34F44677D7620C6A59690B849EE, default 
+K2Node_VariableSet_2
+VariableReference=(MemberName="CollisionComponents",MemberGuid=C62A36B4433911F87AC90194DA6E10FE,bSelfContext=True)
+ execute => K2Node_CustomEvent_3 D5C8A0F3445AA915B74176A6EAB39B0F, default 
+ then => K2Node_CallFunction_1352 AE712CC346542446311786A1F44A8934, default 
+ CollisionComponents => K2Node_CustomEvent_3 5D394CCF40810C1B7867DC8611261B21, default 
+K2Node_CallFunction_1352
+FunctionReference=(MemberName="UpdateLastSocketPositions",MemberGuid=A7D2B1E94B702078CB626F992B187AF8,bSelfContext=True)
+ execute => K2Node_VariableSet_2 F58C85C3497DA181A0AFFF88EEE0A94A, default 
+K2Node_VariableGet_0
+VariableReference=(MemberName="HitActors",MemberGuid=2A6A7803456CEE288378129DA9284922,bSelfContext=True)
+ HitActors => K2Node_CallArrayFunction_0 ADD77F884A1F7B7A16B630BFE1B442C6, default 
+K2Node_CallArrayFunction_0
+FunctionReference=(MemberParent="/Script/CoreUObject.Class'/Script/Engine.KismetArrayLibrary'",MemberName="Array_Clear")
+ execute => K2Node_CustomEvent_141 8F768D57421EA03CE5A0AA94AEE48554, default 
+ then => K2Node_VariableSet_101 2C37C5714DCB1F35B36659801D2F96F7, default 
+ self =>  default "/Script/Engine.Default__KismetArrayLibrary"
+ TargetArray => K2Node_VariableGet_0 6C9D9D8541D018AE818F4F98B4FAF2D1, default 
+K2Node_Composite_0
+EdGraphNode_Comment_0
+NodeComment="Collision Update Tick"
+K2Node_CustomEvent_2
+CustomFunctionName="Multicast_Spawn Hit VFX and Sound"
+ then => K2Node_DynamicCast_0 1E8CC53E4BC0E6AA6221B69DAF9FFA47, default 
+ HitResult => K2Node_CallFunction_21 080963A1458494C7E2AA60ADDE94147F, default 
+ EmitterTemplate => K2Node_CallFunction_16 6A9FEAE9442E1C9068B2AA911B803366, default 
+ Sound => K2Node_CallFunction_19 D41CD5E5417898A99B5D92AFFA3E982C, default 
+ VFX Scale => K2Node_CallFunction_16 47EE3C694EF08AAC3B55628433F93C1D,K2Node_CallFunction_2 4ADBFAB647973B74E2B67FA99806A497, default "1.000000
+ Niagara => K2Node_CallFunction_2 9459EF0D4738E8704BC93FA171BF75DA, default 
+K2Node_CustomEvent_4
+CustomFunctionName="ApplyDamageToActor"
+ then => K2Node_CallFunction_12 0D5BC2044565C34F6D0DFE92CDC3670A, default 
+ Hit => K2Node_CallFunction_13 8D19C1FC481D1DB27ED89FB20DA7EEEE,K2Node_CallFunction_12 252D65E84174C6BFBD26E08E95F9F7A9, default 
+ BaseDamage => K2Node_CallFunction_12 70BF026540BDFA9BA73CC695F790CF26, default 
+K2Node_CallFunction_12
+FunctionReference=(MemberParent="/Script/CoreUObject.Class'/Script/Engine.GameplayStatics'",MemberName="ApplyPointDamage")
+ execute => K2Node_CustomEvent_4 CD8F82C2482763A982415F9775313AD1, default 
+ self =>  default "/Script/Engine.Default__GameplayStatics"
+ DamagedActor => K2Node_CallFunction_13 748DB765452A2EA6364050BB875E55E1, default 
+ BaseDamage => K2Node_CustomEvent_4 EB33278F424B32AF08DD729648CD5D78, default "0.0"
+ HitFromDirection => K2Node_CallFunction_4189 CF16B6B947E794FD1B999988CB330257, default "0
+ HitInfo => K2Node_CustomEvent_4 16BA981D4E60E81B20A0B0823C032199, default 
+ DamageCauser => K2Node_CallFunction_15 1E7DA9E04EF6F7A9473F43834F08709F, default 
+ ReturnValue =>  default "0.0"
+K2Node_CallFunction_13
+FunctionReference=(MemberParent="/Script/CoreUObject.Class'/Script/Engine.GameplayStatics'",MemberName="BreakHitResult")
+ self =>  default "/Script/Engine.Default__GameplayStatics"
+ Hit => K2Node_CustomEvent_4 16BA981D4E60E81B20A0B0823C032199, default 
+ bBlockingHit =>  default "false"
+ bInitialOverlap =>  default "false"
+ Time =>  default "0.0"
+ Distance =>  default "0.0"
+ Location =>  default "0
+ ImpactPoint =>  default "0
+ Normal =>  default "0
+ ImpactNormal =>  default "0
+ HitActor => K2Node_CallFunction_12 9BA782464CF514233CE89CB9B5812D85,K2Node_CallFunction_14 0D334EEC490C9741EADD01A85CD78019, default 
+ HitBoneName =>  default "None"
+ BoneName =>  default "None"
+ HitItem =>  default "0"
+ ElementIndex =>  default "0"
+ FaceIndex =>  default "0"
+ TraceStart =>  default "0
+ TraceEnd =>  default "0
+K2Node_CallFunction_22
+FunctionReference=(MemberParent="/Script/CoreUObject.Class'/Script/Engine.Actor'",MemberName="K2_GetActorLocation")
+ self => K2Node_CallFunction_15 1E7DA9E04EF6F7A9473F43834F08709F, default 
+ ReturnValue => K2Node_CallFunction_4189 495609194A5CE22ED29549900175F136, default "0
+K2Node_CallFunction_15
+FunctionReference=(MemberName="GetOwner",bSelfContext=True)
+ ReturnValue => K2Node_CallFunction_22 0D334EEC490C9741EADD01A85CD78019,K2Node_CallFunction_12 009C487C438859E1E73442BAA3641B5C, default 
+K2Node_Knot_5
+K2Node_CallFunction_16
+FunctionReference=(MemberParent="/Script/CoreUObject.Class'/Script/Engine.GameplayStatics'",MemberName="SpawnEmitterAtLocation")
+ execute => K2Node_IfThenElse_0 D9F7673E4A8CA5A551348BB812A845BD, default 
+ then => K2Node_CallFunction_19 B43D66A94C35FAFBBEC1D38AB0D9F098, default 
+ self =>  default "/Script/Engine.Default__GameplayStatics"
+ EmitterTemplate => K2Node_CustomEvent_2 3888121B4F388508C7E44FA7EBA4A6B4, default 
+ Location => K2Node_CallFunction_21 FB929B9B4575EE0D40AE6A883FF3AA36, default "0
+ Rotation =>  default "0
+ Scale => K2Node_CustomEvent_2 C00615F942BF5021A3578AB7581D17AA, default "1.000000
+ bAutoDestroy =>  default "true"
+ PoolingMethod =>  default "None"
+ bAutoActivateSystem =>  default "true"
+K2Node_CallFunction_19
+FunctionReference=(MemberParent="/Script/CoreUObject.Class'/Script/Engine.GameplayStatics'",MemberName="SpawnSoundAtLocation")
+ execute => K2Node_CallFunction_16 6220445943670E7F6674DFA5B82D2470,K2Node_CallFunction_2 0F46E7294D4C5EB0D3032583C39FD75F, default 
+ self =>  default "/Script/Engine.Default__GameplayStatics"
+ Sound => K2Node_CustomEvent_2 A9D3AB5240FE79A0069AEFA8E09200EE, default 
+ Location => K2Node_CallFunction_21 FB929B9B4575EE0D40AE6A883FF3AA36, default "0
+ Rotation =>  default "0
+ VolumeMultiplier =>  default "1.000000"
+ PitchMultiplier =>  default "1.000000"
+ StartTime =>  default "0.000000"
+ AttenuationSettings =>  default "None"
+ ConcurrencySettings =>  default "None"
+ bAutoDestroy =>  default "true"
+K2Node_CustomEvent_5
+CustomFunctionName="Server_Spawn Hit VFX and Sound"
+ then => K2Node_CallFunction_20 89352A6747FEE70FA93ABB8795D52082, default 
+ HitResult => K2Node_CallFunction_20 A2FCE01D405B1A79353B2AA3A587455A, default 
+ EmitterTemplate => K2Node_CallFunction_20 A3C7D9A845144AB3DCF5F4A36FA5243B, default 
+ Sound => K2Node_CallFunction_20 C7B650174235B49DBEE6CA8838B47196, default 
+ VFX Scale => K2Node_CallFunction_20 7C6EE4794320A17F423184A49481B84B, default "1.000000
+ Niagara => K2Node_CallFunction_20 F7CE7CFF4FB797020F089495DF181DBC, default 
+K2Node_CallFunction_20
+FunctionReference=(MemberName="Multicast_Spawn Hit VFX and Sound",MemberGuid=0B27F8B1471DA77804C936994D9D6235,bSelfContext=True)
+ execute => K2Node_CustomEvent_5 0B93301B4938D5D014C0BBAC043CACF1, default 
+ HitResult => K2Node_CustomEvent_5 9E3999AA4424BCF8F0D03ABFC14E9EAA, default 
+ EmitterTemplate => K2Node_CustomEvent_5 6A7EC9EF43B1B403E72DDEBF68AFAE24, default 
+ Sound => K2Node_CustomEvent_5 39F6A41245BCAE3E0F0864A5890DC617, default 
+ VFX Scale => K2Node_CustomEvent_5 DA2923224FCE433495E3B98474ED666B, default "1.000000
+ Niagara => K2Node_CustomEvent_5 AFEB7673409FE6C93EF83F820F26C9BB, default 
+K2Node_CallFunction_21
+FunctionReference=(MemberParent="/Script/CoreUObject.Class'/Script/Engine.GameplayStatics'",MemberName="BreakHitResult")
+ self =>  default "/Script/Engine.Default__GameplayStatics"
+ Hit => K2Node_CustomEvent_2 F12331EF4F3C361541661DB5F72D119A, default 
+ bBlockingHit =>  default "false"
+ bInitialOverlap =>  default "false"
+ Time =>  default "0.0"
+ Distance =>  default "0.0"
+ Location =>  default "0
+ ImpactPoint => K2Node_CallFunction_16 CD0FCB9842E4CAEE2326F2B635CCC944,K2Node_CallFunction_19 CCAE75DD455E49DEEC5734B00A543C3B,K2Node_CallFunction_2 301E5C59482BADF8A71AA195E49F77A5, default "0
+ Normal =>  default "0
+ ImpactNormal =>  default "0
+ HitActor => K2Node_DynamicCast_0 890CF53340B345459C63B09D87A90EFB, default 
+ HitBoneName =>  default "None"
+ BoneName =>  default "None"
+ HitItem =>  default "0"
+ ElementIndex =>  default "0"
+ FaceIndex =>  default "0"
+ TraceStart =>  default "0
+ TraceEnd =>  default "0
+EdGraphNode_Comment_2
+NodeComment="Spawn VFX and Sound"
+EdGraphNode_Comment_3
+NodeComment="Apply Damage"
+K2Node_CallFunction_4189
+FunctionReference=(MemberParent="/Script/CoreUObject.Class'/Script/Engine.KismetMathLibrary'",MemberName="GetDirectionUnitVector")
+ self =>  default "/Script/Engine.Default__KismetMathLibrary"
+ From => K2Node_CallFunction_22 9BEF3B714AF8D6D02D2FB8BE2F9A54C5, default "0
+ To => K2Node_CallFunction_14 9BEF3B714AF8D6D02D2FB8BE2F9A54C5, default "0
+ ReturnValue => K2Node_CallFunction_12 215541364EE0185F05C225B0147C5BBE, default "0
+K2Node_CallFunction_14
+FunctionReference=(MemberParent="/Script/CoreUObject.Class'/Script/Engine.Actor'",MemberName="K2_GetActorLocation")
+ self => K2Node_CallFunction_13 748DB765452A2EA6364050BB875E55E1, default 
+ ReturnValue => K2Node_CallFunction_4189 4FCAFFB04D365A7802CCA39266265372, default "0
+K2Node_CustomEvent_1
+CustomFunctionName="Server_EnableCollision"
+ then => K2Node_CallFunction_0 583D17A9448397BC92AEF789B60441DB, default 
+ CollisionPart => K2Node_CallFunction_0 C228C6484E4444DC205AD595E5525AF6, default "NewEnumerator8"
+K2Node_CustomEvent_6
+CustomFunctionName="Server_DisableCollision"
+ then => K2Node_CallFunction_1 7265850A4DF6891DB18FD094E4E963BE, default 
+K2Node_CallFunction_0
+FunctionReference=(MemberName="EnableCollision",MemberGuid=085345D44FCBA754800A229AE33C077D,bSelfContext=True)
+ execute => K2Node_CustomEvent_1 5BB86E924E501DA67B9CCF94F5A9F045, default 
+ CollisionPart => K2Node_CustomEvent_1 C1D004194E5FFD00C1CD708D8C165D0E, default "NewEnumerator8"
+K2Node_CallFunction_1
+FunctionReference=(MemberName="DisableCollision",MemberGuid=88DD8CF44C23B9549F171EA620F70D61,bSelfContext=True)
+ execute => K2Node_CustomEvent_6 451108E84D10BCBA2BCD89B76C8C38E6, default 
+K2Node_CallFunction_2
+FunctionReference=(MemberParent="/Script/CoreUObject.Class'/Script/Niagara.NiagaraFunctionLibrary'",MemberName="SpawnSystemAtLocation")
+ execute => K2Node_IfThenElse_0 F40AB4AE4D751AFABBCDC2B270881BF3, default 
+ then => K2Node_CallFunction_19 B43D66A94C35FAFBBEC1D38AB0D9F098, default 
+ self =>  default "/Script/Niagara.Default__NiagaraFunctionLibrary"
+ SystemTemplate => K2Node_CustomEvent_2 5822AB5C406B8ADD5540CEBA5DD220E0, default 
+ Location => K2Node_CallFunction_21 FB929B9B4575EE0D40AE6A883FF3AA36, default "0
+ Rotation =>  default "0
+ Scale => K2Node_CustomEvent_2 C00615F942BF5021A3578AB7581D17AA, default "1.000000
+ bAutoDestroy =>  default "true"
+ bAutoActivate =>  default "true"
+ PoolingMethod =>  default "None"
+ bPreCullCheck =>  default "true"
+K2Node_VariableGet_1
+VariableReference=(MemberName="Niagara",MemberGuid=55AAF31C49B5D152CC4C028BDB2E84F8,bSelfContext=True)
+ Niagara => K2Node_IfThenElse_0 1A80AC8F4BF60958858E25B1B635E5D1, default "false"
+K2Node_IfThenElse_0
+ execute => K2Node_IfThenElse_1 1FD4933A45AB1DCF4037378E9EE94B9B, default 
+ Condition => K2Node_VariableGet_1 DE1BDE7E4E659B349A837BB453C978BC, default "true"
+ then => K2Node_CallFunction_2 88CD48A64B464F2362A64AA4E0D48B66, default 
+ else => K2Node_CallFunction_16 688F39314C58F69DF3CCE487765F25DC, default 
+K2Node_DynamicCast_0
+ execute => K2Node_CustomEvent_2 56FC99294A8B3135E63EAEA895F2DC6B, default 
+ then => K2Node_IfThenElse_1 F1BA1B06463CDA7D85430BBA9DF82928, default 
+ Object => K2Node_CallFunction_21 FB86E42741BF320B0556B4BEE5A20774, default 
+ AsBP Player Sa => K2Node_VariableGet_2 F3D3B49F4DB9CC70820DA2BE2B9BF0A7, default 
+K2Node_VariableGet_2
+VariableReference=(MemberParent="/Script/Engine.BlueprintGeneratedClass'/Game/ThirdPerson/Blueprints/BP_Player_Sa.BP_Player_Sa_C'",MemberName="IsDodging?",MemberGuid=C68C97A24A34BFC3407830944AC8ADFC)
+ IsDodging? => K2Node_IfThenElse_1 17BB73484179CB9C1B67A791491ED9E9, default "false"
+ self => K2Node_DynamicCast_0 8B4904E240040EF0565B0AA1DC67D0D0, default 
+K2Node_IfThenElse_1
+ execute => K2Node_DynamicCast_0 15A0BC854B57C983EB2A468BD852DF93, default 
+ Condition => K2Node_VariableGet_2 DE2B7EDE4FCD84DA5261C8AD7AEF912E, default "true"
+ else => K2Node_IfThenElse_0 0A2AE20C4DC6EE9EB4BDB5AC253C2927, default 
+K2Node_Tunnel_0
+K2Node_Tunnel_1
+K2Node_CustomEvent_30
+CustomFunctionName="UpdateLastSocketPositions"
+ then => K2Node_AssignmentStatement_12 3A21A0A540266D242CD7C7BC9F09451B, default 
+K2Node_MacroInstance_18
+K2Node_VariableGet_67
+VariableReference=(MemberName="LastSocketLocations",MemberGuid=EEE160474C197DB39E93CFA444A791CB,bSelfContext=True)
+ LastSocketLocations => K2Node_CallFunction_50 B2D186BF44066884C0A51D8B7C9652F8, default 
+K2Node_CallFunction_50
+FunctionReference=(MemberParent="/Script/CoreUObject.Class'/Script/Engine.BlueprintMapLibrary'",MemberName="Map_Add")
+ execute => K2Node_ExecutionSequence_8 B4DA64ED4457FA401CCDE4B6D7D524AB, default 
+ self =>  default "/Script/Engine.Default__BlueprintMapLibrary"
+ TargetMap => K2Node_VariableGet_67 05F5A920490EFC6F79591884C0F3FD81, default 
+ Key => K2Node_CallFunction_9 B0596297456437B136F7A18F4380564B, default 
+ Value => K2Node_CallFunction_987 04D917F84DB025A63C59FF83962CF657, default 
+K2Node_CallFunction_987
+FunctionReference=(MemberParent="/Script/CoreUObject.Class'/Script/Engine.SceneComponent'",MemberName="GetSocketLocation")
+ self => K2Node_BreakStruct_0 1D55971245198C100CB443B8D790F52B, default 
+ InSocketName => K2Node_CallArrayFunction_9 C6657A614C4CCA8A809652B696142BA6, default "None"
+ ReturnValue => K2Node_CallFunction_50 7687E4FC4A9BA4F38736F69A59EFF41D, default "0
+EdGraphNode_Comment_6
+NodeComment="Update previous socket positions"
+K2Node_Event_1
+EventReference=(MemberParent="/Script/CoreUObject.Class'/Script/Engine.ActorComponent'",MemberName="ReceiveTick")
+ then => K2Node_IfThenElse_26 E92698784D51A8F853265DADE96CD7ED, default 
+ DeltaSeconds =>  default "0.0"
+K2Node_CustomEvent_59
+CustomFunctionName="ActivateTrace"
+ then => K2Node_AssignmentStatement_16 3A21A0A540266D242CD7C7BC9F09451B, default 
+K2Node_MacroInstance_0
+K2Node_VariableGet_181
+VariableReference=(MemberName="LastSocketLocations",MemberGuid=EEE160474C197DB39E93CFA444A791CB,bSelfContext=True)
+ LastSocketLocations => K2Node_CallFunction_312 128DC0C64FB48CDED592A39E0BD83B9A, default 
+K2Node_CallFunction_312
+FunctionReference=(MemberParent="/Script/CoreUObject.Class'/Script/Engine.BlueprintMapLibrary'",MemberName="Map_Find")
+ self =>  default "/Script/Engine.Default__BlueprintMapLibrary"
+ TargetMap => K2Node_VariableGet_181 5970DB824C548BE1CC3684B577BBFE89, default 
+ Key => K2Node_CallFunction_6 29FC6C74467CDA6030C534BBD7270C8D, default 
+ Value => K2Node_CallFunction_10 409500034B5C770540DEE9955923F439, default 
+ ReturnValue =>  default "false"
+K2Node_MacroInstance_61
+K2Node_CallFunction_986
+FunctionReference=(MemberParent="/Script/CoreUObject.Class'/Script/Engine.SceneComponent'",MemberName="GetSocketLocation")
+ self => K2Node_BreakStruct_1 46AFE7C54AE41A95614DE995DC12EC85, default 
+ InSocketName => K2Node_CallArrayFunction_11 9DAD0F634A3B9251A773178A3BB9BED4, default "None"
+ ReturnValue => K2Node_CallFunction_10 EF6283A340005FEDB5399EAFC474E91F, default "0
+K2Node_VariableGet_525
+VariableReference=(MemberName="VisualizeTrace",MemberGuid=17EB284849DF8166F76CDEA9A542C912,bSelfContext=True)
+ VisualizeTrace => K2Node_CallFunction_10 EC87DBDE46F5A84F22FF48B7BC9498E3, default "None"
+EdGraphNode_Comment_5
+NodeComment="Multi sphere trace from last socket position to current socket position"
+K2Node_VariableGet_137
+VariableReference=(MemberName="ObjectTypeCollide",MemberGuid=933DBFE141725CC9D4C5AEBBF5C15A48,bSelfContext=True)
+ ObjectTypeCollide => K2Node_CallFunction_10 20D49E07491CC71915B00AB0F8E863CB, default "ObjectTypeQuery1"
+K2Node_Knot_8
+K2Node_MacroInstance_6
+K2Node_MacroInstance_1
+K2Node_Knot_27
+K2Node_CallFunction_159
+FunctionReference=(MemberName="ActivateTrace",MemberGuid=81EECAC94F805064B55F6EA21BC65967,bSelfContext=True)
+ execute => K2Node_IfThenElse_52 AEE0DDDD48D07D6D02A5C49E858117C4, default 
+K2Node_CallFunction_99
+FunctionReference=(MemberName="UpdateLastSocketPositions",MemberGuid=A7D2B1E94B702078CB626F992B187AF8,bSelfContext=True)
+ execute => K2Node_ExecutionSequence_56 A281802A42279AB8B2D9EE85555E25AF, default 
+ then => K2Node_VariableSet_10 83C0BB4C4881E09128C84A86FD96B5FA, default 
+K2Node_ExecutionSequence_56
+ execute => K2Node_IfThenElse_26 C1CA4C2249A9B17AB5DE5987000B0EE6, default 
+ then_0 => K2Node_IfThenElse_52 E1AF22A74E4A68582A0449BC2CC6DBF9, default 
+ then_1 => K2Node_CallFunction_99 AE712CC346542446311786A1F44A8934, default 
+K2Node_IfThenElse_26
+ execute => K2Node_Event_1 B67A9D3E4C1C6A73541A5E82833D9DD7, default 
+ Condition => K2Node_VariableGet_34 498D3FE045E705B1B490A99D3E8B8F07, default "false"
+ then => K2Node_ExecutionSequence_56 6C0727B14CAD117E059EA1AE27B87514, default 
+K2Node_VariableGet_34
+VariableReference=(MemberName="CollisionActive",MemberGuid=91DABD0D440029D8889C768B105D8538,bSelfContext=True)
+ CollisionActive => K2Node_IfThenElse_26 1B79B7994B4371B01AA559BA8E69DB31, default "false"
+K2Node_VariableSet_10
+VariableReference=(MemberName="TraceActive",MemberGuid=6CED58034CBA7B83872AC693D6F94237,bSelfContext=True)
+ execute => K2Node_CallFunction_99 0EDF0DF848C74F4DA1D02DA120146D46, default 
+ TraceActive =>  default "true"
+K2Node_VariableGet_24
+VariableReference=(MemberName="TraceActive",MemberGuid=6CED58034CBA7B83872AC693D6F94237,bSelfContext=True)
+ TraceActive => K2Node_IfThenElse_52 6061E61D4395F8B10182A08337DAA0D9, default "false"
+K2Node_IfThenElse_52
+ execute => K2Node_ExecutionSequence_56 405E72DB4BBF3BD3C600EEA4E9108CA9, default 
+ Condition => K2Node_VariableGet_24 3947623D4C3A11282E959985D50FD444, default "true"
+ then => K2Node_CallFunction_159 E5EED5B04FCE54620C1523B311DEBE06, default 
+EdGraphNode_Comment_26
+NodeComment="Update sockets locations and perform trace on Tick"
+K2Node_CallFunction_241
+FunctionReference=(MemberParent="/Script/CoreUObject.Class'/Script/Engine.GameplayStatics'",MemberName="BreakHitResult")
+ self =>  default "/Script/Engine.Default__GameplayStatics"
+ Hit => K2Node_CallArrayFunction_12 1E300D154BC63A8E202CE69B90323FC1, default 
+ bBlockingHit =>  default "false"
+ bInitialOverlap =>  default "false"
+ Time =>  default "0.0"
+ Distance =>  default "0.0"
+ Location =>  default "0
+ ImpactPoint =>  default "0
+ Normal =>  default "0
+ ImpactNormal =>  default "0
+ HitActor => K2Node_CallArrayFunction_1 145659624DD0478D4264E0B7EBFCC43E,K2Node_VariableGet_4 84E01B594DA2C0EC9C7FDC86F270B2AF,K2Node_CallFunction_8 F75C13DF4A1716801E017292A3C312BF, default 
+ HitBoneName =>  default "None"
+ BoneName =>  default "None"
+ HitItem =>  default "0"
+ ElementIndex =>  default "0"
+ FaceIndex =>  default "0"
+ TraceStart =>  default "0
+ TraceEnd =>  default "0
+K2Node_IfThenElse_83
+ execute => K2Node_ExecutionSequence_1 B4DA64ED4457FA401CCDE4B6D7D524AB, default 
+ Condition => K2Node_CallFunction_3 D0BD5CA84716AE7E490539B7EC63D4DF, default "true"
+ then => K2Node_AssignmentStatement_20 3A21A0A540266D242CD7C7BC9F09451B, default 
+K2Node_CallDelegate_6
+ execute => K2Node_CallFunction_8 D79E11454043950BE381569D14AEFDA7, default 
+ HitResult => K2Node_CallArrayFunction_12 1E300D154BC63A8E202CE69B90323FC1, default 
+K2Node_Knot_16
+K2Node_Knot_17
+EdGraphNode_Comment_4
+NodeComment="Check make sure it\'s wasn\'t already hit and not ignored actor tag."
+K2Node_CallFunction_10
+FunctionReference=(MemberParent="/Script/CoreUObject.Class'/Script/Engine.KismetSystemLibrary'",MemberName="SphereTraceMultiForObjects")
+ execute => K2Node_ExecutionSequence_0 B4DA64ED4457FA401CCDE4B6D7D524AB, default 
+ then => K2Node_AssignmentStatement_8 3A21A0A540266D242CD7C7BC9F09451B, default 
+ self =>  default "/Script/Engine.Default__KismetSystemLibrary"
+ Start => K2Node_CallFunction_312 4C8C10884013FC014E7C7E9647A91F5E, default "0
+ End => K2Node_CallFunction_986 04D917F84DB025A63C59FF83962CF657, default "0
+ Radius => K2Node_VariableGet_5 EE10D14244F87D0B2B30929CB5F02A4D, default "0.0"
+ ObjectTypes => K2Node_VariableGet_137 872365204464645387777C876CFCE06C, default "ObjectTypeQuery1"
+ bTraceComplex =>  default "false"
+ ActorsToIgnore => K2Node_CallFunction_7 F6B7177B42BBABBA2FAC61B1E886DC1E, default 
+ DrawDebugType => K2Node_VariableGet_525 7DE53413499DEAA03FBB7785379593D2, default "None"
+ OutHits => K2Node_CallArrayFunction_4 6BE6626C4AA604EABFC6FE98192C94D0,K2Node_CallArrayFunction_12 92C05DA840FA3F60E74373811047DF79, default 
+ bIgnoreSelf =>  default "true"
+ TraceColor =>  default "(R=1.000000
+ TraceHitColor =>  default "(R=0.000000
+ DrawTime =>  default "2.000000"
+ ReturnValue =>  default "false"
+K2Node_VariableGet_7
+VariableReference=(MemberName="CollisionComponents",MemberGuid=C62A36B4433911F87AC90194DA6E10FE,bSelfContext=True)
+ CollisionComponents => K2Node_CallArrayFunction_5 6BE6626C4AA604EABFC6FE98192C94D0,K2Node_CallArrayFunction_13 0F0A09C143E1D49CEF2811AF47BBBF42, default 
+K2Node_MacroInstance_3
+K2Node_BreakStruct_0
+StructType="/Script/Engine.UserDefinedStruct'/Game/AI/AIBehaviorSystem/Blueprint/Struct/F_CollisionComponent.F_CollisionComponent'"
+ F_CollisionComponent => K2Node_CallArrayFunction_13 C887A8DF4346CE95886F69BB34BF4C51, default 
+ Component_2_3941386A40A6BCBCE45808A34CB04791 => K2Node_CallFunction_9 BC1A3F234C8883C953E80EB5783F0983,K2Node_CallFunction_24 86E8920640B6905863DD438BC9786B25,K2Node_CallFunction_987 B2CFFD5C48C784200145C690D7EEEC3F, default 
+ Sockets_6_12180EF74F4BA7D53FD5AC84FDE6E1BF => K2Node_CallArrayFunction_836 6BE6626C4AA604EABFC6FE98192C94D0,K2Node_CallArrayFunction_9 7AE8E6604BC38E7687B7E8B275A956EC, default 
+K2Node_CallFunction_9
+FunctionReference=(MemberName="GetUniqueSocketName",MemberGuid=171E4E2D406EF8BFC28B8AAAD8ABB10A,bSelfContext=True)
+ Component => K2Node_BreakStruct_0 1D55971245198C100CB443B8D790F52B, default 
+ SocketName => K2Node_CallArrayFunction_9 C6657A614C4CCA8A809652B696142BA6, default "None"
+ UniqueName => K2Node_CallFunction_50 074FF8874DDC6B724A7A0EB68D08E230, default "None"
+K2Node_VariableGet_6
+VariableReference=(MemberName="CollisionComponents",MemberGuid=C62A36B4433911F87AC90194DA6E10FE,bSelfContext=True)
+ CollisionComponents => K2Node_CallArrayFunction_6 6BE6626C4AA604EABFC6FE98192C94D0,K2Node_CallArrayFunction_10 05A359D543AD661FE6D318AA7B772F19, default 
+K2Node_MacroInstance_2
+K2Node_BreakStruct_1
+StructType="/Script/Engine.UserDefinedStruct'/Game/AI/AIBehaviorSystem/Blueprint/Struct/F_CollisionComponent.F_CollisionComponent'"
+ F_CollisionComponent => K2Node_CallArrayFunction_10 6FF2286A4F63CE8E1639858AE0A5DF1B, default 
+ Component_2_3941386A40A6BCBCE45808A34CB04791 => K2Node_CallFunction_986 B2CFFD5C48C784200145C690D7EEEC3F,K2Node_CallFunction_4347 86E8920640B6905863DD438BC9786B25,K2Node_CallFunction_6 D04849C24659F68699133ABFD427E4D3,K2Node_CallFunction_7 F24D4A5747B2ACA8A7FEAA97EA53ED27,K2Node_CallFunction_5 9130231B433B009D4C6837A7FE0F85F8,K2Node_CallFunction_8 F21C2DEF42E09E0E6E7AE88B346B822F, default 
+ Sockets_6_12180EF74F4BA7D53FD5AC84FDE6E1BF => K2Node_CallArrayFunction_3 6BE6626C4AA604EABFC6FE98192C94D0,K2Node_CallArrayFunction_11 FB8815854A1C8CB7D33E90934FCD1782, default 
+K2Node_CallFunction_6
+FunctionReference=(MemberName="GetUniqueSocketName",MemberGuid=171E4E2D406EF8BFC28B8AAAD8ABB10A,bSelfContext=True)
+ Component => K2Node_BreakStruct_1 46AFE7C54AE41A95614DE995DC12EC85, default 
+ SocketName => K2Node_CallArrayFunction_11 9DAD0F634A3B9251A773178A3BB9BED4, default "None"
+ UniqueName => K2Node_CallFunction_312 B9773EDE4FB19D0DC209989170C7A62F, default "None"
+K2Node_CallFunction_7
+FunctionReference=(MemberName="GetHitActors",MemberGuid=E3ED168E4E0D9366B6C658823E251C4D,bSelfContext=True)
+ Component => K2Node_BreakStruct_1 46AFE7C54AE41A95614DE995DC12EC85, default 
+ HitActors => K2Node_CallFunction_10 5CFD7C7B4C5247690C6A0290FA57EC9F, default 
+K2Node_Knot_2
+K2Node_Knot_1
+K2Node_CallFunction_8
+FunctionReference=(MemberName="AddHitActor",MemberGuid=2954904645F667F89B72759DD7CFB4FF,bSelfContext=True)
+ execute => K2Node_IfThenElse_2 8E2D515C4981A9312E8495BA3B532FF4, default 
+ then => K2Node_CallDelegate_6 1F79F76948216B1ED8ED3E89198B940A, default 
+ Component => K2Node_BreakStruct_1 46AFE7C54AE41A95614DE995DC12EC85, default 
+ HitActor => K2Node_CallFunction_241 081F04394C8A04B87A5D149D52DAEB2C, default 
+K2Node_Knot_3
+K2Node_Knot_4
+K2Node_CallFunction_5
+FunctionReference=(MemberName="GetHitActors",MemberGuid=E3ED168E4E0D9366B6C658823E251C4D,bSelfContext=True)
+ Component => K2Node_BreakStruct_1 46AFE7C54AE41A95614DE995DC12EC85, default 
+ HitActors => K2Node_CallArrayFunction_1 B1144CD8476D88090F8D5DB2F83419EF, default 
+K2Node_CallArrayFunction_1
+FunctionReference=(MemberParent="/Script/CoreUObject.Class'/Script/Engine.KismetArrayLibrary'",MemberName="Array_Contains")
+ self =>  default "/Script/Engine.Default__KismetArrayLibrary"
+ TargetArray => K2Node_CallFunction_5 7499C3A24D78E39A136838AF4B353A14, default 
+ ItemToFind => K2Node_CallFunction_241 081F04394C8A04B87A5D149D52DAEB2C, default 
+ ReturnValue => K2Node_CallFunction_3 40C0D6A3486DE8D2355C8F9F5FE0C1EA, default "false"
+K2Node_CallFunction_3
+FunctionReference=(MemberParent="/Script/CoreUObject.Class'/Script/Engine.KismetMathLibrary'",MemberName="Not_PreBool")
+ self =>  default "/Script/Engine.Default__KismetMathLibrary"
+ A => K2Node_CallArrayFunction_1 63A62D044BC6615A76FF56BF052B4CB3, default "false"
+ ReturnValue => K2Node_IfThenElse_83 296F637546945A4DA084F6BD47B476A3, default "false"
+K2Node_Knot_0
+K2Node_VariableGet_3
+VariableReference=(MemberName="IgnoredActorTag",MemberGuid=E7741D5647DBECB8D57FEE8FAF341C4C,bSelfContext=True)
+ IgnoredActorTag => K2Node_CallArrayFunction_2 E83ABA8048B27172DADFE58B5EF1A688, default 
+K2Node_CallArrayFunction_2
+FunctionReference=(MemberParent="/Script/CoreUObject.Class'/Script/Engine.KismetArrayLibrary'",MemberName="Array_Contains")
+ self =>  default "/Script/Engine.Default__KismetArrayLibrary"
+ TargetArray => K2Node_VariableGet_3 48233D444AEB88A57D4B7B9ED54DDD87, default 
+ ItemToFind => K2Node_CallArrayFunction_8 26623FC749A0A7709C43CB8D0B225802, default 
+ ReturnValue => K2Node_CallFunction_4 DA903EEE48F486DEB130C0B38C06F796, default "false"
+K2Node_VariableGet_4
+VariableReference=(MemberParent="/Script/CoreUObject.Class'/Script/Engine.Actor'",MemberName="Tags")
+ Tags => K2Node_CallArrayFunction_7 6BE6626C4AA604EABFC6FE98192C94D0,K2Node_CallArrayFunction_8 160BB6C24B1E57B7F6B4948059B71A0D, default 
+ self => K2Node_CallFunction_241 081F04394C8A04B87A5D149D52DAEB2C, default 
+K2Node_MacroInstance_4
+K2Node_Knot_6
+K2Node_Knot_7
+K2Node_IfThenElse_2
+ execute => K2Node_ExecutionSequence_4 B4DA64ED4457FA401CCDE4B6D7D524AB, default 
+ Condition => K2Node_CallFunction_4 8874C66540E7F444A50A37BEDE0993C6, default "true"
+ then => K2Node_CallFunction_8 0B15B6334E3AE975AAB550A7C51E1720, default 
+K2Node_CallFunction_4
+FunctionReference=(MemberParent="/Script/CoreUObject.Class'/Script/Engine.KismetMathLibrary'",MemberName="Not_PreBool")
+ self =>  default "/Script/Engine.Default__KismetMathLibrary"
+ A => K2Node_CallArrayFunction_2 87AA73414611B32B20C2279207D36D67, default "false"
+ ReturnValue => K2Node_IfThenElse_2 4DBEF368429D0B82D8505AA02EA6D0FB, default "false"
+K2Node_VariableGet_5
+VariableReference=(MemberName="TraceRadius",MemberGuid=471913044E21ECACA2F0958D87A16536,bSelfContext=True)
+ TraceRadius => K2Node_CallFunction_10 374AA3904291A0456C6B86A6E46A8D6D, default "0.0"
+K2Node_FunctionEntry_0
+FunctionReference=(MemberParent="/Script/CoreUObject.Class'/Script/CoreUObject.Object'",MemberName="ExecuteUbergraph")
+ EntryPoint =>  default "0"
+K2Node_Tunnel_3
+K2Node_Tunnel_2
+EdGraphNode_Comment_652
+NodeComment="Warning: Do not add, remove, or reorder elements in the input array during the execution of the loop body!"
+EdGraphNode_Comment_440
+NodeComment="Increment Loop Counter"
+EdGraphNode_Comment_438
+NodeComment="Execute Loop Body"
+EdGraphNode_Comment_436
+NodeComment="Test Loop Condition"
+EdGraphNode_Comment_7
+NodeComment="Init Loop Counter"
+K2Node_TemporaryVariable_4
+NodeComment="Loop Counter"
+ Variable => K2Node_AssignmentStatement_23 5E88F6694DB0384B84648F86609C8CAC,K2Node_CallFunction_563 EE32295E4DDBBB96921C2B948B7AC6F9,K2Node_AssignmentStatement_7 0B98AC1A49079B971D9F78B71E555859,K2Node_CallFunction_36741 EC3BF7F44A21E8A82E01FDBFB53F89C7,K2Node_AssignmentStatement_25 0C1B378E4944F1139110A29683B3F2EC, default 
+K2Node_AssignmentStatement_23
+ execute => K2Node_IfThenElse_5 E110830C49C6E60151DC0E97F35EE14F, default 
+ then => K2Node_AssignmentStatement_24 E41FA8B04D4F1AEF1D2449A168B19448, default 
+ Variable => K2Node_TemporaryVariable_4 CB5456904A863B98D88E408326553E3C, default 
+K2Node_CallFunction_563
+FunctionReference=(MemberParent="/Script/CoreUObject.Class'/Script/Engine.KismetMathLibrary'",MemberName="Add_IntInt")
+ self =>  default "/Script/Engine.Default__KismetMathLibrary"
+ A => K2Node_TemporaryVariable_4 CB5456904A863B98D88E408326553E3C, default "0"
+ B =>  default "1"
+ ReturnValue => K2Node_AssignmentStatement_7 7439AC3543B93677AB580D98A4C1C99D, default "0"
+K2Node_AssignmentStatement_7
+ execute => K2Node_ExecutionSequence_8 C3118ABC4B93043695AF0DAE9C2F48E0, default 
+ then => K2Node_IfThenElse_7 F387C7E841FEA0F6A2910683BC2F911E, default 
+ Variable => K2Node_TemporaryVariable_4 CB5456904A863B98D88E408326553E3C, default 
+ Value => K2Node_CallFunction_563 572960A041B477113327E891E7B5BF4B, default 
+K2Node_IfThenElse_7
+ execute => K2Node_AssignmentStatement_7 31AFCC3946CB6F77343CD4AA4643B1FA,K2Node_AssignmentStatement_24 3E756FE4450D10F6805122831D206CEA, default 
+ Condition => K2Node_CallFunction_36741 920330EB4107C46DA0B0AC8450D8100D, default "true"
+ then => K2Node_AssignmentStatement_25 0E3F32CC4DDD170AA6EA55890FADEF0A, default 
+K2Node_ExecutionSequence_8
+ execute => K2Node_AssignmentStatement_25 61D4286C42115C1869A3CF845BF13F24, default 
+ then_0 => K2Node_CallFunction_50 69ADA6244B87B442F6508CB2C9312BB8, default 
+ then_1 => K2Node_AssignmentStatement_7 EF2F86344BA74FBBC6866393AE9D22AE, default 
+K2Node_CallArrayFunction_836
+FunctionReference=(MemberParent="/Script/CoreUObject.Class'/Script/Engine.KismetArrayLibrary'",MemberName="Array_Length")
+ self =>  default "/Script/Engine.Default__KismetArrayLibrary"
+ TargetArray => K2Node_BreakStruct_0 7B2A8F0840E15230F0917FB6F78B63AE, default 
+ ReturnValue => K2Node_CallFunction_36741 40ABF052447923FC8BDDC59812AA077C, default "0"
+K2Node_CallFunction_36741
+FunctionReference=(MemberParent="/Script/CoreUObject.Class'/Script/Engine.KismetMathLibrary'",MemberName="Less_IntInt")
+ self =>  default "/Script/Engine.Default__KismetMathLibrary"
+ A => K2Node_TemporaryVariable_4 CB5456904A863B98D88E408326553E3C, default "0"
+ B => K2Node_CallArrayFunction_836 0ACBFEF741BA10C0BD7767A0CE315AB5, default "0"
+ ReturnValue => K2Node_IfThenElse_7 E6BF61994B0298E6BE4212A1296220EA, default "false"
+K2Node_TemporaryVariable_31
+NodeComment="Array Index"
+ Variable => K2Node_AssignmentStatement_24 3A8C28C44D6B3D6761E7AF86184E0E0E,K2Node_AssignmentStatement_25 7E453F284C8A14F1D59CA1A00C74BE37,K2Node_CallArrayFunction_9 70CE28FF456484B00DA6C8B52E4144AE, default 
+EdGraphNode_Comment_434
+NodeComment="Init Array Index"
+K2Node_AssignmentStatement_24
+ execute => K2Node_AssignmentStatement_23 026B5E2147A8C2137C96B49539D2DEAE, default 
+ then => K2Node_IfThenElse_7 F387C7E841FEA0F6A2910683BC2F911E, default 
+ Variable => K2Node_TemporaryVariable_31 381BA218441AC7CE8EAB94B277877B81, default 
+K2Node_AssignmentStatement_25
+ execute => K2Node_IfThenElse_7 B8BB56BE4860A920DE373E8072445F66, default 
+ then => K2Node_ExecutionSequence_8 3AA43D3C4CF80B0B55D12E80EC19A5A0, default 
+ Variable => K2Node_TemporaryVariable_31 381BA218441AC7CE8EAB94B277877B81, default 
+ Value => K2Node_TemporaryVariable_4 CB5456904A863B98D88E408326553E3C, default 
+K2Node_GetArrayItem_0
+ Dimension 1 =>  default "0"
+K2Node_Tunnel_5
+K2Node_Tunnel_4
+EdGraphNode_Comment_13
+NodeComment="Warning: Do not add, remove, or reorder elements in the input array during the execution of the loop body!"
+EdGraphNode_Comment_12
+NodeComment="Increment Loop Counter"
+EdGraphNode_Comment_11
+NodeComment="Execute Loop Body"
+EdGraphNode_Comment_10
+NodeComment="Test Loop Condition"
+EdGraphNode_Comment_9
+NodeComment="Init Loop Counter"
+K2Node_TemporaryVariable_1
+NodeComment="Loop Counter"
+ Variable => K2Node_AssignmentStatement_3 5E88F6694DB0384B84648F86609C8CAC,K2Node_CallFunction_17 EE32295E4DDBBB96921C2B948B7AC6F9,K2Node_AssignmentStatement_2 0B98AC1A49079B971D9F78B71E555859,K2Node_CallFunction_11 EC3BF7F44A21E8A82E01FDBFB53F89C7,K2Node_AssignmentStatement_0 0C1B378E4944F1139110A29683B3F2EC, default 
+K2Node_AssignmentStatement_3
+ execute => K2Node_IfThenElse_15 E110830C49C6E60151DC0E97F35EE14F, default 
+ then => K2Node_AssignmentStatement_1 E41FA8B04D4F1AEF1D2449A168B19448, default 
+ Variable => K2Node_TemporaryVariable_1 CB5456904A863B98D88E408326553E3C, default 
+K2Node_CallFunction_17
+FunctionReference=(MemberParent="/Script/CoreUObject.Class'/Script/Engine.KismetMathLibrary'",MemberName="Add_IntInt")
+ self =>  default "/Script/Engine.Default__KismetMathLibrary"
+ A => K2Node_TemporaryVariable_1 CB5456904A863B98D88E408326553E3C, default "0"
+ B =>  default "1"
+ ReturnValue => K2Node_AssignmentStatement_2 7439AC3543B93677AB580D98A4C1C99D, default "0"
+K2Node_AssignmentStatement_2
+ execute => K2Node_ExecutionSequence_0 C3118ABC4B93043695AF0DAE9C2F48E0, default 
+ then => K2Node_IfThenElse_3 F387C7E841FEA0F6A2910683BC2F911E, default 
+ Variable => K2Node_TemporaryVariable_1 CB5456904A863B98D88E408326553E3C, default 
+ Value => K2Node_CallFunction_17 572960A041B477113327E891E7B5BF4B, default 
+K2Node_IfThenElse_3
+ execute => K2Node_AssignmentStatement_2 31AFCC3946CB6F77343CD4AA4643B1FA,K2Node_AssignmentStatement_1 3E756FE4450D10F6805122831D206CEA, default 
+ Condition => K2Node_CallFunction_11 920330EB4107C46DA0B0AC8450D8100D, default "true"
+ then => K2Node_AssignmentStatement_0 0E3F32CC4DDD170AA6EA55890FADEF0A, default 
+K2Node_ExecutionSequence_0
+ execute => K2Node_AssignmentStatement_0 61D4286C42115C1869A3CF845BF13F24, default 
+ then_0 => K2Node_CallFunction_10 50B131BE473A32CD9D4CCA88FC0FEF32, default 
+ then_1 => K2Node_AssignmentStatement_2 EF2F86344BA74FBBC6866393AE9D22AE, default 
+K2Node_CallArrayFunction_3
+FunctionReference=(MemberParent="/Script/CoreUObject.Class'/Script/Engine.KismetArrayLibrary'",MemberName="Array_Length")
+ self =>  default "/Script/Engine.Default__KismetArrayLibrary"
+ TargetArray => K2Node_BreakStruct_1 992289A44911348B2BF0CBBD8BE927D3, default 
+ ReturnValue => K2Node_CallFunction_11 40ABF052447923FC8BDDC59812AA077C, default "0"
+K2Node_CallFunction_11
+FunctionReference=(MemberParent="/Script/CoreUObject.Class'/Script/Engine.KismetMathLibrary'",MemberName="Less_IntInt")
+ self =>  default "/Script/Engine.Default__KismetMathLibrary"
+ A => K2Node_TemporaryVariable_1 CB5456904A863B98D88E408326553E3C, default "0"
+ B => K2Node_CallArrayFunction_3 0ACBFEF741BA10C0BD7767A0CE315AB5, default "0"
+ ReturnValue => K2Node_IfThenElse_3 E6BF61994B0298E6BE4212A1296220EA, default "false"
+K2Node_TemporaryVariable_0
+NodeComment="Array Index"
+ Variable => K2Node_AssignmentStatement_1 3A8C28C44D6B3D6761E7AF86184E0E0E,K2Node_AssignmentStatement_0 7E453F284C8A14F1D59CA1A00C74BE37,K2Node_CallArrayFunction_11 82614620465DD9D5931E7AA1071370D8, default 
+EdGraphNode_Comment_8
+NodeComment="Init Array Index"
+K2Node_AssignmentStatement_1
+ execute => K2Node_AssignmentStatement_3 026B5E2147A8C2137C96B49539D2DEAE, default 
+ then => K2Node_IfThenElse_3 F387C7E841FEA0F6A2910683BC2F911E, default 
+ Variable => K2Node_TemporaryVariable_0 381BA218441AC7CE8EAB94B277877B81, default 
+K2Node_AssignmentStatement_0
+ execute => K2Node_IfThenElse_3 B8BB56BE4860A920DE373E8072445F66, default 
+ then => K2Node_ExecutionSequence_0 3AA43D3C4CF80B0B55D12E80EC19A5A0, default 
+ Variable => K2Node_TemporaryVariable_0 381BA218441AC7CE8EAB94B277877B81, default 
+ Value => K2Node_TemporaryVariable_1 CB5456904A863B98D88E408326553E3C, default 
+K2Node_GetArrayItem_1
+ Dimension 1 =>  default "0"
+K2Node_Tunnel_7
+K2Node_Tunnel_6
+EdGraphNode_Comment_20
+NodeComment="Warning: Do not add, remove, or reorder elements in the input array during the execution of the loop body!"
+EdGraphNode_Comment_19
+NodeComment="Increment Loop Counter"
+EdGraphNode_Comment_17
+NodeComment="Execute Loop Body"
+EdGraphNode_Comment_16
+NodeComment="Test Loop Condition"
+EdGraphNode_Comment_15
+NodeComment="Init Loop Counter"
+K2Node_TemporaryVariable_3
+NodeComment="Loop Counter"
+ Variable => K2Node_AssignmentStatement_8 5E88F6694DB0384B84648F86609C8CAC,K2Node_CallFunction_23 EE32295E4DDBBB96921C2B948B7AC6F9,K2Node_AssignmentStatement_6 0B98AC1A49079B971D9F78B71E555859,K2Node_CallFunction_18 EC3BF7F44A21E8A82E01FDBFB53F89C7,K2Node_AssignmentStatement_4 0C1B378E4944F1139110A29683B3F2EC, default 
+K2Node_AssignmentStatement_8
+ execute => K2Node_CallFunction_10 75EF90644077B49879B6F3AD9452C157, default 
+ then => K2Node_AssignmentStatement_5 E41FA8B04D4F1AEF1D2449A168B19448, default 
+ Variable => K2Node_TemporaryVariable_3 CB5456904A863B98D88E408326553E3C, default 
+K2Node_CallFunction_23
+FunctionReference=(MemberParent="/Script/CoreUObject.Class'/Script/Engine.KismetMathLibrary'",MemberName="Add_IntInt")
+ self =>  default "/Script/Engine.Default__KismetMathLibrary"
+ A => K2Node_TemporaryVariable_3 CB5456904A863B98D88E408326553E3C, default "0"
+ B =>  default "1"
+ ReturnValue => K2Node_AssignmentStatement_6 7439AC3543B93677AB580D98A4C1C99D, default "0"
+K2Node_AssignmentStatement_6
+ execute => K2Node_ExecutionSequence_1 C3118ABC4B93043695AF0DAE9C2F48E0, default 
+ then => K2Node_IfThenElse_4 F387C7E841FEA0F6A2910683BC2F911E, default 
+ Variable => K2Node_TemporaryVariable_3 CB5456904A863B98D88E408326553E3C, default 
+ Value => K2Node_CallFunction_23 572960A041B477113327E891E7B5BF4B, default 
+K2Node_IfThenElse_4
+ execute => K2Node_AssignmentStatement_6 31AFCC3946CB6F77343CD4AA4643B1FA,K2Node_AssignmentStatement_5 3E756FE4450D10F6805122831D206CEA, default 
+ Condition => K2Node_CallFunction_18 920330EB4107C46DA0B0AC8450D8100D, default "true"
+ then => K2Node_AssignmentStatement_4 0E3F32CC4DDD170AA6EA55890FADEF0A, default 
+K2Node_ExecutionSequence_1
+ execute => K2Node_AssignmentStatement_4 61D4286C42115C1869A3CF845BF13F24, default 
+ then_0 => K2Node_IfThenElse_83 5D9D3AAC4400F0E5D8E0428A5861633C, default 
+ then_1 => K2Node_AssignmentStatement_6 EF2F86344BA74FBBC6866393AE9D22AE, default 
+K2Node_CallArrayFunction_4
+FunctionReference=(MemberParent="/Script/CoreUObject.Class'/Script/Engine.KismetArrayLibrary'",MemberName="Array_Length")
+ self =>  default "/Script/Engine.Default__KismetArrayLibrary"
+ TargetArray => K2Node_CallFunction_10 9F30BE674EFFFA00C9D9BA8855ADB0F4, default 
+ ReturnValue => K2Node_CallFunction_18 40ABF052447923FC8BDDC59812AA077C, default "0"
+K2Node_CallFunction_18
+FunctionReference=(MemberParent="/Script/CoreUObject.Class'/Script/Engine.KismetMathLibrary'",MemberName="Less_IntInt")
+ self =>  default "/Script/Engine.Default__KismetMathLibrary"
+ A => K2Node_TemporaryVariable_3 CB5456904A863B98D88E408326553E3C, default "0"
+ B => K2Node_CallArrayFunction_4 0ACBFEF741BA10C0BD7767A0CE315AB5, default "0"
+ ReturnValue => K2Node_IfThenElse_4 E6BF61994B0298E6BE4212A1296220EA, default "false"
+K2Node_TemporaryVariable_2
+NodeComment="Array Index"
+ Variable => K2Node_AssignmentStatement_5 3A8C28C44D6B3D6761E7AF86184E0E0E,K2Node_AssignmentStatement_4 7E453F284C8A14F1D59CA1A00C74BE37,K2Node_CallArrayFunction_12 73758A4841289B88E6CBA98353AAB313, default 
+EdGraphNode_Comment_14
+NodeComment="Init Array Index"
+K2Node_AssignmentStatement_5
+ execute => K2Node_AssignmentStatement_8 026B5E2147A8C2137C96B49539D2DEAE, default 
+ then => K2Node_IfThenElse_4 F387C7E841FEA0F6A2910683BC2F911E, default 
+ Variable => K2Node_TemporaryVariable_2 381BA218441AC7CE8EAB94B277877B81, default 
+K2Node_AssignmentStatement_4
+ execute => K2Node_IfThenElse_4 B8BB56BE4860A920DE373E8072445F66, default 
+ then => K2Node_ExecutionSequence_1 3AA43D3C4CF80B0B55D12E80EC19A5A0, default 
+ Variable => K2Node_TemporaryVariable_2 381BA218441AC7CE8EAB94B277877B81, default 
+ Value => K2Node_TemporaryVariable_3 CB5456904A863B98D88E408326553E3C, default 
+K2Node_GetArrayItem_2
+ Dimension 1 =>  default "0"
+K2Node_Tunnel_90
+K2Node_Tunnel_91
+K2Node_IfThenElse_15
+ execute => K2Node_ExecutionSequence_3 B4DA64ED4457FA401CCDE4B6D7D524AB, default 
+ Condition => K2Node_CallFunction_4347 C14F5C2A4B501EC9C899DA999BBF8EE8, default "false"
+ then => K2Node_AssignmentStatement_3 3A21A0A540266D242CD7C7BC9F09451B, default 
+K2Node_CallFunction_4347
+FunctionReference=(MemberParent="/Script/CoreUObject.Class'/Script/Engine.KismetSystemLibrary'",MemberName="IsValid")
+ self =>  default "/Script/Engine.Default__KismetSystemLibrary"
+ Object => K2Node_BreakStruct_1 46AFE7C54AE41A95614DE995DC12EC85, default 
+ ReturnValue => K2Node_IfThenElse_15 61FC0A134C562333A7DF4C87BF400CA9, default "false"
+K2Node_Tunnel_9
+K2Node_Tunnel_8
+K2Node_IfThenElse_5
+ execute => K2Node_ExecutionSequence_2 B4DA64ED4457FA401CCDE4B6D7D524AB, default 
+ Condition => K2Node_CallFunction_24 C14F5C2A4B501EC9C899DA999BBF8EE8, default "false"
+ then => K2Node_AssignmentStatement_23 3A21A0A540266D242CD7C7BC9F09451B, default 
+K2Node_CallFunction_24
+FunctionReference=(MemberParent="/Script/CoreUObject.Class'/Script/Engine.KismetSystemLibrary'",MemberName="IsValid")
+ self =>  default "/Script/Engine.Default__KismetSystemLibrary"
+ Object => K2Node_BreakStruct_0 1D55971245198C100CB443B8D790F52B, default 
+ ReturnValue => K2Node_IfThenElse_5 61FC0A134C562333A7DF4C87BF400CA9, default "false"
+K2Node_Tunnel_11
+K2Node_Tunnel_10
+EdGraphNode_Comment_27
+NodeComment="Warning: Do not add, remove, or reorder elements in the input array during the execution of the loop body!"
+EdGraphNode_Comment_25
+NodeComment="Increment Loop Counter"
+EdGraphNode_Comment_24
+NodeComment="Execute Loop Body"
+EdGraphNode_Comment_23
+NodeComment="Test Loop Condition"
+EdGraphNode_Comment_22
+NodeComment="Init Loop Counter"
+K2Node_TemporaryVariable_6
+NodeComment="Loop Counter"
+ Variable => K2Node_AssignmentStatement_12 5E88F6694DB0384B84648F86609C8CAC,K2Node_CallFunction_26 EE32295E4DDBBB96921C2B948B7AC6F9,K2Node_AssignmentStatement_11 0B98AC1A49079B971D9F78B71E555859,K2Node_CallFunction_25 EC3BF7F44A21E8A82E01FDBFB53F89C7,K2Node_AssignmentStatement_9 0C1B378E4944F1139110A29683B3F2EC, default 
+K2Node_AssignmentStatement_12
+ execute => K2Node_CustomEvent_30 D7A567464F71457C4EE9D78700368A9F, default 
+ then => K2Node_AssignmentStatement_10 E41FA8B04D4F1AEF1D2449A168B19448, default 
+ Variable => K2Node_TemporaryVariable_6 CB5456904A863B98D88E408326553E3C, default 
+K2Node_CallFunction_26
+FunctionReference=(MemberParent="/Script/CoreUObject.Class'/Script/Engine.KismetMathLibrary'",MemberName="Add_IntInt")
+ self =>  default "/Script/Engine.Default__KismetMathLibrary"
+ A => K2Node_TemporaryVariable_6 CB5456904A863B98D88E408326553E3C, default "0"
+ B =>  default "1"
+ ReturnValue => K2Node_AssignmentStatement_11 7439AC3543B93677AB580D98A4C1C99D, default "0"
+K2Node_AssignmentStatement_11
+ execute => K2Node_ExecutionSequence_2 C3118ABC4B93043695AF0DAE9C2F48E0, default 
+ then => K2Node_IfThenElse_6 F387C7E841FEA0F6A2910683BC2F911E, default 
+ Variable => K2Node_TemporaryVariable_6 CB5456904A863B98D88E408326553E3C, default 
+ Value => K2Node_CallFunction_26 572960A041B477113327E891E7B5BF4B, default 
+K2Node_IfThenElse_6
+ execute => K2Node_AssignmentStatement_11 31AFCC3946CB6F77343CD4AA4643B1FA,K2Node_AssignmentStatement_10 3E756FE4450D10F6805122831D206CEA, default 
+ Condition => K2Node_CallFunction_25 920330EB4107C46DA0B0AC8450D8100D, default "true"
+ then => K2Node_AssignmentStatement_9 0E3F32CC4DDD170AA6EA55890FADEF0A, default 
+K2Node_ExecutionSequence_2
+ execute => K2Node_AssignmentStatement_9 61D4286C42115C1869A3CF845BF13F24, default 
+ then_0 => K2Node_IfThenElse_5 C75E30554A114B2672E3E681B0C2AA93, default 
+ then_1 => K2Node_AssignmentStatement_11 EF2F86344BA74FBBC6866393AE9D22AE, default 
+K2Node_CallArrayFunction_5
+FunctionReference=(MemberParent="/Script/CoreUObject.Class'/Script/Engine.KismetArrayLibrary'",MemberName="Array_Length")
+ self =>  default "/Script/Engine.Default__KismetArrayLibrary"
+ TargetArray => K2Node_VariableGet_7 144D401B4ECDF59F1288A48475E266C3, default 
+ ReturnValue => K2Node_CallFunction_25 40ABF052447923FC8BDDC59812AA077C, default "0"
+K2Node_CallFunction_25
+FunctionReference=(MemberParent="/Script/CoreUObject.Class'/Script/Engine.KismetMathLibrary'",MemberName="Less_IntInt")
+ self =>  default "/Script/Engine.Default__KismetMathLibrary"
+ A => K2Node_TemporaryVariable_6 CB5456904A863B98D88E408326553E3C, default "0"
+ B => K2Node_CallArrayFunction_5 0ACBFEF741BA10C0BD7767A0CE315AB5, default "0"
+ ReturnValue => K2Node_IfThenElse_6 E6BF61994B0298E6BE4212A1296220EA, default "false"
+K2Node_TemporaryVariable_5
+NodeComment="Array Index"
+ Variable => K2Node_AssignmentStatement_10 3A8C28C44D6B3D6761E7AF86184E0E0E,K2Node_AssignmentStatement_9 7E453F284C8A14F1D59CA1A00C74BE37,K2Node_CallArrayFunction_13 5F4E8F3B43827A75CC302BA5922FF782, default 
+EdGraphNode_Comment_21
+NodeComment="Init Array Index"
+K2Node_AssignmentStatement_10
+ execute => K2Node_AssignmentStatement_12 026B5E2147A8C2137C96B49539D2DEAE, default 
+ then => K2Node_IfThenElse_6 F387C7E841FEA0F6A2910683BC2F911E, default 
+ Variable => K2Node_TemporaryVariable_5 381BA218441AC7CE8EAB94B277877B81, default 
+K2Node_AssignmentStatement_9
+ execute => K2Node_IfThenElse_6 B8BB56BE4860A920DE373E8072445F66, default 
+ then => K2Node_ExecutionSequence_2 3AA43D3C4CF80B0B55D12E80EC19A5A0, default 
+ Variable => K2Node_TemporaryVariable_5 381BA218441AC7CE8EAB94B277877B81, default 
+ Value => K2Node_TemporaryVariable_6 CB5456904A863B98D88E408326553E3C, default 
+K2Node_GetArrayItem_3
+ Dimension 1 =>  default "0"
+K2Node_Tunnel_13
+K2Node_Tunnel_12
+EdGraphNode_Comment_33
+NodeComment="Warning: Do not add, remove, or reorder elements in the input array during the execution of the loop body!"
+EdGraphNode_Comment_32
+NodeComment="Increment Loop Counter"
+EdGraphNode_Comment_31
+NodeComment="Execute Loop Body"
+EdGraphNode_Comment_30
+NodeComment="Test Loop Condition"
+EdGraphNode_Comment_29
+NodeComment="Init Loop Counter"
+K2Node_TemporaryVariable_8
+NodeComment="Loop Counter"
+ Variable => K2Node_AssignmentStatement_16 5E88F6694DB0384B84648F86609C8CAC,K2Node_CallFunction_28 EE32295E4DDBBB96921C2B948B7AC6F9,K2Node_AssignmentStatement_15 0B98AC1A49079B971D9F78B71E555859,K2Node_CallFunction_27 EC3BF7F44A21E8A82E01FDBFB53F89C7,K2Node_AssignmentStatement_13 0C1B378E4944F1139110A29683B3F2EC, default 
+K2Node_AssignmentStatement_16
+ execute => K2Node_CustomEvent_59 45842A364CEE723F5587BCA03AA1179D, default 
+ then => K2Node_AssignmentStatement_14 E41FA8B04D4F1AEF1D2449A168B19448, default 
+ Variable => K2Node_TemporaryVariable_8 CB5456904A863B98D88E408326553E3C, default 
+K2Node_CallFunction_28
+FunctionReference=(MemberParent="/Script/CoreUObject.Class'/Script/Engine.KismetMathLibrary'",MemberName="Add_IntInt")
+ self =>  default "/Script/Engine.Default__KismetMathLibrary"
+ A => K2Node_TemporaryVariable_8 CB5456904A863B98D88E408326553E3C, default "0"
+ B =>  default "1"
+ ReturnValue => K2Node_AssignmentStatement_15 7439AC3543B93677AB580D98A4C1C99D, default "0"
+K2Node_AssignmentStatement_15
+ execute => K2Node_ExecutionSequence_3 C3118ABC4B93043695AF0DAE9C2F48E0, default 
+ then => K2Node_IfThenElse_8 F387C7E841FEA0F6A2910683BC2F911E, default 
+ Variable => K2Node_TemporaryVariable_8 CB5456904A863B98D88E408326553E3C, default 
+ Value => K2Node_CallFunction_28 572960A041B477113327E891E7B5BF4B, default 
+K2Node_IfThenElse_8
+ execute => K2Node_AssignmentStatement_15 31AFCC3946CB6F77343CD4AA4643B1FA,K2Node_AssignmentStatement_14 3E756FE4450D10F6805122831D206CEA, default 
+ Condition => K2Node_CallFunction_27 920330EB4107C46DA0B0AC8450D8100D, default "true"
+ then => K2Node_AssignmentStatement_13 0E3F32CC4DDD170AA6EA55890FADEF0A, default 
+K2Node_ExecutionSequence_3
+ execute => K2Node_AssignmentStatement_13 61D4286C42115C1869A3CF845BF13F24, default 
+ then_0 => K2Node_IfThenElse_15 C75E30554A114B2672E3E681B0C2AA93, default 
+ then_1 => K2Node_AssignmentStatement_15 EF2F86344BA74FBBC6866393AE9D22AE, default 
+K2Node_CallArrayFunction_6
+FunctionReference=(MemberParent="/Script/CoreUObject.Class'/Script/Engine.KismetArrayLibrary'",MemberName="Array_Length")
+ self =>  default "/Script/Engine.Default__KismetArrayLibrary"
+ TargetArray => K2Node_VariableGet_6 144D401B4ECDF59F1288A48475E266C3, default 
+ ReturnValue => K2Node_CallFunction_27 40ABF052447923FC8BDDC59812AA077C, default "0"
+K2Node_CallFunction_27
+FunctionReference=(MemberParent="/Script/CoreUObject.Class'/Script/Engine.KismetMathLibrary'",MemberName="Less_IntInt")
+ self =>  default "/Script/Engine.Default__KismetMathLibrary"
+ A => K2Node_TemporaryVariable_8 CB5456904A863B98D88E408326553E3C, default "0"
+ B => K2Node_CallArrayFunction_6 0ACBFEF741BA10C0BD7767A0CE315AB5, default "0"
+ ReturnValue => K2Node_IfThenElse_8 E6BF61994B0298E6BE4212A1296220EA, default "false"
+K2Node_TemporaryVariable_7
+NodeComment="Array Index"
+ Variable => K2Node_AssignmentStatement_14 3A8C28C44D6B3D6761E7AF86184E0E0E,K2Node_AssignmentStatement_13 7E453F284C8A14F1D59CA1A00C74BE37,K2Node_CallArrayFunction_10 8968989B4510E30A5A7933BE5A684DE6, default 
+EdGraphNode_Comment_28
+NodeComment="Init Array Index"
+K2Node_AssignmentStatement_14
+ execute => K2Node_AssignmentStatement_16 026B5E2147A8C2137C96B49539D2DEAE, default 
+ then => K2Node_IfThenElse_8 F387C7E841FEA0F6A2910683BC2F911E, default 
+ Variable => K2Node_TemporaryVariable_7 381BA218441AC7CE8EAB94B277877B81, default 
+K2Node_AssignmentStatement_13
+ execute => K2Node_IfThenElse_8 B8BB56BE4860A920DE373E8072445F66, default 
+ then => K2Node_ExecutionSequence_3 3AA43D3C4CF80B0B55D12E80EC19A5A0, default 
+ Variable => K2Node_TemporaryVariable_7 381BA218441AC7CE8EAB94B277877B81, default 
+ Value => K2Node_TemporaryVariable_8 CB5456904A863B98D88E408326553E3C, default 
+K2Node_GetArrayItem_4
+ Dimension 1 =>  default "0"
+K2Node_Tunnel_15
+K2Node_Tunnel_14
+EdGraphNode_Comment_39
+NodeComment="Warning: Do not add, remove, or reorder elements in the input array during the execution of the loop body!"
+EdGraphNode_Comment_38
+NodeComment="Increment Loop Counter"
+EdGraphNode_Comment_37
+NodeComment="Execute Loop Body"
+EdGraphNode_Comment_36
+NodeComment="Test Loop Condition"
+EdGraphNode_Comment_35
+NodeComment="Init Loop Counter"
+K2Node_TemporaryVariable_10
+NodeComment="Loop Counter"
+ Variable => K2Node_AssignmentStatement_20 5E88F6694DB0384B84648F86609C8CAC,K2Node_CallFunction_30 EE32295E4DDBBB96921C2B948B7AC6F9,K2Node_AssignmentStatement_19 0B98AC1A49079B971D9F78B71E555859,K2Node_CallFunction_29 EC3BF7F44A21E8A82E01FDBFB53F89C7,K2Node_AssignmentStatement_17 0C1B378E4944F1139110A29683B3F2EC, default 
+K2Node_AssignmentStatement_20
+ execute => K2Node_IfThenElse_83 435F6AC7427C60C113240AAEADB1F76A, default 
+ then => K2Node_AssignmentStatement_18 E41FA8B04D4F1AEF1D2449A168B19448, default 
+ Variable => K2Node_TemporaryVariable_10 CB5456904A863B98D88E408326553E3C, default 
+K2Node_CallFunction_30
+FunctionReference=(MemberParent="/Script/CoreUObject.Class'/Script/Engine.KismetMathLibrary'",MemberName="Add_IntInt")
+ self =>  default "/Script/Engine.Default__KismetMathLibrary"
+ A => K2Node_TemporaryVariable_10 CB5456904A863B98D88E408326553E3C, default "0"
+ B =>  default "1"
+ ReturnValue => K2Node_AssignmentStatement_19 7439AC3543B93677AB580D98A4C1C99D, default "0"
+K2Node_AssignmentStatement_19
+ execute => K2Node_ExecutionSequence_4 C3118ABC4B93043695AF0DAE9C2F48E0, default 
+ then => K2Node_IfThenElse_9 F387C7E841FEA0F6A2910683BC2F911E, default 
+ Variable => K2Node_TemporaryVariable_10 CB5456904A863B98D88E408326553E3C, default 
+ Value => K2Node_CallFunction_30 572960A041B477113327E891E7B5BF4B, default 
+K2Node_IfThenElse_9
+ execute => K2Node_AssignmentStatement_19 31AFCC3946CB6F77343CD4AA4643B1FA,K2Node_AssignmentStatement_18 3E756FE4450D10F6805122831D206CEA, default 
+ Condition => K2Node_CallFunction_29 920330EB4107C46DA0B0AC8450D8100D, default "true"
+ then => K2Node_AssignmentStatement_17 0E3F32CC4DDD170AA6EA55890FADEF0A, default 
+K2Node_ExecutionSequence_4
+ execute => K2Node_AssignmentStatement_17 61D4286C42115C1869A3CF845BF13F24, default 
+ then_0 => K2Node_IfThenElse_2 A168A9DA470241951A3D8EBE717170E7, default 
+ then_1 => K2Node_AssignmentStatement_19 EF2F86344BA74FBBC6866393AE9D22AE, default 
+K2Node_CallArrayFunction_7
+FunctionReference=(MemberParent="/Script/CoreUObject.Class'/Script/Engine.KismetArrayLibrary'",MemberName="Array_Length")
+ self =>  default "/Script/Engine.Default__KismetArrayLibrary"
+ TargetArray => K2Node_VariableGet_4 7760DD444CB67CA5A972C6BC3DA3F8CA, default 
+ ReturnValue => K2Node_CallFunction_29 40ABF052447923FC8BDDC59812AA077C, default "0"
+K2Node_CallFunction_29
+FunctionReference=(MemberParent="/Script/CoreUObject.Class'/Script/Engine.KismetMathLibrary'",MemberName="Less_IntInt")
+ self =>  default "/Script/Engine.Default__KismetMathLibrary"
+ A => K2Node_TemporaryVariable_10 CB5456904A863B98D88E408326553E3C, default "0"
+ B => K2Node_CallArrayFunction_7 0ACBFEF741BA10C0BD7767A0CE315AB5, default "0"
+ ReturnValue => K2Node_IfThenElse_9 E6BF61994B0298E6BE4212A1296220EA, default "false"
+K2Node_TemporaryVariable_9
+NodeComment="Array Index"
+ Variable => K2Node_AssignmentStatement_18 3A8C28C44D6B3D6761E7AF86184E0E0E,K2Node_AssignmentStatement_17 7E453F284C8A14F1D59CA1A00C74BE37,K2Node_CallArrayFunction_8 70236B414C4EE3CE0F873EA815C862E1, default 
+EdGraphNode_Comment_34
+NodeComment="Init Array Index"
+K2Node_AssignmentStatement_18
+ execute => K2Node_AssignmentStatement_20 026B5E2147A8C2137C96B49539D2DEAE, default 
+ then => K2Node_IfThenElse_9 F387C7E841FEA0F6A2910683BC2F911E, default 
+ Variable => K2Node_TemporaryVariable_9 381BA218441AC7CE8EAB94B277877B81, default 
+K2Node_AssignmentStatement_17
+ execute => K2Node_IfThenElse_9 B8BB56BE4860A920DE373E8072445F66, default 
+ then => K2Node_ExecutionSequence_4 3AA43D3C4CF80B0B55D12E80EC19A5A0, default 
+ Variable => K2Node_TemporaryVariable_9 381BA218441AC7CE8EAB94B277877B81, default 
+ Value => K2Node_TemporaryVariable_10 CB5456904A863B98D88E408326553E3C, default 
+K2Node_GetArrayItem_5
+ Dimension 1 =>  default "0"
+K2Node_CallArrayFunction_8
+FunctionReference=(MemberParent="/Script/CoreUObject.Class'/Script/Engine.KismetArrayLibrary'",MemberName="Array_Get")
+ self =>  default "/Script/Engine.Default__KismetArrayLibrary"
+ TargetArray => K2Node_VariableGet_4 7760DD444CB67CA5A972C6BC3DA3F8CA, default 
+ Index => K2Node_TemporaryVariable_9 381BA218441AC7CE8EAB94B277877B81, default "0"
+ Item => K2Node_CallArrayFunction_2 936A5A1B44E4FFB1A2631FBE21AA525D, default 
+K2Node_CallArrayFunction_9
+FunctionReference=(MemberParent="/Script/CoreUObject.Class'/Script/Engine.KismetArrayLibrary'",MemberName="Array_Get")
+ self =>  default "/Script/Engine.Default__KismetArrayLibrary"
+ TargetArray => K2Node_BreakStruct_0 7B2A8F0840E15230F0917FB6F78B63AE, default 
+ Index => K2Node_TemporaryVariable_31 381BA218441AC7CE8EAB94B277877B81, default "0"
+ Item => K2Node_CallFunction_987 67E65810437C137C0DBC6DAEA23B36E6,K2Node_CallFunction_9 1D880279490C1C6C2E1551B0AA0FB0FE, default 
+K2Node_CallArrayFunction_10
+FunctionReference=(MemberParent="/Script/CoreUObject.Class'/Script/Engine.KismetArrayLibrary'",MemberName="Array_Get")
+ self =>  default "/Script/Engine.Default__KismetArrayLibrary"
+ TargetArray => K2Node_VariableGet_6 144D401B4ECDF59F1288A48475E266C3, default 
+ Index => K2Node_TemporaryVariable_7 381BA218441AC7CE8EAB94B277877B81, default "0"
+ Item => K2Node_BreakStruct_1 6FF3475D489052FB0213C3B8E190D8AE, default 
+K2Node_CallArrayFunction_11
+FunctionReference=(MemberParent="/Script/CoreUObject.Class'/Script/Engine.KismetArrayLibrary'",MemberName="Array_Get")
+ self =>  default "/Script/Engine.Default__KismetArrayLibrary"
+ TargetArray => K2Node_BreakStruct_1 992289A44911348B2BF0CBBD8BE927D3, default 
+ Index => K2Node_TemporaryVariable_0 381BA218441AC7CE8EAB94B277877B81, default "0"
+ Item => K2Node_CallFunction_986 67E65810437C137C0DBC6DAEA23B36E6,K2Node_CallFunction_6 6AE03C5B4E70E419EB33E1B770826687, default 
+K2Node_CallArrayFunction_12
+FunctionReference=(MemberParent="/Script/CoreUObject.Class'/Script/Engine.KismetArrayLibrary'",MemberName="Array_Get")
+ self =>  default "/Script/Engine.Default__KismetArrayLibrary"
+ TargetArray => K2Node_CallFunction_10 9F30BE674EFFFA00C9D9BA8855ADB0F4, default 
+ Index => K2Node_TemporaryVariable_2 381BA218441AC7CE8EAB94B277877B81, default "0"
+ Item => K2Node_CallFunction_241 2FF76D0944DF90E3B86359AD707EAFCA,K2Node_CallDelegate_6 55EE3A2C43325D13CAA7FD9289A0C0A3, default 
+K2Node_CallArrayFunction_13
+FunctionReference=(MemberParent="/Script/CoreUObject.Class'/Script/Engine.KismetArrayLibrary'",MemberName="Array_Get")
+ self =>  default "/Script/Engine.Default__KismetArrayLibrary"
+ TargetArray => K2Node_VariableGet_7 144D401B4ECDF59F1288A48475E266C3, default 
+ Index => K2Node_TemporaryVariable_5 381BA218441AC7CE8EAB94B277877B81, default "0"
+ Item => K2Node_BreakStruct_0 257BADBA4A67042DDC82FE91025200FF, default 
+K2Node_FunctionEntry_0
+ then => K2Node_CallFunction_0 4472B94843A1C736BBF878B5C39FA415, default 
+K2Node_CallFunction_0
+FunctionReference=(MemberName="ExecuteUbergraph_BP_CollisionComponent",bSelfContext=True)
+ execute => K2Node_FunctionEntry_0 B6CF7EE04CE1A09E88C22EAED15E6FA4, default 
+ EntryPoint =>  default "0"
+K2Node_FunctionEntry_0
+FunctionReference=(MemberParent="/Script/CoreUObject.Class'/Script/Engine.ActorComponent'",MemberName="ReceiveTick")
+ then => K2Node_SetVariableOnPersistentFrame_0 250164A9437EF10826BF2A9F4A659A2A, default 
+ DeltaSeconds => K2Node_SetVariableOnPersistentFrame_0 5FFD1853434BD41C2F295480A9D52227, default "0.0"
+K2Node_SetVariableOnPersistentFrame_0
+ execute => K2Node_FunctionEntry_0 25BC13FB41E269C235F3C6A2A4CE10F2, default 
+ then => K2Node_CallFunction_0 911B7B1F4C399A4E053D8BAE4D8ADF81, default 
+ K2Node_Event_DeltaSeconds => K2Node_FunctionEntry_0 F30D676D4BFEB8EEA9D989813BE8DD19, default 
+K2Node_CallFunction_0
+FunctionReference=(MemberName="ExecuteUbergraph_BP_CollisionComponent",bSelfContext=True)
+ execute => K2Node_SetVariableOnPersistentFrame_0 C63EB342478AEB699B624DBEC4FB79D4, default 
+ EntryPoint =>  default "0"
+K2Node_FunctionEntry_0
+ then => K2Node_CallFunction_0 0857329F4FF5B7D29E85618A09287CAB, default 
+K2Node_CallFunction_0
+FunctionReference=(MemberName="ExecuteUbergraph_BP_CollisionComponent",bSelfContext=True)
+ execute => K2Node_FunctionEntry_0 C6686F2A4B0593D404F7C5A5A004BEC8, default 
+ EntryPoint =>  default "0"
+K2Node_FunctionEntry_0
+ then => K2Node_CallFunction_0 FA317D7E4AF610873F9D5EB238D742C5, default 
+K2Node_CallFunction_0
+FunctionReference=(MemberName="ExecuteUbergraph_BP_CollisionComponent",bSelfContext=True)
+ execute => K2Node_FunctionEntry_0 1CD3A2AE4BE975C2583B7DB83E429D32, default 
+ EntryPoint =>  default "0"
+K2Node_FunctionEntry_0
+ then => K2Node_SetVariableOnPersistentFrame_0 17281D9E4A196EC56537598199FE5214, default 
+ CollisionPart => K2Node_SetVariableOnPersistentFrame_0 AF16168D48CC7A9DD0ABA5A9325FB71A, default "NewEnumerator8"
+K2Node_SetVariableOnPersistentFrame_0
+ execute => K2Node_FunctionEntry_0 4A96C17D41808266FD519C817D6B6393, default 
+ then => K2Node_CallFunction_0 C79FC4BE4971F286FF47CEBCE51EE3A8, default 
+ K2Node_CustomEvent_CollisionPart => K2Node_FunctionEntry_0 5C097AE040610CC1D97D7684BDA19FAF, default 
+K2Node_CallFunction_0
+FunctionReference=(MemberName="ExecuteUbergraph_BP_CollisionComponent",bSelfContext=True)
+ execute => K2Node_SetVariableOnPersistentFrame_0 06CC9D7643872F86411453BAEB533F30, default 
+ EntryPoint =>  default "0"
+K2Node_FunctionEntry_0
+ then => K2Node_SetVariableOnPersistentFrame_0 EA8032C943ED8DE020CC5D93893563AA, default 
+ HitResult => K2Node_SetVariableOnPersistentFrame_0 1CBB567B493F550DF6466EAE36CE5784, default 
+ EmitterTemplate => K2Node_SetVariableOnPersistentFrame_0 A5729F4F4A6CAA01E9C75A81843C3531, default 
+ Sound => K2Node_SetVariableOnPersistentFrame_0 B2CB3DA5414845F42B329883A0EB29C9, default 
+ VFX Scale => K2Node_SetVariableOnPersistentFrame_0 67982E344C542D55257103B6694183A8, default "1.000000
+ Niagara => K2Node_SetVariableOnPersistentFrame_0 0B072096404E914FAAE886935FD36129, default 
+K2Node_SetVariableOnPersistentFrame_0
+ execute => K2Node_FunctionEntry_0 A3FE5D3840066FB1D60DD7BAC945CA9B, default 
+ then => K2Node_CallFunction_0 D47EAFF34C78D2CED86FFB9C89037C93, default 
+ K2Node_CustomEvent_HitResult => K2Node_FunctionEntry_0 770687BF42EC8A00A0C25D8BB5EB68BB, default 
+ K2Node_CustomEvent_EmitterTemplate => K2Node_FunctionEntry_0 72D740F04895E9C6D9E5AA8530ABD2F3, default 
+ K2Node_CustomEvent_Sound => K2Node_FunctionEntry_0 0448C27146DCD618993989B3BF917EA1, default 
+ K2Node_CustomEvent_VFX_Scale => K2Node_FunctionEntry_0 B48B45664C56E1385D2C85922DF0E753, default 
+ K2Node_CustomEvent_Niagara => K2Node_FunctionEntry_0 E9CC6E69461E960BE2B0B8B6A3B32930, default 
+K2Node_CallFunction_0
+FunctionReference=(MemberName="ExecuteUbergraph_BP_CollisionComponent",bSelfContext=True)
+ execute => K2Node_SetVariableOnPersistentFrame_0 3C9EE977408EBCE1EDC32792B1C9767B, default 
+ EntryPoint =>  default "0"
+K2Node_FunctionEntry_0
+ then => K2Node_SetVariableOnPersistentFrame_0 49D070D541464EA69803A0AA246E3E5C, default 
+ Hit => K2Node_SetVariableOnPersistentFrame_0 7549A03E444CB68AE167859A80AFEE92, default 
+ BaseDamage => K2Node_SetVariableOnPersistentFrame_0 DAE1AAA34A2BC2F3383A6CBE3A37D6FC, default 
+K2Node_SetVariableOnPersistentFrame_0
+ execute => K2Node_FunctionEntry_0 453648AD44AFE2EC4A8373A0C54CC464, default 
+ then => K2Node_CallFunction_0 C74DED684D1C22AACD1CF6AAB98F4F3B, default 
+ K2Node_CustomEvent_Hit => K2Node_FunctionEntry_0 0A74C2324E97495B6E082F9A6A7516D2, default 
+ K2Node_CustomEvent_BaseDamage => K2Node_FunctionEntry_0 B143114940A3A5E3A1888C990504CDB0, default 
+K2Node_CallFunction_0
+FunctionReference=(MemberName="ExecuteUbergraph_BP_CollisionComponent",bSelfContext=True)
+ execute => K2Node_SetVariableOnPersistentFrame_0 57BB3AD74E1BF72AE30916BA3E6123B0, default 
+ EntryPoint =>  default "0"
+K2Node_FunctionEntry_0
+ then => K2Node_SetVariableOnPersistentFrame_0 D948D4BF44FC226FCE0FDC85E92CD899, default 
+ HitResult => K2Node_SetVariableOnPersistentFrame_0 37212E8144615B1981D3DE8E4735EAFC, default 
+ EmitterTemplate => K2Node_SetVariableOnPersistentFrame_0 BDAC98BA428FEFD306FE26A82DE9D086, default 
+ Sound => K2Node_SetVariableOnPersistentFrame_0 A5254FD745BC0921FE88F7B3FDC676BA, default 
+ VFX Scale => K2Node_SetVariableOnPersistentFrame_0 4474B05C4AC3C3B44747989475995132, default "1.000000
+ Niagara => K2Node_SetVariableOnPersistentFrame_0 8F511FF64CE9E8F636963EBEC12B99D4, default 
+K2Node_SetVariableOnPersistentFrame_0
+ execute => K2Node_FunctionEntry_0 7FC629F64803768ED1DF3BAB98CEBEFD, default 
+ then => K2Node_CallFunction_0 2ADDC11E4612359606008387A205CC18, default 
+ K2Node_CustomEvent_HitResult_1 => K2Node_FunctionEntry_0 74EA3AA14F93BA8288DD87AB9D10A096, default 
+ K2Node_CustomEvent_EmitterTemplate_1 => K2Node_FunctionEntry_0 1CF6EE484A07A05D64C6F4A524356943, default 
+ K2Node_CustomEvent_Sound_1 => K2Node_FunctionEntry_0 0D087480432FF06836E78BB56E61740D, default 
+ K2Node_CustomEvent_VFX_Scale_1 => K2Node_FunctionEntry_0 9EFE1A974A673C9E56DF6E8D72CE24D5, default 
+ K2Node_CustomEvent_Niagara_1 => K2Node_FunctionEntry_0 76AD50D7474D95232B925BBAF7F49ADA, default 
+K2Node_CallFunction_0
+FunctionReference=(MemberName="ExecuteUbergraph_BP_CollisionComponent",bSelfContext=True)
+ execute => K2Node_SetVariableOnPersistentFrame_0 28C68F5245B0D3AACEE154A718A2E948, default 
+ EntryPoint =>  default "0"
+K2Node_FunctionEntry_0
+ then => K2Node_SetVariableOnPersistentFrame_0 616EEBB54BD86CFCB598999CC1A4C363, default 
+ CollComps => K2Node_SetVariableOnPersistentFrame_0 D4C53E704EB0A2035BE2C4BB7A40595E, default 
+K2Node_SetVariableOnPersistentFrame_0
+ execute => K2Node_FunctionEntry_0 D48B3C3A49110E3A045E2696BA513501, default 
+ then => K2Node_CallFunction_0 4F5D86424A3E4643821DA7B764578183, default 
+ K2Node_CustomEvent_CollComps => K2Node_FunctionEntry_0 1C986C0C4379E0CBF41DE58E9DF72BC2, default 
+K2Node_CallFunction_0
+FunctionReference=(MemberName="ExecuteUbergraph_BP_CollisionComponent",bSelfContext=True)
+ execute => K2Node_SetVariableOnPersistentFrame_0 2F28810D46A80167FB2D75806D7966E8, default 
+ EntryPoint =>  default "0"
+K2Node_FunctionEntry_0
+ then => K2Node_CallFunction_0 3E7D9E344BCB0948965F79BD8B7F703D, default 
+K2Node_CallFunction_0
+FunctionReference=(MemberName="ExecuteUbergraph_BP_CollisionComponent",bSelfContext=True)
+ execute => K2Node_FunctionEntry_0 32C39D584F709A7280E9F6AA1F861770, default 
+ EntryPoint =>  default "0"
+K2Node_FunctionEntry_0
+ then => K2Node_SetVariableOnPersistentFrame_0 CB70AE354A4B3493346D39A0FA40E296, default 
+ CollisionPart => K2Node_SetVariableOnPersistentFrame_0 970BF2714B39BC898E6CFCAAF724D1D2, default "NewEnumerator8"
+K2Node_SetVariableOnPersistentFrame_0
+ execute => K2Node_FunctionEntry_0 1981B250487E60FB103439BF02B8BDF3, default 
+ then => K2Node_CallFunction_0 4DDBC57B4C37154DCBF9078BC0CF7F1D, default 
+ K2Node_CustomEvent_CollisionPart_1 => K2Node_FunctionEntry_0 35652B4F40684FA75B74E7A1D09E2424, default 
+K2Node_CallFunction_0
+FunctionReference=(MemberName="ExecuteUbergraph_BP_CollisionComponent",bSelfContext=True)
+ execute => K2Node_SetVariableOnPersistentFrame_0 C44C47E94ABFD234307EBCB391F0258B, default 
+ EntryPoint =>  default "0"
+K2Node_FunctionEntry_7
+FunctionReference=(MemberName="IsCollisionActive")
+ then => K2Node_FunctionResult_0 E35CAE394272A40439C5FC9A6BDF9CD3, default 
+K2Node_FunctionResult_0
+FunctionReference=(MemberName="IsCollisionActive")
+ execute => K2Node_FunctionEntry_7 4678426E42651C52298082AA8079B1D6, default 
+ Result => K2Node_VariableGet_255 D1385C8443708EF24ED09B9B84271504, default "false"
+K2Node_VariableGet_255
+VariableReference=(MemberName="TraceActive",MemberGuid=6CED58034CBA7B83872AC693D6F94237,bSelfContext=True)
+ TraceActive => K2Node_FunctionResult_0 D094741E4A04131206013DBD693F6445, default "false"
+K2Node_FunctionEntry_0
+FunctionReference=(MemberName="GetUniqueSocketName")
+ then => K2Node_FunctionResult_0 6985275D457432F348934886CD77E82C, default 
+ Component => K2Node_CallFunction_0 CCBB42B8430D3BB290ADCBBAD2E986A4, default 
+ SocketName => K2Node_CallFunction_1 7748CFB84F9EE35C99A69C9B84BAD677, default 
+K2Node_FunctionResult_0
+FunctionReference=(MemberName="GetUniqueSocketName")
+ execute => K2Node_FunctionEntry_0 B566A07144C449B006E0A0B52D8E5A2C, default 
+ UniqueName => K2Node_CallFunction_2 D9004AB54A59AB62894CE09B0860A6F2, default "None"
+K2Node_CommutativeAssociativeBinaryOperator_0
+FunctionReference=(MemberParent="/Script/CoreUObject.Class'/Script/Engine.KismetStringLibrary'",MemberName="Concat_StrStr")
+ self =>  default "/Script/Engine.Default__KismetStringLibrary"
+ A => K2Node_CallFunction_0 6898B258453EBD1F379EC28EA1A34AD4, default 
+ B => K2Node_CallFunction_1 3099FA7D48794FBB92F55AAD28B9B756, default 
+ ReturnValue => K2Node_CallFunction_2 FE7A36DD414B6D3F6D905F8024FF53FC, default 
+K2Node_CallFunction_0
+FunctionReference=(MemberParent="/Script/CoreUObject.Class'/Script/Engine.KismetSystemLibrary'",MemberName="GetDisplayName")
+ self =>  default "/Script/Engine.Default__KismetSystemLibrary"
+ Object => K2Node_FunctionEntry_0 E546A6BC40B913388132129FC8EBB414, default 
+ ReturnValue => K2Node_CommutativeAssociativeBinaryOperator_0 7D602B8A490EF81DC7001BAF6CE49190, default 
+K2Node_CallFunction_1
+FunctionReference=(MemberParent="/Script/CoreUObject.Class'/Script/Engine.KismetStringLibrary'",MemberName="Conv_NameToString")
+ self =>  default "/Script/Engine.Default__KismetStringLibrary"
+ InName => K2Node_FunctionEntry_0 F448BBF044302BEC961E44B0F45AFCB5, default "None"
+ ReturnValue => K2Node_CommutativeAssociativeBinaryOperator_0 8E6BF0F84A0E45FB3DDE3EA7F3099AF2, default 
+K2Node_CallFunction_2
+FunctionReference=(MemberParent="/Script/CoreUObject.Class'/Script/Engine.KismetStringLibrary'",MemberName="Conv_StringToName")
+ self =>  default "/Script/Engine.Default__KismetStringLibrary"
+ InString => K2Node_CommutativeAssociativeBinaryOperator_0 5BF798254C2A9DB397F239BF75DE4A49, default 
+ ReturnValue => K2Node_FunctionResult_0 C74CBD714D19FCE1D053459A4B71A86D, default "None"
+EdGraphNode_Comment_2
+NodeComment="Generate unique socket name in case 2 components has sockets with same names"
+K2Node_FunctionEntry_0
+FunctionReference=(MemberName="GetHitActorsIndex")
+ then => K2Node_AssignmentStatement_23 3A21A0A540266D242CD7C7BC9F09451B, default 
+K2Node_FunctionResult_1
+FunctionReference=(MemberName="GetHitActorsIndex")
+ execute => K2Node_IfThenElse_0 DE0C04AA4FEDB5913C7BFDA1C2F697B0, default 
+ Index => K2Node_TemporaryVariable_31 381BA218441AC7CE8EAB94B277877B81, default "0"
+K2Node_VariableGet_0
+VariableReference=(MemberName="HitActors",MemberGuid=2A6A7803456CEE288378129DA9284922,bSelfContext=True)
+ HitActors => K2Node_CallArrayFunction_836 6BE6626C4AA604EABFC6FE98192C94D0,K2Node_CallArrayFunction_0 6160A43A4AE78E2E94469C8846F27618, default 
+K2Node_MacroInstance_0
+K2Node_BreakStruct_0
+StructType="/Script/Engine.UserDefinedStruct'/Game/AI/AIBehaviorSystem/Blueprint/Struct/F_CollCompHitActors.F_CollCompHitActors'"
+ F_CollCompHitActors => K2Node_CallArrayFunction_0 D9C1EB3741D390AC28AF89B3AC31E9F8, default 
+ Component_2_3941386A40A6BCBCE45808A34CB04791 => K2Node_CallFunction_0 5087BD194AE277429E55DBAFA571F8C8, default 
+K2Node_CallFunction_0
+FunctionReference=(MemberParent="/Script/CoreUObject.Class'/Script/Engine.KismetMathLibrary'",MemberName="EqualEqual_ObjectObject")
+ self =>  default "/Script/Engine.Default__KismetMathLibrary"
+ A => K2Node_BreakStruct_0 BD6AD45447E933AE5036C0BF8219424B, default 
+ B => K2Node_VariableGet_1 193F22534C439DAA72D2F683C2D17F1E, default 
+ ReturnValue => K2Node_IfThenElse_0 1AD1C034450562D5EAA60CB46CBA9E10, default "false"
+K2Node_VariableGet_1
+VariableReference=(MemberScope="GetHitActorsIndex",MemberName="Component")
+ Component => K2Node_CallFunction_0 8173A7C9482550BE316807A1D3F866FD, default 
+K2Node_IfThenElse_0
+ execute => K2Node_ExecutionSequence_8 B4DA64ED4457FA401CCDE4B6D7D524AB, default 
+ Condition => K2Node_CallFunction_0 3A2AE5C14F13C3163FC484ACB19DA239, default "true"
+ then => K2Node_FunctionResult_1 98D70B7B40BABDAFBE33FCA540B20478, default 
+K2Node_FunctionResult_0
+FunctionReference=(MemberName="GetHitActorsIndex")
+ execute => K2Node_IfThenElse_7 93B622EB4B814BAFB5D27C9225C49F01, default 
+ Index =>  default "-1"
+K2Node_Tunnel_0
+K2Node_Tunnel_1
+EdGraphNode_Comment_652
+NodeComment="Warning: Do not add, remove, or reorder elements in the input array during the execution of the loop body!"
+EdGraphNode_Comment_440
+NodeComment="Increment Loop Counter"
+EdGraphNode_Comment_438
+NodeComment="Execute Loop Body"
+EdGraphNode_Comment_436
+NodeComment="Test Loop Condition"
+EdGraphNode_Comment_26
+NodeComment="Init Loop Counter"
+K2Node_TemporaryVariable_4
+NodeComment="Loop Counter"
+ Variable => K2Node_AssignmentStatement_23 5E88F6694DB0384B84648F86609C8CAC,K2Node_CallFunction_563 EE32295E4DDBBB96921C2B948B7AC6F9,K2Node_AssignmentStatement_7 0B98AC1A49079B971D9F78B71E555859,K2Node_CallFunction_36741 EC3BF7F44A21E8A82E01FDBFB53F89C7,K2Node_AssignmentStatement_25 0C1B378E4944F1139110A29683B3F2EC, default 
+K2Node_AssignmentStatement_23
+ execute => K2Node_FunctionEntry_0 40AA778C4EB040CFB07D9CAAB0C7BC59, default 
+ then => K2Node_AssignmentStatement_24 E41FA8B04D4F1AEF1D2449A168B19448, default 
+ Variable => K2Node_TemporaryVariable_4 CB5456904A863B98D88E408326553E3C, default 
+K2Node_CallFunction_563
+FunctionReference=(MemberParent="/Script/CoreUObject.Class'/Script/Engine.KismetMathLibrary'",MemberName="Add_IntInt")
+ self =>  default "/Script/Engine.Default__KismetMathLibrary"
+ A => K2Node_TemporaryVariable_4 CB5456904A863B98D88E408326553E3C, default "0"
+ B =>  default "1"
+ ReturnValue => K2Node_AssignmentStatement_7 7439AC3543B93677AB580D98A4C1C99D, default "0"
+K2Node_AssignmentStatement_7
+ execute => K2Node_ExecutionSequence_8 C3118ABC4B93043695AF0DAE9C2F48E0, default 
+ then => K2Node_IfThenElse_7 F387C7E841FEA0F6A2910683BC2F911E, default 
+ Variable => K2Node_TemporaryVariable_4 CB5456904A863B98D88E408326553E3C, default 
+ Value => K2Node_CallFunction_563 572960A041B477113327E891E7B5BF4B, default 
+K2Node_IfThenElse_7
+ execute => K2Node_AssignmentStatement_7 31AFCC3946CB6F77343CD4AA4643B1FA,K2Node_AssignmentStatement_24 3E756FE4450D10F6805122831D206CEA, default 
+ Condition => K2Node_CallFunction_36741 920330EB4107C46DA0B0AC8450D8100D, default "true"
+ then => K2Node_AssignmentStatement_25 0E3F32CC4DDD170AA6EA55890FADEF0A, default 
+ else => K2Node_FunctionResult_0 98D70B7B40BABDAFBE33FCA540B20478, default 
+K2Node_ExecutionSequence_8
+ execute => K2Node_AssignmentStatement_25 61D4286C42115C1869A3CF845BF13F24, default 
+ then_0 => K2Node_IfThenElse_0 5D3D7D5F4D79951CDD7973A7C66E6B23, default 
+ then_1 => K2Node_AssignmentStatement_7 EF2F86344BA74FBBC6866393AE9D22AE, default 
+K2Node_CallArrayFunction_836
+FunctionReference=(MemberParent="/Script/CoreUObject.Class'/Script/Engine.KismetArrayLibrary'",MemberName="Array_Length")
+ self =>  default "/Script/Engine.Default__KismetArrayLibrary"
+ TargetArray => K2Node_VariableGet_0 4225D8AA4B5C8189E163F8B5EC2A3CF2, default 
+ ReturnValue => K2Node_CallFunction_36741 40ABF052447923FC8BDDC59812AA077C, default "0"
+K2Node_CallFunction_36741
+FunctionReference=(MemberParent="/Script/CoreUObject.Class'/Script/Engine.KismetMathLibrary'",MemberName="Less_IntInt")
+ self =>  default "/Script/Engine.Default__KismetMathLibrary"
+ A => K2Node_TemporaryVariable_4 CB5456904A863B98D88E408326553E3C, default "0"
+ B => K2Node_CallArrayFunction_836 0ACBFEF741BA10C0BD7767A0CE315AB5, default "0"
+ ReturnValue => K2Node_IfThenElse_7 E6BF61994B0298E6BE4212A1296220EA, default "false"
+K2Node_TemporaryVariable_31
+NodeComment="Array Index"
+ Variable => K2Node_AssignmentStatement_24 3A8C28C44D6B3D6761E7AF86184E0E0E,K2Node_AssignmentStatement_25 7E453F284C8A14F1D59CA1A00C74BE37,K2Node_FunctionResult_1 1A2A8C7744BD1E06DF4869A71BED6A27,K2Node_CallArrayFunction_0 A590DD3D45FE5CF56C61A4ABA4B18EF7, default 
+EdGraphNode_Comment_434
+NodeComment="Init Array Index"
+K2Node_AssignmentStatement_24
+ execute => K2Node_AssignmentStatement_23 026B5E2147A8C2137C96B49539D2DEAE, default 
+ then => K2Node_IfThenElse_7 F387C7E841FEA0F6A2910683BC2F911E, default 
+ Variable => K2Node_TemporaryVariable_31 381BA218441AC7CE8EAB94B277877B81, default 
+K2Node_AssignmentStatement_25
+ execute => K2Node_IfThenElse_7 B8BB56BE4860A920DE373E8072445F66, default 
+ then => K2Node_ExecutionSequence_8 3AA43D3C4CF80B0B55D12E80EC19A5A0, default 
+ Variable => K2Node_TemporaryVariable_31 381BA218441AC7CE8EAB94B277877B81, default 
+ Value => K2Node_TemporaryVariable_4 CB5456904A863B98D88E408326553E3C, default 
+K2Node_GetArrayItem_0
+ Dimension 1 =>  default "0"
+K2Node_CallArrayFunction_0
+FunctionReference=(MemberParent="/Script/CoreUObject.Class'/Script/Engine.KismetArrayLibrary'",MemberName="Array_Get")
+ self =>  default "/Script/Engine.Default__KismetArrayLibrary"
+ TargetArray => K2Node_VariableGet_0 4225D8AA4B5C8189E163F8B5EC2A3CF2, default 
+ Index => K2Node_TemporaryVariable_31 381BA218441AC7CE8EAB94B277877B81, default "0"
+ Item => K2Node_BreakStruct_0 99A6F48E4CB302EADF0D7FA9D0178C6F, default 
+K2Node_FunctionEntry_0
+FunctionReference=(MemberName="GetHitActors")
+ then => K2Node_CallFunction_1 5B72D2F645A2809D02227DA98C077513, default 
+ Component => K2Node_CallFunction_1 599C044C49A89D1844170BAEA0D30336, default 
+K2Node_FunctionResult_2
+FunctionReference=(MemberName="GetHitActorsIndex")
+ execute => K2Node_IfThenElse_1 50F75553405A9836488AA19F1F46A9EB, default 
+ HitActors => K2Node_BreakStruct_2 DC35EBE84862285C4060758683647D15, default 
+K2Node_CallFunction_1
+FunctionReference=(MemberName="GetHitActorsIndex",MemberGuid=131542774783D1DB4C1206ABF0008CE6,bSelfContext=True)
+ execute => K2Node_FunctionEntry_0 40AA778C4EB040CFB07D9CAAB0C7BC59, default 
+ then => K2Node_IfThenElse_1 4CDD44FC4EE4536E7CD5099A6766D216, default 
+ Component => K2Node_FunctionEntry_0 297634254AA99E27284875A4087AC247, default 
+ Index => K2Node_CallFunction_2 C6ED3D6B413FC84E8A901F8155998109,K2Node_GetArrayItem_1 6BCF7CC2423DF7B59075A4A0DE566DD8, default "0"
+K2Node_CallFunction_2
+FunctionReference=(MemberParent="/Script/CoreUObject.Class'/Script/Engine.KismetMathLibrary'",MemberName="GreaterEqual_IntInt")
+ self =>  default "/Script/Engine.Default__KismetMathLibrary"
+ A => K2Node_CallFunction_1 FA74EFB44F6955B9F12F7D8C59605197, default "0"
+ B =>  default "0"
+ ReturnValue => K2Node_IfThenElse_1 DDA2BCB24EF549AE807AB18FC545CDEB, default "false"
+K2Node_IfThenElse_1
+ execute => K2Node_CallFunction_1 DABB234F453C37E8C648EB8CE61836F2, default 
+ Condition => K2Node_CallFunction_2 C948BBD1459F6906A4159382CCC6C71F, default "true"
+ then => K2Node_FunctionResult_2 98D70B7B40BABDAFBE33FCA540B20478, default 
+ else => K2Node_CallArrayFunction_0 2E1D52EF48A83A18991C6ABD95DA6E81, default 
+K2Node_VariableGet_4
+VariableReference=(MemberName="HitActors",MemberGuid=2A6A7803456CEE288378129DA9284922,bSelfContext=True)
+ HitActors => K2Node_GetArrayItem_1 E4ED829D417467E1F364C5BF68064441, default 
+K2Node_GetArrayItem_1
+ Array => K2Node_VariableGet_4 A0C0FB844E2403526A3EA9A61A80964D, default 
+ Dimension 1 => K2Node_CallFunction_1 FA74EFB44F6955B9F12F7D8C59605197, default "0"
+ Output => K2Node_BreakStruct_2 92C5B526428A3AACBE4AE391C0696EB8, default 
+K2Node_BreakStruct_2
+StructType="/Script/Engine.UserDefinedStruct'/Game/AI/AIBehaviorSystem/Blueprint/Struct/F_CollCompHitActors.F_CollCompHitActors'"
+ F_CollCompHitActors => K2Node_GetArrayItem_1 B8E3A85344A38D16B7903FBD9274AC63, default 
+ HitActors_8_12180EF74F4BA7D53FD5AC84FDE6E1BF => K2Node_FunctionResult_2 1A2A8C7744BD1E06DF4869A71BED6A27, default 
+K2Node_VariableGet_2
+VariableReference=(MemberName="HitActors",MemberGuid=2A6A7803456CEE288378129DA9284922,bSelfContext=True)
+ HitActors => K2Node_CallArrayFunction_0 319078104D0A5C4C5EEA6FAB0ABCE326, default 
+K2Node_CallArrayFunction_0
+FunctionReference=(MemberParent="/Script/CoreUObject.Class'/Script/Engine.KismetArrayLibrary'",MemberName="Array_Add")
+ execute => K2Node_IfThenElse_1 4EF084D24502C2365ED0B0AC4E4BE9B3, default 
+ then => K2Node_FunctionResult_1 98D70B7B40BABDAFBE33FCA540B20478, default 
+ self =>  default "/Script/Engine.Default__KismetArrayLibrary"
+ TargetArray => K2Node_VariableGet_2 A0C0FB844E2403526A3EA9A61A80964D, default 
+ NewItem => K2Node_MakeStruct_0 EB2A281E476E7909E3EB929C93C8ABE9, default 
+ ReturnValue => K2Node_GetArrayItem_0 6BCF7CC2423DF7B59075A4A0DE566DD8, default "0"
+K2Node_MakeStruct_0
+StructType="/Script/Engine.UserDefinedStruct'/Game/AI/AIBehaviorSystem/Blueprint/Struct/F_CollCompHitActors.F_CollCompHitActors'"
+ F_CollCompHitActors => K2Node_CallArrayFunction_0 3969944B4ABFBCF899CABF9037C896C2, default 
+ Component_2_3941386A40A6BCBCE45808A34CB04791 => K2Node_VariableGet_0 619C1B5A45AA9383C95780B9B9050D6F, default 
+ HitActors_8_12180EF74F4BA7D53FD5AC84FDE6E1BF => K2Node_MakeArray_0 3BFA40D349F2BC41972DA0B50892F50F, default 
+K2Node_MakeArray_0
+ Array => K2Node_MakeStruct_0 4D6FE6AC4E6D8544BC8044AB7BA18FA2, default 
+ [0] => K2Node_CallFunction_3 23773A6E4572B20DEC99DBA7C951FE74, default 
+K2Node_CallFunction_3
+FunctionReference=(MemberName="GetOwner",bSelfContext=True)
+ ReturnValue => K2Node_MakeArray_0 1877B3A54EC193F92BA4E496FCA39DFD, default 
+K2Node_VariableGet_3
+VariableReference=(MemberName="HitActors",MemberGuid=2A6A7803456CEE288378129DA9284922,bSelfContext=True)
+ HitActors => K2Node_GetArrayItem_0 E4ED829D417467E1F364C5BF68064441, default 
+K2Node_GetArrayItem_0
+ Array => K2Node_VariableGet_3 A0C0FB844E2403526A3EA9A61A80964D, default 
+ Dimension 1 => K2Node_CallArrayFunction_0 A4876E27413C40AFBB78F1A0B11EE731, default "0"
+ Output => K2Node_BreakStruct_1 92C5B526428A3AACBE4AE391C0696EB8, default 
+K2Node_BreakStruct_1
+StructType="/Script/Engine.UserDefinedStruct'/Game/AI/AIBehaviorSystem/Blueprint/Struct/F_CollCompHitActors.F_CollCompHitActors'"
+ F_CollCompHitActors => K2Node_GetArrayItem_0 B8E3A85344A38D16B7903FBD9274AC63, default 
+ HitActors_8_12180EF74F4BA7D53FD5AC84FDE6E1BF => K2Node_FunctionResult_1 1A2A8C7744BD1E06DF4869A71BED6A27, default 
+K2Node_FunctionResult_1
+FunctionReference=(MemberName="GetHitActorsIndex")
+ execute => K2Node_CallArrayFunction_0 C5D73F6743AA20077D9363ABAD0F9B21, default 
+ HitActors => K2Node_BreakStruct_1 1720979E4867C35EFE1B52B42316CC97, default 
+K2Node_VariableGet_0
+VariableReference=(MemberScope="GetHitActors",MemberName="Component")
+ Component => K2Node_MakeStruct_0 7C9BB8BC4614C803D9D81985A1B806E8, default 
+EdGraphNode_Comment_1
+NodeComment="If element was not found by this component, add as new one with owner as hit actor to ignore him"
+K2Node_FunctionEntry_0
+FunctionReference=(MemberName="AddHitActor")
+ then => K2Node_CallFunction_0 BE312A814B4938DDD114C28350C17672, default 
+ Component => K2Node_CallFunction_0 CAF880C848DF2F4EC2B7E48608703958, default 
+K2Node_CallFunction_0
+FunctionReference=(MemberName="GetHitActorsIndex",MemberGuid=131542774783D1DB4C1206ABF0008CE6,bSelfContext=True)
+ execute => K2Node_FunctionEntry_0 63F3AEC347AFEE09AD2080BE5AEB55F8, default 
+ then => K2Node_IfThenElse_0 7ABE04BF4EABE3D5511C4990FF39B818, default 
+ Component => K2Node_FunctionEntry_0 3803E3FA48A0957C5C08A6ABF52F960C, default 
+ Index => K2Node_CallFunction_1 7B0202DD4B7A555F3A680090B8078BC7,K2Node_GetArrayItem_0 869FA72743CC52248578FC9322B38C7D, default "0"
+K2Node_CallFunction_1
+FunctionReference=(MemberParent="/Script/CoreUObject.Class'/Script/Engine.KismetMathLibrary'",MemberName="GreaterEqual_IntInt")
+ self =>  default "/Script/Engine.Default__KismetMathLibrary"
+ A => K2Node_CallFunction_0 132CFCDA4A8DD69E55DEF09C58401DE3, default "0"
+ B =>  default "0"
+ ReturnValue => K2Node_IfThenElse_0 37DE980645887E4DD94BD7A4CD70AFE3, default "false"
+K2Node_IfThenElse_0
+ execute => K2Node_CallFunction_0 A9407D094D88F7014D6676A7EB5BC047, default 
+ Condition => K2Node_CallFunction_1 4ABF073A48102C4BCF4970A6CCD214FE, default "true"
+ then => K2Node_CallArrayFunction_0 2B72C68F4CB68FB47484A18E147527BC, default 
+K2Node_VariableGet_0
+VariableReference=(MemberName="HitActors",MemberGuid=2A6A7803456CEE288378129DA9284922,bSelfContext=True)
+ HitActors => K2Node_GetArrayItem_0 030AA4374D284525FE250795DEC4BB56, default 
+K2Node_GetArrayItem_0
+ Array => K2Node_VariableGet_0 9D1F514C432A3F280D28B0AF81032055, default 
+ Dimension 1 => K2Node_CallFunction_0 132CFCDA4A8DD69E55DEF09C58401DE3, default "0"
+ Output => K2Node_BreakStruct_0 66D2A33F49CC04498FF40D876471B0EC, default 
+K2Node_BreakStruct_0
+StructType="/Script/Engine.UserDefinedStruct'/Game/AI/AIBehaviorSystem/Blueprint/Struct/F_CollCompHitActors.F_CollCompHitActors'"
+ F_CollCompHitActors => K2Node_GetArrayItem_0 D4C740C048C5AF883C4041ABDC4443E9, default 
+ HitActors_8_12180EF74F4BA7D53FD5AC84FDE6E1BF => K2Node_CallArrayFunction_0 0E56E80349C2398CBA373C92F8CB7F50, default 
+K2Node_CallArrayFunction_0
+FunctionReference=(MemberParent="/Script/CoreUObject.Class'/Script/Engine.KismetArrayLibrary'",MemberName="Array_Add")
+ execute => K2Node_IfThenElse_0 0BA485C74427A03DBC84E7A7F098EA21, default 
+ self =>  default "/Script/Engine.Default__KismetArrayLibrary"
+ TargetArray => K2Node_BreakStruct_0 8E23D2A945867909A56321A129E4AC1A, default 
+ NewItem => K2Node_VariableGet_1 23EDB73647C4813F33C59EB601D5FE72, default 
+ ReturnValue =>  default "0"
+K2Node_VariableGet_1
+VariableReference=(MemberScope="AddHitActor",MemberName="HitActor")
+ HitActor => K2Node_CallArrayFunction_0 8F870B234C0C78265661DFB2003423B9, default 
+K2Node_FunctionEntry_238
+FunctionReference=(MemberName="OnHit")
+K2Node_FunctionEntry_14
+FunctionReference=(MemberName="OnCollisionEnabled")
+ CollisionPart =>  default "NewEnumerator8"
+K2Node_FunctionEntry_43
+FunctionReference=(MemberName="OnCollisionDisabled")

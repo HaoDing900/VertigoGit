@@ -176,6 +176,9 @@ public:
 	virtual void Initialize(FSubsystemCollectionBase& Collection) override;
 	virtual void Deinitialize() override;
 
+ /** Scene resume hooks must wait until actor, inventory and narrative restoration finishes. */
+ bool HasPendingWorldRestore() const { return PendingLoad != nullptr; }
+
 protected:
 
 	/** Reserved slot used by AutoSave. Manual saves should use other indices (1..MaxSlots-1). */
@@ -189,6 +192,7 @@ protected:
 private:
  friend struct FVTGTerminalSaveRegression;
  friend struct FVTGLevelProgressRegression;
+ friend struct FVTGL2FightRegression;
 
 	static FString SaveSlotName(int32 Slot);
 	static FString ManifestSlotName(int32 Slot);

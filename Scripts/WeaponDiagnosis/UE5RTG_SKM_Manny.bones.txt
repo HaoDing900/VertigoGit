@@ -1,0 +1,1 @@
+ASSET /Game/AI/AIBehaviorSystem/Demo/Characters/Mannequins/Meshes/UE5RTG_SKM_Manny.UE5RTG_SKM_Manny

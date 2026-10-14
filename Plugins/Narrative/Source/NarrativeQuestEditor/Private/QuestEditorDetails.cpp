@@ -8,6 +8,13 @@
 #include "QuestBlueprint.h"
 #include "DetailCategoryBuilder.h"
 #include "NarrativeDataTask.h"
+#include "NarrativeQuestDetailsExtension.h"
+
+FNarrativeQuestDetailsExtension& GetNarrativeQuestDetailsExtension()
+{
+    static FNarrativeQuestDetailsExtension Extension;
+    return Extension;
+}
 
 #define LOCTEXT_NAMESPACE "QuestEditorDetails"
 
@@ -140,6 +147,7 @@ void FQuestEditorDetails::CustomizeDetails(IDetailLayoutBuilder& DetailLayout)
 		}
 
 	}
+    GetNarrativeQuestDetailsExtension().Broadcast(DetailLayout);
 }
 
 void FQuestEditorDetails::OnArgumentChanged()

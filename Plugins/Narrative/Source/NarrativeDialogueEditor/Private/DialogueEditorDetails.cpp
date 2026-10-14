@@ -10,6 +10,13 @@
 #include "Widgets/Input/SComboBox.h"
 #include "IPropertyUtilities.h"
 #include "PropertyHandle.h"
+#include "NarrativeDialogueDetailsExtension.h"
+
+FNarrativeDialogueDetailsExtension& GetNarrativeDialogueDetailsExtension()
+{
+    static FNarrativeDialogueDetailsExtension Extension;
+    return Extension;
+}
 
 #define LOCTEXT_NAMESPACE "DialogueEditorDetails"
 
@@ -145,6 +152,8 @@ void FDialogueEditorDetails::CustomizeDetails(IDetailLayoutBuilder& DetailLayout
 	IDetailCategoryBuilder& Category = DetailLayout.EditCategory("Details");
 
 	FText GroupLabel(LOCTEXT("DetailsGroup", "Details"));
+
+    GetNarrativeDialogueDetailsExtension().Broadcast(DetailLayout);
 
 	if (EditedObjects.Num() > 0 && EditedObjects.IsValidIndex(0))
 	{

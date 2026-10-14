@@ -1,0 +1,11 @@
+Begin Object Class=/Script/Engine.UserDefinedStruct Name="S_SubAreaData" ExportPath="/Script/Engine.UserDefinedStruct'/Game/Inventory/InventoryXBased/UMG/TabSwitcher/InTabWidget/MapWBP/S_SubAreaData.S_SubAreaData'"
+   Begin Object Class=/Script/UnrealEd.UserDefinedStructEditorData Name="UserDefinedStructEditorData_0" ExportPath="/Script/UnrealEd.UserDefinedStructEditorData'/Game/Inventory/InventoryXBased/UMG/TabSwitcher/InTabWidget/MapWBP/S_SubAreaData.S_SubAreaData:UserDefinedStructEditorData_0'"
+   End Object
+   Begin Object Name="UserDefinedStructEditorData_0" ExportPath="/Script/UnrealEd.UserDefinedStructEditorData'/Game/Inventory/InventoryXBased/UMG/TabSwitcher/InTabWidget/MapWBP/S_SubAreaData.S_SubAreaData:UserDefinedStructEditorData_0'"
+      UniqueNameId=5
+      VariablesDescriptions(0)=(VarName="SubAreaName_2_C8FFAB3949DED83BCC4FE38F1173D959",VarGuid=C8FFAB3949DED83BCC4FE38F1173D959,FriendlyName="SubAreaName",DefaultValue="None",Category="name",CurrentDefaultValue="None")
+      VariablesDescriptions(1)=(VarName="LocationTag_4_C93A419E4B46031B8FE61CA37138235F",VarGuid=C93A419E4B46031B8FE61CA37138235F,FriendlyName="LocationTag",DefaultValue="None",Category="name",CurrentDefaultValue="None")
+   End Object
+   EditorData="/Script/UnrealEd.UserDefinedStructEditorData'UserDefinedStructEditorData_0'"
+   Guid=63E02EEE4924FA2992CF1E9E127437C6
+End Object

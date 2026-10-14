@@ -1,0 +1,25 @@
+Begin Object Class=/Game/AI/AIBehaviorSystem/Blueprint/Component/BP_CollisionComponent.BP_CollisionComponent_C Name="Default__BP_CollisionComponent_C" ExportPath="/Game/AI/AIBehaviorSystem/Blueprint/Component/BP_CollisionComponent.BP_CollisionComponent_C'/Game/AI/AIBehaviorSystem/Blueprint/Component/BP_CollisionComponent.Default__BP_CollisionComponent_C'"
+   VisualizeTrace=None
+   TraceActive=False
+   CollisionActive=False
+   LastSocketLocations=()
+   OnCollisionEnabled=()
+   OnCollisionDisabled=()
+   OnHit=()
+   TraceRadius=0.100000
+   Niagara=True
+   PrimaryComponentTick=(TickGroup=TG_DuringPhysics,EndTickGroup=TG_PrePhysics,bTickEvenWhenPaused=False,bCanEverTick=True,bStartWithTickEnabled=True,bAllowTickOnDedicatedServer=True,TickInterval=0.000000)
+   UCSSerializationIndex=-1
+   bNetAddressable=False
+   bReplicateUsingRegisteredSubObjectList=False
+   bReplicates=True
+   bAutoActivate=False
+   bEditableWhenInherited=True
+   bCanEverAffectNavigation=False
+   bIsEditorOnly=False
+   bIsVisualizationComponent=False
+   bNeedsUCSSerializationIndexEvaluted=False
+   CreationMethod=Native
+   OnComponentActivated=()
+   OnComponentDeactivated=()
+End Object

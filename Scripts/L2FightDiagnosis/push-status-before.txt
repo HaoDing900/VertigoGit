@@ -1,0 +1,428 @@
+ M Binaries/Win64/UnrealEditor-Vertigo.dll
+ M Binaries/Win64/UnrealEditor-VertigoEditor.dll
+ M Config/DefaultGame.ini
+ D Content/2DArt/Env2DAssets/Poster/T_Poster1_copy.uasset
+ M Content/2DArt/Env2DAssets/Poster/T_Poster2_copy.uasset
+ M Content/2DArt/Env2DAssets/Poster/T_Poster3_copy.uasset
+ M Content/2DArt/Env2DAssets/Poster/T_Poster4_copy.uasset
+ M Content/Blueprints/BP_0ISXInteractiveCollision.uasset
+ M Content/Cyberpunk_Gigapack/Textures/Props/T_Poster03_B.uasset
+ M Content/EnvArt/AddedAssets/Construction/DoubleTarp.uasset
+ M Content/Inventory/InventoryXBased/UMG/Inventory/Background/WB_Background.uasset
+ M Content/Inventory/InventoryXBased/UMG/TabSwitcher/InTabWidget/MapWBP/WBP_MapNode.uasset
+ M Content/Inventory/InventoryXBased/UMG/TabSwitcher/InTabWidget/MapWBP/WBP_Map_1.uasset
+ M Content/Inventory/InventoryXBased/UMG/TabSwitcher/WB_TabSwitcher.uasset
+ M Content/Inventory/InventoryXBased/UMG/WB_NoteMainWidget.uasset
+ M Content/LevelNSequence/In_Level/L2BarStreet/BPLM_L2StreetBarFight.uasset
+ M Content/LevelNSequence/In_Level/L4BlackMarket/BPLM_BlackMarket.uasset
+ M Content/LevelNSequence/In_Level/SaApartment/BPLM_AptAlley.uasset
+ M Content/LevelNSequence/In_Level/SaApartment/BPLM_SaApartment.uasset
+ M Content/LevelNSequence/In_Level/TestSeq.uasset
+ M Content/Narrative/Dialogues/Levels/Base.uasset
+ M Content/Narrative/Dialogues/Levels/L3SaApartment_Day1/L3_SaApartmentD1.uasset
+ M Content/Narrative/Dialogues/Levels/L4BlackMarket/L4_BlackMarketInvestigation_Still_InterestingItemsOntheStreet.uasset
+ M Content/Narrative/Dialogues/Levels/L4BlackMarket/L4_BlackMarketInvestigation_Still_MainInvestigation.uasset
+ M Content/ThirdPerson/Maps/BaseLevel.umap
+ M Content/ThirdPerson/Maps/SaApartment/Sa_AptDownAlley.umap
+ M Docs/SaveSystem.md
+ M Plugins/Narrative/Binaries/Win64/UnrealEditor-Narrative.dll
+ M Plugins/Narrative/Binaries/Win64/UnrealEditor-NarrativeDialogueEditor.dll
+ M Plugins/Narrative/Binaries/Win64/UnrealEditor-NarrativeQuestEditor.dll
+ M Plugins/Narrative/Source/Narrative/Private/Dialogue.cpp
+ M Plugins/Narrative/Source/NarrativeDialogueEditor/Private/DialogueEditorDetails.cpp
+ M Plugins/Narrative/Source/NarrativeQuestEditor/Private/QuestEditorDetails.cpp
+ M Source/Vertigo/Private/UI/VTGDialogueHistorySubsystem.cpp
+ M Source/Vertigo/Private/UI/VTGMainMenu.cpp
+ M Source/Vertigo/Private/UI/VTGSequenceSkipSubsystem.cpp
+ M Source/Vertigo/Private/UI/VTGTerminalSaveLibrary.cpp
+ M Source/Vertigo/Private/UI/VTGTerminalSavePage.cpp
+ M Source/Vertigo/Public/Save/VTGSaveCoordinator.h
+ M Source/Vertigo/Public/UI/VTGMainMenu.h
+ M Source/VertigoEditor/Private/VTGAlleyRepairCommandlet.cpp
+ M Source/VertigoEditor/Private/VTGDialogueHistoryTest.cpp
+ M Source/VertigoEditor/VertigoEditor.Build.cs
+ M Source/VertigoEditor/VertigoEditor.cpp
+?? Content/2DArt/Env2DAssets/Poster/JoanGoodgirl.uasset
+?? Content/2DArt/Env2DAssets/Poster/M_T_JoanGoodGirl.uasset
+?? Content/Cyberpunk_Gigapack/Materials/Material_Instance/MI_VendingMachinePoster02_Inst.uasset
+?? Content/Cyberpunk_Gigapack/Textures/Props/VendingMachinePoster_copy.uasset
+?? Content/Localization/Vertigo/Vertigo.locmeta
+?? Content/Localization/Vertigo/en-US/Vertigo.locres
+?? Content/Localization/Vertigo/en/Vertigo.locres
+?? Content/Localization/Vertigo/zh-Hans/Vertigo.locres
+?? Content/Narrative/Dialogues/Levels/L3Sewer/L3Sewer_Freemove.uasset
+?? Content/Narrative/Dialogues/Levels/L3Sewer/L3Sewer_Still.uasset
+?? Docs/ManualLocalization.md
+?? Docs/MapLocations.md
+?? Localization/ManualTranslations.json
+?? Plugins/Narrative/Source/NarrativeDialogueEditor/Public/NarrativeDialogueDetailsExtension.h
+?? Plugins/Narrative/Source/NarrativeQuestEditor/Public/NarrativeQuestDetailsExtension.h
+?? Scripts/BossNameDiagnosis/BP_Boss_SeaMonster.copy
+?? Scripts/BossNameDiagnosis/WBP_BossHealthBar.copy
+?? Scripts/BossNameDiagnosis/console.log
+?? Scripts/BossNameDiagnosis/inspect.log
+?? Scripts/FadeCustomization/BPLM.copy
+?? Scripts/FadeCustomization/BPLM_Clinic.copy
+?? Scripts/FadeCustomization/BPLM_L2StreetBarFight.copy
+?? Scripts/FadeCustomization/BPLM_L2TunnelCine.copy
+?? Scripts/FadeCustomization/BP_Player_Sa.before_fade_lifetime.uasset
+?? Scripts/FadeCustomization/BP_Player_Sa.copy
+?? Scripts/FadeCustomization/L2_Bar_NPC.copy
+?? Scripts/FadeCustomization/WBP_Fade.before_customization.uasset
+?? Scripts/FadeCustomization/apply-console.log
+?? Scripts/FadeCustomization/apply.log
+?? Scripts/FadeCustomization/before.json
+?? Scripts/FadeCustomization/build-backup-2026.10.11-04.42.36.log
+?? Scripts/FadeCustomization/build-backup-2026.10.11-04.42.54.log
+?? Scripts/FadeCustomization/build-backup-2026.10.11-04.44.10.log
+?? Scripts/FadeCustomization/build-backup-2026.10.11-04.44.40.log
+?? Scripts/FadeCustomization/build-backup-2026.10.11-04.45.02.log
+?? Scripts/FadeCustomization/build-backup-2026.10.11-04.45.43.log
+?? Scripts/FadeCustomization/build-console.log
+?? Scripts/FadeCustomization/build.json
+?? Scripts/FadeCustomization/build.log
+?? Scripts/FadeCustomization/caller-console.log
+?? Scripts/FadeCustomization/caller.log
+?? Scripts/FadeCustomization/inspect-console.log
+?? Scripts/FadeCustomization/inspect.log
+?? Scripts/FadeCustomization/test-backup-2026.10.11-04.44.23.log
+?? Scripts/FadeCustomization/test-backup-2026.10.11-04.44.50.log
+?? Scripts/FadeCustomization/test-backup-2026.10.11-04.45.16.log
+?? Scripts/FadeCustomization/test-console.log
+?? Scripts/FadeCustomization/test.log
+?? Scripts/FadeCustomization/verify-console.log
+?? Scripts/FadeCustomization/verify.log
+?? Scripts/GlobalSubtitleStyle/build-backup-2026.10.11-18.13.31.log
+?? Scripts/GlobalSubtitleStyle/build-backup-2026.10.11-18.14.22.log
+?? Scripts/GlobalSubtitleStyle/build-backup-2026.10.11-18.15.10.log
+?? Scripts/GlobalSubtitleStyle/build-console.log
+?? Scripts/GlobalSubtitleStyle/build.json
+?? Scripts/GlobalSubtitleStyle/build.log
+?? Scripts/GlobalSubtitleStyle/tests-console.log
+?? Scripts/GlobalSubtitleStyle/tests.log
+?? Scripts/GoonDamageDiagnosis/A_UnarmedFightingAnimationsV1_10_IP_Montage.t3d
+?? Scripts/GoonDamageDiagnosis/A_UnarmedFightingAnimationsV1_2_IP1_Montage.t3d
+?? Scripts/GoonDamageDiagnosis/BP_AIBehaviorsComponent.copy
+?? Scripts/GoonDamageDiagnosis/BP_AIBehaviorsComponent.copy.summary.txt
+?? Scripts/GoonDamageDiagnosis/BP_AIBehaviorsComponent.defaults.t3d
+?? Scripts/GoonDamageDiagnosis/BP_AI_Base.copy
+?? Scripts/GoonDamageDiagnosis/BP_AI_Base.copy.summary.txt
+?? Scripts/GoonDamageDiagnosis/BP_AI_Base.defaults.t3d
+?? Scripts/GoonDamageDiagnosis/BP_AI_Base.txt
+?? Scripts/GoonDamageDiagnosis/BP_CollisionComponent.copy
+?? Scripts/GoonDamageDiagnosis/BP_CollisionComponent.copy.summary.txt
+?? Scripts/GoonDamageDiagnosis/BP_CollisionComponent.defaults.t3d
+?? Scripts/GoonDamageDiagnosis/BP_Enm_BarFighter.AIBehaviorsComponent_GEN_VARIABLE.t3d
+?? Scripts/GoonDamageDiagnosis/BP_Enm_BarFighter.MeleeCollisionComponent_GEN_VARIABLE.t3d
+?? Scripts/GoonDamageDiagnosis/BP_Enm_BarFighter.copy
+?? Scripts/GoonDamageDiagnosis/BP_Enm_BarFighter.copy.summary.txt
+?? Scripts/GoonDamageDiagnosis/BP_Enm_BarFighter.sockets.txt
+?? Scripts/GoonDamageDiagnosis/BP_Enm_SteetGoon3_Brosky.copy
+?? Scripts/GoonDamageDiagnosis/BP_Enm_SteetGoon3_Brosky.copy.summary.txt
+?? Scripts/GoonDamageDiagnosis/BP_Enm_SteetGoon3_Brosky.defaults.t3d
+?? Scripts/GoonDamageDiagnosis/BP_Enm_SteetGoon3_Brosky.txt
+?? Scripts/GoonDamageDiagnosis/BP_Enm_StreetGoon1Misto.AIBehaviorsComponent_GEN_VARIABLE.t3d
+?? Scripts/GoonDamageDiagnosis/BP_Enm_StreetGoon1Misto.MeleeCollisionComponent_GEN_VARIABLE.t3d
+?? Scripts/GoonDamageDiagnosis/BP_Enm_StreetGoon1Misto.copy
+?? Scripts/GoonDamageDiagnosis/BP_Enm_StreetGoon1Misto.copy.summary.txt
+?? Scripts/GoonDamageDiagnosis/BP_Enm_StreetGoon1Misto.defaults.t3d
+?? Scripts/GoonDamageDiagnosis/BP_Enm_StreetGoon1Misto.sockets.txt
+?? Scripts/GoonDamageDiagnosis/BP_Enm_StreetGoon1Misto.txt
+?? Scripts/GoonDamageDiagnosis/BP_Enm_StreetGoon2Nara.AIBehaviorsComponent_GEN_VARIABLE.t3d
+?? Scripts/GoonDamageDiagnosis/BP_Enm_StreetGoon2Nara.MeleeCollisionComponent_GEN_VARIABLE.t3d
+?? Scripts/GoonDamageDiagnosis/BP_Enm_StreetGoon2Nara.copy
+?? Scripts/GoonDamageDiagnosis/BP_Enm_StreetGoon2Nara.copy.summary.txt
+?? Scripts/GoonDamageDiagnosis/BP_Enm_StreetGoon2Nara.defaults.t3d
+?? Scripts/GoonDamageDiagnosis/BP_Enm_StreetGoon2Nara.sockets.txt
+?? Scripts/GoonDamageDiagnosis/BP_Enm_StreetGoon2Nara.txt
+?? Scripts/GoonDamageDiagnosis/BP_Player_May.copy
+?? Scripts/GoonDamageDiagnosis/BP_Player_May.sockets.txt
+?? Scripts/GoonDamageDiagnosis/Backup/BP_Enm_StreetGoon1Misto.before_damage_fix.uasset
+?? Scripts/GoonDamageDiagnosis/Backup/BP_Enm_StreetGoon2Nara.before_damage_fix.uasset
+?? Scripts/GoonDamageDiagnosis/Backup/StreetGoon1Misto_NPC_DefaultRig.before_damage_fix.uasset
+?? Scripts/GoonDamageDiagnosis/Backup/StreetGoon2Nara_NPC_DefaultRig.before_damage_fix.uasset
+?? Scripts/GoonDamageDiagnosis/apply-backup-2026.10.11-04.17.08.log
+?? Scripts/GoonDamageDiagnosis/apply-backup-2026.10.11-04.17.55.log
+?? Scripts/GoonDamageDiagnosis/apply-backup-2026.10.11-04.18.34.log
+?? Scripts/GoonDamageDiagnosis/apply-console.log
+?? Scripts/GoonDamageDiagnosis/apply.log
+?? Scripts/GoonDamageDiagnosis/build-backup-2026.10.11-04.16.21.log
+?? Scripts/GoonDamageDiagnosis/build-backup-2026.10.11-04.16.39.log
+?? Scripts/GoonDamageDiagnosis/build-backup-2026.10.11-04.17.32.log
+?? Scripts/GoonDamageDiagnosis/build-backup-2026.10.11-04.18.11.log
+?? Scripts/GoonDamageDiagnosis/build-console.log
+?? Scripts/GoonDamageDiagnosis/build.json
+?? Scripts/GoonDamageDiagnosis/build.log
+?? Scripts/GoonDamageDiagnosis/console.log
+?? Scripts/GoonDamageDiagnosis/details-console.log
+?? Scripts/GoonDamageDiagnosis/details.log
+?? Scripts/GoonDamageDiagnosis/fade_inspect-console.log
+?? Scripts/GoonDamageDiagnosis/fade_inspect.log
+?? Scripts/GoonDamageDiagnosis/inspect.log
+?? Scripts/GoonDamageDiagnosis/reference-console.log
+?? Scripts/GoonDamageDiagnosis/reference.log
+?? Scripts/GoonDamageDiagnosis/runtime_config-console.log
+?? Scripts/GoonDamageDiagnosis/runtime_config.json
+?? Scripts/GoonDamageDiagnosis/runtime_config.log
+?? Scripts/GoonDamageDiagnosis/verify-console.log
+?? Scripts/GoonDamageDiagnosis/verify.log
+?? Scripts/L2FightDiagnosis/BPLM_L2StreetBarFight.before_fix.uasset
+?? Scripts/L2FightDiagnosis/BPLM_L2StreetBarFight.copy
+?? Scripts/L2FightDiagnosis/FLS_L2BarStreet_AfterFight_Animation.t3d
+?? Scripts/L2FightDiagnosis/LS_L2BarStreet_PreDrunkFight.t3d
+?? Scripts/L2FightDiagnosis/RESULT.md
+?? Scripts/L2FightDiagnosis/apply-console.log
+?? Scripts/L2FightDiagnosis/apply.log
+?? Scripts/L2FightDiagnosis/build-backup-2026.10.14-22.46.30.log
+?? Scripts/L2FightDiagnosis/build-backup-2026.10.14-22.47.06.log
+?? Scripts/L2FightDiagnosis/build-console.log
+?? Scripts/L2FightDiagnosis/build.json
+?? Scripts/L2FightDiagnosis/build.log
+?? Scripts/L2FightDiagnosis/director-normalized.txt
+?? Scripts/L2FightDiagnosis/export.log
+?? Scripts/L2FightDiagnosis/export.py
+?? Scripts/L2FightDiagnosis/old-summary.txt
+?? Scripts/L2FightDiagnosis/push-status-before.txt
+?? Scripts/L2FightDiagnosis/sequences-console.log
+?? Scripts/L2FightDiagnosis/sequences.json
+?? Scripts/L2FightDiagnosis/sequences.log
+?? Scripts/L2FightDiagnosis/sequences.py
+?? Scripts/L2FightDiagnosis/summarize.ps1
+?? Scripts/L2FightDiagnosis/summary.txt
+?? Scripts/L2FightDiagnosis/verify-console.log
+?? Scripts/L2FightDiagnosis/verify.log
+?? Scripts/MainMenuButtonArt/WBP_MainMenu.after.copy
+?? Scripts/MainMenuButtonArt/WBP_MainMenu.before_button_art.uasset
+?? Scripts/MainMenuButtonArt/WBP_MainMenu.copy
+?? Scripts/MainMenuButtonArt/apply-console.log
+?? Scripts/MainMenuButtonArt/apply.log
+?? Scripts/MainMenuButtonArt/console.log
+?? Scripts/MainMenuButtonArt/inspect.log
+?? Scripts/MainMenuButtonArt/result.json
+?? Scripts/MainMenuButtonArt/verify-console.log
+?? Scripts/MainMenuButtonArt/verify.log
+?? Scripts/MapLabels/S_MapNodeData.copy
+?? Scripts/MapLabels/S_SubAreaData.copy
+?? Scripts/MapLabels/WBP_MapNode.copy
+?? Scripts/MapLabels/WBP_Map_1.copy
+?? Scripts/MapLabels/WBP_SubArea.copy
+?? Scripts/MapLabels/WB_TabWidget_Map.copy
+?? Scripts/MapLabels/apply-backup-2026.10.12-04.08.10.log
+?? Scripts/MapLabels/apply-backup-2026.10.12-04.08.51.log
+?? Scripts/MapLabels/apply-console.log
+?? Scripts/MapLabels/apply.log
+?? Scripts/MapLabels/build-backup-2026.10.12-04.06.39.log
+?? Scripts/MapLabels/build-backup-2026.10.12-04.07.04.log
+?? Scripts/MapLabels/build-backup-2026.10.12-04.07.22.log
+?? Scripts/MapLabels/build-backup-2026.10.12-04.10.59.log
+?? Scripts/MapLabels/build-backup-2026.10.12-04.11.35.log
+?? Scripts/MapLabels/build-backup-2026.10.12-04.13.26.log
+?? Scripts/MapLabels/build.json
+?? Scripts/MapLabels/build.log
+?? Scripts/MapLabels/inspect-console.log
+?? Scripts/MapLabels/inspect.log
+?? Scripts/MapLabels/inspect.py
+?? Scripts/MapLabels/label-inspect-console.log
+?? Scripts/MapLabels/label-inspect.log
+?? Scripts/MapLabels/localization-verify-console.log
+?? Scripts/MapLabels/localization-verify.log
+?? Scripts/MapLabels/map-preview.png
+?? Scripts/MapLabels/root-inspect-console.log
+?? Scripts/MapLabels/root-inspect.log
+?? Scripts/MapLabels/tooltip-preview.png
+?? Scripts/MapLabels/tree-inspect-console.log
+?? Scripts/MapLabels/tree-inspect.log
+?? Scripts/MapLabels/verify-console.log
+?? Scripts/MapLabels/verify.log
+?? Scripts/SaLookDiagnosis/ABP_Sa.copy
+?? Scripts/SaLookDiagnosis/ABP_Sa.copy.summary.txt
+?? Scripts/SaLookDiagnosis/BP_Player_Sa.copy
+?? Scripts/SaLookDiagnosis/BP_Player_Sa.copy.summary.txt
+?? Scripts/SaLookDiagnosis/console.log
+?? Scripts/SaLookDiagnosis/inspect.log
+?? Scripts/SequenceInspector/build-backup-2026.10.11-06.05.48.log
+?? Scripts/SequenceInspector/build-backup-2026.10.11-06.06.28.log
+?? Scripts/SequenceInspector/build-backup-2026.10.11-06.07.22.log
+?? Scripts/SequenceInspector/build-console.log
+?? Scripts/SequenceInspector/build.json
+?? Scripts/SequenceInspector/build.log
+?? Scripts/SequenceInspector/inspect_tests-backup-2026.10.11-06.08.02.log
+?? Scripts/SequenceInspector/inspect_tests-console.log
+?? Scripts/SequenceInspector/inspect_tests.log
+?? Scripts/SequenceInspector/skip_tests-console.log
+?? Scripts/SequenceInspector/skip_tests.log
+?? Scripts/SequenceSkipAudit/BP_Player_Sa.copy
+?? Scripts/SequenceSkipAudit/BP_Player_Sa.copy.summary.txt
+?? Scripts/SequenceSkipAudit/Report/index.html
+?? Scripts/SequenceSkipAudit/Report/index.json
+?? Scripts/SequenceSkipAudit/console.log
+?? Scripts/SequenceSkipAudit/inspect-console.log
+?? Scripts/SequenceSkipAudit/inspect.log
+?? Scripts/SequenceSkipAudit/regression.log
+?? Scripts/SubtitlePreview/TestSeq.before_localization_keys.uasset
+?? Scripts/SubtitlePreview/build-backup-2026.10.11-17.51.20.log
+?? Scripts/SubtitlePreview/build-backup-2026.10.11-17.52.11.log
+?? Scripts/SubtitlePreview/build-backup-2026.10.11-17.53.10.log
+?? Scripts/SubtitlePreview/build-backup-2026.10.11-17.54.24.log
+?? Scripts/SubtitlePreview/build-backup-2026.10.11-17.55.00.log
+?? Scripts/SubtitlePreview/build-console.log
+?? Scripts/SubtitlePreview/build.json
+?? Scripts/SubtitlePreview/build.log
+?? Scripts/SubtitlePreview/localize_sample-console.log
+?? Scripts/SubtitlePreview/localize_sample.log
+?? Scripts/SubtitlePreview/tests-console.log
+?? Scripts/SubtitlePreview/tests.log
+?? Scripts/Subtitles/TestSeq.before_subtitles.uasset
+?? Scripts/Subtitles/apply-console.log
+?? Scripts/Subtitles/apply.log
+?? Scripts/Subtitles/build-backup-2026.10.11-17.34.24.log
+?? Scripts/Subtitles/build-backup-2026.10.11-17.35.14.log
+?? Scripts/Subtitles/build-backup-2026.10.11-17.36.36.log
+?? Scripts/Subtitles/build-console.log
+?? Scripts/Subtitles/build.json
+?? Scripts/Subtitles/build.log
+?? Scripts/Subtitles/combined_tests-console.log
+?? Scripts/Subtitles/combined_tests.log
+?? Scripts/Subtitles/console.log
+?? Scripts/Subtitles/inspect.log
+?? Scripts/Subtitles/tests-console.log
+?? Scripts/Subtitles/tests.log
+?? Scripts/Subtitles/verify-console.log
+?? Scripts/Subtitles/verify.log
+?? Scripts/TabSwitcherDiagnosis/AC_Inventory_HUD_Component.copy
+?? Scripts/TabSwitcherDiagnosis/BP_Player_Sa.copy
+?? Scripts/TabSwitcherDiagnosis/BP_PortableTerminal.copy
+?? Scripts/TabSwitcherDiagnosis/BP_TabSwitcherInputs.copy
+?? Scripts/TabSwitcherDiagnosis/FOCUS_FIX.md
+?? Scripts/TabSwitcherDiagnosis/PC_Game_VTG.copy
+?? Scripts/TabSwitcherDiagnosis/RESULT.md
+?? Scripts/TabSwitcherDiagnosis/VTGTabSwitcherProbe.cpp.txt
+?? Scripts/TabSwitcherDiagnosis/WB_Inventory.copy
+?? Scripts/TabSwitcherDiagnosis/WB_NoteMainWidget.copy
+?? Scripts/TabSwitcherDiagnosis/WB_TabSwitcher.copy
+?? Scripts/TabSwitcherDiagnosis/WB_TabSwitcherMenu.copy
+?? Scripts/TabSwitcherDiagnosis/WB_TabWidget.copy
+?? Scripts/TabSwitcherDiagnosis/WB_TabWidget_Mail.copy
+?? Scripts/TabSwitcherDiagnosis/WB_TabWidget_Map.copy
+?? Scripts/TabSwitcherDiagnosis/WB_TabWidget_Quest.copy
+?? Scripts/TabSwitcherDiagnosis/build-backup-2026.10.11-22.45.55.log
+?? Scripts/TabSwitcherDiagnosis/build-backup-2026.10.11-22.48.10.log
+?? Scripts/TabSwitcherDiagnosis/build.json
+?? Scripts/TabSwitcherDiagnosis/build.log
+?? Scripts/TabSwitcherDiagnosis/children-console.log
+?? Scripts/TabSwitcherDiagnosis/children.log
+?? Scripts/TabSwitcherDiagnosis/children.py
+?? Scripts/TabSwitcherDiagnosis/cleanup-build.json
+?? Scripts/TabSwitcherDiagnosis/cleanup-build.log
+?? Scripts/TabSwitcherDiagnosis/continuous-baseline.json
+?? Scripts/TabSwitcherDiagnosis/continuous-baseline.log
+?? Scripts/TabSwitcherDiagnosis/continuous-fixed.json
+?? Scripts/TabSwitcherDiagnosis/continuous-fixed.log
+?? Scripts/TabSwitcherDiagnosis/continuous-fixed.py
+?? Scripts/TabSwitcherDiagnosis/continuous.pid
+?? Scripts/TabSwitcherDiagnosis/continuous.py
+?? Scripts/TabSwitcherDiagnosis/current-inspect-console.log
+?? Scripts/TabSwitcherDiagnosis/current-inspect.log
+?? Scripts/TabSwitcherDiagnosis/defaults.json
+?? Scripts/TabSwitcherDiagnosis/direct-runtime.json
+?? Scripts/TabSwitcherDiagnosis/focus-apply-console.log
+?? Scripts/TabSwitcherDiagnosis/focus-apply.log
+?? Scripts/TabSwitcherDiagnosis/focus-build-backup-2026.10.12-03.35.28.log
+?? Scripts/TabSwitcherDiagnosis/focus-build.json
+?? Scripts/TabSwitcherDiagnosis/focus-build.log
+?? Scripts/TabSwitcherDiagnosis/focus-final-build.json
+?? Scripts/TabSwitcherDiagnosis/focus-final-build.log
+?? Scripts/TabSwitcherDiagnosis/gameplay-baseline.json
+?? Scripts/TabSwitcherDiagnosis/gameplay-baseline.log
+?? Scripts/TabSwitcherDiagnosis/gameplay-focus.py
+?? Scripts/TabSwitcherDiagnosis/gameplay-runtime-backup-2026.10.11-22.49.25.log
+?? Scripts/TabSwitcherDiagnosis/gameplay-runtime.json
+?? Scripts/TabSwitcherDiagnosis/gameplay-runtime.log
+?? Scripts/TabSwitcherDiagnosis/gameplay.pid
+?? Scripts/TabSwitcherDiagnosis/gameplay.py
+?? Scripts/TabSwitcherDiagnosis/inspect.log
+?? Scripts/TabSwitcherDiagnosis/inspect.py
+?? Scripts/TabSwitcherDiagnosis/probe-build.json
+?? Scripts/TabSwitcherDiagnosis/probe-build.log
+?? Scripts/TabSwitcherDiagnosis/remaining-backup-2026.10.11-21.54.38.log
+?? Scripts/TabSwitcherDiagnosis/remaining-backup-2026.10.11-21.55.01.log
+?? Scripts/TabSwitcherDiagnosis/remaining-console.log
+?? Scripts/TabSwitcherDiagnosis/remaining.log
+?? Scripts/TabSwitcherDiagnosis/remaining.py
+?? Scripts/TabSwitcherDiagnosis/runtime-backup-2026.10.11-22.39.57.log
+?? Scripts/TabSwitcherDiagnosis/runtime-backup-2026.10.11-22.40.36.log
+?? Scripts/TabSwitcherDiagnosis/runtime-backup-2026.10.11-22.41.08.log
+?? Scripts/TabSwitcherDiagnosis/runtime-backup-2026.10.11-22.41.40.log
+?? Scripts/TabSwitcherDiagnosis/runtime-backup-2026.10.11-22.43.32.log
+?? Scripts/TabSwitcherDiagnosis/runtime-backup-2026.10.11-22.44.25.log
+?? Scripts/TabSwitcherDiagnosis/runtime-backup-2026.10.11-22.45.37.log
+?? Scripts/TabSwitcherDiagnosis/runtime.json
+?? Scripts/TabSwitcherDiagnosis/runtime.log
+?? Scripts/TabSwitcherDiagnosis/runtime.pid
+?? Scripts/TabSwitcherDiagnosis/runtime.py
+?? Scripts/TabSwitcherDiagnosis/slate-runtime.json
+?? Scripts/TabSwitcherDiagnosis/slate-runtime.log
+?? Scripts/WeaponDiagnosis/BP_AI_SoldierMelee.copy
+?? Scripts/WeaponDiagnosis/BP_AI_SoldierMelee.defaults.t3d
+?? Scripts/WeaponDiagnosis/BP_AI_SoldierMelee.sockets.txt
+?? Scripts/WeaponDiagnosis/BP_AI_SoldierMelee.txt
+?? Scripts/WeaponDiagnosis/BP_Enm_SteetGoon3_Brosky.copy
+?? Scripts/WeaponDiagnosis/BP_Enm_SteetGoon3_Brosky.defaults.t3d
+?? Scripts/WeaponDiagnosis/BP_Enm_SteetGoon3_Brosky.sockets.txt
+?? Scripts/WeaponDiagnosis/BP_Enm_SteetGoon3_Brosky.txt
+?? Scripts/WeaponDiagnosis/Backup/StreetGoon3Brosky_NPC_DefaultRig.before_socket.uasset
+?? Scripts/WeaponDiagnosis/StreetGoon3Brosky_NPC_DefaultRig.bones.txt
+?? Scripts/WeaponDiagnosis/StreetGoon3Brosky_NPC_DefaultRig.t3d
+?? Scripts/WeaponDiagnosis/UE5RTG_EnmAI_Mannequin.bones.txt
+?? Scripts/WeaponDiagnosis/UE5RTG_EnmAI_Mannequin.t3d
+?? Scripts/WeaponDiagnosis/UE5RTG_SKM_Manny.bones.txt
+?? Scripts/WeaponDiagnosis/UE5RTG_SKM_Manny.t3d
+?? Scripts/WeaponDiagnosis/add_socket-console.log
+?? Scripts/WeaponDiagnosis/add_socket.log
+?? Scripts/WeaponDiagnosis/build_socket-backup-2026.10.11-03.55.28.log
+?? Scripts/WeaponDiagnosis/build_socket-backup-2026.10.11-03.55.42.log
+?? Scripts/WeaponDiagnosis/build_socket-backup-2026.10.11-03.56.28.log
+?? Scripts/WeaponDiagnosis/build_socket-console.log
+?? Scripts/WeaponDiagnosis/build_socket.json
+?? Scripts/WeaponDiagnosis/build_socket.log
+?? Scripts/WeaponDiagnosis/console.log
+?? Scripts/WeaponDiagnosis/details-backup-2026.10.11-03.50.41.log
+?? Scripts/WeaponDiagnosis/details-console.log
+?? Scripts/WeaponDiagnosis/details.log
+?? Scripts/WeaponDiagnosis/inspect-backup-2026.10.11-03.49.28.log
+?? Scripts/WeaponDiagnosis/inspect.log
+?? Scripts/WeaponDiagnosis/skeleton-backup-2026.10.11-03.51.05.log
+?? Scripts/WeaponDiagnosis/skeleton-console.log
+?? Scripts/WeaponDiagnosis/skeleton.log
+?? Scripts/WeaponDiagnosis/socket_apply-backup-2026.10.11-03.56.09.log
+?? Scripts/WeaponDiagnosis/socket_apply-console.log
+?? Scripts/WeaponDiagnosis/socket_apply.log
+?? Scripts/WeaponDiagnosis/socket_verify-console.log
+?? Scripts/WeaponDiagnosis/socket_verify.log
+?? Source/Vertigo/Private/Save/VTGL2FightStateComponent.cpp
+?? Source/Vertigo/Private/UI/VTGLocalizationSubsystem.cpp
+?? Source/Vertigo/Private/UI/VTGMapLocationNode.cpp
+?? Source/Vertigo/Public/Save/VTGL2FightStateComponent.h
+?? Source/Vertigo/Public/UI/VTGLocalizationSettings.h
+?? Source/Vertigo/Public/UI/VTGLocalizationSubsystem.h
+?? Source/Vertigo/Public/UI/VTGMapLocationNode.h
+?? Source/VertigoEditor/Private/VTGDialogueLocalizationDetails.cpp
+?? Source/VertigoEditor/Private/VTGDialogueLocalizationDetails.h
+?? Source/VertigoEditor/Private/VTGDialogueLocalizationTests.cpp
+?? Source/VertigoEditor/Private/VTGL2FightRepairCommandlet.cpp
+?? Source/VertigoEditor/Private/VTGL2FightRepairCommandlet.h
+?? Source/VertigoEditor/Private/VTGLocalizationCommandlet.cpp
+?? Source/VertigoEditor/Private/VTGLocalizationCommandlet.h
+?? Source/VertigoEditor/Private/VTGLocalizationTests.cpp
+?? Source/VertigoEditor/Private/VTGManualLocalization.cpp
+?? Source/VertigoEditor/Private/VTGManualLocalization.h
+?? Source/VertigoEditor/Private/VTGMapLabelsRepair.inl
+?? Source/VertigoEditor/Private/VTGMapLocalizationDetails.cpp
+?? Source/VertigoEditor/Private/VTGMapLocalizationDetails.h
+?? Source/VertigoEditor/Private/VTGQuestLocalizationDetails.cpp
+?? Source/VertigoEditor/Private/VTGQuestLocalizationDetails.h
+?? Source/VertigoEditor/Private/VTGQuestLocalizationTests.cpp
+?? Source/VertigoEditor/Private/VTGSubtitleLocalizationDetails.cpp
+?? Source/VertigoEditor/Private/VTGSubtitleLocalizationDetails.h
+?? Source/VertigoEditor/Private/VTGSubtitleLocalizationTests.cpp
+?? Source/VertigoEditor/Private/VTGTabFocusRepair.inl

@@ -1,0 +1,701 @@
+K2Node_CallFunction_2
+FunctionReference=(MemberName="Server_SwitchWeapon",MemberGuid=959F252347F43862678CDAA9E2DBDC7A,bSelfContext=True)
+ execute => K2Node_ComponentBoundEvent_1 48A18DB74FE1AD1955E7CE9FA59DCE4A, default 
+ Equip => K2Node_ComponentBoundEvent_1 62FBECEB403CC8E280D8508C73140D3D, default "false"
+EdGraphNode_Comment_0
+NodeComment="On Combat change"
+K2Node_IfThenElse_0
+ execute => K2Node_CustomEvent_1 1D3F96FA436816C0A13EB2A9CDC048F2, default 
+ Condition => K2Node_CustomEvent_1 66D369014523D72379A0D3BA08D6BB75, default "true"
+ then => K2Node_CallFunction_0 7B44BB004315A71BAABA61A5722E2C91, default 
+ else => K2Node_CallFunction_10 7B44BB004315A71BAABA61A5722E2C91, default 
+K2Node_CallFunction_0
+FunctionReference=(MemberParent="/Script/CoreUObject.Class'/Script/Engine.SceneComponent'",MemberName="K2_AttachToComponent")
+ execute => K2Node_IfThenElse_0 C843F62041D1CA40F8FEF3966A8984E1, default 
+ self => K2Node_VariableGet_20 EA69E7D344FA5C828C2461A4202CF11B, default 
+ Parent => K2Node_VariableGet_1 41E7DE794AF2E86E6A8AFDAC63DC4D94, default 
+ SocketName => K2Node_VariableGet_13 28566303466D2E9578618A9945F84AE2, default "None"
+ LocationRule =>  default "SnapToTarget"
+ RotationRule =>  default "SnapToTarget"
+ ScaleRule =>  default "SnapToTarget"
+ bWeldSimulatedBodies =>  default "TRUE"
+ ReturnValue =>  default "false"
+K2Node_CallFunction_10
+FunctionReference=(MemberParent="/Script/CoreUObject.Class'/Script/Engine.SceneComponent'",MemberName="K2_AttachToComponent")
+ execute => K2Node_IfThenElse_0 AD4D08CA4124F2C4F23B6FA03787D3D1, default 
+ self => K2Node_VariableGet_20 EA69E7D344FA5C828C2461A4202CF11B, default 
+ Parent => K2Node_VariableGet_1 41E7DE794AF2E86E6A8AFDAC63DC4D94, default 
+ SocketName => K2Node_VariableGet_0 9C6027A341839A8D0D997FBB252FF299, default "None"
+ LocationRule =>  default "SnapToTarget"
+ RotationRule =>  default "SnapToTarget"
+ ScaleRule =>  default "SnapToTarget"
+ bWeldSimulatedBodies =>  default "TRUE"
+ ReturnValue =>  default "false"
+K2Node_VariableGet_1
+VariableReference=(MemberName="Mesh",bSelfContext=True)
+ Mesh => K2Node_CallFunction_0 3346A726405C68D8AA3E719E71CB1813,K2Node_CallFunction_10 3346A726405C68D8AA3E719E71CB1813, default 
+K2Node_CustomEvent_2
+CustomFunctionName="Server_SwitchWeapon"
+ then => K2Node_CallFunction_1 A431EC624AEE13128448328B7E3DDD7C, default 
+ Equip => K2Node_CallFunction_1 1C2D53BA42879B58D4B095AF38EDE038, default 
+K2Node_CustomEvent_1
+CustomFunctionName="Multicast_SwitchWeapon"
+ then => K2Node_IfThenElse_0 1A99DE1846038E6E26A9DFB04E7DFA99, default 
+ Equip => K2Node_IfThenElse_0 39635CA249746E73F40D2FB201C508C7, default 
+K2Node_CallFunction_1
+FunctionReference=(MemberName="Multicast_SwitchWeapon",MemberGuid=C6813E4F4B5230207E21B7BA45B355F5,bSelfContext=True)
+ execute => K2Node_CustomEvent_2 3729DB2A455AFE8EF85D5EA98EE55B56, default 
+ Equip => K2Node_CustomEvent_2 77613D4142AA86C433BB49BE4E749B3F, default "false"
+K2Node_VariableGet_20
+VariableReference=(MemberName="Weapon",bSelfContext=True)
+ Weapon => K2Node_CallFunction_0 9128CE27441CBB0C798016ADA969C7EE,K2Node_CallFunction_10 9128CE27441CBB0C798016ADA969C7EE, default 
+EdGraphNode_Comment_3
+NodeComment="Switch Weapon Socket"
+K2Node_SwitchEnum_0
+ execute => K2Node_ComponentBoundEvent_5 3AE2A9894E1597AF69FEA7BF865AC100, default 
+ Selection => K2Node_ComponentBoundEvent_5 E433E38B40A10CFBDCB30CB6BE80ADE9, default "NewEnumerator8"
+ NotEqual_ByteByte =>  default "/Script/Engine.Default__KismetMathLibrary"
+ NewEnumerator0 => K2Node_CallFunction_11 5FE2FBB64C48B137FEB9AD97AB18E3C5, default 
+K2Node_VariableGet_2
+VariableReference=(MemberName="Weapon",bSelfContext=True)
+ Weapon => K2Node_CallFunction_9 CD7B231C46568A224FB087B5239CEBC8,K2Node_MakeStruct_0 CFDEA2C74333CA898101BF92E9FC8FAB, default 
+K2Node_VariableGet_3
+VariableReference=(MemberName="MeleeCollisionComponent",bSelfContext=True)
+ MeleeCollisionComponent => K2Node_CallFunction_11 F8F33EFD4B1CC92A623AC88508F3EDF2, default 
+K2Node_CallFunction_9
+FunctionReference=(MemberParent="/Script/CoreUObject.Class'/Script/Engine.SceneComponent'",MemberName="GetAllSocketNames")
+ self => K2Node_VariableGet_2 E378D50848005C474400FB9CDFC53991, default 
+ ReturnValue => K2Node_MakeStruct_0 F356E55B45C69515AC4D81B13640337E, default 
+K2Node_CallFunction_11
+FunctionReference=(MemberParent="/Script/Engine.BlueprintGeneratedClass'/Game/AI/AIBehaviorSystem/Blueprint/Component/BP_CollisionComponent.BP_CollisionComponent_C'",MemberName="SetCollisions",MemberGuid=368F97F64A78B87D9A3E8AB9E4006FE4)
+ execute => K2Node_SwitchEnum_0 24185C5B426A5426B995E3AA278C2F87, default 
+ self => K2Node_VariableGet_3 46F9AF054360C77F736C79B1CA1B6C3B, default 
+ CollComps => K2Node_MakeArray_0 6BDCCD654DB1B1522FC7518507FD935F, default 
+K2Node_MakeArray_0
+ Array => K2Node_CallFunction_11 F8A1956B43389929EFA9F9A118B2021B, default 
+ [0] => K2Node_MakeStruct_0 61871C3E4646A92CA6889EA858D73865, default 
+K2Node_MakeStruct_0
+StructType="/Script/Engine.UserDefinedStruct'/Game/AI/AIBehaviorSystem/Blueprint/Struct/F_CollisionComponent.F_CollisionComponent'"
+ F_CollisionComponent => K2Node_MakeArray_0 272371F1439F56D502112B8437298616, default 
+ Component_2_3941386A40A6BCBCE45808A34CB04791 => K2Node_VariableGet_2 E378D50848005C474400FB9CDFC53991, default 
+ Sockets_6_12180EF74F4BA7D53FD5AC84FDE6E1BF => K2Node_CallFunction_9 615F048240852020DB87B4876FEDE63C, default 
+EdGraphNode_Comment_10
+NodeComment="On Collision Enabled"
+K2Node_VariableGet_8
+VariableReference=(MemberName="MeleeCollisionComponent",bSelfContext=True)
+ MeleeCollisionComponent => K2Node_CallFunction_58 43104D31499173DE30B8669F306F7566,K2Node_CallFunction_59 B80BCAC742E83FB5CE6556A9DB85D6B2, default 
+K2Node_CallFunction_58
+FunctionReference=(MemberParent="/Script/Engine.BlueprintGeneratedClass'/Game/AI/AIBehaviorSystem/Blueprint/Component/BP_CollisionComponent.BP_CollisionComponent_C'",MemberName="Server_Spawn Hit VFX and Sound",MemberGuid=22C13FE844DBC631B1CC28B32C367652)
+ execute => K2Node_ComponentBoundEvent_6 245D33C049ADF5A7681C2F8CA54C5816, default 
+ then => K2Node_CallFunction_59 477DE81747478DCC186AFA8DC8BB2AF8, default 
+ self => K2Node_VariableGet_8 BD3F2FB448EB15DD0AC7D2B7A6EDCE4C, default 
+ HitResult => K2Node_ComponentBoundEvent_6 48EAE7FB47C198FA9C6C1B84FE9BAD9D, default 
+ EmitterTemplate => K2Node_VariableGet_19 42E995714C55D63856A6B9A7542BB8CC, default 
+ Sound => K2Node_VariableGet_12 350CF3C14265BCC65DE1EE84DA2A5E96, default 
+ VFX Scale =>  default "1.500000
+K2Node_CallFunction_59
+FunctionReference=(MemberParent="/Script/Engine.BlueprintGeneratedClass'/Game/AI/AIBehaviorSystem/Blueprint/Component/BP_CollisionComponent.BP_CollisionComponent_C'",MemberName="ApplyDamageToActor",MemberGuid=0FABE88648E2061CEF2BF29F64F9EC96)
+ execute => K2Node_CallFunction_58 674F043C485F2E2464BCB383C3C5755E, default 
+ self => K2Node_VariableGet_8 BD3F2FB448EB15DD0AC7D2B7A6EDCE4C, default 
+ Hit => K2Node_ComponentBoundEvent_6 48EAE7FB47C198FA9C6C1B84FE9BAD9D, default 
+ BaseDamage => K2Node_VariableGet_10 4F303B1B4AC1CADBFA77BD9081D66114, default "0.0"
+K2Node_VariableGet_9
+VariableReference=(MemberName="AIBehaviorsComponent",bSelfContext=True)
+ AIBehaviorsComponent => K2Node_VariableGet_10 6CDB8CE647BB946AF6FF1FA3D3FAE477, default 
+K2Node_VariableGet_10
+VariableReference=(MemberParent="/Script/Engine.BlueprintGeneratedClass'/Game/AI/AIBehaviorSystem/Blueprint/Component/BP_AIBehaviorsComponent.BP_AIBehaviorsComponent_C'",MemberName="MeleeAttackDamage",MemberGuid=9BC535C44E024A083796298840826372)
+ MeleeAttackDamage => K2Node_CallFunction_59 D0D54D4942C90D73D4D6438AA4EB3400, default "0.0"
+ self => K2Node_VariableGet_9 70390EC2417FAB95D23EADBA219EC141, default 
+K2Node_ComponentBoundEvent_5
+DelegatePropertyName="OnCollisionEnabled"
+ComponentPropertyName="MeleeCollisionComponent"
+EventReference=(MemberParent="/Script/Engine.BlueprintGeneratedClass'/Game/AI/AIBehaviorSystem/Blueprint/Component/BP_CollisionComponent.BP_CollisionComponent_C'",MemberName="OnCollisionEnabled__DelegateSignature",MemberGuid=264CA8CC46D517F1848A2BBCCEE88267)
+CustomFunctionName="BndEvt__BP_AI_Melee_MeleeCollisionComponent_K2Node_ComponentBoundEvent_5_OnCollisionEnabled__DelegateSignature"
+ then => K2Node_SwitchEnum_0 5CE9E5384DA6B398E1E0CAAB2C819E79, default 
+ CollisionPart => K2Node_SwitchEnum_0 7D4164FF42EF6F5BCAFA828626778B7F, default "NewEnumerator8"
+K2Node_ComponentBoundEvent_6
+DelegatePropertyName="OnHit"
+ComponentPropertyName="MeleeCollisionComponent"
+EventReference=(MemberParent="/Script/Engine.BlueprintGeneratedClass'/Game/AI/AIBehaviorSystem/Blueprint/Component/BP_CollisionComponent.BP_CollisionComponent_C'",MemberName="OnHit__DelegateSignature",MemberGuid=C2674E5C4CB8E3B737FEFB88E610782B)
+CustomFunctionName="BndEvt__BP_AI_Melee_MeleeCollisionComponent_K2Node_ComponentBoundEvent_6_OnHit__DelegateSignature"
+ then => K2Node_CallFunction_58 E870D59141675907105570893C228DD2, default 
+ HitResult => K2Node_CallFunction_59 D7E0B86549BA0EB0BE5838867D7E97B7,K2Node_CallFunction_58 B3982BDD4F9690EF44CE06B8075B6C93, default 
+EdGraphNode_Comment_4
+NodeComment="On Collision Hit"
+K2Node_VariableGet_19
+VariableReference=(MemberName="MeleeHitVFX",MemberGuid=A04C88354152131C4901268AAFC0931C,bSelfContext=True)
+ MeleeHitVFX => K2Node_CallFunction_58 76655CD2466D1C5F521BD7B72A8DF9B8, default 
+K2Node_VariableGet_12
+VariableReference=(MemberName="MeleeHitSound",MemberGuid=B84B6D86444200A6B085A4ACD7CBA510,bSelfContext=True)
+ MeleeHitSound => K2Node_CallFunction_58 ADE3D6EE45D700F63FE2D2B83832C9D7, default 
+K2Node_VariableGet_13
+VariableReference=(MemberName="WeaponEquipSocket",MemberGuid=B460169E4D83D22F948511B9DB53B22F,bSelfContext=True)
+ WeaponEquipSocket => K2Node_CallFunction_0 058F6A9447ECB6B2B92029B0B2167F7A, default "None"
+K2Node_VariableGet_0
+VariableReference=(MemberName="WeaponUnequipSocket",MemberGuid=53E6BE1E467A8A9DA943A98FA712F5D1,bSelfContext=True)
+ WeaponUnequipSocket => K2Node_CallFunction_10 058F6A9447ECB6B2B92029B0B2167F7A, default "None"
+K2Node_ComponentBoundEvent_1
+DelegatePropertyName="OnInCombatChange"
+ComponentPropertyName="AIBehaviorsComponent"
+EventReference=(MemberParent="/Script/Engine.BlueprintGeneratedClass'/Game/AI/AIBehaviorSystem/Blueprint/Component/BP_AIBehaviorsComponent.BP_AIBehaviorsComponent_C'",MemberName="OnInCombatChange__DelegateSignature",MemberGuid=D2DEFD2446CE233D9CDF9689DA765AD0)
+CustomFunctionName="BndEvt__BP_AI_SoldierMelee_AIBehaviorsComponent_K2Node_ComponentBoundEvent_1_OnInCombatChange__DelegateSignature"
+ then => K2Node_CallFunction_2 44C036514BBE1C5C335CE7B36EE297C3, default 
+ IsInCombat => K2Node_CallFunction_2 F13F9DCC47C86F9850328D997AE6E02E, default "false"
+K2Node_Event_0
+EventReference=(MemberParent="/Script/CoreUObject.Class'/Script/Engine.Actor'",MemberName="ReceiveBeginPlay")
+ then => K2Node_CallParentFunction_0 F4F38D4344E5C282C239F8B78EE58FCF, default 
+K2Node_CallFunction_7
+FunctionReference=(MemberParent="/Script/CoreUObject.Class'/Script/Engine.SkinnedMeshComponent'",MemberName="SetLeaderPoseComponent")
+ execute => K2Node_CallParentFunction_0 7F8FE9D3498F1D0D24F51BBCC761A94E, default 
+ then => K2Node_VariableSet_0 1974EB654A5525D8A7D96C8F060660F2, default 
+ self => K2Node_VariableGet_18 F70E3671478B4EFA3617C48E621B93A9, default 
+ NewLeaderBoneComponent => K2Node_VariableGet_6 20E2B21F45C290D3139C95B3F962545C, default 
+ bForceUpdate =>  default "false"
+ bInFollowerShouldTickPose =>  default "false"
+K2Node_VariableGet_18
+VariableReference=(MemberName="Outline",bSelfContext=True)
+ Outline => K2Node_CallFunction_7 9DAB94344F8BD8B7E757FC8F5646F150, default 
+K2Node_VariableGet_6
+VariableReference=(MemberName="Mesh",bSelfContext=True)
+ Mesh => K2Node_CallFunction_7 A8BC3A5448183F04072A89B7ABB84B16, default 
+K2Node_VariableSet_0
+VariableReference=(MemberName="UsePointDamage?",MemberGuid=725EF8DC4CD959CF9A6321BDB4B4DD9C,bSelfContext=True)
+ execute => K2Node_CallFunction_7 4C654338436EEFD06A372BB95847AB97, default 
+ then => K2Node_VariableSet_1 78940D0C4546AA3801B52AA57E8C725D, default 
+ UsePointDamage? =>  default "false"
+ Output_Get =>  default "false"
+K2Node_VariableSet_1
+VariableReference=(MemberName="UniversalHitAnim?",MemberGuid=DCEAB8234D975661FD075E90D8D095EA,bSelfContext=True)
+ execute => K2Node_VariableSet_0 FC27A009447736907B8F638D94804B8C, default 
+ then => K2Node_VariableSet_2 8D6A77654E2A6866BEB9ED856594F96F, default 
+ UniversalHitAnim? =>  default "true"
+ Output_Get =>  default "false"
+K2Node_VariableSet_2
+VariableReference=(MemberName="Uni Hit Montage to Play",MemberGuid=36D291CA4961D06D3E1CBC9DF3C74E54,bSelfContext=True)
+ execute => K2Node_VariableSet_1 6C4C41D24E6D835A06E224B18BBC3ABC, default 
+ then => K2Node_VariableSet_3 4D2146934D5D57C61BFA878F664CE533, default 
+ Uni Hit Montage to Play =>  default "/Game/AI/AIBehaviorSystem/Demo/Animation/AM_HitReact_Front.AM_HitReact_Front"
+K2Node_VariableSet_3
+VariableReference=(MemberName="UniHitVFX_Niagara",MemberGuid=878762B740A10F73BBCB738848F87B5F,bSelfContext=True)
+ execute => K2Node_VariableSet_2 2DCD5EEB4D1DC9E24E7F758A51FAE481, default 
+ then => K2Node_AddDelegate_1 262ADE4E4888FE3894572F8A1E5FA7B3, default 
+ UniHitVFX_Niagara =>  default "/Game/Resource/VFX/Basic_VFX/Niagara/NS_Basic_Impact_Dark.NS_Basic_Impact_Dark"
+K2Node_Event_3
+EventReference=(MemberParent="/Script/Engine.BlueprintGeneratedClass'/Game/AI/AIBehaviorSystem/Blueprint/AI/BP_AI_Base.BP_AI_Base_C'",MemberName="Dead?(For Cutsence)")
+ then => K2Node_CallFunction_4 63546E524477FDCB63CE5983C386C1E2, default 
+K2Node_CallFunction_4
+FunctionReference=(MemberParent="/Script/CoreUObject.Class'/Script/Engine.GameplayStatics'",MemberName="GetActorOfClass")
+ execute => K2Node_Event_3 5697EBDF49A7616D7A62EF94BACDF88B, default 
+ then => K2Node_CallFunction_5 75EC78AA4B4A554A514AA993E17D4737, default 
+ self =>  default "/Script/Engine.Default__GameplayStatics"
+ ActorClass =>  default "/Game/LevelNSequence/In_Level/L2BarStreet/BPLM_L2StreetBarFight.BPLM_L2StreetBarFight_C"
+ ReturnValue => K2Node_CallFunction_5 867992F24AE560B9EEC5CC9BEAD0A596, default 
+K2Node_CallFunction_5
+FunctionReference=(MemberParent="/Script/Engine.BlueprintGeneratedClass'/Game/LevelNSequence/In_Level/L2BarStreet/BPLM_L2StreetBarFight.BPLM_L2StreetBarFight_C'",MemberName="PlayAfterFightSequence",MemberGuid=A322E5684D3693F6B1CAA5848C495855)
+ execute => K2Node_CallFunction_4 82623B1F459794000E9A7796297CF4EC, default 
+ self => K2Node_CallFunction_4 E7AF6DA746860EFAAC7F2BA442D58B87, default 
+K2Node_CallParentFunction_0
+FunctionReference=(MemberParent="/Script/Engine.BlueprintGeneratedClass'/Game/AI/AIBehaviorSystem/Blueprint/AI/BP_AI_Base.BP_AI_Base_C'",MemberName="ReceiveBeginPlay",MemberGuid=F8FCE2364991628C3F53F8BBA87F7472)
+ execute => K2Node_Event_0 C838C90C4DBAEFE20FA163B70ABD5754, default 
+ then => K2Node_CallFunction_7 03B4675A404BE589F8B7FBB6B6B3F03B, default 
+K2Node_CustomEvent_0
+CustomFunctionName="OnTakeAnyDamage_Event"
+ OutputDelegate => K2Node_AddDelegate_1 9F03535F4CA291AF5E2260A49C6EC034, default 
+ then => K2Node_CallFunction_15 6AF7ECE44C63AD15CE8EB7AACD648657, default 
+K2Node_CallFunction_15
+FunctionReference=(MemberParent="/Script/CoreUObject.Class'/Script/Engine.GameplayStatics'",MemberName="PlaySoundAtLocation")
+ execute => K2Node_CustomEvent_0 6DAB60ED42E0BFB12CA9948140B2D32F, default 
+ self =>  default "/Script/Engine.Default__GameplayStatics"
+ Sound =>  default "/Game/SFX/Bryce_Garland_VO_Pack/Wordless/Pains/Pain_Medium_001_Cue.Pain_Medium_001_Cue"
+ Location => K2Node_CallFunction_16 0A380B93401CA3BBD8F46FBEFD752F68, default "0
+ Rotation =>  default "0
+ VolumeMultiplier =>  default "1.000000"
+ PitchMultiplier =>  default "1.000000"
+ StartTime =>  default "0.000000"
+ AttenuationSettings =>  default "None"
+ ConcurrencySettings =>  default "None"
+ OwningActor =>  default "None"
+ InitialParams =>  default "None"
+K2Node_VariableGet_14
+VariableReference=(MemberName="Arrow1",bSelfContext=True)
+ Arrow1 => K2Node_CallFunction_16 8F3842C1406D8E61C5A290B8DC73440D, default 
+K2Node_CallFunction_16
+FunctionReference=(MemberParent="/Script/CoreUObject.Class'/Script/Engine.SceneComponent'",MemberName="K2_GetComponentLocation")
+ self => K2Node_VariableGet_14 AE2D09254C8F0FAF0A7E198374FD70B0, default 
+ ReturnValue => K2Node_CallFunction_15 C84372874159AA9082486BB4EA5B4A5F, default "0
+K2Node_AddDelegate_1
+ execute => K2Node_VariableSet_3 B0E253E946C8EE20683360A0C5CDFB89, default 
+ then => K2Node_AddDelegate_2 9E98AF3B46566C8D3144A0B91D3B9AFA, default 
+ Delegate => K2Node_CustomEvent_0 8EF523574C1E5F554289359F5D0CCA0A, default 
+K2Node_VariableGet_11
+VariableReference=(MemberName="AIBehaviorsComponent",bSelfContext=True)
+ AIBehaviorsComponent => K2Node_AddDelegate_2 E5EDC988441B8BEAF893088FEB42B90D, default 
+K2Node_AddDelegate_2
+ execute => K2Node_AddDelegate_1 9E1AE05947124B2BF4ABBFB180DB7105, default 
+ then => K2Node_CallArrayFunction_2 D7DC6428457C5F0A09141C8D6723EF7D, default 
+ self => K2Node_VariableGet_11 B07D51084B445C71C3D05DB06144EB07, default 
+ Delegate => K2Node_CustomEvent_3 2B74DFD34CCE8C64D57553BFA7040A95, default 
+K2Node_CustomEvent_3
+CustomFunctionName="OnAttack"
+ OutputDelegate => K2Node_AddDelegate_2 D286C1934890839AB5D35281016B5E9C, default 
+ then => K2Node_CallFunction_6 6AF7ECE44C63AD15CE8EB7AACD648657, default 
+K2Node_CallFunction_6
+FunctionReference=(MemberParent="/Script/CoreUObject.Class'/Script/Engine.GameplayStatics'",MemberName="PlaySoundAtLocation")
+ execute => K2Node_CustomEvent_3 EA77A4F54CB082DCAB345DA997B74A1D, default 
+ self =>  default "/Script/Engine.Default__GameplayStatics"
+ Sound =>  default "/Game/SFX/Bryce_Garland_VO_Pack/Wordless/Attacks/Attacking_Small_005_Cue.Attacking_Small_005_Cue"
+ Location => K2Node_CallFunction_8 0A380B93401CA3BBD8F46FBEFD752F68, default "0
+ Rotation =>  default "0
+ VolumeMultiplier =>  default "1.000000"
+ PitchMultiplier =>  default "1.000000"
+ StartTime =>  default "0.000000"
+ AttenuationSettings =>  default "None"
+ ConcurrencySettings =>  default "None"
+ OwningActor =>  default "None"
+ InitialParams =>  default "None"
+K2Node_VariableGet_5
+VariableReference=(MemberName="Arrow1",bSelfContext=True)
+ Arrow1 => K2Node_CallFunction_8 8F3842C1406D8E61C5A290B8DC73440D, default 
+K2Node_CallFunction_8
+FunctionReference=(MemberParent="/Script/CoreUObject.Class'/Script/Engine.SceneComponent'",MemberName="K2_GetComponentLocation")
+ self => K2Node_VariableGet_5 AE2D09254C8F0FAF0A7E198374FD70B0, default 
+ ReturnValue => K2Node_CallFunction_6 C84372874159AA9082486BB4EA5B4A5F, default "0
+K2Node_VariableGet_4
+VariableReference=(MemberName="MeshToFlash",MemberGuid=DC4B953044E2DA0D2FC96987A6768350,bSelfContext=True)
+ MeshToFlash => K2Node_CallArrayFunction_2 4C752D8844DAC6F17C2FEAA05CEF375F,K2Node_Knot_2 B57D93F1428511D006AA728350D95EB1, default 
+K2Node_CallArrayFunction_2
+FunctionReference=(MemberParent="/Script/CoreUObject.Class'/Script/Engine.KismetArrayLibrary'",MemberName="Array_Add")
+ execute => K2Node_AddDelegate_2 E22DD05448A2398CB67E6EB6280C92D3, default 
+ then => K2Node_CallArrayFunction_3 D7DC6428457C5F0A09141C8D6723EF7D, default 
+ self =>  default "/Script/Engine.Default__KismetArrayLibrary"
+ TargetArray => K2Node_VariableGet_4 73ACFCE243BB95E0C753D08E2B99F136, default 
+ NewItem => K2Node_VariableGet_21 13464F104C81B3E935E08FADC57B60E3, default 
+ ReturnValue =>  default "0"
+K2Node_CallArrayFunction_3
+FunctionReference=(MemberParent="/Script/CoreUObject.Class'/Script/Engine.KismetArrayLibrary'",MemberName="Array_Add")
+ execute => K2Node_CallArrayFunction_2 0927C09D465145758A5DE08B75754D35, default 
+ self =>  default "/Script/Engine.Default__KismetArrayLibrary"
+ TargetArray => K2Node_Knot_2 5796F0F145543A913986E0BB4CA9BB73, default 
+ NewItem => K2Node_VariableGet_22 A41206854B9766BC4437AA9BD7500190, default 
+ ReturnValue =>  default "0"
+K2Node_Knot_2
+ InputPin => K2Node_VariableGet_4 73ACFCE243BB95E0C753D08E2B99F136, default 
+ OutputPin => K2Node_CallArrayFunction_3 4C752D8844DAC6F17C2FEAA05CEF375F,K2Node_Knot_3 A0293BD843C400A61477EDAE23AD5FC5, default 
+K2Node_Knot_3
+ InputPin => K2Node_Knot_2 5796F0F145543A913986E0BB4CA9BB73, default 
+EdGraphNode_Comment_1
+NodeComment="Add"
+K2Node_VariableGet_21
+VariableReference=(MemberName="Mesh",bSelfContext=True)
+ Mesh => K2Node_CallArrayFunction_2 ABFE47AE4C2D6021D87A0C8BEC8AC99D, default 
+K2Node_VariableGet_22
+VariableReference=(MemberName="Weapon",bSelfContext=True)
+ Weapon => K2Node_CallArrayFunction_3 ABFE47AE4C2D6021D87A0C8BEC8AC99D, default 
+K2Node_FunctionEntry_0
+FunctionReference=(MemberParent="/Script/CoreUObject.Class'/Script/Engine.Actor'",MemberName="UserConstructionScript")
+ then => K2Node_CallParentFunction_0 A3A97DE84686E0A9999A6CB3A405E395, default 
+K2Node_CallParentFunction_0
+FunctionReference=(MemberParent="/Script/Engine.BlueprintGeneratedClass'/Game/AI/AIBehaviorSystem/Blueprint/AI/BP_AI_Base.BP_AI_Base_C'",MemberName="UserConstructionScript",MemberGuid=A80AC35042A06CC526F25488343E0399)
+ execute => K2Node_FunctionEntry_0 C8178D3044F1454EFB2C75AC16DA0D48, default 
+K2Node_CallFunction_2
+FunctionReference=(MemberName="Server_SwitchWeapon",MemberGuid=959F252347F43862678CDAA9E2DBDC7A,bSelfContext=True)
+ execute => K2Node_ComponentBoundEvent_1 48A18DB74FE1AD1955E7CE9FA59DCE4A, default 
+ Equip => K2Node_ComponentBoundEvent_1 62FBECEB403CC8E280D8508C73140D3D, default "false"
+EdGraphNode_Comment_0
+NodeComment="On Combat change"
+K2Node_IfThenElse_0
+ execute => K2Node_CustomEvent_1 1D3F96FA436816C0A13EB2A9CDC048F2, default 
+ Condition => K2Node_CustomEvent_1 66D369014523D72379A0D3BA08D6BB75, default "true"
+ then => K2Node_CallFunction_0 7B44BB004315A71BAABA61A5722E2C91, default 
+ else => K2Node_CallFunction_10 7B44BB004315A71BAABA61A5722E2C91, default 
+K2Node_CallFunction_0
+FunctionReference=(MemberParent="/Script/CoreUObject.Class'/Script/Engine.SceneComponent'",MemberName="K2_AttachToComponent")
+ execute => K2Node_IfThenElse_0 C843F62041D1CA40F8FEF3966A8984E1, default 
+ self => K2Node_VariableGet_20 EA69E7D344FA5C828C2461A4202CF11B, default 
+ Parent => K2Node_VariableGet_1 41E7DE794AF2E86E6A8AFDAC63DC4D94, default 
+ SocketName => K2Node_VariableGet_13 28566303466D2E9578618A9945F84AE2, default "None"
+ LocationRule =>  default "SnapToTarget"
+ RotationRule =>  default "SnapToTarget"
+ ScaleRule =>  default "SnapToTarget"
+ bWeldSimulatedBodies =>  default "TRUE"
+ ReturnValue =>  default "false"
+K2Node_CallFunction_10
+FunctionReference=(MemberParent="/Script/CoreUObject.Class'/Script/Engine.SceneComponent'",MemberName="K2_AttachToComponent")
+ execute => K2Node_IfThenElse_0 AD4D08CA4124F2C4F23B6FA03787D3D1, default 
+ self => K2Node_VariableGet_20 EA69E7D344FA5C828C2461A4202CF11B, default 
+ Parent => K2Node_VariableGet_1 41E7DE794AF2E86E6A8AFDAC63DC4D94, default 
+ SocketName => K2Node_VariableGet_0 9C6027A341839A8D0D997FBB252FF299, default "None"
+ LocationRule =>  default "SnapToTarget"
+ RotationRule =>  default "SnapToTarget"
+ ScaleRule =>  default "SnapToTarget"
+ bWeldSimulatedBodies =>  default "TRUE"
+ ReturnValue =>  default "false"
+K2Node_VariableGet_1
+VariableReference=(MemberName="Mesh",bSelfContext=True)
+ Mesh => K2Node_CallFunction_0 3346A726405C68D8AA3E719E71CB1813,K2Node_CallFunction_10 3346A726405C68D8AA3E719E71CB1813, default 
+K2Node_CustomEvent_2
+CustomFunctionName="Server_SwitchWeapon"
+ then => K2Node_CallFunction_1 A431EC624AEE13128448328B7E3DDD7C, default 
+ Equip => K2Node_CallFunction_1 1C2D53BA42879B58D4B095AF38EDE038, default 
+K2Node_CustomEvent_1
+CustomFunctionName="Multicast_SwitchWeapon"
+ then => K2Node_IfThenElse_0 1A99DE1846038E6E26A9DFB04E7DFA99, default 
+ Equip => K2Node_IfThenElse_0 39635CA249746E73F40D2FB201C508C7, default 
+K2Node_CallFunction_1
+FunctionReference=(MemberName="Multicast_SwitchWeapon",MemberGuid=C6813E4F4B5230207E21B7BA45B355F5,bSelfContext=True)
+ execute => K2Node_CustomEvent_2 3729DB2A455AFE8EF85D5EA98EE55B56, default 
+ Equip => K2Node_CustomEvent_2 77613D4142AA86C433BB49BE4E749B3F, default "false"
+K2Node_VariableGet_20
+VariableReference=(MemberName="Weapon",bSelfContext=True)
+ Weapon => K2Node_CallFunction_0 9128CE27441CBB0C798016ADA969C7EE,K2Node_CallFunction_10 9128CE27441CBB0C798016ADA969C7EE, default 
+EdGraphNode_Comment_3
+NodeComment="Switch Weapon Socket"
+K2Node_SwitchEnum_0
+ execute => K2Node_ComponentBoundEvent_5 3AE2A9894E1597AF69FEA7BF865AC100, default 
+ Selection => K2Node_ComponentBoundEvent_5 E433E38B40A10CFBDCB30CB6BE80ADE9, default "NewEnumerator8"
+ NotEqual_ByteByte =>  default "/Script/Engine.Default__KismetMathLibrary"
+ NewEnumerator0 => K2Node_CallFunction_11 5FE2FBB64C48B137FEB9AD97AB18E3C5, default 
+K2Node_VariableGet_2
+VariableReference=(MemberName="Weapon",bSelfContext=True)
+ Weapon => K2Node_CallFunction_9 CD7B231C46568A224FB087B5239CEBC8,K2Node_MakeStruct_0 CFDEA2C74333CA898101BF92E9FC8FAB, default 
+K2Node_VariableGet_3
+VariableReference=(MemberName="MeleeCollisionComponent",bSelfContext=True)
+ MeleeCollisionComponent => K2Node_CallFunction_11 F8F33EFD4B1CC92A623AC88508F3EDF2, default 
+K2Node_CallFunction_9
+FunctionReference=(MemberParent="/Script/CoreUObject.Class'/Script/Engine.SceneComponent'",MemberName="GetAllSocketNames")
+ self => K2Node_VariableGet_2 E378D50848005C474400FB9CDFC53991, default 
+ ReturnValue => K2Node_MakeStruct_0 F356E55B45C69515AC4D81B13640337E, default 
+K2Node_CallFunction_11
+FunctionReference=(MemberParent="/Script/Engine.BlueprintGeneratedClass'/Game/AI/AIBehaviorSystem/Blueprint/Component/BP_CollisionComponent.BP_CollisionComponent_C'",MemberName="SetCollisions",MemberGuid=368F97F64A78B87D9A3E8AB9E4006FE4)
+ execute => K2Node_SwitchEnum_0 24185C5B426A5426B995E3AA278C2F87, default 
+ self => K2Node_VariableGet_3 46F9AF054360C77F736C79B1CA1B6C3B, default 
+ CollComps => K2Node_MakeArray_0 6BDCCD654DB1B1522FC7518507FD935F, default 
+K2Node_MakeArray_0
+ Array => K2Node_CallFunction_11 F8A1956B43389929EFA9F9A118B2021B, default 
+ [0] => K2Node_MakeStruct_0 61871C3E4646A92CA6889EA858D73865, default 
+K2Node_MakeStruct_0
+StructType="/Script/Engine.UserDefinedStruct'/Game/AI/AIBehaviorSystem/Blueprint/Struct/F_CollisionComponent.F_CollisionComponent'"
+ F_CollisionComponent => K2Node_MakeArray_0 272371F1439F56D502112B8437298616, default 
+ Component_2_3941386A40A6BCBCE45808A34CB04791 => K2Node_VariableGet_2 E378D50848005C474400FB9CDFC53991, default 
+ Sockets_6_12180EF74F4BA7D53FD5AC84FDE6E1BF => K2Node_CallFunction_9 615F048240852020DB87B4876FEDE63C, default 
+EdGraphNode_Comment_10
+NodeComment="On Collision Enabled"
+K2Node_VariableGet_8
+VariableReference=(MemberName="MeleeCollisionComponent",bSelfContext=True)
+ MeleeCollisionComponent => K2Node_CallFunction_58 43104D31499173DE30B8669F306F7566,K2Node_CallFunction_59 B80BCAC742E83FB5CE6556A9DB85D6B2, default 
+K2Node_CallFunction_58
+FunctionReference=(MemberParent="/Script/Engine.BlueprintGeneratedClass'/Game/AI/AIBehaviorSystem/Blueprint/Component/BP_CollisionComponent.BP_CollisionComponent_C'",MemberName="Server_Spawn Hit VFX and Sound",MemberGuid=22C13FE844DBC631B1CC28B32C367652)
+ execute => K2Node_ComponentBoundEvent_6 245D33C049ADF5A7681C2F8CA54C5816, default 
+ then => K2Node_CallFunction_59 477DE81747478DCC186AFA8DC8BB2AF8, default 
+ self => K2Node_VariableGet_8 BD3F2FB448EB15DD0AC7D2B7A6EDCE4C, default 
+ HitResult => K2Node_ComponentBoundEvent_6 48EAE7FB47C198FA9C6C1B84FE9BAD9D, default 
+ EmitterTemplate => K2Node_VariableGet_19 42E995714C55D63856A6B9A7542BB8CC, default 
+ Sound => K2Node_VariableGet_12 350CF3C14265BCC65DE1EE84DA2A5E96, default 
+ VFX Scale =>  default "1.500000
+K2Node_CallFunction_59
+FunctionReference=(MemberParent="/Script/Engine.BlueprintGeneratedClass'/Game/AI/AIBehaviorSystem/Blueprint/Component/BP_CollisionComponent.BP_CollisionComponent_C'",MemberName="ApplyDamageToActor",MemberGuid=0FABE88648E2061CEF2BF29F64F9EC96)
+ execute => K2Node_CallFunction_58 674F043C485F2E2464BCB383C3C5755E, default 
+ self => K2Node_VariableGet_8 BD3F2FB448EB15DD0AC7D2B7A6EDCE4C, default 
+ Hit => K2Node_ComponentBoundEvent_6 48EAE7FB47C198FA9C6C1B84FE9BAD9D, default 
+ BaseDamage => K2Node_VariableGet_10 4F303B1B4AC1CADBFA77BD9081D66114, default "0.0"
+K2Node_VariableGet_9
+VariableReference=(MemberName="AIBehaviorsComponent",bSelfContext=True)
+ AIBehaviorsComponent => K2Node_VariableGet_10 6CDB8CE647BB946AF6FF1FA3D3FAE477, default 
+K2Node_VariableGet_10
+VariableReference=(MemberParent="/Script/Engine.BlueprintGeneratedClass'/Game/AI/AIBehaviorSystem/Blueprint/Component/BP_AIBehaviorsComponent.BP_AIBehaviorsComponent_C'",MemberName="MeleeAttackDamage",MemberGuid=9BC535C44E024A083796298840826372)
+ MeleeAttackDamage => K2Node_CallFunction_59 D0D54D4942C90D73D4D6438AA4EB3400, default "0.0"
+ self => K2Node_VariableGet_9 70390EC2417FAB95D23EADBA219EC141, default 
+K2Node_ComponentBoundEvent_5
+DelegatePropertyName="OnCollisionEnabled"
+ComponentPropertyName="MeleeCollisionComponent"
+EventReference=(MemberParent="/Script/Engine.BlueprintGeneratedClass'/Game/AI/AIBehaviorSystem/Blueprint/Component/BP_CollisionComponent.BP_CollisionComponent_C'",MemberName="OnCollisionEnabled__DelegateSignature",MemberGuid=264CA8CC46D517F1848A2BBCCEE88267)
+CustomFunctionName="BndEvt__BP_AI_Melee_MeleeCollisionComponent_K2Node_ComponentBoundEvent_5_OnCollisionEnabled__DelegateSignature"
+ then => K2Node_SwitchEnum_0 5CE9E5384DA6B398E1E0CAAB2C819E79, default 
+ CollisionPart => K2Node_SwitchEnum_0 7D4164FF42EF6F5BCAFA828626778B7F, default "NewEnumerator8"
+K2Node_ComponentBoundEvent_6
+DelegatePropertyName="OnHit"
+ComponentPropertyName="MeleeCollisionComponent"
+EventReference=(MemberParent="/Script/Engine.BlueprintGeneratedClass'/Game/AI/AIBehaviorSystem/Blueprint/Component/BP_CollisionComponent.BP_CollisionComponent_C'",MemberName="OnHit__DelegateSignature",MemberGuid=C2674E5C4CB8E3B737FEFB88E610782B)
+CustomFunctionName="BndEvt__BP_AI_Melee_MeleeCollisionComponent_K2Node_ComponentBoundEvent_6_OnHit__DelegateSignature"
+ then => K2Node_CallFunction_58 E870D59141675907105570893C228DD2, default 
+ HitResult => K2Node_CallFunction_59 D7E0B86549BA0EB0BE5838867D7E97B7,K2Node_CallFunction_58 B3982BDD4F9690EF44CE06B8075B6C93, default 
+EdGraphNode_Comment_4
+NodeComment="On Collision Hit"
+K2Node_VariableGet_19
+VariableReference=(MemberName="MeleeHitVFX",MemberGuid=A04C88354152131C4901268AAFC0931C,bSelfContext=True)
+ MeleeHitVFX => K2Node_CallFunction_58 76655CD2466D1C5F521BD7B72A8DF9B8, default 
+K2Node_VariableGet_12
+VariableReference=(MemberName="MeleeHitSound",MemberGuid=B84B6D86444200A6B085A4ACD7CBA510,bSelfContext=True)
+ MeleeHitSound => K2Node_CallFunction_58 ADE3D6EE45D700F63FE2D2B83832C9D7, default 
+K2Node_VariableGet_13
+VariableReference=(MemberName="WeaponEquipSocket",MemberGuid=B460169E4D83D22F948511B9DB53B22F,bSelfContext=True)
+ WeaponEquipSocket => K2Node_CallFunction_0 058F6A9447ECB6B2B92029B0B2167F7A, default "None"
+K2Node_VariableGet_0
+VariableReference=(MemberName="WeaponUnequipSocket",MemberGuid=53E6BE1E467A8A9DA943A98FA712F5D1,bSelfContext=True)
+ WeaponUnequipSocket => K2Node_CallFunction_10 058F6A9447ECB6B2B92029B0B2167F7A, default "None"
+K2Node_ComponentBoundEvent_1
+DelegatePropertyName="OnInCombatChange"
+ComponentPropertyName="AIBehaviorsComponent"
+EventReference=(MemberParent="/Script/Engine.BlueprintGeneratedClass'/Game/AI/AIBehaviorSystem/Blueprint/Component/BP_AIBehaviorsComponent.BP_AIBehaviorsComponent_C'",MemberName="OnInCombatChange__DelegateSignature",MemberGuid=D2DEFD2446CE233D9CDF9689DA765AD0)
+CustomFunctionName="BndEvt__BP_AI_SoldierMelee_AIBehaviorsComponent_K2Node_ComponentBoundEvent_1_OnInCombatChange__DelegateSignature"
+ then => K2Node_CallFunction_2 44C036514BBE1C5C335CE7B36EE297C3, default 
+ IsInCombat => K2Node_CallFunction_2 F13F9DCC47C86F9850328D997AE6E02E, default "false"
+K2Node_Event_0
+EventReference=(MemberParent="/Script/CoreUObject.Class'/Script/Engine.Actor'",MemberName="ReceiveBeginPlay")
+ then => K2Node_CallParentFunction_0 F4F38D4344E5C282C239F8B78EE58FCF, default 
+K2Node_CallFunction_7
+FunctionReference=(MemberParent="/Script/CoreUObject.Class'/Script/Engine.SkinnedMeshComponent'",MemberName="SetLeaderPoseComponent")
+ execute => K2Node_CallParentFunction_0 7F8FE9D3498F1D0D24F51BBCC761A94E, default 
+ then => K2Node_VariableSet_0 1974EB654A5525D8A7D96C8F060660F2, default 
+ self => K2Node_VariableGet_18 F70E3671478B4EFA3617C48E621B93A9, default 
+ NewLeaderBoneComponent => K2Node_VariableGet_6 20E2B21F45C290D3139C95B3F962545C, default 
+ bForceUpdate =>  default "false"
+ bInFollowerShouldTickPose =>  default "false"
+K2Node_VariableGet_18
+VariableReference=(MemberName="Outline",bSelfContext=True)
+ Outline => K2Node_CallFunction_7 9DAB94344F8BD8B7E757FC8F5646F150, default 
+K2Node_VariableGet_6
+VariableReference=(MemberName="Mesh",bSelfContext=True)
+ Mesh => K2Node_CallFunction_7 A8BC3A5448183F04072A89B7ABB84B16, default 
+K2Node_VariableSet_0
+VariableReference=(MemberName="UsePointDamage?",MemberGuid=725EF8DC4CD959CF9A6321BDB4B4DD9C,bSelfContext=True)
+ execute => K2Node_CallFunction_7 4C654338436EEFD06A372BB95847AB97, default 
+ then => K2Node_VariableSet_1 78940D0C4546AA3801B52AA57E8C725D, default 
+ UsePointDamage? =>  default "false"
+K2Node_VariableSet_1
+VariableReference=(MemberName="UniversalHitAnim?",MemberGuid=DCEAB8234D975661FD075E90D8D095EA,bSelfContext=True)
+ execute => K2Node_VariableSet_0 FC27A009447736907B8F638D94804B8C, default 
+ then => K2Node_VariableSet_2 8D6A77654E2A6866BEB9ED856594F96F, default 
+ UniversalHitAnim? =>  default "true"
+K2Node_VariableSet_2
+VariableReference=(MemberName="Uni Hit Montage to Play",MemberGuid=36D291CA4961D06D3E1CBC9DF3C74E54,bSelfContext=True)
+ execute => K2Node_VariableSet_1 6C4C41D24E6D835A06E224B18BBC3ABC, default 
+ then => K2Node_VariableSet_3 4D2146934D5D57C61BFA878F664CE533, default 
+ Uni Hit Montage to Play =>  default "/Game/AI/AIBehaviorSystem/Demo/Animation/AM_HitReact_Front.AM_HitReact_Front"
+K2Node_VariableSet_3
+VariableReference=(MemberName="UniHitVFX_Niagara",MemberGuid=878762B740A10F73BBCB738848F87B5F,bSelfContext=True)
+ execute => K2Node_VariableSet_2 2DCD5EEB4D1DC9E24E7F758A51FAE481, default 
+ then => K2Node_AddDelegate_1 262ADE4E4888FE3894572F8A1E5FA7B3, default 
+ UniHitVFX_Niagara =>  default "/Game/Resource/VFX/Basic_VFX/Niagara/NS_Basic_Impact_Dark.NS_Basic_Impact_Dark"
+K2Node_Event_3
+EventReference=(MemberParent="/Script/Engine.BlueprintGeneratedClass'/Game/AI/AIBehaviorSystem/Blueprint/AI/BP_AI_Base.BP_AI_Base_C'",MemberName="Dead?(For Cutsence)")
+ then => K2Node_CallFunction_4 63546E524477FDCB63CE5983C386C1E2, default 
+K2Node_CallFunction_4
+FunctionReference=(MemberParent="/Script/CoreUObject.Class'/Script/Engine.GameplayStatics'",MemberName="GetActorOfClass")
+ execute => K2Node_Event_3 5697EBDF49A7616D7A62EF94BACDF88B, default 
+ then => K2Node_CallFunction_5 75EC78AA4B4A554A514AA993E17D4737, default 
+ self =>  default "/Script/Engine.Default__GameplayStatics"
+ ActorClass =>  default "/Game/LevelNSequence/In_Level/L2BarStreet/BPLM_L2StreetBarFight.BPLM_L2StreetBarFight_C"
+ ReturnValue => K2Node_CallFunction_5 867992F24AE560B9EEC5CC9BEAD0A596, default 
+K2Node_CallFunction_5
+FunctionReference=(MemberParent="/Script/Engine.BlueprintGeneratedClass'/Game/LevelNSequence/In_Level/L2BarStreet/BPLM_L2StreetBarFight.BPLM_L2StreetBarFight_C'",MemberName="PlayAfterFightSequence",MemberGuid=A322E5684D3693F6B1CAA5848C495855)
+ execute => K2Node_CallFunction_4 82623B1F459794000E9A7796297CF4EC, default 
+ self => K2Node_CallFunction_4 E7AF6DA746860EFAAC7F2BA442D58B87, default 
+K2Node_CallParentFunction_0
+FunctionReference=(MemberParent="/Script/Engine.BlueprintGeneratedClass'/Game/AI/AIBehaviorSystem/Blueprint/AI/BP_AI_Base.BP_AI_Base_C'",MemberName="ReceiveBeginPlay",MemberGuid=F8FCE2364991628C3F53F8BBA87F7472)
+ execute => K2Node_Event_0 C838C90C4DBAEFE20FA163B70ABD5754, default 
+ then => K2Node_CallFunction_7 03B4675A404BE589F8B7FBB6B6B3F03B, default 
+K2Node_CustomEvent_0
+CustomFunctionName="OnTakeAnyDamage_Event"
+ then => K2Node_CallFunction_15 6AF7ECE44C63AD15CE8EB7AACD648657, default 
+K2Node_CallFunction_15
+FunctionReference=(MemberParent="/Script/CoreUObject.Class'/Script/Engine.GameplayStatics'",MemberName="PlaySoundAtLocation")
+ execute => K2Node_CustomEvent_0 6DAB60ED42E0BFB12CA9948140B2D32F, default 
+ self =>  default "/Script/Engine.Default__GameplayStatics"
+ Sound =>  default "/Game/SFX/Bryce_Garland_VO_Pack/Wordless/Pains/Pain_Medium_001_Cue.Pain_Medium_001_Cue"
+ Location => K2Node_CallFunction_16 0A380B93401CA3BBD8F46FBEFD752F68, default "0
+ Rotation =>  default "0
+ VolumeMultiplier =>  default "1.000000"
+ PitchMultiplier =>  default "1.000000"
+ StartTime =>  default "0.000000"
+ AttenuationSettings =>  default "None"
+ ConcurrencySettings =>  default "None"
+ OwningActor =>  default "None"
+ InitialParams =>  default "None"
+K2Node_VariableGet_14
+VariableReference=(MemberName="Arrow1",bSelfContext=True)
+ Arrow1 => K2Node_CallFunction_16 8F3842C1406D8E61C5A290B8DC73440D, default 
+K2Node_CallFunction_16
+FunctionReference=(MemberParent="/Script/CoreUObject.Class'/Script/Engine.SceneComponent'",MemberName="K2_GetComponentLocation")
+ self => K2Node_VariableGet_14 AE2D09254C8F0FAF0A7E198374FD70B0, default 
+ ReturnValue => K2Node_CallFunction_15 C84372874159AA9082486BB4EA5B4A5F, default "0
+K2Node_AddDelegate_1
+ execute => K2Node_VariableSet_3 B0E253E946C8EE20683360A0C5CDFB89, default 
+ then => K2Node_AddDelegate_2 9E98AF3B46566C8D3144A0B91D3B9AFA, default 
+ Delegate => K2Node_CreateDelegate_1 FADEC54049B788D16E47EAAC026C9415, default 
+K2Node_VariableGet_11
+VariableReference=(MemberName="AIBehaviorsComponent",bSelfContext=True)
+ AIBehaviorsComponent => K2Node_AddDelegate_2 E5EDC988441B8BEAF893088FEB42B90D, default 
+K2Node_AddDelegate_2
+ execute => K2Node_AddDelegate_1 9E1AE05947124B2BF4ABBFB180DB7105, default 
+ then => K2Node_CallArrayFunction_2 D7DC6428457C5F0A09141C8D6723EF7D, default 
+ self => K2Node_VariableGet_11 B07D51084B445C71C3D05DB06144EB07, default 
+ Delegate => K2Node_CreateDelegate_0 00D511E0433B0F6C4678779067C30C05, default 
+K2Node_CustomEvent_3
+CustomFunctionName="OnAttack"
+ then => K2Node_CallFunction_6 6AF7ECE44C63AD15CE8EB7AACD648657, default 
+K2Node_CallFunction_6
+FunctionReference=(MemberParent="/Script/CoreUObject.Class'/Script/Engine.GameplayStatics'",MemberName="PlaySoundAtLocation")
+ execute => K2Node_CustomEvent_3 EA77A4F54CB082DCAB345DA997B74A1D, default 
+ self =>  default "/Script/Engine.Default__GameplayStatics"
+ Sound =>  default "/Game/SFX/Bryce_Garland_VO_Pack/Wordless/Attacks/Attacking_Small_005_Cue.Attacking_Small_005_Cue"
+ Location => K2Node_CallFunction_8 0A380B93401CA3BBD8F46FBEFD752F68, default "0
+ Rotation =>  default "0
+ VolumeMultiplier =>  default "1.000000"
+ PitchMultiplier =>  default "1.000000"
+ StartTime =>  default "0.000000"
+ AttenuationSettings =>  default "None"
+ ConcurrencySettings =>  default "None"
+ OwningActor =>  default "None"
+ InitialParams =>  default "None"
+K2Node_VariableGet_5
+VariableReference=(MemberName="Arrow1",bSelfContext=True)
+ Arrow1 => K2Node_CallFunction_8 8F3842C1406D8E61C5A290B8DC73440D, default 
+K2Node_CallFunction_8
+FunctionReference=(MemberParent="/Script/CoreUObject.Class'/Script/Engine.SceneComponent'",MemberName="K2_GetComponentLocation")
+ self => K2Node_VariableGet_5 AE2D09254C8F0FAF0A7E198374FD70B0, default 
+ ReturnValue => K2Node_CallFunction_6 C84372874159AA9082486BB4EA5B4A5F, default "0
+K2Node_VariableGet_4
+VariableReference=(MemberName="MeshToFlash",MemberGuid=DC4B953044E2DA0D2FC96987A6768350,bSelfContext=True)
+ MeshToFlash => K2Node_CallArrayFunction_2 4C752D8844DAC6F17C2FEAA05CEF375F,K2Node_CallArrayFunction_3 4C752D8844DAC6F17C2FEAA05CEF375F, default 
+K2Node_CallArrayFunction_2
+FunctionReference=(MemberParent="/Script/CoreUObject.Class'/Script/Engine.KismetArrayLibrary'",MemberName="Array_Add")
+ execute => K2Node_AddDelegate_2 E22DD05448A2398CB67E6EB6280C92D3, default 
+ then => K2Node_CallArrayFunction_3 D7DC6428457C5F0A09141C8D6723EF7D, default 
+ self =>  default "/Script/Engine.Default__KismetArrayLibrary"
+ TargetArray => K2Node_VariableGet_4 73ACFCE243BB95E0C753D08E2B99F136, default 
+ NewItem => K2Node_VariableGet_21 13464F104C81B3E935E08FADC57B60E3, default 
+ ReturnValue =>  default "0"
+K2Node_CallArrayFunction_3
+FunctionReference=(MemberParent="/Script/CoreUObject.Class'/Script/Engine.KismetArrayLibrary'",MemberName="Array_Add")
+ execute => K2Node_CallArrayFunction_2 0927C09D465145758A5DE08B75754D35, default 
+ self =>  default "/Script/Engine.Default__KismetArrayLibrary"
+ TargetArray => K2Node_VariableGet_4 73ACFCE243BB95E0C753D08E2B99F136, default 
+ NewItem => K2Node_VariableGet_22 A41206854B9766BC4437AA9BD7500190, default 
+ ReturnValue =>  default "0"
+K2Node_Knot_2
+K2Node_Knot_3
+EdGraphNode_Comment_1
+NodeComment="Add"
+K2Node_VariableGet_21
+VariableReference=(MemberName="Mesh",bSelfContext=True)
+ Mesh => K2Node_CallArrayFunction_2 ABFE47AE4C2D6021D87A0C8BEC8AC99D, default 
+K2Node_VariableGet_22
+VariableReference=(MemberName="Weapon",bSelfContext=True)
+ Weapon => K2Node_CallArrayFunction_3 ABFE47AE4C2D6021D87A0C8BEC8AC99D, default 
+K2Node_FunctionEntry_0
+FunctionReference=(MemberParent="/Script/CoreUObject.Class'/Script/CoreUObject.Object'",MemberName="ExecuteUbergraph")
+ EntryPoint =>  default "0"
+K2Node_Self_0
+ self => K2Node_CreateDelegate_0 DEECF93E4192BBAF057DD3BC7F7D9D67, default 
+K2Node_CreateDelegate_0
+ self => K2Node_Self_0 4D138C8245DA8CC8D6E2BEA64C812919, default 
+ OutputDelegate => K2Node_AddDelegate_2 D286C1934890839AB5D35281016B5E9C, default 
+K2Node_Self_1
+ self => K2Node_CreateDelegate_1 D453544F4ECCC6BE6B847CAFAB7427DE, default 
+K2Node_CreateDelegate_1
+ self => K2Node_Self_1 C923DB5C48EEFD02AB633A995EA29F3A, default 
+ OutputDelegate => K2Node_AddDelegate_1 9F03535F4CA291AF5E2260A49C6EC034, default 
+K2Node_FunctionEntry_0
+ then => K2Node_CallFunction_0 AA6617384BB8F4675F51A8B1AD18FE78, default 
+K2Node_CallFunction_0
+FunctionReference=(MemberName="ExecuteUbergraph_BP_Enm_SteetGoon3_Brosky",bSelfContext=True)
+ execute => K2Node_FunctionEntry_0 96D54D074F5107CCAB827C99CEC76001, default 
+ EntryPoint =>  default "0"
+K2Node_FunctionEntry_0
+ then => K2Node_SetVariableOnPersistentFrame_0 DD4281124FADA13B4D9060B5571BBA6D, default 
+ DamagedActor => K2Node_SetVariableOnPersistentFrame_0 2C3AB1AA41027CA30A0AEAA64E723292, default 
+ Damage => K2Node_SetVariableOnPersistentFrame_0 096461E247146056A1699BA06E0AB604, default 
+ DamageType => K2Node_SetVariableOnPersistentFrame_0 9589A8994434E5A2DC0748A454BDAFEB, default 
+ InstigatedBy => K2Node_SetVariableOnPersistentFrame_0 C9147258411FB2E45B07549059F0ED07, default 
+ DamageCauser => K2Node_SetVariableOnPersistentFrame_0 4DBAE49842C705AD4F249085296E8421, default 
+K2Node_SetVariableOnPersistentFrame_0
+ execute => K2Node_FunctionEntry_0 C0E16AA14B8B934E29BE659EDA291DD3, default 
+ then => K2Node_CallFunction_0 036197F24959BB135A60E6AC303FFB54, default 
+ K2Node_CustomEvent_DamagedActor => K2Node_FunctionEntry_0 1DCE0F4E4B90A50B5CFDE6B4B80357C0, default 
+ K2Node_CustomEvent_Damage => K2Node_FunctionEntry_0 2B07F46E47B248B1BE27E08349939EE8, default 
+ K2Node_CustomEvent_DamageType => K2Node_FunctionEntry_0 666EDEA54CDD74DA21CA8EB97BF17259, default 
+ K2Node_CustomEvent_InstigatedBy => K2Node_FunctionEntry_0 F6F4D33049153CB4AFE5C9A300141A65, default 
+ K2Node_CustomEvent_DamageCauser => K2Node_FunctionEntry_0 EB7FCE5847F23F45EB1400803D037012, default 
+K2Node_CallFunction_0
+FunctionReference=(MemberName="ExecuteUbergraph_BP_Enm_SteetGoon3_Brosky",bSelfContext=True)
+ execute => K2Node_SetVariableOnPersistentFrame_0 558B377841D306CAEA0001B7417A44B8, default 
+ EntryPoint =>  default "0"
+K2Node_FunctionEntry_0
+FunctionReference=(MemberParent="/Script/Engine.BlueprintGeneratedClass'/Game/AI/AIBehaviorSystem/Blueprint/AI/BP_AI_Base.BP_AI_Base_C'",MemberName="Dead?(For Cutsence)")
+ then => K2Node_CallFunction_0 8FA3F9CD496AA4BB1C57FB844F86F871, default 
+K2Node_CallFunction_0
+FunctionReference=(MemberName="ExecuteUbergraph_BP_Enm_SteetGoon3_Brosky",bSelfContext=True)
+ execute => K2Node_FunctionEntry_0 331CAFF84A89A532F020A6B40112A271, default 
+ EntryPoint =>  default "0"
+K2Node_FunctionEntry_0
+FunctionReference=(MemberParent="/Script/CoreUObject.Class'/Script/Engine.Actor'",MemberName="ReceiveBeginPlay")
+ then => K2Node_CallFunction_0 52E56E2E402B7B991B5AC09F9BF78C82, default 
+K2Node_CallFunction_0
+FunctionReference=(MemberName="ExecuteUbergraph_BP_Enm_SteetGoon3_Brosky",bSelfContext=True)
+ execute => K2Node_FunctionEntry_0 7DCEFD3D4900A4A22C0C24BB64CE7F2A, default 
+ EntryPoint =>  default "0"
+K2Node_FunctionEntry_0
+FunctionReference=(MemberParent="/Script/Engine.BlueprintGeneratedClass'/Game/AI/AIBehaviorSystem/Blueprint/Component/BP_AIBehaviorsComponent.BP_AIBehaviorsComponent_C'",MemberName="OnInCombatChange__DelegateSignature",MemberGuid=D2DEFD2446CE233D9CDF9689DA765AD0)
+ then => K2Node_SetVariableOnPersistentFrame_0 26670B4B44CCB60AA9C61ABAA6AD3ED9, default 
+ IsInCombat => K2Node_SetVariableOnPersistentFrame_0 4B2B4AF645999EC868A79B825A08E7BC, default "false"
+K2Node_SetVariableOnPersistentFrame_0
+ execute => K2Node_FunctionEntry_0 E7F003534728F32A400FE98CBB8CD306, default 
+ then => K2Node_CallFunction_0 76A5D28B47D6F43C09C51AAE7EFDDB13, default 
+ K2Node_ComponentBoundEvent_IsInCombat => K2Node_FunctionEntry_0 522FAAD340E0F6E4FB7CD998066DF336, default 
+K2Node_CallFunction_0
+FunctionReference=(MemberName="ExecuteUbergraph_BP_Enm_SteetGoon3_Brosky",bSelfContext=True)
+ execute => K2Node_SetVariableOnPersistentFrame_0 72B9642E495B747415E9609270C6C930, default 
+ EntryPoint =>  default "0"
+K2Node_FunctionEntry_0
+FunctionReference=(MemberParent="/Script/Engine.BlueprintGeneratedClass'/Game/AI/AIBehaviorSystem/Blueprint/Component/BP_CollisionComponent.BP_CollisionComponent_C'",MemberName="OnHit__DelegateSignature",MemberGuid=C2674E5C4CB8E3B737FEFB88E610782B)
+ then => K2Node_SetVariableOnPersistentFrame_0 F87A4CC7407A220636BAE78EB6AB57ED, default 
+ HitResult => K2Node_SetVariableOnPersistentFrame_0 5A9B726C474F5A607404BB80CE9D3796, default 
+K2Node_SetVariableOnPersistentFrame_0
+ execute => K2Node_FunctionEntry_0 69A86D99400B5129D621788C99CD2489, default 
+ then => K2Node_CallFunction_0 FDFD1C3A4174EDB6CC6C9988D2D5C95A, default 
+ K2Node_ComponentBoundEvent_HitResult => K2Node_FunctionEntry_0 36FC305648953078F6BA21BDCE0459FD, default 
+K2Node_CallFunction_0
+FunctionReference=(MemberName="ExecuteUbergraph_BP_Enm_SteetGoon3_Brosky",bSelfContext=True)
+ execute => K2Node_SetVariableOnPersistentFrame_0 D56E4CA0488F6D1EA3764BBCA12F8A8E, default 
+ EntryPoint =>  default "0"
+K2Node_FunctionEntry_0
+FunctionReference=(MemberParent="/Script/Engine.BlueprintGeneratedClass'/Game/AI/AIBehaviorSystem/Blueprint/Component/BP_CollisionComponent.BP_CollisionComponent_C'",MemberName="OnCollisionEnabled__DelegateSignature",MemberGuid=264CA8CC46D517F1848A2BBCCEE88267)
+ then => K2Node_SetVariableOnPersistentFrame_0 E2EE4F714DA1F941065626887DB1B4CB, default 
+ CollisionPart => K2Node_SetVariableOnPersistentFrame_0 F374F34D49A809ED617A16B3747D9A77, default "NewEnumerator8"
+K2Node_SetVariableOnPersistentFrame_0
+ execute => K2Node_FunctionEntry_0 6D12DFA349CF41A21D76F3A9DAB2DE80, default 
+ then => K2Node_CallFunction_0 8DCF22204E240553437565AEE41ED75A, default 
+ K2Node_ComponentBoundEvent_CollisionPart => K2Node_FunctionEntry_0 2940A32A4520C0E1349546ABAA3C3295, default 
+K2Node_CallFunction_0
+FunctionReference=(MemberName="ExecuteUbergraph_BP_Enm_SteetGoon3_Brosky",bSelfContext=True)
+ execute => K2Node_SetVariableOnPersistentFrame_0 6C49A156423DCC8E3C66ECAE4FB72BE1, default 
+ EntryPoint =>  default "0"
+K2Node_FunctionEntry_0
+ then => K2Node_SetVariableOnPersistentFrame_0 3EE6D1F44315816A08D0758004737DBB, default 
+ Equip => K2Node_SetVariableOnPersistentFrame_0 5F8750E94F3F1B1C4DDDBE8B4789C68F, default 
+K2Node_SetVariableOnPersistentFrame_0
+ execute => K2Node_FunctionEntry_0 839C9AC944ED9C99BFAA1C96EF6407FB, default 
+ then => K2Node_CallFunction_0 EEB7827C429F692AECABBAB4D523D6EB, default 
+ K2Node_CustomEvent_Equip => K2Node_FunctionEntry_0 45E89A3C49A58D6D3F116994EEDC6CC7, default 
+K2Node_CallFunction_0
+FunctionReference=(MemberName="ExecuteUbergraph_BP_Enm_SteetGoon3_Brosky",bSelfContext=True)
+ execute => K2Node_SetVariableOnPersistentFrame_0 FD9848DA43E1F2114DF9599DCB1003B8, default 
+ EntryPoint =>  default "0"
+K2Node_FunctionEntry_0
+ then => K2Node_SetVariableOnPersistentFrame_0 07D6923B44BDC0DD96426CA801251DB4, default 
+ Equip => K2Node_SetVariableOnPersistentFrame_0 987DC6C44DA511D41449EDA173E1E8F0, default 
+K2Node_SetVariableOnPersistentFrame_0
+ execute => K2Node_FunctionEntry_0 9C8CE58049C4828C33AA1F995B753DF0, default 
+ then => K2Node_CallFunction_0 99E4556D4E3BACDD951ADF8CF80CE566, default 
+ K2Node_CustomEvent_Equip_1 => K2Node_FunctionEntry_0 360A39E043550D5CBA50649594AD7946, default 
+K2Node_CallFunction_0
+FunctionReference=(MemberName="ExecuteUbergraph_BP_Enm_SteetGoon3_Brosky",bSelfContext=True)
+ execute => K2Node_SetVariableOnPersistentFrame_0 015398D945DF82F40884B889210752B8, default 
+ EntryPoint =>  default "0"
+K2Node_FunctionEntry_0
+FunctionReference=(MemberParent="/Script/CoreUObject.Class'/Script/Engine.Actor'",MemberName="UserConstructionScript")
+ then => K2Node_CallParentFunction_0 A3A97DE84686E0A9999A6CB3A405E395, default 
+K2Node_CallParentFunction_0
+FunctionReference=(MemberParent="/Script/Engine.BlueprintGeneratedClass'/Game/AI/AIBehaviorSystem/Blueprint/AI/BP_AI_Base.BP_AI_Base_C'",MemberName="UserConstructionScript",MemberGuid=A80AC35042A06CC526F25488343E0399)
+ execute => K2Node_FunctionEntry_0 C8178D3044F1454EFB2C75AC16DA0D48, default 

@@ -1,0 +1,121 @@
+Begin Object Class=/Script/Engine.SkeletalMesh Name="StreetGoon3Brosky_NPC_DefaultRig" ExportPath="/Script/Engine.SkeletalMesh'/Game/Characters/NPC/StreetGoons/Meshes/StreetGoon3Brosky_NPC_DefaultRig.StreetGoon3Brosky_NPC_DefaultRig'"
+   Begin Object Class=/Script/Engine.AssetImportData Name="AssetImportData" ExportPath="/Script/Engine.AssetImportData'/Game/Characters/NPC/StreetGoons/Meshes/StreetGoon3Brosky_NPC_DefaultRig.StreetGoon3Brosky_NPC_DefaultRig:AssetImportData'"
+   End Object
+   Begin Object Class=/Script/Engine.AnimCurveMetaData Name="AnimCurveMetaData_0" ExportPath="/Script/Engine.AnimCurveMetaData'/Game/Characters/NPC/StreetGoons/Meshes/StreetGoon3Brosky_NPC_DefaultRig.StreetGoon3Brosky_NPC_DefaultRig:AnimCurveMetaData_0'"
+   End Object
+   Begin Object Class=/Script/UnrealEd.FbxSkeletalMeshImportData Name="FbxSkeletalMeshImportData_0" ExportPath="/Script/UnrealEd.FbxSkeletalMeshImportData'/Game/Characters/NPC/StreetGoons/Meshes/StreetGoon3Brosky_NPC_DefaultRig.StreetGoon3Brosky_NPC_DefaultRig:FbxSkeletalMeshImportData_0'"
+   End Object
+   Begin Object Class=/Script/Engine.SkeletalMeshEditorData Name="SkeletalMeshEditorData_0" ExportPath="/Script/Engine.SkeletalMeshEditorData'/Game/Characters/NPC/StreetGoons/Meshes/StreetGoon3Brosky_NPC_DefaultRig.StreetGoon3Brosky_NPC_DefaultRig:SkeletalMeshEditorData_0'"
+   End Object
+   Begin Object Name="AssetImportData" ExportPath="/Script/Engine.AssetImportData'/Game/Characters/NPC/StreetGoons/Meshes/StreetGoon3Brosky_NPC_DefaultRig.StreetGoon3Brosky_NPC_DefaultRig:AssetImportData'"
+   End Object
+   Begin Object Name="AnimCurveMetaData_0" ExportPath="/Script/Engine.AnimCurveMetaData'/Game/Characters/NPC/StreetGoons/Meshes/StreetGoon3Brosky_NPC_DefaultRig.StreetGoon3Brosky_NPC_DefaultRig:AnimCurveMetaData_0'"
+   End Object
+   Begin Object Name="FbxSkeletalMeshImportData_0" ExportPath="/Script/UnrealEd.FbxSkeletalMeshImportData'/Game/Characters/NPC/StreetGoons/Meshes/StreetGoon3Brosky_NPC_DefaultRig.StreetGoon3Brosky_NPC_DefaultRig:FbxSkeletalMeshImportData_0'"
+      bUseT0AsRefPose=True
+      ThresholdUV=0.000977
+      ImportMaterialOriginalNameData(0)="MI_CoreC_Base_M_Face"
+      ImportMaterialOriginalNameData(1)="MI_CoreC_Base_M_Body"
+      ImportMaterialOriginalNameData(2)="brosky"
+      ImportMaterialOriginalNameData(3)="broskyVest"
+      ImportMeshLodData(0)=(SectionOriginalMaterialName=("MI_CoreC_Base_M_Face","MI_CoreC_Base_M_Body","brosky","broskyVest"))
+   End Object
+   Begin Object Name="SkeletalMeshEditorData_0" ExportPath="/Script/Engine.SkeletalMeshEditorData'/Game/Characters/NPC/StreetGoons/Meshes/StreetGoon3Brosky_NPC_DefaultRig.StreetGoon3Brosky_NPC_DefaultRig:SkeletalMeshEditorData_0'"
+   End Object
+   MeshEditorDataObject="/Script/Engine.SkeletalMeshEditorData'SkeletalMeshEditorData_0'"
+   Skeleton="/Script/Engine.Skeleton'/Game/AI/AIBehaviorSystem/Demo/Characters/Mannequins/Meshes/UE5RTG_EnmAI_Mannequin.UE5RTG_EnmAI_Mannequin'"
+   LODInfo(0)=(LODHysteresis=0.020000,BuildSettings=(bComputeWeightedNormals=True,ThresholdUV=0.000977),ReductionSettings=(NumOfTrianglesPercentage=1.000000,NumOfVertPercentage=1.000000,MaxDeviationPercentage=0.000000))
+   PhysicsAsset="/Script/Engine.PhysicsAsset'/Game/Characters/NPC/StreetGoons/Meshes/StreetGoon3Brosky_NPC_DefaultRig_PhysicsAsset.StreetGoon3Brosky_NPC_DefaultRig_PhysicsAsset'"
+   AssetImportData="/Script/UnrealEd.FbxSkeletalMeshImportData'FbxSkeletalMeshImportData_0'"
+   RetargetBasePose(0)=(Rotation=(X=0.000000,Y=0.000000,Z=0.000000,W=1.000000),Translation=(X=0.228613,Y=-0.066692,Z=0.230431))
+   RetargetBasePose(1)=(Rotation=(X=-0.022415,Y=0.706751,Z=0.022415,W=-0.706751),Translation=(X=0.000000,Y=2.280882,Z=95.896782),Scale3D=(X=1.000000,Y=1.000000,Z=1.000000))
+   RetargetBasePose(2)=(Rotation=(X=-0.000000,Y=-0.000000,Z=-0.125829,W=-0.992052),Translation=(X=3.677055,Y=0.000004,Z=-0.000000),Scale3D=(X=1.000000,Y=1.000000,Z=1.000000))
+   RetargetBasePose(3)=(Rotation=(X=0.000000,Y=0.000000,Z=0.030228,W=-0.999543),Translation=(X=6.795052,Y=0.000008,Z=-0.000000),Scale3D=(X=1.000000,Y=1.000000,Z=1.000000))
+   RetargetBasePose(4)=(Rotation=(X=0.000000,Y=0.000000,Z=0.095377,W=-0.995441),Translation=(X=7.238221,Y=-0.000002,Z=-0.000000),Scale3D=(X=1.000000,Y=1.000000,Z=1.000000))
+   RetargetBasePose(5)=(Rotation=(X=0.000004,Y=-0.000000,Z=0.051177,W=-0.998690),Translation=(X=8.523941,Y=0.000002,Z=-0.000000),Scale3D=(X=1.000000,Y=1.000000,Z=1.000000))
+   RetargetBasePose(6)=(Rotation=(X=-0.000004,Y=-0.000000,Z=0.005946,W=-0.999982),Translation=(X=19.439816,Y=-0.000004,Z=0.000000),Scale3D=(X=1.000000,Y=1.000000,Z=1.000000))
+   RetargetBasePose(7)=(Rotation=(X=-0.000000,Y=-0.000000,Z=-0.207300,W=-0.978277),Translation=(X=11.887753,Y=-0.000005,Z=-0.000000))
+   RetargetBasePose(8)=(Rotation=(X=-0.000001,Y=-0.000000,Z=0.016698,W=-0.999861),Translation=(X=5.110264,Y=-0.000003,Z=-0.000000),Scale3D=(X=1.000000,Y=1.000000,Z=1.000000))
+   RetargetBasePose(9)=(Rotation=(X=0.000001,Y=0.000000,Z=0.103488,W=-0.994631),Translation=(X=4.912981,Y=0.000011,Z=0.000001),Scale3D=(X=1.000000,Y=1.000000,Z=1.000000))
+   RetargetBasePose(10)=(Rotation=(X=0.083278,Y=-0.754560,Z=-0.041290,W=-0.649614),Translation=(X=5.516250,Y=-1.314765,Z=-1.427904),Scale3D=(X=1.000000,Y=1.000000,Z=1.000000))
+   RetargetBasePose(11)=(Rotation=(X=-0.019948,Y=-0.391731,Z=-0.020191,W=-0.919642),Translation=(X=17.809528,Y=-0.000010,Z=0.000038),Scale3D=(X=1.000000,Y=1.000000,Z=1.000000))
+   RetargetBasePose(12)=(Rotation=(X=-0.000000,Y=-0.000000,Z=-0.333632,W=-0.942703),Translation=(X=27.771219,Y=-0.000005,Z=-0.000051),Scale3D=(X=1.000000,Y=1.000000,Z=1.000000))
+   RetargetBasePose(13)=(Rotation=(X=0.011478,Y=0.014877,Z=0.017495,W=-0.999670),Translation=(X=9.083666,Y=0.000013,Z=-0.000013),Scale3D=(X=1.000000,Y=1.000000,Z=1.000000))
+   RetargetBasePose(14)=(Rotation=(X=0.011477,Y=0.014877,Z=0.017494,W=-0.999670),Translation=(X=18.167356,Y=0.000004,Z=-0.000016),Scale3D=(X=1.000000,Y=1.000000,Z=1.000000))
+   RetargetBasePose(15)=(Rotation=(X=-0.557587,Y=-0.001678,Z=0.020561,W=-0.829862),Translation=(X=27.251053,Y=0.000012,Z=-0.000019),Scale3D=(X=1.000000,Y=1.000000,Z=1.000000))
+   RetargetBasePose(16)=(Rotation=(X=0.040947,Y=-0.043105,Z=-0.004553,W=-0.998221),Translation=(X=3.444510,Y=0.384714,Z=-2.379328),Scale3D=(X=1.000000,Y=1.000000,Z=1.000000))
+   RetargetBasePose(17)=(Rotation=(X=-0.007529,Y=-0.022424,Z=0.198664,W=-0.979782),Translation=(X=5.882200,Y=0.000012,Z=-0.000004),Scale3D=(X=1.000000,Y=1.000000,Z=1.000000))
+   RetargetBasePose(18)=(Rotation=(X=0.003546,Y=0.005423,Z=0.132962,W=-0.991100),Translation=(X=4.079994,Y=0.000002,Z=0.000001),Scale3D=(X=1.000000,Y=1.000000,Z=1.000000))
+   RetargetBasePose(19)=(Rotation=(X=-0.026607,Y=-0.011558,Z=0.125284,W=-0.991697),Translation=(X=3.071442,Y=-0.000011,Z=0.000000),Scale3D=(X=1.000000,Y=1.000000,Z=1.000000))
+   RetargetBasePose(20)=(Rotation=(X=-0.037291,Y=0.000386,Z=-0.020259,W=-0.999099),Translation=(X=3.375854,Y=0.753593,Z=-0.182864),Scale3D=(X=1.000000,Y=1.000000,Z=1.000000))
+   RetargetBasePose(21)=(Rotation=(X=0.027876,Y=-0.005563,Z=0.253209,W=-0.966994),Translation=(X=6.098207,Y=0.000034,Z=0.000008),Scale3D=(X=1.000000,Y=1.000000,Z=1.000000))
+   RetargetBasePose(22)=(Rotation=(X=-0.005096,Y=-0.012785,Z=0.174868,W=-0.984496),Translation=(X=4.266787,Y=-0.000031,Z=0.000002),Scale3D=(X=1.000000,Y=1.000000,Z=1.000000))
+   RetargetBasePose(23)=(Rotation=(X=-0.023370,Y=-0.000492,Z=0.111562,W=-0.993483),Translation=(X=3.383632,Y=0.000009,Z=0.000006),Scale3D=(X=1.000000,Y=1.000000,Z=1.000000))
+   RetargetBasePose(24)=(Rotation=(X=0.505193,Y=-0.369130,Z=-0.067039,W=-0.777193),Translation=(X=1.992464,Y=-1.356590,Z=-2.581533),Scale3D=(X=1.000000,Y=1.000000,Z=1.000000))
+   RetargetBasePose(25)=(Rotation=(X=0.039245,Y=0.005899,Z=0.213712,W=-0.976090),Translation=(X=4.378000,Y=0.000005,Z=-0.000015),Scale3D=(X=1.000000,Y=1.000000,Z=1.000000))
+   RetargetBasePose(26)=(Rotation=(X=-0.002018,Y=0.007041,Z=0.072282,W=-0.997357),Translation=(X=3.462226,Y=0.000027,Z=0.000011))
+   RetargetBasePose(27)=(Rotation=(X=-0.195720,Y=0.171194,Z=0.043840,W=-0.964606),Translation=(X=3.314389,Y=0.305941,Z=2.391109))
+   RetargetBasePose(28)=(Rotation=(X=0.067044,Y=-0.009752,Z=0.141354,W=-0.987638),Translation=(X=4.963614,Y=0.000018,Z=-0.000001),Scale3D=(X=1.000000,Y=1.000000,Z=1.000000))
+   RetargetBasePose(29)=(Rotation=(X=-0.020762,Y=0.034501,Z=0.212193,W=-0.976398),Translation=(X=4.099294,Y=-0.000004,Z=0.000002),Scale3D=(X=1.000000,Y=1.000000,Z=1.000000))
+   RetargetBasePose(30)=(Rotation=(X=-0.000614,Y=-0.034813,Z=0.035051,W=-0.998779),Translation=(X=2.233647,Y=-0.000007,Z=0.000000),Scale3D=(X=1.000000,Y=1.000000,Z=1.000000))
+   RetargetBasePose(31)=(Rotation=(X=-0.116599,Y=0.100569,Z=-0.025660,W=-0.987741),Translation=(X=3.374319,Y=0.542544,Z=1.091764),Scale3D=(X=1.000000,Y=1.000000,Z=1.000000))
+   RetargetBasePose(32)=(Rotation=(X=0.055601,Y=-0.029353,Z=0.244402,W=-0.967634),Translation=(X=5.645510,Y=0.041653,Z=-0.020683),Scale3D=(X=1.000000,Y=1.000000,Z=1.000000))
+   RetargetBasePose(33)=(Rotation=(X=0.018277,Y=0.024699,Z=0.162754,W=-0.986188),Translation=(X=4.938875,Y=-0.000028,Z=-0.000013),Scale3D=(X=1.000000,Y=1.000000,Z=1.000000))
+   RetargetBasePose(34)=(Rotation=(X=-0.043563,Y=0.001610,Z=0.126109,W=-0.991058),Translation=(X=2.396689,Y=0.000013,Z=-0.000002))
+   RetargetBasePose(35)=(Rotation=(X=-0.000054,Y=0.018790,Z=-0.002850,W=-0.999819),Translation=(X=9.257116,Y=-0.000004,Z=-0.000034))
+   RetargetBasePose(36)=(Rotation=(X=-0.000000,Y=-0.000001,Z=0.000000,W=-1.000000),Translation=(X=18.514166,Y=-0.000004,Z=-0.000027),Scale3D=(X=1.000000,Y=1.000000,Z=1.000000))
+   RetargetBasePose(37)=(Rotation=(X=0.754563,Y=0.083277,Z=-0.649611,W=0.041289),Translation=(X=5.516211,Y=-1.314812,Z=1.427872),Scale3D=(X=0.999985,Y=1.000000,Z=0.999999))
+   RetargetBasePose(38)=(Rotation=(X=-0.019948,Y=-0.391728,Z=-0.020190,W=-0.919643),Translation=(X=-17.809889,Y=0.000057,Z=0.000345),Scale3D=(X=1.000000,Y=1.000000,Z=1.000000))
+   RetargetBasePose(39)=(Rotation=(X=0.000003,Y=-0.000001,Z=-0.333634,W=-0.942703),Translation=(X=-27.771051,Y=0.000089,Z=-0.000195),Scale3D=(X=1.000000,Y=1.000000,Z=1.000000))
+   RetargetBasePose(40)=(Rotation=(X=0.011477,Y=0.014877,Z=0.017495,W=-0.999670),Translation=(X=-9.083714,Y=0.000078,Z=-0.000092),Scale3D=(X=1.000000,Y=1.000000,Z=1.000000))
+   RetargetBasePose(41)=(Rotation=(X=0.011477,Y=0.014877,Z=0.017495,W=-0.999670),Translation=(X=-18.167418,Y=0.000185,Z=-0.000181))
+   RetargetBasePose(42)=(Rotation=(X=-0.557590,Y=-0.001678,Z=0.020561,W=-0.829860),Translation=(X=-27.251179,Y=0.000277,Z=-0.000268),Scale3D=(X=1.000000,Y=1.000000,Z=1.000000))
+   RetargetBasePose(43)=(Rotation=(X=-0.218232,Y=0.188167,Z=0.058286,W=-0.955809),Translation=(X=-3.314692,Y=-0.305958,Z=-2.391362))
+   RetargetBasePose(44)=(Rotation=(X=0.089983,Y=-0.017015,Z=0.128066,W=-0.987529),Translation=(X=-4.957373,Y=-0.143328,Z=0.198868),Scale3D=(X=1.000000,Y=1.000000,Z=1.000000))
+   RetargetBasePose(45)=(Rotation=(X=-0.016106,Y=-0.010979,Z=0.163208,W=-0.986399),Translation=(X=-4.093701,Y=-0.000428,Z=0.061982),Scale3D=(X=1.000000,Y=1.000000,Z=1.000000))
+   RetargetBasePose(46)=(Rotation=(X=0.008413,Y=0.022116,Z=0.059988,W=-0.997919),Translation=(X=-2.213808,Y=0.210164,Z=-0.165028),Scale3D=(X=1.000000,Y=1.000000,Z=1.000000))
+   RetargetBasePose(47)=(Rotation=(X=-0.116599,Y=0.100568,Z=-0.025660,W=-0.987741),Translation=(X=-3.374228,Y=-0.543000,Z=-1.091846),Scale3D=(X=1.000000,Y=1.000000,Z=1.000000))
+   RetargetBasePose(48)=(Rotation=(X=0.054214,Y=-0.013175,Z=0.253541,W=-0.965714),Translation=(X=-5.645754,Y=-0.041489,Z=0.020597),Scale3D=(X=1.000000,Y=1.000000,Z=1.000000))
+   RetargetBasePose(49)=(Rotation=(X=-0.001157,Y=-0.035159,Z=0.152580,W=-0.987665),Translation=(X=-4.926465,Y=-0.073431,Z=0.153452),Scale3D=(X=1.000000,Y=1.000000,Z=1.000000))
+   RetargetBasePose(50)=(Rotation=(X=-0.019821,Y=0.016860,Z=0.064510,W=-0.997578),Translation=(X=-2.391064,Y=-0.004633,Z=-0.235228),Scale3D=(X=1.000000,Y=1.000000,Z=1.000000))
+   RetargetBasePose(51)=(Rotation=(X=-0.037291,Y=0.000386,Z=-0.020259,W=-0.999099),Translation=(X=-3.375807,Y=-0.754022,Z=0.182759),Scale3D=(X=1.000000,Y=1.000000,Z=1.000000))
+   RetargetBasePose(52)=(Rotation=(X=-0.000003,Y=0.000003,Z=0.272051,W=-0.962283),Translation=(X=-6.098407,Y=0.000120,Z=-0.000088),Scale3D=(X=1.000000,Y=1.000000,Z=1.000000))
+   RetargetBasePose(53)=(Rotation=(X=0.036240,Y=-0.008519,Z=0.238611,W=-0.970401),Translation=(X=-4.260616,Y=-0.141973,Z=-0.001265),Scale3D=(X=1.000000,Y=1.000000,Z=1.000000))
+   RetargetBasePose(54)=(Rotation=(X=-0.053026,Y=-0.003913,Z=0.000301,W=-0.998585),Translation=(X=-3.377354,Y=-0.724159,Z=-0.032415),Scale3D=(X=1.000000,Y=1.000000,Z=1.000000))
+   RetargetBasePose(55)=(Rotation=(X=0.028966,Y=-0.063705,Z=-0.007109,W=-0.997523),Translation=(X=-3.444520,Y=-0.385170,Z=2.379279),Scale3D=(X=1.000000,Y=1.000000,Z=1.000000))
+   RetargetBasePose(56)=(Rotation=(X=-0.000002,Y=0.000003,Z=0.202557,W=-0.979271),Translation=(X=-5.877239,Y=0.043396,Z=-0.241046))
+   RetargetBasePose(57)=(Rotation=(X=-0.002222,Y=0.014840,Z=0.135724,W=-0.990633),Translation=(X=-4.170881,Y=0.059118,Z=-0.077732),Scale3D=(X=1.000000,Y=1.000000,Z=1.000000))
+   RetargetBasePose(58)=(Rotation=(X=-0.001405,Y=-0.010769,Z=0.091908,W=-0.995708),Translation=(X=-2.958142,Y=-0.034725,Z=0.147756),Scale3D=(X=1.000000,Y=1.000000,Z=1.000000))
+   RetargetBasePose(59)=(Rotation=(X=0.505198,Y=-0.369128,Z=-0.067038,W=-0.777191),Translation=(X=-1.992838,Y=1.356678,Z=2.581325),Scale3D=(X=1.000000,Y=1.000000,Z=1.000000))
+   RetargetBasePose(60)=(Rotation=(X=0.033565,Y=0.010303,Z=0.201854,W=-0.978786),Translation=(X=-4.377826,Y=-0.000442,Z=-0.000158),Scale3D=(X=1.000000,Y=1.000000,Z=1.000000))
+   RetargetBasePose(61)=(Rotation=(X=0.000563,Y=-0.010078,Z=0.100853,W=-0.994850),Translation=(X=-2.838647,Y=0.036183,Z=0.056870),Scale3D=(X=1.000000,Y=1.000000,Z=1.000000))
+   RetargetBasePose(62)=(Rotation=(X=-0.000054,Y=0.018790,Z=-0.002850,W=-0.999819),Translation=(X=-9.257036,Y=0.000015,Z=-0.000148),Scale3D=(X=1.000000,Y=1.000000,Z=1.000000))
+   RetargetBasePose(63)=(Rotation=(X=0.000000,Y=-0.000002,Z=-0.000000,W=-1.000000),Translation=(X=-18.514057,Y=0.000038,Z=-0.000308),Scale3D=(X=1.000000,Y=1.000000,Z=1.000000))
+   RetargetBasePose(64)=(Rotation=(X=0.029461,Y=-0.072402,Z=0.996519,W=-0.028969),Translation=(X=-2.365736,Y=0.119489,Z=9.969090),Scale3D=(X=1.000001,Y=1.000000,Z=1.000005))
+   RetargetBasePose(65)=(Rotation=(X=0.000000,Y=-0.000002,Z=-0.043662,W=-0.999046),Translation=(X=43.341259,Y=0.000014,Z=0.000192),Scale3D=(X=1.000000,Y=1.000000,Z=1.000000))
+   RetargetBasePose(66)=(Rotation=(X=-0.000666,Y=-0.026875,Z=0.023240,W=-0.999368),Translation=(X=42.217926,Y=-0.000030,Z=0.000361),Scale3D=(X=1.000000,Y=1.000000,Z=1.000000))
+   RetargetBasePose(67)=(Rotation=(X=0.000012,Y=0.000009,Z=-0.707107,W=-0.707107),Translation=(X=7.009426,Y=-15.237503,Z=-0.538828),Scale3D=(X=1.000000,Y=1.000000,Z=1.000000))
+   RetargetBasePose(68)=(Rotation=(X=-0.000093,Y=-0.002247,Z=0.023249,W=-0.999727),Translation=(X=14.072645,Y=-0.000011,Z=0.037848),Scale3D=(X=1.000000,Y=1.000000,Z=1.000000))
+   RetargetBasePose(69)=(Rotation=(X=-0.000093,Y=-0.002247,Z=0.023249,W=-0.999727),Translation=(X=28.145283,Y=-0.000021,Z=0.075698),Scale3D=(X=1.000000,Y=1.000000,Z=1.000000))
+   RetargetBasePose(70)=(Rotation=(X=0.000026,Y=-0.002253,Z=-0.011408,W=-0.999932),Translation=(X=14.447090,Y=0.000002,Z=0.000066),Scale3D=(X=1.000000,Y=1.000000,Z=1.000000))
+   RetargetBasePose(71)=(Rotation=(X=0.000026,Y=-0.002252,Z=-0.011408,W=-0.999932),Translation=(X=28.894169,Y=0.000006,Z=0.000126),Scale3D=(X=1.000000,Y=1.000000,Z=1.000000))
+   RetargetBasePose(72)=(Rotation=(X=0.072405,Y=0.029462,Z=-0.028970,W=-0.996519),Translation=(X=-2.365712,Y=0.110046,Z=-9.969202))
+   RetargetBasePose(73)=(Rotation=(X=0.000000,Y=-0.000000,Z=-0.043662,W=-0.999046),Translation=(X=-43.341343,Y=-0.000002,Z=0.000000))
+   RetargetBasePose(74)=(Rotation=(X=-0.000666,Y=-0.026877,Z=0.023239,W=-0.999368),Translation=(X=-42.217945,Y=0.000000,Z=-0.000005),Scale3D=(X=1.000000,Y=1.000000,Z=1.000000))
+   RetargetBasePose(75)=(Rotation=(X=-0.000000,Y=-0.000000,Z=-0.707107,W=-0.707107),Translation=(X=-7.009448,Y=15.237597,Z=0.538887))
+   RetargetBasePose(76)=(Rotation=(X=-0.000093,Y=-0.002251,Z=0.023249,W=-0.999727),Translation=(X=-14.072642,Y=0.000003,Z=-0.000000),Scale3D=(X=1.000000,Y=1.000000,Z=1.000000))
+   RetargetBasePose(77)=(Rotation=(X=-0.000093,Y=-0.002251,Z=0.023249,W=-0.999727),Translation=(X=-28.145300,Y=-0.000003,Z=-0.075453),Scale3D=(X=1.000000,Y=1.000000,Z=1.000000))
+   RetargetBasePose(78)=(Rotation=(X=0.000026,Y=-0.002253,Z=-0.011408,W=-0.999932),Translation=(X=-14.447139,Y=-0.000000,Z=0.000000))
+   RetargetBasePose(79)=(Rotation=(X=0.000026,Y=-0.002253,Z=-0.011408,W=-0.999932),Translation=(X=-28.894241,Y=-0.000000,Z=-0.000010))
+   RetargetBasePose(80)=(Rotation=(X=0.000000,Y=0.000000,Z=-0.000000,W=-1.000000))
+   RetargetBasePose(81)=(Rotation=(X=0.063632,Y=0.704247,Z=0.041376,W=-0.705887),Translation=(X=14.087671,Y=-0.994257,Z=8.237638),Scale3D=(X=1.000000,Y=1.000000,Z=1.000000))
+   RetargetBasePose(82)=(Rotation=(X=0.705887,Y=0.041374,Z=-0.704246,W=0.063630),Translation=(X=-14.087559,Y=-0.984834,Z=8.238232),Scale3D=(X=0.999999,Y=1.000000,Z=1.000000))
+   RetargetBasePose(83)=(Rotation=(X=0.000000,Y=0.000000,Z=-0.000000,W=-1.000000))
+   RetargetBasePose(84)=(Rotation=(X=0.598460,Y=0.009649,Z=0.520600,W=-0.608875),Translation=(X=-47.768326,Y=15.698807,Z=104.466438))
+   RetargetBasePose(85)=(Rotation=(X=-0.457766,Y=-0.645509,Z=-0.611366,W=-0.000000),Translation=(X=43.733601,Y=61.669895,Z=58.408100),Scale3D=(X=1.000000,Y=1.000000,Z=1.000000))
+   RetargetBasePose(86)=(Rotation=(X=0.000000,Y=0.000000,Z=0.000000,W=-1.000000),Translation=(X=0.000024,Y=0.000010,Z=-0.000009),Scale3D=(X=1.000000,Y=1.000000,Z=1.000000))
+   RetargetBasePose(87)=(Rotation=(X=0.000000,Y=0.000000,Z=-0.000000,W=-1.000000))
+   RetargetBasePose(88)=(Rotation=(X=0.000000,Y=0.000000,Z=-0.000000,W=-1.000000))
+   SamplingInfo=(BuiltData=(WholeMeshBuiltData=(())))
+   AssetUserData(0)="/Script/Engine.AnimCurveMetaData'AnimCurveMetaData_0'"
+End Object

@@ -1,0 +1,98 @@
+[
+  {
+    "asset": "/Game/Characters/NPC/StreetGoons/BP_Enm_StreetGoon1Misto",
+    "mesh": "/Game/Characters/NPC/StreetGoons/Meshes/StreetGoon1Misto_NPC_DefaultRig.StreetGoon1Misto_NPC_DefaultRig",
+    "skeleton": "/InventorySystemX/Template/Lyra/Characters/Heroes/Mannequin/Meshes/SK_Import_Mannequin.SK_Import_Mannequin",
+    "damage": 7.0,
+    "attack_distance": 80.0,
+    "trace_radius": 15.0,
+    "sockets": {
+      "RightHandSocket": {
+        "name": "hand_rSocket",
+        "resolved_bone": "None",
+        "actual_bone_index": 42,
+        "location": "<Struct 'Vector' (0x000001FBDF34DDD0) {x: 0.000000, y: 0.000000, z: -92.000000}>",
+        "bone_location": "<Struct 'Vector' (0x000001FBDF34DDD0) {x: 18.396051, y: 36.298464, z: 52.010901}>"
+      },
+      "LeftHandSocket": {
+        "name": "hand_lSocket",
+        "resolved_bone": "None",
+        "actual_bone_index": 15,
+        "location": "<Struct 'Vector' (0x000001FBDF34DDD0) {x: 0.000000, y: 0.000000, z: -92.000000}>",
+        "bone_location": "<Struct 'Vector' (0x000001FBDF34DDD0) {x: 55.981840, y: 6.861733, z: 56.600409}>"
+      },
+      "RightFootSocket": {
+        "name": "foot_rSocket",
+        "resolved_bone": "None",
+        "actual_bone_index": 66,
+        "location": "<Struct 'Vector' (0x000001FBDF34DDD0) {x: 0.000000, y: 0.000000, z: -92.000000}>",
+        "bone_location": "<Struct 'Vector' (0x000001FBDF34DDD0) {x: -37.740699, y: 20.825282, z: -83.185037}>"
+      }
+    },
+    "attack_animations": "<Struct 'S_MeleeAttackMontage' (0x00000AB18A3ECA70) {}>"
+  },
+  {
+    "asset": "/Game/Characters/NPC/StreetGoons/BP_Enm_StreetGoon2Nara",
+    "mesh": "/Game/Characters/NPC/StreetGoons/Meshes/StreetGoon2Nara_NPC_DefaultRig.StreetGoon2Nara_NPC_DefaultRig",
+    "skeleton": "/InventorySystemX/Template/Lyra/Characters/Heroes/Mannequin/Meshes/SK_Import_Mannequin.SK_Import_Mannequin",
+    "damage": 7.0,
+    "attack_distance": 80.0,
+    "trace_radius": 15.0,
+    "sockets": {
+      "RightHandSocket": {
+        "name": "hand_rSocket",
+        "resolved_bone": "None",
+        "actual_bone_index": 42,
+        "location": "<Struct 'Vector' (0x000001FBFF5E3E20) {x: 0.000000, y: 0.000000, z: -92.000000}>",
+        "bone_location": "<Struct 'Vector' (0x000001FBFF5E3E20) {x: 18.739939, y: 36.977034, z: 54.702702}>"
+      },
+      "LeftHandSocket": {
+        "name": "hand_lSocket",
+        "resolved_bone": "None",
+        "actual_bone_index": 15,
+        "location": "<Struct 'Vector' (0x000001FBFF5E3E20) {x: 0.000000, y: 0.000000, z: -92.000000}>",
+        "bone_location": "<Struct 'Vector' (0x000001FBFF5E3E20) {x: 57.028277, y: 6.990016, z: 59.378037}>"
+      },
+      "RightFootSocket": {
+        "name": "foot_rSocket",
+        "resolved_bone": "None",
+        "actual_bone_index": 66,
+        "location": "<Struct 'Vector' (0x000001FBFF5E3E20) {x: 0.000000, y: 0.000000, z: -92.000000}>",
+        "bone_location": "<Struct 'Vector' (0x000001FBFF5E3E20) {x: -38.446120, y: 21.214532, z: -83.020220}>"
+      }
+    },
+    "attack_animations": "<Struct 'S_MeleeAttackMontage' (0x00000AB18A3EA770) {}>"
+  },
+  {
+    "asset": "/Game/Characters/NPC/GenericOnes/DrunkBarFightGuy/BP_Enm_BarFighter",
+    "mesh": "/Game/Characters/NPC/GenericOnes/DrunkBarFightGuy/UpdateRig/DrunkGuySkeletonUpdate1.DrunkGuySkeletonUpdate1",
+    "skeleton": "/Game/AI/AIBehaviorSystem/Demo/Characters/Mannequins/Meshes/UE5RTG_EnmAI_Mannequin.UE5RTG_EnmAI_Mannequin",
+    "damage": 7.0,
+    "attack_distance": 80.0,
+    "trace_radius": 15.0,
+    "sockets": {
+      "RightHandSocket": {
+        "name": "hand_rSocket",
+        "resolved_bone": "hand_r",
+        "actual_bone_index": 66,
+        "location": "<Struct 'Vector' (0x000001FBDF4F97E0) {x: 18.739810, y: 36.976460, z: 54.702686}>",
+        "bone_location": "<Struct 'Vector' (0x000001FBDF4F97E0) {x: 18.739810, y: 36.976460, z: 54.702686}>"
+      },
+      "LeftHandSocket": {
+        "name": "hand_lSocket",
+        "resolved_bone": "hand_l",
+        "actual_bone_index": 20,
+        "location": "<Struct 'Vector' (0x000001FBDF4F97E0) {x: 57.028184, y: 6.990042, z: 59.377966}>",
+        "bone_location": "<Struct 'Vector' (0x000001FBDF4F97E0) {x: 57.028184, y: 6.990042, z: 59.377966}>"
+      },
+      "RightFootSocket": {
+        "name": "foot_rSocket",
+        "resolved_bone": "None",
+        "actual_bone_index": 108,
+        "location": "<Struct 'Vector' (0x000001FBDF4F97E0) {x: 0.000000, y: 0.000000, z: -92.000000}>",
+        "bone_location": "<Struct 'Vector' (0x000001FBDF4F97E0) {x: -38.446114, y: 21.214515, z: -83.020217}>"
+      }
+    },
+    "attack_animations": "<Struct 'S_MeleeAttackMontage' (0x00000AB11AEE7A70) {}>"
+  }
+]

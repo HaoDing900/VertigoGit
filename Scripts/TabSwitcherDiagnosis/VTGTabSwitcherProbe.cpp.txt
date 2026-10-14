@@ -1,0 +1,73 @@
+#include "Blueprint/UserWidget.h"
+#include "Framework/Application/SlateApplication.h"
+#include "HAL/IConsoleManager.h"
+#include "Engine/Engine.h"
+#include "Engine/World.h"
+#include "Input/Events.h"
+#include "UObject/UObjectIterator.h"
+#include "UObject/StructOnScope.h"
+#include "UObject/UnrealType.h"
+#include "Editor.h"
+#include "GameFramework/PlayerController.h"
+#include "Tests/AutomationEditorCommon.h"
+
+// Diagnostic only: invoked explicitly in an isolated editor PIE session.
+namespace VTGTabProbe
+{
+void Dump(UWorld* World, const TCHAR* Stage)
+{
+    for (TObjectIterator<UUserWidget> It; It; ++It)
+    {
+        auto* Widget = *It;
+        if (Widget->GetWorld() != World) continue;
+        if (Widget->HasKeyboardFocus())
+            UE_LOG(LogTemp, Display, TEXT("TABPROBE_NATIVE %s focus=%s class=%s"), Stage, *Widget->GetName(), *Widget->GetClass()->GetName());
+        if (Widget->GetClass()->GetName() != TEXT("WB_TabSwitcherMenu_C")) continue;
+        int32 Active = -999;
+        if (auto* Function = Widget->FindFunction(TEXT("GetActiveTabIndex")))
+        {
+            FStructOnScope Parameters(Function);
+            Widget->ProcessEvent(Function, Parameters.GetStructMemory());
+            for (TFieldIterator<FProperty> P(Function); P; ++P)
+                if (P->HasAnyPropertyFlags(CPF_OutParm))
+                    if (auto* Number = CastField<FIntProperty>(*P))
+                        Active = Number->GetPropertyValue_InContainer(Parameters.GetStructMemory());
+        }
+        int32 Buttons = -1;
+        if (auto* Array = FindFProperty<FArrayProperty>(Widget->GetClass(), TEXT("TabButtonsWidgets")))
+            Buttons = FScriptArrayHelper(Array, Array->ContainerPtrToValuePtr<void>(Widget)).Num();
+        UE_LOG(LogTemp, Display, TEXT("TABPROBE_NATIVE %s menu=%s visible=%d buttons=%d active=%d"), Stage, *Widget->GetName(), Widget->IsVisible(), Buttons, Active);
+    }
+}
+void Run(const TArray<FString>& Args)
+{
+    UWorld* World = nullptr;
+    if (GEngine)
+        for (auto& Context : GEngine->GetWorldContexts())
+            if (Context.WorldType == EWorldType::PIE) World = Context.World();
+    if (!World || !FSlateApplication::IsInitialized()) return;
+    Dump(World, TEXT("before"));
+    TArray<FKey> Keys = Args.Num() ? TArray<FKey>{FKey(*Args[0])} : TArray<FKey>{EKeys::E, EKeys::Q};
+    for (FKey Key : Keys)
+    {
+        const FKeyEvent Event(Key, FModifierKeysState(), 0, false, 0, 0);
+        const bool Handled = FSlateApplication::Get().ProcessKeyDownEvent(Event);
+        UE_LOG(LogTemp, Display, TEXT("TABPROBE_NATIVE key=%s handled=%d"), *Key.ToString(), Handled);
+        FSlateApplication::Get().ProcessKeyUpEvent(Event);
+        Dump(World, *Key.ToString());
+    }
+}
+static FAutoConsoleCommand Command(TEXT("VTG.TabSwitcherProbe"), TEXT("Trace Q/E Slate routing and tab state in PIE without saving assets."), FConsoleCommandWithArgsDelegate::CreateStatic(&Run));
+static FAutoConsoleCommand BeginCommand(TEXT("VTG.TabSwitcherStartPIE"), TEXT("Start an isolated, normal PIE session in the existing hidden editor viewport."), FConsoleCommandDelegate::CreateLambda([] { FStartPIECommand(false).Update(); }));
+static FAutoConsoleCommand TabCommand(TEXT("VTG.TabSwitcherPressTab"), TEXT("Send Tab to the PIE player controller; pass release for key up."), FConsoleCommandWithArgsDelegate::CreateLambda([](const TArray<FString>& Args)
+{
+    if (GEngine) for (auto& Context : GEngine->GetWorldContexts())
+        if (Context.WorldType == EWorldType::PIE)
+            if (auto* PC = Context.World()->GetFirstPlayerController())
+            {
+                const bool Release = Args.Num() && Args[0] == TEXT("release");
+                const bool Handled = PC->InputKey(EKeys::Tab, Release ? IE_Released : IE_Pressed, 1.f, false);
+                UE_LOG(LogTemp, Display, TEXT("TABPROBE_NATIVE Tab release=%d handled=%d pc=%s pawn=%s"), Release, Handled, *PC->GetClass()->GetName(), PC->GetPawn() ? *PC->GetPawn()->GetClass()->GetName() : TEXT("None"));
+            }
+}));
+}

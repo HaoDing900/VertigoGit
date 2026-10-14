@@ -1,0 +1,34 @@
+[
+  {
+    "button": "Button",
+    "states": [
+      "/Game/2DArt/UI/GameOption/MainMenuOptionBar_Default.MainMenuOptionBar_Default",
+      "/Game/2DArt/UI/GameOption/MainMenuOptionBar_Hover.MainMenuOptionBar_Hover",
+      "/Game/2DArt/UI/GameOption/MainMenuOptionBar_Selected.MainMenuOptionBar_Selected"
+    ]
+  },
+  {
+    "button": "Button_1",
+    "states": [
+      "/Game/2DArt/UI/GameOption/MainMenuOptionBar_Default.MainMenuOptionBar_Default",
+      "/Game/2DArt/UI/GameOption/MainMenuOptionBar_Hover.MainMenuOptionBar_Hover",
+      "/Game/2DArt/UI/GameOption/MainMenuOptionBar_Selected.MainMenuOptionBar_Selected"
+    ]
+  },
+  {
+    "button": "Button_2",
+    "states": [
+      "/Game/2DArt/UI/GameOption/MainMenuOptionBar_Default.MainMenuOptionBar_Default",
+      "/Game/2DArt/UI/GameOption/MainMenuOptionBar_Hover.MainMenuOptionBar_Hover",
+      "/Game/2DArt/UI/GameOption/MainMenuOptionBar_Selected.MainMenuOptionBar_Selected"
+    ]
+  },
+  {
+    "button": "Button_86",
+    "states": [
+      "/Game/2DArt/UI/GameOption/MainMenuOptionBar_Default.MainMenuOptionBar_Default",
+      "/Game/2DArt/UI/GameOption/MainMenuOptionBar_Hover.MainMenuOptionBar_Hover",
+      "/Game/2DArt/UI/GameOption/MainMenuOptionBar_Selected.MainMenuOptionBar_Selected"
+    ]
+  }
+]

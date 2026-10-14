@@ -1252,35 +1252,19 @@ void UDialogue::PlayPlayerDialogueNode(class UDialogueNode_Player* PlayerReply)
 void UDialogue::ReplaceStringVariables(const class UDialogueNode* Node, const FDialogueLine& Line, FText& OutLine)
 {
 	//Replace variables in dialogue line
-	FString LineString = OutLine.ToString();
-
-	int32 OpenBraceIdx = -1;
-	int32 CloseBraceIdx = -1;
-	bool bFoundOpenBrace = LineString.FindChar('{', OpenBraceIdx);
-	bool bFoundCloseBrace = LineString.FindChar('}', CloseBraceIdx);
-	uint32 Iters = 0; // More than 50 wildcard replaces and something has probably gone wrong, so safeguard against that
-
-	while (bFoundOpenBrace && bFoundCloseBrace && OpenBraceIdx < CloseBraceIdx && Iters < 50)
+	// Keep the original localized format and a snapshot of gameplay variable values.
+	// Culture changes can rebuild displayed text without replaying dialogue events.
+	FTextFormat Format(OutLine);
+	TArray<FString> Names;
+	Format.GetFormatArgumentNames(Names);
+	if (Names.IsEmpty() || !Format.IsValid()) return;
+	FFormatNamedArguments Arguments;
+	for (const FString& Name : Names)
 	{
-		const FString VariableName = LineString.Mid(OpenBraceIdx + 1, CloseBraceIdx - OpenBraceIdx - 1);
-		const FString VariableVal = GetStringVariable(Node, Line, VariableName);
-
-		if (!VariableVal.IsEmpty())
-		{
-			LineString.RemoveAt(OpenBraceIdx, CloseBraceIdx - OpenBraceIdx + 1);
-			LineString.InsertAt(OpenBraceIdx, VariableVal);
-		}
-
-		bFoundOpenBrace = LineString.FindChar('{', OpenBraceIdx);
-		bFoundCloseBrace = LineString.FindChar('}', CloseBraceIdx);
-
-		Iters++;
+		const FString Value = GetStringVariable(Node, Line, Name);
+		Arguments.Add(Name, FText::AsCultureInvariant(Value.IsEmpty() ? TEXT("{") + Name + TEXT("}") : Value));
 	}
-
-	if (Iters > 0)
-	{
-		OutLine = FText::FromString(LineString);
-	}
+	OutLine = FText::Format(Format, Arguments);
 }
 
 AActor* UDialogue::GetPlayerAvatar() const

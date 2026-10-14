@@ -1,0 +1,14 @@
+Begin Object Class=/Script/Engine.UserDefinedStruct Name="S_MapNodeData" ExportPath="/Script/Engine.UserDefinedStruct'/Game/Inventory/InventoryXBased/UMG/TabSwitcher/InTabWidget/MapWBP/S_MapNodeData.S_MapNodeData'"
+   Begin Object Class=/Script/UnrealEd.UserDefinedStructEditorData Name="UserDefinedStructEditorData_0" ExportPath="/Script/UnrealEd.UserDefinedStructEditorData'/Game/Inventory/InventoryXBased/UMG/TabSwitcher/InTabWidget/MapWBP/S_MapNodeData.S_MapNodeData:UserDefinedStructEditorData_0'"
+   End Object
+   Begin Object Name="UserDefinedStructEditorData_0" ExportPath="/Script/UnrealEd.UserDefinedStructEditorData'/Game/Inventory/InventoryXBased/UMG/TabSwitcher/InTabWidget/MapWBP/S_MapNodeData.S_MapNodeData:UserDefinedStructEditorData_0'"
+      UniqueNameId=17
+      VariablesDescriptions(0)=(VarName="MapNode_5_47C7A02941443996FAF786AB729D96DF",VarGuid=47C7A02941443996FAF786AB729D96DF,FriendlyName="MapNode",DefaultValue="None",Category="name",CurrentDefaultValue="None")
+      VariablesDescriptions(1)=(VarName="SubArea_9_6166BC3742AF5AD0354D789C9087F1C4",VarGuid=6166BC3742AF5AD0354D789C9087F1C4,FriendlyName="SubArea",Category="struct",SubCategoryObject="/Game/Inventory/InventoryXBased/UMG/TabSwitcher/InTabWidget/MapWBP/S_SubAreaData.S_SubAreaData",ContainerType=Array)
+      VariablesDescriptions(2)=(VarName="Image_Default_12_F9168BA04D93B22BADAFFF9DF8938444",VarGuid=F9168BA04D93B22BADAFFF9DF8938444,FriendlyName="Image_Default",DefaultValue="None",Category="object",SubCategoryObject="/Script/Engine.Texture2D",CurrentDefaultValue="None")
+      VariablesDescriptions(3)=(VarName="Image_Hovered_14_20ED7781493FA25F2314F995C9C83642",VarGuid=20ED7781493FA25F2314F995C9C83642,FriendlyName="Image_Hovered",DefaultValue="None",Category="object",SubCategoryObject="/Script/Engine.Texture2D",CurrentDefaultValue="None")
+      VariablesDescriptions(4)=(VarName="Image_Selected_16_C17A462C4DE7673EF7C0209505848A05",VarGuid=C17A462C4DE7673EF7C0209505848A05,FriendlyName="Image_Selected",DefaultValue="None",Category="object",SubCategoryObject="/Script/Engine.Texture2D",CurrentDefaultValue="None")
+   End Object
+   EditorData="/Script/UnrealEd.UserDefinedStructEditorData'UserDefinedStructEditorData_0'"
+   Guid=F6135A5E4C7BA3FB95F313847BB4C909
+End Object
