@@ -7,6 +7,7 @@ public class Vertigo : ModuleRules
 		PCHUsage = PCHUsageMode.UseExplicitOrSharedPCHs;
 
 		PublicDependencyModuleNames.AddRange(new string[] { "Core", "CoreUObject", "Engine", "UMG", "MovieScene", "Narrative", "InventorySystemX", "CommonUI", "NarrativeCommonUI" });
+        PrivateDependencyModuleNames.AddRange(new string[] { "EnhancedInput", "CommonInput" });
         PublicDependencyModuleNames.Add("DeveloperSettings");
 
 		// "Narrative" lets the SaveCoordinator drive the Narrative plugin's own Save/Load in C++.

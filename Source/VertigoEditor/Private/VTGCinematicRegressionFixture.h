@@ -5,6 +5,7 @@
 #include "LevelSequenceDirector.h"
 #include "LevelSequencePlayer.h"
 #include "VTGCinematicRegressionFixture.generated.h"
+bool VTGRunSequenceSkipChecks();
 
 UCLASS()
 class UVTGReturnRegressionDialogue : public UDialogue
@@ -41,9 +42,11 @@ public:
     static int32 FinishCount;
     static bool bPauseAtEvent;
     static TWeakObjectPtr<UNarrativeComponent> DialogueOwner;
+    static FSimpleDelegate TriggerCallback;
     UFUNCTION() void Trigger()
     {
         ++TriggerCount;
+        TriggerCallback.ExecuteIfBound();
         if (bPauseAtEvent && Player) Player->Pause();
         if (DialogueOwner.IsValid())
         {

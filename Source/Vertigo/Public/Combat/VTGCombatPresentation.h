@@ -18,12 +18,14 @@ class VERTIGO_API UVTGEnemyFeedbackComponent : public UActorComponent
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Feedback") FText DisplayName;
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Feedback") TObjectPtr<UNiagaraSystem> HitEffect;
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Feedback") TObjectPtr<UNiagaraSystem> DeathEffect;
+    UPROPERTY(EditAnywhere, Category="Combat") bool bEndsSewerCombatOnDeath = false;
 
   protected:
     virtual void BeginPlay() override;
     virtual void TickComponent(float DeltaTime, ELevelTick TickType, FActorComponentTickFunction *Fn) override;
 
   private:
+    friend struct FVTGHUDUnificationRegression;
     UFUNCTION() void OwnerDestroyed(AActor *Actor);
     void CheckHealth();
     FVTGHealthSource Source;
@@ -68,15 +70,23 @@ class VERTIGO_API UVTGPlayerPresentationComponent : public UActorComponent
   public:
     UVTGPlayerPresentationComponent();
     UFUNCTION(BlueprintCallable, Category = "Combat") void ConsumeBufferedAttack();
+    UFUNCTION(BlueprintPure, Category="Combat") bool ResolveCombatState(bool EnemyNearby, bool SewerLevel) const;
+    UFUNCTION(BlueprintCallable, Category="Combat") void FinishSewerCombat();
+    void RefreshBrassKnuckles();
     UPROPERTY(EditAnywhere, Category = "HUD") TObjectPtr<UTexture2D> HeartFull;
     UPROPERTY(EditAnywhere, Category = "HUD") TObjectPtr<UTexture2D> HeartEmpty;
     UPROPERTY(EditAnywhere, Category = "HUD") TObjectPtr<UTexture2D> HeartHurt;
+    UPROPERTY(EditAnywhere, Category = "HUD") TSubclassOf<UVTGPlayerHearts> ActionHUDClass;
+    /** Below the default viewport layer used by Narrative HUD. */
+    UPROPERTY(EditAnywhere, Category = "HUD") int32 ActionHUDZOrder = -10;
 
   protected:
     virtual void TickComponent(float DeltaTime, ELevelTick TickType, FActorComponentTickFunction *Fn) override;
     virtual void EndPlay(EEndPlayReason::Type Reason) override;
 
   private:
+    friend struct FVTGActionHUDRegression;
+    friend struct FVTGHUDUnificationRegression;
     UPROPERTY(Transient) TObjectPtr<UVTGPlayerHearts> Hearts;
     float LastHealth = -1;
 };

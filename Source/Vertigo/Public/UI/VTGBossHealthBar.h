@@ -6,6 +6,8 @@
 
 class UProgressBar;
 class UTextBlock;
+class UMaterialInterface;
+class UMaterialInstanceDynamic;
 
 /**
  * Souls / Yakuza style boss bar for the HUD: name above a long thin bar at the bottom of the screen.
@@ -36,6 +38,8 @@ public:
 	UFUNCTION(BlueprintCallable, Category = "Boss Health Bar")
 	void SetShown(bool bShow);
 
+	void SetCausticOverlay(UMaterialInterface* Material,float Opacity);
+
 	UFUNCTION(BlueprintPure, Category = "Boss Health Bar")
 	bool IsFullyHidden() const { return !bShown && GetRenderOpacity() <= 0.f; }
 
@@ -57,6 +61,7 @@ public:
 protected:
 	virtual void NativeOnInitialized() override;
 	virtual void NativeTick(const FGeometry& MyGeometry, float InDeltaTime) override;
+	virtual int32 NativePaint(const FPaintArgs&,const FGeometry&,const FSlateRect&,FSlateWindowElementList&,int32,const FWidgetStyle&,bool) const override;
 
 	UPROPERTY(meta = (BindWidget))
 	TObjectPtr<UTextBlock> BossNameText;
@@ -74,6 +79,8 @@ protected:
 	TObjectPtr<UTextBlock> DamageText;
 
 private:
+	UPROPERTY(Transient) TObjectPtr<UMaterialInstanceDynamic> CausticMaterial;
+	FSlateBrush CausticBrush;
 	float HealthPercent = 1.f;
 	float TrailPercent = 1.f;
 	float LastHealth = -1.f;

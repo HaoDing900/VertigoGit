@@ -27808,6 +27808,38 @@
 			"translations":
 			{
 			}
+		},
+		{
+			"namespace": "VTGHint",
+			"key": "SkipHold",
+			"source": "Hold",
+			"context": "/Game/Blueprints/Widget/WBP_HintLayer.WBP_HintLayer:WidgetTree.SkipHoldTextBlock : Text",
+			"approvedDisplayText": true,
+			"lockReason": "",
+			"translations":
+			{
+				"zh-Hans":
+				{
+					"text": "长按",
+					"reviewedSource": "Hold"
+				}
+			}
+		},
+		{
+			"namespace": "VTGHint",
+			"key": "SkipAction",
+			"source": "to skip",
+			"context": "/Game/Blueprints/Widget/WBP_HintLayer.WBP_HintLayer:WidgetTree.SkipActionTextBlock : Text",
+			"approvedDisplayText": true,
+			"lockReason": "",
+			"translations":
+			{
+				"zh-Hans":
+				{
+					"text": "跳过",
+					"reviewedSource": "to skip"
+				}
+			}
 		}
 	]
 }

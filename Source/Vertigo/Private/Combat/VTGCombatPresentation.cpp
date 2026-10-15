@@ -11,6 +11,13 @@
 #include "Rendering/DrawElements.h"
 #include "Styling/CoreStyle.h"
 #include "TimerManager.h"
+#include "UI/VTGActionHUD.h"
+#include "Save/VTGSaveCoordinator.h"
+#include "Kismet/GameplayStatics.h"
+#include "Components/StaticMeshComponent.h"
+#include "Engine/StaticMesh.h"
+#include "Components/WeaponBase_ISX.h"
+#include "Objects/Item.h"
 
 namespace VTGPresentation
 {
@@ -67,6 +74,9 @@ void UVTGEnemyFeedbackComponent::CheckHealth()
     if (H <= 0 && !bDeathPlayed && LastHealth > 0)
     {
         bDeathPlayed = true;
+        if (bEndsSewerCombatOnDeath)
+            if(auto* Player=UGameplayStatics::GetPlayerPawn(this,0))
+                if(auto* Presentation=Player->FindComponentByClass<UVTGPlayerPresentationComponent>()) Presentation->FinishSewerCombat();
         VTGPresentation::Burst(this, DeathEffect, GetOwner()->GetActorLocation(), FRotator::ZeroRotator, 2.f);
     }
     else if (H > 0 && H < LastHealth)
@@ -103,7 +113,7 @@ int32 UVTGPlayerHearts::NativePaint(const FPaintArgs &Args, const FGeometry &Geo
                                     bool Enabled) const
 {
     Layer = Super::NativePaint(Args, Geo, Cull, Out, Layer, Style, Enabled);
-    const int32 Count = 5;
+    const int32 Count = 8;
     const float Units = MaxHealth / Count;
     const FVector2D Size(44, 44);
     for (int32 I = 0; I < Count; ++I)
@@ -145,16 +155,17 @@ void UVTGPlayerPresentationComponent::TickComponent(float Dt, ELevelTick T, FAct
     if (!PC || !PC->IsLocalController())
         return;
     ConsumeBufferedAttack();
+    RefreshBrassKnuckles();
     if (!Hearts)
     {
-        Hearts = CreateWidget<UVTGPlayerHearts>(PC);
+        Hearts = CreateWidget<UVTGPlayerHearts>(PC, ActionHUDClass ? ActionHUDClass.Get() : UVTGPlayerHearts::StaticClass());
         if (!Hearts)
             return;
         Hearts->Full = HeartFull;
         Hearts->Empty = HeartEmpty;
         Hearts->Hurt = HeartHurt;
         Hearts->SetVisibility(ESlateVisibility::Collapsed);
-        Hearts->AddToViewport(5);
+        Hearts->AddToViewport(ActionHUDZOrder);
     }
     for (UActorComponent* C : Pawn->GetComponents())
     {
@@ -169,6 +180,35 @@ void UVTGPlayerPresentationComponent::TickComponent(float Dt, ELevelTick T, FAct
     const bool Hidden = !VTGPresentation::Flag(Pawn, TEXT("InCombat")) ||
                         VTGPresentation::Flag(Pawn, TEXT("HidePlayerNCam"));
     Hearts->SetVisibility(Hidden ? ESlateVisibility::Collapsed : ESlateVisibility::HitTestInvisible);
+    if (auto* Action=Cast<UVTGActionHUD>(Hearts)) { Action->RefreshBloodOverlay(!Hidden && !VTGPresentation::Flag(Pawn,TEXT("IsDead?"))); if(!Hidden)Action->RefreshHints(); }
+}
+bool UVTGPlayerPresentationComponent::ResolveCombatState(bool EnemyNearby,bool SewerLevel) const
+{
+ auto* Pawn=GetOwner();if(!Pawn)return false;
+ auto* GI=GetWorld()?GetWorld()->GetGameInstance():nullptr;
+ auto* Save=GI?GI->GetSubsystem<UVTGSaveCoordinator>():nullptr;
+ if(VTGPresentation::Number(Pawn,TEXT("Health"),100)<=0 || VTGPresentation::Flag(Pawn,TEXT("IsDead?")) || VTGPresentation::Flag(Pawn,TEXT("IsInCineCutscene_LockInput(NotWorkForMont)")) || (SewerLevel && Save && Save->GetPersistentInt(TEXT("L3SewerBossDefeated"),0)))return false;
+ return EnemyNearby || SewerLevel;
+}
+void UVTGPlayerPresentationComponent::FinishSewerCombat()
+{
+ if(auto* GI=GetWorld()?GetWorld()->GetGameInstance():nullptr)
+  if(auto* Save=GI->GetSubsystem<UVTGSaveCoordinator>())Save->SetPersistentInt(TEXT("L3SewerBossDefeated"),1);
+ for(const auto& Pair:{TPair<FName,bool>(TEXT("InCombat"),false),TPair<FName,bool>(TEXT("StoryMode?"),true),TPair<FName,bool>(TEXT("GunOrFistEquipped"),false)})
+  if(auto* P=FindFProperty<FBoolProperty>(GetOwner()->GetClass(),Pair.Key))P->SetPropertyValue_InContainer(GetOwner(),Pair.Value);
+ RefreshBrassKnuckles();
+ if(auto* Action=Cast<UVTGActionHUD>(Hearts)){Action->RefreshBloodOverlay(false);Action->SetVisibility(ESlateVisibility::Collapsed);}
+}
+void UVTGPlayerPresentationComponent::RefreshBrassKnuckles()
+{
+ auto* Pawn=GetOwner();if(!Pawn)return;
+ bool Armed=VTGPresentation::Flag(Pawn,TEXT("HasWeaponInHand")) || VTGPresentation::Number(Pawn,TEXT("CurrentMeleeWeapon"),0)!=0;
+ // WeaponBase_ISX owns the actual ranged equipment; the legacy hand flag is not updated by every inventory path.
+ if(auto* Weapon=Pawn->FindComponentByClass<UWeaponBase_ISX>())Armed|=IsValid(Weapon->GetEquippedItem());
+ const bool Show=VTGPresentation::Flag(Pawn,TEXT("InCombat")) && !Armed && VTGPresentation::Number(Pawn,TEXT("Health"),100)>0 && !VTGPresentation::Flag(Pawn,TEXT("HidePlayerNCam"));
+ for(UActorComponent* C:Pawn->GetComponents())
+  if(auto* Mesh=Cast<UStaticMeshComponent>(C);Mesh && (Mesh->GetName().Contains(TEXT("BrassKnuckle")) || (Mesh->GetStaticMesh() && Mesh->GetStaticMesh()->GetName().Contains(TEXT("BrassKnuckle")))))
+  {Mesh->SetHiddenInGame(!Show);Mesh->SetVisibility(Show);}
 }
 void UVTGPlayerPresentationComponent::ConsumeBufferedAttack()
 {

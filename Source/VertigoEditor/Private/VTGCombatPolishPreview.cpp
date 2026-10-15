@@ -35,6 +35,8 @@ int32 VTGRenderCombatHUD(const FString &Output)
     Bar->SetHealth(1000, 1000);
     Bar->SetHealth(680, 1000);
     Bar->SetShown(true);
+    if(FParse::Param(FCommandLine::Get(),TEXT("SewerCaustics")))
+        Bar->SetCausticOverlay(LoadObject<UMaterialInterface>(nullptr,TEXT("/InventorySystemX/InventorySystemX/Materials/Material_Instances/MI_Inventory_FogMadeIntoCaustic")),.4f);
     Bar->SetRenderOpacity(1);
     auto *Hearts = NewObject<UVTGPlayerHearts>();
     Hearts->Initialize();
@@ -65,6 +67,7 @@ int32 VTGRenderCombatHUD(const FString &Output)
     FlushRenderingCommands();
     check(RT);
     for(int32 Frame=0;Frame<3;++Frame){ if(GShaderCompilingManager)GShaderCompilingManager->FinishAllCompilation();Renderer.DrawWidget(RT,Root,FVector2D(1280,720),.016f);FlushRenderingCommands(); }
+    UE_LOG(LogTemp,Display,TEXT("HUD BAR geometry=%s visibility=%d opacity=%f desired=%s"),*HP->GetCachedGeometry().GetLocalSize().ToString(),int(HP->GetVisibility()),HP->GetRenderOpacity(),*HP->GetDesiredSize().ToString());
     TArray<FColor> Pixels;
     RT->GameThread_GetRenderTargetResource()->ReadPixels(Pixels);
     TArray64<uint8> PNG;

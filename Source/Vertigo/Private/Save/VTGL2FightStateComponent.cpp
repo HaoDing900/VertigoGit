@@ -28,7 +28,7 @@ namespace L2FightState
 UVTGL2FightStateComponent::UVTGL2FightStateComponent()
 {
  PrimaryComponentTick.bCanEverTick=false;
- FemaleClientEndTransform=FTransform(FRotator(0,-171.954788,0),FVector(-682.458618,2258.969482,242));
+ FemaleClientEndTransform=FTransform(FRotator(0,-112,0),FVector(-682.458618,2258.969482,242));
  // The existing BP's authored gameplay position; use the Sequence's final facing, unit scale.
  PlayerEndTransform=FTransform(FRotator(0,75.756935,0),FVector(-402,2119,251));
 }

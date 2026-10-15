@@ -6,6 +6,7 @@
 #include "VTGBossHealthBarComponent.generated.h"
 
 class UVTGBossHealthBar;
+class UMaterialInterface;
 
 /**
  * Puts a UVTGBossHealthBar on the player's HUD while this boss is fighting.
@@ -30,6 +31,12 @@ public:
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Boss Health Bar")
 	TSubclassOf<UVTGBossHealthBar> BarClass;
+
+	/** Optional translucent material over the remaining health; configured per boss. */
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category="Boss Health Bar|Caustics")
+	TObjectPtr<UMaterialInterface> CausticOverlayMaterial;
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category="Boss Health Bar|Caustics",meta=(ClampMin="0",ClampMax="1"))
+	float CausticOverlayOpacity=0.4f;
 
 	/** Seconds the emptied bar stays up after the boss dies. */
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Boss Health Bar")

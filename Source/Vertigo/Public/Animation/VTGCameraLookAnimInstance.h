@@ -18,6 +18,11 @@ class VERTIGO_API UVTGCameraLookAnimInstance : public UAnimInstance
     float LookInterpSpeed = 7;
     UPROPERTY(BlueprintReadOnly, Transient, Category = "Camera Look") FRotator CameraNeckOffset = FRotator::ZeroRotator;
     UPROPERTY(BlueprintReadOnly, Transient, Category = "Camera Look") FRotator CameraHeadOffset = FRotator::ZeroRotator;
+    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category="Hammer Posture") bool bHammerSpineCorrectionEnabled = true;
+    /** Additive bone-local X rotation (Unreal Roll); applied only while using the hammer. */
+    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category="Hammer Posture") float HammerSpineXDegrees = -15.f;
+    UPROPERTY(BlueprintReadOnly, Transient, Category="Hammer Posture") FRotator HammerSpineRotation = FRotator::ZeroRotator;
+    UPROPERTY(BlueprintReadOnly, Transient, Category="Hammer Posture") float HammerSpineAlpha = 0.f;
     virtual void NativeInitializeAnimation() override;
     virtual void NativeUpdateAnimation(float DeltaSeconds) override;
     static FRotator ClampCameraLook(const FQuat &Body, const FRotator &View, float YawLimit, float PitchLimit);

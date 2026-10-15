@@ -6,6 +6,7 @@
 #include "Private/VTGSubtitleLocalizationDetails.h"
 #include "Private/VTGQuestLocalizationDetails.h"
 #include "Private/VTGMapLocalizationDetails.h"
+#include "Private/VTGHintLocalizationDetails.h"
 #include "Private/VTGSlideDetails.h"
 #include "Private/VTGMeleeMontageTrace.h"
 #include "Private/VTGSequenceInspector.h"
@@ -28,6 +29,7 @@ void FVertigoEditorModule::StartupModule()
  VTGDialogueLocalizationDetails::Startup();
  VTGSubtitleLocalizationDetails::Startup(); VTGQuestLocalizationDetails::Startup();
  VTGMapLocalizationDetails::Startup();
+ VTGHintLocalizationDetails::Startup();
  VTGSequenceInspector::Startup();
  VTGSubtitleEditor::Startup();
 	FPropertyEditorModule& PropertyModule = FModuleManager::LoadModuleChecked<FPropertyEditorModule>("PropertyEditor");
@@ -52,6 +54,7 @@ void FVertigoEditorModule::ShutdownModule()
  VTGDialogueLocalizationDetails::Shutdown();
  VTGSubtitleLocalizationDetails::Shutdown(); VTGQuestLocalizationDetails::Shutdown();
  VTGMapLocalizationDetails::Shutdown();
+ VTGHintLocalizationDetails::Shutdown();
  VTGSequenceInspector::Shutdown();
  VTGSubtitleEditor::Shutdown();
  if(MeleeTraceTicker.IsValid())FTSTicker::GetCoreTicker().RemoveTicker(MeleeTraceTicker);

@@ -34,6 +34,7 @@
 #include "UObject/SavePackage.h"
 #include "UObject/UnrealType.h"
 #include "WidgetBlueprint.h"
+#include "HAL/FileManager.h"
 
 extern bool VTGTestCombatPolish(UBlueprint *, UBlueprint *);
 extern int32 VTGRenderCombatHUD(const FString &);
@@ -198,6 +199,7 @@ UMaterial *Caustics()
     return M;
 }
 } // namespace VTGPolish
+#include "VTGSewerFXRepair.inl"
 UVTGCombatPolishCommandlet::UVTGCombatPolishCommandlet()
 {
     IsClient = false;
@@ -208,6 +210,7 @@ UVTGCombatPolishCommandlet::UVTGCombatPolishCommandlet()
 int32 UVTGCombatPolishCommandlet::Main(const FString &Params)
 {
     using namespace VTGPolish;
+    if(Params.Contains(TEXT("SewerFX")))return VTGSewerFX::Repair(Params.Contains(TEXT("VerifyOnly")),Params.Contains(TEXT("Test")));
     FString PreviewFile;
     if (FParse::Value(*Params, TEXT("Preview="), PreviewFile))
         return VTGRenderCombatHUD(PreviewFile);

@@ -3,6 +3,20 @@
 #include "Save/VTGSaveCoordinator.h"
 #include "Engine/World.h"
 #include "UObject/UnrealType.h"
+#include "Blueprint/UserWidget.h"
+#include "Kismet/GameplayStatics.h"
+
+UUserWidget* AVTGLevelManagerBase::FadeConfigured(double TimeBeforeKill,double HoldDurationUntilFade,double FadeDuration,bool DisableFade,bool ReverseFadeOnAppear,int32 ZOrder)
+{
+ auto* Class=LoadClass<UUserWidget>(nullptr,TEXT("/Game/2DArt/ScreenTransition/WBP_Fade.WBP_Fade_C"));
+ auto* PC=UGameplayStatics::GetPlayerController(this,0);if(!Class || !PC)return nullptr;
+ auto* Fade=CreateWidget<UUserWidget>(PC,Class);if(!Fade)return nullptr;
+ for(const auto& Pair:{TPair<FName,double>(TEXT("TimeBeforeKill"),TimeBeforeKill),TPair<FName,double>(TEXT("HoldDurationUntilFade"),FMath::Max(0.,HoldDurationUntilFade)),TPair<FName,double>(TEXT("FadeDuration"),FMath::Max(0.,FadeDuration))})
+  if(auto* P=FindFProperty<FNumericProperty>(Class,Pair.Key))P->SetFloatingPointPropertyValue(P->ContainerPtrToValuePtr<void>(Fade),Pair.Value);
+ for(const auto& Pair:{TPair<FName,bool>(TEXT("DisableFade?"),DisableFade),TPair<FName,bool>(TEXT("ReverseFadeOnAppear"),ReverseFadeOnAppear)})
+  if(auto* P=FindFProperty<FBoolProperty>(Class,Pair.Key))P->SetPropertyValue_InContainer(Fade,Pair.Value);
+ Fade->AddToViewport(ZOrder);return Fade;
+}
 
 AVTGLevelManagerBase::AVTGLevelManagerBase()
 {

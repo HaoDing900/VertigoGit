@@ -4,6 +4,7 @@
 #include "GameFramework/Actor.h"
 #include "Save/VTGSaveTypes.h"
 #include "VTGLevelManagerBase.generated.h"
+class UUserWidget;
 
 /**
  * Base class for level managers (reparent BPLM to this).
@@ -24,6 +25,9 @@ class VERTIGO_API AVTGLevelManagerBase : public AActor
 public:
 
 	AVTGLevelManagerBase();
+ /** Creates the fade with per-call settings assigned before Construct. TimeBeforeKill <= 0 uses automatic removal. */
+ UFUNCTION(BlueprintCallable, Category="Fade", meta=(DisplayName="Fade Configured"))
+ UUserWidget* FadeConfigured(double TimeBeforeKill=0, double HoldDurationUntilFade=0, double FadeDuration=1.5, bool DisableFade=false, bool ReverseFadeOnAppear=false, int32 ZOrder=100);
 
 	/** TEST ONLY: when true this level ignores the GameInstance and uses TestStage. Turn OFF before shipping. */
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Stage")

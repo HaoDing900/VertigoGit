@@ -75,6 +75,7 @@ void UVTGBossHealthBarComponent::TickComponent(float DeltaTime, ELevelTick TickT
 			return;
 		}
 		Bar->SetBossName(DisplayName);
+		Bar->SetCausticOverlay(CausticOverlayMaterial,CausticOverlayOpacity);
 		Bar->SetHealth(Health, MaxHealth);
 		Bar->AddToViewport(ViewportZOrder);
 	}

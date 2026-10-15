@@ -31,6 +31,7 @@
 #include "VTGSubtitleLocalizationDetails.h"
 #include "VTGQuestLocalizationDetails.h"
 #include "VTGMapLocalizationDetails.h"
+#include "VTGHintLocalizationDetails.h"
 #include "Widgets/Layout/SExpandableArea.h"
 #include "Widgets/SCompoundWidget.h"
 
@@ -453,7 +454,7 @@ namespace
 bool ReadDialogueEntry(TSharedPtr<IPropertyHandle> Property,TSharedPtr<FEntry>& Entry,FString& Error)
 {
     Error.Empty();
-    if(!VTGDialogueLocalizationDetails::IsSafeText(Property) && !VTGSubtitleLocalizationDetails::IsSafeText(Property) && !VTGQuestLocalizationDetails::IsSafeText(Property) && !VTGMapLocalizationDetails::IsSafeText(Property)){Error=TEXT("此字段未确认是安全的显示文本，翻译区只读。");return false;}
+    if(!VTGDialogueLocalizationDetails::IsSafeText(Property) && !VTGSubtitleLocalizationDetails::IsSafeText(Property) && !VTGQuestLocalizationDetails::IsSafeText(Property) && !VTGMapLocalizationDetails::IsSafeText(Property) && !VTGHintLocalizationDetails::IsSafeText(Property)){Error=TEXT("此字段未确认是安全的显示文本，翻译区只读。");return false;}
     if(!Load(Error))return false;
     FText Text;
     if(Property->GetValue(Text)!=FPropertyAccess::Success){Error=TEXT("请选择单个对象的文本字段。");return false;}

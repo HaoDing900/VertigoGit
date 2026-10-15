@@ -10,12 +10,14 @@
 #include "Sections/MovieSceneEventTriggerSection.h"
 #include "Sections/MovieSceneEventRepeaterSection.h"
 #include "UObject/UnrealType.h"
+#include "Engine/GameInstance.h"
 
 int32 UVTGSequenceRegressionDirector::TriggerCount = 0;
 int32 UVTGSequenceRegressionDirector::RepeatCount = 0;
 int32 UVTGSequenceRegressionDirector::FinishCount = 0;
 bool UVTGSequenceRegressionDirector::bPauseAtEvent = false;
 TWeakObjectPtr<UNarrativeComponent> UVTGSequenceRegressionDirector::DialogueOwner;
+FSimpleDelegate UVTGSequenceRegressionDirector::TriggerCallback;
 
 #if WITH_DEV_AUTOMATION_TESTS
 IMPLEMENT_SIMPLE_AUTOMATION_TEST(FVTGCinematicRegression, "Vertigo.Dialogue.CinematicRegression",
@@ -118,5 +120,69 @@ bool FVTGCinematicRegression::RunTest(const FString&)
     }
     World->DestroyWorld(false);
     return true;
+}
+IMPLEMENT_SIMPLE_AUTOMATION_TEST(FVTGSequenceSkipPromptRegression, "Vertigo.Dialogue.SequenceSkipPrompt",
+    EAutomationTestFlags::EditorContext | EAutomationTestFlags::EngineFilter)
+bool FVTGSequenceSkipPromptRegression::RunTest(const FString&)
+{
+    auto* GI=NewObject<UGameInstance>(GEngine);GI->AddToRoot();GI->InitializeStandalone();
+    auto* World=GI->GetWorld();auto* Skip=GI->GetSubsystem<UVTGSequenceSkipSubsystem>();check(World && Skip);
+    using Phase=UVTGSequenceSkipSubsystem::EPhase;
+    auto* Sequence=NewObject<ULevelSequence>();Sequence->Initialize();auto* Settings=NewObject<UVTGSequenceSettings>(Sequence);Settings->bAllowSkip=true;Sequence->AddAssetUserData(Settings);
+    auto* Scene=Sequence->GetMovieScene();Scene->SetDisplayRate(FFrameRate(30,1));Scene->SetTickResolutionDirectly(FFrameRate(30,1));Scene->SetPlaybackRange(0,300);
+    ALevelSequenceActor* Actor=nullptr;auto* Player=ULevelSequencePlayer::CreateLevelSequencePlayer(World,Sequence,FMovieSceneSequencePlaybackSettings(),Actor);check(Player && Actor);
+    auto* Observer=NewObject<UVTGSequenceRegressionDirector>(World);Player->OnFinished.AddDynamic(Observer,&UVTGSequenceRegressionDirector::Finished);UVTGSequenceRegressionDirector::FinishCount=0;
+    Player->Play();Skip->TickAt(true,99);TestFalse(TEXT("A fresh cutscene does not show a prompt automatically"),Skip->bHintVisible);
+    TestFalse(TEXT("An arbitrary key reveals without swallowing the key"),Skip->HandleKeyAt(EKeys::E,true,false,100));TestTrue(TEXT("Any-key prompt is visible"),Skip->bHintVisible);
+    TestTrue(TEXT("Prompt uses the shared Inventory control texture"),Skip->SkipKeyBrush.GetResourceObject() && Skip->SkipKeyBrush.GetResourceObject()->GetPathName().Contains(TEXT("/Inventory/InventoryXBased/UMG/Textures/Controls/")));
+    Skip->TickAt(true,104.1);TestFalse(TEXT("Prompt hides after four idle seconds"),Skip->bHintVisible);
+    Skip->NotifyActivityAt(EKeys::LeftMouseButton,110);TestTrue(TEXT("Mouse button can reveal it again"),Skip->bHintVisible);
+    Skip->TickAt(true,114.1);TestFalse(TEXT("Revealed prompt also times out"),Skip->bHintVisible);
+    TestFalse(TEXT("Esc retains the pause path rather than starting a skip"),Skip->HandleKeyAt(EKeys::Escape,true,false,120));TestTrue(TEXT("Esc alone does not hold skip"),Skip->Phase==Phase::Idle);
+    TestTrue(TEXT("Space begins a hold"),Skip->HandleKeyAt(EKeys::SpaceBar,true,false,200));const auto StartTime=Player->GetCurrentTime().Time;
+    Skip->TickAt(true,200.4);TestTrue(TEXT("Hold progress reflects elapsed time"),FMath::IsNearlyEqual(Skip->HoldProgress,.5f,.001f));TestEqual(TEXT("Holding does not fast-forward"),Player->GetCurrentTime().Time,StartTime);
+    TestTrue(TEXT("Early release is consumed"),Skip->HandleKeyAt(EKeys::SpaceBar,false,false,200.4));TestTrue(TEXT("Early release resets hold but retains the prompt"),Skip->Phase==Phase::Idle && Skip->bHintVisible && Skip->HoldProgress==0);
+    Skip->TickAt(true,204.5);TestFalse(TEXT("Released hold prompt can time out"),Skip->bHintVisible);
+    Skip->HandleKeyAt(EKeys::SpaceBar,true,false,300);Skip->TickAt(true,300.8);TestTrue(TEXT("Confirmed hold starts the fade"),Skip->Phase==Phase::FadeToBlack);
+    Skip->HandleKeyAt(EKeys::SpaceBar,false,false,300.9);Skip->TickAt(true,301.05);TestTrue(TEXT("Fade reaches half black after .25 seconds"),FMath::IsNearlyEqual(Skip->BlackOpacity,.5f,.001f));TestEqual(TEXT("Playback stays normal before full black"),Player->GetCurrentTime().Time,StartTime);
+    Skip->TickAt(true,301.3);TestTrue(TEXT("Acceleration starts only at full black after .5 seconds"),Skip->Phase==Phase::FastForward && Skip->BlackOpacity==1);
+    Skip->TickAt(true,301.35);const double ExtraFrames=(Player->GetCurrentTime().Time-StartTime).AsDecimal()+Skip->FrameCredits.FindRef(Player);
+    TestTrue(TEXT("Adds 19x frames to normal 1x playback for a 20x total time budget"),FMath::IsNearlyEqual(ExtraFrames,28.5,.001));TestEqual(TEXT("Authored play rate is preserved"),Player->GetPlayRate(),1.f);
+    double Now=301.35;for(int I=0;I<80 && Skip->Phase==Phase::FastForward;++I){Now+=.05;Skip->TickAt(true,Now);}
+    TestFalse(TEXT("Fast-forward reaches normal sequence completion"),Player->IsPlaying());TestEqual(TEXT("OnFinished is emitted once"),UVTGSequenceRegressionDirector::FinishCount,1);TestTrue(TEXT("Completion reveals the scene"),Skip->Phase==Phase::Reveal);
+    Skip->TickAt(true,Now+.125);TestTrue(TEXT("Completion fade reveals gradually"),FMath::IsNearlyEqual(Skip->BlackOpacity,.5f,.001f));Skip->TickAt(true,Now+.26);TestTrue(TEXT("Completion leaves no prompt or black layer"),Skip->Phase==Phase::Idle && !Skip->bHintVisible && Skip->BlackOpacity==0);
+    Player->Play();Settings->bAllowSkip=false;TestFalse(TEXT("No Skip sequences do not consume Space"),Skip->HandleKeyAt(EKeys::SpaceBar,true,false,400));TestFalse(TEXT("No Skip sequences do not advertise skipping"),Skip->bHintVisible);Settings->bAllowSkip=true;
+    Actor->Tags.Add(TEXT("VTG.NoSkip"));Skip->NotifyActivityAt(EKeys::E,401);TestFalse(TEXT("Actor NoSkip tag also suppresses the prompt"),Skip->bHintVisible);Actor->Tags.Remove(TEXT("VTG.NoSkip"));
+    Actor->PlaybackSettings.LoopCount.Value=-1;Skip->NotifyActivityAt(EKeys::E,402);TestFalse(TEXT("Looping background sequences never advertise skipping"),Skip->bHintVisible);Actor->PlaybackSettings.LoopCount.Value=0;
+    auto BeginFast=[&](double Time){Skip->BeforeTravel({});Player->Stop();Player->Play();Skip->HandleKeyAt(EKeys::SpaceBar,true,false,Time);Skip->TickAt(true,Time+.8);Skip->TickAt(true,Time+1.3);};
+    BeginFast(500);Skip->TickAt(false,501.31);TestTrue(TEXT("Focus loss immediately removes black and resets consumed input"),Skip->BlackOpacity==0 && !Skip->bConsumeRelease && Skip->Phase==Phase::Idle);
+    BeginFast(600);Player->Pause();Skip->TickAt(true,601.31);TestTrue(TEXT("An authored pause interrupts fast-forward"),Skip->Phase==Phase::Reveal && Player->IsPaused());Skip->TickAt(true,601.6);Player->Play();
+    auto* Owner=World->SpawnActor<AActor>();auto* Narrative=NewObject<UNarrativeComponent>(Owner);Owner->AddInstanceComponent(Narrative);Narrative->RegisterComponent();BeginFast(700);Narrative->CurrentDialogue=NewObject<UVTGReturnRegressionDialogue>(Narrative);Skip->TickAt(true,701.31);
+    TestTrue(TEXT("Dialogue immediately clears the black layer"),Skip->BlackOpacity==0 && Skip->Phase==Phase::Idle);TestFalse(TEXT("Dialogue Space is left to the existing dialogue controls"),Skip->HandleKeyAt(EKeys::SpaceBar,true,false,702));TestFalse(TEXT("Dialogue never gets a cinematic skip hint"),Skip->bHintVisible);Narrative->CurrentDialogue=nullptr;
+    // Reentrant travel cancellation while an event track is being evaluated must not index reset arrays.
+    auto* Director=FindFProperty<FClassProperty>(ULevelSequence::StaticClass(),TEXT("DirectorClass"));Director->SetObjectPropertyValue_InContainer(Sequence,UVTGSequenceRegressionDirector::StaticClass());
+    auto* Track=Scene->AddTrack<UMovieSceneEventTrack>();auto* Trigger=NewObject<UMovieSceneEventTriggerSection>(Track);Trigger->SetRange(TRange<FFrameNumber>(FFrameNumber(0),FFrameNumber(300)));Track->AddSection(*Trigger);FMovieSceneEvent Event;Event.Ptrs.Function=UVTGSequenceRegressionDirector::StaticClass()->FindFunctionByName(TEXT("Trigger"));Trigger->EventChannel.GetData().AddKey(FFrameNumber(5),Event);
+    UVTGSequenceRegressionDirector::TriggerCallback.BindLambda([Skip](){Skip->BeforeTravel({});});BeginFast(800);Skip->TickAt(true,801.35);UVTGSequenceRegressionDirector::TriggerCallback.Unbind();TestTrue(TEXT("Travel during event evaluation clears black and skip input safely"),Skip->Phase==Phase::Idle && !Skip->bConsumeRelease && Skip->BlackOpacity==0);
+    Player->Stop();GI->Shutdown();World->DestroyWorld(false);GEngine->DestroyWorldContext(World);GI->RemoveFromRoot();
+    return true;
+}
+bool VTGRunSequenceSkipChecks()
+{
+    // Run these synchronous tests directly; the editor-wide automation log router recurses in commandlets.
+    class FDirectCinematic : public FVTGCinematicRegression
+    {public:FDirectCinematic():FVTGCinematicRegression(TEXT("VTGDirectCinematic")){}using FVTGCinematicRegression::RunTest;};
+    class FDirectPrompt : public FVTGSequenceSkipPromptRegression
+    {public:FDirectPrompt():FVTGSequenceSkipPromptRegression(TEXT("VTGDirectPrompt")){}using FVTGSequenceSkipPromptRegression::RunTest;};
+    FDirectCinematic Cinematic;FDirectPrompt Prompt;
+    bool Passed=true;
+    for(auto* Test:{static_cast<FAutomationTestBase*>(&Cinematic),static_cast<FAutomationTestBase*>(&Prompt)})
+    {
+        const bool Ran=Test==&Cinematic?Cinematic.RunTest({}):Prompt.RunTest({});
+        FAutomationTestExecutionInfo Info;Test->GetExecutionInfo(Info);
+        const bool Success=Ran && !Test->HasAnyErrors();Passed&=Success;
+        UE_LOG(LogTemp,Display,TEXT("CUTSCENE CHECK %s: %s"),*Test->GetTestFullName(),Success?TEXT("PASS"):TEXT("FAIL"));
+        for(const auto& Entry:Info.GetEntries())UE_LOG(LogTemp,Display,TEXT("CHECK RESULT: %s"),*Entry.ToString());
+    }
+    return Passed;
 }
 #endif
