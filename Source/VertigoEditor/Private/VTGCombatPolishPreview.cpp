@@ -36,7 +36,7 @@ int32 VTGRenderCombatHUD(const FString &Output)
     Bar->SetHealth(680, 1000);
     Bar->SetShown(true);
     if(FParse::Param(FCommandLine::Get(),TEXT("SewerCaustics")))
-        Bar->SetCausticOverlay(LoadObject<UMaterialInterface>(nullptr,TEXT("/InventorySystemX/InventorySystemX/Materials/Material_Instances/MI_Inventory_FogMadeIntoCaustic")),.4f);
+        Bar->SetCausticOverlay(LoadObject<UMaterialInterface>(nullptr,TEXT("/Game/Characters/Monster/SeaMonsterBoss/FX/M_BossHealth_CausticHUD")),.65f);
     Bar->SetRenderOpacity(1);
     auto *Hearts = NewObject<UVTGPlayerHearts>();
     Hearts->Initialize();

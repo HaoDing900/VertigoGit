@@ -7,6 +7,12 @@ UVTGHintLayer::UVTGHintLayer(const FObjectInitializer& Initializer):Super(Initia
 {
     SkipHoldText=NSLOCTEXT("VTGHint","SkipHold","Hold");
     SkipActionText=NSLOCTEXT("VTGHint","SkipAction","to skip");
+    NewMailHintText=NSLOCTEXT("VTGHint","NewMail","New Message Received. ");
+}
+FText UVTGHintLayer::ResolveHintDescription(FName ID) const
+{
+    for(const auto& Entry:HintDescriptions)if(Entry.ID==ID && !Entry.Text.IsEmpty())return Entry.Text;
+    return FText::FromName(ID);
 }
 void UVTGHintLayer::UpdateSkipHint(bool Visible,float Progress,const FSlateBrush& KeyBrush)
 {

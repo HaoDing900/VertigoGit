@@ -18,16 +18,21 @@
 #include "Engine/StaticMesh.h"
 #include "Components/WeaponBase_ISX.h"
 #include "Objects/Item.h"
+#include "Combat/VTGSmokeHazard.h"
+#include "Animation/AnimInstance.h"
+#include "GameFramework/Character.h"
 
 namespace VTGPresentation
 {
-void Burst(UObject *Context, UNiagaraSystem *System, FVector Location, FRotator Rotation, float Seconds)
+void Burst(UObject *Context, UNiagaraSystem *System, FVector Location, FRotator Rotation, float Seconds, float PlayRate=1.f, float EffectScale=1.f)
 {
     if (!System || !Context || !Context->GetWorld() || Context->GetWorld()->GetNetMode() == NM_DedicatedServer)
         return;
-    if (auto *FX = UNiagaraFunctionLibrary::SpawnSystemAtLocation(Context, System, Location, Rotation, FVector(1), true,
-                                                                  true, ENCPoolMethod::None, true))
+    if (auto *FX = UNiagaraFunctionLibrary::SpawnSystemAtLocation(Context, System, Location, Rotation, FVector(FMath::Max(.01f,EffectScale)), true,
+                                                                  false, ENCPoolMethod::None, true))
     {
+        FX->SetCustomTimeDilation(FMath::Max(.01f,PlayRate));
+        FX->Activate(true);
         FTimerHandle Handle;
         Context->GetWorld()->GetTimerManager().SetTimer(
             Handle, FTimerDelegate::CreateWeakLambda(FX, [FX]() { FX->Deactivate(); }), FMath::Max(.05f, Seconds),
@@ -80,8 +85,15 @@ void UVTGEnemyFeedbackComponent::CheckHealth()
         VTGPresentation::Burst(this, DeathEffect, GetOwner()->GetActorLocation(), FRotator::ZeroRotator, 2.f);
     }
     else if (H > 0 && H < LastHealth)
-        VTGPresentation::Burst(this, HitEffect, GetOwner()->GetActorLocation() + FVector(0, 0, 35),
+    {
+        FVector HitPosition=GetOwner()->GetActorLocation()+FVector(0,0,35);
+        if(!HitEffectSocketName.IsNone())if(auto* C=Cast<ACharacter>(GetOwner()))HitPosition=C->GetMesh()->GetSocketLocation(HitEffectSocketName);
+        VTGPresentation::Burst(this, HitEffect, HitPosition,
                                FRotator::ZeroRotator, .3f);
+        if(HitReactionMontage && GetWorld()->GetTimeSeconds()-LastHitReactionTime>=HitReactionMinInterval)
+            if(auto* Character=Cast<ACharacter>(GetOwner()))if(auto* Anim=Character->GetMesh()->GetAnimInstance())
+            {Anim->Montage_Play(HitReactionMontage,1.f,EMontagePlayReturnType::MontageLength,0.f,false);LastHitReactionTime=GetWorld()->GetTimeSeconds();}
+    }
     LastHealth = H;
 }
 void UVTGEnemyFeedbackComponent::TickComponent(float Dt, ELevelTick T, FActorComponentTickFunction *Fn)
@@ -103,10 +115,24 @@ void UVTGAttackEffectNotify::Notify(USkeletalMeshComponent *Mesh, UAnimSequenceB
     auto *Selected = Scale >= 1.8f && LargeEffect    ? LargeEffect.Get()
                      : Scale >= 1.2f && MediumEffect ? MediumEffect.Get()
                                                      : Effect.Get();
+    float VisualScale=EffectScale;AActor* CurrentAbility=nullptr;
+    for(auto* C:Mesh->GetOwner()->GetComponents())if(auto* P=FindFProperty<FObjectPropertyBase>(C->GetClass(),TEXT("CurrentAbility")))CurrentAbility=Cast<AActor>(P->GetObjectPropertyValue_InContainer(C));
+    if(EffectReferenceRadius>0)
+        for(auto* Component:Mesh->GetOwner()->GetComponents())
+            if(auto* P=FindFProperty<FObjectPropertyBase>(Component->GetClass(),TEXT("CurrentAbility")))
+                if(auto* Ability=P->GetObjectPropertyValue_InContainer(Component))
+                    if(auto* Radius=FindFProperty<FNumericProperty>(Ability->GetClass(),TEXT("Radius")))
+                        VisualScale*=FMath::Max(0.01f,float(Radius->GetFloatingPointPropertyValue(Radius->ContainerPtrToValuePtr<void>(Ability)))/EffectReferenceRadius);
+    if(bPersistentSmokeDamage)
+    {AVTGSmokeHazard::Spawn(Mesh->GetOwner(),CurrentAbility,this,Selected,CurrentAbility?CurrentAbility->GetActorLocation():Mesh->GetOwner()->GetActorLocation(),VisualScale);return;}
     VTGPresentation::Burst(Mesh, Selected,
                            SocketName.IsNone() ? Mesh->GetOwner()->GetActorLocation()
                                                : Mesh->GetSocketLocation(SocketName),
-                           Mesh->GetOwner()->GetActorRotation(), ActiveSeconds);
+                           Mesh->GetOwner()->GetActorRotation(), ActiveSeconds, EffectPlayRate, VisualScale);
+}
+float UVTGPlayerHearts::GetHeartFill(int32 Index) const
+{
+    return MaxHealth > 0 && Index >= 0 && Index < 8 ? FMath::Clamp(Health / MaxHealth * 8.f - Index, 0.f, 1.f) : 0.f;
 }
 int32 UVTGPlayerHearts::NativePaint(const FPaintArgs &Args, const FGeometry &Geo, const FSlateRect &Cull,
                                     FSlateWindowElementList &Out, int32 Layer, const FWidgetStyle &Style,
@@ -114,7 +140,6 @@ int32 UVTGPlayerHearts::NativePaint(const FPaintArgs &Args, const FGeometry &Geo
 {
     Layer = Super::NativePaint(Args, Geo, Cull, Out, Layer, Style, Enabled);
     const int32 Count = 8;
-    const float Units = MaxHealth / Count;
     const FVector2D Size(44, 44);
     for (int32 I = 0; I < Count; ++I)
     {
@@ -124,7 +149,7 @@ int32 UVTGPlayerHearts::NativePaint(const FPaintArgs &Args, const FGeometry &Geo
         Brush.SetResourceObject(Empty);
         FSlateDrawElement::MakeBox(Out, Layer + 1, Geo.ToPaintGeometry(Size, FSlateLayoutTransform(Position)), &Brush,
                                    ESlateDrawEffect::None);
-        const float Fill = Units > 0 ? FMath::Clamp((Health - I * Units) / Units, 0.f, 1.f) : 0;
+        const float Fill = GetHeartFill(I);
         if (Fill > 0)
         {
             Brush.SetResourceObject(HitFlash > 0 && Hurt ? Hurt.Get() : Full.Get());
@@ -150,6 +175,7 @@ UVTGPlayerPresentationComponent::UVTGPlayerPresentationComponent()
 void UVTGPlayerPresentationComponent::TickComponent(float Dt, ELevelTick T, FActorComponentTickFunction *Fn)
 {
     Super::TickComponent(Dt, T, Fn);
+    if (bStoryCombatLocked) EnforceStoryCombatLock();
     auto *Pawn = Cast<APawn>(GetOwner());
     auto *PC = Pawn ? Cast<APlayerController>(Pawn->GetController()) : nullptr;
     if (!PC || !PC->IsLocalController())
@@ -184,7 +210,7 @@ void UVTGPlayerPresentationComponent::TickComponent(float Dt, ELevelTick T, FAct
 }
 bool UVTGPlayerPresentationComponent::ResolveCombatState(bool EnemyNearby,bool SewerLevel) const
 {
- auto* Pawn=GetOwner();if(!Pawn)return false;
+ auto* Pawn=GetOwner();if(!Pawn || bStoryCombatLocked)return false;
  auto* GI=GetWorld()?GetWorld()->GetGameInstance():nullptr;
  auto* Save=GI?GI->GetSubsystem<UVTGSaveCoordinator>():nullptr;
  if(VTGPresentation::Number(Pawn,TEXT("Health"),100)<=0 || VTGPresentation::Flag(Pawn,TEXT("IsDead?")) || VTGPresentation::Flag(Pawn,TEXT("IsInCineCutscene_LockInput(NotWorkForMont)")) || (SewerLevel && Save && Save->GetPersistentInt(TEXT("L3SewerBossDefeated"),0)))return false;
@@ -213,7 +239,7 @@ void UVTGPlayerPresentationComponent::RefreshBrassKnuckles()
 void UVTGPlayerPresentationComponent::ConsumeBufferedAttack()
 {
     auto *Pawn = GetOwner();
-    if (!Pawn)
+    if (!Pawn || bStoryCombatLocked)
         return;
     for (UActorComponent* C : Pawn->GetComponents())
     {

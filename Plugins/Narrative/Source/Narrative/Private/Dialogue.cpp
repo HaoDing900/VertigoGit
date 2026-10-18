@@ -1,6 +1,7 @@
 // Copyright Narrative Tools 2022. 
 
 #include "Dialogue.h"
+#include "NarrativeUIInputComponent.h"
 #include "DialogueHistoryEvents.h"
 #include "NarrativeDialogueSettings.h"
 #include "Internationalization/Internationalization.h"
@@ -170,6 +171,7 @@ bool UDialogue::Initialize(class UNarrativeComponent* InitializingComp, const FD
 
 void UDialogue::Deinitialize()
 {
+	StopJawMovement();
 	if (bDeinitialized)
 	{
 		return;
@@ -416,6 +418,7 @@ void UDialogue::SetAutoAdvance(bool bEnabled)
 
 void UDialogue::EndCurrentLine()
 {
+	StopJawMovement();
     bExplicitLineAdvance = true;
 	if (CurrentNode)
 	{
@@ -621,12 +624,11 @@ void UDialogue::OnBeginDialogue()
 	//UIOnly so no gameplay bindings (e.g. RMB camera/exit) can fire mid-dialogue - only the dialogue UI gets input.
 	if (OwningController && OwningController->IsLocalController() && !bFreeMovement)
 	{
-		FInputModeUIOnly InputMode;
-		OwningController->SetInputMode(InputMode);
-		OwningController->SetShowMouseCursor(true);
-		OwningController->SetIgnoreLookInput(true);
-		OwningController->SetIgnoreMoveInput(true);
-		bAppliedDialogueInputLock = true;
+		if (auto* Input = UNarrativeUIInputComponent::GetOrCreate(OwningController))
+		{
+			Input->Acquire(this);
+			bAppliedDialogueInputLock = true;
+		}
 	}
 
 	K2_OnBeginDialogue();
@@ -847,9 +849,8 @@ void UDialogue::ProcessNodeEvents(class UDialogueNode* Node, bool bStartEvents)
 
 		if (UFunction* Func = FindFunction(Node->OnPlayNodeFuncName))
 		{
-			// Generated dialogue-node Blueprint events fire only when the line starts.
-			// Keep the existing function name and parameters compatible with saved Blueprints.
-			if (bStartEvents)
+			// Exactly one phase per node. Existing assets default to START; FINISH is an explicit exception.
+			if (bStartEvents != Node->bCallBoundEventOnFinish)
 			{
 				ProcessEvent(Func, &Parms);
 			}
@@ -923,13 +924,7 @@ void UDialogue::OnEndDialogue()
 	{
 		bAppliedDialogueInputLock = false;
 
-		if (OwningController && OwningController->IsLocalController())
-		{
-			OwningController->SetIgnoreLookInput(false);
-			OwningController->SetIgnoreMoveInput(false);
-			OwningController->SetShowMouseCursor(false);
-			OwningController->SetInputMode(FInputModeGameOnly());
-		}
+		if (auto* Input = UNarrativeUIInputComponent::Find(OwningController)) Input->Release(this);
 	}
 
 	K2_OnEndDialogue();
@@ -1093,6 +1088,7 @@ void UDialogue::PlayNPCDialogueNode(class UDialogueNode_NPC* NPCReply)
 		ReplaceStringVariables(NPCReply, CurrentLine, CurrentLine.Text);
 
 		CurrentSpeaker = GetSpeaker(NPCReply->GetSpeakerID());
+		StopJawMovement();
 
 		ProcessNodeEvents(NPCReply, true);
 
@@ -1111,6 +1107,8 @@ void UDialogue::PlayNPCDialogueNode(class UDialogueNode_NPC* NPCReply)
 
 		//Actual playing of the node is inside a BlueprintNativeEvent so designers can override how NPC dialogues are played 
 		PlayNPCDialogue(NPCReply, CurrentLine, CurrentSpeaker);
+		if (!OwningComp || CurrentNode != NPCReply) return;
+		StartJawMovement(NPCReply, CurrentLine, CurrentSpeaker);
 
 		if (OwningComp)
 		{
@@ -1174,6 +1172,7 @@ void UDialogue::PlayPlayerDialogueNode(class UDialogueNode_Player* PlayerReply)
 
 		bWaitingForPlayerResponse = false;
 		CurrentNode = PlayerReply;
+		StopJawMovement();
 		
 		ProcessNodeEvents(PlayerReply, true);
 
@@ -1209,6 +1208,8 @@ void UDialogue::PlayPlayerDialogueNode(class UDialogueNode_Player* PlayerReply)
 
 		//Actual playing of the node is inside a BlueprintNativeEvent so designers can override how NPC dialogues are played
 		PlayPlayerDialogue(PlayerReply, CurrentLine);
+		if (!OwningComp || CurrentNode != PlayerReply) return;
+		StartJawMovement(PlayerReply, CurrentLine, PlayerSpeakerInfo);
 
 		CurrentSpeaker = PlayerSpeakerInfo;
 
@@ -1381,6 +1382,7 @@ void UDialogue::FinishNPCDialogue()
 
 	if (UDialogueNode_NPC* NPCNode = Cast<UDialogueNode_NPC>(CurrentNode))
 	{
+		StopJawMovement();
 		FinishDialogueNode(NPCNode, CurrentLine, CurrentSpeaker, CurrentSpeakerAvatar, CurrentListenerAvatar);
 
 		if (OwningComp)
@@ -1418,6 +1420,7 @@ void UDialogue::FinishPlayerDialogue()
 			return;
 		}
 
+		StopJawMovement();
 		FinishDialogueNode(PlayerNode, CurrentLine, CurrentSpeaker, CurrentSpeakerAvatar, CurrentListenerAvatar);
 
 		//Call delegates and BPNativeEvents

@@ -7,6 +7,9 @@
 #include "PhysicsEngine/BodyInstance.h"
 #include "PhysicsEngine/PhysicsAsset.h"
 #include "UObject/UnrealType.h"
+#include "NiagaraFunctionLibrary.h"
+#include "NiagaraComponent.h"
+#include "TimerManager.h"
 
 namespace SewerPresentation
 {
@@ -72,7 +75,8 @@ void UVTGEggRagdollNotify::Notify(USkeletalMeshComponent* Mesh,UAnimSequenceBase
 UVTGAcidFlightComponent::UVTGAcidFlightComponent(){PrimaryComponentTick.bCanEverTick=true;PrimaryComponentTick.TickGroup=TG_PostPhysics;}
 void UVTGAcidFlightComponent::BeginPlay()
 {
- Super::BeginPlay();LastPosition=GetOwner()->GetActorLocation();
+ Super::BeginPlay();LastPosition=LaunchPosition=GetOwner()->GetActorLocation();
+ PlayerTarget=UGameplayStatics::GetPlayerPawn(this,0);if(PlayerTarget.IsValid())PlayerTarget->OnTakeAnyDamage.AddDynamic(this,&UVTGAcidFlightComponent::PlayerDamaged);
  if(auto* Move=GetOwner()->FindComponentByClass<UProjectileMovementComponent>())
  {
   if(!Move->UpdatedComponent)Move->SetUpdatedComponent(GetOwner()->GetRootComponent());
@@ -84,7 +88,20 @@ void UVTGAcidFlightComponent::BeginPlay()
 }
 void UVTGAcidFlightComponent::TickComponent(float Dt,ELevelTick T,FActorComponentTickFunction* Fn)
 {
- Super::TickComponent(Dt,T,Fn);const FVector Now=GetOwner()->GetActorLocation();Travelled+=FVector::Distance(LastPosition,Now);LastPosition=Now;
- if(Travelled>=MaxTravelDistance)GetOwner()->Destroy();
+ Super::TickComponent(Dt,T,Fn);EmitMuzzle();const FVector Now=GetOwner()->GetActorLocation();Travelled+=FVector::Distance(LastPosition,Now);LastPosition=Now;
+ if(Travelled>=MaxTravelDistance){bRangeExpired=true;GetOwner()->Destroy();}
 }
+void UVTGAcidFlightComponent::EmitMuzzle()
+{
+ if(bMuzzlePlayed || !MuzzleEffect)return;auto* Move=GetOwner()->FindComponentByClass<UProjectileMovementComponent>();if(!Move || Move->Velocity.IsNearlyZero())return;
+ bMuzzlePlayed=true;const FQuat Aim=FQuat::FindBetweenNormals(FVector::UpVector,Move->Velocity.GetSafeNormal());
+ MuzzleInstance=UNiagaraFunctionLibrary::SpawnSystemAtLocation(this,MuzzleEffect,LaunchPosition,Aim.Rotator(),FVector(MuzzleScale),true,true,ENCPoolMethod::None,true);
+ if(MuzzleInstance){TWeakObjectPtr<UNiagaraComponent> FX=MuzzleInstance;FTimerHandle Cleanup;GetWorld()->GetTimerManager().SetTimer(Cleanup,FTimerDelegate::CreateLambda([FX](){if(FX.IsValid())FX->DestroyComponent();}),.6f,false);}
+}
+void UVTGAcidFlightComponent::PlayerDamaged(AActor* Actor,float Damage,const UDamageType* Type,AController* Controller,AActor* Causer)
+{
+ if(Damage<=0 || Causer!=GetOwner() || bImpactPlayed || !ImpactEffect)return;bImpactPlayed=true;EmitMuzzle();
+ UNiagaraFunctionLibrary::SpawnSystemAtLocation(Actor,ImpactEffect,Actor->GetActorLocation()+FVector(0,0,25),FRotator::ZeroRotator,FVector(ImpactScale));
+}
+void UVTGAcidFlightComponent::EndPlay(const EEndPlayReason::Type Reason){if(PlayerTarget.IsValid())PlayerTarget->OnTakeAnyDamage.RemoveDynamic(this,&UVTGAcidFlightComponent::PlayerDamaged);Super::EndPlay(Reason);}
 

@@ -1,4 +1,5 @@
 #include "Combat/VTGCombatComponent.h"
+#include "Combat/VTGCombatPresentation.h"
 
 #include "Animation/AnimInstance.h"
 #include "Animation/AnimMontage.h"
@@ -136,6 +137,11 @@ void UVTGCombatComponent::HandleMontageNotifyEnd(FName NotifyName, const FBranch
 
 bool UVTGCombatComponent::CanDoAction(EVTGCombatAction Action) const
 {
+    if (GetOwner())
+        if (auto* Presentation = GetOwner()->FindComponentByClass<UVTGPlayerPresentationComponent>();
+            Presentation && Presentation->IsStoryCombatLocked() && Action != EVTGCombatAction::Move &&
+            Action != EVTGCombatAction::Jump && Action != EVTGCombatAction::Interact)
+            return false;
 	// One table, one answer. Adding a new state means editing this switch - not hunting down every
 	// Branch chain in BP_Player_Sa.
 	switch (CombatState)

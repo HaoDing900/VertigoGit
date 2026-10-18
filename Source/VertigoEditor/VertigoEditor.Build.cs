@@ -6,11 +6,14 @@ public class VertigoEditor : ModuleRules
 	{
 		PCHUsage = PCHUsageMode.UseExplicitOrSharedPCHs;
         bUseUnity = false; // Editor commandlets have independent file-local helpers.
+        PrivateDependencyModuleNames.Add("MaterialEditor");
 
 		PublicDependencyModuleNames.AddRange(new string[] { "Core", "CoreUObject", "Engine" });
         PrivateDependencyModuleNames.Add("Sequencer");
         PrivateDependencyModuleNames.Add("Json");
         PrivateDependencyModuleNames.Add("ContentBrowser");
+        PrivateDependencyModuleNames.Add("ToolMenus");
+        PrivateDependencyModuleNames.Add("GraphEditor");
         PrivateDependencyModuleNames.Add("InventorySystemX");
         PrivateDependencyModuleNames.Add("NarrativeDialogueEditor");
         PrivateDependencyModuleNames.Add("NarrativeQuestEditor");

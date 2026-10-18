@@ -272,6 +272,22 @@ void SDialogueGraphNode::UpdateGraphNode()
 	}
 
 
+	// Always present in the layout so editing the timing checkbox updates the label immediately.
+	const TWeakObjectPtr<UDialogueNode> TimingNode(DialogueNode);
+	GetOrAddSlot(ENodeZone::BottomCenter)
+	.HAlign(HAlign_Center)
+	[
+		SNew(STextBlock)
+		.Text(LOCTEXT("FinishOnlyBoundEvent", "EVENT: ON FINISH (after this line ends)"))
+		.ColorAndOpacity(FLinearColor(1.f, 0.2f, 0.65f, 1.f))
+		.Font(FAppStyle::GetFontStyle("SmallFont"))
+		.ToolTipText(LOCTEXT("FinishOnlyBoundEventTip", "Explicit exception: this node's bound Blueprint event runs only at FINISH. Run Bound Event On Finish is enabled in node Details. Other nodes default to START."))
+		.Visibility_Lambda([TimingNode]()
+		{
+			const auto* Node = TimingNode.Get();
+			return Node && Node->bCallBoundEventOnFinish && !Node->OnPlayNodeFuncName.IsNone() ? EVisibility::HitTestInvisible : EVisibility::Collapsed;
+		})
+	];
 	CreatePinWidgets();
 
 	//Nodes created before coords update won't have their coords set, set them in here

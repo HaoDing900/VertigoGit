@@ -32,6 +32,8 @@
 #include "VTGQuestLocalizationDetails.h"
 #include "VTGMapLocalizationDetails.h"
 #include "VTGHintLocalizationDetails.h"
+#include "VTGAssetDisplayLocalizationDetails.h"
+#include "Engine/DataTable.h"
 #include "Widgets/Layout/SExpandableArea.h"
 #include "Widgets/SCompoundWidget.h"
 
@@ -433,8 +435,16 @@ bool GatherAsset(UObject* Asset,FString& Error)
             }
         }
     };
-    for(auto* Object:Objects)for(TFieldIterator<FProperty> It(Object->GetClass());It;++It)for(int32 Index=0;Index<It->ArrayDim;++Index)
-        Visit(*It,It->ContainerPtrToValuePtr<void>(Object,Index),Object->GetPathName()+TEXT(" : ")+It->GetName());
+    for(auto* Object:Objects)
+    {
+        for(TFieldIterator<FProperty> It(Object->GetClass());It;++It)for(int32 Index=0;Index<It->ArrayDim;++Index)
+            Visit(*It,It->ContainerPtrToValuePtr<void>(Object,Index),Object->GetPathName()+TEXT(" : ")+It->GetName());
+        // DataTable rows are raw struct memory, not reflected UObject properties.
+        if(auto* Table=Cast<UDataTable>(Object))if(Table->GetRowStruct())
+            for(const auto& Row:Table->GetRowMap())for(TFieldIterator<FProperty> It(Table->GetRowStruct());It;++It)
+                for(int32 Index=0;Index<It->ArrayDim;++Index)
+                    Visit(*It,It->ContainerPtrToValuePtr<void>(Row.Value,Index),Table->GetPathName()+TEXT(" : Row[")+Row.Key.ToString()+TEXT("].")+It->GetName());
+    }
     return true;
 }
 
@@ -454,7 +464,7 @@ namespace
 bool ReadDialogueEntry(TSharedPtr<IPropertyHandle> Property,TSharedPtr<FEntry>& Entry,FString& Error)
 {
     Error.Empty();
-    if(!VTGDialogueLocalizationDetails::IsSafeText(Property) && !VTGSubtitleLocalizationDetails::IsSafeText(Property) && !VTGQuestLocalizationDetails::IsSafeText(Property) && !VTGMapLocalizationDetails::IsSafeText(Property) && !VTGHintLocalizationDetails::IsSafeText(Property)){Error=TEXT("此字段未确认是安全的显示文本，翻译区只读。");return false;}
+    if(!VTGDialogueLocalizationDetails::IsSafeText(Property) && !VTGSubtitleLocalizationDetails::IsSafeText(Property) && !VTGQuestLocalizationDetails::IsSafeText(Property) && !VTGMapLocalizationDetails::IsSafeText(Property) && !VTGHintLocalizationDetails::IsSafeText(Property) && !VTGAssetDisplayLocalizationDetails::IsSafeText(Property)){Error=TEXT("此字段未确认是安全的显示文本，翻译区只读。");return false;}
     if(!Load(Error))return false;
     FText Text;
     if(Property->GetValue(Text)!=FPropertyAccess::Success){Error=TEXT("请选择单个对象的文本字段。");return false;}
@@ -468,7 +478,8 @@ bool ReadDialogueEntry(TSharedPtr<IPropertyHandle> Property,TSharedPtr<FEntry>& 
     if(!Entry->LockReason.IsEmpty()){Error=Entry->LockReason;return false;}
     Entry->Source=*Source;
     TArray<UObject*> Owners;Property->GetOuterObjects(Owners);
-    Entry->Context=Owners[0]->GetPathName()+TEXT(" : ")+Property->GeneratePathToProperty();
+    if(Owners.Num()==1)Entry->Context=Owners[0]->GetPathName()+TEXT(" : ")+Property->GeneratePathToProperty();
+    else if(!VTGAssetDisplayLocalizationDetails::GetMailContext(Property,Entry->Context)){Error=TEXT("无法定位 Mail 行来源。");return false;}
     return true;
 }
 FString PropertySignature(TSharedPtr<IPropertyHandle> Property)

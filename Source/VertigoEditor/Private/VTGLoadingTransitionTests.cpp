@@ -73,5 +73,24 @@ bool VTGTestLoadingTransitionTiming()
     Expect(!Zero.CanReveal(5.0,200,0,0) && Zero.CanReveal(5.0,201,0,0),TEXT("zero hold still waits for a frame in the destination"));
     FVTGLoadingTransitionTiming Unseen; Unseen.MarkReady(1.0,1);
     Expect(!Unseen.CanReveal(10.0,10,0,0),TEXT("screen never shown cannot immediately fade away"));
+    FVTGLoadingBlackoutTiming Blackout;
+    Expect(Blackout.CoverOpacity(0)==1 && Blackout.ImageOpacity(0)==0,TEXT("first frame is opaque black; old world and loading image are both covered"));
+    Blackout.StartedAt=0;
+    Expect(Blackout.ImageOpacity(1.49)==0 && Blackout.CoverOpacity(1.49)==1,TEXT("initial black holds for 1.5 seconds"));
+    Expect(FMath::IsNearlyEqual(Blackout.ImageOpacity(2.0),.5f) && !Blackout.IsImageVisible(2.0),TEXT("image is revealed smoothly over the configured one second"));
+    Expect(Blackout.IsImageVisible(2.5) && Blackout.ImageOpacity(2.5)==1,TEXT("loading image is fully shown before deferred travel"));
+    FVTGLoadingTransitionTiming ImageMinimum;ImageMinimum.MarkVisible(Blackout.ImageVisibleAt());ImageMinimum.MarkReady(2.6,10);
+    Expect(!ImageMinimum.CanReveal(4.99,11,2.5,0) && ImageMinimum.CanReveal(5,12,2.5,0),TEXT("initial black and its fade do not consume minimum image display time"));
+    Blackout.ClosingAt=10;
+    Expect(FMath::IsNearlyEqual(Blackout.ImageOpacity(10.75),.5f) && Blackout.CoverOpacity(10.75)==1,TEXT("completed loading image fades to black over 1.5 seconds without exposing world"));
+    Expect(Blackout.ImageOpacity(11.5)==0 && !Blackout.CanReveal(12.99) && Blackout.CanReveal(13),TEXT("full black holds another 1.5 seconds before world reveal is eligible"));
+    Expect(Blackout.CoverOpacity(99)==1 && !Blackout.IsFinished(99),TEXT("slow readiness keeps screen black indefinitely without a timed premature reveal"));
+    Blackout.RevealingAt=15;
+    Expect(FMath::IsNearlyEqual(Blackout.CoverOpacity(15.5),.5f) && !Blackout.IsFinished(15.5) && Blackout.IsFinished(16),TEXT("ready world is revealed in one second, then overlay can be removed"));
+    FVTGLoadingReadinessTiming Stable;
+    Expect(!Stable.Update(false,0,1) && !Stable.Update(true,1,2) && !Stable.Update(true,1.1,3),TEXT("map readiness must settle across real frames"));
+    Expect(!Stable.Update(false,1.2,4) && !Stable.Update(true,2,5) && Stable.Update(true,2.25,6),TEXT("new streaming or save restore work resets the readiness stability gate"));
+    FVTGLoadingBlackoutTiming ZeroBlack;ZeroBlack.InitialHold=ZeroBlack.OpeningFade=ZeroBlack.ClosingFade=ZeroBlack.BlackHold=ZeroBlack.RevealFade=0;ZeroBlack.StartedAt=0;ZeroBlack.ClosingAt=1;ZeroBlack.RevealingAt=2;
+    Expect(ZeroBlack.IsFinished(2) && ZeroBlack.CoverOpacity(2)==0,TEXT("all zero-duration settings remain well-defined"));
     return Fail==0;
 }

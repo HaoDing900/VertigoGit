@@ -25,6 +25,18 @@ class VERTIGO_API AVTGLevelManagerBase : public AActor
 public:
 
 	AVTGLevelManagerBase();
+ /** Keep the terminal reading pose until a story Note opened from mail has closed. */
+ UPROPERTY(EditAnywhere, BlueprintReadWrite, Category="Mail|Story Note")
+ bool bKeepMailReadingDuringStoryNote = true;
+
+ UFUNCTION(BlueprintCallable, Category="Mail|Story Note")
+ void BeginStoryNoteMailReading(UObject* NoteAsset);
+
+ UFUNCTION(BlueprintCallable, Category="Mail|Story Note")
+ void EndStoryNoteMailReading();
+ /** True: empty hands and hold out of combat. False: release the lock without auto-equipping. */
+ UFUNCTION(BlueprintCallable, Category="Story|Combat", meta=(DisplayName="Set Player Story Combat Lock"))
+ bool SetPlayerStoryCombatLock(bool Enabled);
  /** Creates the fade with per-call settings assigned before Construct. TimeBeforeKill <= 0 uses automatic removal. */
  UFUNCTION(BlueprintCallable, Category="Fade", meta=(DisplayName="Fade Configured"))
  UUserWidget* FadeConfigured(double TimeBeforeKill=0, double HoldDurationUntilFade=0, double FadeDuration=1.5, bool DisableFade=false, bool ReverseFadeOnAppear=false, int32 ZOrder=100);

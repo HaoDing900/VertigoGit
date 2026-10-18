@@ -1,5 +1,32 @@
 # 隧道 Loading 过渡系统（Tunnel Loading）
 
+## 2026-10-15：当前黑屏过渡时序
+
+此节覆盖下文旧版 0.4 / 0.5 / 0.6 秒的过渡说明。随机图片、新闻、本地化、Widget 布局和 MoviePlayer 接管方式继续沿用。
+
+**黑屏1.5秒 → 黑屏用1秒淡出露出 Loading 图片 → 原有图片加载界面 → 图片用1.5秒渐黑 → 全黑至少1.5秒并等待目标关卡就绪 → 黑屏用1秒淡出露出场景。**
+
+维护入口：Project Settings → Game → **VTG Media Loading Page → Transitions**，配置保存在 `Config/DefaultGame.ini`：
+
+| 设置 | 当前值 | 含义 |
+| --- | --- | --- |
+| Initial Black Hold Duration | 1.5 | 开头保持全黑 |
+| Fade In Duration | 1.0 | 从黑屏显出 Loading 图片；本次未指定此段时长，使用1秒 |
+| Fade To Black Duration | 1.5 | 图片完成后的渐黑 |
+| Hold After Load Duration | 1.5 | 图片完全消失后的最短黑屏停留；就绪检查未通过会延长 |
+| Fade Out Duration | 1.0 | 最后从黑屏显示关卡 |
+| Wait For Render Asset Streaming | true | 等待当前纹理/网格初始化和流送操作结束 |
+
+Minimum Display Time 仍为2.5秒，现在从图片完全显示时计时，不被开头黑屏占用。极快加载的一次完整过渡约9秒，慢加载继续等待，不缩短结尾黑屏。
+
+最后显示场景前要求：目标 World 完成 Actor 初始化并已 BeginPlay；地图子关卡与 World Partition 流送完成；当前异步包加载、读档世界恢复完成；启用上述选项时没有正在进行的纹理/网格初始化或流送。条件需跨帧稳定0.25秒，且至少经过一个完整黑屏帧。检查的是引擎与现有存档系统能够报告的就绪状态，不代表任意自定义蓝图异步任务或未来可能请求的全部贴图 mip 已完成。
+
+实现：`Source/Vertigo/Private/Loading/SVTGLoadingFade.h` 负责黑色底层、图片透明度和最终整体揭幕；`VTGMediaLoadingPageSystem.cpp` 负责跨地图交接与就绪检查；`Public/Loading/VTGLoadingTransitionTiming.h` 为可独立验证的时间逻辑。Slate 加载线程不访问 World/UObject。
+
+`VTG.PreviewLoading` 演示相同的黑屏与图片流程；预览中的图片显示5秒，不切地图。正式入口仍使用 **Open Level With Loading Screen (Name / Object Reference)**。普通 OpenLevel 保留后备覆盖，但不能在调用之前补出旧关卡过渡帧。参数设为0可关闭对应时长；关卡就绪检查仍保留。
+
+---
+
 > 2026-07 添加。关卡切换之间播一段 2-3 秒的隧道骑行画面（王家卫《堕落天使》那种浪漫感），同时后台加载目标关卡。用引擎 MoviePlayer，独立线程渲染，阻塞加载时照播不卡。
 
 核心类：

@@ -5,6 +5,29 @@
 #include "UObject/UnrealType.h"
 #include "Blueprint/UserWidget.h"
 #include "Kismet/GameplayStatics.h"
+#include "GameFramework/Pawn.h"
+#include "Combat/VTGCombatPresentation.h"
+#include "VTGMailReadingComponent.h"
+
+void AVTGLevelManagerBase::BeginStoryNoteMailReading(UObject* NoteAsset)
+{
+ if (auto* Mail = UVTGMailReadingComponent::GetOrCreate(UGameplayStatics::GetPlayerPawn(this, 0)))
+  Mail->SetHold(this, bKeepMailReadingDuringStoryNote && IsValid(NoteAsset));
+}
+
+void AVTGLevelManagerBase::EndStoryNoteMailReading()
+{
+ if (auto* Mail = UVTGMailReadingComponent::Find(UGameplayStatics::GetPlayerPawn(this, 0)))
+  Mail->SetHold(this, false);
+}
+
+bool AVTGLevelManagerBase::SetPlayerStoryCombatLock(bool Enabled)
+{
+ if(auto* Player=UGameplayStatics::GetPlayerPawn(this,0))
+  if(auto* Presentation=Player->FindComponentByClass<UVTGPlayerPresentationComponent>())
+  {Presentation->SetStoryCombatLock(Enabled);return true;}
+ return false;
+}
 
 UUserWidget* AVTGLevelManagerBase::FadeConfigured(double TimeBeforeKill,double HoldDurationUntilFade,double FadeDuration,bool DisableFade,bool ReverseFadeOnAppear,int32 ZOrder)
 {

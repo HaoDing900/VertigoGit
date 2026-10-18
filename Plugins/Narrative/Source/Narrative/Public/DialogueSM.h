@@ -142,6 +142,10 @@ public:
 
 	UDialogueNode();
 
+	 /** Disable for silent/internal dialogue. Applies to the main line and all alternatives. Cannot override the dialogue-wide switch. */
+	 UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Details - Dialogue Node|Jaw Movement")
+	 bool bEnableJawMovement = true;
+
 	 //The dialogue line associated with this node
 	 UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Details - Dialogue Node", meta = (ShowOnlyInnerProperties))
 	 FDialogueLine Line;
@@ -177,6 +181,11 @@ public:
 	//Name of custom event to call when this is reached 
 	UPROPERTY(BlueprintReadWrite, Category = "Details - Dialogue Node", meta = (AdvancedDisplay))
 	FName OnPlayNodeFuncName;
+
+	/** False (default): invoke the bound Blueprint event only at line start (bStarted=true).
+	 * True: invoke it only at line finish (bStarted=false). Does not change the separate Events array. */
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category="Details - Dialogue Node", meta=(DisplayName="Run Bound Event On Finish", ToolTip="OFF (default): START only. ON: FINISH only. Applies to the Blueprint event created by double-clicking this node; the Events array keeps its own timing."))
+	bool bCallBoundEventOnFinish = false;
 
 	/**Stable number handed out once when the node is created, never reused within the dialogue.
 	A node with no line text can not derive a meaningful ID from it, so it falls back to this number. Without it

@@ -1046,6 +1046,9 @@ void FDialogueGraphEditor::OnDialogueNodeDoubleClicked(UEdGraphNode* Node)
 	{
 		if (DNode->DialogueNode)
 		{
+			const FString TimingComment = DNode->DialogueNode->bCallBoundEventOnFinish
+				? TEXT("FINISH ONLY: runs after this line ends (bStarted=false). Controlled by Run Bound Event On Finish in the dialogue node Details; other nodes default to START.")
+				: TEXT("START ONLY (default): runs when this line starts (bStarted=true). Enable Run Bound Event On Finish in the dialogue node Details to move this event to FINISH only.");
 			if (UEdGraph* EventGraph = FBlueprintEditorUtils::FindEventGraph(DialogueBlueprint))
 			{
 				if (EventGraph->Nodes.Find(DNode->OnPlayedCustomNode) < 0)
@@ -1061,7 +1064,7 @@ void FDialogueGraphEditor::OnDialogueNodeDoubleClicked(UEdGraphNode* Node)
 							DNode->DialogueNode->OnPlayNodeFuncName = FName(OnEnteredFuncName);
 							DNode->OnPlayedCustomNode = OnPlayedEvent;
 
-							OnPlayedEvent->NodeComment = TEXT("This event fires only when this dialogue line starts. bStarted is always true; the legacy event name is retained for compatibility.");
+							OnPlayedEvent->NodeComment = TimingComment;
 							OnPlayedEvent->SetMakeCommentBubbleVisible(true);
 
 							OnPlayedEvent->bCanRenameNode = OnPlayedEvent->bIsEditable = false;
@@ -1073,6 +1076,14 @@ void FDialogueGraphEditor::OnDialogueNodeDoubleClicked(UEdGraphNode* Node)
 				}
 				else if(DNode->OnPlayedCustomNode)
 				{
+					const FString& OldComment = DNode->OnPlayedCustomNode->NodeComment;
+					if (OldComment != TimingComment && (OldComment.IsEmpty() || OldComment.StartsWith(TEXT("This event fires only")) || OldComment.StartsWith(TEXT("START ONLY")) || OldComment.StartsWith(TEXT("FINISH ONLY"))))
+					{
+						DNode->OnPlayedCustomNode->Modify();
+						DNode->OnPlayedCustomNode->NodeComment = TimingComment;
+						DNode->OnPlayedCustomNode->SetMakeCommentBubbleVisible(true);
+						FBlueprintEditorUtils::MarkBlueprintAsModified(DialogueBlueprint);
+					}
 					JumpToNode(DNode->OnPlayedCustomNode, false);
 				}
 			}

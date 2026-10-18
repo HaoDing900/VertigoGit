@@ -93,6 +93,11 @@ class VERTIGO_API UVTGMediaLoadingPageSystem : public UGameInstanceSubsystem
     void ClearPreview();
     bool TickFadeOut(float DeltaTime);
     bool TickPreviewFadeOut(float DeltaTime);
+    bool IsDestinationReadyToReveal(FString* WaitingFor = nullptr) const;
+    TWeakObjectPtr<UWorld> DestinationWorld;
+    FVTGLoadingReadinessTiming Readiness;
+    uint64 BlackCoverFrame = MAX_uint64;
+    double NextReadinessLogAt = 0.0;
 
     /** Hooked to FCoreUObjectDelegates::PreLoadMap so every travel arms the page automatically. */
     void HandlePreLoadMap(const FString &MapName);

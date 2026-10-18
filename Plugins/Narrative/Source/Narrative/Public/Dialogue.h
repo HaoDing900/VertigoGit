@@ -33,6 +33,10 @@ struct FSpeakerInfo
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Speaker Details")
 	FName SpeakerID;
 
+	/** Actor Tag or Skeletal Mesh Component Tag of the existing scene character (e.g. SaP or SaC, matching montage events). Empty disables jaw binding. */
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Speaker Details|Jaw Movement")
+	FName SpeakingActorTag = NAME_None;
+
 	//The display name of this speaker (will default to SpeakerID if empty). 
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Speaker Details")
 	FText SpeakerName;
@@ -176,6 +180,31 @@ public:
 	//The speaker info for our player
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Player Speaker Info")
 	FPlayerSpeakerInfo PlayerSpeakerInfo;
+
+	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category = "Jaw Movement")
+	bool bEnableJawMovement = true;
+
+	/** Multiplies estimated reading time. Larger = longer jaw animation, smaller = shorter; does not change animation speed. */
+	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category = "Jaw Movement", meta = (ClampMin = "0", ToolTip = "Estimated reading time x multiplier. Larger values animate LONGER; smaller values animate SHORTER. Does not change jaw playback speed."))
+	float JawDurationMultiplier = 0.25f;
+
+	/** A new constant playback rate is chosen at each loop boundary. Does not change total speaking duration. */
+	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category = "Jaw Movement", meta = (ClampMin = "0.1"))
+	float JawMinPlayRate = 0.7f;
+	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category = "Jaw Movement", meta = (ClampMin = "0.1"))
+	float JawMaxPlayRate = 1.2f;
+
+	/** Relative jaw opening strength, smoothly varied between random targets. 0 = closed; 1 = authored opening. Does not scale the bone or expose montage jaw motion. */
+	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category = "Jaw Movement", meta = (ClampMin = "0", ClampMax = "1"))
+	float JawMinAmplitude = 0.5f;
+	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category = "Jaw Movement", meta = (ClampMin = "0", ClampMax = "1"))
+	float JawMaxAmplitude = 1.f;
+
+	void StartJawMovement(UDialogueNode* Node, const FDialogueLine& Line, const FSpeakerInfo& Speaker);
+	void StopJawMovement();
+
+	UPROPERTY(Transient)
+	TWeakObjectPtr<class UNarrativeJawComponent> ActiveJawComponent;
 
 	//If true, dialogue graph nodes show a small "PPE: <image>" label when a Profile Picture Expression is assigned to the line.
 	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category = "Configuration")

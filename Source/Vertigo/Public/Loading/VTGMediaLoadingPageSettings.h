@@ -41,17 +41,29 @@ class VERTIGO_API UVTGMediaLoadingPageSettings : public UDeveloperSettings
     UPROPERTY(config, EditAnywhere, Category = "Media Loading Page", meta = (ClampMin = "0.0", UIMax = "10.0"))
     float MinimumDisplayTime = 2.5f;
 
-    /** Fade the loading layout in on MoviePlayer's Slate thread. */
+    /** Start with a fully opaque black screen before revealing the existing loading layout. */
     UPROPERTY(config, EditAnywhere, Category = "Transitions", meta = (ClampMin = "0.0", UIMax = "3.0"))
-    float FadeInDuration = 0.4f;
+    float InitialBlackHoldDuration = 1.5f;
+
+    /** Fade black away to reveal the loading layout on MoviePlayer's Slate thread. */
+    UPROPERTY(config, EditAnywhere, Category = "Transitions", meta = (ClampMin = "0.0", UIMax = "3.0"))
+    float FadeInDuration = 1.f;
+
+    /** Cover the loading image with black after map loading and the image's minimum display time. */
+    UPROPERTY(config, EditAnywhere, Category = "Transitions", meta = (ClampMin = "0.0", UIMax = "3.0"))
+    float FadeToBlackDuration = 1.5f;
 
     /** Fade the loading layout away over the new world after map loading finishes. */
     UPROPERTY(config, EditAnywhere, Category = "Transitions", meta = (ClampMin = "0.0", UIMax = "3.0"))
-    float FadeOutDuration = 0.6f;
+    float FadeOutDuration = 1.f;
 
-    /** Keep the loading page opaque briefly after the new map is ready, even after a long load. */
+    /** Minimum fully black hold after the image disappears; extended until destination readiness. */
     UPROPERTY(config, EditAnywhere, Category = "Transitions", meta = (ClampMin = "0.0", UIMax = "3.0"))
-    float HoldAfterLoadDuration = 0.5f;
+    float HoldAfterLoadDuration = 1.5f;
+
+    /** Also wait for currently requested texture/mesh streaming operations before revealing the world. */
+    UPROPERTY(config, EditAnywhere, Category = "Transitions")
+    bool bWaitForRenderAssetStreaming = true;
 
     /** Loop the last clip until loading finishes (recommended - hides variable load time). */
     UPROPERTY(config, EditAnywhere, Category = "Media Loading Page")
