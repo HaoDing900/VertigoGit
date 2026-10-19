@@ -11,6 +11,10 @@
 #include "UObject/StrongObjectPtr.h"
 #include "Engine/GameViewportClient.h"
 #include "Engine/LocalPlayer.h"
+#include "Framework/Application/SlateApplication.h"
+#include "InputCoreTypes.h"
+#include "Blueprint/WidgetTree.h"
+#include "Components/Overlay.h"
 
 #if WITH_DEV_AUTOMATION_TESTS
 IMPLEMENT_SIMPLE_AUTOMATION_TEST(FVTGNoteInputTest, "Vertigo.Dialogue.NoteInputOwnership",
@@ -99,16 +103,57 @@ public:
         if (!Input) { Test->AddError(TEXT("No local UI input component")); return true; }
         if (Phase == 0)
         {
+            Host = CreateWidget<UVTGNoteReadingPanelTestWidget>(PC);
+            Host->WidgetTree = NewObject<UWidgetTree>(Host.Get());
+            auto* CachedOverlay = Host->WidgetTree->ConstructWidget<UOverlay>();
+            Host->WidgetTree->RootWidget = CachedOverlay;
+            // Inventory constructs several cached Note roots before any Note opens.
+            for (int32 Index = 0; Index < 3; ++Index)
+            {
+                UClass* CachedClass = Index == 0 ? LoadClass<UUserWidget>(nullptr,
+                    TEXT("/Game/Inventory/InventoryXBased/UMG/WB_NoteMainWidget.WB_NoteMainWidget_C")) : UVTGNoteInputTestWidget::StaticClass();
+                auto* Cached = CachedClass ? CreateWidget<UVTGNoteInputWidget>(PC, CachedClass) : nullptr;
+                if (!Cached) { Test->AddError(TEXT("Could not construct cached project Note")); return true; }
+                CachedOverlay->AddChild(Cached);
+                Cached->TakeWidget();
+                Cached->SetVisibility(ESlateVisibility::Collapsed);
+            }
+            Host->AddToViewport(100);
+            Test->TestFalse(TEXT("Preconstructed cached Notes do not claim modal input"), Input->HasOwners());
+            Test->TestFalse(TEXT("Preconstructed Notes do not lock player movement or look"), PC->IsMoveInputIgnored() || PC->IsLookInputIgnored());
+            Test->TestFalse(TEXT("Preconstructed Notes leave actual game input enabled"), PC->GetLocalPlayer()->ViewportClient->IgnoreInput());
             Dialogue.Reset(NewObject<UVTGNoteInputTestDialogue>(PC));
             Dialogue->Start(PC);
             Note = CreateWidget<UVTGNoteInputTestWidget>(PC);
             if (!Note.IsValid()) { Test->AddError(TEXT("Could not create Note widget")); return true; }
-            Note->AddToViewport(100);
+            // Match the real root: keyboard page/close handling lives in ActiveWidget,
+            // not in the outer Note container. It starts non-focusable like the BP.
+            auto* Panel = CreateWidget<UVTGNoteReadingPanelTestWidget>(PC);
+            Note->WidgetTree = NewObject<UWidgetTree>(Note.Get());
+            auto* Overlay = Note->WidgetTree->ConstructWidget<UOverlay>();
+            Note->WidgetTree->RootWidget = Overlay;
+            Overlay->AddChild(Panel);
+            Note->ActiveWidget = Panel;
+            CachedOverlay->AddChild(Note.Get());
+            Note->TakeWidget();
+            Test->TestEqual(TEXT("Constructing another Note cannot displace a dialogue"), Input->GetActiveOwner(), static_cast<UObject*>(Dialogue.Get()));
+            Note->SetNoteInputActive(true); // Real logical state change, not widget construction.
+            Panel->SetIsFocusable(false);
+            // Reproduce a trailing UI-only focus change during the real opening frame.
+            PC->SetInputMode(FInputModeUIOnly());
+            FSlateApplication::Get().SetUserFocusToGameViewport(PC->GetLocalPlayer()->GetControllerId());
         }
         else if (Phase == 1)
         {
-            Test->TestEqual(TEXT("Viewport Note acquires input automatically"), Input->GetActiveOwner(), static_cast<UObject*>(Note.Get()));
-            Test->TestTrue(TEXT("Note receives UI keyboard focus"), Note->HasUserFocus(PC));
+            Test->TestFalse(TEXT("Reading Note is embedded rather than a viewport root"), Note->IsInViewport());
+            Test->TestEqual(TEXT("Logical Note open acquires input"), Input->GetActiveOwner(), static_cast<UObject*>(Note.Get()));
+            auto* Panel = CastChecked<UVTGNoteReadingPanelTestWidget>(Note->ActiveWidget);
+            Test->TestTrue(TEXT("Active reading panel receives UI keyboard focus"), Panel->HasUserFocus(PC));
+            const int32 Before = Panel->KeyboardInputCount;
+            FSlateApplication::Get().ProcessKeyDownEvent(FKeyEvent(EKeys::Right, FModifierKeysState(), PC->GetLocalPlayer()->GetControllerId(), false, 0, 0));
+            Test->TestEqual(TEXT("First keyboard key reaches the reading panel without any mouse click"), Panel->KeyboardInputCount, Before + 1);
+            Test->TestEqual(TEXT("Root-only focus must not mask a broken reading panel"), Note->KeyboardInputCount, 0);
+            FSlateApplication::Get().ProcessKeyUpEvent(FKeyEvent(EKeys::Right, FModifierKeysState(), PC->GetLocalPlayer()->GetControllerId(), false, 0, 0));
             Dialogue->Finish();
             WaitUntil = FPlatformTime::Seconds() + .85;
         }
@@ -129,7 +174,7 @@ public:
         }
         else if (Phase == 3)
         {
-            Test->TestTrue(TEXT("Closed Note root is deliberately retained in viewport"), Note->IsInViewport());
+            Test->TestTrue(TEXT("Closed Note remains cached inside its viewport host"), Host->IsInViewport() && Note->GetParent() != nullptr);
             Test->TestFalse(TEXT("Logical close releases Note before Destruct"), Input->HasOwners());
             Test->TestFalse(TEXT("Closing last UI restores gameplay"), PC->bShowMouseCursor || PC->IsLookInputIgnored() || PC->IsMoveInputIgnored());
             Test->TestFalse(TEXT("Logical close restores actual viewport gameplay input"), PC->GetLocalPlayer()->ViewportClient->IgnoreInput());
@@ -155,6 +200,7 @@ public:
             Test->TestFalse(TEXT("Final dialogue releases player lock"), PC->IsLookInputIgnored() || PC->IsMoveInputIgnored());
             Test->TestFalse(TEXT("Final dialogue restores actual gameplay input"), PC->GetLocalPlayer()->ViewportClient->IgnoreInput());
             Note->RemoveFromParent();
+            Host->RemoveFromParent();
             return true;
         }
         ++Phase;
@@ -164,6 +210,7 @@ private:
     FAutomationTestBase* Test;
     TStrongObjectPtr<UVTGNoteInputTestDialogue> Dialogue;
     TWeakObjectPtr<UVTGNoteInputTestWidget> Note;
+    TWeakObjectPtr<UVTGNoteReadingPanelTestWidget> Host;
     double Deadline = 0;
     double WaitUntil = 0;
     int32 Phase = 0;

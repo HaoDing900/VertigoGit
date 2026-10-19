@@ -19,4 +19,7 @@ protected:
 private:
     TWeakObjectPtr<class UNarrativeUIInputComponent> InputOwner;
     TWeakObjectPtr<class UVTGMailReadingComponent> MailReadingOwner;
+    FDelegateHandle OpeningFocusHandle;
+    void FinishOpeningFocus(float DeltaTime);
+    void CancelOpeningFocus();
 };

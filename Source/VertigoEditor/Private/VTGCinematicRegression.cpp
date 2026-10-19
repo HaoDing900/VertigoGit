@@ -7,6 +7,8 @@
 #include "LevelSequenceActor.h"
 #include "MovieScene.h"
 #include "Tracks/MovieSceneEventTrack.h"
+#include "Tracks/MovieSceneSubTrack.h"
+#include "Sections/MovieSceneSubSection.h"
 #include "Sections/MovieSceneEventTriggerSection.h"
 #include "Sections/MovieSceneEventRepeaterSection.h"
 #include "UObject/UnrealType.h"
@@ -117,6 +119,35 @@ bool FVTGCinematicRegression::RunTest(const FString&)
         for (int32 i = 0; i < 40 && UVTGSequenceSkipSubsystem::AdvanceFrame(Player); ++i) {}
         TestEqual(TEXT("After completing dialogue, a new skip preserves remaining events"), UVTGSequenceRegressionDirector::TriggerCount, 3);
         Player->Stop();
+
+        // Only the root is opted in. Nested sequences are evaluated by its player,
+        // including their own Directors, offsets and different display rates.
+        auto* Root=NewObject<ULevelSequence>();Root->Initialize();
+        auto* RootSettings=NewObject<UVTGSequenceSettings>(Root);RootSettings->bAllowSkip=true;Root->AddAssetUserData(RootSettings);
+        Root->GetMovieScene()->SetDisplayRate(FFrameRate(24,1));
+        Root->GetMovieScene()->SetTickResolutionDirectly(FFrameRate(30,1));
+        Root->GetMovieScene()->SetPlaybackRange(0,60);
+        auto* Middle=NewObject<ULevelSequence>();Middle->Initialize();
+        Middle->GetMovieScene()->SetDisplayRate(FFrameRate(30,1));
+        Middle->GetMovieScene()->SetTickResolutionDirectly(FFrameRate(30,1));
+        Middle->GetMovieScene()->SetPlaybackRange(0,40);
+        auto AddSub=[](ULevelSequence* Parent,ULevelSequence* Child,int32 Start,int32 End)
+        {
+            auto* SubTrack=Parent->GetMovieScene()->AddTrack<UMovieSceneSubTrack>();
+            auto* Sub=NewObject<UMovieSceneSubSection>(SubTrack);Sub->SetSequence(Child);
+            Sub->SetRange(TRange<FFrameNumber>(FFrameNumber(Start),FFrameNumber(End)));SubTrack->AddSection(*Sub);
+        };
+        AddSub(Root,Middle,10,50);AddSub(Middle,Sequence,5,35);
+        SkipSettings->bAllowSkip=false;
+        auto* NestedPlayer=ULevelSequencePlayer::CreateLevelSequencePlayer(World,Root,FMovieSceneSequencePlaybackSettings(),Actor);
+        NestedPlayer->OnFinished.AddDynamic(Observer,&UVTGSequenceRegressionDirector::Finished);
+        UVTGSequenceRegressionDirector::TriggerCount=UVTGSequenceRegressionDirector::RepeatCount=UVTGSequenceRegressionDirector::FinishCount=0;
+        NestedPlayer->Play();
+        for(int32 i=0;i<100 && UVTGSequenceSkipSubsystem::AdvanceFrame(NestedPlayer);++i){}
+        TestEqual(TEXT("Two nested levels preserve all child trigger events without child skip opt-in"),UVTGSequenceRegressionDirector::TriggerCount,3);
+        TestTrue(TEXT("Nested repeaters execute during root skip"),UVTGSequenceRegressionDirector::RepeatCount>0);
+        TestEqual(TEXT("Nested root completes once"),UVTGSequenceRegressionDirector::FinishCount,1);
+        TestFalse(TEXT("Nested root completes playback"),NestedPlayer->IsPlaying());
     }
     World->DestroyWorld(false);
     return true;
@@ -135,7 +166,8 @@ bool FVTGSequenceSkipPromptRegression::RunTest(const FString&)
     Player->Play();Skip->TickAt(true,99);TestFalse(TEXT("A fresh cutscene does not show a prompt automatically"),Skip->bHintVisible);
     TestFalse(TEXT("An arbitrary key reveals without swallowing the key"),Skip->HandleKeyAt(EKeys::E,true,false,100));TestTrue(TEXT("Any-key prompt is visible"),Skip->bHintVisible);
     TestTrue(TEXT("Prompt uses the shared Inventory control texture"),Skip->SkipKeyBrush.GetResourceObject() && Skip->SkipKeyBrush.GetResourceObject()->GetPathName().Contains(TEXT("/Inventory/InventoryXBased/UMG/Textures/Controls/")));
-    Skip->TickAt(true,104.1);TestFalse(TEXT("Prompt hides after four idle seconds"),Skip->bHintVisible);
+    Skip->TickAt(true,102.3);TestTrue(TEXT("Prompt remains visible before the 2.4-second idle timeout"),Skip->bHintVisible);
+    Skip->TickAt(true,102.5);TestFalse(TEXT("Prompt hides after 2.4 idle seconds"),Skip->bHintVisible);
     Skip->NotifyActivityAt(EKeys::LeftMouseButton,110);TestTrue(TEXT("Mouse button can reveal it again"),Skip->bHintVisible);
     Skip->TickAt(true,114.1);TestFalse(TEXT("Revealed prompt also times out"),Skip->bHintVisible);
     TestFalse(TEXT("Esc retains the pause path rather than starting a skip"),Skip->HandleKeyAt(EKeys::Escape,true,false,120));TestTrue(TEXT("Esc alone does not hold skip"),Skip->Phase==Phase::Idle);

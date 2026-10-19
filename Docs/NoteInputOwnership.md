@@ -4,7 +4,7 @@
 Narrative dialogues acquire it at `OnBeginDialogue` and release it at
 `OnEndDialogue`. The project Note root, `WB_NoteMainWidget`, derives from
 `UVTGNoteInputWidget`. `OnStateChanged_Event` in that project widget calls
-`SetNoteInputActive(State != Closed)`. Construct acquires the initial request;
+`SetNoteInputActive(State != Closed)`. Construction alone never acquires input;
 Destruct is only a fallback for forced removal. Logical close must release even
 when a closing animation or cached Slate widget keeps the root alive.
 
@@ -27,8 +27,8 @@ also works in Shipping.
 This covers both InventorySystemX's trailing input changes and BP_Player_Sa's
 mail-camera cleanup: that flow waits 0.8 seconds before calling Sa_RestoreInput,
 which previously overrode the Note long after its Construct/next-tick callback.
-There is no fixed-duration delay, per-frame polling, or scheduled focus reset in
-the runtime fix. Note logical state and destruction drive ownership.
+There is no fixed-duration delay or per-frame polling. A single opening post-tick
+completes keyboard focus; Note logical state and destruction drive ownership.
 
 New story Notes using the existing root need no per-level input-mode nodes.
 Other modal UI can use the component's `Acquire`/`Release` API with its own owner
@@ -79,3 +79,53 @@ MailID pin and choose `Jump to Mail DataTable Row`. The action opens
 selection API. Connected, empty, None, or nonexistent IDs cannot navigate.
 `Vertigo.Editor.MailRowJump` checks both functions, actual Sewer call sites,
 generated context menus, and connected-pin handling.
+
+## Note opening keyboard focus
+
+The root's logical opening callback may acquire UI-only input before its Slate
+widget has been attached. A trailing UI-only focus change from the dialogue/UI
+handoff can therefore leave the keyboard on the viewport even though Note owns
+the input mode. Clicking the Note previously repaired this focus path manually.
+
+`UVTGNoteInputWidget` now finishes opening focus once on Slate's post-tick, after
+attachment and the pending CommonUI focus pass. It refreshes/focuses only while
+this Note is visible, attached to a Slate window and still the active input owner. Existing
+focus inside a Note child is preserved. Logical close/destruction cancels the
+pending pass; there is no continuous focus polling.
+
+The PIE lifecycle regression deliberately moves focus to the viewport with a
+trailing UI-only request during opening, then sends a keyboard key through Slate
+without clicking. It also covers cached reopen and closing into another dialogue.
+
+### 2026-10-18 correction: focus the reading panel
+
+The first focus fix targeted the outer root. In the real Blueprint, root
+`OnKeyDown` handles tab switching, while `ActiveWidget` (the fullscreen reader)
+handles page/back/close. Keys bubble to ancestors, never descend into children.
+After attachment the native root now resolves the existing `ActiveWidget` object
+property, enables its focusability, and updates its input-owner request to focus
+that panel. Root remains the lifetime owner; closing still releases exactly one
+request. Roots without that property retain the root fallback.
+
+The PIE regression now has a separate, initially non-focusable reading child and
+asserts the first Slate key reaches that child, not just the outer root.
+
+## Cached inventory Note construction (2026-10-18 correction)
+
+`NativeConstruct` no longer acquires Note input. Inventory preconstructs multiple
+`WB_NoteMainWidget` instances as `WB_NoteBase` children of cached tab switchers;
+construction is not a logical Note-open signal. Only `OnStateChanged_Event` calls
+`SetNoteInputActive(true/false)`. Destruction remains a forced-removal fallback.
+This also prevents a cached Note from incorrectly claiming the mail-reading hold.
+
+Opening focus checks actual Slate window attachment rather than `IsInViewport()`:
+an embedded Note root is not itself a viewport root. The root remains the owner,
+while `ActiveWidget` receives keyboard focus. Pending opening focus is cancelled
+on logical close.
+
+The PIE regression now constructs three cached roots without opening them and
+asserts there are no input owners, ignore-input locks, or UI-only viewport mode.
+It then explicitly opens an embedded Note, verifies its reading child receives
+the first key without a click, closes/reopens it, and closes into a new dialogue.
+`NarrativeUIInputComponent.GetActiveOwner` and `HasOwners` are now read-only
+Blueprint/Python diagnostics; they do not change ownership or input counters.

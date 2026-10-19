@@ -17,6 +17,9 @@
 #include "Styling/CoreStyle.h"
 #include "AssetRegistry/AssetRegistryModule.h"
 #include "LevelSequence.h"
+#include "VTGSequenceInspector.h"
+#include "MovieScene.h"
+#include "Sections/MovieSceneSubSection.h"
 
 UVTGSequenceSkipCheckCommandlet::UVTGSequenceSkipCheckCommandlet()
 { IsClient=false;IsServer=false;IsEditor=true;LogToConsole=true; }
@@ -24,6 +27,27 @@ int32 UVTGSequenceSkipCheckCommandlet::Main(const FString& Params)
 {
     if(!FSlateApplication::IsInitialized())FSlateApplication::InitializeAsStandaloneApplication(FModuleManager::LoadModuleChecked<ISlateRHIRendererModule>(TEXT("SlateRHIRenderer")).CreateSlateRHIRenderer());
     if(!VTGRunSequenceSkipChecks())return 1;
+    FString InspectPath;
+    if(FParse::Value(*Params,TEXT("InspectSequence="),InspectPath))
+    {
+        auto* Root=LoadObject<ULevelSequence>(nullptr,*InspectPath);
+        if(!Root)return 2;
+        TSet<ULevelSequence*> Seen;
+        TFunction<void(ULevelSequence*,int32)> Visit=[&](ULevelSequence* Sequence,int32 Depth)
+        {
+            if(!Sequence || Seen.Contains(Sequence))return;
+            Seen.Add(Sequence);
+            UE_LOG(LogTemp,Display,TEXT("SKIP HIERARCHY depth=%d allow=%d %s"),Depth,UVTGSequenceSkipSubsystem::IsSkipAllowed(Sequence),*Sequence->GetPathName());
+            auto* Scene=Sequence->GetMovieScene();if(!Scene)return;
+            TArray<UMovieSceneTrack*> Tracks;for(auto* Track:Scene->GetTracks())Tracks.Add(Track);
+            for(const auto& Binding:Scene->GetBindings())for(auto* Track:Binding.GetTracks())Tracks.Add(Track);
+            for(auto* Track:Tracks)for(auto* Section:Track->GetAllSections())
+                if(Section->IsActive())if(auto* Sub=Cast<UMovieSceneSubSection>(Section))Visit(Cast<ULevelSequence>(Sub->GetSequence()),Depth+1);
+        };
+        Visit(Root,0);
+        for(const auto& Finding:VTGSequenceInspector::Inspect(Root))
+            UE_LOG(LogTemp,Display,TEXT("SKIP FINDING uncertain=%d %s : %s"),Finding.bUncertain,*Finding.Context,*Finding.Node);
+    }
     if(FParse::Param(*Params,TEXT("Audit")))
     {
         auto& Registry=FModuleManager::LoadModuleChecked<FAssetRegistryModule>(TEXT("AssetRegistry")).Get();Registry.SearchAllAssets(true);FARFilter Filter;Filter.PackagePaths.Add(TEXT("/Game/LevelNSequence"));Filter.bRecursivePaths=true;Filter.ClassPaths.Add(ULevelSequence::StaticClass()->GetClassPathName());TArray<FAssetData> Assets;Registry.GetAssets(Filter,Assets);int Allowed=0;for(const auto& Asset:Assets)if(auto* Sequence=Cast<ULevelSequence>(Asset.GetAsset());UVTGSequenceSkipSubsystem::IsSkipAllowed(Sequence)){++Allowed;UE_LOG(LogTemp,Display,TEXT("SKIP ENABLED: %s"),*Asset.PackageName.ToString());}UE_LOG(LogTemp,Display,TEXT("SKIP AUDIT: %d / %d story sequence assets opted in"),Allowed,Assets.Num());

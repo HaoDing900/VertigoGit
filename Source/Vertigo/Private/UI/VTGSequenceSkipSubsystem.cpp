@@ -33,7 +33,7 @@ namespace SequenceSkip
     constexpr double HoldSeconds = .8;
     constexpr double FadeSeconds = .5;
     constexpr double RevealSeconds = .25;
-    constexpr double HintSeconds = 4.;
+    constexpr double HintSeconds = 2.4;
     constexpr double PlaybackMultiplier = 20.;
     bool IsSkipKey(const FKey& Key) { return Key == EKeys::SpaceBar || Key == EKeys::Gamepad_FaceButton_Bottom; }
 }

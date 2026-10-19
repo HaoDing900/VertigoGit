@@ -45,6 +45,8 @@
 #include "DialogueBlueprint.h"
 #include "AssetRegistry/AssetRegistryModule.h"
 #include "Camera/PlayerCameraManager.h"
+#include "VTGPlayerAnimationLibrary.h"
+#include "Animation/AnimMontage.h"
 
 namespace
 {
@@ -516,6 +518,84 @@ bool MailCamera(UBlueprint* Player, bool VerifyOnly)
         Guard->GetElsePin()->LinkedTo.Contains(Cleanup->FindPin(UEdGraphSchema_K2::PN_Execute));
 }
 
+bool StairIdle(UBlueprint* Sewer, bool VerifyOnly)
+{
+    auto* Graph = Events(Sewer);
+    auto* Apply = Node<UK2Node_CallFunction>(Graph, TEXT("VTG_SetStairBaseIdle"));
+    if (!Apply && !VerifyOnly)
+    {
+        auto* Old = Node<UK2Node_Message>(Graph, TEXT("K2Node_Message_2"));
+        if (!Old || !Old->FindPin(TEXT("NewIdle"))->DefaultObject) return false;
+        const FString File = FPackageName::LongPackageNameToFilename(Sewer->GetOutermost()->GetName(), FPackageName::GetAssetPackageExtension());
+        const FString Copy = FPaths::ProjectSavedDir() / TEXT("Backups/InstantStairIdle/BPLM_SewerUnderApt-before-instant-idle.uasset");
+        IFileManager::Get().MakeDirectory(*FPaths::GetPath(Copy), true);
+        if (!IFileManager::Get().FileExists(*Copy) && IFileManager::Get().Copy(*Copy, *File) != COPY_OK) return false;
+        Apply = Call(Graph, TEXT("VTG_SetStairBaseIdle"), UVTGPlayerAnimationLibrary::StaticClass(), TEXT("SetPlayerBaseIdle"), Old->NodePosX, Old->NodePosY);
+        for (const auto& Pair : {TPair<FName,FName>(UEdGraphSchema_K2::PN_Execute, UEdGraphSchema_K2::PN_Execute), TPair<FName,FName>(UEdGraphSchema_K2::PN_Then, UEdGraphSchema_K2::PN_Then), TPair<FName,FName>(UEdGraphSchema_K2::PN_Self, TEXT("Player")), TPair<FName,FName>(TEXT("NewIdle"), TEXT("NewIdle"))})
+        {
+            auto* From = Old->FindPin(Pair.Key); auto* To = Apply->FindPin(Pair.Value);
+            if (!From || !To) return false;
+            To->DefaultValue = From->DefaultValue; To->DefaultObject = From->DefaultObject; To->DefaultTextValue = From->DefaultTextValue;
+            const auto Links = From->LinkedTo; From->BreakAllPinLinks();
+            for (auto* Link : Links) if (!Connect(Link, To)) return false;
+        }
+        Schema->TrySetDefaultValue(*Apply->FindPin(TEXT("Instant")), TEXT("true"));
+        Apply->NodeComment = TEXT("Instant is opt-in: interrupt the previous terminal montage and evaluate the new idle immediately. False preserves ordinary montage/blend behavior.");
+        Apply->bCommentBubbleVisible = true;
+        FBlueprintEditorUtils::RemoveNode(Sewer, Old, true);
+        if (!Save(Sewer)) return false;
+    }
+    return Apply && Apply->FunctionReference.GetMemberName() == TEXT("SetPlayerBaseIdle") && Apply->FindPin(TEXT("Instant"))->DefaultValue == TEXT("true") && Apply->FindPin(TEXT("Player"))->LinkedTo.Num() == 1;
+}
+
+bool TestStairIdle(UBlueprint* Sewer)
+{
+    TGuardValue<bool> Scripts(GAllowActorScriptExecutionInEditor, true);
+    auto* BP = LoadObject<UBlueprint>(nullptr, TEXT("/Game/ThirdPerson/Blueprints/BP_Player_Sa.BP_Player_Sa"));
+    auto* Anim = LoadObject<UBlueprint>(nullptr, TEXT("/Game/Characters/Sa/ABP_Sa.ABP_Sa"));
+    auto* Apply = Node<UK2Node_CallFunction>(Events(Sewer), TEXT("VTG_SetStairBaseIdle"));
+    auto* Seat = Apply ? Cast<UAnimSequence>(Apply->FindPin(TEXT("NewIdle"))->DefaultObject) : nullptr;
+    if (!BP || !Anim || !Seat) return false;
+    const auto Init = UWorld::InitializationValues().AllowAudioPlayback(false).CreatePhysicsScene(true).CreateNavigation(false).CreateAISystem(false);
+    auto* World = UWorld::CreateWorld(EWorldType::Game, false, NAME_None, nullptr, true, ERHIFeatureLevel::Num, &Init);
+    FActorSpawnParameters Spawn; Spawn.SpawnCollisionHandlingOverride = ESpawnActorCollisionHandlingMethod::AlwaysSpawn;
+    auto* Player = World->SpawnActor<ACharacter>(BP->GeneratedClass, FTransform::Identity, Spawn);
+    if (!Player) { World->DestroyWorld(false); return false; }
+    auto* Mesh = Player->GetMesh();
+    Mesh->SetAnimInstanceClass(Anim->GeneratedClass);
+    Mesh->InitAnim(true);
+    auto* Instance = Mesh->GetAnimInstance();
+    auto* CloseProperty = FindFProperty<FObjectProperty>(Player->GetClass(), TEXT("Mont_CloseTerminal"));
+    auto* Close = CloseProperty ? Cast<UAnimMontage>(CloseProperty->GetObjectPropertyValue_InContainer(Player)) : nullptr;
+    auto* Idle = Instance ? FindFProperty<FObjectProperty>(Instance->GetClass(), TEXT("VTGBaseIdle")) : nullptr;
+    bool Passed = Instance && Close && Idle;
+    auto Check = [&Passed](bool OK, const TCHAR* What)
+    {
+        UE_LOG(LogTemp, Display, TEXT("STAIR IDLE TEST: %s: %s"), What, OK ? TEXT("PASS") : TEXT("FAIL"));
+        Passed &= OK;
+    };
+    if (Passed)
+    {
+        UE_LOG(LogTemp, Display, TEXT("STAIR IDLE: close montage=%s length=%.3f blendout=%.3f; seat=%s"), *Close->GetPathName(), Close->GetPlayLength(), Close->BlendOut.GetBlendTime(), *Seat->GetPathName());
+        Instance->Montage_Play(Close);
+        Check(UVTGPlayerAnimationLibrary::SetPlayerBaseIdle(Player, Seat, false) && Instance->Montage_IsPlaying(Close), TEXT("Default switch preserves the playing terminal montage"));
+        Check(Idle->GetObjectPropertyValue_InContainer(Instance) == Seat, TEXT("Base idle already changes even while the montage covers it"));
+        Mesh->TickAnimation(.1f, false);
+        Mesh->RefreshBoneTransforms();
+        const TArray<FTransform> BeforePose = Mesh->GetComponentSpaceTransforms();
+        Check(UVTGPlayerAnimationLibrary::SetPlayerBaseIdle(Player, Seat, true), TEXT("Instant switch succeeds on actual Sa"));
+        Check(!Instance->IsAnyMontagePlaying() && Idle->GetObjectPropertyValue_InContainer(Instance) == Seat, TEXT("Instant switch removes the montage without waiting for its blend-out"));
+        Check(Mesh->GetAnimClass() == Anim->GeneratedClass, TEXT("Instant switch preserves the locomotion animation class"));
+        const auto& AfterPose = Mesh->GetComponentSpaceTransforms();
+        bool PoseChangedNow = false;
+        for (int32 Index = 0; Index < FMath::Min(BeforePose.Num(), AfterPose.Num()); ++Index)
+            PoseChangedNow |= !BeforePose[Index].Equals(AfterPose[Index], .001f);
+        Check(PoseChangedNow, TEXT("Evaluated bone pose changes inside the instant call without waiting another frame"));
+    }
+    World->DestroyWorld(false);
+    return Passed;
+}
+
 bool TestMailCamera(UBlueprint* Saved)
 {
     TGuardValue<bool> Scripts(GAllowActorScriptExecutionInEditor, true);
@@ -599,6 +679,77 @@ UVTGMailFlowCommandlet::UVTGMailFlowCommandlet()
 int32 UVTGMailFlowCommandlet::Main(const FString& Params)
 {
     Schema = GetDefault<UEdGraphSchema_K2>();
+    if (FParse::Param(*Params, TEXT("FixApartmentInput")) || FParse::Param(*Params, TEXT("VerifyApartmentInput")))
+    {
+        const bool Verify = FParse::Param(*Params, TEXT("VerifyApartmentInput"));
+        auto* BP = LoadObject<UBlueprint>(nullptr, TEXT("/Game/LevelNSequence/In_Level/SaApartment/BPLM_SaApartment.BPLM_SaApartment"));
+        if (!BP) return 60;
+        auto* Graph = Events(BP);
+        auto* Restore = Node<UK2Node_CallFunction>(Graph, TEXT("K2Node_CallFunction_39"));
+        auto* Move = Node<UK2Node_CallFunction>(Graph, TEXT("K2Node_CallFunction_45"));
+        auto* Collision = Node<UK2Node_CallFunction>(Graph, TEXT("VTG_RestoreApartmentCollision"));
+        if (!Restore || !Move) return 61;
+        if (!Verify && !Collision)
+        {
+            const FString Backup = FPaths::ProjectSavedDir() / TEXT("Backups/ApartmentInput/BPLM_SaApartment-before-collision-restore.uasset");
+            IFileManager::Get().MakeDirectory(*FPaths::GetPath(Backup), true);
+            if (IFileManager::Get().Copy(*Backup, *FPackageName::LongPackageNameToFilename(BP->GetOutermost()->GetName(), FPackageName::GetAssetPackageExtension()), false) != COPY_OK) return 62;
+            Collision = Call(Graph, TEXT("VTG_RestoreApartmentCollision"), AActor::StaticClass(), TEXT("SetActorEnableCollision"), Move->NodePosX, Move->NodePosY - 180);
+            Schema->TrySetDefaultValue(*Collision->FindPin(TEXT("bNewActorEnableCollision")), TEXT("true"));
+            for (auto* Target : Restore->FindPin(TEXT("self"))->LinkedTo)
+                if (!Connect(Target, Collision->FindPin(TEXT("self")))) return 63;
+            Collision->NodeComment = TEXT("Intro disables the real Sa actor's collision. Restore it before Walking; EnableInput alone does not restore collision.");
+            Collision->bCommentBubbleVisible = true;
+            if (!Insert(Restore->FindPin(UEdGraphSchema_K2::PN_Then), Collision) || !Save(BP)) return 64;
+        }
+        if (!Collision || Collision->FindPin(TEXT("bNewActorEnableCollision"))->DefaultValue != TEXT("true") ||
+            !Restore->FindPin(UEdGraphSchema_K2::PN_Then)->LinkedTo.Contains(Collision->FindPin(UEdGraphSchema_K2::PN_Execute)) ||
+            !Collision->FindPin(UEdGraphSchema_K2::PN_Then)->LinkedTo.Contains(Move->FindPin(UEdGraphSchema_K2::PN_Execute))) return 65;
+        // Evaluate the real initialization tail without unrelated scene lighting/camera references.
+        auto* Probe = DuplicateObject<UBlueprint>(BP, GetTransientPackage(), MakeUniqueObjectName(GetTransientPackage(), UBlueprint::StaticClass(), TEXT("ApartmentInputProbe")));
+        auto* PG = Events(Probe);
+        auto* Start = Node<UK2Node_CustomEvent>(PG, TEXT("K2Node_CustomEvent_2"));
+        auto* Visible = Node<UK2Node_CallFunction>(PG, TEXT("K2Node_CallFunction_41"));
+        auto* End = Node<UK2Node_CallFunction>(PG, TEXT("K2Node_CallFunction_45"));
+        Start->FindPin(UEdGraphSchema_K2::PN_Then)->BreakAllPinLinks();
+        if (!Connect(Start->FindPin(UEdGraphSchema_K2::PN_Then), Visible->FindPin(UEdGraphSchema_K2::PN_Execute))) return 66;
+        End->FindPin(UEdGraphSchema_K2::PN_Then)->BreakAllPinLinks();
+        FBlueprintEditorUtils::MarkBlueprintAsStructurallyModified(Probe);
+        FKismetEditorUtilities::CompileBlueprint(Probe);
+        TGuardValue<bool> Scripts(GAllowActorScriptExecutionInEditor, true);
+        const auto Init = UWorld::InitializationValues().AllowAudioPlayback(false).CreatePhysicsScene(true).CreateNavigation(false).CreateAISystem(false);
+        auto* World = UWorld::CreateWorld(EWorldType::Game, false, NAME_None, nullptr, true, ERHIFeatureLevel::Num, &Init);
+        GEngine->CreateNewWorldContext(EWorldType::Game).SetCurrentWorld(World);
+        FActorSpawnParameters Spawn; Spawn.bDeferConstruction = true; Spawn.SpawnCollisionHandlingOverride = ESpawnActorCollisionHandlingMethod::AlwaysSpawn;
+        auto* PCClass = LoadClass<APlayerController>(nullptr, TEXT("/Game/ThirdPerson/PC_Game_VTG.PC_Game_VTG_C"));
+        auto* SaClass = LoadClass<ACharacter>(nullptr, TEXT("/Game/ThirdPerson/Blueprints/BP_Player_Sa.BP_Player_Sa_C"));
+        auto* PC = World->SpawnActor<APlayerController>(PCClass);
+        auto* Sa = World->SpawnActor<ACharacter>(SaClass, FTransform::Identity, Spawn);
+        auto* Manager = World->SpawnActor<AActor>(Probe->GeneratedClass, FTransform::Identity, Spawn);
+        auto* GS = World->SpawnActor<AGameStateBase>(); World->SetGameState(GS);
+        auto* PS = World->SpawnActor<APlayerState>(); PS->SetOwner(PC); PC->PlayerState = PS; GS->AddPlayerState(PS); PC->Possess(Sa);
+        FindFProperty<FObjectProperty>(Manager->GetClass(), TEXT("Player Pawn"))->SetObjectPropertyValue_InContainer(Manager, Sa);
+        Sa->ProcessEvent(Sa->FindFunction(TEXT("Sa_LockInput")), nullptr);
+        Sa->GetCharacterMovement()->DisableMovement(); Sa->SetActorEnableCollision(false);
+        // Baseline: the old init tail enabled input and Walking but left collision off.
+        Sa->ProcessEvent(Sa->FindFunction(TEXT("Sa_RestoreInput")), nullptr);
+        Sa->GetCharacterMovement()->SetMovementMode(MOVE_Walking);
+        bool Passed = !Sa->GetActorEnableCollision() && Sa->InputEnabled() && !PC->IsMoveInputIgnored();
+        UE_LOG(LogTemp, Display, TEXT("APARTMENT INPUT baseline: input=%d moveIgnored=%d collision=%d mode=%d"), Sa->InputEnabled(), PC->IsMoveInputIgnored(), Sa->GetActorEnableCollision(), int32(Sa->GetCharacterMovement()->MovementMode));
+        Sa->ProcessEvent(Sa->FindFunction(TEXT("Sa_LockInput")), nullptr);
+        Sa->GetCharacterMovement()->DisableMovement();
+        Manager->ProcessEvent(Manager->FindFunction(TEXT("Initialize L3Apt_Day1Morning")), nullptr);
+        Passed &= Sa->InputEnabled() && Sa->GetActorEnableCollision() && Sa->GetCharacterMovement()->MovementMode == MOVE_Walking && !PC->IsMoveInputIgnored();
+        UE_LOG(LogTemp, Display, TEXT("APARTMENT INPUT saved init tail: input=%d moveIgnored=%d collision=%d mode=%d result=%s"), Sa->InputEnabled(), PC->IsMoveInputIgnored(), Sa->GetActorEnableCollision(), int32(Sa->GetCharacterMovement()->MovementMode), Passed ? TEXT("PASS") : TEXT("FAIL"));
+        World->DestroyWorld(false); GEngine->DestroyWorldContext(World);
+        return Passed ? 0 : 67;
+    }
+    if (FParse::Param(*Params, TEXT("FixStairIdle")) || FParse::Param(*Params, TEXT("VerifyStairIdle")))
+    {
+        auto* Sewer = LoadObject<UBlueprint>(nullptr, TEXT("/Game/LevelNSequence/In_Level/SewerUnderApt/BPLM_SewerUnderApt.BPLM_SewerUnderApt"));
+        if (!Sewer || !StairIdle(Sewer, FParse::Param(*Params, TEXT("VerifyStairIdle")))) return 50;
+        return TestStairIdle(Sewer) ? 0 : 51;
+    }
     if (FParse::Param(*Params, TEXT("FixMailCamera")) || FParse::Param(*Params, TEXT("VerifyMailCamera")))
     {
         auto* Player = LoadObject<UBlueprint>(nullptr, TEXT("/Game/ThirdPerson/Blueprints/BP_Player_Sa.BP_Player_Sa"));

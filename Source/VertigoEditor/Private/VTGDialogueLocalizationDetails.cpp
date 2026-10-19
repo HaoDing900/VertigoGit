@@ -53,7 +53,17 @@ public:
 };
 void AddLine(IDetailLayoutBuilder& Layout,TSharedPtr<IPropertyHandle> Line)
 {
-    if(Line.IsValid() && Line->IsValidHandle())AddField(Layout,Line->GetChildHandle(TEXT("Text")));
+    if(!Line.IsValid() || !Line->IsValidHandle())return;
+    AddField(Layout,Line->GetChildHandle(TEXT("Text")));
+    TArray<TWeakObjectPtr<UObject>> Objects;Layout.GetObjectsBeingCustomized(Objects);
+    const bool AllPlayer=Objects.Num()>0 && Objects.ContainsByPredicate([](const auto& Object){return !Cast<UDialogueNode_Player>(Object.Get());})==false;
+    const bool AllNPC=Objects.Num()>0 && Objects.ContainsByPredicate([](const auto& Object){return !Cast<UDialogueNode_NPC>(Object.Get());})==false;
+    // Preserve authored values; filter only Details, including Alternative Lines.
+    // Mixed selections retain every field so usable data is never hidden.
+    const TArray<FName> Hidden=AllPlayer ? TArray<FName>{TEXT("ProfilePictureExpression"),TEXT("Icon"),TEXT("CharacterReactionvfx"),TEXT("vfx")} :
+        AllNPC ? TArray<FName>{TEXT("ResponsePicture")} : TArray<FName>{};
+    for(const FName& Name:Hidden)
+        if(auto Field=Line->GetChildHandle(Name);Field.IsValid() && Field->IsValidHandle())Layout.HideProperty(Field);
 }
 void Customize(IDetailLayoutBuilder& Layout)
 {

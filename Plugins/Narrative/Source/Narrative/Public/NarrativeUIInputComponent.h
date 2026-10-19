@@ -20,7 +20,10 @@ public:
     void Acquire(UObject* Owner, UUserWidget* FocusWidget = nullptr, int32 Priority = 0);
     void Release(UObject* Owner);
     void Refresh();
+    UFUNCTION(BlueprintPure, Category="Narrative|Input")
     bool HasOwners() const;
+    /** Read-only diagnostic: identifies the modal currently holding player input. */
+    UFUNCTION(BlueprintPure, Category="Narrative|Input")
     UObject* GetActiveOwner() const;
 
 protected:

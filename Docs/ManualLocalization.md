@@ -196,3 +196,9 @@ Vertigo.uproject -run=VTGLocalization -unattended -nop4 -NullRHI
 关卡资产名与用户填写的存档名保持原值；地图已有独立的地点显示名／描述字段，不能因此改动用于加载地图的标识。此工具未迁移旧剧情存档结构。多语言字体、主菜单下拉框的实际布局和最终打包显示仍需视觉验收。此版没有添加配音语言系统。
 
 自动化测试：`Vertigo.Localization`（结构保护、FText 身份与格式重建、Details 入口和面板构建）。已有字幕与对话测试用于相关行为回归。
+
+### Show Hint 的 Action Name 与按键文字
+
+`Show Hint.ActionName` 是 `DT_KeyHints` 的 Row Name（例如 OpenTerminal），通过 WB_ControlsHints.AddAction 读取。Row Name 是查找 ID，不翻译；表内 Name 字段才是显示用 FText，连同 PC / Gamepad 图片交给 ActionText 控件。不要把翻译写回 ActionName，也不要把按键图片内文字当成正文翻译入口。
+
+描述文本继续用 WBP_HintLayer.HintDescriptions 的稳定 ID → FText；HintNewMail=true 时显示 NewMailHintText，覆盖 HintDescription。现有项目的手工多语言安全字段白名单尚未包含 S_KeyHints.Name；若采用项目的 Origin / 多语言编辑入口，应单独接入这个显示 FText，保持表的 Row Name、图片、尺寸等逻辑字段不变。FText 字段本身也可使用 Unreal 常规本地化流程。

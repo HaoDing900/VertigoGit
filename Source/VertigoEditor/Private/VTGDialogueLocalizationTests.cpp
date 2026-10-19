@@ -175,4 +175,28 @@ bool FVTGLanguageConsoleTest::RunTest(const FString&)
     TestEqual(TEXT("Actual console command restores Origin"),Settings->GetLanguage(),FString(TEXT("origin")));
     return true;
 }
+
+IMPLEMENT_SIMPLE_AUTOMATION_TEST(FVTGDialogueSpeakerFieldsTest,"Vertigo.Editor.DialogueSpeakerFields",EAutomationTestFlags::EditorContext|EAutomationTestFlags::EngineFilter)
+bool FVTGDialogueSpeakerFieldsTest::RunTest(const FString&)
+{
+    auto& Module=FModuleManager::LoadModuleChecked<FPropertyEditorModule>(TEXT("PropertyEditor"));
+    for(bool Player:{true,false})
+    {
+        UDialogueNode* Node=Player ? static_cast<UDialogueNode*>(NewObject<UDialogueNode_Player>()) : NewObject<UDialogueNode_NPC>();
+        Node->AlternativeLines.AddDefaulted();
+        auto Rows=Module.CreatePropertyRowGenerator(FPropertyRowGeneratorArgs());Rows->SetObjects({Node});
+        TSet<FName> Visible;
+        TFunction<void(TSharedRef<IDetailTreeNode>)> Visit=[&](TSharedRef<IDetailTreeNode> Tree)
+        {
+            auto P=Tree->CreatePropertyHandle();
+            if(P && P->IsValidHandle() && P->GetProperty() && P->GetProperty()->GetOwnerStruct()==FDialogueLine::StaticStruct())Visible.Add(P->GetProperty()->GetFName());
+            TArray<TSharedRef<IDetailTreeNode>> Children;Tree->GetChildren(Children);for(auto Child:Children)Visit(Child);
+        };
+        for(auto Root:Rows->GetRootTreeNodes())Visit(Root);
+        TestEqual(Player?TEXT("Player response image remains visible"):TEXT("NPC response image hidden"),Visible.Contains(TEXT("ResponsePicture")),Player);
+        for(FName Field:{FName(TEXT("ProfilePictureExpression")),FName(TEXT("Icon")),FName(TEXT("CharacterReactionvfx")),FName(TEXT("vfx"))})
+            TestEqual(*FString::Printf(TEXT("%s field %s"),Player?TEXT("Player"):TEXT("NPC"),*Field.ToString()),Visible.Contains(Field),!Player);
+    }
+    return true;
+}
 #endif

@@ -30,6 +30,22 @@ the previous `Sa_am_Stand_Idle_02` asset. Locomotion, other states and montage s
 continue to use the existing animation graph. Sewer's sitting and reset messages
 can therefore reach the visible player without replacing its animation class.
 
+`Set Player Base Idle` adds an explicit `Instant` option (default false), while
+keeping the existing interface signature unchanged. False forwards the ordinary
+idle change. True also stops active montages with zero blend-out and evaluates the
+mesh pose immediately. This intentionally interrupts the old animation, so enable
+it for an authored scene cut rather than ordinary gameplay blending.
+
+`L3_SaSitOnStairs` now uses this node with Instant=true. The actual terminal-close
+montage is 1.909 seconds long with a 0.25-second blend-out; it can cover the already
+updated base idle, making the ordinary switch look delayed. Instant removes that
+cover and updates the evaluated bones inside the same call. The animation class,
+locomotion graph and other SetBaseIdle calls retain their existing behavior.
+
+`-run=VTGMailFlow -FixStairIdle` installs the stair call with a backup in
+`Saved/Backups/InstantStairIdle`; `-VerifyStairIdle` checks the saved setting and
+executes both switch modes on the actual Sa class, including pose evaluation.
+
 ## Mail IDs and editor navigation
 
 Mail IDs are rows in `/Game/Narrative/Mail/DT_Mail_ID_FillHere`; story Note IDs are

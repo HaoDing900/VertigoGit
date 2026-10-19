@@ -38,11 +38,34 @@ protected:
 };
 
 UCLASS()
+class UVTGNoteReadingPanelTestWidget : public UUserWidget
+{
+    GENERATED_BODY()
+public:
+    int32 KeyboardInputCount = 0;
+protected:
+    virtual FReply NativeOnKeyDown(const FGeometry& Geometry, const FKeyEvent& Event) override
+    {
+        ++KeyboardInputCount;
+        return FReply::Handled();
+    }
+};
+
+UCLASS()
 class UVTGNoteInputTestWidget : public UVTGNoteInputWidget
 {
     GENERATED_BODY()
 public:
     void CloseForTest() { NativeDestruct(); }
+    int32 KeyboardInputCount = 0;
+    UPROPERTY()
+    TObjectPtr<UUserWidget> ActiveWidget;
+protected:
+    virtual FReply NativeOnKeyDown(const FGeometry& Geometry, const FKeyEvent& Event) override
+    {
+        ++KeyboardInputCount;
+        return FReply::Handled();
+    }
 };
 
 UCLASS()
