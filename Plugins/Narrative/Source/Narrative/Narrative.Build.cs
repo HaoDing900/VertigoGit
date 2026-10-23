@@ -9,6 +9,11 @@ public class Narrative : ModuleRules
         PCHUsage = PCHUsageMode.UseExplicitOrSharedPCHs;
         bLegacyPublicIncludePaths = false;
 
+        if (Target.bCompileICU)
+        {
+            AddEngineThirdPartyPrivateStaticDependencies(Target, "ICU");
+        }
+
         PublicIncludePaths.AddRange(new string[]
         {
             // Add public include paths here if needed

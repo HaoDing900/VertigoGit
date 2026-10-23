@@ -1,0 +1,4 @@
+import json,pathlib,re,math
+r=json.loads(pathlib.Path('Scripts/BlackMarketLookDiagnosis/pie-visibility.jsonl').read_text(encoding='utf-8').splitlines()[-1]);cam=r['camera_location'];rot=r['camera_rotation'];pitch=math.radians(float(re.search('pitch: ([0-9.-]+)',rot)[1]));yaw=math.radians(float(re.search('yaw: ([0-9.-]+)',rot)[1]));fwd=[math.cos(pitch)*math.cos(yaw),math.cos(pitch)*math.sin(yaw),math.sin(pitch)];right=[-math.sin(yaw),math.cos(yaw),0]
+for label,pos in [('LIVE',r['players'][0]['location']),('TARGET',[361.971893,4234.076172,255.6595])]:
+ d=[v-c for v,c in zip(pos,cam)];x=sum(a*b for a,b in zip(d,fwd));y=sum(a*b for a,b in zip(d,right));print(label,'position',pos,'camera_forward',round(x,2),'camera_right',round(y,2),'screen_x',round(.5+y/(2*x*math.tan(math.radians(63.08/2))),3))

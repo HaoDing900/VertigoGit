@@ -45,9 +45,21 @@ bool VTGTestLoadingTransitionTiming();
 int32 VTGConnectLevelLoading(const FString& Params);
 int32 VTGSimplifyLoadingScreen();
 int32 VTGDeathBackground(const FString& Params);
+int32 VTGRepairLoadingEntry(const FString& Params);
+bool VTGTestLoadingEntryHandoff();
+int32 VTGInstallEntryComponent(const FString& Params);
+bool VTGTestEntryComponent();
+int32 VTGProbeIntroPose();
+int32 VTGRepairCutsceneInterface(const FString& Params);
 
 int32 UVTGLoadingScreenCommandlet::Main(const FString &Params)
 {
+    if(FParse::Param(*Params,TEXT("RepairCutsceneInterface")))return VTGRepairCutsceneInterface(Params);
+    if(FParse::Param(*Params,TEXT("ProbeIntroPose")))return VTGProbeIntroPose();
+    if (FParse::Param(*Params,TEXT("InstallEntryComponent"))) return VTGInstallEntryComponent(Params);
+    if (FParse::Param(*Params,TEXT("VerifyEntryComponent"))) return VTGTestEntryComponent()?0:91;
+    if (FParse::Param(*Params, TEXT("VerifyEntryHandoff"))) return VTGTestLoadingEntryHandoff()?0:90;
+    if (FParse::Param(*Params, TEXT("RepairEntryHandoff"))) return VTGRepairLoadingEntry(Params);
     if (FParse::Param(*Params, TEXT("VerifyTiming"))) return VTGTestLoadingTransitionTiming()?0:82;
     if (FParse::Param(*Params, TEXT("ConnectTransitions"))) return VTGConnectLevelLoading(Params);
     if (FParse::Param(*Params, TEXT("DeathBackground"))) return VTGDeathBackground(Params);

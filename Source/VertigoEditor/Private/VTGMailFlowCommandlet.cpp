@@ -676,9 +676,136 @@ UVTGMailFlowCommandlet::UVTGMailFlowCommandlet()
     LogToConsole = true;
 }
 
+namespace
+{
+bool NoteMailCameraSessions(bool VerifyOnly)
+{
+    auto* Player = LoadObject<UBlueprint>(nullptr, TEXT("/Game/ThirdPerson/Blueprints/BP_Player_Sa.BP_Player_Sa"));
+    auto* Apartment = LoadObject<UBlueprint>(nullptr, TEXT("/Game/LevelNSequence/In_Level/SaApartment/BPLM_SaApartment.BPLM_SaApartment"));
+    if (!Player || !Apartment) return false;
+    if (!VerifyOnly)
+        for (auto* BP : {Player, Apartment})
+        {
+            const FString Backup = FPaths::ProjectSavedDir()/TEXT("Backups/NoteMailCameraSession")/(BP->GetName()+TEXT("-before-session-guard.uasset"));
+            IFileManager::Get().MakeDirectory(*FPaths::GetPath(Backup), true);
+            if (!IFileManager::Get().FileExists(*Backup) && IFileManager::Get().Copy(*Backup,
+                *FPackageName::LongPackageNameToFilename(BP->GetOutermost()->GetName(), FPackageName::GetAssetPackageExtension())) != COPY_OK) return false;
+        }
+    auto* PG = Events(Player); auto* AG = Events(Apartment);
+    auto InstallStart = [&](UEdGraph* Graph, UEdGraphPin* From, UEdGraphPin* Reader, const TCHAR* Name)
+    {
+        auto* Start = Node<UK2Node_CallFunction>(Graph, Name);
+        if (!Start && !VerifyOnly)
+        {
+            Start = Call(Graph, Name, UVTGMailReadingComponent::StaticClass(), TEXT("NotifyMailReadingStarted"), From->GetOwningNode()->NodePosX + 200, From->GetOwningNode()->NodePosY - 180);
+            if (Reader && !Connect(Reader, Start->FindPin(TEXT("Reader")))) return false;
+            if (!Insert(From, Start)) return false;
+        }
+        return Start && From->LinkedTo.Contains(Start->FindPin(UEdGraphSchema_K2::PN_Execute));
+    };
+    auto* Read = Node<UK2Node_CustomEvent>(PG, TEXT("K2Node_CustomEvent_29"));
+    auto* NextDialogueDelay = Node<UK2Node_CallFunction>(AG, TEXT("K2Node_CallFunction_36"));
+    auto* Pawn = Node<UK2Node_VariableGet>(AG, TEXT("K2Node_VariableGet_1"));
+    if (!Read || Read->CustomFunctionName != TEXT("ReadMailSafe") || !NextDialogueDelay || !Pawn) return false;
+    if (!InstallStart(PG, Read->FindPin(UEdGraphSchema_K2::PN_Then), nullptr, TEXT("VTG_BeginMailCameraSession"))) return false;
+    auto* Begin = Node<UK2Node_CallFunction>(AG, TEXT("K2Node_CallFunction_74"));
+    auto* Resume = Node<UK2Node_CallFunction>(AG, TEXT("VTG_ResumeNoteMailCameraSession"));
+    auto* Success = Node<UK2Node_IfThenElse>(AG, TEXT("VTG_NoteMailDialogueAccepted"));
+    if (!Begin || Begin->FunctionReference.GetMemberName()!=TEXT("BeginDialogue")) return false;
+    if (!Success && !VerifyOnly)
+    {
+        if (!Resume) Resume=Call(AG,TEXT("VTG_ResumeNoteMailCameraSession"),UVTGMailReadingComponent::StaticClass(),TEXT("NotifyNoteMailDialogueStarted"),Begin->NodePosX+550,Begin->NodePosY);
+        // Upgrade the initial experimental pre-call hook; rejection must not cancel valid old cleanup.
+        if (NextDialogueDelay->FindPin(UEdGraphSchema_K2::PN_Then)->LinkedTo.Contains(Resume->FindPin(UEdGraphSchema_K2::PN_Execute)))
+        {
+            NextDialogueDelay->FindPin(UEdGraphSchema_K2::PN_Then)->BreakAllPinLinks();
+            Resume->FindPin(UEdGraphSchema_K2::PN_Then)->BreakAllPinLinks();
+            if (!Connect(NextDialogueDelay->FindPin(UEdGraphSchema_K2::PN_Then),Begin->FindPin(UEdGraphSchema_K2::PN_Execute))) return false;
+        }
+        if (Begin->FindPin(UEdGraphSchema_K2::PN_Then)->LinkedTo.Num()) return false;
+        if (!Connect(Pawn->FindPin(TEXT("Player Pawn")),Resume->FindPin(TEXT("Reader")))) return false;
+        Success=Add<UK2Node_IfThenElse>(AG,TEXT("VTG_NoteMailDialogueAccepted"),Begin->NodePosX+280,Begin->NodePosY);Success->AllocateDefaultPins();
+        if (!Connect(Begin->FindPin(UEdGraphSchema_K2::PN_Then),Success->GetExecPin()) ||
+            !Connect(Begin->GetReturnValuePin(),Success->GetConditionPin()) ||
+            !Connect(Success->GetThenPin(),Resume->FindPin(UEdGraphSchema_K2::PN_Execute))) return false;
+    }
+    if (Resume && !VerifyOnly)
+        Resume->SetFromFunction(UVTGMailReadingComponent::StaticClass()->FindFunctionByName(TEXT("NotifyNoteMailDialogueStarted")));
+    if (!Resume || Resume->FunctionReference.GetMemberName()!=TEXT("NotifyNoteMailDialogueStarted") || !Success || !Success->GetConditionPin()->LinkedTo.Contains(Begin->GetReturnValuePin()) ||
+        !Success->GetThenPin()->LinkedTo.Contains(Resume->FindPin(UEdGraphSchema_K2::PN_Execute)) || Success->GetElsePin()->LinkedTo.Num()) return false;
+    const TCHAR* Delays[] = {TEXT("K2Node_CallFunction_282"), TEXT("K2Node_CallFunction_280"), TEXT("K2Node_CallFunction_276")};
+    for (int32 Index = 0; Index < 3; ++Index)
+    {
+        auto* Delay = Node<UK2Node_CallFunction>(PG, Delays[Index]);
+        if (!Delay || Delay->FunctionReference.GetMemberName() != TEXT("Delay")) return false;
+        const FString Prefix = FString::Printf(TEXT("VTG_NoteMailStep%d"), Index);
+        const FName EventName(*(Prefix + TEXT("Continue")));
+        auto* Schedule = Node<UK2Node_CallFunction>(PG, *(Prefix + TEXT("Schedule")));
+        if (!Schedule && !VerifyOnly)
+        {
+            Schedule = Call(PG, *(Prefix + TEXT("Schedule")), UVTGMailReadingComponent::StaticClass(), TEXT("ScheduleNoteMailCleanupStep"), Delay->NodePosX - 300, Delay->NodePosY - 180);
+            Schema->TrySetDefaultValue(*Schedule->FindPin(TEXT("Delay")), Delay->FindPin(TEXT("Duration"))->DefaultValue);
+            Schema->TrySetDefaultValue(*Schedule->FindPin(TEXT("Continuation")), EventName.ToString());
+            Schema->TrySetDefaultValue(*Schedule->FindPin(TEXT("bFinalStep")), Index == 2 ? TEXT("true") : TEXT("false"));
+            auto* Branch = Add<UK2Node_IfThenElse>(PG, *(Prefix + TEXT("Protected")), Delay->NodePosX, Delay->NodePosY - 180); Branch->AllocateDefaultPins();
+            auto* Event = Add<UK2Node_CustomEvent>(PG, *EventName.ToString(), Delay->NodePosX + 200, Delay->NodePosY - 360);
+            Event->CustomFunctionName = EventName; Event->AllocateDefaultPins();
+            for (auto* Link : Delay->FindPin(UEdGraphSchema_K2::PN_Then)->LinkedTo)
+                if (!Connect(Event->FindPin(UEdGraphSchema_K2::PN_Then), Link)) return false;
+            auto* Exec = Delay->FindPin(UEdGraphSchema_K2::PN_Execute);
+            const auto Sources = Exec->LinkedTo; Exec->BreakAllPinLinks();
+            for (auto* Source : Sources) if (!Connect(Source, Schedule->FindPin(UEdGraphSchema_K2::PN_Execute))) return false;
+            if (!Connect(Schedule->FindPin(UEdGraphSchema_K2::PN_Then), Branch->GetExecPin()) ||
+                !Connect(Schedule->GetReturnValuePin(), Branch->GetConditionPin()) || !Connect(Branch->GetElsePin(), Exec)) return false;
+            Schedule->NodeComment = TEXT("Only deferred mail -> Note handoffs use a session-checked continuation. Ordinary mail keeps its original Delay."); Schedule->bCommentBubbleVisible = true;
+        }
+        auto* Event = Node<UK2Node_CustomEvent>(PG, *EventName.ToString());
+        auto* Branch = Node<UK2Node_IfThenElse>(PG, *(Prefix + TEXT("Protected")));
+        if (!Schedule || !Event || !Branch || Schedule->FindPin(TEXT("Continuation"))->DefaultValue != EventName.ToString() ||
+            !Branch->GetElsePin()->LinkedTo.Contains(Delay->FindPin(UEdGraphSchema_K2::PN_Execute)) || Branch->GetThenPin()->LinkedTo.Num()) return false;
+        if (!Delay->FindPin(UEdGraphSchema_K2::PN_Then)->LinkedTo.Num()) return false;
+        for (auto* Link : Delay->FindPin(UEdGraphSchema_K2::PN_Then)->LinkedTo)
+            if (!Event->FindPin(UEdGraphSchema_K2::PN_Then)->LinkedTo.Contains(Link)) return false;
+    }
+    auto* Owned = Node<UK2Node_IfThenElse>(PG, TEXT("VTG_MailCameraStillOwned"));
+    auto* Blend = Node<UK2Node_CustomEvent>(PG, TEXT("K2Node_CustomEvent_1"));
+    auto* Capture = Node<UK2Node_CallFunction>(PG, TEXT("VTG_CaptureMailCameraReturn"));
+    if (!Blend || Blend->CustomFunctionName != TEXT("BlendToMailCam")) return false;
+    if (!Capture && !VerifyOnly)
+    {
+        Capture = Call(PG,TEXT("VTG_CaptureMailCameraReturn"),UVTGMailReadingComponent::StaticClass(),TEXT("CaptureMailCameraReturn"),Blend->NodePosX+200,Blend->NodePosY-180);
+        if (!Insert(Blend->FindPin(UEdGraphSchema_K2::PN_Then),Capture)) return false;
+    }
+    if (!Capture) return false;
+    auto* Cleanup = Node<UK2Node_CallFunction>(PG, TEXT("K2Node_CallFunction_215"));
+    auto* Restore = Node<UK2Node_CallFunction>(PG, TEXT("VTG_RestoreNoteMailCamera"));
+    auto* Handled = Node<UK2Node_IfThenElse>(PG, TEXT("VTG_NoteMailCameraRestored"));
+    if (!Owned || !Cleanup) return false;
+    if (!Restore && !VerifyOnly)
+    {
+        Restore = Call(PG,TEXT("VTG_RestoreNoteMailCamera"),UVTGMailReadingComponent::StaticClass(),TEXT("RestoreNoteMailCamera"),Owned->NodePosX-500,Owned->NodePosY-350);
+        const auto Sources = Owned->GetExecPin()->LinkedTo;
+        Owned->GetExecPin()->BreakAllPinLinks();
+        for (auto* Source : Sources) if (!Connect(Source,Restore->FindPin(UEdGraphSchema_K2::PN_Execute))) return false;
+        Handled = Add<UK2Node_IfThenElse>(PG,TEXT("VTG_NoteMailCameraRestored"),Owned->NodePosX-200,Owned->NodePosY-350); Handled->AllocateDefaultPins();
+        if (!Connect(Restore->FindPin(UEdGraphSchema_K2::PN_Then),Handled->GetExecPin()) ||
+            !Connect(Restore->GetReturnValuePin(),Handled->GetConditionPin()) ||
+            !Connect(Handled->GetThenPin(),Cleanup->FindPin(UEdGraphSchema_K2::PN_Execute)) ||
+            !Connect(Handled->GetElsePin(),Owned->GetExecPin())) return false;
+        Restore->NodeComment = TEXT("Only Note-linked mail returns to its original view; later external scene cameras retain ownership."); Restore->bCommentBubbleVisible = true;
+    }
+    if (!Restore || !Handled || !Handled->GetElsePin()->LinkedTo.Contains(Owned->GetExecPin())) return false;
+    if (!VerifyOnly && (!Save(Player) || !Save(Apartment))) return false;
+    UE_LOG(LogTemp, Display, TEXT("NOTE MAIL CAMERA: verified scoped continuation wiring; ordinary Delay and fixed-camera selection preserved."));
+    return true;
+}
+}
+
 int32 UVTGMailFlowCommandlet::Main(const FString& Params)
 {
     Schema = GetDefault<UEdGraphSchema_K2>();
+    if (FParse::Param(*Params, TEXT("FixNoteMailCamera")) || FParse::Param(*Params, TEXT("VerifyNoteMailCamera")))
+        return NoteMailCameraSessions(FParse::Param(*Params, TEXT("VerifyNoteMailCamera"))) ? 0 : 70;
     if (FParse::Param(*Params, TEXT("FixApartmentInput")) || FParse::Param(*Params, TEXT("VerifyApartmentInput")))
     {
         const bool Verify = FParse::Param(*Params, TEXT("VerifyApartmentInput"));

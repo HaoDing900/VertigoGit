@@ -25,3 +25,48 @@
 4. Record runtime timestamps before implementing: session token, Note close, mail finish, next BeginDialogue, current/pending view target, active MailCamera/FollowCamera, selected fixed camera, and each blend initiator.
 
 No camera code or story asset was changed in this investigation. These are candidate races derived from saved graphs; a runtime trace is still required to identify the exact winning writer in the reported scene.
+
+## 2026-10-18 scoped camera trial (after checkpoint c27797f95)
+
+Implemented only for mail cleanup that was actually deferred by an open story
+Note (`DeferMailReadingFinish` with live holds). Creating/opening an unrelated Note
+alone does not enable the guard. Ordinary mail keeps the original Blueprint
+Delay nodes and Activated fixed-camera return rule.
+
+- `ReadMailSafe` notifies the reading generation. This does not move cameras.
+- The three delayed terminal-cleanup continuations (0.2 s, 0.8 s, 0.8 s) use
+  generation-capturing timers only in a protected handoff. Each timer captures
+  its own generation, so a newer invocation cannot overwrite an old BP token.
+- A newer reading invalidates old pending continuations, including late camera
+  component deactivation and final input restore, not only SetViewTarget.
+- Apartment's 0.3 s Note-close continuation notifies only after BeginDialogue
+  returns true. Failed dialogue start leaves the old cleanup intact.
+- That specific successful Note-to-mail dialogue also restores `IsReadingMail`
+  so its own On Finish Reading Mail will run; it bypasses ReadMailSafe, and the
+  previous cleanup had already cleared that flag. This compensation is guarded
+  by the protected-flow flag and does not affect ordinary dialogue.
+- The final valid continuation leaves protected mode; later ordinary mail uses
+  the original delays again. Component EndPlay clears scheduled timers.
+
+Changed story assets: BP_Player_Sa and BPLM_SaApartment only. No change to fixed
+camera activation, return-camera selection, Narrative event start/end timing,
+Sequence camera rules, or global camera arbitration. Backups are in
+`Saved/Backups/NoteMailCameraSession/`. `VTGMailFlow -FixNoteMailCamera` applies
+and `-VerifyNoteMailCamera` checks saved wiring. The pre-trial Git checkpoint is
+`c27797f95`; this trial is not automatically pushed.
+
+Manual acceptance: replay NPC_1 -> Ulises Note -> close -> mail dialogue. Watch
+whether the terminal camera remains stable through the new dialogue and returns
+normally at its end. Also test ordinary mail close and Sewer Police Note ->
+stairs. The trial does not change pre-delay close animation/state work already
+executed before a newer reading begins; full visual timing remains a playtest.
+
+## 2026-10-19 original-camera return for Note-linked mail
+
+- Capture the controller's actual view target and Sa's active camera components at `BlendToMailCam`, before the terminal blend. This distinguishes an external Fixed/Lock camera from third-person camera components on Sa without guessing from stale `Activated` flags.
+- Preserve that snapshot across the protected mail -> Note -> mail lifetime. Repeated terminal entry cannot overwrite it while `MailCamAlreadyIn?` is true.
+- Only a mail finish previously deferred by a story Note uses this return. Ordinary mail retains its existing return rules. The player BP bypasses the Activated-camera result for a protected return, then runs normal terminal cleanup.
+- An external current OR pending view target is a later camera takeover and is not replaced. Controller replacement is also rejected. A destroyed original target falls back to Sa.
+- Camera return does not call Lock/Unlock, Enable/Disable, or modify FixedCameraLevel / direction flags / input lock counters. Existing mode state remains in charge. Sa camera component selection is restored for a same-actor return and at the protected final continuation when still owned.
+- Tests cover original external targets and third-person component selection, repeated Note entry, ordinary-mail isolation, independent input locks, and current/pending external takeovers. These checks do not replace visual PIE validation of the authored Apartment sequence.
+- Backup immediately before this asset patch: `Saved/Backups/NoteMailOriginalCamera/BP_Player_Sa.uasset`. No automatic commit or push.

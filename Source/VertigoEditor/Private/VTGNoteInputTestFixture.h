@@ -86,6 +86,8 @@ class AVTGMailReadingTestActor : public AActor
 {
     GENERATED_BODY()
 public:
+    UPROPERTY()
+    bool IsReadingMail = false;
     int32 CleanupCount = 0;
     UFUNCTION()
     void FinishMailForTest() { ++CleanupCount; }

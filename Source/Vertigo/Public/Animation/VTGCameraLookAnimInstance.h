@@ -18,11 +18,12 @@ class VERTIGO_API UVTGCameraLookAnimInstance : public UAnimInstance
     float LookInterpSpeed = 7;
     UPROPERTY(BlueprintReadOnly, Transient, Category = "Camera Look") FRotator CameraNeckOffset = FRotator::ZeroRotator;
     UPROPERTY(BlueprintReadOnly, Transient, Category = "Camera Look") FRotator CameraHeadOffset = FRotator::ZeroRotator;
-    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category="Hammer Posture") bool bHammerSpineCorrectionEnabled = true;
-    /** Additive bone-local X rotation (Unreal Roll); applied only while using the hammer. */
-    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category="Hammer Posture") float HammerSpineXDegrees = -15.f;
-    UPROPERTY(BlueprintReadOnly, Transient, Category="Hammer Posture") FRotator HammerSpineRotation = FRotator::ZeroRotator;
-    UPROPERTY(BlueprintReadOnly, Transient, Category="Hammer Posture") float HammerSpineAlpha = 0.f;
+    // Serialized member names retained for existing AnimGraph connections and Blueprint defaults.
+    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category="Combat Posture", meta=(DisplayName="Combat Spine Correction Enabled")) bool bHammerSpineCorrectionEnabled = true;
+    /** Additive bone-local X rotation (Unreal Roll), shared by fists and all weapons during combat. */
+    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category="Combat Posture", meta=(DisplayName="Combat Spine X Degrees")) float HammerSpineXDegrees = -15.f;
+    UPROPERTY(BlueprintReadOnly, Transient, Category="Combat Posture", meta=(DisplayName="Combat Spine Rotation")) FRotator HammerSpineRotation = FRotator::ZeroRotator;
+    UPROPERTY(BlueprintReadOnly, Transient, Category="Combat Posture", meta=(DisplayName="Combat Spine Alpha")) float HammerSpineAlpha = 0.f;
     virtual void NativeInitializeAnimation() override;
     virtual void NativeUpdateAnimation(float DeltaSeconds) override;
     static FRotator ClampCameraLook(const FQuat &Body, const FRotator &View, float YawLimit, float PitchLimit);

@@ -1,6 +1,40 @@
 #include "NarrativeJawComponent.h"
 #include "Dialogue.h"
 #include "Engine/World.h"
+#include "Internationalization/Text.h"
+
+#if UE_ENABLE_ICU
+THIRD_PARTY_INCLUDES_START
+#include <unicode/uchar.h>
+THIRD_PARTY_INCLUDES_END
+#endif
+
+namespace
+{
+bool IsJawPunctuation(TCHAR Character)
+{
+    // C-runtime character classification depends on locale; ICU also recognizes
+    // Chinese/full-width punctuation, curly quotes, ellipses and Unicode dashes.
+    if (Character <= 0x7f && FChar::IsPunct(Character)) return true;
+#if UE_ENABLE_ICU
+    return u_ispunct(static_cast<UChar32>(Character)) != 0;
+#else
+    // Common dialogue punctuation on targets built without ICU.
+    return (Character >= 0x2000 && Character <= 0x206f)
+        || (Character >= 0x3001 && Character <= 0x3003)
+        || (Character >= 0x3008 && Character <= 0x301f)
+        || (Character >= 0xfe10 && Character <= 0xfe19)
+        || (Character >= 0xfe30 && Character <= 0xfe52)
+        || (Character >= 0xfe54 && Character <= 0xfe61)
+        || (Character >= 0xff01 && Character <= 0xff0f)
+        || (Character >= 0xff1a && Character <= 0xff20)
+        || (Character >= 0xff3b && Character <= 0xff40)
+        || (Character >= 0xff5b && Character <= 0xff65)
+        || Character == 0x00a1 || Character == 0x00ab || Character == 0x00b7
+        || Character == 0x00bb || Character == 0x00bf;
+#endif
+}
+}
 
 void UNarrativeJawComponent::Start(UDialogue* Dialogue, float Duration)
 {
@@ -79,7 +113,7 @@ int32 UNarrativeJawComponent::CountVisibleCharacters(const FString& Text)
             const int32 End = Text.Find(TEXT(">"), ESearchCase::CaseSensitive, ESearchDir::FromStart, I + 1);
             if (End != INDEX_NONE) { I = End; continue; }
         }
-        if (!FChar::IsWhitespace(Text[I])) ++Count;
+        if (!FText::IsWhitespace(Text[I]) && !IsJawPunctuation(Text[I])) ++Count;
     }
     return Count;
 }

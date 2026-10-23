@@ -56,12 +56,10 @@ void UVTGCameraLookAnimInstance::NativeUpdateAnimation(float Dt)
     auto *Pawn = TryGetPawnOwner();
     auto *Mesh = GetSkelMeshComponent();
     HammerSpineRotation = FRotator(0,0,HammerSpineXDegrees);
-    const auto* Melee = Pawn ? FindFProperty<FByteProperty>(Pawn->GetClass(),TEXT("CurrentMeleeWeapon")) : nullptr;
-    const int64 HammerId = Melee && Melee->Enum ? Melee->Enum->GetValueByNameString(TEXT("NewEnumerator1")) : INDEX_NONE;
-    // Match the authored hammer branch rather than InCombat: held-hammer locomotion can remain active outside combat.
-    HammerSpineAlpha = bHammerSpineCorrectionEnabled && Mesh && Pawn && HammerId!=INDEX_NONE &&
-        Melee->GetPropertyValue_InContainer(Pawn)==HammerId &&
-        !CameraLookFlag(Pawn,TEXT("UsingStunGun")) && !CameraLookFlag(Pawn,TEXT("UsingSMG1")) &&
+    // Reuse the existing final bone controller for every combat stance, independent of weapon type.
+    // Keep serialized HammerSpine property names so ABP_Sa's existing pins remain compatible.
+    HammerSpineAlpha = bHammerSpineCorrectionEnabled && Mesh && Pawn &&
+        CameraLookFlag(Pawn,TEXT("InCombat")) && !CameraLookFlag(Pawn,TEXT("StoryMode?")) &&
         !CameraLookFlag(Pawn,TEXT("IsDead?")) && !CameraLookFlag(Pawn,TEXT("HidePlayerNCam")) &&
         !CameraLookFlag(Pawn,TEXT("IsInCineCutscene_LockInput(NotWorkForMont)")) &&
         !CameraLookFlag(this,TEXT("IsCutscene")) ? 1.f : 0.f;

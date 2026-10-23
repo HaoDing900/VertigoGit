@@ -23,6 +23,9 @@
 #include "Engine/StreamableRenderAsset.h"
 #include "WorldPartition/WorldPartitionSubsystem.h"
 #include "Save/VTGSaveCoordinator.h"
+#include "MovieSceneSequencePlayer.h"
+#include "Misc/PackageName.h"
+#include "UObject/Package.h"
 
 
 void UVTGMediaLoadingPageSystem::CacheLoadingAssets()
@@ -302,6 +305,7 @@ bool UVTGMediaLoadingPageSystem::TickFadeOut(float DeltaTime)
         if (bReady && GFrameCounter>BlackCoverFrame)
         {
             LoadingFade->BeginWorldReveal();
+            StartPendingEntrySequences();
             UE_LOG(LogTemp,Display,TEXT("VTG loading black hold finished and destination settled; revealing world."));
         }
     }
@@ -310,11 +314,18 @@ bool UVTGMediaLoadingPageSystem::TickFadeOut(float DeltaTime)
     FadeTicker.Reset();
     ClearLoadingTransition();
     UE_LOG(LogTemp, Display, TEXT("VTG loading fade-out finished; overlay removed."));
+    OnLoadingPageHidden.Broadcast();
     return false;
 }
 
 void UVTGMediaLoadingPageSystem::ClearLoadingTransition()
 {
+    ++PreloadGeneration;
+    bPreloadStarted = bPreloadFinished = false;
+    PreloadedDestination = nullptr;
+    PreloadedWorld = nullptr;
+    PendingEntryPlayers.Reset();
+    bWorldRevealStarted = false;
     FTSTicker::GetCoreTicker().RemoveTicker(FadeTicker);
     FadeTicker.Reset();
     if (FadeViewport.IsValid() && LoadingFade)
@@ -410,6 +421,38 @@ bool UVTGMediaLoadingPageSystem::TickLoadingTransition(float DeltaTime)
     if (LoadingFade->HasStartedDrawing()) Timing.MarkVisible(LoadingFade->GetFirstShownTime());
     if (!PendingLevel.IsNone() && Timing.CanTravel(GFrameCounter, LoadingFade->IsFullyVisible()))
     {
+        // Warm the destination asynchronously while the old viewport can still animate.
+        // OpenLevel still performs the final world switch; PIE can briefly stall at that point.
+        if (!bPreloadStarted)
+        {
+            bPreloadStarted = true;
+            FString PackageName = PendingLevel.ToString();
+            if (FPackageName::IsShortPackageName(PackageName))
+            {
+                FString Resolved;
+                if (FPackageName::SearchForPackageOnDisk(PackageName, &Resolved)) PackageName = Resolved;
+                else
+                {
+                    bPreloadFinished = true;
+                    UE_LOG(LogTemp, Warning, TEXT("VTG could not resolve preload destination %s; using normal travel."), *PackageName);
+                    return true;
+                }
+            }
+            const uint32 Generation = PreloadGeneration;
+            TWeakObjectPtr<UVTGMediaLoadingPageSystem> WeakThis(this);
+            LoadPackageAsync(PackageName, FLoadPackageAsyncDelegate::CreateLambda(
+                [WeakThis,Generation](const FName&, UPackage* Package, EAsyncLoadingResult::Type Result)
+                {
+                    auto* Self = WeakThis.Get();
+                    if (!Self || Self->PreloadGeneration != Generation) return;
+                    Self->PreloadedDestination = Package;
+                    Self->PreloadedWorld = Package ? UWorld::FindWorldInPackage(Package) : nullptr;
+                    Self->bPreloadFinished = true;
+                    UE_LOG(LogTemp, Display, TEXT("VTG destination async preload finished: %s (%d)"), *GetNameSafe(Package), int32(Result));
+                }));
+            return true;
+        }
+        if (!bPreloadFinished) return true;
         const FName Level = PendingLevel;
         PendingLevel = NAME_None;
         // Arm before OpenLevel: MoviePlayer's PreLoadMap callback is registered before ours.
@@ -435,8 +478,40 @@ bool UVTGMediaLoadingPageSystem::TickLoadingTransition(float DeltaTime)
     return true;
 }
 
+void UVTGMediaLoadingPageSystem::PlayEntrySequenceWhenReady(const UObject* WorldContextObject, UMovieSceneSequencePlayer* Player)
+{
+    if (!IsValid(Player)) return;
+    UGameInstance* GI = UGameplayStatics::GetGameInstance(WorldContextObject);
+    auto* System = GI ? GI->GetSubsystem<UVTGMediaLoadingPageSystem>() : nullptr;
+    if (!System || !System->LoadingFade || System->bWorldRevealStarted)
+    {
+        Player->Play();
+        return;
+    }
+    if (System->PendingEntryPlayers.Contains(Player)) return;
+    // Prime camera bindings and the first pose so readiness tests see the actual opening shot.
+    Player->Play();
+    Player->Pause();
+    System->PendingEntryPlayers.Add(Player);
+    UE_LOG(LogTemp, Display, TEXT("VTG entry sequence held at first shot until loading reveal: %s"), *GetNameSafe(Player->GetSequence()));
+}
+
+void UVTGMediaLoadingPageSystem::StartPendingEntrySequences()
+{
+    bWorldRevealStarted = true;
+    OnWorldRevealStarted.Broadcast();
+    const auto Players = MoveTemp(PendingEntryPlayers);
+    for (auto WeakPlayer : Players)
+        if (auto* Player = WeakPlayer.Get(); Player && Player->GetWorld() == GetWorld() && Player->IsPaused())
+        {
+            Player->Play();
+            UE_LOG(LogTemp, Display, TEXT("VTG entry sequence resumed with loading reveal: %s"), *GetNameSafe(Player->GetSequence()));
+        }
+}
+
 void UVTGMediaLoadingPageSystem::CancelLoadingTransition()
 {
+    OnLoadingCancelled.Broadcast();
     FTSTicker::GetCoreTicker().RemoveTicker(TransitionTicker);
     TransitionTicker.Reset();
     bTransitionActive = false;

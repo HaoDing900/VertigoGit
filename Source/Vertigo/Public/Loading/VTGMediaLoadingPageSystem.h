@@ -26,6 +26,8 @@
  * packaged build separately when changing movies or cook configuration.
  */
 class UUserWidget;
+class UMovieSceneSequencePlayer;
+DECLARE_MULTICAST_DELEGATE(FVTGLoadingSignal);
 
 UCLASS()
 class VERTIGO_API UVTGMediaLoadingPageSystem : public UGameInstanceSubsystem
@@ -76,7 +78,18 @@ class VERTIGO_API UVTGMediaLoadingPageSystem : public UGameInstanceSubsystem
     UFUNCTION(BlueprintCallable, Category = "Media Loading Page")
     void HideLoadingPagePreview();
 
+    /** Evaluate and hold the first shot under the cover; advance only when the world is revealed. */
+    UFUNCTION(BlueprintCallable, Category="Media Loading Page", meta=(WorldContext="WorldContextObject"))
+    static void PlayEntrySequenceWhenReady(const UObject* WorldContextObject, UMovieSceneSequencePlayer* Player);
+
+    bool HasWorldRevealStarted() const { return bWorldRevealStarted; }
+    FVTGLoadingSignal OnWorldRevealStarted;
+    FVTGLoadingSignal OnLoadingPageHidden;
+    FVTGLoadingSignal OnLoadingCancelled;
+
   private:
+    friend bool VTGTestLoadingEntryHandoff();
+    friend bool VTGTestEntryComponent();
     // Keep the UMG owner alive across world teardown and loading-time garbage collection.
     UPROPERTY(Transient)
     TObjectPtr<UUserWidget> ActiveLoadingWidget;
@@ -134,4 +147,12 @@ class VERTIGO_API UVTGMediaLoadingPageSystem : public UGameInstanceSubsystem
 
     /** Gate separate from the settings' bEnabled, for temporary runtime suppression. */
     bool bRuntimeEnabled = true;
+    bool bWorldRevealStarted = false;
+    TArray<TWeakObjectPtr<UMovieSceneSequencePlayer>> PendingEntryPlayers;
+    void StartPendingEntrySequences();
+    bool bPreloadStarted = false;
+    bool bPreloadFinished = false;
+    uint32 PreloadGeneration = 0;
+    UPROPERTY(Transient) TObjectPtr<UPackage> PreloadedDestination;
+    UPROPERTY(Transient) TObjectPtr<UWorld> PreloadedWorld;
 };

@@ -174,6 +174,15 @@ bool Test()
     auto Expect = [&](bool Pass, const FString& Label) { Fail += !Pass; UE_LOG(LogTemp, Display, TEXT("JAW TEST %s: %s"), Pass ? TEXT("PASS") : TEXT("FAIL"), *Label); };
     Expect(UNarrativeJawComponent::CountVisibleCharacters(TEXT(" <b>你好</> \n")) == 2, TEXT("visible character count excludes whitespace and rich text tags"));
     Expect(UNarrativeJawComponent::CountVisibleCharacters(TEXT(" \t\n")) == 0, TEXT("whitespace has no speaking duration"));
+    Expect(UNarrativeJawComponent::CountVisibleCharacters(TEXT("...")) == 0, TEXT("ASCII ellipsis is silent"));
+    Expect(UNarrativeJawComponent::CountVisibleCharacters(TEXT("……？！——，。；：、（）【】《》「」『』“”‘’")) == 0, TEXT("Chinese punctuation, quotes, brackets and dashes are silent"));
+    Expect(UNarrativeJawComponent::CountVisibleCharacters(TEXT("!?.,:;-'\"()[]{}")) == 0, TEXT("English punctuation is silent"));
+    Expect(UNarrativeJawComponent::CountVisibleCharacters(TEXT("你好……")) == 2, TEXT("trailing punctuation never adds speaking characters"));
+    Expect(UNarrativeJawComponent::CountVisibleCharacters(TEXT("“真的吗？”")) == 3, TEXT("quoted dialogue counts only its text"));
+    Expect(UNarrativeJawComponent::CountVisibleCharacters(TEXT("Hello, Sa! 123。你好")) == 12, TEXT("Chinese, English and digits remain counted"));
+    Expect(UNarrativeJawComponent::CountVisibleCharacters(TEXT("<b>……</> \n <i>？！</>")) == 0, TEXT("rich-text punctuation-only lines are silent"));
+    Expect(UNarrativeJawComponent::CountVisibleCharacters(TEXT("<b>你好</>，<i>Sa</>！")) == 4, TEXT("rich text tags and punctuation do not extend speech"));
+    Expect(UNarrativeJawComponent::CountVisibleCharacters(TEXT("１２３，ＡＢＣ！")) == 6, TEXT("full-width digits and letters are preserved"));
     FActorSpawnParameters Spawn; Spawn.SpawnCollisionHandlingOverride = ESpawnActorCollisionHandlingMethod::AlwaysSpawn;
     {
         auto* Owner = World->SpawnActor<AActor>();
@@ -242,6 +251,9 @@ bool Test()
         Node->bEnableJawMovement = false; Start(); Expect(!State->Sample(Time, Weight), TEXT("node false disables jaw")); Node->bEnableJawMovement = true;
         Dialogue->bEnableJawMovement = false; Start(); Expect(!State->Sample(Time, Weight), TEXT("global false overrides enabled node")); Dialogue->bEnableJawMovement = true;
         const FText Text = Line.Text; Line.Text = FText::FromString(TEXT(" \t\n")); Start(); Expect(!State->Sample(Time, Weight), TEXT("blank line is silent")); Line.Text = Text;
+        Start(); Line.Text = FText::FromString(TEXT("<b>……</>？！——")); Start();
+        Expect(!State->Sample(Time, Weight), TEXT("punctuation-only next line cancels previous speech and never starts jaw playback"));
+        Line.Text = Text;
         auto* Duplicate = World->SpawnActor<AActor>(); Duplicate->Tags.Add(Speaker.SpeakingActorTag); Start(); Expect(!State->Sample(Time, Weight), TEXT("duplicate tags never animate an arbitrary actor")); Duplicate->Destroy();
         auto Frame = [&]() { Mesh->TickAnimation(0.f, false); Mesh->RefreshBoneTransforms(); };
         Frame(); Frame();
@@ -296,8 +308,10 @@ UVTGJawMovementCommandlet::UVTGJawMovementCommandlet()
     IsClient = false; IsServer = false; IsEditor = true; LogToConsole = true;
 }
 extern int32 VTGRunNPCJawMovement(const FString& Params);
+extern int32 VTGMoveSaHeadLookAfterSlot(const FString& Params);
 int32 UVTGJawMovementCommandlet::Main(const FString& Params)
 {
+    if (FParse::Param(*Params, TEXT("SaHeadLookAfterSlot"))) return VTGMoveSaHeadLookAfterSlot(Params);
     if (FParse::Param(*Params, TEXT("NPC"))) return VTGRunNPCJawMovement(Params);
     const FString Folder = FPaths::ProjectDir() / TEXT("Scripts/JawMovement");
     IFileManager::Get().MakeDirectory(*Folder, true);

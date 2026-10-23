@@ -27,6 +27,7 @@ public:
     void Cancel();
     bool Sample(float& Time, float& Weight);
     bool SamplePlayback(float SequenceLength, FNarrativeJawPlayback& Out);
+    /** Jaw timing count only: excludes markup, whitespace and punctuation; never edits displayed dialogue text. */
     static int32 CountVisibleCharacters(const FString& Text);
 private:
     TWeakObjectPtr<UDialogue> Source;
