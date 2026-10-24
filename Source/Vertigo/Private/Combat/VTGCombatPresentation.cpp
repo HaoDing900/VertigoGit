@@ -206,7 +206,7 @@ void UVTGPlayerPresentationComponent::TickComponent(float Dt, ELevelTick T, FAct
     const bool Hidden = !VTGPresentation::Flag(Pawn, TEXT("InCombat")) ||
                         VTGPresentation::Flag(Pawn, TEXT("HidePlayerNCam"));
     Hearts->SetVisibility(Hidden ? ESlateVisibility::Collapsed : ESlateVisibility::HitTestInvisible);
-    if (auto* Action=Cast<UVTGActionHUD>(Hearts)) { Action->RefreshBloodOverlay(!Hidden && !VTGPresentation::Flag(Pawn,TEXT("IsDead?"))); if(!Hidden)Action->RefreshHints(); }
+    if (auto* Action=Cast<UVTGActionHUD>(Hearts)) { Action->RefreshBloodOverlay(!Hidden && !VTGPresentation::Flag(Pawn,TEXT("IsDead?"))); Action->RefreshRecovery(Pawn,Dt); if(!Hidden)Action->RefreshHints(); }
 }
 bool UVTGPlayerPresentationComponent::ResolveCombatState(bool EnemyNearby,bool SewerLevel) const
 {

@@ -1,0 +1,61 @@
+Begin Object Class=/Script/BlueprintGraph.K2Node_CallFunction Name="FaceSa_Player"
+   bIsPureFunc=True
+   FunctionReference=(MemberParent="/Script/CoreUObject.Class'/Script/Engine.GameplayStatics'",MemberName="GetPlayerCharacter")
+   NodePosX=0
+   NodePosY=0
+   NodeGuid=16AF879A2C934BCCAA8C5DD1F66187D1
+   CustomProperties Pin (PinId=55C94A1236634286A09F25BCA2E6F2E6,PinName="PlayerIndex",PinType.PinCategory="int",DefaultValue="0")
+   CustomProperties Pin (PinId=569B86028CE843539E348253D70694FF,PinName="WorldContextObject",PinType.PinCategory="object",bHidden=True)
+   CustomProperties Pin (PinId=BB1CD17209F646699948A8F9524F3DE6,PinName="ReturnValue",Direction="EGPD_Output",PinType.PinCategory="object",PinType.PinSubCategoryObject="/Script/CoreUObject.Class'/Script/Engine.Character'",LinkedTo=(FaceSa_Location 96D75F0114FB473D896B48D2FC884719,))
+End Object
+Begin Object Class=/Script/BlueprintGraph.K2Node_CallFunction Name="FaceSa_Location"
+   bIsPureFunc=True
+   FunctionReference=(MemberParent="/Script/CoreUObject.Class'/Script/Engine.Actor'",MemberName="K2_GetActorLocation")
+   NodePosX=260
+   NodePosY=0
+   NodeGuid=60976584F03C4FE6BAC3EF0234920DA7
+   CustomProperties Pin (PinId=96D75F0114FB473D896B48D2FC884719,PinName="self",PinType.PinCategory="object",PinType.PinSubCategoryObject="/Script/CoreUObject.Class'/Script/Engine.Actor'",LinkedTo=(FaceSa_Player BB1CD17209F646699948A8F9524F3DE6,))
+   CustomProperties Pin (PinId=47F5CA7944644DDABC56153FAF65382B,PinName="ReturnValue",Direction="EGPD_Output",PinType.PinCategory="struct",PinType.PinSubCategoryObject="/Script/CoreUObject.ScriptStruct'/Script/CoreUObject.Vector'",LinkedTo=(FaceSa_LookAt 12900B8B6709487E9CE7D5E9240787C9,))
+End Object
+Begin Object Class=/Script/BlueprintGraph.K2Node_CallFunction Name="FaceSa_LookAt"
+   bIsPureFunc=True
+   FunctionReference=(MemberParent="/Script/CoreUObject.Class'/Script/Engine.KismetMathLibrary'",MemberName="FindLookAtRotation")
+   NodePosX=520
+   NodePosY=0
+   NodeGuid=2F9F8AE0BE814E6398B60B4551A9AEC8
+   CustomProperties Pin (PinId=28DB9D192FA8453CB2994E2A360672FC,PinName="Start",PinType.PinCategory="struct",PinType.PinSubCategoryObject="/Script/CoreUObject.ScriptStruct'/Script/CoreUObject.Vector'",DefaultValue="3402.651004,1370.583811,248.160009")
+   CustomProperties Pin (PinId=12900B8B6709487E9CE7D5E9240787C9,PinName="Target",PinType.PinCategory="struct",PinType.PinSubCategoryObject="/Script/CoreUObject.ScriptStruct'/Script/CoreUObject.Vector'",LinkedTo=(FaceSa_Location 47F5CA7944644DDABC56153FAF65382B,))
+   CustomProperties Pin (PinId=991C83F8FB2E40469428047CCCC1ABF0,PinName="ReturnValue",Direction="EGPD_Output",PinType.PinCategory="struct",PinType.PinSubCategoryObject="/Script/CoreUObject.ScriptStruct'/Script/CoreUObject.Rotator'",LinkedTo=(FaceSa_Break A900203F2AD049C38D35ED4098DD241B,))
+End Object
+Begin Object Class=/Script/BlueprintGraph.K2Node_CallFunction Name="FaceSa_Break"
+   bIsPureFunc=True
+   FunctionReference=(MemberParent="/Script/CoreUObject.Class'/Script/Engine.KismetMathLibrary'",MemberName="BreakRotator")
+   NodePosX=780
+   NodePosY=0
+   NodeGuid=152164C28E3C48B6B3C2DE823E2D351C
+   CustomProperties Pin (PinId=A900203F2AD049C38D35ED4098DD241B,PinName="InRot",PinType.PinCategory="struct",PinType.PinSubCategoryObject="/Script/CoreUObject.ScriptStruct'/Script/CoreUObject.Rotator'",LinkedTo=(FaceSa_LookAt 991C83F8FB2E40469428047CCCC1ABF0,))
+   CustomProperties Pin (PinId=2DD930FE21A348BDB759976C13B5C6C9,PinName="Roll",Direction="EGPD_Output",PinType.PinCategory="real",PinType.PinSubCategory="double")
+   CustomProperties Pin (PinId=F5F6462E81AF4510A1B10A2C8F37FB17,PinName="Pitch",Direction="EGPD_Output",PinType.PinCategory="real",PinType.PinSubCategory="double")
+   CustomProperties Pin (PinId=54CF3E8C882D4EC785A6B3DD811085EE,PinName="Yaw",Direction="EGPD_Output",PinType.PinCategory="real",PinType.PinSubCategory="double",LinkedTo=(FaceSa_Offset 32FF76B4832A47448C9D41C04A499452,))
+End Object
+Begin Object Class=/Script/BlueprintGraph.K2Node_CallFunction Name="FaceSa_Offset"
+   bIsPureFunc=True
+   FunctionReference=(MemberParent="/Script/CoreUObject.Class'/Script/Engine.KismetMathLibrary'",MemberName="Add_DoubleDouble")
+   NodePosX=1040
+   NodePosY=0
+   NodeGuid=2276804CF65444798A8DC42F9A13742A
+   CustomProperties Pin (PinId=32FF76B4832A47448C9D41C04A499452,PinName="A",PinType.PinCategory="real",PinType.PinSubCategory="double",LinkedTo=(FaceSa_Break 54CF3E8C882D4EC785A6B3DD811085EE,))
+   CustomProperties Pin (PinId=56E48A7955384C3CB9D185B50601460E,PinName="B",PinType.PinCategory="real",PinType.PinSubCategory="double",DefaultValue="-90.0")
+   CustomProperties Pin (PinId=E07512A3891E4178B9A1230791A7DAD2,PinName="ReturnValue",Direction="EGPD_Output",PinType.PinCategory="real",PinType.PinSubCategory="double",LinkedTo=(FaceSa_Result 5737BBA3A2964A72B9C2EF3C1803BCE5,))
+End Object
+Begin Object Class=/Script/BlueprintGraph.K2Node_CallFunction Name="FaceSa_Result"
+   bIsPureFunc=True
+   FunctionReference=(MemberParent="/Script/CoreUObject.Class'/Script/Engine.KismetMathLibrary'",MemberName="MakeRotator")
+   NodePosX=1300
+   NodePosY=0
+   NodeGuid=F9E6426E823440EC8D73BA78CCD1CACB
+   CustomProperties Pin (PinId=6A6EB82DD7434441A52AC316B1C9D3BF,PinName="Roll",PinType.PinCategory="real",PinType.PinSubCategory="double",DefaultValue="0.0")
+   CustomProperties Pin (PinId=DBD4BE39CF1F41DDACB7891B028ABC83,PinName="Pitch",PinType.PinCategory="real",PinType.PinSubCategory="double",DefaultValue="0.0")
+   CustomProperties Pin (PinId=5737BBA3A2964A72B9C2EF3C1803BCE5,PinName="Yaw",PinType.PinCategory="real",PinType.PinSubCategory="double",LinkedTo=(FaceSa_Offset E07512A3891E4178B9A1230791A7DAD2,))
+   CustomProperties Pin (PinId=A737AC059FE648E4AD67C80F760E59D8,PinName="ReturnValue",Direction="EGPD_Output",PinType.PinCategory="struct",PinType.PinSubCategoryObject="/Script/CoreUObject.ScriptStruct'/Script/CoreUObject.Rotator'")
+End Object
