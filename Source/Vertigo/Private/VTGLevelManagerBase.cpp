@@ -6,6 +6,9 @@
 #include "Blueprint/UserWidget.h"
 #include "Kismet/GameplayStatics.h"
 #include "GameFramework/Pawn.h"
+#include "GameFramework/Character.h"
+#include "GameFramework/CharacterMovementComponent.h"
+#include "GameFramework/PlayerController.h"
 #include "Combat/VTGCombatPresentation.h"
 #include "VTGMailReadingComponent.h"
 
@@ -77,24 +80,121 @@ void AVTGLevelManagerBase::BeginPlay()
 {
  // Restore before Blueprint ReceiveBeginPlay and OnStageBegin can start narrative.
  if (UGameInstance* GI = GetGameInstance())
-  if (auto* Save = GI->GetSubsystem<UVTGSaveCoordinator>()) Save->RestoreLevelManager(this);
+  if (auto* Save = GI->GetSubsystem<UVTGSaveCoordinator>())
+  {
+   Save->RestoreLevelManager(this);
+   if (bEncounterResumePending) Save->OnSlotLoaded.AddUniqueDynamic(this, &AVTGLevelManagerBase::HandleEncounterSlotLoaded);
+  }
  Super::BeginPlay();
 
 	//Hand the resolved stage to the Blueprint child so it can run its Chain-A / Chain-B logic.
-	OnStageBegin(GetActiveStage());
+ if (!bEncounterResumePending) OnStageBegin(GetActiveStage());
+}
+
+void AVTGLevelManagerBase::EndPlay(const EEndPlayReason::Type Reason)
+{
+ if (auto* GI = GetGameInstance())
+  if (auto* Save = GI->GetSubsystem<UVTGSaveCoordinator>()) Save->OnSlotLoaded.RemoveDynamic(this, &AVTGLevelManagerBase::HandleEncounterSlotLoaded);
+ Super::EndPlay(Reason);
+}
+
+bool AVTGLevelManagerBase::SetEncounterResumeEvent(FName ResumeEvent)
+{
+ UFunction* Event = FindFunction(ResumeEvent);
+ if (!Event || Event->NumParms != 0)
+ {
+  UE_LOG(LogTemp, Error, TEXT("%s: checkpoint resume event %s must exist and have no parameters"), *GetName(), *ResumeEvent.ToString());
+  return false;
+ }
+ EncounterResumeEvent = ResumeEvent;
+ return true;
+}
+
+bool AVTGLevelManagerBase::SaveEncounterCheckpoint(FName CheckpointId, FName ResumeEvent, const FTransform& RespawnTransform, int32 Order)
+{
+ // Rebuilding a loaded encounter must not replace its original story snapshot or respawn point.
+ if (bDispatchingEncounterResume) return true;
+ if (CheckpointId.IsNone()) return false;
+ auto* GI = GetGameInstance();
+ auto* Save = GI ? GI->GetSubsystem<UVTGSaveCoordinator>() : nullptr;
+ if (!Save || Save->HasPendingWorldRestore() || !UGameplayStatics::GetPlayerPawn(this, 0)) return false;
+ const FName PreviousEvent = EncounterResumeEvent, PreviousId = EncounterCheckpointId;
+ if (!SetEncounterResumeEvent(ResumeEvent)) return false;
+ EncounterCheckpointId = CheckpointId;
+ const bool Saved = Save->SaveCheckpoint(CheckpointId, RespawnTransform, Order);
+ if (!Saved)
+ {
+  EncounterResumeEvent = PreviousEvent;
+  EncounterCheckpointId = PreviousId;
+  UE_LOG(LogTemp, Warning, TEXT("%s: failed to save encounter checkpoint %s"), *GetName(), *CheckpointId.ToString());
+ }
+ return Saved;
+}
+
+void AVTGLevelManagerBase::HandleEncounterSlotLoaded(int32 Slot)
+{
+ ResumeSavedEncounter();
+}
+
+void AVTGLevelManagerBase::ResumeSavedEncounter()
+{
+ if (!bEncounterResumePending) return;
+ bEncounterResumePending = false;
+ if (UFunction* Event = FindFunction(EncounterResumeEvent))
+ {
+  if (auto* PC = UGameplayStatics::GetPlayerController(this, 0))
+  {
+   // Blueprint parent initialization can be delayed; rebuild caches before the scene entry uses them.
+   auto Cache = [this](FName Name, UObject* Value)
+   {
+    if (auto* P = FindFProperty<FObjectPropertyBase>(GetClass(), Name))
+     if (Value && Value->IsA(P->PropertyClass)) P->SetObjectPropertyValue_InContainer(this, Value);
+   };
+   Cache(TEXT("Player Controller"), PC);
+   Cache(TEXT("GameInstance"), GetGameInstance());
+   PC->ResetIgnoreInputFlags();
+   if (auto* Pawn = PC->GetPawn())
+   {
+    Cache(TEXT("Player Pawn"), Pawn);
+    if (auto* P = FindFProperty<FObjectPropertyBase>(GetClass(), TEXT("Narrative")))
+     for (UActorComponent* Component : Pawn->GetComponents())
+      if (Component && Component->IsA(P->PropertyClass)) { Cache(TEXT("Narrative"), Component); break; }
+    Pawn->EnableInput(PC);
+    PC->SetViewTarget(Pawn);
+    PC->SetControlRotation(Pawn->GetActorRotation());
+    if (auto* Character = Cast<ACharacter>(Pawn)) Character->GetCharacterMovement()->SetMovementMode(MOVE_Walking);
+   }
+  }
+  TGuardValue<bool> Resuming(bDispatchingEncounterResume, true);
+  ProcessEvent(Event, nullptr);
+ }
 }
 
 namespace
 {
+ bool IsProgressValue(const FProperty* P)
+ {
+  if (P->IsA<FBoolProperty>() || P->IsA<FNumericProperty>() || P->IsA<FEnumProperty>()
+   || P->IsA<FNameProperty>() || P->IsA<FStrProperty>() || P->IsA<FTextProperty>()) return true;
+  if (auto* A = CastField<FArrayProperty>(P)) return IsProgressValue(A->Inner);
+  if (auto* S = CastField<FSetProperty>(P)) return IsProgressValue(S->ElementProp);
+  if (auto* M = CastField<FMapProperty>(P)) return IsProgressValue(M->KeyProp) && IsProgressValue(M->ValueProp);
+  if (auto* S = CastField<FStructProperty>(P))
+  {
+   for (TFieldIterator<FProperty> It(S->Struct); It; ++It) if (!IsProgressValue(*It)) return false;
+   // Native opaque structs can contain runtime pointers not exposed to reflection.
+   return S->Struct->PropertyLink != nullptr;
+  }
+  return false;
+ }
  bool IsProgressProperty(const FProperty* P)
  {
   if (P->HasAnyPropertyFlags(CPF_Transient | CPF_DuplicateTransient)) return false;
   const UClass* Owner = P->GetOwnerClass();
   if (!Owner || !Owner->HasAnyClassFlags(CLASS_CompiledFromBlueprint)) return false;
   // Common BPLM camera/input/sequence bookkeeping must start clean after loading.
-  if (Owner->GetName() == TEXT("BPLM_C") && P->GetFName() != TEXT("GeneralLevelPhase")) return false;
-  return P->IsA<FBoolProperty>() || P->IsA<FNumericProperty>() || P->IsA<FEnumProperty>()
-   || P->IsA<FNameProperty>() || P->IsA<FStrProperty>();
+  if (Owner->GetName() == TEXT("BPLM_C") && P->GetFName() != TEXT("GeneralLevelPhase") && !P->HasAnyPropertyFlags(CPF_SaveGame)) return false;
+  return IsProgressValue(P);
  }
 }
 
@@ -109,10 +209,14 @@ void AVTGLevelManagerBase::CaptureLevelProgress(FVTGLevelProgressRecord& Record)
 {
  Record.ClassPath = GetClass()->GetPathName();
  Record.StartedEvents = StartedStoryEvents;
+ Record.EncounterResumeEvent = EncounterResumeEvent;
+ Record.EncounterCheckpointId = EncounterCheckpointId;
+ Record.Values.Reset();
+ Record.Types.Reset();
  for (TFieldIterator<FProperty> It(GetClass()); It; ++It)
  {
   const FProperty* P = *It;
-  if (!IsProgressProperty(P)) continue;
+  if (!IsProgressProperty(P) || ExcludedProgressVariables.Contains(P->GetFName())) continue;
   FString Value;
   P->ExportText_InContainer(0, Value, this, this, const_cast<AVTGLevelManagerBase*>(this), PPF_None);
   Record.Values.Add(P->GetFName(), Value);
@@ -127,10 +231,14 @@ void AVTGLevelManagerBase::RestoreLevelProgress(const FVTGLevelProgressRecord& R
  {
   FProperty* P = FindFProperty<FProperty>(GetClass(), Pair.Key);
   const FString* Type = Record.Types.Find(Pair.Key);
-  if (P && IsProgressProperty(P) && Type && *Type == P->GetCPPType())
+  if (P && IsProgressProperty(P) && !ExcludedProgressVariables.Contains(P->GetFName()) && Type && *Type == P->GetCPPType())
    P->ImportText_Direct(*Pair.Value, P->ContainerPtrToValuePtr<void>(this), this, PPF_None);
  }
  bProgressRestored = true;
  StartedStoryEvents = Record.StartedEvents;
  RestoredStoryEvents = Record.StartedEvents;
+ EncounterResumeEvent = Record.EncounterResumeEvent;
+ EncounterCheckpointId = Record.EncounterCheckpointId;
+ UFunction* Resume = FindFunction(EncounterResumeEvent);
+ bEncounterResumePending = Resume && Resume->NumParms == 0;
 }

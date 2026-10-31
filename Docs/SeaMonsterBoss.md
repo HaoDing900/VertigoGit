@@ -98,6 +98,29 @@ Toolkit 自带的 `WB_BossHealth` 只在它的 Demo 玩家里创建，`BP_Player
 
 ## 音效与战斗音乐
 
+### 2026-10-30 Boss / egg 音效变体更新
+
+当前 11 个战斗 SoundCue 使用 `MonsterNCreatures/BST09_BEASTIARIUM_VENOMBRUTE/...DESIGNED_KIT` 的同类素材，各 3 个 source；下方早期 Foley 素材表仅为历史记录。
+每次播放通过 Random（Without Replacement）选择素材，再通过 Modulator 在原有音高中心的 96%–104% 内随机微调。保持 Cue 的整体音高、音量、衰减和并发配置；原始 SoundWave 不修改。
+
+| Cue 后缀 | 同包素材（编号） |
+|---|---|
+| EggMother_Roar | attack_long 03 / 01 / 02 |
+| EggMother_Swing | attack_medium 03 / 01 / 02 |
+| EggMother_Slam | attack_medium 04 / 02 / 05 |
+| EggMother_Gas | breath_long 02 / 01 / 03 |
+| EggMother_AcidSpit | attack_long 04 / 03 / 05 |
+| EggMother_Hurt | hit 03 / 01 / 02 |
+| EggMother_Death | death 01 / 02 / 04 |
+| EggMother_EggDrop | other 01 / 02 / 03 |
+| SeaEgg_Gas | attack_short 04 / 03 / 05 |
+| SeaEgg_Hurt | hit 05 / 04 / 03 |
+| SeaEgg_Death | death 03 / 04 / 05 |
+
+更新命令：`-run=VTGCombatPolish -AudioVariations`；重新加载验证追加 `-VerifyOnly`。更新前备份保存在 `Scripts/SewerAudioVariations/Backup/`。旧的 CombatPolish / SewerFX 全量修复会覆盖音频，运行后需重新应用此命令。
+
+### 早期配置记录
+
 素材全部来自项目里已有的音效包（ProSoundCollectionBonusSounds / Foley），没有改动它们：每个声音在 `Audio/` 下做了一个自己的 SoundCue（音高范围、随机、3D 衰减），原始 wav 不动。
 
 | Cue | 内容 | 用在 |

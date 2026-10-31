@@ -7,6 +7,7 @@
 #include "Engine/Blueprint.h"
 #include "Engine/SCS_Node.h"
 #include "Engine/SimpleConstructionScript.h"
+#include "Engine/SkeletalMesh.h"
 #include "Kismet2/BlueprintEditorUtils.h"
 #include "Kismet2/KismetEditorUtilities.h"
 #include "KismetCompiler.h"
@@ -85,6 +86,17 @@ UReverbEffect *Reverb(const TCHAR *Name, float Decay, float Delay, float Brightn
     R->LateGain = 1.1f;
     Save(R);
     return R;
+}
+void ConfigureOutfitFootsteps(UVTGPlayerAudioComponent *C)
+{
+    const FString Cues = TEXT("/Game/SFX/Footsteps_Volume_02/Cues/");
+    C->DefaultSteps.Empty();
+    for (int32 I = 1; I <= 6; ++I)
+        C->DefaultSteps.Add(Load<USoundCue>(Cues + FString::Printf(TEXT("Footstep_Boots_%02d_Cue"), I)));
+    C->BarefootSteps.Empty();
+    for (int32 I : {1, 5, 6})
+        C->BarefootSteps.Add(Load<USoundCue>(Cues + FString::Printf(TEXT("Footstep_Naked_Feet_Deep_%02d_Cue"), I)));
+    C->BarefootMesh = Load<USkeletalMesh>(TEXT("/Game/Characters/Sa/Naked/Sa_Naked"));
 }
 void ConfigureReverb(UVTGPlayerAudioComponent *C)
 {
@@ -238,6 +250,28 @@ int32 UVTGSewerAudioCommandlet::Main(const FString &Params)
         BP->SimpleConstructionScript->AddNode(N);
         C = CastChecked<UVTGPlayerAudioComponent>(N->ComponentTemplate);
     }
+    if (FParse::Param(*Params, TEXT("ArmorOnly")))
+    {
+        C->ArmorRunStartSounds.Empty();
+        for (int32 I = 1; I <= 3; ++I)
+            C->ArmorRunStartSounds.Add(Load<USoundWave>(FString::Printf(TEXT("/Game/SFX/SaArmor/SW_SaArmor_RunStart_%02d"), I)));
+        FBlueprintEditorUtils::MarkBlueprintAsStructurallyModified(BP);
+        FCompilerResultsLog Log;
+        FKismetEditorUtilities::CompileBlueprint(BP, EBlueprintCompileOptions::SkipGarbageCollection, &Log);
+        check(Log.NumErrors == 0);
+        Save(BP);
+        return VTGTestSewerAudio(BP) ? 0 : 1;
+    }
+    if (FParse::Param(*Params, TEXT("FootstepsOnly")))
+    {
+        ConfigureOutfitFootsteps(C);
+        FBlueprintEditorUtils::MarkBlueprintAsStructurallyModified(BP);
+        FCompilerResultsLog Log;
+        FKismetEditorUtilities::CompileBlueprint(BP, EBlueprintCompileOptions::SkipGarbageCollection, &Log);
+        check(Log.NumErrors == 0);
+        Save(BP);
+        return VTGTestSewerAudio(BP) ? 0 : 1;
+    }
     if (FParse::Param(*Params, TEXT("ReverbOnly")))
     {
         ConfigureReverb(C);
@@ -258,6 +292,7 @@ int32 UVTGSewerAudioCommandlet::Main(const FString &Params)
     Fill(C->MetalSteps, TEXT("metal_low"));
     Fill(C->WaterSteps, TEXT("water"));
     Fill(C->WoodSteps, TEXT("wood"));
+    ConfigureOutfitFootsteps(C);
     auto *Att = Asset<USoundAttenuation>(TEXT("SA_Footsteps"));
     Att->Attenuation.bAttenuate = true;
     Att->Attenuation.bSpatialize = true;

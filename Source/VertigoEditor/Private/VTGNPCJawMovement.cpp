@@ -5,6 +5,8 @@
 #include "Animation/Skeleton.h"
 #include "Animation/AnimMontage.h"
 #include "Animation/AnimData/IAnimationDataModel.h"
+#include "Animation/AnimData/IAnimationDataController.h"
+#include "AssetRegistry/AssetRegistryModule.h"
 #include "Animation/AnimationPoseData.h"
 #include "Components/SkeletalMeshComponent.h"
 #include "Dialogue.h"
@@ -19,6 +21,7 @@
 #include "KismetCompiler.h"
 #include "HAL/FileManager.h"
 #include "Misc/PackageName.h"
+#include "Misc/Parse.h"
 #include "UObject/SavePackage.h"
 #include "UObject/UnrealType.h"
 
@@ -31,14 +34,71 @@ struct FTarget
     const TCHAR* Animation;
     const TCHAR* Actor;
     const TCHAR* Cutscene;
+    float NormalizedLoopSeconds = 0.f;
+    const TCHAR* SourceAnimation = nullptr;
 };
 const FTarget Targets[] = {
     {TEXT("FemaleClient"), TEXT("/Game/Characters/NPC/FemaleClient/ABP_FemaleClientLS"), TEXT("/Game/Characters/NPC/FemaleClient/ANM/ANM_FemaleClient_Mouth"), TEXT("/Game/Characters/NPC/FemaleClient/BP_FemaleClient_StillNPC"), TEXT("Is Cutscene")},
     {TEXT("Bello"), TEXT("/Game/Characters/NPC/Bello/ABP_Bello_NPC"), TEXT("/Game/Characters/NPC/Bello/ANM_Bello_Mouth"), TEXT("/Game/Characters/NPC/Bello/BP_Bello_NPC"), TEXT("Is Cutscene")},
     {TEXT("Corvos"), TEXT("/Game/Characters/NPC/Corvos/ABP_NPC_Corvos"), TEXT("/Game/Characters/NPC/Corvos/ANM_Corvos_Mouth"), TEXT("/Game/Characters/NPC/Corvos/BP_Corvos_NPC"), TEXT("IsCutScene?")},
-    {TEXT("Ulises"), TEXT("/Game/Characters/Ulises/ABP_Ulises"), TEXT("/Game/Characters/Ulises/ANM/Mouth_Ulises"), TEXT("/Game/Characters/Ulises/BP_Ulises_NPC"), TEXT("Is Cutscene")}
+    {TEXT("Ulises"), TEXT("/Game/Characters/Ulises/ABP_Ulises"), TEXT("/Game/Characters/Ulises/ANM/Mouth_Ulises"), TEXT("/Game/Characters/Ulises/BP_Ulises_NPC"), TEXT("Is Cutscene")},
+    {TEXT("May"), TEXT("/Game/Characters/May/ABP_NPC_May"), TEXT("/Game/Characters/May/Anim/May_Mouth_Dialogue"), TEXT("/Game/Characters/May/BP_May_NPC"), TEXT("Is Cutscene"), 0.3f, TEXT("/Game/Characters/May/Anim/May_Mouth")}
 };
 const FString Marker(TEXT("VTG Narrative Jaw Only"));
+void EnsureActorTag(const FTarget& T, bool VerifyOnly)
+{
+    if (!T.SourceAnimation) return; // Existing NPCs already have their authored binding tags.
+    auto* BP = LoadObject<UBlueprint>(nullptr, T.Actor); check(BP && BP->GeneratedClass);
+    auto* Default = CastChecked<AActor>(BP->GeneratedClass->GetDefaultObject());
+    if (Default->ActorHasTag(T.Tag)) return;
+    check(!VerifyOnly);
+    const FString File = FPackageName::LongPackageNameToFilename(BP->GetOutermost()->GetName(), FPackageName::GetAssetPackageExtension());
+    const FString Backup = FPaths::ProjectDir() / TEXT("Scripts/NPCJawMovement/Backup") / (BP->GetName() + TEXT(".uasset"));
+    IFileManager::Get().MakeDirectory(*FPaths::GetPath(Backup), true);
+    if (!IFileManager::Get().FileExists(*Backup)) check(IFileManager::Get().Copy(*Backup, *File) == COPY_OK);
+    Default->Tags.AddUnique(T.Tag);
+    FBlueprintEditorUtils::MarkBlueprintAsModified(BP);
+    FCompilerResultsLog Log; FKismetEditorUtilities::CompileBlueprint(BP, EBlueprintCompileOptions::SkipSave, &Log); check(Log.NumErrors == 0);
+    auto* Package = BP->GetOutermost(); Package->FullyLoad(); ResetLoaders(Package); BP->MarkPackageDirty();
+    FSavePackageArgs Save; Save.TopLevelFlags = RF_Public | RF_Standalone;
+    check(UPackage::SavePackage(Package, BP, *File, Save));
+    UE_LOG(LogTemp, Display, TEXT("NPC JAW TAG configured %s actor default tag %s"), *BP->GetName(), T.Tag);
+}
+UAnimSequence* LoadAnimation(const FTarget& T, bool VerifyOnly)
+{
+    if (auto* Existing = LoadObject<UAnimSequence>(nullptr, T.Animation)) return Existing;
+    check(!VerifyOnly && T.SourceAnimation && T.NormalizedLoopSeconds > 0.f);
+    auto* Source = LoadObject<UAnimSequence>(nullptr, T.SourceAnimation); check(Source);
+    const int32 JawIndex = Source->GetSkeleton()->GetReferenceSkeleton().FindBoneIndex(TEXT("c_jawbone_x")); check(JawIndex != INDEX_NONE);
+    const int32 Frames = 9;
+    TArray<FVector> Positions, Scales; TArray<FQuat> Rotations;
+    for (int32 I = 0; I <= Frames; ++I)
+    {
+        FTransform Pose;
+        // Raw evaluation incorporates May's sub-frame transform curve; copying only
+        // the source bone-track endpoints would lose the authored opening entirely.
+        Source->GetBoneTransform(Pose, FSkeletonPoseBoneIndex(JawIndex), double(Source->GetPlayLength()) * I / Frames, true);
+        Positions.Add(Pose.GetTranslation()); Rotations.Add(Pose.GetRotation()); Scales.Add(Pose.GetScale3D());
+    }
+    auto* Package = CreatePackage(T.Animation);
+    auto* Anim = NewObject<UAnimSequence>(Package, *FPackageName::GetLongPackageAssetName(T.Animation), RF_Public | RF_Standalone);
+    Anim->SetSkeleton(Source->GetSkeleton()); Anim->RateScale = 1.f;
+    auto& Controller = Anim->GetController();
+    Controller.InitializeModel();
+    Controller.OpenBracket(NSLOCTEXT("VTG", "MayJawBake", "Retiming May jaw for dialogue"), false);
+    Controller.SetFrameRate(FFrameRate(30, 1), false);
+    Controller.SetNumberOfFrames(FFrameNumber(Frames), false);
+    check(Controller.AddBoneCurve(TEXT("c_jawbone_x"), false));
+    check(Controller.SetBoneTrackKeys(TEXT("c_jawbone_x"), Positions, Rotations, Scales, false));
+    Controller.NotifyPopulated(); Controller.CloseBracket(false);
+    FAssetRegistryModule::AssetCreated(Anim);
+    Anim->MarkPackageDirty();
+    FSavePackageArgs Save; Save.TopLevelFlags = RF_Public | RF_Standalone;
+    const FString File = FPackageName::LongPackageNameToFilename(T.Animation, FPackageName::GetAssetPackageExtension());
+    check(UPackage::SavePackage(Package, Anim, *File, Save));
+    UE_LOG(LogTemp, Display, TEXT("MAY JAW RETIME source=%.6fs target=%.3fs equivalent source speed=%.6f source RateScale=%.3f preserved; baked %d jaw keys including transform curve"), Source->GetPlayLength(), Anim->GetPlayLength(), Source->GetPlayLength() / Anim->GetPlayLength(), Source->RateScale, Frames + 1);
+    return Anim;
+}
 void Audit(UAnimBlueprint* BP, UAnimSequence* Anim)
 {
     check(BP->TargetSkeleton == Anim->GetSkeleton());
@@ -55,7 +115,7 @@ void Audit(UAnimBlueprint* BP, UAnimSequence* Anim)
     check(Moves && Keys[0].Equals(Keys.Last(), 0.01f));
     UE_LOG(LogTemp, Display, TEXT("NPC JAW ASSET PASS %s duration=%.3f jaw keys=%d loop endpoints match; other %d tracks ignored"), *BP->GetName(), Anim->GetPlayLength(), Keys.Num(), Tracks.Num() - 1);
 }
-void Apply(UAnimBlueprint* BP, UAnimSequence* Anim, bool VerifyOnly)
+void Apply(UAnimBlueprint* BP, UAnimSequence* Anim, bool VerifyOnly, const FTarget& T)
 {
     UEdGraph* Graph = nullptr;
     for (UEdGraph* G : BP->FunctionGraphs) if (G->GetFName() == TEXT("AnimGraph")) Graph = G;
@@ -95,11 +155,13 @@ void Apply(UAnimBlueprint* BP, UAnimSequence* Anim, bool VerifyOnly)
         check(UPackage::SavePackage(Package, BP, *File, Save));
     }
     check(Jaw && Jaw->Node.Sequence == Anim && Jaw->Node.JawBone.BoneName == TEXT("c_jawbone_x"));
+    if (T.NormalizedLoopSeconds > 0.f) check(FMath::IsNearlyEqual(Anim->GetPlayLength(), T.NormalizedLoopSeconds));
     check(Jaw->FindPinChecked(TEXT("SourcePose"))->LinkedTo.Num() == 1);
     check(Jaw->FindPinChecked(TEXT("Pose"))->LinkedTo.Num() == 1 && Jaw->FindPinChecked(TEXT("Pose"))->LinkedTo[0] == Root->FindPinChecked(TEXT("Result")));
     UE_LOG(LogTemp, Display, TEXT("NPC JAW GRAPH PASS %s one jaw-only node after existing montage/look/face graph"), *BP->GetName());
+    UE_LOG(LogTemp, Display, TEXT("NPC JAW RATE %s effective loop=%.3fs sequence RateScale=%.3f"), T.Tag, Anim->GetPlayLength(), Anim->RateScale);
 }
-bool Test()
+bool Test(bool MayOnly)
 {
     TGuardValue<bool> Scripts(GAllowActorScriptExecutionInEditor, true);
     auto Init = UWorld::InitializationValues().AllowAudioPlayback(false).CreatePhysicsScene(true).CreateNavigation(false).CreateAISystem(false).ShouldSimulatePhysics(false);
@@ -115,6 +177,7 @@ bool Test()
     { Fail += !Pass; UE_LOG(LogTemp, Display, TEXT("NPC JAW TEST %s %s: %s"), Pass ? TEXT("PASS") : TEXT("FAIL"), T.Tag, What); };
     for (const auto& T : Targets)
     {
+        if (MayOnly && FCString::Strcmp(T.Tag, TEXT("May")) != 0) continue;
         auto* ABP = LoadObject<UAnimBlueprint>(nullptr, T.Blueprint);
         auto* BP = LoadObject<UBlueprint>(nullptr, T.Actor); check(BP && ABP);
         auto* Actor = World->SpawnActor<AActor>(BP->GeneratedClass, FTransform::Identity, Spawn); check(Actor);
@@ -144,6 +207,17 @@ bool Test()
         if (!State) { Actor->Destroy(); continue; }
         World->Tick(LEVELTICK_TimeOnly, 0.12f); Frame();
         const auto Speaking = Mesh->GetBoneSpaceTransforms();
+        if (T.NormalizedLoopSeconds > 0.f)
+        {
+            auto* Mouth = LoadObject<UAnimSequence>(nullptr, T.Animation);
+            const float BaseRate = Mouth->GetPlayLength() / T.NormalizedLoopSeconds;
+            FNarrativeJawPlayback Calibrated;
+            Expect(State->SamplePlayback(T.NormalizedLoopSeconds, Calibrated) && Calibrated.LoopIndex == 0 && FMath::IsNearlyEqual(Calibrated.Position, .12f, .001f), T, TEXT("short animation is still inside its first calibrated 0.3s loop after 0.12s"));
+            FTransform Expected;
+            const int32 SkeletonIndex = Mouth->GetSkeleton()->GetReferenceSkeleton().FindBoneIndex(TEXT("c_jawbone_x"));
+            Mouth->GetBoneTransform(Expected, FSkeletonPoseBoneIndex(SkeletonIndex), double(Calibrated.Position * BaseRate), false);
+            Expect(Speaking[Index].Equals(Expected, .001f), T, TEXT("actual evaluated jaw samples the retimed animation phase"));
+        }
         Dialogue->StopJawMovement(); Frame(); const auto Baseline = Mesh->GetBoneSpaceTransforms();
         Expect(!Speaking[Index].Equals(Baseline[Index], 0.001f), T, TEXT("final evaluated jaw moves"));
         int32 OtherChanges = 0;
@@ -154,7 +228,7 @@ bool Test()
         Node->bEnableJawMovement = false; Start(); Expect(!State->Sample(Age, Weight), T, TEXT("node switch disables jaw")); Node->bEnableJawMovement = true;
         Dialogue->bEnableJawMovement = false; Start(); Expect(!State->Sample(Age, Weight), T, TEXT("global switch disables jaw")); Dialogue->bEnableJawMovement = true;
         auto* Sequence = LoadObject<UAnimSequence>(nullptr, T.Animation);
-        auto* Montage = UAnimMontage::CreateSlotAnimationAsDynamicMontage(Sequence, TEXT("DefaultSlot"), 0.f, 0.f, 1.f);
+        auto* Montage = UAnimMontage::CreateSlotAnimationAsDynamicMontage(Sequence, TEXT("DefaultSlot"), 0.f, 0.f, 1.f, 100);
         Start(); World->Tick(LEVELTICK_TimeOnly, 0.12f); Frame(); const auto Jaw = Mesh->GetBoneSpaceTransforms()[Index];
         Expect(Instance->Montage_Play(Montage) > 0, T, TEXT("montage starts while speaking"));
         Mesh->TickAnimation(0.07f, false); Mesh->RefreshBoneTransforms();
@@ -169,7 +243,8 @@ bool Test()
         Dialogue->JawMinAmplitude = 0.5f; Dialogue->JawMaxAmplitude = 1.f;
         Start(); World->Tick(LEVELTICK_TimeOnly, 0.12f); Frame();
         FNarrativeJawPlayback Playback;
-        Expect(State->SamplePlayback(Sequence->GetPlayLength(), Playback) && Playback.PlayRate >= .7f && Playback.PlayRate <= 1.2f && Playback.Amplitude >= .5f && Playback.Amplitude <= 1.f, T, TEXT("shared random speed/amplitude settings work"));
+        const float EffectiveLength = T.NormalizedLoopSeconds > 0.f ? T.NormalizedLoopSeconds : Sequence->GetPlayLength();
+        Expect(State->SamplePlayback(EffectiveLength, Playback) && Playback.PlayRate >= .7f && Playback.PlayRate <= 1.2f && Playback.Amplitude >= .5f && Playback.Amplitude <= 1.f, T, TEXT("shared random speed/amplitude settings work"));
         Dialogue->Deinitialize(); Expect(!State->Sample(Age, Weight), T, TEXT("dialogue shutdown clears speech"));
         Actor->Destroy();
     }
@@ -180,12 +255,15 @@ bool Test()
 }
 int32 VTGRunNPCJawMovement(const FString& Params)
 {
+    const bool MayOnly = FParse::Param(*Params, TEXT("MayOnly"));
     for (const auto& T : NPCJaw::Targets)
     {
+        if (MayOnly && FCString::Strcmp(T.Tag, TEXT("May")) != 0) continue;
         auto* BP = LoadObject<UAnimBlueprint>(nullptr, T.Blueprint);
-        auto* Anim = LoadObject<UAnimSequence>(nullptr, T.Animation); check(BP && Anim);
+        auto* Anim = NPCJaw::LoadAnimation(T, Params.Contains(TEXT("VerifyOnly"))); check(BP && Anim);
         NPCJaw::Audit(BP, Anim);
-        NPCJaw::Apply(BP, Anim, Params.Contains(TEXT("VerifyOnly")));
+        NPCJaw::Apply(BP, Anim, Params.Contains(TEXT("VerifyOnly")), T);
+        NPCJaw::EnsureActorTag(T, Params.Contains(TEXT("VerifyOnly")));
     }
-    return Params.Contains(TEXT("Test")) && !NPCJaw::Test() ? 1 : 0;
+    return Params.Contains(TEXT("Test")) && !NPCJaw::Test(MayOnly) ? 1 : 0;
 }

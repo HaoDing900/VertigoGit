@@ -1,6 +1,7 @@
 // Copyright Narrative Tools 2022. 
 
 #include "Dialogue.h"
+#include "NarrativeBlipLibrary.h"
 #include "NarrativeUIInputComponent.h"
 #include "DialogueHistoryEvents.h"
 #include "NarrativeDialogueSettings.h"
@@ -178,10 +179,20 @@ void UDialogue::Deinitialize()
 	}
 
 	bDeinitialized = true;
+    StopBlip();
 
 	OnEndDialogue();
 
 	StopDialogueSequence();
+
+	// Restore after all cinematic teardown (including Sequencer's pre-animated restoration).
+	// No delayed callback: a subsequent dialogue may take camera ownership immediately.
+	const UDialogue* ActiveCameraOwner = OwningComp ? OwningComp->GetCurrentDialogue() : nullptr;
+	const bool bNewDialogueOwnsCamera = ActiveCameraOwner && ActiveCameraOwner != this && ActiveCameraOwner->IsInitialized();
+	if (!bNewDialogueOwnsCamera && bCapturedViewTargetTick && TickStateViewTarget.IsValid())
+	{
+		TickStateViewTarget->SetActorTickEnabled(bOriginalViewTargetTickEnabled);
+	}
 
 	if (DialogueAudio)
 	{
@@ -348,7 +359,8 @@ bool UDialogue::SkipCurrentLine()
 {
 	if (CanSkipCurrentLine() && OwningComp && OwningComp->HasAuthority())
 	{
-		bool bSkippingPlayerReply = CurrentNode && CurrentNode->IsA<UDialogueNode_Player>();
+		StopBlip();
+        bool bSkippingPlayerReply = CurrentNode && CurrentNode->IsA<UDialogueNode_Player>();
 
 		/*If we're skipping a player reply, you can have more than 1 and so skipping the servers player reply will finish the chunk. It will send a new chunk through so no need to do anything.
 		*
@@ -400,6 +412,8 @@ void UDialogue::SetDialogueAudioPaused(bool bPaused)
 {
     // SpawnSound2D produces UI audio, which otherwise continues during world pause.
     if (DialogueAudio) DialogueAudio->SetPaused(bPaused);
+    bBlipPaused = bPaused;
+    if (IsValid(BlipAudio)) BlipAudio->SetPaused(bPaused);
 }
 
 void UDialogue::SetAutoAdvance(bool bEnabled)
@@ -619,6 +633,7 @@ void UDialogue::TickDialogue_Implementation(const float DeltaTime)
 
 void UDialogue::OnBeginDialogue()
 {
+	CaptureViewTargetTickState();
 	//Non-freemove dialogues freeze look/move input and show the cursor on the local player, driven by
 	//bFreeMovement on the dialogue asset. Freemove dialogues leave input untouched so the player keeps control.
 	//UIOnly so no gameplay bindings (e.g. RMB camera/exit) can fire mid-dialogue - only the dialogue UI gets input.
@@ -640,7 +655,6 @@ void UDialogue::OnBeginDialogue()
 		AdjustPlayerTransform();
 	}
 
-	OldViewTarget = OwningController ? OwningController->GetViewTarget() : nullptr;
 
 	/*It doesnt really make sense for the conversation participants to not face each other, so do this automagically (can be turned off) */
 	if (OwningPawn)
@@ -664,6 +678,25 @@ void UDialogue::OnBeginDialogue()
 			OwningController->ClientStartCameraShake(DialogueCameraShake);
 		}
 	}
+}
+
+void UDialogue::CaptureViewTargetTickState()
+{
+	if (bCapturedViewTargetTick || !IsValid(OwningController)) return;
+	OldViewTarget = OwningController->GetViewTarget();
+	TickStateViewTarget = OldViewTarget;
+	bCapturedViewTargetTick = IsValid(OldViewTarget);
+	bOriginalViewTargetTickEnabled = bCapturedViewTargetTick && OldViewTarget->IsActorTickEnabled();
+}
+
+void UDialogue::InheritViewTargetTickState(const UDialogue* Previous)
+{
+	if (!Previous || !Previous->bCapturedViewTargetTick || !Previous->TickStateViewTarget.IsValid()
+		|| Previous->OwningController != OwningController) return;
+	OldViewTarget = Previous->OldViewTarget;
+	TickStateViewTarget = Previous->TickStateViewTarget;
+	bCapturedViewTargetTick = true;
+	bOriginalViewTargetTickEnabled = Previous->bOriginalViewTargetTickEnabled;
 }
 
 void UDialogue::InitSpeakerAvatars()
@@ -1083,7 +1116,8 @@ void UDialogue::PlayNPCDialogueNode(class UDialogueNode_NPC* NPCReply)
 		bWaitingForManualAdvance = false;
 		bExplicitLineAdvance = false;
 		bWaitingForPlayerResponse = false;
-		CurrentNode = NPCReply;
+		StopBlip();
+        CurrentNode = NPCReply;
 		CurrentLine = NPCReply->GetRandomLine(OwningComp->GetNetMode() == NM_Standalone);
 		ReplaceStringVariables(NPCReply, CurrentLine, CurrentLine.Text);
 
@@ -1171,7 +1205,8 @@ void UDialogue::PlayPlayerDialogueNode(class UDialogueNode_Player* PlayerReply)
 		AvailableResponses.Empty();
 
 		bWaitingForPlayerResponse = false;
-		CurrentNode = PlayerReply;
+		StopBlip();
+        CurrentNode = PlayerReply;
 		StopJawMovement();
 		
 		ProcessNodeEvents(PlayerReply, true);
@@ -1775,7 +1810,9 @@ void UDialogue::PlayDialogueSound_Implementation(const FDialogueLine& Line, clas
 			DialogueAudio = UGameplayStatics::SpawnSound2D(OwningComp, Line.DialogueSound);
 		}
 
-		if (DialogueAudio && Line.Duration == ELineDuration::LD_WhenAudioEnds)
+		UNarrativeBlipAudio::RegisterPriorityAudio(DialogueAudio);
+
+        if (DialogueAudio && Line.Duration == ELineDuration::LD_WhenAudioEnds)
 		{
 			DialogueAudio->OnAudioFinished.AddDynamic(this, &UDialogue::EndCurrentLine);
 		}
@@ -1801,7 +1838,8 @@ void UDialogue::PlayDialogueNode_Implementation(class UDialogueNode* Node, const
 		//
 		if (OwningComp)
 		{
-			PlayDialogueSound(Line, SpeakerActor, ListenerActor);
+            PlayDialogueSound(Line, SpeakerActor, ListenerActor);
+            StartBlip(Node, Line, Speaker);
 			PlayDialogueAnimation(Node, Line, SpeakerActor, ListenerActor);
 
 			/*Order of precedence for camera shot :

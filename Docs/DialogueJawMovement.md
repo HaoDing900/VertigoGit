@@ -6,6 +6,8 @@
 
 此外已接入 FemaleClient、Bello、Corvos、Ulises 的四个指定 ABP。各自的 Tag、角色 BP、动画路径与接线位置见中文使用指南第 9 节；原动画资产保持不变，只采样 `c_jawbone_x`。NPC 接线及测试入口为 `VTGJawMovement -NPC`，只读复核增加 `-VerifyOnly -Test`，备份在 `Scripts/NPCJawMovement/Backup`。通用运行时兼容 `IsCutscene`、`Is Cutscene`、`IsCutScene?` 三种已有 Cutscene 变量名。
 
+May 也已接入：`/Game/Characters/May/ABP_NPC_May`、`/Game/Characters/May/BP_May_NPC`，绑定 Tag 为 `May`。源动画 `Anim/May_Mouth` 保留不变；使用其实际 jaw 姿势和变换曲线生成 `Anim/May_Mouth_Dialogue`，重采样为 0.3 秒、10 个 jaw 关键帧，解决原始 0.033333 秒片段直接慢放/仅复制轨道端点可能丢失动作的问题。详见使用指南第 10 节；`-NPC -MayOnly` 可单独操作/检查 May。
+
 ## 配置
 
 1. 打开 Narrative Dialogue 的 Defaults，在角色的 `Speaker ID` 对应配置中填写 `Speaking Actor Tag`。例如 `SaP` 绑定已有 Player Actor，`SaC` 绑定已有 Cine Actor。玩家发言使用 `Player Speaker Info` 中同名字段。

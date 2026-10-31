@@ -9,6 +9,27 @@
 #include "DetailCategoryBuilder.h"
 #include "NarrativeDataTask.h"
 #include "NarrativeQuestDetailsExtension.h"
+#include "QuestGraphNode_Action.h"
+#include "QuestGraphNode_State.h"
+#include "EdGraph/EdGraph.h"
+#include "EdGraph/EdGraphPin.h"
+
+UQuestState* GetQuestBranchGraphDestination(UQuestBranch* Branch)
+{
+    if (!Branch) return nullptr;
+    auto* Blueprint = Branch->GetTypedOuter<UQuestBlueprint>();
+    if (!Blueprint || !Blueprint->QuestGraph) return Branch->DestinationState;
+    for (UEdGraphNode* Node : Blueprint->QuestGraph->Nodes)
+        if (auto* Action = Cast<UQuestGraphNode_Action>(Node))
+            if (Action->Branch == Branch)
+            {
+                if (auto* Output = Action->GetOutputPin())
+                    for (auto* Link : Output->LinkedTo)
+                        if (auto* State = Cast<UQuestGraphNode_State>(Link->GetOwningNode())) return State->State;
+                return nullptr;
+            }
+    return Branch->DestinationState;
+}
 
 FNarrativeQuestDetailsExtension& GetNarrativeQuestDetailsExtension()
 {

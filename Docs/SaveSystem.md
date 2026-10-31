@@ -2,6 +2,8 @@
 
 Everything routes through one C++ subsystem: **VTGSave Coordinator**.
 
+Chinese usage and maintenance guide for combat checkpoints: [战斗临时存档：使用与维护](CombatCheckpointGuide.zh-CN.md).
+
 ---
 
 ## 0. Get the Coordinator (do this in every graph that saves/loads)
@@ -226,7 +228,8 @@ The 3D terminal prop visibility must not control the 2D terminal page: inventory
 
 ## BPLM progress snapshots (2026-10-09)
 
-New saves capture level-manager Blueprint scalar progress (bool, number, enum, name, string),
+New saves capture level-manager Blueprint value progress (bool, number, enum, name, string, text,
+value-only structs and arrays/sets/maps of those types),
 plus the common BPLM GeneralLevelPhase. Runtime references and common camera/input/sequence locks
 are deliberately rebuilt, not deserialized. Actor identity and class must match in the saved map.
 The coordinator restores progress before world BeginPlay; the native manager also restores before
@@ -241,13 +244,60 @@ state is refreshed after world initialization, preserving the story's exit lock/
 
 Old slots still load, but contain no BPLM snapshot or entered-event ledger. They cannot reconstruct
 past event completion. Create a new save after reaching the desired progress with this build.
-Other maps receive scalar BPLM persistence; their unconditional story entry graphs need explicit
+Other maps receive BPLM value persistence; their unconditional story entry graphs need explicit
 EnterSavedStoryEvent gates where replay suppression is required. UObject references, latent actions,
 and arbitrary Blueprint DoOnce internals are not a general-purpose world snapshot.
 
 Regression: VTGAlleyRepair -LevelProgress -VerifyOnly (in-memory save roundtrip, real entrance BP,
 restored vs future events, fresh new game, coordinator early lookup, duplicate restore guard).
 Blueprint backup: Saved/QA/LevelProgressBefore/BPLM_BlackMarketEntrance.uasset.
+
+## Shared combat encounter checkpoints (2026-10-24)
+
+The existing coordinator remains the save system. `AVTGLevelManagerBase` now exposes:
+
+- **Save Encounter Checkpoint** (`Checkpoint Id`, `Resume Event`, `Respawn Transform`, `Order`).
+  Call once after pre-fight dialogue and before enemy attacks become enabled. Resume Event must
+  name a parameterless custom event on that BPLM. Check its bool result if showing save status.
+- **Set Encounter Resume Event** (`Resume Event`). At victory, switch subsequent saves to a
+  separate completed-scene rebuild event. This does not overwrite the existing pre-fight autosave.
+- **Is Resuming Encounter**. True during the synchronous rebuild entry. A Save Encounter Checkpoint
+  reached from this entry succeeds without writing again, preserving the original retry snapshot.
+- **Excluded Progress Variables**, in BPLM Class Defaults: opt out temporary variables by name.
+
+An encounter record is part of the existing BPLM snapshot in both autosaves and manual saves.
+On load, progress is restored before BeginPlay. A valid saved encounter entry suppresses
+OnStageBegin (Blueprint BeginPlay still runs to initialize common player/controller references).
+The rebuild event is dispatched once from OnSlotLoaded, after pawn transform, inventory and
+Narrative quests have loaded. It must explicitly reconstruct enemies, bindings, arena barriers,
+companion pose and gameplay mode; saved values do not execute their original side effects.
+Never put intro dialogue or cinematics in the combat rebuild event.
+
+BlackMarketStreet is connected: InitializeAlleyCombat's existing shared DoOnce saves
+L4_AlleyFightStart (order 100) at the player's current transform, then initializes all three goons.
+VTG_ResumeAlleyFight bypasses the stage intro, rebuilds alley/Drone/arena setup and calls the
+existing combat entry, which resets the count to 3 and binds each enemy exactly once.
+AfterAlleyFightComplete selects VTG_ResumeAfterAlleyFight for subsequent saves and records
+L4_FightHappened?=true. The completed rebuild removes enemies, restores the alley trigger until L4_AlleyExitReady is saved, hides the
+story goons and restores companion following without replaying dialogue. The existing post-fight
+dialogue remains unchanged during normal play. This change adds the pre-fight autosave only;
+victory does not immediately overwrite it while the post-fight dialogue is running.
+
+Value-only structs/containers are now included automatically. UObject/actor/component references,
+delegates, latent actions, active dialogues and DoOnce internals remain excluded. Common BPLM_C
+camera/input bookkeeping is excluded unless a safe value property is explicitly marked SaveGame.
+Do not use this API to snapshot an active conversation; save at stable story boundaries.
+
+Existing saves remain readable. Missing new fields use the previous normal stage-entry behavior;
+they cannot infer the intended encounter or recover missing past progress. Make a fresh save at
+the fight boundary to test this feature. Existing L2 phase-based and sewer checkpoint flows are
+left in place; other maps can adopt the two explicit rebuild entries as needed.
+
+Verification: `-run=VTGBlackMarketCombat -Checkpoints -VerifyOnly` checks the actual BPLM graph,
+in-memory SaveGame roundtrip for dialogue flags/array/transform, transient exclusions, one-shot
+resume, no overwrite during resume, completed entry and legacy records. It also reruns the real
+three-goon death/de-duplication and player damage regressions. No user's disk save slots are used.
+Asset backup: Scripts/CombatCheckpoints/Backup/BPLM_BlackMarket.uasset.
 
 ## Main menu Continue (2026-10-09)
 
@@ -262,3 +312,22 @@ Windows build: Development; startup M_MainMenu; 14 mainline maps explicitly cook
 Final output requested on D:/VertigoBuilds/2026-10-09. Saved user slots are not included in the build.
 
 Exact build map manifest: D:/VertigoBuilds/2026-10-09/IncludedMaps.txt.
+
+### L2 street fight and sewer boss adoption (2026-10-24)
+
+L2 now saves `L2StreetFightStart` at order 100 after the intro and phase-1 write, before
+combat activation. `VTG_ResumeL2StreetFight` restores scene/NPCs/arena without replaying
+intro sequences. Completion selects `VTG_ResumeAfterL2StreetFight` and retains the existing
+post-fight dialogue-pending handling. Shared resume runs inside OnSlotLoaded; it does not
+wait for another slot-loaded notification.
+
+Sewer `StartBossEncounter` now saves `SewerBossFightStart` at order 100 before enabling
+boss AI/damage. AI stays dormant during pending world restoration. Resume reconstructs
+the arena and starts the fresh boss, preserving saved BPLM egg count/IDs and story values.
+Death selects `VTG_ResumeAfterSewerBossFight` for subsequent saves. This suppresses the fresh
+boss and restores switch/door state from `L3_CheckpointDoorOpened` / `L3_CheckpointPassedDoor`.
+Existing SewerStart/SewerLairDrop checkpoints and legacy L2 phase routes remain compatible.
+Victory changes future snapshot routing without immediately replacing the pre-fight autosave.
+
+Verify with `-run=VTGBlackMarketFollowup -EncounterVerify`. Details, backups and limits:
+Scripts/EncounterCheckpoints/RESULT.md. Verification uses memory saves, not user save slots.

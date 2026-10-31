@@ -39,6 +39,8 @@
 #include "DialogueNodeUserWidget.h"
 #include "LevelEditor.h"
 #include "NarrativeDialogueSettings.h"
+#include "DialogueEventFilter.h"
+#include "Framework/MultiBox/MultiBoxBuilder.h"
 
 #define LOCTEXT_NAMESPACE "DialogueAssetEditor"
 
@@ -1211,7 +1213,16 @@ void FDialogueGraphEditor::ExtendMenu()
 
 void FDialogueGraphEditor::ExtendToolbar()
 {
-
+    const TWeakPtr<FDialogueGraphEditor> WeakEditor = SharedThis(this);
+    auto Extender = MakeShared<FExtender>();
+    Extender->AddToolBarExtension(TEXT("Asset"), EExtensionHook::After, GetToolkitCommands(),
+        FToolBarExtensionDelegate::CreateLambda([WeakEditor](FToolBarBuilder& Builder) {
+            Builder.AddToolBarButton(FUIAction(FExecuteAction::CreateLambda([WeakEditor]() {
+                if (auto Editor = WeakEditor.Pin()) NarrativeDialogueEventFilter::Open(Editor.ToSharedRef());
+            })), NAME_None, FText::FromString(TEXT("Event 筛选")),
+                FText::FromString(TEXT("打开独立窗口，按 Narrative Event 类型筛选并定位 Dialogue 节点。")), FSlateIcon(FAppStyle::GetAppStyleSetName(), TEXT("Icons.Search")));
+        }));
+    AddToolbarExtender(Extender);
 }
 
 //void FDialogueGraphEditor::BindCommonCommands()

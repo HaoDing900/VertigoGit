@@ -275,7 +275,7 @@ FText SQuestGraphNode::GetNodeText() const
 		return FText::FromString("Connecting a new up to this node is the same as connecting every state in the quest to that node.");
 	}
 
-	return (Node && Node->QuestNode) ? Node->QuestNode->Description : FText::GetEmpty();
+	return FText::GetEmpty();
 }
 
 
@@ -354,6 +354,7 @@ EVisibility SQuestGraphNode::GetEventsVis() const
 
 EVisibility SQuestGraphNode::GetNodeTextVisibility() const
 {
+	if (GetNodeText().IsEmpty()) return EVisibility::Collapsed;
 	TSharedPtr<SGraphPanel> MyOwnerPanel = GetOwnerPanel();
 	return (!MyOwnerPanel.IsValid() || MyOwnerPanel->GetCurrentLOD() > EGraphRenderingLOD::LowDetail) ? EVisibility::Visible : EVisibility::Collapsed;
 }

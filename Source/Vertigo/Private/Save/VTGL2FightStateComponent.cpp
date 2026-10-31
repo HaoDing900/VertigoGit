@@ -7,6 +7,7 @@
 #include "NarrativeComponent.h"
 #include "Dialogue.h"
 #include "UObject/UnrealType.h"
+#include "VTGLevelManagerBase.h"
 
 namespace L2FightState
 {
@@ -82,6 +83,8 @@ void UVTGL2FightStateComponent::CompleteAfterFight(AActor* FemaleClient)
   Coordinator->SetPersistentInt(L2FightState::PhaseKey,2);
   Coordinator->SetPersistentInt(L2FightState::DialoguePendingKey,1);
  }
+ if(auto* Manager=Cast<AVTGLevelManagerBase>(GetOwner());Manager && Manager->FindFunction(TEXT("VTG_ResumeAfterL2StreetFight")))
+  Manager->SetEncounterResumeEvent(TEXT("VTG_ResumeAfterL2StreetFight"));
  // Keep the existing autosave cadence: subsequent saves capture the completed fight.
 }
 
@@ -89,7 +92,8 @@ void UVTGL2FightStateComponent::ResumeAfterFight(AActor* FemaleClient)
 {
  Client=FemaleClient;
  BindNarrative();
- if (Coordinator && Coordinator->HasPendingWorldRestore())
+ const auto* Manager=Cast<AVTGLevelManagerBase>(GetOwner());
+ if (Coordinator && Coordinator->HasPendingWorldRestore() && !(Manager && Manager->IsResumingEncounter()))
  {
   bWaitingForRestore=true;
   Coordinator->OnSlotLoaded.AddUniqueDynamic(this,&UVTGL2FightStateComponent::OnSlotLoaded);

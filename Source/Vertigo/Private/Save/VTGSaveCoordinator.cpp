@@ -534,6 +534,8 @@ bool UVTGSaveCoordinator::SaveCheckpoint(FName CheckpointId, const FTransform& R
 		return false; // walked back over an older checkpoint
 	}
 
+	const TMap<FName, FName> PreviousNames = PersistentNames;
+	const TMap<FName, int32> PreviousInts = PersistentInts;
 	SetPersistentName(CheckpointIdKey, CheckpointId);
 	SetPersistentName(CheckpointLevelKey, Level);
 	SetPersistentInt(CheckpointOrderKey, Order);
@@ -541,6 +543,11 @@ bool UVTGSaveCoordinator::SaveCheckpoint(FName CheckpointId, const FTransform& R
 	RespawnOverride = RespawnTransform;
 	const bool bOk = AutoSave();
 	RespawnOverride.Reset();
+	if (!bOk)
+	{
+		PersistentNames = PreviousNames;
+		PersistentInts = PreviousInts;
+	}
 	return bOk;
 }
 

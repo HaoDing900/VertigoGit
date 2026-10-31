@@ -291,6 +291,7 @@ bool UNarrativeComponent::SetCurrentDialogue(TSubclassOf<class UDialogue> Dialog
 {
 	if (Dialogue)
 	{
+		UDialogue* PreviousCameraOwner = CurrentDialogue;
 		/**If we already have a dialogue running make sure its cleaned up before we begin a new one */
 		if (CurrentDialogue)
 		{
@@ -312,6 +313,11 @@ bool UNarrativeComponent::SetCurrentDialogue(TSubclassOf<class UDialogue> Dialog
 		}
 
 		CurrentDialogue = MakeDialogueInstance(Dialogue, PlayParams);
+		if (CurrentDialogue)
+		{
+			CurrentDialogue->InheritViewTargetTickState(PreviousCameraOwner);
+			CurrentDialogue->CaptureViewTargetTickState();
+		}
 
 		return CurrentDialogue != nullptr;
 	}

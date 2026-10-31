@@ -27,6 +27,8 @@
 #include "Engine/World.h"
 #include "Engine/Engine.h"
 #include "Engine/GameInstance.h"
+#include "VTGLevelManagerBase.h"
+#include "Save/VTGSaveCoordinator.h"
 
 namespace MarketCombat
 {
@@ -35,7 +37,7 @@ const TCHAR* ArmName=TEXT("InitializeAlleyCombat");
 UEdGraph* EventGraph(UBlueprint* BP){for(UEdGraph* G:BP->UbergraphPages)if(G->GetName()==TEXT("EventGraph"))return G;return nullptr;}
 UEdGraphNode* Named(UEdGraph* G,const TCHAR* Name){for(UEdGraphNode* N:G->Nodes)if(N->GetName()==Name)return N;return nullptr;}
 template<class T> T* Add(UEdGraph* G,int X,int Y){auto* N=NewObject<T>(G);G->AddNode(N,false,false);N->CreateNewGuid();N->NodePosX=X;N->NodePosY=Y;N->NodeComment=TEXT("VTG black market combat: exact three enemies, once per enemy");return N;}
-void Link(UEdGraphNode* A,const TCHAR* AP,UEdGraphNode* B,const TCHAR* BP){check(GetDefault<UEdGraphSchema_K2>()->TryCreateConnection(A->FindPinChecked(AP),B->FindPinChecked(BP)));}
+void Link(UEdGraphNode* A,const TCHAR* AP,UEdGraphNode* B,const TCHAR* BP){checkf(GetDefault<UEdGraphSchema_K2>()->TryCreateConnection(A->FindPinChecked(AP),B->FindPinChecked(BP)),TEXT("Cannot connect %s.%s -> %s.%s"),*A->GetNodeTitle(ENodeTitleType::FullTitle).ToString(),AP,*B->GetNodeTitle(ENodeTitleType::FullTitle).ToString(),BP);}
 UK2Node_CallFunction* Call(UEdGraph* G,UFunction* F,int X,int Y){check(F);auto* N=Add<UK2Node_CallFunction>(G,X,Y);N->SetFromFunction(F);N->AllocateDefaultPins();return N;}
 UK2Node_VariableGet* Get(UEdGraph* G,FName Name,int X,int Y){auto* N=Add<UK2Node_VariableGet>(G,X,Y);N->VariableReference.SetSelfMember(Name);N->AllocateDefaultPins();return N;}
 UK2Node_CustomEvent* Event(UEdGraph* G,FName Name,int X,int Y){auto* N=Add<UK2Node_CustomEvent>(G,X,Y);N->CustomFunctionName=Name;N->AllocateDefaultPins();return N;}
@@ -161,6 +163,7 @@ void Test(UBlueprint* BP,UBlueprint* Player,UBlueprint* Collision)
     for(auto* E:Enemies)World->DestroyActor(E);World->DestroyActor(Manager);World->DestroyActor(Sa);World->DestroyActor(PC);GEngine->DestroyWorldContext(World);World->DestroyWorld(false);
 }
 }
+#include "VTGCombatCheckpointRepair.inl"
 UVTGBlackMarketCombatCommandlet::UVTGBlackMarketCombatCommandlet(){IsEditor=true;IsClient=false;IsServer=false;LogToConsole=true;}
 
 int32 UVTGBlackMarketCombatCommandlet::Main(const FString& Params)
@@ -171,6 +174,7 @@ int32 UVTGBlackMarketCombatCommandlet::Main(const FString& Params)
     auto* Base=LoadObject<UBlueprint>(nullptr,TEXT("/Game/AI/AIBehaviorSystem/Blueprint/AI/BP_AI_Base.BP_AI_Base"));
     auto* Collision=LoadObject<UBlueprint>(nullptr,TEXT("/Game/AI/AIBehaviorSystem/Blueprint/Component/BP_CollisionComponent.BP_CollisionComponent"));
     check(BP && Player && Base && Collision);
+    if(FParse::Param(*Params,TEXT("Checkpoints"))) return CombatCheckpoints::Run(BP,Player,Collision,FParse::Param(*Params,TEXT("VerifyOnly")));
     if(!Params.Contains(TEXT("VerifyOnly")))Apply(BP,Player,Base,Collision);
     check(Compile(BP) && Compile(Collision) && Compile(Player));
     Test(BP,Player,Collision);

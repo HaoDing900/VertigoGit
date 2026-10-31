@@ -608,6 +608,7 @@ void UVTGDialogueHistorySubsystem::SetSkipHeld(bool bHeld)
 {
     if (!bHeld)
     {
+        if (auto* Dialogue = SkipDialogue.Get()) Dialogue->SetBlipFastForward(false);
         bSkipHeld = false;
         SkipComponent.Reset();
         SkipDialogue.Reset();
@@ -622,6 +623,7 @@ void UVTGDialogueHistorySubsystem::SetSkipHeld(bool bHeld)
         SkipComponent = *It;
         SkipDialogue = Dialogue;
         bSkipHeld = true;
+        Dialogue->SetBlipFastForward(true);
         NextSkipTime = FPlatformTime::Seconds() + .35;
         return;
     }

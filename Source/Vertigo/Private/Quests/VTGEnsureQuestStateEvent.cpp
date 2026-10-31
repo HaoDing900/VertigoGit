@@ -1,4 +1,5 @@
 #include "Quests/VTGEnsureQuestStateEvent.h"
+#include "Audio/VTGUIFeedbackLibrary.h"
 #include "NarrativeComponent.h"
 #include "Quest.h"
 #include "QuestSM.h"
@@ -6,6 +7,7 @@
 
 void UVTGEnsureQuestStateEvent::ExecuteEvent_Implementation(APawn*,APlayerController*,UNarrativeComponent* Component)
 {
+    if (Component) UVTGUIFeedbackLibrary::PlayQuestFeedback(Component);
     if(!Component || !Quest || StateID.IsNone())return;
     UQuest* Instance=Component->GetQuestInstance(Quest);
     if(!Instance){Component->BeginQuest(Quest,StateID);return;}

@@ -13,6 +13,8 @@ class VERTIGO_API UVTGSewerEncounterComponent : public UActorComponent
 public:
  UVTGSewerEncounterComponent();
  UFUNCTION(BlueprintCallable,Category="L3 Sewer|Encounter") bool StartBossEncounter();
+ /** Rebuild physical encounter state after save restoration, without replaying story events. */
+ UFUNCTION(BlueprintCallable,Category="L3 Sewer|Encounter") void RestoreEncounterCheckpointScene();
  UFUNCTION(BlueprintPure,Category="L3 Sewer|Eggs") int32 GetMonsterEggKillCount() const;
  UPROPERTY(BlueprintAssignable,Category="L3 Sewer|Eggs") FVTGEggKillCountChanged OnMonsterEggKillCountChanged;
  void RecordPlayerEggKill(AActor* Egg);

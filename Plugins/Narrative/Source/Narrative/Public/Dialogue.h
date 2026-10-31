@@ -6,6 +6,7 @@
 #include "UObject/NoExportTypes.h"
 #include "LevelSequencePlayer.h"
 #include "DialogueSM.h"
+#include "NarrativeBlipLibrary.h"
 #include "MovieSceneSequencePlayer.h"
 #include "Components/SlateWrapperTypes.h"
 #include "Dialogue.generated.h"
@@ -32,6 +33,14 @@ struct FSpeakerInfo
 	//The name of this speaker. 
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Speaker Details")
 	FName SpeakerID;
+
+    /** Audio pool identifier, independent of scene actor/jaw binding. None resolves to BlipNPC. */
+    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category="Speaker Details|Blip")
+    FName BlipTag = NAME_None;
+
+    /** Default preserves the pool's random pitch. High/Low add +3/-3 semitones to blips only, never explicit voice audio. */
+    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category="Speaker Details|Blip", meta=(DisplayName="Voice Pitch"))
+    ENarrativeBlipVoicePitch BlipVoicePitch = ENarrativeBlipVoicePitch::Default;
 
 	/** Actor Tag or Skeletal Mesh Component Tag of the existing scene character (e.g. SaP or SaC, matching montage events). Empty disables jaw binding. */
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Speaker Details|Jaw Movement")
@@ -132,6 +141,11 @@ public:
 	virtual bool Initialize(class UNarrativeComponent* InitializingComp, const FDialoguePlayParams PlayParams);
 	virtual void Deinitialize();
 
+	// Snapshot before dialogue-began callbacks or Blueprint camera events can disable the old camera.
+	void CaptureViewTargetTickState();
+	// A direct dialogue replacement returns to the original gameplay camera, not the outgoing shot.
+	void InheritViewTargetTickState(const UDialogue* Previous);
+
 	virtual void DuplicateAndInitializeFromDialogue(UDialogue* DialogueTemplate);
 
 	//Dialogue assets/nodes etc have the same name on client and server, so can be referenced over the network 
@@ -202,6 +216,19 @@ public:
 
 	void StartJawMovement(UDialogueNode* Node, const FDialogueLine& Line, const FSpeakerInfo& Speaker);
 	void StopJawMovement();
+
+    UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category="Dialogue Blip")
+    TObjectPtr<class UNarrativeBlipLibrary> BlipLibrary;
+    UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, Category="Dialogue Blip")
+    bool bEnableBlips = true;
+    UFUNCTION(BlueprintCallable, Category="Dialogue|Blip") void SetBlipFastForward(bool bEnabled);
+    UFUNCTION(BlueprintCallable, Category="Dialogue|Blip") void StopBlip();
+    void StartBlip(UDialogueNode* Node, const FDialogueLine& Line, const FSpeakerInfo& Speaker);
+    UPROPERTY(Transient) TObjectPtr<class UAudioComponent> BlipAudio;
+    bool bBlipFastForward = false;
+    bool bBlipPaused = false;
+    FTimerHandle BlipSafetyTimer;
+    TMap<FName, TWeakObjectPtr<class USoundBase>> LastBlipSources;
 
 	UPROPERTY(Transient)
 	TWeakObjectPtr<class UNarrativeJawComponent> ActiveJawComponent;
@@ -654,6 +681,10 @@ protected:
 	//We cache the players old view target so we can set the view target back to it after dialogue ends 
 	UPROPERTY()
 	class AActor* OldViewTarget;
+
+	TWeakObjectPtr<AActor> TickStateViewTarget;
+	bool bCapturedViewTargetTick = false;
+	bool bOriginalViewTargetTickEnabled = false;
 
 	UPROPERTY()
 	FTimerHandle TimerHandle_NPCReplyFinished;

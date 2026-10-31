@@ -1,6 +1,6 @@
 # Narrative Jaw Movement 使用指南
 
-这套功能让已接入的角色在 Narrative 台词播放时循环张嘴，并加入随机速度和张嘴幅度。当前支持 Sa Player / Cine、FemaleClient、Bello、Corvos 和 Ulises。它是说话的视觉示意，不做音素口型同步。日常使用只需要配置 Dialogue 和角色 Tag，不需要给每个节点添加 Narrative Event。
+这套功能让已接入的角色在 Narrative 台词播放时循环张嘴，并加入随机速度和张嘴幅度。当前支持 Sa Player / Cine、FemaleClient、Bello、Corvos、Ulises 和 May。它是说话的视觉示意，不做音素口型同步。日常使用只需要配置 Dialogue 和角色 Tag，不需要给每个节点添加 Narrative Event。
 
 ## 1. 需要哪些 BP 和资产
 
@@ -226,3 +226,33 @@ Vertigo.uproject -run=VTGJawMovement -NPC -VerifyOnly -Test -unattended -nullrhi
 这会检查四个已保存的 ABP、动画兼容性，并用实际角色 BP 的原有 Tag 测试嘴部输出、眼部及其他骨骼保持不变、Montage 同播、全局/Node 开关和 Cutscene 切换。四个 ABP 修改前的备份位于 `Scripts/NPCJawMovement/Backup`。不带 `-VerifyOnly` 会应用接线（幂等），日常使用无需运行此命令。
 
 四个 NPC 的保存后复核通过 52 项检查，结果见 [NPC 验证日志](</G:/Epic/Unreal projects/VertigoGit/Scripts/NPCJawMovement/verify.log>)。
+
+## 10. May：短动画的特殊处理
+
+| 项目 | 配置 |
+| --- | --- |
+| Speaking Actor Tag | `May` |
+| 角色 BP | `/Game/Characters/May/BP_May_NPC` |
+| 动画蓝图 | `/Game/Characters/May/ABP_NPC_May` |
+| 原始嘴部动画 | `/Game/Characters/May/Anim/May_Mouth` |
+| 模块实际使用的专用片段 | `/Game/Characters/May/Anim/May_Mouth_Dialogue` |
+
+当前项目中 `BP_May_NPC` 是重定向路径，实际加载的角色资产为 `/Game/Characters/May/BP_Cine_May`。已在这个实际角色 BP 的 Actor 默认 Tags 中补上 `May`。在 Dialogue Defaults 中，将实际发言的 Speaker 的 `Speaking Actor Tag` 填为 `May` 即可，其他全局/Node 开关、标点过滤、随机参数都与其他 NPC 相同。
+
+原始 `May_Mouth` 长度约 **0.033333 秒**，资产上已有 `Rate Scale = 0.2`。它的实际张嘴变化来自区间内部的变换曲线，不能只复制骨骼轨道首尾两个姿势，否则会丢失中间的张嘴过程。
+
+系统保留原始资产，把其中 jaw 的实际姿势（包含该变换曲线的效果）重采样为 `May_Mouth_Dialogue`：**30 fps、9 帧跨度、10 个关键帧、0.3 秒一轮**。它只有 `c_jawbone_x` 轨道、没有外溢到其他骨骼的曲线。相当于按原始时间约 **0.111111 倍速度**播放，再保存为正常速度的专用动画。原始 `May_Mouth` 的 `Rate Scale = 0.2` 未改动，专用片段自身 Rate Scale 为 1；两者不会相乘。
+
+在基础 0.3 秒一轮之上，继续应用 Dialogue 的随机速度 `0.7–1.2`，因此每轮实际约 **0.25–0.429 秒**。张嘴幅度仍在 `0.5–1.0` 之间平滑变化，总说话时长仍由文字和持续倍率决定。
+
+打开 `ABP_NPC_May → AnimGraph`，在最终 Output Pose 前查找 `Narrative Jaw Movement (Jaw Only)` / `VTG Narrative Jaw Only`，即可看到其动画指向 `May_Mouth_Dialogue`。May 的 Cutscene 变量为 `Is Cutscene`，已沿用现有禁用规则。
+
+只读复核 May：
+
+```text
+Vertigo.uproject -run=VTGJawMovement -NPC -MayOnly -VerifyOnly -Test -unattended -nullrhi -nosound -nop4
+```
+
+不加 `-MayOnly` 时，NPC 验证现在也会包含 May。角色 BP 与 ABP 修改前的备份在 `Scripts/NPCJawMovement/Backup`。若以后修改原始 May 嘴部动作，需要重新生成专用片段；它不会自动跟随原始资产变化。
+
+May 单独通过 15 项检查；重新加载保存后的资产，对全部五个 NPC 的 67 项复核也全部通过。日志：`Scripts/MayJawMovement/verify-all-npcs.log`。其中专门验证了 May 在 0.12 秒时仍处于第一个 0.3 秒循环，且最终 jaw 姿势与重定时后的采样相位一致。

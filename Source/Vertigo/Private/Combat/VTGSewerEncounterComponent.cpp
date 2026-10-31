@@ -7,6 +7,10 @@
 #include "Kismet/GameplayStatics.h"
 #include "UObject/StructOnScope.h"
 #include "UObject/UnrealType.h"
+#include "VTGLevelManagerBase.h"
+#include "Save/VTGSaveCoordinator.h"
+#include "Components/SkeletalMeshComponent.h"
+#include "Animation/AnimSequence.h"
 
 namespace SewerEncounter
 {
@@ -56,12 +60,18 @@ void UVTGSewerEncounterComponent::EndPlay(const EEndPlayReason::Type Reason)
 bool UVTGSewerEncounterComponent::StartBossEncounter()
 {
  ResolveBoss();if(!IsValid(Boss) || !Behavior || SewerEncounter::Bool(GetOwner(),SewerEncounter::Defeated) || SewerEncounter::Health(Boss)<=0)return false;
+ if(bEncounterRequested || bCombatActivated)return true;
+ SewerEncounter::Bool(GetOwner(),SewerEncounter::Started,true);
+ if(auto* Manager=Cast<AVTGLevelManagerBase>(GetOwner());Manager && Manager->FindFunction(TEXT("VTG_ResumeSewerBossFight")))
+  if(auto* Player=UGameplayStatics::GetPlayerPawn(this,0))
+   Manager->SaveEncounterCheckpoint(TEXT("SewerBossFightStart"),TEXT("VTG_ResumeSewerBossFight"),Player->GetActorTransform(),100);
  bEncounterRequested=true;SewerEncounter::Bool(GetOwner(),SewerEncounter::Started,true);
  return true;
 }
 void UVTGSewerEncounterComponent::TickComponent(float Dt,ELevelTick Type,FActorComponentTickFunction* Tick)
 {
  Super::TickComponent(Dt,Type,Tick);ResolveBoss();
+ if(auto* GI=GetWorld()->GetGameInstance())if(auto* Save=GI->GetSubsystem<UVTGSaveCoordinator>();Save && Save->HasPendingWorldRestore())return;
  if(!bEncounterRequested || bCombatActivated || !IsValid(Boss) || !Behavior || SewerEncounter::Bool(GetOwner(),SewerEncounter::Defeated))return;
  // The toolkit creates its controller/blackboard during BeginPlay; do not race that initialization.
  if(!IsValid(SewerEncounter::Object(Behavior,TEXT("ControllerRef"))))return;
@@ -72,8 +82,34 @@ void UVTGSewerEncounterComponent::HandleBossDefeated()
 {
  if(SewerEncounter::Bool(GetOwner(),SewerEncounter::Defeated))return;
  SewerEncounter::Bool(GetOwner(),SewerEncounter::Defeated,true);bEncounterRequested=false;
+ if(auto* Manager=Cast<AVTGLevelManagerBase>(GetOwner());Manager && Manager->FindFunction(TEXT("VTG_ResumeAfterSewerBossFight")))
+  Manager->SetEncounterResumeEvent(TEXT("VTG_ResumeAfterSewerBossFight"));
  if(auto* Player=UGameplayStatics::GetPlayerPawn(this,0))if(auto* Presentation=Player->FindComponentByClass<UVTGPlayerPresentationComponent>())Presentation->FinishSewerCombat();
  if(auto* Event=GetOwner()->FindFunction(TEXT("L3_AfterBossIsDefeated")))GetOwner()->ProcessEvent(Event,nullptr);
+}
+void UVTGSewerEncounterComponent::RestoreEncounterCheckpointScene()
+{
+ auto Invoke=[this](FName Name){if(auto* F=GetOwner()->FindFunction(Name))GetOwner()->ProcessEvent(F,nullptr);};
+ ResolveBoss();
+ // OnStageBegin is skipped for encounter loads; retain its authored entrance barrier placement.
+ if(auto* Fence=Cast<AActor>(SewerEncounter::Object(GetOwner(),TEXT("RoundFence"))))Fence->SetActorLocation(FVector(431.340695,12980.735886,-749.559192));
+ Invoke(TEXT("L3_DisableAllISXColiInBossRoom"));
+ if(!SewerEncounter::Bool(GetOwner(),SewerEncounter::Defeated))
+ {
+  if(auto* Manager=Cast<AVTGLevelManagerBase>(GetOwner()))Manager->SetPlayerStoryCombatLock(false);
+  StartBossEncounter();return;
+ }
+ bEncounterRequested=false;
+ if(IsValid(Boss)){Boss->SetCanBeDamaged(false);Boss->SetActorHiddenInGame(true);Boss->SetActorEnableCollision(false);}
+ if(Behavior)Behavior->SetComponentTickEnabled(false);
+ if(auto* Player=UGameplayStatics::GetPlayerPawn(this,0))if(auto* P=Player->FindComponentByClass<UVTGPlayerPresentationComponent>())P->FinishSewerCombat();
+ const bool Opened=SewerEncounter::Bool(GetOwner(),TEXT("L3_CheckpointDoorOpened"));
+ const bool Passed=SewerEncounter::Bool(GetOwner(),TEXT("L3_CheckpointPassedDoor"));
+ if(!Opened)Invoke(TEXT("L3_BossRoom_EnableSwitchColi"));
+ if(auto* Door=Cast<AActor>(SewerEncounter::Object(GetOwner(),TEXT("RoundDoor"))))
+  if(auto* Mesh=Door->FindComponentByClass<USkeletalMeshComponent>())
+   if(auto* Anim=LoadObject<UAnimSequence>(nullptr,Opened && !Passed?TEXT("/Game/EnvArt/Door/RoundVaultDoor1/RoundDoor_anim_open.RoundDoor_anim_open"):TEXT("/Game/EnvArt/Door/RoundVaultDoor1/Anm_RoundDoor_Closed.Anm_RoundDoor_Closed")))
+   {Mesh->PlayAnimation(Anim,false);Mesh->SetPosition(Anim->GetPlayLength(),false);Mesh->Stop();Mesh->TickAnimation(0,false);Mesh->RefreshBoneTransforms();}
 }
 int32 UVTGSewerEncounterComponent::GetMonsterEggKillCount() const
 {auto* P=FindFProperty<FIntProperty>(GetOwner()->GetClass(),SewerEncounter::Count);return P?P->GetPropertyValue_InContainer(GetOwner()):0;}

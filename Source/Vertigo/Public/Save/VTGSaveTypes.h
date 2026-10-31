@@ -80,6 +80,9 @@ struct VERTIGO_API FVTGLevelProgressRecord
  UPROPERTY() TMap<FName, FString> Values;
  UPROPERTY() TMap<FName, FString> Types;
  UPROPERTY() TSet<FName> StartedEvents;
+ /** Parameterless BPLM event that rebuilds the checkpoint scene after all subsystems load. */
+ UPROPERTY() FName EncounterResumeEvent;
+ UPROPERTY() FName EncounterCheckpointId;
 };
 
 /**

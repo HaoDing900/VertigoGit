@@ -4,6 +4,7 @@
 #include "Audio/VTGPlayerAudioComponent.h"
 #include "Components/BoxComponent.h"
 #include "Components/CapsuleComponent.h"
+#include "Components/SkeletalMeshComponent.h"
 #include "Engine/Blueprint.h"
 #include "Engine/Engine.h"
 #include "Engine/World.h"
@@ -48,6 +49,25 @@ bool VTGTestSewerAudio(UBlueprint *BP)
     Expect(Audio->ConcreteSteps.Num() == 6 && Audio->MetalSteps.Num() == 6 && Audio->WaterSteps.Num() == 6 &&
                Audio->WoodSteps.Num() == 6,
            TEXT("24 serialized footstep variants available to cooker"));
+    Expect(Audio->DefaultSteps.Num() == 6 && Audio->BarefootSteps.Num() == 3 && Audio->BarefootMesh,
+           TEXT("six boots cues, three barefoot cues and naked mesh serialized for cooking"));
+    for (int32 I = 0; I < Audio->DefaultSteps.Num(); ++I)
+        Expect(Cast<USoundCue>(Audio->DefaultSteps[I]) &&
+                   Audio->DefaultSteps[I]->GetPathName() ==
+                       FString::Printf(TEXT("/Game/SFX/Footsteps_Volume_02/Cues/Footstep_Boots_%02d_Cue.Footstep_Boots_%02d_Cue"), I + 1, I + 1),
+               TEXT("default footstep references requested Boots 01-06 cue"));
+    const int32 BarefootIndices[] = {1, 5, 6};
+    for (int32 I = 0; I < FMath::Min(Audio->BarefootSteps.Num(), 3); ++I)
+        Expect(Cast<USoundCue>(Audio->BarefootSteps[I]) &&
+                   Audio->BarefootSteps[I]->GetPathName() ==
+                       FString::Printf(TEXT("/Game/SFX/Footsteps_Volume_02/Cues/Footstep_Naked_Feet_Deep_%02d_Cue.Footstep_Naked_Feet_Deep_%02d_Cue"), BarefootIndices[I], BarefootIndices[I]),
+               TEXT("barefoot footstep references only requested Deep 01/05/06 cue"));
+    auto *ClothedMesh = Player->GetMesh()->GetSkeletalMeshAsset();
+    Expect(&Audio->GetOutfitFootsteps() == &Audio->DefaultSteps, TEXT("clothed Sa selects boots"));
+    Player->GetMesh()->SetSkeletalMeshAsset(Audio->BarefootMesh);
+    Expect(&Audio->GetOutfitFootsteps() == &Audio->BarefootSteps, TEXT("naked Sa immediately selects barefoot cues"));
+    Player->GetMesh()->SetSkeletalMeshAsset(ClothedMesh);
+    Expect(&Audio->GetOutfitFootsteps() == &Audio->DefaultSteps, TEXT("changing back immediately restores boots"));
     for (auto *Sound : {Audio->WaterBed.Get(), Audio->PipeBed.Get()})
     {
         auto *Cue = Cast<USoundCue>(Sound);
@@ -69,6 +89,38 @@ bool VTGTestSewerAudio(UBlueprint *BP)
     Set(TEXT("HidePlayerNCam"), false);
     Player->GetCharacterMovement()->SetMovementMode(MOVE_Walking);
     Player->GetCharacterMovement()->Velocity = FVector(150, 0, 0);
+    Expect(Audio->ArmorRunStartSounds.Num() == 3, TEXT("three armor variants serialized for cooking"));
+    for (auto Sound : Audio->ArmorRunStartSounds)
+        Expect(Sound && Sound->GetDuration() > .50f && Sound->GetDuration() < .56f,
+               TEXT("armor segment is a short non-looping one-shot"));
+    for (bool Restricted : {false, true})
+    {
+        Set(TEXT("NoRunning!SlowDownWalk"), Restricted);
+        Set(TEXT("IsSprinting"), false);
+        Player->GetCharacterMovement()->MaxWalkSpeed = Restricted ? 273.f : 250.f;
+        Expect(!Audio->ConsumeArmorRunStart(), TEXT("walking does not trigger armor"));
+        Set(TEXT("IsSprinting"), !Restricted);
+        Player->GetCharacterMovement()->MaxWalkSpeed = Restricted ? 340.f : 479.f;
+        Player->GetCharacterMovement()->Velocity = FVector::ZeroVector;
+        Expect(!Audio->ConsumeArmorRunStart(), TEXT("sprint held while stationary is silent"));
+        Player->GetCharacterMovement()->Velocity = FVector(150, 0, 0);
+        Expect(Audio->ConsumeArmorRunStart(), TEXT("normal/restricted run starts exactly once"));
+        Expect(!Audio->ConsumeArmorRunStart(), TEXT("sustained run does not retrigger"));
+        Player->GetCharacterMovement()->Velocity = FVector::ZeroVector;
+        Audio->ConsumeArmorRunStart();
+        Player->GetMesh()->SetSkeletalMeshAsset(Audio->BarefootMesh);
+        Player->GetCharacterMovement()->Velocity = FVector(150, 0, 0);
+        Expect(!Audio->ConsumeArmorRunStart(), TEXT("naked run starts silently"));
+        Player->GetMesh()->SetSkeletalMeshAsset(ClothedMesh);
+        Expect(!Audio->ConsumeArmorRunStart(), TEXT("outfit swap mid-run does not invent a start"));
+        Player->GetCharacterMovement()->Velocity = FVector::ZeroVector;
+        Audio->ConsumeArmorRunStart();
+        Player->GetCharacterMovement()->Velocity = FVector(150, 0, 0);
+        Expect(Audio->ConsumeArmorRunStart(), TEXT("stopping then restarting permits another jingle"));
+    }
+    Set(TEXT("NoRunning!SlowDownWalk"), false);
+    Set(TEXT("IsSprinting"), false);
+    Audio->ConsumeArmorRunStart();
     Expect(Audio->CanPlayFootstep(), TEXT("normal walking permits animation-timed steps"));
     Player->GetCharacterMovement()->Velocity = FVector::ZeroVector;
     Expect(!Audio->CanPlayFootstep(), TEXT("stationary player does not sound like walking"));

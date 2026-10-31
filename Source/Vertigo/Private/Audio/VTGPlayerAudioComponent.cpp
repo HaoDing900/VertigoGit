@@ -26,7 +26,37 @@ bool Flag(const UObject *O, FName Name)
 UVTGPlayerAudioComponent::UVTGPlayerAudioComponent()
 {
     PrimaryComponentTick.bCanEverTick = true;
-    PrimaryComponentTick.TickInterval = .5f;
+    PrimaryComponentTick.TickInterval = 0;
+    PrimaryComponentTick.TickGroup = TG_PostPhysics;
+}
+bool UVTGPlayerAudioComponent::ConsumeArmorRunStart()
+{
+    const auto *C = Cast<ACharacter>(GetOwner());
+    const bool Running = C && CanPlayFootstep() &&
+        (Flag(C, TEXT("NoRunning!SlowDownWalk"))
+             ? C->GetCharacterMovement()->MaxWalkSpeed > RestrictedRunSpeedThreshold
+             : Flag(C, TEXT("IsSprinting")));
+    const bool Started = Running && !bWasRunning;
+    bWasRunning = Running;
+    // Track running even when naked, so changing clothes mid-run is not another start.
+    return Started && C->GetMesh() && C->GetMesh()->GetSkeletalMeshAsset() && BarefootMesh &&
+           C->GetMesh()->GetSkeletalMeshAsset() != BarefootMesh;
+}
+bool UVTGPlayerAudioComponent::PlayArmorRunStart()
+{
+    auto *C = Cast<ACharacter>(GetOwner());
+    if (!C || !CanPlayFootstep() || !C->GetMesh() || !BarefootMesh ||
+        !C->GetMesh()->GetSkeletalMeshAsset() || C->GetMesh()->GetSkeletalMeshAsset() == BarefootMesh ||
+        ArmorRunStartSounds.IsEmpty() || GetWorld()->GetNetMode() == NM_DedicatedServer)
+        return false;
+    auto *Sound = ArmorRunStartSounds[FMath::RandRange(0, ArmorRunStartSounds.Num() - 1)].Get();
+    if (!Sound)
+        return false;
+    if (IsValid(ArmorAudio))
+        ArmorAudio->Stop();
+    ArmorAudio = UGameplayStatics::SpawnSoundAttached(Sound, C->GetMesh(), NAME_None, FVector::ZeroVector,
+        EAttachLocation::KeepRelativeOffset, true, ArmorVolume, 1.f, 0.f, StepAttenuation, nullptr, true);
+    return IsValid(ArmorAudio);
 }
 bool UVTGPlayerAudioComponent::CanPlayFootstep() const
 {
@@ -36,6 +66,16 @@ bool UVTGPlayerAudioComponent::CanPlayFootstep() const
         return false;
     return !Flag(C, TEXT("IsAttacking")) && !Flag(C, TEXT("IsDodging?")) && !Flag(C, TEXT("IsDead?")) &&
            !Flag(C, TEXT("HidePlayerNCam"));
+}
+const TArray<TObjectPtr<USoundBase>> &UVTGPlayerAudioComponent::GetOutfitFootsteps() const
+{
+    const auto *C = Cast<ACharacter>(GetOwner());
+    // The apartment's IsSaNaked? flag lives on its level manager. Use the actual body mesh so
+    // outfit swaps and restored appearances work in any level without copying that flag.
+    if (C && C->GetMesh() && BarefootMesh && C->GetMesh()->GetSkeletalMeshAsset() == BarefootMesh &&
+        !BarefootSteps.IsEmpty())
+        return BarefootSteps;
+    return DefaultSteps;
 }
 bool UVTGPlayerAudioComponent::PlayFootstep(FName FootBone)
 {
@@ -72,6 +112,9 @@ bool UVTGPlayerAudioComponent::PlayFootstep(FName FootBone)
         Variants = &WoodSteps;
     if (Variants->IsEmpty())
         Variants = &ConcreteSteps;
+    const auto &OutfitSteps = GetOutfitFootsteps();
+    if (!OutfitSteps.IsEmpty())
+        Variants = &OutfitSteps;
     if (Variants->IsEmpty())
         return false;
     int32 Index = FMath::RandRange(0, Variants->Num() - 1);
@@ -122,116 +165,19 @@ int32 UVTGPlayerAudioComponent::ProbeSpace(const FVector &Listener) const
 void UVTGPlayerAudioComponent::TickComponent(float Dt, ELevelTick TickType, FActorComponentTickFunction *Fn)
 {
     Super::TickComponent(Dt, TickType, Fn);
-    auto *C = Cast<ACharacter>(GetOwner());
-    // One listener owns the master reverb. Keep authored AudioVolumes authoritative.
-    const bool Wanted = C && C == UGameplayStatics::GetPlayerPawn(this, 0) && C->IsLocallyControlled() &&
-                        UGameplayStatics::GetCurrentLevelName(this, true) == SewerLevel.ToString();
-    if (!Wanted)
+    if (ConsumeArmorRunStart())
+        PlayArmorRunStart();
+    if (IsValid(ArmorAudio))
     {
-        if (bStarted)
-            StopSewerAudio();
-        return;
+        const auto *OwnerCharacter = Cast<ACharacter>(GetOwner());
+        if (OwnerCharacter && OwnerCharacter->GetMesh()->GetSkeletalMeshAsset() == BarefootMesh)
+            ArmorAudio->Stop();
     }
-    if (!bStarted)
-    {
-        bStarted = true;
-        for (int32 I = 0; I < 2; ++I)
-            if (auto *Audio =
-                    UGameplayStatics::CreateSound2D(this, I == 0 ? WaterBed : PipeBed, 1, 1, 0, nullptr, false, false))
-            {
-                Audio->bIsUISound = false;
-                Beds.Add(Audio);
-                Audio->FadeIn(3, I == 0 ? WaterVolume : PipeVolume);
-            }
-        NextHissTime = GetWorld()->GetTimeSeconds() + FMath::FRandRange(12.f, 22.f);
-    }
-    auto *Camera = UGameplayStatics::GetPlayerCameraManager(this, 0);
-    const FVector Listener = Camera ? Camera->GetCameraLocation() : C->GetPawnViewLocation();
-    FReverbSettings Authored;
-    auto *Volume = GetWorld()->GetAudioSettings(Listener, &Authored, nullptr);
-    if (Volume && Authored.bApplyReverb && (Authored.ReverbEffect || Authored.ReverbPluginEffect))
-    {
-        if (bOwnReverb)
-            UGameplayStatics::DeactivateReverbEffect(this, ReverbTag);
-        bOwnReverb = false;
-        ActiveSpace = -1;
-        PendingSpace = -1;
-        StableSamples = 0;
-    }
-    else
-    {
-        const int32 Space = ProbeSpace(Listener);
-        StableSamples = Space == PendingSpace ? StableSamples + 1 : 1;
-        PendingSpace = Space;
-        if (StableSamples >= 3 && Space != ActiveSpace)
-        {
-            ActiveSpace = Space;
-            auto *Effect = Space == 1   ? PipeReverb.Get()
-                           : Space == 2 ? CorridorReverb.Get()
-                           : Space == 3 ? ChamberReverb.Get()
-                                        : nullptr;
-            if (Effect)
-            {
-                UGameplayStatics::ActivateReverbEffect(this, Effect, ReverbTag, 0,
-                                                       Space == 1   ? PipeWetLevel
-                                                       : Space == 2 ? CorridorWetLevel
-                                                                    : ChamberWetLevel,
-                                                       1.8f);
-                bOwnReverb = true;
-            }
-            else if (bOwnReverb)
-            {
-                UGameplayStatics::DeactivateReverbEffect(this, ReverbTag);
-                bOwnReverb = false;
-            }
-        }
-    }
-    const float Now = GetWorld()->GetTimeSeconds();
-    if (Now >= NextHissTime)
-    {
-        NextHissTime = Now + FMath::FRandRange(18.f, 32.f);
-        // Place occasional pipe noise on a real nearby wall, not on the player's head.
-        const FVector Direction = FRotator(0, FMath::FRandRange(0.f, 360.f), 0).Vector();
-        FHitResult Wall;
-        FCollisionQueryParams Q(SCENE_QUERY_STAT(VTGPipeSound), true, C);
-        if (PipeHiss &&
-            GetWorld()->LineTraceSingleByObjectType(Wall, Listener, Listener + Direction * 1000,
-                                                    FCollisionObjectQueryParams(ECC_WorldStatic), Q) &&
-            Wall.Distance > 150)
-        {
-            if (Hiss)
-                Hiss->Stop();
-            Hiss = UGameplayStatics::SpawnSoundAtLocation(this, PipeHiss, Wall.ImpactPoint + Wall.ImpactNormal * 15,
-                                                          FRotator::ZeroRotator, .12f, FMath::FRandRange(.85f, 1), 0,
-                                                          AmbientAttenuation, nullptr, true);
-        }
-    }
-}
-void UVTGPlayerAudioComponent::StopSewerAudio()
-{
-    for (UAudioComponent *Audio : Beds)
-        if (IsValid(Audio))
-        {
-            Audio->Stop();
-            Audio->DestroyComponent();
-        }
-    Beds.Empty();
-    if (IsValid(Hiss))
-    {
-        Hiss->Stop();
-        Hiss = nullptr;
-    }
-    if (bOwnReverb)
-        UGameplayStatics::DeactivateReverbEffect(this, ReverbTag);
-    bOwnReverb = false;
-    bStarted = false;
-    ActiveSpace = -1;
-    PendingSpace = -1;
-    StableSamples = 0;
 }
 void UVTGPlayerAudioComponent::EndPlay(EEndPlayReason::Type Reason)
 {
-    StopSewerAudio();
+    if (IsValid(ArmorAudio))
+        ArmorAudio->Stop();
     Super::EndPlay(Reason);
 }
 void UVTGFootstepNotify::Notify(USkeletalMeshComponent *Mesh, UAnimSequenceBase *, const FAnimNotifyEventReference &)

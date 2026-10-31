@@ -146,6 +146,10 @@ public:
 	 UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Details - Dialogue Node|Jaw Movement")
 	 bool bEnableJawMovement = true;
 
+     /** Disable blips for silent/internal text. Does not suppress explicit DialogueSound or jaw animation. */
+     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category="Details - Dialogue Node|Blip")
+     bool bEnableBlip = true;
+
 	 //The dialogue line associated with this node
 	 UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Details - Dialogue Node", meta = (ShowOnlyInnerProperties))
 	 FDialogueLine Line;

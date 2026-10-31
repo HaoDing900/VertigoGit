@@ -18,6 +18,10 @@ public:
 
 	UNarrativeDialogueSettings();
 
+    /** Shared fallback library for new dialogues. Dialogue-specific libraries may override it. */
+    UPROPERTY(EditAnywhere, config, Category="Dialogue Blip")
+    TSoftObjectPtr<class UNarrativeBlipLibrary> DefaultBlipLibrary;
+
 	//Optional buffer of silence added to the end of dialogue lines
 	UPROPERTY(EditAnywhere, config, Category = "Dialogue Settings", meta = (ClampMin = 0.01))
 	float DialogueLineAudioSilence; 

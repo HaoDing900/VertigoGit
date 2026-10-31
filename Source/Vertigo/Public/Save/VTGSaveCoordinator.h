@@ -193,6 +193,8 @@ private:
  friend struct FVTGTerminalSaveRegression;
  friend struct FVTGLevelProgressRegression;
  friend struct FVTGL2FightRegression;
+ friend struct FVTGEncounterCheckpointRegression;
+ friend struct FVTGStreetSewerCheckpointRegression;
 
 	static FString SaveSlotName(int32 Slot);
 	static FString ManifestSlotName(int32 Slot);

@@ -200,6 +200,7 @@ UMaterial *Caustics()
 }
 } // namespace VTGPolish
 #include "VTGSewerFXRepair.inl"
+#include "VTGSewerAudioVariations.inl"
 UVTGCombatPolishCommandlet::UVTGCombatPolishCommandlet()
 {
     IsClient = false;
@@ -210,6 +211,8 @@ UVTGCombatPolishCommandlet::UVTGCombatPolishCommandlet()
 int32 UVTGCombatPolishCommandlet::Main(const FString &Params)
 {
     using namespace VTGPolish;
+    if (FParse::Param(*Params, TEXT("AudioVariations")))
+        return VTGSewerAudioVariations::Run(FParse::Param(*Params, TEXT("VerifyOnly")));
     if(Params.Contains(TEXT("SewerFX")))return VTGSewerFX::Repair(Params.Contains(TEXT("VerifyOnly")),Params.Contains(TEXT("Test")));
     FString PreviewFile;
     if (FParse::Value(*Params, TEXT("Preview="), PreviewFile))

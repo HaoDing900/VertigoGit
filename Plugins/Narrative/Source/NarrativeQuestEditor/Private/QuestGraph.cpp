@@ -152,7 +152,7 @@ void UQuestGraph::NodeAdded(UEdGraphNode* AddedNode)
 			{
 				UQuestState* RootNode = MakeState(RootGraphNode, Quest);
 				RootNode->SetID(FName("QuestStart"));
-				RootNode->Description = FText::FromString("This is the start of my Quest.");
+				RootNode->Description = FText::GetEmpty();
 				Quest->SetQuestStartState(RootNode);
 				RootGraphNode->State = RootNode;
 			}
@@ -212,6 +212,7 @@ UQuestState* UQuestGraph::MakeState(UQuestGraphNode_State* Node, UQuest* Quest)
 	}
 
 	UQuestState* State = NewObject<UQuestState>(Quest, StateClass);
+	State->Description = FText::GetEmpty();
 
 	Node->QuestNode = State;
 
@@ -242,6 +243,7 @@ UQuestBranch* UQuestGraph::MakeBranch(UQuestGraphNode_Action* Node, UQuest* Ques
 	}
 
 	UQuestBranch* Branch = NewObject<UQuestBranch>(Quest, BranchClass);
+	Branch->Description = FText::GetEmpty();
 
 	Node->QuestNode = Branch;
 

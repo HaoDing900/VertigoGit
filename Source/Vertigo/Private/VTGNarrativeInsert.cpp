@@ -1,9 +1,11 @@
 #include "VTGNarrativeInsert.h"
+#include "VTGClinicFix.h"
 #include "Animation/AnimInstance.h"
 #include "Animation/AnimMontage.h"
 #include "Components/SkeletalMeshComponent.h"
 #include "GameFramework/Character.h"
 #include "Kismet/GameplayStatics.h"
+#include "UObject/StructOnScope.h"
 
 namespace
 {
@@ -20,6 +22,13 @@ void RefreshPose(ACharacter* Character)
     auto* Mesh = Character->GetMesh();
     Mesh->TickAnimation(0.f, false);
     Mesh->RefreshBoneTransforms();
+}
+void TrackPlayer(UObject* Context,ACharacter* Character,UAnimMontage* Montage)
+{
+    if(!Character || !Character->IsA(LoadClass<ACharacter>(nullptr,TEXT("/Game/ThirdPerson/Blueprints/BP_Player_Sa.BP_Player_Sa_C"))))return;
+    auto* Cleanup=Character->FindComponentByClass<UVTGNarrativeMontageCleanup>();
+    if(!Cleanup){Cleanup=NewObject<UVTGNarrativeMontageCleanup>(Character);Character->AddInstanceComponent(Cleanup);Cleanup->RegisterComponent();}
+    Cleanup->Track(Context,Character->GetMesh()->GetAnimInstance(),Montage);
 }
 }
 
@@ -77,6 +86,7 @@ void UVTGNarrativeInsertState::Finish(bool Restore)
             for (int32 I=0; I<BaseNextSections.Num(); ++I)
                 Anim->Montage_SetNextSection(Base->GetSectionName(I), BaseNextSections[I] == INDEX_NONE ? NAME_None : Base->GetSectionName(BaseNextSections[I]), Base);
             if (!BasePlaying) Anim->Montage_Pause(Base);
+            if(auto* Cleanup=Character->FindComponentByClass<UVTGNarrativeMontageCleanup>())Cleanup->TrackRestored(Anim,Base);
         }
     }
     Base = nullptr;
@@ -111,14 +121,19 @@ void UVTGNarrativeInsertLibrary::PlayNarrativeInsert(UObject* WorldContextObject
                 Character->AddInstanceComponent(State);
                 State->RegisterComponent();
             }
-            State->Play(Character, InterruptMontage, Instant);
+            if(State->Play(Character, InterruptMontage, Instant))TrackPlayer(WorldContextObject,Character,InterruptMontage);
         }
 }
 
-float UVTGNarrativeInsertLibrary::PlayNarrativeMontage(ACharacter* Character, UAnimMontage* AnimMontage, float InPlayRate, FName StartSectionName, bool Instant)
+float UVTGNarrativeInsertLibrary::PlayNarrativeMontage(ACharacter* Character, UAnimMontage* AnimMontage, float InPlayRate, FName StartSectionName, bool Instant, UObject* WorldContextObject)
 {
     if (!IsValid(Character)) return 0.f;
-    if (!Instant) return Character->PlayAnimMontage(AnimMontage, InPlayRate, StartSectionName);
+    if (!Instant)
+    {
+        const float Result=Character->PlayAnimMontage(AnimMontage, InPlayRate, StartSectionName);
+        if(Result>0.f)TrackPlayer(WorldContextObject,Character,AnimMontage);
+        return Result;
+    }
     auto* Anim = Character->GetMesh() ? Character->GetMesh()->GetAnimInstance() : nullptr;
     if (!Anim || !AnimMontage) return 0.f;
     const float Result = PlayClip(Anim, AnimMontage, InPlayRate, true);
@@ -126,6 +141,21 @@ float UVTGNarrativeInsertLibrary::PlayNarrativeMontage(ACharacter* Character, UA
     {
         if (!StartSectionName.IsNone()) Anim->Montage_JumpToSection(StartSectionName, AnimMontage);
         RefreshPose(Character);
+        TrackPlayer(WorldContextObject,Character,AnimMontage);
     }
     return Result;
+}
+
+void UVTGNarrativeInsertLibrary::RefreshNarrativePose(ACharacter* Character)
+{
+    if(!Character || !Character->GetMesh())return;
+    auto* Anim=Character->GetMesh()->GetAnimInstance();if(!Anim)return;
+    // The yard's authored graph clears this flag after the idle setter. Do it before evaluating
+    // the new pose as well, otherwise the refresh still evaluates the outgoing cinematic branch.
+    if(auto* Function=Anim->FindFunction(TEXT("SetIsCutscene")))
+    {
+        FStructOnScope Args(Function);
+        Anim->ProcessEvent(Function,Args.GetStructMemory());
+    }
+    RefreshPose(Character);
 }

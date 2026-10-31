@@ -75,12 +75,36 @@ public:
  void CaptureLevelProgress(FVTGLevelProgressRecord& Record) const;
  void RestoreLevelProgress(const FVTGLevelProgressRecord& Record);
 
+ /** Exclude temporary Blueprint values from automatic progress snapshots. Object references are always excluded. */
+ UPROPERTY(EditDefaultsOnly, Category="Save|Progress")
+ TSet<FName> ExcludedProgressVariables;
+
+ /** Call after pre-fight dialogue, before enabling enemies. ResumeEvent must be a parameterless event on this BPLM. */
+ UFUNCTION(BlueprintCallable, Category="Save|Combat")
+ bool SaveEncounterCheckpoint(FName CheckpointId, FName ResumeEvent, const FTransform& RespawnTransform, int32 Order = 0);
+
+ /** Change the rebuild entry used by subsequent manual/automatic saves; does not overwrite the pre-fight autosave. */
+ UFUNCTION(BlueprintCallable, Category="Save|Combat")
+ bool SetEncounterResumeEvent(FName ResumeEvent);
+
+ UFUNCTION(BlueprintPure, Category="Save|Combat")
+ bool IsResumingEncounter() const { return bDispatchingEncounterResume; }
+
+ /** Called once after player, Narrative and inventory restoration. Also available for isolated verification. */
+ void ResumeSavedEncounter();
+
 private:
  bool bProgressRestored = false;
  TSet<FName> StartedStoryEvents;
  TSet<FName> RestoredStoryEvents;
+ FName EncounterResumeEvent;
+ FName EncounterCheckpointId;
+ bool bEncounterResumePending = false;
+ bool bDispatchingEncounterResume = false;
+ UFUNCTION() void HandleEncounterSlotLoaded(int32 Slot);
 
 protected:
 
 	virtual void BeginPlay() override;
+ virtual void EndPlay(const EEndPlayReason::Type Reason) override;
 };

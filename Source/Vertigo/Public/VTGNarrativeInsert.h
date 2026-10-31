@@ -14,6 +14,7 @@ class VERTIGO_API UVTGNarrativeInsertState : public UActorComponent
     GENERATED_BODY()
 public:
     bool Play(ACharacter* Character, UAnimMontage* Clip, bool Instant = false);
+    void CancelRestoration() { Finish(false); }
     virtual void EndPlay(const EEndPlayReason::Type Reason) override;
 private:
     UPROPERTY(Transient) TObjectPtr<UAnimInstance> Anim;
@@ -37,6 +38,9 @@ public:
     static void PlayNarrativeInsert(UObject* WorldContextObject, FName TargetIdentity, UAnimMontage* InterruptMontage, bool Instant = false);
 
     /** Per-call hard cut into a montage; leaves the montage asset and other slot groups unchanged. */
+    UFUNCTION(BlueprintCallable, Category="Narrative|Animation", meta=(WorldContext="WorldContextObject"))
+    static float PlayNarrativeMontage(ACharacter* Character, UAnimMontage* AnimMontage, float InPlayRate = 1.f, FName StartSectionName = NAME_None, bool Instant = false, UObject* WorldContextObject = nullptr);
+
     UFUNCTION(BlueprintCallable, Category="Narrative|Animation")
-    static float PlayNarrativeMontage(ACharacter* Character, UAnimMontage* AnimMontage, float InPlayRate = 1.f, FName StartSectionName = NAME_None, bool Instant = false);
+    static void RefreshNarrativePose(ACharacter* Character);
 };
