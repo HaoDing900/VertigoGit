@@ -87,13 +87,34 @@ void UVTGActionHUD::ShowRecovery(float Fraction,float Opacity)
  RecoveryBar->SetPercent(FMath::Clamp(Fraction,0.f,1.f));RecoveryBox->SetRenderOpacity(Opacity);
  RecoveryBox->SetVisibility(Opacity>0?ESlateVisibility::HitTestInvisible:ESlateVisibility::Collapsed);
 }
+UAnimMontage* UVTGActionHUD::ResolveRecoveryMontage(APawn* Pawn) const
+{
+ if(!Pawn)return nullptr;
+ auto* Weapon=FindFProperty<FByteProperty>(Pawn->GetClass(),TEXT("CurrentMeleeWeapon"));
+ const uint8 Equipped=Weapon?Weapon->GetPropertyValue_InContainer(Pawn):0;
+ if(!Equipped)return RecoveryMontage.LoadSynchronous();
+ if(!Weapon->Enum || Weapon->Enum->GetDisplayNameTextByValue(Equipped).ToString()!=TEXT("SmolHammer"))return nullptr;
+ auto* MapProperty=FindFProperty<FMapProperty>(Pawn->GetClass(),TEXT("WeaponDataMap"));
+ auto* Data=MapProperty?CastField<FStructProperty>(MapProperty->ValueProp):nullptr;
+ auto* Key=MapProperty?CastField<FNumericProperty>(MapProperty->KeyProp):nullptr;
+ if(!Data || !Key)return nullptr;
+ FScriptMapHelper Map(MapProperty,MapProperty->ContainerPtrToValuePtr<void>(Pawn));
+ for(int32 I=0;I<Map.GetMaxIndex();++I)if(Map.IsValidIndex(I) && Key->GetUnsignedIntPropertyValue(Map.GetKeyPtr(I))==Equipped)
+  for(TFieldIterator<FArrayProperty> It(Data->Struct);It;++It)if(It->GetName().StartsWith(TEXT("ComboMontages")))
+  {
+   auto* Object=CastField<FObjectPropertyBase>(It->Inner);if(!Object)return nullptr;
+   FScriptArrayHelper Combo(*It,It->ContainerPtrToValuePtr<void>(Map.GetValuePtr(I)));
+   return Combo.Num()?Cast<UAnimMontage>(Object->GetObjectPropertyValue(Combo.GetRawPtr(Combo.Num()-1))):nullptr;
+  }
+ return nullptr;
+}
 void UVTGActionHUD::RecoveryBlendingOut(UAnimMontage* Montage,bool Interrupted)
 {
- if(Montage==RecoveryMontage.Get() && Interrupted){if(auto* Anim=RecoveryAnim.Get())if(auto* Active=Anim->GetActiveInstanceForMontage(Montage);Active && Active->IsActive())return;bInterrupted=true;bPendingReady=false;ReadyFlash=0;ShowRecovery(0,0);}
+ if(Montage==TrackedRecoveryMontage && Interrupted){if(auto* Anim=RecoveryAnim.Get())if(auto* Active=Anim->GetActiveInstanceForMontage(Montage);Active && Active->IsActive())return;bInterrupted=true;bPendingReady=false;ReadyFlash=0;ShowRecovery(0,0);}
 }
 void UVTGActionHUD::RecoveryEnded(UAnimMontage* Montage,bool Interrupted)
 {
- if(Montage==RecoveryMontage.Get()){if(auto* Anim=RecoveryAnim.Get())if(auto* Active=Anim->GetActiveInstanceForMontage(Montage);Active && Active->IsActive())return;bPendingReady=bRecovering && !Interrupted && !bInterrupted;bRecovering=false;}
+ if(Montage==TrackedRecoveryMontage){if(auto* Anim=RecoveryAnim.Get())if(auto* Active=Anim->GetActiveInstanceForMontage(Montage);Active && Active->IsActive())return;bPendingReady=bRecovering && !Interrupted && !bInterrupted;bRecovering=false;}
 }
 void UVTGActionHUD::RefreshRecovery(APawn* Pawn,float Dt)
 {
@@ -102,12 +123,12 @@ void UVTGActionHUD::RefreshRecovery(APawn* Pawn,float Dt)
  if(RecoveryAnim.Get()!=Anim)
  {
   if(auto* Old=RecoveryAnim.Get()){Old->OnMontageEnded.RemoveDynamic(this,&ThisClass::RecoveryEnded);Old->OnMontageBlendingOut.RemoveDynamic(this,&ThisClass::RecoveryBlendingOut);}
-  RecoveryAnim=Anim;RecoveryInstanceID=INDEX_NONE;bRecovering=false;bPendingReady=false;ReadyFlash=0;
+  RecoveryAnim=Anim;TrackedRecoveryMontage=nullptr;RecoveryInstanceID=INDEX_NONE;bRecovering=false;bPendingReady=false;ReadyFlash=0;
   if(Anim){Anim->OnMontageEnded.AddUniqueDynamic(this,&ThisClass::RecoveryEnded);Anim->OnMontageBlendingOut.AddUniqueDynamic(this,&ThisClass::RecoveryBlendingOut);}
  }
  const bool Hidden=Health<=0 || !Character || !Anim || !Flag(TEXT("InCombat")) || Flag(TEXT("IsDead?")) || Flag(TEXT("HidePlayerNCam")) || Flag(TEXT("IsInCineCutscene_LockInput(NotWorkForMont)")) || Flag(TEXT("IsDodging?")) || Flag(TEXT("HasWeaponInHand"));
  if(Hidden){bRecovering=false;bPendingReady=false;ReadyFlash=0;ShowRecovery(0,0);return;}
- auto* Montage=RecoveryMontage.LoadSynchronous();if(!Montage){bRecovering=false;bPendingReady=false;ReadyFlash=0;ShowRecovery(0,0);return;}auto* Instance=Anim->GetActiveInstanceForMontage(Montage);
+ auto* Montage=ResolveRecoveryMontage(Pawn);if(TrackedRecoveryMontage!=Montage){TrackedRecoveryMontage=Montage;RecoveryInstanceID=INDEX_NONE;bRecovering=false;bPendingReady=false;ReadyFlash=0;}if(!Montage){bRecovering=false;bPendingReady=false;ReadyFlash=0;ShowRecovery(0,0);return;}auto* Instance=Anim->GetActiveInstanceForMontage(Montage);
  if(Instance && Instance->GetInstanceID()!=RecoveryInstanceID)
  {
   RecoveryInstanceID=Instance->GetInstanceID();bInterrupted=false;bPendingReady=false;ReadyFlash=0;RecoveryStart=0;

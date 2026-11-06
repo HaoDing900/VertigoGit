@@ -66,5 +66,7 @@ public:
     UFUNCTION(BlueprintPure, Category="Dialogue|Blip") static bool HasSpokenText(const FText& Text);
     /** Call after starting an event/story audio component. Stops existing blips and suppresses new ones while it plays. */
     UFUNCTION(BlueprintCallable, Category="Dialogue|Blip") static void RegisterPriorityAudio(UAudioComponent* Audio);
+    /** Release only this source's blip suppression, without stopping its audio tail. */
+    static void UnregisterPriorityAudio(UAudioComponent* Audio);
     static bool HasPriorityAudio(const UWorld* World);
 };

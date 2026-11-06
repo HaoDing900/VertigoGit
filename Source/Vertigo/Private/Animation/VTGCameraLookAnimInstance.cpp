@@ -6,6 +6,7 @@
 #include "GameFramework/Pawn.h"
 #include "GameFramework/PlayerController.h"
 #include "UObject/UnrealType.h"
+#include "Combat/VTGFistWindComponent.h"
 
 namespace
 {
@@ -38,6 +39,7 @@ void UVTGCameraLookAnimInstance::NativeInitializeAnimation()
     Super::NativeInitializeAnimation();
     SmoothedLook = CameraNeckOffset = CameraHeadOffset = FRotator::ZeroRotator;
     HammerSpineAlpha = 0.f;
+    PunchDownAlpha=0.f;PunchDownRotation=FRotator::ZeroRotator;
     HammerSpineRotation = FRotator(0,0,HammerSpineXDegrees);
 }
 FRotator UVTGCameraLookAnimInstance::ClampCameraLook(const FQuat &Body, const FRotator &View, float YawLimit,
@@ -63,6 +65,18 @@ void UVTGCameraLookAnimInstance::NativeUpdateAnimation(float Dt)
         !CameraLookFlag(Pawn,TEXT("IsDead?")) && !CameraLookFlag(Pawn,TEXT("HidePlayerNCam")) &&
         !CameraLookFlag(Pawn,TEXT("IsInCineCutscene_LockInput(NotWorkForMont)")) &&
         !CameraLookFlag(this,TEXT("IsCutscene")) ? 1.f : 0.f;
+    bool Punching=false;
+    if(Pawn && Mesh && HammerSpineAlpha>0 && CameraLookFlag(Pawn,TEXT("IsAttacking")) && !CameraLookFlag(Pawn,TEXT("HasWeaponInHand")))
+        if(auto* Weapon=FindFProperty<FByteProperty>(Pawn->GetClass(),TEXT("CurrentMeleeWeapon"));Weapon && Weapon->GetPropertyValue_InContainer(Pawn)==0)
+            if(auto* Fist=Pawn->FindComponentByClass<UVTGFistWindComponent>())
+                if(auto* Active=GetCurrentActiveMontage())Punching=Fist->PunchMontages.Contains(Active) && Montage_IsPlaying(Active);
+    PunchDownAlpha=HammerSpineAlpha>0?FMath::FInterpTo(PunchDownAlpha,Punching?1.f:0.f,FMath::Max(0.f,Dt),20.f):0.f;
+    if(Pawn && Mesh)
+    {
+        const FQuat BodyInMesh=Mesh->GetComponentQuat().Inverse()*Pawn->GetActorQuat();
+        PunchDownRotation=(BodyInMesh*FRotator(-PunchDownDegrees,0,0).Quaternion()*BodyInMesh.Inverse()).Rotator();
+    }
+    else PunchDownRotation=FRotator::ZeroRotator;
     auto *PC = Pawn ? Cast<APlayerController>(Pawn->GetController()) : nullptr;
     FRotator Desired = FRotator::ZeroRotator;
     const bool Allowed = bCameraLookEnabled && Pawn && Mesh && PC && PC->IsLocalController() &&

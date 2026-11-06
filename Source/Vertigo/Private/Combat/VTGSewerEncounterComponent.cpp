@@ -1,4 +1,7 @@
 #include "Combat/VTGSewerEncounterComponent.h"
+#include "UI/VTGBossHealthBarComponent.h"
+#include "NarrativeComponent.h"
+#include "Dialogue.h"
 #include "Combat/VTGCombatPresentation.h"
 #include "Engine/World.h"
 #include "EngineUtils.h"
@@ -54,19 +57,36 @@ void UVTGSewerEncounterComponent::BeginPlay()
 }
 void UVTGSewerEncounterComponent::EndPlay(const EEndPlayReason::Type Reason)
 {
+ if(IntroNarrative.IsValid())IntroNarrative->OnDialogueFinished.RemoveDynamic(this,&UVTGSewerEncounterComponent::OnBossIntroFinished);
  if(IsValid(Behavior)){FScriptDelegate D;D.BindUFunction(this,TEXT("HandleBossDefeated"));if(auto* P=FindFProperty<FMulticastDelegateProperty>(Behavior->GetClass(),TEXT("OnBossDeath")))P->RemoveDelegate(D,Behavior,P->ContainerPtrToValuePtr<void>(Behavior));}
  Super::EndPlay(Reason);
 }
-bool UVTGSewerEncounterComponent::StartBossEncounter()
+bool UVTGSewerEncounterComponent::StartBossEncounter(bool bWaitForIntroDialogue)
 {
  ResolveBoss();if(!IsValid(Boss) || !Behavior || SewerEncounter::Bool(GetOwner(),SewerEncounter::Defeated) || SewerEncounter::Health(Boss)<=0)return false;
  if(bEncounterRequested || bCombatActivated)return true;
+ if(bWaitForIntroDialogue)if(auto* HUD=Boss->FindComponentByClass<UVTGBossHealthBarComponent>())HUD->SetPresentationAllowed(false);
  SewerEncounter::Bool(GetOwner(),SewerEncounter::Started,true);
  if(auto* Manager=Cast<AVTGLevelManagerBase>(GetOwner());Manager && Manager->FindFunction(TEXT("VTG_ResumeSewerBossFight")))
   if(auto* Player=UGameplayStatics::GetPlayerPawn(this,0))
    Manager->SaveEncounterCheckpoint(TEXT("SewerBossFightStart"),TEXT("VTG_ResumeSewerBossFight"),Player->GetActorTransform(),100);
  bEncounterRequested=true;SewerEncounter::Bool(GetOwner(),SewerEncounter::Started,true);
  return true;
+}
+void UVTGSewerEncounterComponent::WaitForBossIntroDialogue(UNarrativeComponent* Narrative,bool bDialogueStarted)
+{
+ if(IntroNarrative.IsValid())IntroNarrative->OnDialogueFinished.RemoveDynamic(this,&UVTGSewerEncounterComponent::OnBossIntroFinished);
+ IntroNarrative=Narrative;IntroDialogue=bDialogueStarted && Narrative?Narrative->GetCurrentDialogue():nullptr;
+ if(!IntroDialogue.IsValid()){ReleaseBossHealthBar();return;}
+ Narrative->OnDialogueFinished.AddUniqueDynamic(this,&UVTGSewerEncounterComponent::OnBossIntroFinished);
+}
+void UVTGSewerEncounterComponent::OnBossIntroFinished(UDialogue* Dialogue,bool)
+{if(Dialogue && Dialogue==IntroDialogue.Get())ReleaseBossHealthBar();}
+void UVTGSewerEncounterComponent::ReleaseBossHealthBar()
+{
+ if(IntroNarrative.IsValid())IntroNarrative->OnDialogueFinished.RemoveDynamic(this,&UVTGSewerEncounterComponent::OnBossIntroFinished);
+ IntroNarrative.Reset();IntroDialogue.Reset();
+ if(IsValid(Boss))if(auto* HUD=Boss->FindComponentByClass<UVTGBossHealthBarComponent>())HUD->SetPresentationAllowed(true);
 }
 void UVTGSewerEncounterComponent::TickComponent(float Dt,ELevelTick Type,FActorComponentTickFunction* Tick)
 {

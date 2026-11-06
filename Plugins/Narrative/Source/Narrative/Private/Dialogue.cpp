@@ -179,6 +179,8 @@ void UDialogue::Deinitialize()
 	}
 
 	bDeinitialized = true;
+    bResponseTransitionPending = false;
+    ++ResponseTransitionToken;
     StopBlip();
 
 	OnEndDialogue();
@@ -396,6 +398,7 @@ bool UDialogue::SkipCurrentLine()
 
 bool UDialogue::CanSkipCurrentLine() const
 {
+    if (bResponseTransitionPending) return false;
     if (bWaitingForPlayerResponse || (GetWorld() && GetWorld()->IsPaused())) return false;
 	if (OwningComp)
 	{
@@ -418,8 +421,8 @@ void UDialogue::SetDialogueAudioPaused(bool bPaused)
 
 void UDialogue::SetAutoAdvance(bool bEnabled)
 {
-    bAutoAdvance = bEnabled;
-    if (bEnabled && bWaitingForManualAdvance && GetWorld())
+    bAutoAdvance = bEnabled || bAlwaysAutoAdvance;
+    if (bAutoAdvance && bWaitingForManualAdvance && GetWorld())
     {
         // Defer to avoid advancing from inside a presentation delegate or a UI callback.
         GetWorld()->GetTimerManager().SetTimerForNextTick(FTimerDelegate::CreateWeakLambda(this, [this]()
@@ -432,6 +435,7 @@ void UDialogue::SetAutoAdvance(bool bEnabled)
 
 void UDialogue::EndCurrentLine()
 {
+    if (bResponseTransitionPending) return;
 	StopJawMovement();
     bExplicitLineAdvance = true;
 	if (CurrentNode)
@@ -472,7 +476,22 @@ void UDialogue::EndCurrentLine()
 
 bool UDialogue::CanSelectDialogueOption(UDialogueNode_Player* PlayerNode) const
 {
-	return IsValid(PlayerNode) && AvailableResponses.Contains(PlayerNode);
+	return !bResponseTransitionPending && IsValid(PlayerNode) && AvailableResponses.Contains(PlayerNode);
+}
+
+uint32 UDialogue::BeginResponseTransition(UDialogueNode_Player* Option)
+{
+    if (bDeinitialized || !bWaitingForPlayerResponse || !CanSelectDialogueOption(Option) || !GetWorld() || GetWorld()->IsPaused()) return 0;
+    bResponseTransitionPending = true;
+    if (++ResponseTransitionToken == 0) ++ResponseTransitionToken;
+    return ResponseTransitionToken;
+}
+
+bool UDialogue::EndResponseTransition(uint32 Token)
+{
+    if (!OwnsResponseTransition(Token)) return false;
+    bResponseTransitionPending = false;
+    return true;
 }
 
 bool UDialogue::SelectDialogueOption(UDialogueNode_Player* Option)
@@ -1393,7 +1412,7 @@ void UDialogue::FinishNPCDialogue()
 {
     const bool bManualRequest = bExplicitLineAdvance;
     bExplicitLineAdvance = false;
-    if (!bAutoAdvance && !bManualRequest && CurrentNode && CurrentNode->bIsSkippable && !CurrentNode->IsRoutingNode())
+    if (!bAlwaysAutoAdvance && !bAutoAdvance && !bManualRequest && CurrentNode && CurrentNode->bIsSkippable && !CurrentNode->IsRoutingNode())
     {
         bWaitingForManualAdvance = true;
         return;
@@ -2025,6 +2044,8 @@ void UDialogue::PlayDialogueSequence(class UNarrativeDialogueSequence* Sequence,
 			//passing CreateLevelSequencePlayer null asset makes it fail so we need to set it afterwards
 			if (DialogueSequencePlayer)
 			{
+				// Dialogue camera shots are part of this dialogue, not external cutscene entrances.
+				DialogueSequencePlayer->Tags.AddUnique(TEXT("Narrative.DialogueShot"));
 				DialogueSequencePlayer->SetSequence(nullptr);
 			}
 		}

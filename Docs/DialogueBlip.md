@@ -50,7 +50,7 @@ Blip 使用对话实例持有的独立 2D 音频组件；不写入 DialogueSound
 
 **自定义剧情事件**如果直接用其它音频组件播放，需要在开始播放后调用 **Register Priority Audio(AudioComponent)**。原 `PlaySound2D` 没有返回组件，需使用 `SpawnSound2D` 并传入返回值。系统不会监听引擎所有声音，也不会自动修改任意自定义事件。
 
-Max Blip Seconds 当前为 3 秒，仅是误填长音效的保护上限，不是台词时长。只有 Blip 最终输出音量额外乘以 0.3；配音 override、Quest、互动与剧情音效不受此系数影响。
+Max Blip Seconds 当前为 3 秒，仅是误填长音效的保护上限，不是台词时长。只有 Blip 最终输出音量额外乘以 0.4；配音 override、Quest、互动与剧情音效不受此系数影响。
 
 ## 实现与验证
 
@@ -69,6 +69,6 @@ Max Blip Seconds 当前为 3 秒，仅是误填长音效的保护上限，不是
 
 默认池及未填／未知 Tag 的回退标识现为 **BlipNPC**。现有 Speaker 的独立 BlipTag 若为 NPC，已迁移至 BlipNPC；没有修改场景 Actor Tags，也没有重命名 Sa 或其他专属池。
 
-Blip 播放器在最后输出时将池内随机音量乘以 **0.3**，默认池最终为 0.27–0.30。源 WAV、SoundWave 音量和池的随机范围保持不变。
+Blip 播放器在最后输出时将池内随机音量乘以 **0.4**，默认池最终为 0.36–0.40。源 WAV、SoundWave 音量和池的随机范围保持不变。
 
 三条 WAV 长约 0.946 / 2.222 / 0.712 秒。3 秒保护上限为第二条及其降调播放留出余量；下一句或高优先级声音仍可按既定规则提前中断。

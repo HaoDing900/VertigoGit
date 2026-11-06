@@ -82,7 +82,7 @@ void AudioManager(bool Verify)
     if(!Verify)Save(BP);
     UE_LOG(LogTemp,Display,TEXT("BLIP PASS: event OneShot / Psych channels registered; music / ambience untouched"));
 }
-void SpeakerProfiles(bool Verify, bool Inspect)
+void SpeakerProfiles(bool Verify, bool Inspect, bool CorvosOnly=false)
 {
     auto* Library=LoadObject<UNarrativeBlipLibrary>(nullptr,LibraryPath);check(Library);
     auto ProfileBackup=[](UObject* Object)
@@ -93,9 +93,10 @@ void SpeakerProfiles(bool Verify, bool Inspect)
         IFileManager::Get().MakeDirectory(*FPaths::GetPath(Target),true);
         if(!IFileManager::Get().FileExists(*Target))check(IFileManager::Get().Copy(*Target,*File)==COPY_OK);
     };
-    if(!Verify && !Inspect)ProfileBackup(Library);
+    if(!CorvosOnly && !Verify && !Inspect)ProfileBackup(Library);
     for(const TCHAR* PoolName:{TEXT("IPHAP"),TEXT("Mono"),TEXT("Sa")})
     {
+        if(CorvosOnly)continue;
         const FString Prefix=FString(PoolName)==TEXT("IPHAP")?TEXT("IPHA"):PoolName;
         TArray<TObjectPtr<USoundBase>> Sources;
         for(int32 I=1;I<=3;++I)
@@ -108,14 +109,19 @@ void SpeakerProfiles(bool Verify, bool Inspect)
         if(!Verify)Library->BlipPools.FindOrAdd(PoolName).Sources=Sources;
         const auto* Pool=Library->BlipPools.Find(PoolName);check(Pool && Pool->Sources==Sources);
     }
-    if(!Verify && !Inspect)Save(Library);
-    const TMap<FName,FName> Tags={
+    if(!CorvosOnly && !Verify && !Inspect)Save(Library);
+    TMap<FName,FName> Tags={
         {TEXT("ID_Thought"),TEXT("Mono")},{TEXT("ID_Mail"),TEXT("Mono")},{TEXT("ID_Monologue"),TEXT("Mono")},
         {TEXT("IPHA-Drone"),TEXT("IPHAP")},{TEXT("IPHA-Drone???"),TEXT("IPHAP")},{TEXT("IPHA-Projection"),TEXT("IPHAP")}};
-    const TMap<FName,ENarrativeBlipVoicePitch> Pitches={
+    TMap<FName,ENarrativeBlipVoicePitch> Pitches={
         {TEXT("Bello"),ENarrativeBlipVoicePitch::High},{TEXT("May"),ENarrativeBlipVoicePitch::High},{TEXT("Fell"),ENarrativeBlipVoicePitch::Low}};
+    if(CorvosOnly)
+    {
+        Tags.Empty();Pitches.Empty();
+        Pitches.Add(TEXT("Corvos"),ENarrativeBlipVoicePitch::Low);
+    }
     auto& Registry=FModuleManager::LoadModuleChecked<FAssetRegistryModule>(TEXT("AssetRegistry")).Get();Registry.SearchAllAssets(true);
-    FARFilter Filter;Filter.PackagePaths.Add(TEXT("/Game/Narrative/Dialogues/Levels"));Filter.bRecursivePaths=true;
+    FARFilter Filter;Filter.PackagePaths.Add(CorvosOnly?TEXT("/Game"):TEXT("/Game/Narrative/Dialogues/Levels"));Filter.bRecursivePaths=true;
     Filter.ClassPaths.Add(UDialogueBlueprint::StaticClass()->GetClassPathName());Filter.bRecursiveClasses=true;
     TArray<FAssetData> Assets;Registry.GetAssets(Filter,Assets);
     TMap<FName,int32> Matches;int32 ChangedAssets=0,Total=0;
@@ -224,9 +230,9 @@ void Test()
 int32 UVTGDialogueBlipCommandlet::Main(const FString& Params)
 {
     using namespace BlipEditor;
-    if(FParse::Param(*Params,TEXT("SpeakerProfiles")))
+    if(FParse::Param(*Params,TEXT("SpeakerProfiles")) || FParse::Param(*Params,TEXT("CorvosPitch")))
     {
-        SpeakerProfiles(FParse::Param(*Params,TEXT("VerifyOnly")),FParse::Param(*Params,TEXT("Inspect")));
+        SpeakerProfiles(FParse::Param(*Params,TEXT("VerifyOnly")),FParse::Param(*Params,TEXT("Inspect")),FParse::Param(*Params,TEXT("CorvosPitch")));
         return 0;
     }
     // Runtime regression tests must not impose the one-time migration's old speaker/tag assignments.

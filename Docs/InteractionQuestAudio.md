@@ -1,5 +1,7 @@
 # 互动与 Quest 音效
 
+Dialogue 选项的确认与 Hover 音效见 [对话选项音效维护](DialogueResponseAudio.zh-CN.md)。它们使用独立的 NSFX_Response 素材池。
+
 `BP_0ISXInteractiveCollision` 实例 Details → **Interaction Audio**：
 
 - **Interaction Sound Enabled**：默认开启；关闭后不播放互动反馈，包括 override。
@@ -7,7 +9,7 @@
 
 声音在实际 `OnInteract_Server` 互动事件到达时播放一次，随后继续原有逻辑；不是鼠标 hover 或靠近时播放。使用独立 2D one-shot，即使互动逻辑随即销毁物体也不会截断音效。
 
-以下 Quest 事件每次 ExecuteEvent 触发时，从 `SFX/Ovani/UI4/Signals/Update/` 的 `Signals_Update_Glitch_002`、`Signals_Update_Glitch_004`、`Signals_Update_Magic_003` 等概率随机播放一条：
+以下 Quest 事件每次 ExecuteEvent 触发时，从 `SFX/Ovani/UI4/Signals/Update/` 的 `UsedInQuest/Signals_Update_Magic_003_quest`、`UsedInQuest/Signals_Update_Glitch_004_quest`、`UsedInQuest/Signals_Update_Magic_005` 等概率随机播放一条：
 
 - `/Narrative/DefaultEvents/NE_BeginQuest`
 - `/Narrative/DefaultEvents/NE_CompleteNarrativeTask`

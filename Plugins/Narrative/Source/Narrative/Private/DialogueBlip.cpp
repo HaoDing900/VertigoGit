@@ -35,7 +35,7 @@ void UDialogue::StartBlip(UDialogueNode* Node, const FDialogueLine& Line, const 
     const auto Choice = BlipLibrary->Choose(Speaker.BlipTag, Line.Text, Line.DialogueSound, true, false, Previous ? Previous->Get() : nullptr);
     if (Choice.Route != ENarrativeBlipRoute::Blip) return;
     const float Pitch = UNarrativeBlipAudio::GetPlaybackPitch(Choice, Speaker.BlipVoicePitch);
-    BlipAudio = UGameplayStatics::SpawnSound2D(this, Choice.Sound, Choice.Volume * 0.3f, Pitch);
+    BlipAudio = UGameplayStatics::SpawnSound2D(this, Choice.Sound, Choice.Volume * 0.4f, Pitch);
     if (!BlipAudio) return;
     LastBlipSources.Add(Tag, Choice.Sound.Get());
     const float Limit = FMath::IsFinite(BlipLibrary->MaxBlipSeconds) ? FMath::Clamp(BlipLibrary->MaxBlipSeconds,.05f,30.f) : 2.f;

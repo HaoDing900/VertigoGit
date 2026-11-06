@@ -49,9 +49,16 @@ bool UVTGBossHealthBarComponent::FindHealthSource()
 	return InCombatProp != nullptr;
 }
 
+void UVTGBossHealthBarComponent::SetPresentationAllowed(bool bAllowed)
+{
+	bPresentationAllowed=bAllowed;
+	if(Bar)Bar->SetVisibility(bAllowed?ESlateVisibility::HitTestInvisible:ESlateVisibility::Collapsed);
+}
+
 void UVTGBossHealthBarComponent::TickComponent(float DeltaTime, ELevelTick TickType, FActorComponentTickFunction* ThisTickFunction)
 {
 	Super::TickComponent(DeltaTime, TickType, ThisTickFunction);
+	if(!bPresentationAllowed)return;
 	if (!Source.IsValid())
 	{
 		return;

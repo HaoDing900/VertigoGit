@@ -1,4 +1,6 @@
 #include "VTGSequenceInspector.h"
+#include "WorkspaceMenuStructure.h"
+#include "WorkspaceMenuStructureModule.h"
 #include "UI/VTGSequenceSettings.h"
 #include "UI/VTGSubtitleTrack.h"
 #include "LevelSequence.h"
@@ -141,7 +143,7 @@ TArray<FFinding> Inspect(ULevelSequence* Sequence){TArray<FFinding> Out;TSet<ULe
 void Startup()
 {
     if(IsRunningCommandlet())return;
-    FGlobalTabmanager::Get()->RegisterNomadTabSpawner(TabId,FOnSpawnTab::CreateStatic(&Spawn)).SetDisplayName(FText::FromString(TEXT("Sequence 快进检查"))).SetTooltipText(FText::FromString(TEXT("检查 Sequence 事件异步调用，并设置 Allow Skip。")));
+    FGlobalTabmanager::Get()->RegisterNomadTabSpawner(TabId,FOnSpawnTab::CreateStatic(&Spawn)).SetGroup(WorkspaceMenu::GetMenuStructure().GetLevelEditorCategory()).SetDisplayName(FText::FromString(TEXT("Sequence 快进检查"))).SetTooltipText(FText::FromString(TEXT("检查 Sequence 事件异步调用，并设置 Allow Skip。")));
     auto& Module=FModuleManager::LoadModuleChecked<ISequencerModule>(TEXT("Sequencer"));
     SequencerHandle=Module.RegisterOnSequencerCreated(FOnSequencerCreated::FDelegate::CreateLambda([](TSharedRef<ISequencer> Sequencer){Current=Cast<ULevelSequence>(Sequencer->GetRootMovieSceneSequence());if(Current.IsValid()){FGlobalTabmanager::Get()->TryInvokeTab(TabId);Refresh();}}));
 }

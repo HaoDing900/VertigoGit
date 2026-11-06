@@ -14,6 +14,7 @@
 #include "Components/CapsuleComponent.h"
 #include "GameFramework/Controller.h"
 #include "TimerManager.h"
+#include "EngineUtils.h"
 
 namespace Smoke
 {
@@ -74,9 +75,11 @@ void AVTGSmokeHazard::Pulse()
  const bool First=bFirstPulse;++DamagePulses;
  if(!Player || FVector::Dist2D(Player->GetActorLocation(),GetActorLocation())>Radius || FMath::Abs(Player->GetActorLocation().Z-GetActorLocation().Z)>250)return;
  FHitResult Wall;FCollisionQueryParams Query(SCENE_QUERY_STAT(SmokeDamage),false,DamageSource);Query.AddIgnoredActor(Player);Query.AddIgnoredActor(DamageProxy);Query.AddIgnoredActor(this);if(IsValid(OriginalAbility))Query.AddIgnoredActor(OriginalAbility);
- // Creature capsules block Visibility; they must not shield the player from a gas cloud.
- FCollisionObjectQueryParams Obstacles;Obstacles.AddObjectTypesToQuery(ECC_WorldStatic);Obstacles.AddObjectTypesToQuery(ECC_WorldDynamic);
- if(GetWorld()->LineTraceSingleByObjectType(Wall,GetActorLocation()+FVector(0,0,50),Player->GetActorLocation(),Obstacles,Query))return;
+ // Object-type traces also hit non-blocking WorldDynamic trigger volumes. Test
+ // actual visibility blockers instead, while keeping creature bodies out of the way.
+ for(TActorIterator<APawn> It(GetWorld());It;++It)Query.AddIgnoredActor(*It);
+ if(GetWorld()->LineTraceSingleByChannel(Wall,GetActorLocation()+FVector(0,0,50),Player->GetActorLocation(),ECC_Visibility,Query))
+ {UE_LOG(LogTemp,Verbose,TEXT("SMOKE BLOCKED source=%s actor=%s class=%s component=%s profile=%s visibility=%d"),*GetNameSafe(DamageSource),*GetNameSafe(Wall.GetActor()),*GetNameSafe(Wall.GetActor()?Wall.GetActor()->GetClass():nullptr),*GetNameSafe(Wall.GetComponent()),Wall.GetComponent()?*Wall.GetComponent()->GetCollisionProfileName().ToString():TEXT("None"),Wall.GetComponent()?int(Wall.GetComponent()->GetCollisionResponseToChannel(ECC_Visibility)):-1);return;}
  bFirstPulse=false;
  UScriptStruct* DT=nullptr;void* D=Smoke::Damage(DamageProxy,DT);Smoke::Number(DT,D,TEXT("DamageMultiplier"),InitialMultiplier*(First?1:TickMultiplier));
  if(auto* F=DamageProxy->FindFunction(TEXT("Apply Ability Damage")))
@@ -87,7 +90,9 @@ void AVTGSmokeHazard::Pulse()
   FindFProperty<FBoolProperty>(F,TEXT("AddToDamagedActors"))->SetPropertyValue_InContainer(Args.GetStructMemory(),false);
   *FindFProperty<FStructProperty>(F,TEXT("Origin"))->ContainerPtrToValuePtr<FVector>(Args.GetStructMemory())=(Player->GetActorLocation()-GetActorLocation()).GetSafeNormal();
   auto* Hit=FindFProperty<FStructProperty>(F,TEXT("HitResult"))->ContainerPtrToValuePtr<FHitResult>(Args.GetStructMemory());*Hit=FHitResult(Player,Cast<UPrimitiveComponent>(Player->GetRootComponent()),Player->GetActorLocation(),FVector::UpVector);
+  const double Before=Smoke::Number(Player,TEXT("Health"),-1);
   DamageProxy->ProcessEvent(F,Args.GetStructMemory());
+  UE_LOG(LogTemp,Verbose,TEXT("SMOKE DAMAGE source=%s player=%s canDamage=%d multiplier=%.3f health=%.2f -> %.2f proxy=%s"),*GetNameSafe(DamageSource),*GetNameSafe(Player),Player->CanBeDamaged(),InitialMultiplier*(First?1:TickMultiplier),Before,Smoke::Number(Player,TEXT("Health"),-1),*GetNameSafe(DamageProxy));
  }
 }
 void AVTGSmokeHazard::EndPlay(const EEndPlayReason::Type Reason){if(IsValid(DamageProxy))DamageProxy->Destroy();if(Cloud)Cloud->DeactivateImmediate();Super::EndPlay(Reason);}

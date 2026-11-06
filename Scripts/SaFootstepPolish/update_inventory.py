@@ -1,0 +1,4 @@
+from pathlib import Path
+import json
+p=Path('Scripts/SaFootstepInventory/inventory.json');d=json.loads(p.read_text(encoding='utf-8'));path='/Game/Characters/Sa/Anm/Loco/Sa_am_Loco_Walk_Fwd_NoRM';d['animations']=[a for a in d['animations'] if a['path']!=path];d['animations'].append({'path':path,'type':'AnimSequence','notifies':[{'kind':'VTGFootstep','notify_class':'VTGFootstepNotify','notify_name':'VTG_Footstep','time':.35,'bone':'foot_r','landing':False},{'kind':'VTGFootstep','notify_class':'VTGFootstepNotify','notify_name':'VTG_Footstep','time':.95,'bone':'foot_l','landing':False}]});d['animations'].sort(key=lambda a:a['path']);p.write_text(json.dumps(d,ensure_ascii=False,indent=2),encoding='utf-8')
+exec(Path('Scripts/SaFootstepInventory/filter_report.py').read_text(encoding='utf-8-sig'))

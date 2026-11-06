@@ -25,7 +25,7 @@ extern bool VTGTestSewerAudio(UBlueprint *BP);
 namespace
 {
 const FString Root = TEXT("/Game/SFX/SewerAudio/");
-const FString Steps = TEXT("/Game/SFX/FootstepAndFoleySounds/Footsteps/MonoVersions/Wavs/");
+const FString Steps = TEXT("/Game/SFX/SaFootstep/Surfaces/");
 const FString Bonus = TEXT("/Game/SFX/FootstepAndFoleySounds/ProSoundCollectionBonusSounds/");
 template <class T> T *Load(const FString &Path)
 {
@@ -89,7 +89,7 @@ UReverbEffect *Reverb(const TCHAR *Name, float Decay, float Delay, float Brightn
 }
 void ConfigureOutfitFootsteps(UVTGPlayerAudioComponent *C)
 {
-    const FString Cues = TEXT("/Game/SFX/Footsteps_Volume_02/Cues/");
+    const FString Cues = TEXT("/Game/SFX/SaFootstep/Cues/");
     C->DefaultSteps.Empty();
     for (int32 I = 1; I <= 6; ++I)
         C->DefaultSteps.Add(Load<USoundCue>(Cues + FString::Printf(TEXT("Footstep_Boots_%02d_Cue"), I)));
@@ -293,7 +293,7 @@ int32 UVTGSewerAudioCommandlet::Main(const FString &Params)
     Fill(C->WaterSteps, TEXT("water"));
     Fill(C->WoodSteps, TEXT("wood"));
     ConfigureOutfitFootsteps(C);
-    auto *Att = Asset<USoundAttenuation>(TEXT("SA_Footsteps"));
+    auto *Att = Load<USoundAttenuation>(TEXT("/Game/SFX/SaFootstep/Settings/SA_Footsteps"));
     Att->Attenuation.bAttenuate = true;
     Att->Attenuation.bSpatialize = true;
     Att->Attenuation.AttenuationShapeExtents = FVector(150, 0, 0);

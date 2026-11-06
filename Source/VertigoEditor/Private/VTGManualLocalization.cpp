@@ -1,4 +1,6 @@
 #include "VTGManualLocalization.h"
+#include "WorkspaceMenuStructure.h"
+#include "WorkspaceMenuStructureModule.h"
 #include "PropertyEditorModule.h"
 #include "PropertyHandle.h"
 #include "Internationalization/Text.h"
@@ -598,7 +600,7 @@ TSharedRef<SWidget> MakeInlineTranslations(TSharedPtr<IPropertyHandle> Property)
 void Startup()
 {
     if(IsRunningCommandlet())return;
-    FGlobalTabmanager::Get()->RegisterNomadTabSpawner(TabId,FOnSpawnTab::CreateStatic(&Spawn)).SetDisplayName(FText::FromString(TEXT("手工多语言编辑")));
+    FGlobalTabmanager::Get()->RegisterNomadTabSpawner(TabId,FOnSpawnTab::CreateStatic(&Spawn)).SetGroup(WorkspaceMenu::GetMenuStructure().GetLevelEditorCategory()).SetDisplayName(FText::FromString(TEXT("手工多语言编辑")));
     auto& Module=FModuleManager::LoadModuleChecked<FPropertyEditorModule>(TEXT("PropertyEditor"));
     ExtensionHandle=Module.GetGlobalRowExtensionDelegate().AddLambda([](const FOnGenerateGlobalRowExtensionArgs& Args,TArray<FPropertyRowExtensionButton>& Buttons){
         auto Handle=Args.PropertyHandle;if(!Handle.IsValid())return;auto* P=Handle->GetProperty();

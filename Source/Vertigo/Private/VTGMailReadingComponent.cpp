@@ -6,6 +6,48 @@
 #include "Camera/CameraComponent.h"
 #include "Camera/PlayerCameraManager.h"
 #include "UObject/UnrealType.h"
+#include "Kismet/GameplayStatics.h"
+#include "Sound/SoundBase.h"
+
+namespace
+{
+bool IsMailThirdPersonView(AActor* Reader, APlayerController* PC)
+{
+    if (!Reader || !PC || PC->GetViewTarget()!=Reader) return false;
+    if (PC->PlayerCameraManager && PC->PlayerCameraManager->PendingViewTarget.Target && PC->PlayerCameraManager->PendingViewTarget.Target!=Reader) return false;
+    if (const auto* Mode=FindFProperty<FBoolProperty>(PC->GetClass(),TEXT("Use Third Person Camera?")))
+        if (!Mode->GetPropertyValue_InContainer(PC)) return false;
+    TInlineComponentArray<UCameraComponent*> Cameras(Reader);
+    for (auto* Camera:Cameras) if(Camera->GetFName()==TEXT("Player_FollowCamera")) return Camera->IsActive();
+    return false;
+}
+}
+
+float UVTGMailReadingComponent::GetMailCameraBlendTime(AActor* Reader,AActor* Target,bool bEnteringMail)
+{
+    const auto* Pawn=Cast<APawn>(Reader);
+    auto* PC=Pawn?Cast<APlayerController>(Pawn->GetController()):nullptr;
+    if (bEnteringMail) return IsMailThirdPersonView(Reader,PC)?1.f:0.f;
+    const auto* Mail=Find(Reader);
+    if (!Mail || !Mail->bEnteredFromThirdPerson || Target!=Reader || !PC) return 0.f;
+    if (const auto* Mode=FindFProperty<FBoolProperty>(PC->GetClass(),TEXT("Use Third Person Camera?")))
+        if (!Mode->GetPropertyValue_InContainer(PC)) return 0.f;
+    return 1.f;
+}
+
+bool UVTGMailReadingComponent::NotifyNewMail(AActor* Reader,FName MailID,bool bHasNewMail,USoundBase* NotificationSound)
+{
+    auto* Mail=GetOrCreate(Reader);if(!Mail)return false;
+    const auto* Unread=FindFProperty<FBoolProperty>(Reader->GetClass(),TEXT("HasNewMail"));
+    const bool WasUnread=Unread && Unread->GetPropertyValue_InContainer(Reader);
+    if(bHasNewMail && NotificationSound && (!WasUnread || Mail->LastNotifiedMailID!=MailID))
+    {
+        UGameplayStatics::PlaySound2D(Reader,NotificationSound);
+        Mail->LastNotifiedMailID=MailID;
+        return true;
+    }
+    return false;
+}
 
 void UVTGMailReadingComponent::NotifyMailReadingStarted(AActor* Reader)
 {
@@ -24,6 +66,7 @@ void UVTGMailReadingComponent::CaptureMailCameraReturn(AActor* Reader)
     const auto* Pawn = Cast<APawn>(Reader);
     auto* PC = Pawn ? Cast<APlayerController>(Pawn->GetController()) : nullptr;
     Mail->ReturnController = PC;
+    Mail->bEnteredFromThirdPerson = IsMailThirdPersonView(Reader,PC);
     Mail->ReturnViewTarget = PC ? PC->GetViewTarget() : nullptr;
     Mail->bHasCameraSnapshot = PC && IsValid(PC->GetViewTarget());
     Mail->bRestoredCamera = false;
@@ -101,7 +144,7 @@ bool UVTGMailReadingComponent::RestoreNoteMailCamera(AActor* Reader)
         TInlineComponentArray<UCameraComponent*> Cameras(Reader);
         for (auto* Camera : Cameras) Camera->SetActive(Mail->OriginalActiveCameras.Contains(Camera));
     }
-    PC->SetViewTargetWithBlend(Target, 1.f);
+    PC->SetViewTargetWithBlend(Target, GetMailCameraBlendTime(Reader,Target,false));
     Mail->bRestoredCamera = true;
     return true;
 }

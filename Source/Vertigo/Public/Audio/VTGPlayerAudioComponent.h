@@ -16,7 +16,7 @@ class VERTIGO_API UVTGPlayerAudioComponent : public UActorComponent
     GENERATED_BODY()
   public:
     UVTGPlayerAudioComponent();
-    /** Overrides surface variants when configured; evaluated again on every foot plant. */
+    /** Shoe fallback for unknown ground or an empty surface pool. */
     UPROPERTY(EditAnywhere, Category = "Footsteps") TArray<TObjectPtr<USoundBase>> DefaultSteps;
     UPROPERTY(EditAnywhere, Category = "Footsteps") TArray<TObjectPtr<USoundBase>> BarefootSteps;
     UPROPERTY(EditAnywhere, Category = "Footsteps") TObjectPtr<USkeletalMesh> BarefootMesh;
@@ -43,7 +43,7 @@ class VERTIGO_API UVTGPlayerAudioComponent : public UActorComponent
     float CorridorWetLevel = .75f;
     UPROPERTY()
     float ChamberWetLevel = .85f;
-    UFUNCTION(BlueprintCallable, Category = "Audio") bool PlayFootstep(FName FootBone);
+    UFUNCTION(BlueprintCallable, Category = "Audio") bool PlayFootstep(FName FootBone,bool Landing=false);
     /** Three short one-shots with authored fade-out tails. */
     UPROPERTY(EditAnywhere, Category = "Armor Foley") TArray<TObjectPtr<USoundBase>> ArmorRunStartSounds;
     UPROPERTY(EditAnywhere, Category = "Armor Foley", meta = (ClampMin = "0", ClampMax = "2")) float ArmorVolume = .45f;
@@ -51,9 +51,12 @@ class VERTIGO_API UVTGPlayerAudioComponent : public UActorComponent
     UPROPERTY(EditAnywhere, Category = "Armor Foley") float RestrictedRunSpeedThreshold = 300.f;
     bool ConsumeArmorRunStart();
     UFUNCTION(BlueprintCallable, Category = "Audio") bool PlayArmorRunStart();
-    bool CanPlayFootstep() const;
+    bool CanPlayFootstep(bool AllowStationary=false) const;
+    /** Quieter only while the restricted-locomotion BlendSpace is active. */
+    float GetFootstepContextVolumeMultiplier() const;
     const TArray<TObjectPtr<USoundBase>> &GetOutfitFootsteps() const;
     // 0=open, 1=pipe, 2=corridor, 3=chamber. Public for acoustic diagnostics/tests.
+    const TArray<TObjectPtr<USoundBase>> &ResolveFootstepPool(const FHitResult &Hit) const;
     int32 ProbeSpace(const FVector &Listener) const;
 
   protected:
@@ -73,6 +76,7 @@ class VERTIGO_API UVTGFootstepNotify : public UAnimNotify
     GENERATED_BODY()
   public:
     UPROPERTY(EditAnywhere, Category = "Footstep") FName FootBone = TEXT("foot_l");
+    UPROPERTY(EditAnywhere, Category = "Footstep") bool bLanding=false;
     virtual void Notify(USkeletalMeshComponent *Mesh, UAnimSequenceBase *Animation,
                         const FAnimNotifyEventReference &Ref) override;
 };

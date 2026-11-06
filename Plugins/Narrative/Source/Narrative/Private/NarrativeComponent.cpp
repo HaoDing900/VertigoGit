@@ -455,6 +455,23 @@ void UNarrativeComponent::ExitDialogue()
 	}
 }
 
+void UNarrativeComponent::ForceExitDialogue()
+{
+	if (!CurrentDialogue || bForceExitingDialogue) return;
+	TGuardValue<bool> Guard(bForceExitingDialogue,true);
+	if (HasAuthority())
+	{
+		if (auto* OwnerComp=CurrentDialogue->OwningComp) OwnerComp->ExitDialogue();
+		else ExitDialogue();
+	}
+	else ServerForceExitDialogue();
+}
+
+void UNarrativeComponent::ServerForceExitDialogue_Implementation()
+{
+	ForceExitDialogue();
+}
+
 void UNarrativeComponent::ServerTryExitDialogue_Implementation()
 {
 	TryExitDialogue();
@@ -1457,6 +1474,10 @@ ULevelSequencePlayer* UNarrativeComponent::PlayDialogueLevelSequence(ULevelSeque
 		UE_LOG(LogNarrative, Warning, TEXT("PlayDialogueLevelSequence failed to create a player for %s."), *GetNameSafe(LevelSequence));
 		return nullptr;
 	}
+
+	// This is a continuation of the current dialogue, not an external cutscene entrance.
+	// Mark before Prepare/Play: the project's entry hook runs before first-frame events.
+	SequenceActor->Tags.AddUnique(TEXT("Narrative.DialogueShot"));
 
 	OwnedSequencePlayer = Player;
 	OwnedSequenceActor = SequenceActor;

@@ -38,7 +38,7 @@ void SetEffect(UAnimMontage* Montage,UNiagaraSystem* System,float Time,float Dur
  Montage->SortNotifies();Montage->PostEditChange();Save(Montage);
 }
 void Sound(const TCHAR* Cue,const TCHAR* WaveName,float Pitch=1)
-{auto* Asset=Load<USoundCue>(Root+TEXT("Audio/")+Cue);Backup(Asset);VTGPolish::Sound(Cue,{Wave(WaveName)},Pitch);}
+{auto* Asset=Load<USoundCue>(Root+TEXT("Audio/used/")+Cue);Backup(Asset);VTGPolish::Sound(Cue,{Wave(WaveName)},Pitch);}
 
 int32 Repair(bool Verify,bool Test)
 {
@@ -92,8 +92,8 @@ int32 Repair(bool Verify,bool Test)
   Sound(TEXT("SC_EggMother_Roar"),TEXT("attack_long_03"));Sound(TEXT("SC_EggMother_Swing"),TEXT("attack_medium_03"));Sound(TEXT("SC_EggMother_Slam"),TEXT("attack_medium_04"));Sound(TEXT("SC_EggMother_Gas"),TEXT("breath_long_02"));Sound(TEXT("SC_EggMother_Hurt"),TEXT("hit_03"));
   Sound(TEXT("SC_SeaEgg_Gas"),TEXT("attack_short_04"),1.2f);Sound(TEXT("SC_SeaEgg_Hurt"),TEXT("hit_05"),1.2f);
   // Give the acid montage its own cue so changing the gas sound later does not change the spit.
-  const auto CuePath=Root+TEXT("Audio/SC_EggMother_AcidSpit");auto* Cue=LoadObject<USoundCue>(nullptr,*CuePath);
-  if(!Cue)Cue=CastChecked<USoundCue>(FModuleManager::LoadModuleChecked<FAssetToolsModule>(TEXT("AssetTools")).Get().DuplicateAsset(TEXT("SC_EggMother_AcidSpit"),Root+TEXT("Audio"),Load<USoundCue>(Root+TEXT("Audio/SC_EggMother_Gas"))));
+  const auto CuePath=Root+TEXT("Audio/used/SC_EggMother_AcidSpit");auto* Cue=LoadObject<USoundCue>(nullptr,*CuePath);
+  if(!Cue)Cue=CastChecked<USoundCue>(FModuleManager::LoadModuleChecked<FAssetToolsModule>(TEXT("AssetTools")).Get().DuplicateAsset(TEXT("SC_EggMother_AcidSpit"),Root+TEXT("Audio/used"),Load<USoundCue>(Root+TEXT("Audio/used/SC_EggMother_Gas"))));
   Backup(Cue);VTGPolish::Sound(TEXT("SC_EggMother_AcidSpit"),{Wave(TEXT("attack_long_04"))});
   bool AudioFound=false;for(auto& Event:Spit->Notifies)if(auto* Notify=Cast<UAnimNotify_PlaySound>(Event.Notify)){Notify->Sound=Cue;AudioFound=true;}
   if(!AudioFound){auto& Event=Spit->Notifies.AddDefaulted_GetRef();auto* Notify=NewObject<UAnimNotify_PlaySound>(Spit);Notify->Sound=Cue;Event.Notify=Notify;Event.NotifyName=TEXT("AcidSpitSound");Event.Guid=FGuid::NewGuid();Event.Link(Spit,.7f);}

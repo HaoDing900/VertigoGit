@@ -24,7 +24,7 @@ int32 Run(bool VerifyOnly)
     int32 Failures = 0;
     for (const auto& Entry : Entries)
     {
-        auto* Cue = Load<USoundCue>(Root + TEXT("Audio/") + Entry.Cue);
+        auto* Cue = Load<USoundCue>(Root + TEXT("Audio/used/") + Entry.Cue);
         TArray<USoundWave*> Waves;
         for (int32 Index : {Entry.A, Entry.B, Entry.C})
             Waves.Add(Load<USoundWave>(Wave(*FString::Printf(TEXT("%s_%02d"), Entry.Family, Index))));

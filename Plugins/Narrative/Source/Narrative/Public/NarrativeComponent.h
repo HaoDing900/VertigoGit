@@ -681,6 +681,13 @@ public:
 	UFUNCTION(BlueprintCallable, Category = "Dialogues")
 	virtual void TryExitDialogue();
 
+	/** Scripted interruption: bypass Can Be Exited while keeping Narrative's normal finish/deinitialize path. */
+	UFUNCTION(BlueprintCallable, Category="Dialogues", meta=(DisplayName="Force Exit Dialogue"))
+	virtual void ForceExitDialogue();
+
+	UFUNCTION(Server, Reliable)
+	void ServerForceExitDialogue();
+
 	/**Exit the dialogue, will never fail*/
 	virtual void ExitDialogue();
 
@@ -802,6 +809,7 @@ public:
 	virtual void ClientReceiveSave(const TArray<FNarrativeSavedQuest>& SavedQuests, const TArray<FString>& Tasks, const TArray<int32>& Quantities);
 
 protected:
+	bool bForceExitingDialogue = false;
 
 	//Internal load function that actually does the work.
 	virtual bool Load_Internal(const TArray<FNarrativeSavedQuest>& SavedQuests, const TMap<FString, int32>& NewMasterList);

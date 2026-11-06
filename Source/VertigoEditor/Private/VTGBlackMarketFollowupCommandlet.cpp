@@ -228,8 +228,10 @@ void StyleProbe(bool Verify=false)
 #include "VTGStreetSewerCheckpoints.inl"
 #include "VTGStreetSewerCheckpointTests.inl"
 UVTGBlackMarketFollowupCommandlet::UVTGBlackMarketFollowupCommandlet(){IsEditor=true;IsClient=false;IsServer=false;LogToConsole=true;}
+int32 VTGRepairCyanOrderFlow(bool bVerifyOnly);
 int32 UVTGBlackMarketFollowupCommandlet::Main(const FString& Params)
 {
+ if(FParse::Param(*Params,TEXT("CyanOrderFlow")))return VTGRepairCyanOrderFlow(FParse::Param(*Params,TEXT("VerifyOnly")));
  using namespace MarketFollowup;
  if(FParse::Param(*Params,TEXT("EncounterApply")) || FParse::Param(*Params,TEXT("EncounterVerify")))return StreetSewerCheckpoints::Run(FParse::Param(*Params,TEXT("EncounterVerify")));
  if(FParse::Param(*Params,TEXT("EncounterAudit")))

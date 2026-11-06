@@ -350,6 +350,8 @@ public:
 
 public:
     /** Player preference; authored unskippable and routing nodes keep their timing. */
+    /** Ambient/free-move commentary may have no manual continue UI. Ignore the player's Auto toggle for it. */
+    UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category="Configuration") bool bAlwaysAutoAdvance=false;
     UFUNCTION(BlueprintCallable, Category="Dialogue") void SetAutoAdvance(bool bEnabled);
     void SetDialogueAudioPaused(bool bPaused);
     UFUNCTION(BlueprintPure, Category="Dialogue") bool IsAutoAdvanceEnabled() const { return bAutoAdvance; }
@@ -360,7 +362,14 @@ protected:
     bool bWaitingForPlayerResponse = false;
 public:
     bool IsWaitingForPlayerResponse() const { return bWaitingForPlayerResponse; }
+    /** A UI selection is reserved, but has not yet been submitted to Narrative. */
+    bool IsResponseTransitionPending() const { return bResponseTransitionPending; }
+    uint32 BeginResponseTransition(UDialogueNode_Player* Option);
+    bool EndResponseTransition(uint32 Token);
+    bool OwnsResponseTransition(uint32 Token) const { return bResponseTransitionPending && ResponseTransitionToken == Token; }
 private:
+    bool bResponseTransitionPending = false;
+    uint32 ResponseTransitionToken = 0;
     bool bWaitingForManualAdvance = false;
     bool bExplicitLineAdvance = false;
 public:

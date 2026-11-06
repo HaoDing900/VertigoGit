@@ -55,10 +55,10 @@
 目前最终倍数写在 `Private/DialogueBlip.cpp` 的播放调用中：
 
 ```cpp
-Choice.Volume * 0.3f
+Choice.Volume * 0.4f
 ```
 
-当前为 `0.3f`，修改此系数后需要重新编译；尚未提供该倍数的 Details 输入框。它只降低 Blip，不影响配音 override、互动或 Quest 音效。
+当前为 `0.4f`，修改此系数后需要重新编译；尚未提供该倍数的 Details 输入框。它只降低 Blip，不影响配音 override、互动或 Quest 音效。
 
 ## 3. 什么原理？
 
@@ -68,7 +68,7 @@ Choice.Volume * 0.3f
 2. 若 Blip 关闭、正在快进、文字只有空白／标点，或有优先音效播放，则静音，不排队补播。
 3. 按角色 Blip Tag 找池：未填或找不到 → `BlipNPC`；同名池存在但为空 → 静音。
 4. 从有效素材中随机选择，并随机生成 Pitch 与 Volume。
-5. 最终 Pitch = 随机 Pitch × 角色倍率（Default=1、High≈1.1892、Low≈0.8409）；最终 Volume = 随机 Volume × 0.3。
+5. 最终 Pitch = 随机 Pitch × 角色倍率（Default=1、High≈1.1892、Low≈0.8409）；最终 Volume = 随机 Volume × 0.4。
 6. 使用独立 2D 音频组件播放，**不修改台词时长、不用音效结束来推进对话**。
 
 普通句尾允许短音自然播完；下一句开始、手动跳句、快进或退出会停止旧 Blip。暂停跟随对话暂停。音高倍率也会改变播放速度和声音长度。

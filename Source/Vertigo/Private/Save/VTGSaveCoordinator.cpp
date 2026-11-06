@@ -31,6 +31,7 @@ namespace
  const FName MailFields[] = {TEXT("HasNewMail"), TEXT("Mail_CurrentDialogue"), TEXT("Mail_CurrentDialogueID"), TEXT("Mail_Sender_Name"), TEXT("Mail_Sender_Avt")};
  bool IsStoryInteraction(const AActor* Actor)
  {
+  if(Actor->ActorHasTag(TEXT("VTG_SmartTriggerInteractionProxy")))return false;
   for (const UClass* C=Actor->GetClass(); C; C=C->GetSuperClass())
    if (C->GetPathName()==TEXT("/Game/Blueprints/BP_0ISXInteractiveCollision.BP_0ISXInteractiveCollision_C")) return true;
   return false;

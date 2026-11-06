@@ -1,5 +1,7 @@
 # 下水道海怪 Boss（L_SewerUnderApartment）
 
+当前补充：[战斗与 Sewer 调整](CombatSewerPolish.md)。酸液发动距离与最大飞行距离现为 36 米，弹丸视觉及碰撞尺寸 ×2；Boss 血条等待入场分支对白结束后显示。下方早期数值记录请以这份补充为准。
+
 基于 BossAIToolkit 搭建。Toolkit 自带资产只改了两处（都在"中毒特效"一节）：`BP_Effect_Poison` 的粒子、`BPC_StatusEffects` 结束状态特效的方式。
 
 ## 资产（`Content/Characters/Monster/SeaMonsterBoss/`）

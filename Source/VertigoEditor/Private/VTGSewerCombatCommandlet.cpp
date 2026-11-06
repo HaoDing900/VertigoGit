@@ -26,6 +26,10 @@
 #include "GameFramework/CharacterMovementComponent.h"
 #include "EnhancedInputActionDelegateBinding.h"
 #include "InputAction.h"
+#include "GameFramework/PlayerController.h"
+#include "Misc/FileHelper.h"
+#include "HAL/FileManager.h"
+#include "Engine/Level.h"
 
 namespace VTGSewerCombat
 {
@@ -103,6 +107,61 @@ void Apply(UBlueprint* BP, UEdGraph* G)
     FBlueprintEditorUtils::MarkBlueprintAsStructurallyModified(BP);
 }
 
+void RepairState(UBlueprint* BP,UEdGraph* G,bool Verify)
+{
+    const FString RepairMarker=TEXT("VTG sewer restore combat/story consistency");
+    auto* Gate=Named(G,TEXT("K2Node_IfThenElse_86"));auto* Condition=Pin(Gate,TEXT("Condition"));
+    for(UEdGraphNode* Node:G->Nodes)if(Node->NodeComment==RepairMarker)
+    {check(Condition->LinkedTo.Num()==1 && Condition->LinkedTo[0]->GetOwningNode()==Node);return;}
+    check(!Verify);check(Condition->LinkedTo.Num()==1);
+    const FString File=FPackageName::LongPackageNameToFilename(BP->GetOutermost()->GetName(),FPackageName::GetAssetPackageExtension());
+    const FString Backup=FPaths::ProjectDir()/TEXT("Scripts/AudioMaintenance/Backup/CombatStorySync_BP_Player_Sa.uasset");
+    if(!IFileManager::Get().FileExists(*Backup))check(IFileManager::Get().Copy(*Backup,*File)==COPY_OK);
+    auto* Previous=Condition->LinkedTo[0];Condition->BreakAllPinLinks();
+    auto* Desired=Named(G,TEXT("K2Node_CallFunction_349"));auto* Sewer=Named(G,TEXT("K2Node_CallFunction_335"));
+    auto* InSewerCombat=Call(G,UKismetMathLibrary::StaticClass(),TEXT("BooleanAND"),Gate->NodePosX-700,Gate->NodePosY+250);
+    Link(Pin(Desired,TEXT("ReturnValue")),Pin(InSewerCombat,TEXT("A")));Link(Pin(Sewer,TEXT("ReturnValue")),Pin(InSewerCombat,TEXT("B")));
+    auto* Story=Add<UK2Node_VariableGet>(G,Gate->NodePosX-700,Gate->NodePosY+450);Story->SetFromProperty(FindFProperty<FBoolProperty>(BP->SkeletonGeneratedClass,TEXT("StoryMode?")),true,BP->SkeletonGeneratedClass);Story->AllocateDefaultPins();
+    auto* Desync=Call(G,UKismetMathLibrary::StaticClass(),TEXT("BooleanAND"),Gate->NodePosX-450,Gate->NodePosY+250);
+    Link(Pin(InSewerCombat,TEXT("ReturnValue")),Pin(Desync,TEXT("A")));Link(Pin(Story,TEXT("StoryMode?")),Pin(Desync,TEXT("B")));
+    auto* Refresh=Call(G,UKismetMathLibrary::StaticClass(),TEXT("BooleanOR"),Gate->NodePosX-200,Gate->NodePosY+100);Refresh->NodeComment=RepairMarker;
+    Link(Previous,Pin(Refresh,TEXT("A")));Link(Pin(Desync,TEXT("ReturnValue")),Pin(Refresh,TEXT("B")));Link(Pin(Refresh,TEXT("ReturnValue")),Condition);
+    Gate->NodeComment=TEXT("Toggle when combat changes, or restore StoryMode after sewer startup/dialogue; ResolveCombatState retains locks and boss defeat");
+    FBlueprintEditorUtils::MarkBlueprintAsStructurallyModified(BP);
+}
+
+bool Hammer(UBlueprint* BP,UEdGraph* G,bool Apply)
+{
+    TGuardValue<bool> Scripts(GAllowActorScriptExecutionInEditor,true);
+    auto Init=UWorld::InitializationValues().AllowAudioPlayback(false).CreatePhysicsScene(true).CreateNavigation(false).CreateAISystem(false).ShouldSimulatePhysics(false);
+    auto* Package=CreatePackage(TEXT("/Temp/HammerPickup/L_SewerUnderApartment"));
+    auto* W=UWorld::CreateWorld(EWorldType::Game,false,TEXT("L_SewerUnderApartment"),Package,true,ERHIFeatureLevel::Num,&Init);GEngine->CreateNewWorldContext(EWorldType::Game).SetCurrentWorld(W);
+    W->InitializeActorsForPlay(FURL());
+    FActorSpawnParameters SP;SP.SpawnCollisionHandlingOverride=ESpawnActorCollisionHandlingMethod::AlwaysSpawn;
+    auto* SewerMap=LoadObject<UWorld>(nullptr,TEXT("/Game/ThirdPerson/Maps/L_SewerUnderApartment"));check(SewerMap);
+    for(AActor* Actor:SewerMap->PersistentLevel->Actors)if(Actor && Actor->GetClass()==BP->GeneratedClass){SP.Template=Actor;break;}
+    check(SP.Template);
+    auto* Player=W->SpawnActor<ACharacter>(BP->GeneratedClass,FTransform::Identity,SP);auto* PC=W->SpawnActor<APlayerController>();PC->Possess(Player);
+    SP.Template=nullptr;
+    Player->GetMesh()->InitAnim(true);auto* Anim=Player->GetMesh()->GetAnimInstance();check(Anim);
+    auto Set=[&](const TCHAR* N,bool V){FindFProperty<FBoolProperty>(Player->GetClass(),N)->SetPropertyValue_InContainer(Player,V);};
+    auto Run=[&](UObject* O,const TCHAR* N){auto* F=O->FindFunction(N);check(F);FStructOnScope Args(F);O->ProcessEvent(F,Args.GetStructMemory());};
+    Run(Player,TEXT("CheckEnemyTimer"));
+    // Exercise the real combat policy without manually enabling attack flags.
+
+    check(UGameplayStatics::GetPlayerCharacter(W,0)==Player);
+    auto* Pickup=W->SpawnActor<AActor>(LoadObject<UBlueprint>(nullptr,TEXT("/Game/ThirdPerson/Blueprints/BP_Hammer"))->GeneratedClass,FTransform::Identity,SP);Run(Pickup,TEXT("PickUpHammer"));
+    check(FindFProperty<FByteProperty>(Player->GetClass(),TEXT("CurrentMeleeWeapon"))->GetPropertyValue_InContainer(Player)==1);
+    UFunction* Fire=nullptr;for(auto Binding:CastChecked<UBlueprintGeneratedClass>(BP->GeneratedClass)->DynamicBindingObjects)if(auto* Input=Cast<UEnhancedInputActionDelegateBinding>(Binding))for(const auto& B:Input->InputActionDelegateBindings)if(B.InputAction && B.InputAction->GetName()==TEXT("IA_Fire") && B.TriggerEvent==ETriggerEvent::Started)Fire=Player->FindFunction(B.FunctionNameToBind);check(Fire);
+    auto Press=[&](){FStructOnScope Args(Fire);Player->ProcessEvent(Fire,Args.GetStructMemory());};
+    Press();const bool Works=Anim->GetCurrentActiveMontage() && Anim->GetCurrentActiveMontage()->GetName().StartsWith(TEXT("Hammer_"));
+    UE_LOG(LogTemp,Display,TEXT("HAMMER PICKUP %s: real PickUpHammer -> IA_Fire, combat policy unchanged, montage=%s"),Works?TEXT("PASS"):TEXT("FAIL"),*GetNameSafe(Anim->GetCurrentActiveMontage()));
+    for(const TCHAR* N:{TEXT("CanAttack?"),TEXT("CanPunch?"),TEXT("StoryMode?"),TEXT("IsAttacking"),TEXT("HasWeaponInHand"),TEXT("IsInCineCutscene_LockInput(NotWorkForMont)")}){auto* P=FindFProperty<FBoolProperty>(Player->GetClass(),N);UE_LOG(LogTemp,Display,TEXT("HAMMER STATE %s=%d"),N,P->GetPropertyValue_InContainer(Player));}
+    Anim->Montage_Stop(0);Run(Player,TEXT("ResetCombo"));Set(TEXT("CanAttack?"),false); // Test cinematic guard without triggering the authored cannot-attack dialogue.
+    Set(TEXT("IsInCineCutscene_LockInput(NotWorkForMont)"),true);Press();check(!Anim->GetCurrentActiveMontage());
+    GEngine->DestroyWorldContext(W);W->DestroyWorld(false);return Works;
+}
+
 bool Test(UBlueprint* BP, const FString& MapName, const FString& Prefix, bool AlwaysCombat)
 {
     TGuardValue<bool> AllowScript(GAllowActorScriptExecutionInEditor,true);
@@ -126,6 +185,11 @@ bool Test(UBlueprint* BP, const FString& MapName, const FString& Prefix, bool Al
     Set(TEXT("IsInCineCutscene_LockInput(NotWorkForMont)"),false);
     Run(TEXT("CheckEnemyTimer"));
     Expect(Get(TEXT("InCombat"))==AlwaysCombat && Get(TEXT("StoryMode?"))!=AlwaysCombat,TEXT("empty level applies the correct combat policy"));
+    if(AlwaysCombat)
+    {
+        Set(TEXT("InCombat"),true);Set(TEXT("StoryMode?"),true);Run(TEXT("CheckEnemyTimer"));
+        Expect(Get(TEXT("InCombat")) && !Get(TEXT("StoryMode?")),TEXT("sewer repairs StoryMode left true while InCombat is already true"));
+    }
     UFunction* Fire=nullptr;
     for(auto Binding:CastChecked<UBlueprintGeneratedClass>(BP->GeneratedClass)->DynamicBindingObjects)
         if(auto* Input=Cast<UEnhancedInputActionDelegateBinding>(Binding))
@@ -169,7 +233,9 @@ int32 UVTGSewerCombatCommandlet::Main(const FString& Params)
 {
     auto* BP=LoadObject<UBlueprint>(nullptr,TEXT("/Game/ThirdPerson/Blueprints/BP_Player_Sa.BP_Player_Sa"));if(!BP)return 1;
     UEdGraph* G=nullptr;for(UEdGraph* Graph:BP->UbergraphPages)if(Graph->GetName()==TEXT("EventGraph"))G=Graph;if(!G)return 2;
-    if(!Params.Contains(TEXT("VerifyOnly")))VTGSewerCombat::Apply(BP,G);
+    if(FParse::Param(*Params,TEXT("Hammer")))return VTGSewerCombat::Hammer(BP,G,FParse::Param(*Params,TEXT("Apply")))?0:4;
+    if(FParse::Param(*Params,TEXT("RepairState")))VTGSewerCombat::RepairState(BP,G,FParse::Param(*Params,TEXT("VerifyOnly")));
+    else if(!Params.Contains(TEXT("VerifyOnly")))VTGSewerCombat::Apply(BP,G);
     FCompilerResultsLog Results;FKismetEditorUtilities::CompileBlueprint(BP,EBlueprintCompileOptions::SkipGarbageCollection,&Results);
     UE_LOG(LogTemp,Display,TEXT("SEWER compile errors=%d warnings=%d"),Results.NumErrors,Results.NumWarnings);
     if(Results.NumErrors||BP->Status==BS_Error)return 3;

@@ -63,6 +63,24 @@ struct FVTGRecoveryHUDRegression
   Player->GetCharacterMovement()->SetMovementMode(MOVE_Walking);HUD->RefreshRecovery(Player,0);check(HUD->RecoveryBox->IsVisible() && HUD->RecoveryBar->GetPercent()==1);HUD->RefreshRecovery(Player,.3f);check(!HUD->RecoveryBox->IsVisible());
   UE_LOG(LogTemp,Display,TEXT("RECOVERY TEST PASS full pulse only after actual unlock; fades out; no gameplay state modified by HUD"));
   HUD->RecoveryMontage.Reset();HUD->RefreshRecovery(Player,0);check(!HUD->RecoveryBox->IsVisible());HUD->RecoveryMontage=M;
+  // Use the real player equipment table, rather than a separate HUD-only hammer asset.
+  auto* Weapon=FindFProperty<FByteProperty>(Player->GetClass(),TEXT("CurrentMeleeWeapon"));check(Weapon);
+  Weapon->SetPropertyValue_InContainer(Player,uint8(Weapon->Enum->GetValueByNameString(TEXT("NewEnumerator1"))));
+  auto* Hammer=HUD->ResolveRecoveryMontage(Player);check(Hammer);
+  UE_LOG(LogTemp,Display,TEXT("HAMMER RECOVERY montage=%s length=%.3f"),*Hammer->GetPathName(),Hammer->GetPlayLength());
+  float DamageEnd=0;for(const auto& Event:Hammer->Notifies){UE_LOG(LogTemp,Display,TEXT("HAMMER RECOVERY notify=%s end=%.3f"),*Event.GetNotifyEventName().ToString(),Event.GetEndTriggerTime());if(Event.GetNotifyEventName().ToString().Contains(TEXT("Notify_Damage")))DamageEnd=FMath::Max(DamageEnd,Event.GetEndTriggerTime());}
+  check(DamageEnd>0 && DamageEnd<Hammer->GetPlayLength());
+  Anim->Montage_Stop(0);Player->GetMesh()->ConditionallyDispatchQueuedAnimEvents();Set(TEXT("IsAttacking"),true);Player->GetCharacterMovement()->SetMovementMode(MOVE_None);
+  Anim->Montage_Play(Hammer);HUD->RefreshRecovery(Player,0);
+  Anim->Montage_SetPosition(Hammer,DamageEnd*.5f);HUD->RefreshRecovery(Player,0);check(!HUD->RecoveryBox->IsVisible());
+  Anim->Montage_SetPosition(Hammer,(DamageEnd+Hammer->GetPlayLength())*.5f);HUD->RefreshRecovery(Player,0);check(HUD->RecoveryBox->IsVisible() && FMath::IsNearlyEqual(HUD->RecoveryBar->GetPercent(),.5f,.01f));
+  const float HammerMid=HUD->RecoveryBar->GetPercent();Anim->Montage_SetPlayRate(Hammer,1.8f);HUD->RefreshRecovery(Player,.4f);check(FMath::IsNearlyEqual(HUD->RecoveryBar->GetPercent(),HammerMid));
+  Set(TEXT("IsDodging?"),true);HUD->RefreshRecovery(Player,0);check(!HUD->RecoveryBox->IsVisible());Set(TEXT("IsDodging?"),false);
+  Anim->Montage_Stop(0);Player->GetMesh()->ConditionallyDispatchQueuedAnimEvents();Anim->Montage_Play(Hammer);HUD->RefreshRecovery(Player,0);Anim->Montage_SetPosition(Hammer,(DamageEnd+Hammer->GetPlayLength())*.5f);HUD->RefreshRecovery(Player,0);check(HUD->RecoveryBox->IsVisible());
+  Anim->Montage_Stop(.1f,Hammer);Player->GetMesh()->TickAnimation(.01f,false);Player->GetMesh()->ConditionallyDispatchQueuedAnimEvents();HUD->RefreshRecovery(Player,0);check(!HUD->RecoveryBox->IsVisible());
+  Anim->Montage_Stop(0);Player->GetMesh()->ConditionallyDispatchQueuedAnimEvents();Anim->Montage_Play(Hammer);HUD->RefreshRecovery(Player,0);Anim->Montage_SetPosition(Hammer,(DamageEnd+Hammer->GetPlayLength())*.5f);HUD->RefreshRecovery(Player,0);
+  Weapon->SetPropertyValue_InContainer(Player,0);HUD->RefreshRecovery(Player,0);check(!HUD->RecoveryBox->IsVisible() && HUD->TrackedRecoveryMontage==M);
+  UE_LOG(LogTemp,Display,TEXT("RECOVERY TEST PASS hammer finisher from equipment table; damage-end start; actual position; dodge/interruption/equipment switch clear bar; original fist checks retained"));
   if(!Preview.IsEmpty())
   {
    HUD->Health=68;HUD->MaxHealth=100;HUD->Full=LoadObject<UTexture2D>(nullptr,TEXT("/Game/2DArt/UI/Action/UI_SaHealth_Filled"));HUD->Empty=LoadObject<UTexture2D>(nullptr,TEXT("/Game/2DArt/UI/Action/UI_SaHealth_Empty"));

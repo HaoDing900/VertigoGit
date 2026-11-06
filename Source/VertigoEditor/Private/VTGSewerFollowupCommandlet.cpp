@@ -117,4 +117,4 @@ void Apply()
 }
 }
 UVTGSewerFollowupCommandlet::UVTGSewerFollowupCommandlet(){IsEditor=true;IsClient=false;IsServer=false;LogToConsole=true;}
-int32 UVTGSewerFollowupCommandlet::Main(const FString& Params){if(FParse::Param(*Params,TEXT("Runtime"))){FVTGSewerFollowupRegression::Run(FParse::Param(*Params,TEXT("SummonCleanupOnly")));return 0;}if(FParse::Param(*Params,TEXT("Apply")))SewerFollowup::Apply();SewerFollowup::Inspect();return 0;}
+int32 UVTGSewerFollowupCommandlet::Main(const FString& Params){if(FParse::Param(*Params,TEXT("EggDamage"))){FVTGSewerFollowupRegression::CheckEggDamage(false);FVTGSewerFollowupRegression::CheckEggDamage(true);return 0;}if(FParse::Param(*Params,TEXT("Runtime"))){FVTGSewerFollowupRegression::Run(FParse::Param(*Params,TEXT("SummonCleanupOnly")));return 0;}if(FParse::Param(*Params,TEXT("Apply")))SewerFollowup::Apply();SewerFollowup::Inspect();return 0;}

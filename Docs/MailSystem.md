@@ -1,5 +1,7 @@
 # Mail 系统 维护文档
 
+当前补充：[Mail 相机、邮件提示音与过场入口](MailSequencePolish.md)。Fixed / 其他相机与 Mail 的往返已改为直接切换，第三人称保留原 Blend；SetMailData 的新邮件通知已接入 Ting_Coins。下文早期流程图中的固定 1 秒 Blend 请以这份补充为准。
+
 > 主角在终端上阅读邮件的完整流程。核心逻辑在 `BP_Player_Sa`，终端表现在 `BP_PortableTerminal`，
 > UI 走 ISX（InventorySystemX）的终端界面。本文按实际蓝图的 NodeName 记录，只写最终跑通的方案。
 

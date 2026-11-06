@@ -54,13 +54,13 @@ bool VTGTestSewerAudio(UBlueprint *BP)
     for (int32 I = 0; I < Audio->DefaultSteps.Num(); ++I)
         Expect(Cast<USoundCue>(Audio->DefaultSteps[I]) &&
                    Audio->DefaultSteps[I]->GetPathName() ==
-                       FString::Printf(TEXT("/Game/SFX/Footsteps_Volume_02/Cues/Footstep_Boots_%02d_Cue.Footstep_Boots_%02d_Cue"), I + 1, I + 1),
+                       FString::Printf(TEXT("/Game/SFX/SaFootstep/Cues/Footstep_Boots_%02d_Cue.Footstep_Boots_%02d_Cue"), I + 1, I + 1),
                TEXT("default footstep references requested Boots 01-06 cue"));
     const int32 BarefootIndices[] = {1, 5, 6};
     for (int32 I = 0; I < FMath::Min(Audio->BarefootSteps.Num(), 3); ++I)
         Expect(Cast<USoundCue>(Audio->BarefootSteps[I]) &&
                    Audio->BarefootSteps[I]->GetPathName() ==
-                       FString::Printf(TEXT("/Game/SFX/Footsteps_Volume_02/Cues/Footstep_Naked_Feet_Deep_%02d_Cue.Footstep_Naked_Feet_Deep_%02d_Cue"), BarefootIndices[I], BarefootIndices[I]),
+                       FString::Printf(TEXT("/Game/SFX/SaFootstep/Cues/Footstep_Naked_Feet_Deep_%02d_Cue.Footstep_Naked_Feet_Deep_%02d_Cue"), BarefootIndices[I], BarefootIndices[I]),
                TEXT("barefoot footstep references only requested Deep 01/05/06 cue"));
     auto *ClothedMesh = Player->GetMesh()->GetSkeletalMeshAsset();
     Expect(&Audio->GetOutfitFootsteps() == &Audio->DefaultSteps, TEXT("clothed Sa selects boots"));

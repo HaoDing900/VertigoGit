@@ -31,16 +31,24 @@
 #include "NarrativeEvent.h"
 #include "VTGLevelManagerBase.h"
 #include "Audio/VTGPlayerAudioComponent.h"
+#include "Audio/VTGNarrativeAudio.h"
+#include "Audio/VTGSpatialLoopComponent.h"
+#include "Audio/VTGCutsceneAudio.h"
+#include "ObjectTools.h"
+#include "Animation/AnimSequence.h"
+#include "Animation/AnimNotifies/AnimNotify_PlaySound.h"
+#include "Sound/SoundAttenuation.h"
+#include "K2Node_CustomEvent.h"
 #include "UObject/SavePackage.h"
 #include "UObject/UnrealType.h"
 
 namespace VTGLevelAudio
 {
 const FString Root = TEXT("/Game/LevelNSequence/LevelAudio/");
-const TCHAR* Names[] = {TEXT("Audio_PlayAmbience"),TEXT("Audio_StopAmbience"),TEXT("Audio_PlayMusic"),TEXT("Audio_PlayPsych"),TEXT("Audio_StopMusic"),TEXT("Audio_StopPsych")};
-const TCHAR* Tracks[] = {TEXT("AC_Ambience"),TEXT("AC_Ambience"),TEXT("AC_Music"),TEXT("AC_Psych"),TEXT("AC_Music"),TEXT("AC_Psych")};
-bool Play(int I) { return I==0 || I==2 || I==3; }
-bool Fade(int I) { return I!=3 && I!=5; }
+const TCHAR* Names[] = {TEXT("Audio_PlayAmbience"),TEXT("Audio_StopAmbience"),TEXT("Audio_PlayMusic"),TEXT("Audio_StopMusic")};
+const TCHAR* Tracks[] = {TEXT("AC_Ambience"),TEXT("AC_Ambience"),TEXT("AC_Music"),TEXT("AC_Music")};
+bool Play(int I) { return I==0 || I==2; }
+bool Fade(int I) { return true; }
 const UEdGraphSchema_K2* S() { return GetDefault<UEdGraphSchema_K2>(); }
 UEdGraphPin* P(UEdGraphNode* N,const TCHAR* Name) { auto* Pin=N->FindPin(Name); checkf(Pin,TEXT("Missing %s on %s"),Name,*N->GetName()); return Pin; }
 void L(UEdGraphNode* A,const TCHAR* AP,UEdGraphNode* B,const TCHAR* BP) { checkf(S()->TryCreateConnection(P(A,AP),P(B,BP)),TEXT("Link failed %s.%s -> %s.%s"),*A->GetName(),AP,*B->GetName(),BP); }
@@ -64,13 +72,13 @@ UK2Node_Event* Event(UEdGraph* G,UClass* Owner,const TCHAR* Name,int Y=0) { auto
 void BuildAudio(UBlueprint* B)
 {
     Backup(B);
-    for(const TCHAR* Name:{TEXT("AC_Music"),TEXT("AC_Psych")}) {
+    for(const TCHAR* Name:{TEXT("AC_Music")}) {
         auto* N=B->SimpleConstructionScript->CreateNode(UAudioComponent::StaticClass(),Name);
         B->SimpleConstructionScript->GetRootNodes()[0]->AddChildNode(N);
         auto* A=CastChecked<UAudioComponent>(N->ComponentTemplate); A->bAutoActivate=false; A->bAllowSpatialization=false; A->VolumeMultiplier=Name==FString(TEXT("AC_Music"))?.25f:.4f;
     }
     Compile(B);
-    for(int I=0;I<6;++I) {
+    for(int I=0;I<4;++I) {
         auto* E=Function(B,Names[I]); Inputs(E,I); auto* G=E->GetGraph();
         auto* Track=Var(G,Tracks[I],0,300); UEdGraphNode* Exec=E;
         if(Play(I)) { auto* V=Gate(G,E,TEXT("NewSound"),300,0); L(E,TEXT("then"),V,TEXT("execute")); Exec=V;
@@ -97,7 +105,7 @@ void BuildBPLM(UBlueprint* B,UBlueprint* Audio)
     auto* Stage=Function(B,TEXT("Audio_ApplyStage")); Stage->CreateUserDefinedPin(TEXT("Stage"),NameType(),EGPD_Output);
     Stage->NodeComment=TEXT("Override in each level BPLM child. Switch on Name(Stage) -> inherited Audio_Play/Stop functions. Called at startup; call again from existing stage-change flow. No audio state machine."); Stage->bCommentBubbleVisible=true;
     Compile(B);
-    for(int I=0;I<6;++I) {
+    for(int I=0;I<4;++I) {
         auto* E=Function(B,Names[I]); Inputs(E,I); auto* Graph=E->GetGraph();
         auto* Resolve=Call(Graph,B->GeneratedClass,TEXT("Audio_Initialize"),250,0); L(E,TEXT("then"),Resolve,TEXT("execute"));
         auto* R=Var(Graph,TEXT("AudioManagerRef"),300,250); auto* V=Gate(Graph,R,TEXT("AudioManagerRef"),600,0); L(Resolve,TEXT("then"),V,TEXT("execute"));
@@ -119,7 +127,7 @@ void BuildBPLM(UBlueprint* B,UBlueprint* Audio)
 
 void BuildNarrative(UBlueprint* LM)
 {
-    for(int I=0;I<6;++I) {
+    for(int I=0;I<4;++I) {
         FString Name=TEXT("NE_VTG_")+FString(Names[I]); auto* B=NewBP(*Name,UNarrativeEvent::StaticClass());
         if(Play(I))Member(B,TEXT("NewSound"),Obj(USoundBase::StaticClass())); if(Fade(I))Member(B,TEXT("FadeTime"),Float(),TEXT("1.0")); Compile(B);
         auto* G=FBlueprintEditorUtils::FindEventGraph(B); check(G); auto* E=Event(G,UNarrativeEvent::StaticClass(),TEXT("ExecuteEvent"));
@@ -146,15 +154,15 @@ void Demo(UBlueprint* Audio,UBlueprint* LM)
 {
     auto* ChildAudio=NewBP(TEXT("BP_VTG_AudioManager_Example"),Audio->GeneratedClass); Compile(ChildAudio); Save(ChildAudio);
     auto* B=NewBP(TEXT("BPLM_AudioExample"),LM->GeneratedClass);
-    Member(B,TEXT("ExampleAmbience"),Obj(USoundBase::StaticClass())); Member(B,TEXT("ExampleMusic"),Obj(USoundBase::StaticClass())); Member(B,TEXT("ExamplePsych"),Obj(USoundBase::StaticClass())); Compile(B);
+    Member(B,TEXT("ExampleAmbience"),Obj(USoundBase::StaticClass())); Member(B,TEXT("ExampleMusic"),Obj(USoundBase::StaticClass())); Compile(B);
     auto* G=FBlueprintEditorUtils::CreateNewGraph(B,TEXT("Audio_ApplyStage"),UEdGraph::StaticClass(),UEdGraphSchema_K2::StaticClass());
     FBlueprintEditorUtils::AddFunctionGraph(B,G,false,LM->GeneratedClass.Get());
     UK2Node_FunctionEntry* E=nullptr; for(UEdGraphNode* N:G->Nodes)if(auto* Entry=Cast<UK2Node_FunctionEntry>(N))E=Entry; check(E);
     auto* Switch=Add<UK2Node_SwitchName>(G,300,0); Switch->PinNames={TEXT("Demo_Normal"),TEXT("Demo_Disturbed"),TEXT("Demo_Void")}; Switch->AllocateDefaultPins(); L(E,TEXT("then"),Switch,TEXT("execute")); L(E,TEXT("Stage"),Switch,TEXT("Selection"));
     auto Action=[&](int I,int X,int Y,const TCHAR* Variable)->UK2Node_CallFunction* { auto* C=Call(G,LM->GeneratedClass,Names[I],X,Y); if(Variable){auto* V=Var(G,Variable,X,Y+160); L(V,Variable,C,TEXT("NewSound"));} if(Fade(I))D(C,TEXT("FadeTime"),TEXT("1.5")); return C; };
     auto* Amb=Action(0,650,0,TEXT("ExampleAmbience")); auto* Music=Action(2,1000,0,TEXT("ExampleMusic")); L(Switch,TEXT("Demo_Normal"),Amb,TEXT("execute")); L(Amb,TEXT("then"),Music,TEXT("execute"));
-    auto* Quiet=Action(1,650,400,nullptr); auto* Psych=Action(3,1000,400,TEXT("ExamplePsych")); L(Switch,TEXT("Demo_Disturbed"),Quiet,TEXT("execute")); L(Quiet,TEXT("then"),Psych,TEXT("execute"));
-    auto* StopA=Action(1,650,800,nullptr); auto* StopM=Action(4,1000,800,nullptr); auto* StopP=Action(5,1350,800,nullptr); L(Switch,TEXT("Demo_Void"),StopA,TEXT("execute")); L(StopA,TEXT("then"),StopM,TEXT("execute")); L(StopM,TEXT("then"),StopP,TEXT("execute"));
+    auto* Quiet=Action(1,650,400,nullptr); auto* Psych=Action(3,1000,400,nullptr); L(Switch,TEXT("Demo_Disturbed"),Quiet,TEXT("execute")); L(Quiet,TEXT("then"),Psych,TEXT("execute"));
+    auto* StopA=Action(1,650,800,nullptr); auto* StopM=Action(3,1000,800,nullptr); L(Switch,TEXT("Demo_Void"),StopA,TEXT("execute")); L(StopA,TEXT("then"),StopM,TEXT("execute"));
     G=FBlueprintEditorUtils::FindEventGraph(B); auto* Start=Event(G,AActor::StaticClass(),TEXT("ReceiveBeginPlay"));
     Start->NodeComment=TEXT("Isolated demonstration only: overrides BeginPlay without running the story-specific BPLM parent graph. Production children must retain Parent: BeginPlay."); Start->bCommentBubbleVisible=true;
     UEdGraphNode* Last=Start; int X=300;
@@ -212,11 +220,23 @@ void OneShotUpgrade(UBlueprint* Audio,UBlueprint* LM)
 }
 }
 
+#include "VTGIndependentAudioUpgrade.inl"
+#include "VTGSpatialAudioSetup.inl"
+#include "VTGRemovePsych.inl"
+extern bool VTGVerifyCutsceneAudio();
+extern bool VTGVerifySpatialAudio();
+extern bool VTGVerifyIndependentAudio();
 extern bool VTGVerifyLevelAudio();
 UVTGLevelAudioCommandlet::UVTGLevelAudioCommandlet(){ IsEditor=true; IsClient=false; IsServer=false; LogToConsole=true; }
 int32 UVTGLevelAudioCommandlet::Main(const FString& Params)
 {
     using namespace VTGLevelAudio;
+    if(FParse::Param(*Params,TEXT("RemovePsych"))) { RemovePsychChannel();return 0; }
+    if(FParse::Param(*Params,TEXT("CutsceneVerify"))) return VTGVerifyCutsceneAudio()?0:1;
+    if(Params.Contains(TEXT("SpatialVerify"))) return VTGVerifySpatialAudio()?0:1;
+    if(Params.Contains(TEXT("SpatialSetup"))) { SetupSpatialAudio(); return 0; }
+    if(Params.Contains(TEXT("IndependentVerify"))) return VTGVerifyIndependentAudio()?0:1;
+    if(Params.Contains(TEXT("IndependentUpgrade"))) { UpgradeIndependentAudio(); return 0; }
     if(Params.Contains(TEXT("DetachSewer")) || Params.Contains(TEXT("SewerDetachedCheck"))) {
         const bool CheckOnly=Params.Contains(TEXT("SewerDetachedCheck"));
         auto* Player=LoadObject<UBlueprint>(nullptr,TEXT("/Game/ThirdPerson/Blueprints/BP_Player_Sa"));check(Player);
@@ -238,9 +258,9 @@ int32 UVTGLevelAudioCommandlet::Main(const FString& Params)
     auto* Audio=LoadObject<UBlueprint>(nullptr,*(Root+TEXT("BP_VTG_AudioManager"))); check(Audio);
     if(Params.Contains(TEXT("Phase2"))) { BuildAudio(Audio); return 0; }
     auto* LM=LoadObject<UBlueprint>(nullptr,TEXT("/Game/LevelNSequence/BPLM")); check(LM);
-    if(Params.Contains(TEXT("OneShotUpgrade"))) { OneShotUpgrade(Audio,LM); return 0; }
+    if(FParse::Param(*Params,TEXT("OneShotUpgrade"))) { UE_LOG(LogTemp,Error,TEXT("Shared OneShot/Psych channel retired; use IndependentUpgrade."));return 1; }
     if(Params.Contains(TEXT("Phase3"))) { BuildBPLM(LM,Audio); BuildNarrative(LM); return 0; }
-    if(Params.Contains(TEXT("FixFind"))) { FixFind(LM); for(int I=0;I<6;++I)FixFind(LoadObject<UBlueprint>(nullptr,*(Root+TEXT("NE_VTG_")+Names[I]))); return 0; }
+    if(Params.Contains(TEXT("FixFind"))) { FixFind(LM); for(int I=0;I<4;++I)FixFind(LoadObject<UBlueprint>(nullptr,*(Root+TEXT("NE_VTG_")+Names[I]))); return 0; }
     if(Params.Contains(TEXT("Demo"))) { Demo(Audio,LM); return 0; }
     return 1;
 }

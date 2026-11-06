@@ -144,12 +144,12 @@ void Effect(UAnimMontage *M, float Time, const FString &Path, float Seconds, FNa
 FString Wave(const TCHAR *Name)
 {
     return FString(TEXT("/Game/SFX/MonsterNCreatures/BST09_BEASTIARIUM_VENOMBRUTE/"
-                        "BST09_BEASTIARIUM_VENOMBRUTE_DESIGNED_KIT/PS_DK_BST09_BEASTIARIUM__")) +
+                        "BST09_BEASTIARIUM_VENOMBRUTE_DESIGNED_KIT/used/PS_DK_BST09_BEASTIARIUM__")) +
            Name;
 }
 void Sound(const TCHAR *Cue, const TArray<FString> &Waves, float Pitch = 1.f)
 {
-    auto *C = Load<USoundCue>(Root + TEXT("Audio/") + Cue);
+    auto *C = Load<USoundCue>(Root + TEXT("Audio/used/") + Cue);
     int Index = 0;
     for (USoundNode *N : C->AllNodes)
         if (auto *W = Cast<USoundNodeWavePlayer>(N))

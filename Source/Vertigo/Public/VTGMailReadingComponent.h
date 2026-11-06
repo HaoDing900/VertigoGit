@@ -42,6 +42,14 @@ public:
     UFUNCTION(BlueprintCallable, Category="Mail|Camera", meta=(DefaultToSelf="Reader"))
     static void CaptureMailCameraReturn(AActor* Reader);
 
+    /** Blend only between Sa's third-person view and the mail camera. Other views cut. */
+    UFUNCTION(BlueprintPure, Category="Mail|Camera", meta=(DefaultToSelf="Reader"))
+    static float GetMailCameraBlendTime(AActor* Reader, AActor* Target, bool bEnteringMail);
+
+    /** A repeated update of the same unread mail does not repeat its notification. */
+    UFUNCTION(BlueprintCallable, Category="Mail", meta=(DefaultToSelf="Reader"))
+    static bool NotifyNewMail(AActor* Reader, FName MailID, bool bHasNewMail, class USoundBase* NotificationSound);
+
 protected:
     virtual void EndPlay(const EEndPlayReason::Type EndPlayReason) override;
 private:
@@ -53,6 +61,8 @@ private:
     TWeakObjectPtr<APlayerController> ReturnController;
     TArray<TWeakObjectPtr<class UCameraComponent>> OriginalActiveCameras;
     bool bHasCameraSnapshot = false;
+    bool bEnteredFromThirdPerson = false;
+    FName LastNotifiedMailID;
     bool bRestoredCamera = false;
     bool bProtectNoteCameraCleanup = false;
     TArray<FTimerHandle> CameraStepTimers;

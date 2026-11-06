@@ -1,0 +1,2 @@
+from pathlib import Path
+p=Path('Source/VertigoEditor/Private/VTGPoliceContractProbe.cpp');s=p.read_text(encoding='utf-8').replace('for(auto* P:Pin(Open,TEXT("execute"))->LinkedTo)','for(auto* P:TArray<UEdGraphPin*>(Pin(Open,TEXT("execute"))->LinkedTo))').replace('auto Run=[&](const TCHAR* Label){Manager->SetActorTickEnabled(false);','auto Run=[&](const TCHAR* Label){W->GetLatentActionManager().BeginFrame();Manager->SetActorTickEnabled(false);');p.write_text(s,encoding='utf-8')

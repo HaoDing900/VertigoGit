@@ -25,6 +25,9 @@ class VERTIGO_API UVTGBossHealthBarComponent : public UActorComponent
 public:
 	UVTGBossHealthBarComponent();
 
+	UFUNCTION(BlueprintCallable,Category="Boss Health Bar") void SetPresentationAllowed(bool bAllowed);
+	UFUNCTION(BlueprintPure,Category="Boss Health Bar") bool IsPresentationAllowed() const {return bPresentationAllowed;}
+
 	/** Name shown above the bar. */
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Boss Health Bar")
 	FText DisplayName;
@@ -61,6 +64,7 @@ protected:
 	virtual void TickComponent(float DeltaTime, ELevelTick TickType, FActorComponentTickFunction* ThisTickFunction) override;
 
 private:
+	bool bPresentationAllowed=true;
 	bool FindHealthSource();
 
 	FVTGHealthSource Source;

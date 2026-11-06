@@ -7,6 +7,7 @@ public class Vertigo : ModuleRules
 		PCHUsage = PCHUsageMode.UseExplicitOrSharedPCHs;
 
 		PublicDependencyModuleNames.AddRange(new string[] { "Core", "CoreUObject", "Engine", "UMG", "MovieScene", "Narrative", "InventorySystemX", "CommonUI", "NarrativeCommonUI" });
+        PrivateDependencyModuleNames.Add("MovieSceneTracks");
         PrivateDependencyModuleNames.AddRange(new string[] { "EnhancedInput", "CommonInput", "NavigationSystem" });
         PublicDependencyModuleNames.Add("DeveloperSettings");
 

@@ -12,7 +12,8 @@ class VERTIGO_API UVTGSewerEncounterComponent : public UActorComponent
  GENERATED_BODY()
 public:
  UVTGSewerEncounterComponent();
- UFUNCTION(BlueprintCallable,Category="L3 Sewer|Encounter") bool StartBossEncounter();
+ UFUNCTION(BlueprintCallable,Category="L3 Sewer|Encounter") bool StartBossEncounter(bool bWaitForIntroDialogue=false);
+ UFUNCTION(BlueprintCallable,Category="L3 Sewer|Encounter") void WaitForBossIntroDialogue(class UNarrativeComponent* Narrative,bool bDialogueStarted);
  /** Rebuild physical encounter state after save restoration, without replaying story events. */
  UFUNCTION(BlueprintCallable,Category="L3 Sewer|Encounter") void RestoreEncounterCheckpointScene();
  UFUNCTION(BlueprintPure,Category="L3 Sewer|Eggs") int32 GetMonsterEggKillCount() const;
@@ -22,6 +23,10 @@ public:
  virtual void EndPlay(const EEndPlayReason::Type Reason) override;
  virtual void TickComponent(float Dt,ELevelTick Type,FActorComponentTickFunction* Tick) override;
 private:
+ TWeakObjectPtr<class UNarrativeComponent> IntroNarrative;
+ TWeakObjectPtr<class UDialogue> IntroDialogue;
+ UFUNCTION() void OnBossIntroFinished(class UDialogue* Dialogue,bool bStartingNewDialogue);
+ void ReleaseBossHealthBar();
  UPROPERTY(Transient) TObjectPtr<AActor> Boss;
  UPROPERTY(Transient) TObjectPtr<UActorComponent> Behavior;
  bool bCombatActivated=false;

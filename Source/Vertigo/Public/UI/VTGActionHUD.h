@@ -28,11 +28,13 @@ private:
  friend struct FVTGRecoveryHUDRegression;
  void EnsureRecoveryWidgets();
  void ShowRecovery(float Fraction, float Opacity);
+ UAnimMontage* ResolveRecoveryMontage(APawn* Pawn) const;
  UFUNCTION() void RecoveryEnded(UAnimMontage* Montage, bool Interrupted);
  UFUNCTION() void RecoveryBlendingOut(UAnimMontage* Montage, bool Interrupted);
  UPROPERTY(Transient) TObjectPtr<UCanvasPanel> RecoveryBox;
  UPROPERTY(Transient) TObjectPtr<UProgressBar> RecoveryBar;
  TWeakObjectPtr<UAnimInstance> RecoveryAnim;
+ UPROPERTY(Transient) TObjectPtr<UAnimMontage> TrackedRecoveryMontage;
  int32 RecoveryInstanceID = INDEX_NONE;
  float RecoveryStart = 0.f;
  float ReadyFlash = 0.f;

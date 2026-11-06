@@ -1,0 +1,3 @@
+from pathlib import Path
+p=Path('Docs/MailSequencePolish.md');s=p.read_text(encoding='utf-8').replace('**默认开启**，新旧放置实例都生效，无需逐张地图迁移。','**默认关闭**。只有手动勾选的 Actor 才退出旧对话；未设置的新旧实例都保持对话。').replace('关闭开关后保存关卡','修改开关后保存关卡').replace('蓝图 Create Level Sequence Player 创建的运行时实例也自动接入。','蓝图 Create Level Sequence Player 创建的运行时实例也自动接入，默认不退出对话；显式添加 VTG.EndNarrativeDialogueOnStart Actor Tag 才启用。');p.write_text(s,encoding='utf-8')
+p=Path('Docs/CorvosSequenceRegression.md');s=p.read_text(encoding='utf-8').replace('外部地图／游戏过场仍遵守默认开启的退出旧对话开关','外部地图／游戏过场的退出旧对话开关现为默认关闭（2026-11-04 用户要求），显式启用后才执行').replace('13 项','15 项');p.write_text(s,encoding='utf-8')

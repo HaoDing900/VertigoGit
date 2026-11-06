@@ -36,6 +36,10 @@ bool UNarrativeBlipAudio::HasPriorityAudio(const UWorld* World)
         if (!It->IsTemplate() && It->GetWorld() == World && It->ComponentHasTag(PriorityTag) && (It->IsPlaying() || It->bIsPaused)) return true;
     return false;
 }
+void UNarrativeBlipAudio::UnregisterPriorityAudio(UAudioComponent* Audio)
+{
+    if (IsValid(Audio)) Audio->ComponentTags.Remove(PriorityTag);
+}
 
 FNarrativeBlipChoice UNarrativeBlipLibrary::Choose(FName Tag, const FText& Text, USoundBase* VoiceOverride, bool bEnabled, bool bSuppressed, USoundBase* Previous) const
 {

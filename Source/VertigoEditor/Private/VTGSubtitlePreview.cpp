@@ -1,4 +1,6 @@
 #include "VTGSubtitlePreview.h"
+#include "WorkspaceMenuStructure.h"
+#include "WorkspaceMenuStructureModule.h"
 #include "UI/VTGSubtitleSubsystem.h"
 #include "UI/VTGSubtitleTrack.h"
 #include "UI/VTGSubtitleStyleSettings.h"
@@ -83,7 +85,7 @@ TSharedRef<SDockTab> Spawn(const FSpawnTabArgs&)
     return Tab;
 }
 }
-void Startup(){if(!IsRunningCommandlet()){FGlobalTabmanager::Get()->RegisterNomadTabSpawner(TabId,FOnSpawnTab::CreateStatic(&Spawn)).SetDisplayName(FText::FromString(TEXT("字幕预览与样式")));FGlobalTabmanager::Get()->RegisterNomadTabSpawner(GlobalTabId,FOnSpawnTab::CreateStatic(&SpawnGlobal)).SetDisplayName(FText::FromString(TEXT("全局字幕样式")));}}
+void Startup(){if(!IsRunningCommandlet()){FGlobalTabmanager::Get()->RegisterNomadTabSpawner(TabId,FOnSpawnTab::CreateStatic(&Spawn)).SetGroup(WorkspaceMenu::GetMenuStructure().GetLevelEditorCategory()).SetDisplayName(FText::FromString(TEXT("字幕预览与样式")));FGlobalTabmanager::Get()->RegisterNomadTabSpawner(GlobalTabId,FOnSpawnTab::CreateStatic(&SpawnGlobal)).SetGroup(WorkspaceMenu::GetMenuStructure().GetLevelEditorCategory()).SetDisplayName(FText::FromString(TEXT("全局字幕样式")));}}
 void Show(TSharedRef<ISequencer> Sequencer){Current=Sequencer;FGlobalTabmanager::Get()->TryInvokeTab(TabId);Enabled=true;LastSequence.Reset();Update(Sequencer);}
 void Update(TSharedPtr<ISequencer> Sequencer)
 {
