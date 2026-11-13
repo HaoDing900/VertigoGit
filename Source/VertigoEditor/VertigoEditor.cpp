@@ -14,6 +14,7 @@
 #include "Private/VTGSequenceInspector.h"
 #include "Private/VTGCameraRatio.h"
 #include "Private/VTGCutsceneAudioDetails.h"
+#include "Private/VTGBowerbirdTrace.h"
 #include "Containers/Ticker.h"
 #include "Engine/Engine.h"
 #include "Engine/World.h"
@@ -29,6 +30,7 @@ namespace VTGSubtitleEditor {void Startup();void Shutdown();}
 
 void FVertigoEditorModule::StartupModule()
 {
+ VTGBowerbirdTrace::Startup();
  VTGCameraRatio::Startup();
  VTGCutsceneAudioDetails::Startup();
  VTGMailRowJump::Startup();
@@ -58,6 +60,7 @@ void FVertigoEditorModule::StartupModule()
 
 void FVertigoEditorModule::ShutdownModule()
 {
+ VTGBowerbirdTrace::Shutdown();
  VTGCameraRatio::Shutdown();
  VTGCutsceneAudioDetails::Shutdown();
  VTGMailRowJump::Shutdown();

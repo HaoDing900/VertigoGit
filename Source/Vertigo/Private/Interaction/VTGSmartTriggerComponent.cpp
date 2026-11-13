@@ -81,6 +81,7 @@ bool UVTGSmartTriggerComponent::CanAccept(AActor* Player) const
     // visit/dialogue guards below are only for repeatable triggers.
     if(Flag(GetOwner(),TEXT("DoOnce?")))return !bEverFired;
     if(bSpent && Flag(GetOwner(),TEXT("RequireExitBeforeRetrigger"),true))return false;
+    if(bAllowDuringDialogue)return true;
     if(auto* Narrative=Player->FindComponentByClass<UNarrativeComponent>())if(Narrative->GetCurrentDialogue())return false;
     if(auto* Pawn=Cast<APawn>(Player))if(auto* Controller=Pawn->GetController())
     {
@@ -103,6 +104,7 @@ bool UVTGSmartTriggerComponent::AcceptTrigger(AActor* Trigger,AActor* Player,boo
 }
 void UVTGSmartTriggerComponent::FinishTriggerDispatch(AActor* Trigger){if(auto* State=Get(Trigger))State->bDispatching=false;}
 void UVTGSmartTriggerComponent::SetTriggerBusy(AActor* Trigger,bool Busy){if(auto* State=Get(Trigger))State->bExplicitBusy=Busy;}
+void UVTGSmartTriggerComponent::SetAllowDuringDialogue(AActor* Trigger,bool Allow){if(auto* State=Get(Trigger))State->bAllowDuringDialogue=Allow;}
 void UVTGSmartTriggerComponent::SetPromptEnabled(bool Enabled)
 {
     if(!IsValid(Proxy))return;

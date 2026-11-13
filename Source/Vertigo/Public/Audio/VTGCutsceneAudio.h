@@ -23,6 +23,9 @@ class VERTIGO_API UVTGCutsceneAudioSettings : public UAssetUserData
 public:
     UPROPERTY(EditAnywhere,Category="Cutscene Audio") EVTGCutsceneAudioPreset Preset=EVTGCutsceneAudioPreset::KeepWorld;
     UPROPERTY(EditAnywhere,Category="Cutscene Audio",meta=(ClampMin="0")) float FadeSeconds=.35f;
+    /** Multiplies Sequence audio tracks, including nested sequences, without editing their curves. */
+    UPROPERTY(EditAnywhere,Category="Cutscene Audio",meta=(ClampMin="0",UIMin="0",UIMax="4",DisplayName="Sequence Audio Volume Multiplier"))
+    float SequenceAudioVolumeMultiplier=1.f;
 };
 
 /** A temporary gain layer. Does not replace sounds, stop components, or own their playback. */

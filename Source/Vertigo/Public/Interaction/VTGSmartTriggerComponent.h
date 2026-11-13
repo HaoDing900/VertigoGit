@@ -16,6 +16,7 @@ public:
     UFUNCTION(BlueprintCallable, Category="Smart Trigger") static void FinishTriggerDispatch(AActor* Trigger);
     // For asynchronous non-dialogue events, the level manager can keep the trigger busy explicitly.
     UFUNCTION(BlueprintCallable, Category="Smart Trigger") static void SetTriggerBusy(AActor* Trigger,bool Busy);
+    UFUNCTION(BlueprintCallable, Category="Smart Trigger") static void SetAllowDuringDialogue(AActor* Trigger,bool Allow);
     UFUNCTION(BlueprintPure, Category="Smart Trigger") static bool IsManagedInteractionProxy(AActor* Actor);
     UFUNCTION(BlueprintPure, Category="Smart Trigger") static bool IsInteractionProxyVisible(AActor* Actor,AActor* Player,FVector CameraLocation);
     bool IsPlayerInside(AActor* Player) const;
@@ -35,4 +36,5 @@ private:
     TWeakObjectPtr<UBoxComponent> Volume;
     FTimerHandle RefreshTimer;
     bool bSpent=false,bEverFired=false,bDispatching=false,bExplicitBusy=false,bPromptEnabled=false;
+    bool bAllowDuringDialogue=false;
 };

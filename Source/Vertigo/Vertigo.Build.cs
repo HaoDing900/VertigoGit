@@ -8,7 +8,7 @@ public class Vertigo : ModuleRules
 
 		PublicDependencyModuleNames.AddRange(new string[] { "Core", "CoreUObject", "Engine", "UMG", "MovieScene", "Narrative", "InventorySystemX", "CommonUI", "NarrativeCommonUI" });
         PrivateDependencyModuleNames.Add("MovieSceneTracks");
-        PrivateDependencyModuleNames.AddRange(new string[] { "EnhancedInput", "CommonInput", "NavigationSystem" });
+        PrivateDependencyModuleNames.AddRange(new string[] { "EnhancedInput", "CommonInput", "NavigationSystem", "AIModule" });
         PublicDependencyModuleNames.Add("DeveloperSettings");
 
 		// "Narrative" lets the SaveCoordinator drive the Narrative plugin's own Save/Load in C++.

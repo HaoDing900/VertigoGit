@@ -421,7 +421,9 @@ void UDialogue::SetDialogueAudioPaused(bool bPaused)
 
 void UDialogue::SetAutoAdvance(bool bEnabled)
 {
-    bAutoAdvance = bEnabled || bAlwaysAutoAdvance;
+    // Free-movement dialogue has no modal continue action. It must never wait
+    // for the manual advance preference used by ordinary story conversations.
+    bAutoAdvance = bEnabled || bAlwaysAutoAdvance || bFreeMovement;
     if (bAutoAdvance && bWaitingForManualAdvance && GetWorld())
     {
         // Defer to avoid advancing from inside a presentation delegate or a UI callback.
@@ -1412,7 +1414,7 @@ void UDialogue::FinishNPCDialogue()
 {
     const bool bManualRequest = bExplicitLineAdvance;
     bExplicitLineAdvance = false;
-    if (!bAlwaysAutoAdvance && !bAutoAdvance && !bManualRequest && CurrentNode && CurrentNode->bIsSkippable && !CurrentNode->IsRoutingNode())
+    if (!bFreeMovement && !bAlwaysAutoAdvance && !bAutoAdvance && !bManualRequest && CurrentNode && CurrentNode->bIsSkippable && !CurrentNode->IsRoutingNode())
     {
         bWaitingForManualAdvance = true;
         return;

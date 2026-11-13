@@ -11,6 +11,36 @@
 #include "GameFramework/PlayerController.h"
 #include "Combat/VTGCombatPresentation.h"
 #include "VTGMailReadingComponent.h"
+#include "NarrativeComponent.h"
+#include "TimerManager.h"
+
+bool AVTGLevelManagerBase::DeferEncounterUntilDialogueEnds(UNarrativeComponent* Narrative,FName ResumeEvent)
+{
+ if(bDispatchingEncounterResume || !Narrative || !Narrative->GetCurrentDialogue())return false;
+ auto* Event=FindFunction(ResumeEvent);
+ if(!Event || Event->NumParms!=0){UE_LOG(LogTemp,Error,TEXT("Invalid deferred encounter event %s"),*ResumeEvent.ToString());return true;}
+ if(auto* Previous=DeferredEncounterNarrative.Get())Previous->OnDialogueFinished.RemoveDynamic(this,&AVTGLevelManagerBase::HandleDeferredEncounterDialogueFinished);
+ DeferredEncounterNarrative=Narrative;DeferredEncounterEvent=ResumeEvent;
+ Narrative->OnDialogueFinished.AddUniqueDynamic(this,&AVTGLevelManagerBase::HandleDeferredEncounterDialogueFinished);
+ return true;
+}
+void AVTGLevelManagerBase::HandleDeferredEncounterDialogueFinished(UDialogue*,bool)
+{
+ if(bDeferredEncounterQueued || !GetWorld())return;
+ bDeferredEncounterQueued=true;
+ // OnDialogueFinished fires before CurrentDialogue is cleared and before all
+ // Blueprint input/camera restoration callbacks have run. Resume next tick.
+ GetWorld()->GetTimerManager().SetTimerForNextTick(FTimerDelegate::CreateWeakLambda(this,[this](){ResumeDeferredEncounterWhenIdle();}));
+}
+void AVTGLevelManagerBase::ResumeDeferredEncounterWhenIdle()
+{
+ bDeferredEncounterQueued=false;
+ auto* Narrative=DeferredEncounterNarrative.Get();
+ if(!Narrative || Narrative->GetCurrentDialogue())return; // A replacement dialogue still owns the scene.
+ Narrative->OnDialogueFinished.RemoveDynamic(this,&AVTGLevelManagerBase::HandleDeferredEncounterDialogueFinished);
+ const FName Event=DeferredEncounterEvent;DeferredEncounterEvent=NAME_None;DeferredEncounterNarrative.Reset();
+ if(auto* Function=FindFunction(Event))ProcessEvent(Function,nullptr);
+}
 
 void AVTGLevelManagerBase::BeginStoryNoteMailReading(UObject* NoteAsset)
 {
@@ -51,8 +81,12 @@ AVTGLevelManagerBase::AVTGLevelManagerBase()
 
 FName AVTGLevelManagerBase::GetActiveStage() const
 {
-	//Test override wins so designers can force a stage while editing.
-	if (bOverrideStageForTesting)
+	const UWorld* StageWorld = GetWorld();
+	const UVTGGameInstanceBase* StageGI = StageWorld ? StageWorld->GetGameInstance<UVTGGameInstanceBase>() : nullptr;
+	// Only a direct PIE launch may use the designer override. Explicit travel
+	// and save loading keep their stage for the remainder of that game session.
+	if (bOverrideStageForTesting && StageWorld && StageWorld->WorldType == EWorldType::PIE
+		&& (!StageGI || !StageGI->HasExplicitStage()))
 	{
 		return TestStage;
 	}
@@ -93,6 +127,8 @@ void AVTGLevelManagerBase::BeginPlay()
 
 void AVTGLevelManagerBase::EndPlay(const EEndPlayReason::Type Reason)
 {
+ if(auto* Narrative=DeferredEncounterNarrative.Get())Narrative->OnDialogueFinished.RemoveDynamic(this,&AVTGLevelManagerBase::HandleDeferredEncounterDialogueFinished);
+ DeferredEncounterEvent=NAME_None;DeferredEncounterNarrative.Reset();
  if (auto* GI = GetGameInstance())
   if (auto* Save = GI->GetSubsystem<UVTGSaveCoordinator>()) Save->OnSlotLoaded.RemoveDynamic(this, &AVTGLevelManagerBase::HandleEncounterSlotLoaded);
  Super::EndPlay(Reason);

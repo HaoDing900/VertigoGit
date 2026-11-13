@@ -19,6 +19,12 @@ class VERTIGO_API UVTGCombatStatics : public UBlueprintFunctionLibrary
 	GENERATED_BODY()
 
 public:
+	/** Opt-in death presentation. A null animation leaves the existing death path untouched. */
+	UFUNCTION(BlueprintCallable, Category = "Combat")
+	static bool TryAnimationOnlyDeath(AActor* Actor, class UAnimSequence* Animation);
+	/** Clear independent corpse timers, then remove this encounter's actors on one timer. */
+	UFUNCTION(BlueprintCallable, Category="Combat", meta=(WorldContext="WorldContextObject"))
+	static void RemoveActorsTogether(const UObject* WorldContextObject,const TArray<AActor*>& Actors,float DelaySeconds=5.f);
 	/**
 	 * Pawns inside the sphere that can take a hit: they implement VTGDamageable, or their Blueprint
 	 * handles Point / Any / Radial Damage. Pawns that ignore damage (drones, ambient NPCs) are left out,

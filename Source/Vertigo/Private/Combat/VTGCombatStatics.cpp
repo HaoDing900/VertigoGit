@@ -6,6 +6,49 @@
 #include "Components/ActorComponent.h"
 #include "GameFramework/Actor.h"
 #include "Kismet/KismetSystemLibrary.h"
+#include "GameFramework/Character.h"
+#include "GameFramework/CharacterMovementComponent.h"
+#include "Components/CapsuleComponent.h"
+#include "Components/SkeletalMeshComponent.h"
+#include "Animation/AnimInstance.h"
+#include "Animation/AnimSequence.h"
+#include "AIController.h"
+#include "BrainComponent.h"
+#include "UObject/StructOnScope.h"
+#include "Engine/Engine.h"
+#include "Engine/World.h"
+#include "TimerManager.h"
+
+void UVTGCombatStatics::RemoveActorsTogether(const UObject* Context,const TArray<AActor*>& Actors,float DelaySeconds)
+{
+ auto* World=GEngine?GEngine->GetWorldFromContextObject(Context,EGetWorldErrorMode::ReturnNull):nullptr;if(!World)return;
+ TArray<TWeakObjectPtr<AActor>> Pending;
+ for(auto* Actor:Actors)if(IsValid(Actor)){Actor->SetLifeSpan(0);Pending.Add(Actor);}
+ auto Remove=[Pending](){for(const auto& Weak:Pending)if(auto* Actor=Weak.Get();IsValid(Actor) && !Actor->IsActorBeingDestroyed())Actor->Destroy();};
+ if(DelaySeconds<=0){Remove();return;}
+ FTimerHandle Timer;World->GetTimerManager().SetTimer(Timer,FTimerDelegate::CreateLambda(MoveTemp(Remove)),DelaySeconds,false);
+}
+
+bool UVTGCombatStatics::TryAnimationOnlyDeath(AActor* Actor, UAnimSequence* Animation)
+{
+ auto* Character=Cast<ACharacter>(Actor);
+ if(!Character || !Animation || !Character->GetMesh())return false;
+ Character->SetCanBeDamaged(false);
+ Character->GetCharacterMovement()->StopMovementImmediately();
+ Character->GetCharacterMovement()->DisableMovement();
+ if(auto* AI=Cast<AAIController>(Character->GetController()))if(auto* Brain=AI->GetBrainComponent())Brain->StopLogic(TEXT("Animation-only death"));
+ if(auto* P=FindFProperty<FObjectPropertyBase>(Actor->GetClass(),TEXT("AIBehaviorsComponent")))
+  if(auto* Behavior=P->GetObjectPropertyValue_InContainer(Actor))
+   if(auto* F=Behavior->FindFunction(TEXT("SetState")))
+   {FStructOnScope Args(F);if(auto* State=FindFProperty<FByteProperty>(F,TEXT("State")))State->SetPropertyValue_InContainer(Args.GetStructMemory(),3);Behavior->ProcessEvent(F,Args.GetStructMemory());}
+ Character->GetCapsuleComponent()->SetCollisionEnabled(ECollisionEnabled::NoCollision);
+ auto* Mesh=Character->GetMesh();
+ if(auto* Anim=Mesh->GetAnimInstance())Anim->Montage_Stop(0.f);
+ Mesh->SetSimulatePhysics(false);
+ Mesh->SetCollisionEnabled(ECollisionEnabled::NoCollision);
+ Mesh->PlayAnimation(Animation,false); // Single-node playback holds the last pose; no physics handoff.
+ return true;
+}
 
 TArray<AActor*> UVTGCombatStatics::FindMeleeTargets(const UObject* WorldContextObject, FVector Center, float Radius, const TArray<AActor*>& ActorsToIgnore)
 {

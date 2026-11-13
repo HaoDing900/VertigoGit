@@ -122,9 +122,11 @@ void TriggerTests(UBlueprint* BP,UBlueprint* Trigger)
  FindFProperty<FNameProperty>(T->GetClass(),TEXT("TRIGGER ID"))->SetPropertyValue_InContainer(T,TEXT("L4_Trigger_Alley"));
  auto Run=[](UObject* O,FName Name){O->ProcessEvent(O->FindFunctionChecked(Name),nullptr);};
  auto* Counter=FindFProperty<FIntProperty>(M->GetClass(),TEXT("RegressionBranch"));check(Counter);
- auto Emit=[&](){Box->OnComponentBeginOverlap.Broadcast(Box,Pawn,Pawn->GetCapsuleComponent(),0,false,FHitResult());for(int I=0;I<10;++I){W->GetLatentActionManager().BeginFrame();W->GetLatentActionManager().ProcessLatentActions(T,.01f);}};
+ auto Emit=[&](){Pawn->SetActorLocation(FVector(10000,0,0));UVTGSmartTriggerComponent::InitializeTrigger(T);T->FindComponentByClass<UVTGSmartTriggerComponent>()->Refresh();Pawn->SetActorLocation(Box->GetComponentLocation());Box->OnComponentBeginOverlap.Broadcast(Box,Pawn,Pawn->GetCapsuleComponent(),0,false,FHitResult());for(int I=0;I<10;++I){W->GetLatentActionManager().BeginFrame();W->GetLatentActionManager().ProcessLatentActions(T,.01f);}};
  Run(M,RestoreName);check(T->GetActorEnableCollision() && !T->IsHidden() && Box->GetCollisionEnabled()==ECollisionEnabled::QueryOnly);
+ auto* NC=NewObject<UNarrativeComponent>(Pawn);Pawn->AddInstanceComponent(NC);NC->RegisterComponent();NC->CurrentDialogue=NewObject<UDialogue>(NC);
  Bool(M,TEXT("L4_FirstTimeTriggerAlley?"),true);Bool(M,TEXT("L4_Alley_BeforeConflictHappens?"),true);Emit();check(Counter->GetPropertyValue_InContainer(M)==11);
+ Emit();check(Counter->GetPropertyValue_InContainer(M)==11);NC->CurrentDialogue=nullptr;
  Emit();check(Counter->GetPropertyValue_InContainer(M)==22);
  Bool(M,TEXT("L4_Alley_BeforeConflictHappens?"),false);Bool(M,TEXT("L4_Alley_HadInteractHoledInAlley?"),true);Emit();check(Counter->GetPropertyValue_InContainer(M)==33);
  Counter->SetPropertyValue_InContainer(M,44);Bool(M,*ConflictFlag.ToString(),true);Run(M,SuspendName);check(!T->GetActorEnableCollision() && T->IsHidden() && Box->GetCollisionEnabled()==ECollisionEnabled::NoCollision);Emit();check(Counter->GetPropertyValue_InContainer(M)==44);
@@ -150,6 +152,38 @@ void InjuredBlend(UAnimBlueprint* BP,bool VerifyOnly)
  check(Matches==1);
  if(!VerifyOnly){FBlueprintEditorUtils::MarkBlueprintAsStructurallyModified(BP);Compile(BP);Save(BP);}
  UE_LOG(LogTemp,Display,TEXT("INJURED BLEND PASS: isolated spine injury layer uses local rotation, original 0.7 weight retained"));
+}
+
+int32 AfterAdultRepair(bool VerifyOnly)
+{
+ auto* BP=LoadObject<UBlueprint>(nullptr,TEXT("/Game/LevelNSequence/In_Level/L4BlackMarket/BPLM_BlackMarket"));
+ auto* Trigger=LoadObject<UBlueprint>(nullptr,TEXT("/Game/Blueprints/BPA_0SmartTrigger"));check(BP && Trigger);
+ auto* G=Graph(BP);const FString PolicyMarker=TEXT("VTG first alley entry interrupts free dialogue");
+ auto* StartID=Node(G,TEXT("K2Node_CallFunction_90"))->FindPinChecked(TEXT("StartFromID"));
+ if(VerifyOnly){check(StartID->DefaultValue==TEXT("QuestState_1"));}
+ else {check(StartID->DefaultValue==TEXT("QuestBranch_9") || StartID->DefaultValue==TEXT("QuestState_1"));StartID->DefaultValue=TEXT("QuestState_1");FBlueprintEditorUtils::MarkBlueprintAsStructurallyModified(BP);}
+ bool Installed=false;for(UEdGraphNode* N:G->Nodes)if(N->NodeComment==PolicyMarker)Installed=true;
+ if(!Installed)
+ {
+  check(!VerifyOnly);
+  auto Policy=[&](int Y){auto* C=Call(G,UVTGSmartTriggerComponent::StaticClass()->FindFunctionByName(TEXT("SetAllowDuringDialogue")),14200,Y);C->NodeComment=PolicyMarker;auto* R=Get(G,TEXT("L4_Trigger_Alley"),13900,Y+150);Link(R,TEXT("L4_Trigger_Alley"),C,TEXT("Trigger"));return C;};
+  auto* Enable=Policy(23400);auto* First=Get(G,TEXT("L4_FirstTimeTriggerAlley?"),13900,23700);Link(First,TEXT("L4_FirstTimeTriggerAlley?"),Enable,TEXT("Allow"));
+  UK2Node_CustomEvent* Restore=nullptr;for(UEdGraphNode* N:G->Nodes)if(auto* E=Cast<UK2Node_CustomEvent>(N);E && E->CustomFunctionName==RestoreName)Restore=E;check(Restore);After(Restore->FindPinChecked(TEXT("then")),Enable);
+  auto* Disable=Policy(24000);Disable->FindPinChecked(TEXT("Allow"))->DefaultValue=TEXT("false");Before(Node(G,TEXT("K2Node_VariableSet_5"))->FindPinChecked(TEXT("execute")),Disable);
+  FBlueprintEditorUtils::MarkBlueprintAsStructurallyModified(BP);Compile(BP);
+ }
+ TriggerTests(BP,Trigger);
+ // Exercise the exact null-state save condition, alongside a valid quest.
+ auto* NC=NewObject<UNarrativeComponent>();auto* Invalid=NewObject<UQuest>(NC);
+ auto* QuestClass=LoadClass<UQuest>(nullptr,TEXT("/Game/Narrative/Dialogues/Levels/L4BlackMarket/Q_L4BlackMarketInvestigation.Q_L4BlackMarketInvestigation_C"));check(QuestClass);
+ auto* Valid=NewObject<UQuest>(NC,QuestClass);CastChecked<UQuestBlueprintGeneratedClass>(QuestClass)->InitializeQuest(Valid);
+ check(!Valid->GetState(TEXT("QuestBranch_9")));auto* State=Valid->GetState(*StartID->DefaultValue);check(State && State->GetID()==TEXT("QuestState_1"));
+ FindFProperty<FObjectPropertyBase>(Valid->GetClass(),TEXT("CurrentState"))->SetObjectPropertyValue_InContainer(Valid,State);
+ NC->QuestList={Invalid,Valid};NC->MasterTaskList.Add(TEXT("afteradult_regression"),3);
+ const FString Slot=TEXT("VTG_AfterAdultRegression_")+FGuid::NewGuid().ToString(EGuidFormats::Digits);
+ check(NC->Save(Slot,0));auto* Saved=Cast<UNarrativeSaveGame>(UGameplayStatics::LoadGameFromSlot(Slot,0));check(Saved && Saved->SavedQuests.Num()==1 && Saved->SavedQuests[0].CurrentStateID==State->GetID() && Saved->MasterTaskList.FindChecked(TEXT("afteradult_regression"))==3);check(UGameplayStatics::DeleteGameInSlot(Slot,0));
+ if(!VerifyOnly)Save(BP);
+ UE_LOG(LogTemp,Display,TEXT("AFTER_ADULT_REPAIR_PASS: first overlap interrupts dialogue; subsequent dialogue overlaps blocked; null-state checkpoint save roundtrip succeeds"));return 0;
 }
 
 int32 Repair(bool VerifyOnly)

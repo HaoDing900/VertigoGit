@@ -49,11 +49,11 @@ void UVTGLevelStatics::OpenLevelWithStage(const UObject* WorldContextObject, FNa
 	UWorld* World = GEngine ? GEngine->GetWorldFromContextObject(WorldContextObject, EGetWorldErrorMode::ReturnNull) : nullptr;
 
 	//Only stash the stage if one was actually given. Empty = leave the current stage untouched.
-	if (World && !Stage.IsNone())
+	if (World)
 	{
 		if (UVTGGameInstanceBase* GI = World->GetGameInstance<UVTGGameInstanceBase>())
 		{
-			GI->CurrentStage = Stage;
+			GI->SetCurrentStage(Stage.IsNone() ? GI->CurrentStage : Stage);
 		}
 	}
 

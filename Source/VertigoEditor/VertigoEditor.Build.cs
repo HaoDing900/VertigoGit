@@ -11,6 +11,7 @@ public class VertigoEditor : ModuleRules
 
 		PublicDependencyModuleNames.AddRange(new string[] { "Core", "CoreUObject", "Engine" });
         PrivateDependencyModuleNames.Add("Sequencer");
+        PrivateDependencyModuleNames.Add("MovieSceneTools");
         PrivateDependencyModuleNames.Add("Json");
         PrivateDependencyModuleNames.Add("ContentBrowser");
         PrivateDependencyModuleNames.Add("ToolMenus");

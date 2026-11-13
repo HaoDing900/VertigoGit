@@ -22,6 +22,8 @@
 #include "Kismet/GameplayStatics.h"
 #include "Misc/PackageName.h"
 #include "UObject/UnrealType.h"
+#include "Engine/Font.h"
+#include "Components/BackgroundBlur.h"
 
 void UVTGTerminalSlotButton::Setup(UVTGTerminalSavePage* Page,int32 Index)
 { PageOwner=Page;SlotIndex=Index;IsFocusable=false;OnClicked.AddUniqueDynamic(this,&UVTGTerminalSlotButton::Select); }
@@ -30,16 +32,17 @@ void UVTGTerminalSlotButton::Select(){if(PageOwner)PageOwner->SelectSlot(SlotInd
 UTextBlock* UVTGTerminalSavePage::Text(FName Name,const FText& Value,int32 Size)
 {
  auto* Label=WidgetTree->ConstructWidget<UTextBlock>(UTextBlock::StaticClass(),Name);
- Label->SetText(Value);auto Font=Label->GetFont();Font.Size=Size;Label->SetFont(Font);
- Label->SetColorAndOpacity(FSlateColor(FLinearColor(.8f,.95f,.94f)));Label->SetAutoWrapText(true);return Label;
+ Label->SetText(Value);auto Font=Label->GetFont();Font.Size=Size;Font.TypefaceFontName=NAME_None;
+ Font.FontObject=LoadObject<UFont>(nullptr,Name==TEXT("SaveHeading")?TEXT("/Game/Fonts/Noto_Sans_SC/static/NotoSansSC-SemiBold_Font"):TEXT("/Game/Fonts/Noto_Sans_SC/static/NotoSansSC-Regular_Font"));Label->SetFont(Font);
+ Label->SetColorAndOpacity(FSlateColor(FLinearColor(.95f,.94f,.90f)));Label->SetAutoWrapText(true);return Label;
 }
 UButton* UVTGTerminalSavePage::Action(FName Name,const FText& Label)
 {
  auto* Button=WidgetTree->ConstructWidget<UButton>(UButton::StaticClass(),Name);Button->IsFocusable=false;
- FButtonStyle Style=Button->GetStyle();Style.Normal.TintColor=FSlateColor(FLinearColor(.06f,.25f,.27f));
- Style.Hovered.TintColor=FSlateColor(FLinearColor(.12f,.46f,.48f));Style.Pressed.TintColor=FSlateColor(FLinearColor(.04f,.17f,.18f));
+ FButtonStyle Style=Button->GetStyle();Style.Normal.TintColor=FSlateColor(FLinearColor(.09f,.08f,.07f,.82f));
+ Style.Hovered.TintColor=FSlateColor(FLinearColor(.20f,.18f,.16f,.9f));Style.Pressed.TintColor=FSlateColor(FLinearColor(.06f,.05f,.04f,.9f));
  Style.NormalPadding=FMargin(20,12);Style.PressedPadding=FMargin(20,14,20,10);Button->SetStyle(Style);
- auto* Caption=Text(NAME_None,Label,20);Caption->SetJustification(ETextJustify::Center);Button->SetContent(Caption);return Button;
+ auto* Caption=Text(NAME_None,Label,20);auto Font=Caption->GetFont();Font.FontObject=LoadObject<UFont>(nullptr,TEXT("/Game/Fonts/Noto_Sans_SC/static/NotoSansSC-Medium_Font"));Caption->SetFont(Font);Caption->SetJustification(ETextJustify::Center);Button->SetContent(Caption);return Button;
 }
 TSharedRef<SWidget> UVTGTerminalSavePage::RebuildWidget()
 {
@@ -49,7 +52,7 @@ TSharedRef<SWidget> UVTGTerminalSavePage::RebuildWidget()
   auto* Canvas=WidgetTree->ConstructWidget<UCanvasPanel>();WidgetTree->RootWidget=Canvas;
   Canvas->SetVisibility(ESlateVisibility::SelfHitTestInvisible);
   auto* Screen=WidgetTree->ConstructWidget<UBorder>(UBorder::StaticClass(),TEXT("TerminalScreen"));
-  Screen->SetBrushColor(FLinearColor(.012f,.035f,.04f,.96f));Screen->SetPadding(FMargin(28));Screen->SetClipping(EWidgetClipping::ClipToBoundsAlways);
+  Screen->SetBrushColor(FLinearColor::Transparent);Screen->SetPadding(FMargin(28));Screen->SetClipping(EWidgetClipping::ClipToBoundsAlways);
   auto* ScreenSlot=Canvas->AddChildToCanvas(Screen);
   if(!HasScreenLayout){ScreenLayout.Anchors=FAnchors(.5f,.5f);ScreenLayout.Offsets=FMargin(-580,-340,1152,681.5f);}
   ScreenSlot->SetLayout(ScreenLayout);
@@ -59,7 +62,7 @@ TSharedRef<SWidget> UVTGTerminalSavePage::RebuildWidget()
   auto* Columns=WidgetTree->ConstructWidget<UHorizontalBox>();auto* MainSlot=Body->AddChildToVerticalBox(Columns);MainSlot->SetSize(FSlateChildSize(ESlateSizeRule::Fill));
   SlotList=WidgetTree->ConstructWidget<UScrollBox>(UScrollBox::StaticClass(),TEXT("SaveSlots"));SlotList->SetClipping(EWidgetClipping::ClipToBoundsAlways);SlotList->SetAlwaysShowScrollbar(true);
   auto* ListSlot=Columns->AddChildToHorizontalBox(SlotList);ListSlot->SetSize(FSlateChildSize(ESlateSizeRule::Fill));ListSlot->SetPadding(FMargin(0,0,24,0));
-  auto* Details=WidgetTree->ConstructWidget<UBorder>();Details->SetBrushColor(FLinearColor(.025f,.08f,.09f,.9f));Details->SetPadding(FMargin(24));
+  auto* Details=WidgetTree->ConstructWidget<UBorder>(UBorder::StaticClass(),TEXT("SaveDetailPanel"));Details->SetBrushColor(FLinearColor(.018f,.014f,.010f,.55f));Details->SetPadding(FMargin(24));
   Columns->AddChildToHorizontalBox(Details)->SetSize(FSlateChildSize(ESlateSizeRule::Fill));
   DetailText=Text(TEXT("SaveDetails"),FText::GetEmpty(),21);Details->SetContent(DetailText);
   StatusText=Text(TEXT("SaveStatus"),NSLOCTEXT("VTGTerminal","ChooseSlot","Select a slot to save or load."),17);
@@ -73,18 +76,27 @@ TSharedRef<SWidget> UVTGTerminalSavePage::RebuildWidget()
  }
  RefreshTerminalFrame();RefreshSlots();return Super::RebuildWidget();
 }
-void UVTGTerminalSavePage::OpenForTerminal(UUserWidget* Terminal,UUserWidget* Source)
+void UVTGTerminalSavePage::OpenForTerminal(UUserWidget* Terminal,UUserWidget* Source,UUserWidget* DocumentSource)
 {
  if(auto* Previous=TerminalOwner.Get())Previous->OnVisibilityChanged.RemoveDynamic(this,&UVTGTerminalSavePage::TerminalVisibilityChanged);
  TerminalOwner=Terminal;
+ if(DocumentSource)
+  if(auto* Image=Cast<UImage>(DocumentSource->GetWidgetFromName(TEXT("Image_AddTerminal"))))
+   if(auto* Overlay=DocumentSource->GetWidgetFromName(TEXT("Overlay")))
+    if(auto* Layout=Cast<UCanvasPanelSlot>(Overlay->Slot))
+    {TerminalArtworkBrush=Image->GetBrush();TerminalArtworkLayout=Layout->GetLayout();HasTerminalArtwork=true;}
  if(Terminal)Terminal->OnVisibilityChanged.AddUniqueDynamic(this,&UVTGTerminalSavePage::TerminalVisibilityChanged);
  // Use the actual mail content rectangle, not the full-screen widget switcher bounds.
   if(Source){
   if(auto* Background=Cast<UUserWidget>(Source->GetWidgetFromName(TEXT("WB_Background"))))
+  {
+   SharedBackgroundClass=Background->GetClass();
+   Background->WidgetTree->ForEachWidget([&](UWidget* Widget){if(auto* Blur=Cast<UBackgroundBlur>(Widget))if(auto* Slot=Cast<UCanvasPanelSlot>(Blur->Slot)){BlurSource=Blur;BlurLayout=Slot->GetLayout();}});
    if(auto* FrameImage=Cast<UImage>(Background->GetWidgetFromName(TEXT("Terminal"))))
     if(auto* FrameImageSlot=Cast<UCanvasPanelSlot>(FrameImage->Slot)){
      TerminalFrameBrush=FrameImage->GetBrush();TerminalFrameLayout=FrameImageSlot->GetLayout();HasTerminalFrame=true;
     }
+  }
   RefreshTerminalFrame();
   auto* Frame=Source->GetWidgetFromName(TEXT("Overlay_1"));auto* Content=Source->GetWidgetFromName(TEXT("OverlayForMail"));
   auto* FrameSlot=Frame?Cast<UCanvasPanelSlot>(Frame->Slot):nullptr;auto* ContentSlot=Content?Cast<UOverlaySlot>(Content->Slot):nullptr;
@@ -122,7 +134,7 @@ void UVTGTerminalSavePage::UpdateSelection()
 {
  if(!SaveButton)return;
  const auto* M=Metas.FindByPredicate([&](const FVTGSlotMeta& Value){return Value.SlotIndex==SelectedSlot;});
- for(int32 I=0;I<SlotButtons.Num();++I){auto* B=SlotButtons[I].Get();auto Style=B->GetStyle();Style.Normal.TintColor=FSlateColor(Metas[I].SlotIndex==SelectedSlot?FLinearColor(.1f,.4f,.41f):FLinearColor(.035f,.12f,.14f));Style.Hovered.TintColor=FSlateColor(FLinearColor(.12f,.46f,.48f));B->SetStyle(Style);}
+ for(int32 I=0;I<SlotButtons.Num();++I){auto* B=SlotButtons[I].Get();auto Style=B->GetStyle();Style.Normal.TintColor=FSlateColor(Metas[I].SlotIndex==SelectedSlot?FLinearColor(.22f,.20f,.17f,.85f):FLinearColor(.025f,.024f,.022f,.60f));Style.Hovered.TintColor=FSlateColor(FLinearColor(.30f,.27f,.24f,.9f));B->SetStyle(Style);}
  const FText Heading=SelectedSlot==0?NSLOCTEXT("VTGTerminal","AutoCheckpoint","AUTO SAVE\n\nRead-only checkpoint"):FText::Format(NSLOCTEXT("VTGTerminal","ManualSaveHeading","MANUAL SAVE {Slot}"),FFormatNamedArguments{{TEXT("Slot"),FText::AsCultureInvariant(FString::Printf(TEXT("%02d"),SelectedSlot))}});
  FText Info;
  if(M&&M->bIsValid)Info=FText::Format(NSLOCTEXT("VTGTerminal","ValidSlotDetail","{Heading}\n\n{Level}\n\n{Date}\n\n{Label}"),FFormatNamedArguments{{TEXT("Heading"),Heading},{TEXT("Level"),FText::AsCultureInvariant(FPackageName::GetShortName(M->LevelName).Replace(TEXT("_"),TEXT(" ")))},{TEXT("Date"),FText::AsDateTime(M->SaveTimeUtc,EDateTimeStyle::Medium,EDateTimeStyle::Short)},{TEXT("Label"),FText::AsCultureInvariant(M->DisplayLabel)}});
@@ -132,7 +144,7 @@ void UVTGTerminalSavePage::UpdateSelection()
  CastChecked<UTextBlock>(SaveButton->GetContent())->SetText(PendingAction==1?NSLOCTEXT("VTGTerminal","Overwrite","CONFIRM SAVE"):NSLOCTEXT("VTGTerminal","SaveButton","SAVE GAME"));
  CastChecked<UTextBlock>(LoadButton->GetContent())->SetText(PendingAction==2?NSLOCTEXT("VTGTerminal","ConfirmLoad","CONFIRM LOAD"):NSLOCTEXT("VTGTerminal","LoadButton","LOAD GAME"));
  CancelButton->SetVisibility(PendingAction?ESlateVisibility::Visible:ESlateVisibility::Collapsed);
- if(!PendingAction){StatusText->SetText(NSLOCTEXT("VTGTerminal","ChooseSlot","Select a slot to save or load."));StatusText->SetColorAndOpacity(FSlateColor(FLinearColor(.8f,.95f,.94f)));}
+ if(!PendingAction){StatusText->SetText(NSLOCTEXT("VTGTerminal","ChooseSlot","Select a slot to save or load."));StatusText->SetColorAndOpacity(FSlateColor(FLinearColor(.95f,.94f,.90f)));}
 }
 void UVTGTerminalSavePage::ShowResult(const FText& Message,bool Success)
 {StatusText->SetText(Message);StatusText->SetColorAndOpacity(FSlateColor(Success?FLinearColor(.45f,1.f,.65f):FLinearColor(1.f,.65f,.4f)));}
@@ -175,10 +187,38 @@ void UVTGTerminalSavePage::RefreshTerminalFrame()
 {
  if(!HasTerminalFrame||!WidgetTree)return;
  auto* Canvas=Cast<UCanvasPanel>(WidgetTree->RootWidget);if(!Canvas)return;
+ if(SharedBackgroundClass)
+ {
+  if(!SharedBackground)
+  {
+   SharedBackground=CreateWidget<UUserWidget>(this,SharedBackgroundClass,TEXT("TerminalSharedBackground"));
+   auto* BackgroundSlot=Canvas->AddChildToCanvas(SharedBackground);BackgroundSlot->SetAnchors(FAnchors(0,0,1,1));BackgroundSlot->SetOffsets(FMargin(0));BackgroundSlot->SetZOrder(-3);
+   SharedBackground->SetVisibility(ESlateVisibility::HitTestInvisible);
+  }
+  // Use the entire authored Image_40 -> BackgroundBlur -> Terminal hierarchy.
+  // This preserves its backdrop and blur composition instead of approximating it.
+ }
+ else
+ {
+ if(BlurSource)
+ {
+  auto* Blur=Cast<UBackgroundBlur>(GetWidgetFromName(TEXT("TerminalBackgroundBlur")));
+  if(!Blur){Blur=WidgetTree->ConstructWidget<UBackgroundBlur>(UBackgroundBlur::StaticClass(),TEXT("TerminalBackgroundBlur"));Canvas->AddChildToCanvas(Blur);}
+  Blur->SetBlurStrength(BlurSource->GetBlurStrength());Blur->SetBlurRadius(BlurSource->GetBlurRadius());Blur->SetOverrideAutoRadiusCalculation(BlurSource->GetOverrideAutoRadiusCalculation());
+  Blur->SetApplyAlphaToBlur(BlurSource->GetApplyAlphaToBlur());Blur->SetCornerRadius(BlurSource->GetCornerRadius());Blur->SetLowQualityFallbackBrush(BlurSource->GetLowQualityFallbackBrush());
+  Blur->SetVisibility(ESlateVisibility::HitTestInvisible);auto* BlurSlot=CastChecked<UCanvasPanelSlot>(Blur->Slot);BlurSlot->SetLayout(BlurLayout);BlurSlot->SetZOrder(-3);
+ }
  auto* Frame=Cast<UImage>(GetWidgetFromName(TEXT("TerminalFrame")));
  if(!Frame){Frame=WidgetTree->ConstructWidget<UImage>(UImage::StaticClass(),TEXT("TerminalFrame"));Canvas->AddChildToCanvas(Frame);}
  Frame->SetBrush(TerminalFrameBrush);Frame->SetVisibility(ESlateVisibility::HitTestInvisible);
- auto* FrameSlot=CastChecked<UCanvasPanelSlot>(Frame->Slot);FrameSlot->SetLayout(TerminalFrameLayout);FrameSlot->SetZOrder(-1);
+ auto* FrameSlot=CastChecked<UCanvasPanelSlot>(Frame->Slot);FrameSlot->SetLayout(TerminalFrameLayout);FrameSlot->SetZOrder(-2);
+ }
+ if(HasTerminalArtwork)
+ {
+  auto* Artwork=Cast<UImage>(GetWidgetFromName(TEXT("TerminalArtwork")));
+  if(!Artwork){Artwork=WidgetTree->ConstructWidget<UImage>(UImage::StaticClass(),TEXT("TerminalArtwork"));Canvas->AddChildToCanvas(Artwork);}
+  Artwork->SetBrush(TerminalArtworkBrush);Artwork->SetVisibility(ESlateVisibility::HitTestInvisible);auto* S=CastChecked<UCanvasPanelSlot>(Artwork->Slot);S->SetLayout(TerminalArtworkLayout);S->SetZOrder(-1);
+ }
 }
 void UVTGTerminalSavePage::NativeDestruct()
 {if(auto* Owner=TerminalOwner.Get())Owner->OnVisibilityChanged.RemoveDynamic(this,&UVTGTerminalSavePage::TerminalVisibilityChanged);Super::NativeDestruct();}

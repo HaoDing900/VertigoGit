@@ -50,6 +50,28 @@
 #include "AnimGraphNode_LayeredBoneBlend.h"
 #include "Save/VTGL2FightStateComponent.h"
 #include "Combat/VTGSewerEncounterComponent.h"
+#include "Interaction/VTGSmartTriggerComponent.h"
+#include "NarrativeSaveGame.h"
+#include "QuestBlueprintGeneratedClass.h"
+#include "Combat/VTGCombatStatics.h"
+#include "VTGGameInstanceBase.h"
+#include "Engine/SimpleConstructionScript.h"
+#include "Engine/SCS_Node.h"
+#include "Engine/InheritableComponentHandler.h"
+#include "K2Node_Self.h"
+#include "Animation/AnimSingleNodeInstance.h"
+#include "Animation/AnimSequence.h"
+#include "Animation/SkeletalMeshActor.h"
+#include "VTGGoonDamageCommandlet.h"
+#include "Engine/LatentActionManager.h"
+#include "TimerManager.h"
+#include "WidgetBlueprint.h"
+#include "Components/TextBlock.h"
+#include "Components/WidgetComponent.h"
+#include "UI/VTGEnemyIdentityComponent.h"
+#include "Engine/Font.h"
+#include "K2Node_MakeArray.h"
+#include "Kismet/KismetMathLibrary.h"
 
 namespace MarketFollowup
 {
@@ -83,7 +105,6 @@ void Dump(UBlueprint* BP)
  }
  if(auto* DBP=Cast<UDialogueBlueprint>(BP))
   for(auto* N:DBP->DialogueTemplate->GetNodes())
-   if(N->GetName()==TEXT("DialogueNode_NPC_331") || N->GetName()==TEXT("DialogueNode_NPC_333"))
    {Properties(N);for(auto* E:N->Events)Properties(E);}
  check(FFileHelper::SaveStringToFile(Out,*(FPaths::ProjectDir()/Folder/(BP->GetName()+TEXT(".graph.txt")))));
 }
@@ -225,6 +246,8 @@ void StyleProbe(bool Verify=false)
 }
 }
 #include "VTGBlackMarketFollowupRepair.inl"
+#include "VTGStreetFlowFix.inl"
+#include "VTGStreetCombatPresentation.inl"
 #include "VTGStreetSewerCheckpoints.inl"
 #include "VTGStreetSewerCheckpointTests.inl"
 UVTGBlackMarketFollowupCommandlet::UVTGBlackMarketFollowupCommandlet(){IsEditor=true;IsClient=false;IsServer=false;LogToConsole=true;}
@@ -233,6 +256,27 @@ int32 UVTGBlackMarketFollowupCommandlet::Main(const FString& Params)
 {
  if(FParse::Param(*Params,TEXT("CyanOrderFlow")))return VTGRepairCyanOrderFlow(FParse::Param(*Params,TEXT("VerifyOnly")));
  using namespace MarketFollowup;
+ if(FParse::Param(*Params,TEXT("StreetCombatPresentation")))return StreetCombatPresentation::Run(FParse::Param(*Params,TEXT("VerifyOnly")));
+ if(FParse::Param(*Params,TEXT("StreetCombatAudit")))
+ {
+  Dump(LoadObject<UBlueprint>(nullptr,TEXT("/Game/Narrative/Dialogues/Levels/L4BlackMarket/L4_BlackMarketInvestigation_Still_InterestingItemsOntheStreet")));
+  Dump(LoadObject<UBlueprint>(nullptr,TEXT("/Game/LevelNSequence/In_Level/L4BlackMarket/BPLM_BlackMarket")));
+  return 0;
+ }
+ if(FParse::Param(*Params,TEXT("StreetFlowFix")))return StreetFlowFix::Run(FParse::Param(*Params,TEXT("VerifyOnly")));
+ if(FParse::Param(*Params,TEXT("StreetAudit")))
+ {
+  for(const TCHAR* P:{TEXT("/Game/LevelNSequence/In_Level/L4BlackMarket/L4BlackMarketEntrance/BPLM_BlackMarketEntrance"),TEXT("/Game/Narrative/Dialogues/Levels/L4BlackMarket/Entrance/L4_Entrance_BlackMarket_Freemove"),TEXT("/Game/LevelNSequence/In_Level/SewerUnderApt/BPLM_SewerUnderApt"),TEXT("/Game/Blueprints/BP_0ISXInteractiveCollision"),TEXT("/Game/AI/AIBehaviorSystem/Blueprint/AI/BP_AI_Base"),TEXT("/Game/AI/AIBehaviorSystem/Blueprint/Component/BP_AIBehaviorsComponent"),TEXT("/Game/Characters/NPC/StreetGoons/BP_Enm_StreetGoon1Misto"),TEXT("/Game/Characters/NPC/StreetGoons/BP_Enm_StreetGoon2Nara"),TEXT("/Game/Characters/NPC/StreetGoons/BP_Enm_SteetGoon3_Brosky")})Dump(LoadObject<UBlueprint>(nullptr,P));
+  for(const TCHAR* P:{TEXT("/Game/ThirdPerson/Maps/L_SewerUnderApartment"),TEXT("/Game/ThirdPerson/Maps/Street/BlackMarketStreet")})
+  {
+   auto* W=LoadObject<UWorld>(nullptr,P);check(W);FString Out;
+   for(AActor* A:W->PersistentLevel->Actors)if(A && (A->GetClass()->GetName().Contains(TEXT("ISX")) || A->IsA<AVTGLevelManagerBase>() || A->GetClass()->GetName().Contains(TEXT("Goon"))))
+   {Out+=A->GetPathName()+TEXT("\n");for(TFieldIterator<FProperty> Prop(A->GetClass());Prop;++Prop){FString V;Prop->ExportText_InContainer(0,V,A,A,A,PPF_None);if(V.Len()<5000)Out+=Prop->GetName()+TEXT("=")+V+TEXT("\n");}}
+   check(FFileHelper::SaveStringToFile(Out,*(FPaths::ProjectDir()/Folder/(W->GetName()+TEXT(".street-audit.txt")))));
+  }
+  return 0;
+ }
+ if(FParse::Param(*Params,TEXT("AfterAdultRepair")))return AfterAdultRepair(FParse::Param(*Params,TEXT("VerifyOnly")));
  if(FParse::Param(*Params,TEXT("EncounterApply")) || FParse::Param(*Params,TEXT("EncounterVerify")))return StreetSewerCheckpoints::Run(FParse::Param(*Params,TEXT("EncounterVerify")));
  if(FParse::Param(*Params,TEXT("EncounterAudit")))
  {

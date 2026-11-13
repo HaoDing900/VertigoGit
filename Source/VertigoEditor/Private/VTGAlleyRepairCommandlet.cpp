@@ -17,19 +17,26 @@
 #include "VTGAlleyVerify.inl"
 #include "VTGMailEntryRepair.inl"
 #include "VTGTerminalSaveRepair.inl"
+#include "VTGTerminalInteractionRepair.inl"
 #include "VTGTabFocusRepair.inl"
 #include "K2Node_VariableGet.h"
 #include "VTGMapLabelsRepair.inl"
+#include "VTGMapPresentationRepair.inl"
 #include "VTGLevelProgressRepair.inl"
 #include "VTGMainMenuRepair.inl"
 #include "VTGMapRoutes.inl"
 #include "Animation/BlendSpace.h"
 #include "Animation/AnimSequence.h"
 UVTGAlleyRepairCommandlet::UVTGAlleyRepairCommandlet() { IsEditor=true; IsClient=false; IsServer=false; LogToConsole=true; }
+int32 VTGTerminalStyleMaintenance(const FString& Params);
 int32 UVTGAlleyRepairCommandlet::Main(const FString& Params)
 {
+ if(FParse::Param(*Params,TEXT("MapPresentation")))return RepairMapPresentation(FParse::Param(*Params,TEXT("VerifyOnly")));
+ if(FParse::Param(*Params,TEXT("TerminalInteraction")))return TerminalInteraction::Run(FParse::Param(*Params,TEXT("VerifyOnly")));
+ if(FParse::Param(*Params,TEXT("TerminalStyle")))return VTGTerminalStyleMaintenance(Params);
  if(FParse::Param(*Params,TEXT("TabFocus"))) return TabFocusRepair::Run(FParse::Param(*Params,TEXT("VerifyOnly")));
- if(FParse::Param(*Params,TEXT("MapLabels"))) return MapLabelsRepair::Run(FParse::Param(*Params,TEXT("VerifyOnly")));
+ // Preserve the old entry point while following the current selection-based UI.
+ if(FParse::Param(*Params,TEXT("MapLabels"))) return RepairMapPresentation(FParse::Param(*Params,TEXT("VerifyOnly")));
  if(FParse::Param(*Params,TEXT("VerifyCookMaps"))) return VerifyCookMapRules();
  if(FParse::Param(*Params,TEXT("MapRoutes"))) return InspectMapRoutes();
  if(FParse::Param(*Params,TEXT("InspectPistol")) || FParse::Param(*Params,TEXT("RepairPistol")))

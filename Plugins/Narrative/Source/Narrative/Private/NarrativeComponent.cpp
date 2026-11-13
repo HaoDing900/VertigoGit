@@ -1264,15 +1264,24 @@ bool UNarrativeComponent::Save(const FString& SaveName/** = "NarrativeSaveData"*
 
 		for (auto& Quest : QuestList)
 		{
-			if (Quest)
+			if (IsValid(Quest))
 			{
+				// A quest may be listed before BeginQuest enters its first state, or
+				// have an invalid authored StartFromID. Never dereference that state.
+				UQuestState* CurrentState = Quest->GetCurrentState();
+				if (!IsValid(CurrentState))
+				{
+					UE_LOG(LogNarrative, Warning, TEXT("Skipping quest %s during save: no valid current state."), *GetNameSafe(Quest));
+					continue;
+				}
 				FNarrativeSavedQuest Save;
 				Save.QuestClass = Quest->GetClass();
-				Save.CurrentStateID = Quest->GetCurrentState()->GetID();
+				Save.CurrentStateID = CurrentState->GetID();
 
 				//Save all the quests branches, and the current progress on each branches task 
 				for (UQuestBranch* Branch : Quest->Branches)
 				{
+					if (!IsValid(Branch)) continue;
 					TArray<int32> TasksProgress;
 
 					for (auto& BranchTask : Branch->QuestTasks)
@@ -1289,7 +1298,7 @@ bool UNarrativeComponent::Save(const FString& SaveName/** = "NarrativeSaveData"*
 				//Store all the reached states in the save file
 				for (UQuestState* State : Quest->ReachedStates)
 				{
-					Save.ReachedStateNames.Add(State->GetID());
+					if (IsValid(State)) Save.ReachedStateNames.Add(State->GetID());
 				}
 
 				NarrativeSaveGame->SavedQuests.Add(Save);

@@ -2,6 +2,7 @@
 #include "WorkspaceMenuStructure.h"
 #include "WorkspaceMenuStructureModule.h"
 #include "UI/VTGSequenceSettings.h"
+#include "Audio/VTGCutsceneAudio.h"
 #include "UI/VTGSubtitleTrack.h"
 #include "LevelSequence.h"
 #include "MovieScene.h"
@@ -28,6 +29,8 @@
 #include "Widgets/Layout/SBox.h"
 #include "Widgets/Input/SCheckBox.h"
 #include "Widgets/Input/SButton.h"
+#include "Widgets/Input/SNumericEntryBox.h"
+#include "Widgets/Input/SComboBox.h"
 #include "Widgets/Text/STextBlock.h"
 #include "Widgets/SBoxPanel.h"
 #include "ScopedTransaction.h"
@@ -41,6 +44,20 @@ const FName TabId(TEXT("VTG.SequenceInspector"));
 FDelegateHandle SequencerHandle;
 TWeakObjectPtr<ULevelSequence> Current;
 TWeakPtr<SVerticalBox> ResultsBox;
+TWeakPtr<SComboBox<TSharedPtr<EVTGCutsceneAudioPreset>>> AudioPresetBox;
+const TArray<TSharedPtr<EVTGCutsceneAudioPreset>> AudioPresets={
+    MakeShared<EVTGCutsceneAudioPreset>(EVTGCutsceneAudioPreset::KeepWorld),
+    MakeShared<EVTGCutsceneAudioPreset>(EVTGCutsceneAudioPreset::DialogueFocus),
+    MakeShared<EVTGCutsceneAudioPreset>(EVTGCutsceneAudioPreset::MuteWorldBeds)};
+FText AudioPresetLabel(EVTGCutsceneAudioPreset Preset)
+{
+    switch(Preset)
+    {
+    case EVTGCutsceneAudioPreset::DialogueFocus:return FText::FromString(TEXT("突出剧情（压低环境，淡出音乐）"));
+    case EVTGCutsceneAudioPreset::MuteWorldBeds:return FText::FromString(TEXT("静音环境与背景音乐"));
+    default:return FText::FromString(TEXT("保留现场声音"));
+    }
+}
 
 void Walk(UEdGraphNode* Node,const FString& Context,TArray<FFinding>& Out,int Depth,TSet<UEdGraphNode*>& Seen)
 {
@@ -126,6 +143,7 @@ void Refresh()
 TSharedRef<SDockTab> Spawn(const FSpawnTabArgs&)
 {
     TSharedPtr<SVerticalBox> Results;
+    TSharedPtr<SComboBox<TSharedPtr<EVTGCutsceneAudioPreset>>> PresetBox;
     auto Tab=SNew(SDockTab).TabRole(ETabRole::NomadTab)
     [SNew(SVerticalBox)
       +SVerticalBox::Slot().AutoHeight().Padding(12)[SNew(STextBlock).AutoWrapText(true).Text_Lambda([](){return FText::FromString(Current.IsValid()?Current->GetPathName():TEXT("Sequence 检查"));})]
@@ -133,9 +151,25 @@ TSharedRef<SDockTab> Spawn(const FSpawnTabArgs&)
         .IsChecked_Lambda([](){auto* S=Current.IsValid()?Cast<UVTGSequenceSettings>(Current->GetAssetUserDataOfClass(UVTGSequenceSettings::StaticClass())):nullptr;return S && S->bAllowSkip?ECheckBoxState::Checked:ECheckBoxState::Unchecked;})
         .OnCheckStateChanged_Lambda([](ECheckBoxState State){if(!Current.IsValid())return;const FScopedTransaction Transaction(NSLOCTEXT("VTG","SequenceAllowSkip","Change sequence skip permission"));Current->Modify();auto* S=Cast<UVTGSequenceSettings>(Current->GetAssetUserDataOfClass(UVTGSequenceSettings::StaticClass()));if(!S){S=NewObject<UVTGSequenceSettings>(Current.Get(),NAME_None,RF_Transactional);Current->AddAssetUserData(S);}S->Modify();S->bAllowSkip=State==ECheckBoxState::Checked;Current->MarkPackageDirty();})
         [SNew(STextBlock).Text(FText::FromString(TEXT("Allow Skip（默认关闭，修改后保存 Sequence）")))]]
+      +SVerticalBox::Slot().AutoHeight().Padding(12,4)[SNew(SHorizontalBox)
+        +SHorizontalBox::Slot().AutoWidth().VAlign(VAlign_Center).Padding(0,0,12,0)[SNew(STextBlock).Text(FText::FromString(TEXT("内部音频音量倍数")))]
+        +SHorizontalBox::Slot().AutoWidth()[SNew(SNumericEntryBox<float>).MinValue(0.f).MinDesiredValueWidth(100)
+          .IsEnabled_Lambda([](){return Current.IsValid();})
+          .Value_Lambda([]()->TOptional<float>{auto* S=UVTGCutsceneAudioLibrary::GetSequenceAudioSettings(Current.Get());return S?S->SequenceAudioVolumeMultiplier:1.f;})
+          .OnValueCommitted_Lambda([](float Value,ETextCommit::Type){if(!Current.IsValid() || !FMath::IsFinite(Value))return;const FScopedTransaction T(NSLOCTEXT("VTG","SequenceAudioGain","设置 Sequence 内部音频音量倍数"));Current->Modify();auto* S=UVTGCutsceneAudioLibrary::GetSequenceAudioSettings(Current.Get(),true);S->Modify();S->SequenceAudioVolumeMultiplier=FMath::Max(0.f,Value);Current->MarkPackageDirty();})
+          .ToolTipText(FText::FromString(TEXT("默认 1；0 静音，0.5 减半，2 加倍。乘以内部及嵌套 Audio Track 的原有音量曲线。修改后保存 Sequence。")))]]
+      +SVerticalBox::Slot().AutoHeight().Padding(12,4)[SNew(SHorizontalBox)
+        +SHorizontalBox::Slot().AutoWidth().VAlign(VAlign_Center).Padding(0,0,12,0)[SNew(STextBlock).Text(FText::FromString(TEXT("过场声音预设")))]
+        +SHorizontalBox::Slot().AutoWidth()[SAssignNew(PresetBox,SComboBox<TSharedPtr<EVTGCutsceneAudioPreset>>).OptionsSource(&AudioPresets)
+          .IsEnabled_Lambda([](){return Current.IsValid();})
+          .OnComboBoxOpening_Lambda([](){auto Box=AudioPresetBox.Pin();if(!Box)return;auto* S=UVTGCutsceneAudioLibrary::GetSequenceAudioSettings(Current.Get());const auto Preset=S?S->Preset:EVTGCutsceneAudioPreset::KeepWorld;for(auto Option:AudioPresets)if(*Option==Preset){Box->SetSelectedItem(Option);break;}})
+          .OnGenerateWidget_Lambda([](TSharedPtr<EVTGCutsceneAudioPreset> Preset){return SNew(STextBlock).Text(AudioPresetLabel(*Preset));})
+          .OnSelectionChanged_Lambda([](TSharedPtr<EVTGCutsceneAudioPreset> Preset,ESelectInfo::Type SelectInfo){if(!Current.IsValid() || !Preset || SelectInfo==ESelectInfo::Direct)return;auto* Existing=UVTGCutsceneAudioLibrary::GetSequenceAudioSettings(Current.Get());if((Existing?Existing->Preset:EVTGCutsceneAudioPreset::KeepWorld)==*Preset)return;const FScopedTransaction T(NSLOCTEXT("VTG","SequenceAudioPreset","设置过场声音预设"));Current->Modify();auto* S=UVTGCutsceneAudioLibrary::GetSequenceAudioSettings(Current.Get(),true);S->Modify();S->Preset=*Preset;Current->MarkPackageDirty();})
+          .ToolTipText(FText::FromString(TEXT("与关卡实例 Details 的过场声音预设共用同一份 Sequence 资产设置，修改后保存 Sequence。环境控制影响 Audio Manager 的 Ambient 和勾选跟随过场环境声的场景声源；Music 单独控制。")))
+          [SNew(STextBlock).Text_Lambda([](){auto* S=UVTGCutsceneAudioLibrary::GetSequenceAudioSettings(Current.Get());return AudioPresetLabel(S?S->Preset:EVTGCutsceneAudioPreset::KeepWorld);})]]]
       +SVerticalBox::Slot().AutoHeight().Padding(12,4)[SNew(SButton).Text(FText::FromString(TEXT("重新检查事件（修改后点击）"))).OnClicked_Lambda([](){Refresh();return FReply::Handled();})]
       +SVerticalBox::Slot().FillHeight(1).Padding(12)[SNew(SScrollBox)+SScrollBox::Slot()[SAssignNew(Results,SVerticalBox)]]];
-    ResultsBox=Results;Refresh();return Tab;
+    AudioPresetBox=PresetBox;ResultsBox=Results;Refresh();return Tab;
 }
 }
 TArray<FFinding> InspectEndpoint(UEdGraphNode* Endpoint,const FString& Context){TArray<FFinding> Out;TSet<UEdGraphNode*> Seen;Walk(Endpoint,Context,Out,0,Seen);return Out;}
@@ -156,6 +190,6 @@ void Shutdown()
         if(auto Tab=FGlobalTabmanager::Get()->FindExistingLiveTab(TabId))Tab->RequestCloseTab();
         FGlobalTabmanager::Get()->UnregisterNomadTabSpawner(TabId);
     }
-    ResultsBox.Reset();Current.Reset();
+    AudioPresetBox.Reset();ResultsBox.Reset();Current.Reset();
 }
 }

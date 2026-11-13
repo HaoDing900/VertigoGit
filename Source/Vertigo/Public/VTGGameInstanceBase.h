@@ -21,14 +21,22 @@ class VERTIGO_API UVTGGameInstanceBase : public UGameInstance
 	GENERATED_BODY()
 
 public:
+	virtual void OnWorldChanged(UWorld* OldWorld, UWorld* NewWorld) override;
 
 	/** The stage the next loaded level should initialise into. Set this before calling Open Level. */
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Stage")
 	FName CurrentStage = NAME_None;
 
 	UFUNCTION(BlueprintCallable, Category = "Stage")
-	void SetCurrentStage(FName NewStage) { CurrentStage = NewStage; }
+	void SetCurrentStage(FName NewStage) { CurrentStage = NewStage; bHasExplicitStage = true; }
+
+	bool HasExplicitStage() const { return bHasExplicitStage; }
 
 	UFUNCTION(BlueprintPure, Category = "Stage")
 	FName GetCurrentStage() const { return CurrentStage; }
+
+private:
+	// Session state survives travel, but is fresh for each direct PIE launch.
+	UPROPERTY(Transient)
+	bool bHasExplicitStage = false;
 };

@@ -5,6 +5,8 @@
 #include "VTGMapLocationNode.generated.h"
 
 class UTextBlock;
+class UButton;
+class UBorder;
 
 UCLASS()
 class VERTIGO_API UVTGMapLocationTooltip : public UUserWidget
@@ -26,6 +28,7 @@ UCLASS()
 class VERTIGO_API UVTGMapLocationNode : public UUserWidget
 {
     GENERATED_BODY()
+    friend struct FVTGMapPresentationRegression;
 public:
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category="Map Location", meta=(DisplayName="地点名称 / Location Name", ExposeOnSpawn="true"))
     FText LocationDisplayName;
@@ -36,6 +39,18 @@ public:
 protected:
     virtual void NativePreConstruct() override;
     virtual void NativeConstruct() override;
+    virtual void NativeDestruct() override;
 private:
-    UPROPERTY(Transient) TObjectPtr<UVTGMapLocationTooltip> LocationTooltip;
+    bool IsNodeSelected() const;
+    void BuildLocationPresentation();
+    void RefreshDescriptionPanel();
+    UFUNCTION() void NodePressed();
+    UFUNCTION() void NodeClicked();
+    UFUNCTION() void NameClicked();
+    UPROPERTY(Transient) TObjectPtr<UButton> LocationNameButton;
+    UPROPERTY(Transient) TObjectPtr<UTextBlock> LocationNameLabel;
+    UPROPERTY(Transient) TObjectPtr<UBorder> DescriptionPanel;
+    UPROPERTY(Transient) TObjectPtr<UTextBlock> DescriptionLabel;
+    bool ShowDescription=false;
+    bool CarryDescription=false;
 };

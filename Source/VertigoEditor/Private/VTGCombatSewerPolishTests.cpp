@@ -53,9 +53,9 @@ bool VTGVerifyCombatSewerPolish()
  auto* D=Narrative->GetCurrentDialogue();check(D);
  auto Node=[&](){auto* P=FindFProperty<FObjectPropertyBase>(D->GetClass(),TEXT("CurrentNode"));check(P);return Cast<UDialogueNode>(P->GetObjectPropertyValue_InContainer(D));};
  auto Finish=[&](){D->ProcessEvent(D->FindFunctionChecked(TEXT("FinishNPCDialogue")),nullptr);};check(Node() && Node()->GetID()==Params.StartFromID);
- D->bAlwaysAutoAdvance=false;D->SetAutoAdvance(false);Finish();
+ D->bAlwaysAutoAdvance=false;D->bFreeMovement=false;D->SetAutoAdvance(false);Finish();
  Expect(D->IsWaitingForManualAdvance() && Node()->GetID()==Params.StartFromID,TEXT("Reproduced old failure: Auto OFF leaves NPC_2 waiting for unavailable manual continue"));
- D->bAlwaysAutoAdvance=true;D->SetAutoAdvance(false);Finish();
+ D->bFreeMovement=true;D->SetAutoAdvance(false);Finish();
  Expect(!D->IsWaitingForManualAdvance() && Node() && Node()->GetID()==TEXT("L3Sewer_Freemove_DialogueNode_NPC_3"),TEXT("Freemove override advances NPC_2 to NPC_3 even with global Auto OFF"));
  Finish();Expect(!Narrative->GetCurrentDialogue(),TEXT("Freemove chain finishes naturally and exits instead of remaining stuck"));
  auto* Story=NewObject<UDialogue>();Story->SetAutoAdvance(false);Expect(!Story->IsAutoAdvanceEnabled(),TEXT("Ordinary story dialogues retain manual mode"));

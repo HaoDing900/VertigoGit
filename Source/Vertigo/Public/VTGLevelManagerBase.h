@@ -41,7 +41,7 @@ public:
  UFUNCTION(BlueprintCallable, Category="Fade", meta=(DisplayName="Fade Configured"))
  UUserWidget* FadeConfigured(double TimeBeforeKill=0, double HoldDurationUntilFade=0, double FadeDuration=1.5, bool DisableFade=false, bool ReverseFadeOnAppear=false, int32 ZOrder=100);
 
-	/** TEST ONLY: when true this level ignores the GameInstance and uses TestStage. Turn OFF before shipping. */
+	/** Only for direct PIE entry. Explicit stage travel and save loading take priority. Ignored outside PIE. */
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Stage")
 	bool bOverrideStageForTesting = false;
 
@@ -93,7 +93,16 @@ public:
  /** Called once after player, Narrative and inventory restoration. Also available for isolated verification. */
  void ResumeSavedEncounter();
 
+ /** Returns true while deferring this parameterless entry until Narrative has fully exited. */
+ UFUNCTION(BlueprintCallable, Category="Story|Combat")
+ bool DeferEncounterUntilDialogueEnds(class UNarrativeComponent* Narrative, FName ResumeEvent);
+
 private:
+ TWeakObjectPtr<class UNarrativeComponent> DeferredEncounterNarrative;
+ FName DeferredEncounterEvent;
+ bool bDeferredEncounterQueued = false;
+ UFUNCTION() void HandleDeferredEncounterDialogueFinished(class UDialogue* Dialogue, bool bStartingNewDialogue);
+ void ResumeDeferredEncounterWhenIdle();
  bool bProgressRestored = false;
  TSet<FName> StartedStoryEvents;
  TSet<FName> RestoredStoryEvents;

@@ -12,6 +12,12 @@
 #include "Components/TextBlock.h"
 #include "Components/Image.h"
 #include "Components/SceneComponent.h"
+#include "Engine/LocalPlayer.h"
+#include "UI/VTGTerminalWidget.h"
+#include "Components/BackgroundBlur.h"
+#include "Engine/GameViewportClient.h"
+#include "Slate/SceneViewport.h"
+#include "Widgets/SViewport.h"
 
 #include "Save/VTGSaveCoordinator.h"
 #include "Save/VTGSaveTypes.h"
@@ -20,6 +26,7 @@ struct FVTGTerminalSaveRegression
 {
  static void Run()
  {
+  if(!FSlateApplication::IsInitialized())FSlateApplication::InitializeAsStandaloneApplication(FModuleManager::LoadModuleChecked<ISlateRHIRendererModule>(TEXT("SlateRHIRenderer")).CreateSlateRHIRenderer());
   const auto Init=UWorld::InitializationValues().AllowAudioPlayback(false).CreatePhysicsScene(true).CreateNavigation(false).CreateAISystem(false).ShouldSimulatePhysics(false);
   auto* World=UWorld::CreateWorld(EWorldType::Game,false,TEXT("TerminalSaveRegression"),nullptr,true,ERHIFeatureLevel::Num,&Init);
   auto& Context=GEngine->CreateNewWorldContext(EWorldType::Game);Context.SetCurrentWorld(World);
@@ -28,7 +35,8 @@ struct FVTGTerminalSaveRegression
   auto* BP=LoadObject<UBlueprint>(nullptr,TEXT("/Game/ThirdPerson/Blueprints/BP_Player_Sa"));check(BP);
   FActorSpawnParameters Params;Params.SpawnCollisionHandlingOverride=ESpawnActorCollisionHandlingMethod::AlwaysSpawn;
   auto* Pawn=World->SpawnActor<APawn>(BP->GeneratedClass,FTransform(FRotator(0,37,0),FVector(100,200,300)),Params);
-  auto* PC=World->SpawnActor<APlayerController>();PC->Possess(Pawn);
+  auto* PC=World->SpawnActor<APlayerController>(LoadClass<APlayerController>(nullptr,TEXT("/Game/ThirdPerson/PC_Game_VTG.PC_Game_VTG_C")));check(PC);PC->Possess(Pawn);
+  auto* Local=NewObject<ULocalPlayer>(GEngine);GI->AddLocalPlayer(Local,FPlatformUserId::CreateFromInternalId(0));PC->SetPlayer(Local);
   if(!UGameplayStatics::GetPlayerController(World,0))World->AddController(PC);
   check(UGameplayStatics::GetPlayerPawn(World,0)==Pawn);
   auto* Health=FindFProperty<FNumericProperty>(Pawn->GetClass(),TEXT("Health"));check(Health&&Health->IsInteger());
@@ -52,7 +60,22 @@ struct FVTGTerminalSaveRegression
   Snapshot->Meta.DisplayLabel=TEXT("Autosave");Snapshot->Meta.SlotIndex=0;Snapshot->bHasTerminalHealth=false;Save->GatherWorldState(World,Snapshot);check(!Snapshot->bHasTerminalHealth);
     if(!FSlateApplication::IsInitialized())FSlateApplication::InitializeAsStandaloneApplication(FModuleManager::LoadModuleChecked<ISlateRHIRendererModule>(TEXT("SlateRHIRenderer")).CreateSlateRHIRenderer());
   auto* TerminalBP=LoadObject<UWidgetBlueprint>(nullptr,TEXT("/Game/Inventory/InventoryXBased/UMG/TabSwitcher/WB_TabSwitcher"));
-  auto* Terminal=CreateWidget<UUserWidget>(World,TerminalBP->GeneratedClass.Get());check(Terminal);
+  auto* Terminal=CreateWidget<UUserWidget>(PC,TerminalBP->GeneratedClass.Get());check(Terminal);
+  const double OriginalTime=World->TimeSeconds,OriginalRealTime=World->RealTimeSeconds;
+  World->TimeSeconds=1.499;check(!UVTGTerminalSaveLibrary::TryAcceptTerminalInput(Pawn));
+  World->TimeSeconds=1.5;World->RealTimeSeconds=1.5;check(UVTGTerminalSaveLibrary::TryAcceptTerminalInput(Pawn));
+  auto* SafeTerminal=Cast<UVTGTerminalWidget>(Terminal);
+  if(SafeTerminal)
+  {
+   const FKeyEvent Repeat(EKeys::Tab,FModifierKeysState(),0,true,0,0);
+   check(SafeTerminal->NativeOnPreviewKeyDown(FGeometry(),Repeat).IsEventHandled());
+  }
+  for(int I=0;I<24;++I){World->RealTimeSeconds=1.5+.01*I;check(!UVTGTerminalSaveLibrary::TryAcceptTerminalInput(Pawn));}
+  World->RealTimeSeconds=1.75;check(UVTGTerminalSaveLibrary::TryAcceptTerminalInput(Pawn));
+  for(int I=0;I<100;++I){check(!UVTGTerminalSaveLibrary::TryAcceptTerminalInput(Pawn));World->RealTimeSeconds+=.25;check(UVTGTerminalSaveLibrary::TryAcceptTerminalInput(Pawn));}
+  World->TimeSeconds=OriginalTime;World->RealTimeSeconds=OriginalRealTime;
+  check(UVTGTerminalSaveLibrary::ResolveTerminalTabIndex(0)==1 && UVTGTerminalSaveLibrary::ResolveTerminalTabIndex(3)==3);
+  UE_LOG(LogTemp,Display,TEXT("TERMINAL INPUT PASS: 1.499s rejected, 1.5s accepted, 250ms shared cooldown, 100 rapid cycles, repeated Tab consumed, Document redirected"));
   auto* Switcher=CastChecked<UWidgetSwitcher>(Terminal->GetWidgetFromName(TEXT("WidgetSwitcher_132")));
   const int32 OriginalPageCount=Switcher->GetChildrenCount();
   auto* Existing=Switcher->GetChildAt(0);check(Existing);
@@ -68,7 +91,10 @@ struct FVTGTerminalSaveRegression
   // No subsystem is initialized in this isolated UI world: a click should report unavailable,
   // proving the button is wired while avoiding writes to any user save file.
   Button->OnClicked.Broadcast();check(Status->GetText().ToString()==TEXT("Saving is unavailable."));
-      auto* TerminalFrame=Cast<UImage>(Page->GetWidgetFromName(TEXT("TerminalFrame")));check(TerminalFrame&&TerminalFrame->GetBrush().GetResourceObject());
+  auto* Shared=CastChecked<UUserWidget>(Page->GetWidgetFromName(TEXT("TerminalSharedBackground")));
+  Shared->TakeWidget();
+  auto* TerminalFrame=Cast<UImage>(Shared->GetWidgetFromName(TEXT("Terminal")));check(TerminalFrame&&TerminalFrame->GetBrush().GetResourceObject());
+  auto* Blur=CastChecked<UBackgroundBlur>(Shared->GetWidgetFromName(TEXT("BackgroundBlur_92")));check(Blur->GetBlurStrength()>0);
   check(TerminalFrame->GetBrush().GetResourceObject()->GetName()==TEXT("terminal_BG_Image_copy"));
   auto* Prop=FindFProperty<FObjectPropertyBase>(Pawn->GetClass(),TEXT("Terminal"));check(Prop);
   auto* PhysicalTerminal=CastChecked<USceneComponent>(Prop->GetObjectPropertyValue_InContainer(Pawn));PhysicalTerminal->SetVisibility(false);
@@ -95,7 +121,42 @@ struct FVTGTerminalSaveRegression
    TArray64<uint8> PNG;FImageUtils::PNGCompressImageArray(1920,1080,Pixels,PNG);check(FFileHelper::SaveArrayToFile(PNG,*PreviewFile));
    UE_LOG(LogTemp,Display,TEXT("TERMINAL PREVIEW saved: %s"),*PreviewFile);
   }
-  World->DestroyWorld(false);GEngine->DestroyWorldContext(World);
+  // Exercise input mode against an actual scene viewport, rather than only
+  // asserting gate timers. This catches a visible terminal left in Game mode.
+  auto* Viewport=NewObject<UGameViewportClient>(GEngine);Context.GameViewport=Viewport;Local->ViewportClient=Viewport;
+  auto ViewportWidget=SNew(SViewport);auto SceneViewport=MakeUnique<FSceneViewport>(Viewport,ViewportWidget);Viewport->Viewport=SceneViewport.Get();
+  UActorComponent* HUD=nullptr;FObjectPropertyBase* TabProperty=nullptr;
+  for(auto* Component:Pawn->GetComponents())if(auto* P=FindFProperty<FObjectPropertyBase>(Component->GetClass(),TEXT("TabSwitchWidget"))){HUD=Component;TabProperty=P;break;}
+  check(HUD && TabProperty && SafeTerminal);TabProperty->SetObjectPropertyValue_InContainer(HUD,Terminal);
+  auto TerminalSlate=Terminal->TakeWidget();
+  for(int Cycle=0;Cycle<100;++Cycle)
+  {
+   Terminal->SetVisibility(ESlateVisibility::Visible);Terminal->SetOwningPlayer(nullptr);
+   UVTGTerminalSaveLibrary::SynchronizeTerminalInput(Pawn);
+   if(Cycle==0)UE_LOG(LogTemp,Display,TEXT("TERMINAL FOCUS STATE owner=%d owns=%d cursor=%d ignore=%d mode=%s local=%d"),Terminal->GetOwningPlayer()==PC,SafeTerminal->OwnsInput,PC->bShowMouseCursor,Viewport->IgnoreInput(),*PC->GetCurrentInputModeDebugString(),PC->IsLocalController());
+   check(Terminal->GetOwningPlayer()==PC && SafeTerminal->OwnsInput && PC->bShowMouseCursor && Viewport->IgnoreInput());
+   check(PC->GetCurrentInputModeDebugString().StartsWith(TEXT("UI Only")));
+   // Use the game's real controller override: CommonUI may request gameplay
+   // after opening. A registered terminal owner must retain UI input.
+   PC->SetInputMode(FInputModeGameOnly());PC->SetShowMouseCursor(false);
+   check(Viewport->IgnoreInput() && PC->ShouldShowMouseCursor());
+   Terminal->SetVisibility(ESlateVisibility::Collapsed);
+   check(!SafeTerminal->OwnsInput && !PC->bShowMouseCursor && !Viewport->IgnoreInput());
+   check(PC->GetCurrentInputModeDebugString().StartsWith(TEXT("Game Only")));
+  }
+  UVTGTerminalSaveLibrary::SynchronizeTerminalInput(Pawn);check(!Viewport->IgnoreInput());
+  // Exercise the actual Blueprint Close route through the native preview handler.
+  // The inventory sibling is intentionally absent in this isolated test world.
+  if(auto* Initialized=FindFProperty<FBoolProperty>(HUD->GetClass(),TEXT("HUD_Initialized")))Initialized->SetPropertyValue_InContainer(HUD,true);
+  Terminal->SetVisibility(ESlateVisibility::Visible);UVTGTerminalSaveLibrary::SynchronizeTerminalInput(Pawn);
+  World->TimeSeconds=3;World->RealTimeSeconds=100;
+  const FKeyEvent TabPress(EKeys::Tab,FModifierKeysState(),0,false,0,0);
+  check(SafeTerminal->NativeOnPreviewKeyDown(FGeometry(),TabPress).IsEventHandled());
+  check(Terminal->GetVisibility()==ESlateVisibility::Collapsed && !Viewport->IgnoreInput() && !PC->bShowMouseCursor);
+  World->TimeSeconds=OriginalTime;World->RealTimeSeconds=OriginalRealTime;
+  Viewport->Viewport=nullptr;SceneViewport.Reset();Context.GameViewport=nullptr;Local->ViewportClient=nullptr;
+  UE_LOG(LogTemp,Display,TEXT("TERMINAL FOCUS PASS: 100 scene-viewport UI Only/Game Only transitions, cursor, owning player repair, hidden-page resync, actual Tab-to-Blueprint-Close route"));
+  GI->RemoveLocalPlayer(Local);World->DestroyWorld(false);GEngine->DestroyWorldContext(World);
   UE_LOG(LogTemp,Display,TEXT("TERMINAL STATE PASS: real player position, current health, inventory capture and progress flags serialize; health/position restore; checkpoint behavior unchanged. No user save files touched."));
  }
 };
@@ -153,7 +214,7 @@ int32 Run(bool VerifyOnly)
   FScriptArrayHelper A(Prop,Prop->ContainerPtrToValuePtr<void>(Instance));
   TSet<uint8> Indices;
   for(int32 I=0;I<A.Num();++I){check(!Inv->GetPropertyValue_InContainer(A.GetRawPtr(I)));Indices.Add(Index->GetPropertyValue_InContainer(A.GetRawPtr(I)));}
-  check(A.Num()==5 && Indices.Num()==5 && Indices.Contains(0)&&Indices.Contains(1)&&Indices.Contains(2)&&Indices.Contains(3)&&Indices.Contains(254));
+  check(A.Num()==4 && Indices.Num()==4 && !Indices.Contains(0)&&Indices.Contains(1)&&Indices.Contains(2)&&Indices.Contains(3)&&Indices.Contains(254));
  };
  UVTGTerminalSaveLibrary::PrepareTerminalTabs(Instance);Validate();
  UVTGTerminalSaveLibrary::PrepareTerminalTabs(Instance);Validate();

@@ -24,6 +24,9 @@
 #include "Misc/PackageName.h"
 #include "HAL/FileManager.h"
 #include "Editor.h"
+#include "VTGL2AfterFightPoseProbe.inl"
+#include "VTGL2EyeTremor.inl"
+#include "VTGL2BowerbirdPhysics.inl"
 
 namespace SaCinePose
 {
@@ -54,6 +57,15 @@ void Test(UAnimBlueprint* BP,bool RequireFixed)
 }
 int32 UVTGSaCinePoseCommandlet::Main(const FString& Params)
 {
+ if(Params.Contains(TEXT("StagedBirdBounds")))
+ {
+  FPackageName::RegisterMountPoint(TEXT("/VTGBirdBoundsStaged/"),FPaths::ConvertRelativePathToFull(FPaths::ProjectDir()/TEXT("Scripts/L2AfterFightPose/Bowerbird/Staged/")));
+  StagedBirdMesh=LoadObject<USkeletalMesh>(nullptr,TEXT("/VTGBirdBoundsStaged/Bowerbird_RIG_ue_renamed_.Bowerbird_RIG_ue_renamed_"));check(StagedBirdMesh.IsValid());StagedBirdMesh->AddToRoot();
+ }
+ if(Params.Contains(TEXT("L2EyeTremor")))return AdjustL2EyeTremor(Params);
+ if(Params.Contains(TEXT("BowerbirdPhysics")))return ProbeL2BowerbirdPhysics(Params.Contains(TEXT("Cinematic")));
+ if(Params.Contains(TEXT("AfterFightRepair")))return RepairL2Return(Params.Contains(TEXT("VerifyOnly")));
+ if(Params.Contains(TEXT("AfterFightProbe")))return ProbeL2AfterFightPose(Params.Contains(TEXT("MeshFirst")),Params.Contains(TEXT("RequireFixed")),Params.Contains(TEXT("BirdGameplay")),Params.Contains(TEXT("BirdCinematic")),Params.Contains(TEXT("FixBirdBounds")),Params.Contains(TEXT("VerifyBirdBounds")));
  using namespace SaCinePose;auto* BP=LoadObject<UAnimBlueprint>(nullptr,TEXT("/Game/Characters/Sa/ABP_SaCine"));check(BP);
  if(Params.Contains(TEXT("Probe")) || Params.Contains(TEXT("Test"))){Test(BP,!Params.Contains(TEXT("Probe")));return 0;}
  const bool Verify=Params.Contains(TEXT("VerifyOnly"));auto* Fallback=LoadObject<UAnimSequence>(nullptr,FallbackPath);check(Fallback);

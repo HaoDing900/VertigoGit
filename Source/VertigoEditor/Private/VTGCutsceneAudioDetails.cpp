@@ -16,6 +16,7 @@
 #include "ScopedTransaction.h"
 #include "Widgets/Input/SCheckBox.h"
 #include "Widgets/Input/SComboBox.h"
+#include "Widgets/Input/SNumericEntryBox.h"
 #include "Widgets/Text/STextBlock.h"
 
 namespace VTGCutsceneAudioDetails
@@ -102,6 +103,12 @@ public:
                 .ToolTipText(NSLOCTEXT("VTGCutsceneAudio","FollowTip","默认关闭。开启后，此关卡声源实例跟随 Ambient 的过场压低/静音规则；不修改共享的 Sound Cue。"))];
         if(Sequence.IsValid())
         {
+            Category.AddCustomRow(NSLOCTEXT("VTGCutsceneAudio","GainSearch","Sequence Audio Volume Multiplier 内部音频音量倍数"))
+            .NameContent()[SNew(STextBlock).Text(NSLOCTEXT("VTGCutsceneAudio","GainLabel","内部音频音量倍数"))]
+            .ValueContent().MinDesiredWidth(180)[SNew(SNumericEntryBox<float>).MinValue(0.f).MinSliderValue(0.f).MaxSliderValue(4.f)
+                .Value_Lambda([this]()->TOptional<float>{auto* S=UVTGCutsceneAudioLibrary::GetSequenceAudioSettings(Sequence.Get());return S?S->SequenceAudioVolumeMultiplier:1.f;})
+                .OnValueCommitted_Lambda([this](float Value,ETextCommit::Type){if(!Sequence.IsValid() || !FMath::IsFinite(Value))return;const FScopedTransaction T(NSLOCTEXT("VTGCutsceneAudio","GainEdit","设置 Sequence 内部音频音量倍数"));Sequence->Modify();auto* S=UVTGCutsceneAudioLibrary::GetSequenceAudioSettings(Sequence.Get(),true);S->Modify();S->SequenceAudioVolumeMultiplier=FMath::Max(0.f,Value);Sequence->MarkPackageDirty();})
+                .ToolTipText(NSLOCTEXT("VTGCutsceneAudio","GainTip","默认 1。统一乘以当前 Sequence 及嵌套 Sequence 的 Audio Track 音量，保留片段原有音量曲线；0 静音，0.5 减半，2 加倍。嵌套 Sequence 自身的倍数继续相乘。保存 Sequence 资产后，编辑器预览与游戏均生效。"))];
             for(auto P:{EVTGCutsceneAudioPreset::KeepWorld,EVTGCutsceneAudioPreset::DialogueFocus,EVTGCutsceneAudioPreset::MuteWorldBeds})Options.Add(MakeShared<EVTGCutsceneAudioPreset>(P));
             Category.AddCustomRow(NSLOCTEXT("VTGCutsceneAudio","ProfileSearch","Audio Profile Preset 过场声音预设"))
             .NameContent()[SNew(STextBlock).Text(NSLOCTEXT("VTGCutsceneAudio","Profile","过场声音预设"))]

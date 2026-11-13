@@ -7,6 +7,7 @@
 #include "VTGTerminalSavePage.generated.h"
 class UTextBlock;
 class UScrollBox;
+class UBackgroundBlur;
 class UVTGTerminalSavePage;
 
 UCLASS()
@@ -26,7 +27,7 @@ class VERTIGO_API UVTGTerminalSavePage : public UUserWidget
 {
  GENERATED_BODY()
 public:
- void OpenForTerminal(UUserWidget* Terminal,UUserWidget* ScreenSource);
+ void OpenForTerminal(UUserWidget* Terminal,UUserWidget* ScreenSource,UUserWidget* DocumentSource=nullptr);
  void SelectSlot(int32 Index);
 protected:
  virtual TSharedRef<SWidget> RebuildWidget() override;
@@ -58,8 +59,15 @@ private:
  int32 PendingAction=0;
  bool Busy=false;
  UPROPERTY(Transient) FSlateBrush TerminalFrameBrush;
+ UPROPERTY(Transient) FSlateBrush TerminalArtworkBrush;
+ FAnchorData TerminalArtworkLayout;
+ bool HasTerminalArtwork=false;
  FAnchorData TerminalFrameLayout;
  bool HasTerminalFrame=false;
+ UPROPERTY(Transient) TObjectPtr<UBackgroundBlur> BlurSource;
+ UPROPERTY(Transient) TSubclassOf<UUserWidget> SharedBackgroundClass;
+ UPROPERTY(Transient) TObjectPtr<UUserWidget> SharedBackground;
+ FAnchorData BlurLayout;
  FAnchorData ScreenLayout;
  bool HasScreenLayout=false;
 };

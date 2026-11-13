@@ -6,6 +6,9 @@
 #include "Components/TextBlock.h"
 #include "Engine/GameInstance.h"
 #include "UObject/UnrealType.h"
+#include "UI/VTGTerminalWidget.h"
+#include "GameFramework/Pawn.h"
+#include "GameFramework/PlayerController.h"
 
 namespace TerminalSave
 {
@@ -15,6 +18,38 @@ FProperty* Field(UStruct* Struct, const TCHAR* Prefix)
   if(P->GetName().StartsWith(Prefix)) return *P;
  return nullptr;
 }
+}
+
+bool UVTGTerminalSaveLibrary::TryAcceptTerminalInput(APawn* Player)
+{
+ if(!IsValid(Player))return false;
+ auto* Gate=Player->FindComponentByClass<UVTGTerminalInputGate>();
+ if(!Gate){Gate=NewObject<UVTGTerminalInputGate>(Player);Player->AddInstanceComponent(Gate);Gate->RegisterComponent();}
+ return Gate->TryAccept();
+}
+
+uint8 UVTGTerminalSaveLibrary::ResolveTerminalTabIndex(uint8 Index)
+{
+ // Keep the authored Document page and its index intact, but unplug access to it.
+ return Index==0?1:Index;
+}
+
+void UVTGTerminalSaveLibrary::SynchronizeTerminalInput(APawn* Player)
+{
+ if(!IsValid(Player))return;
+ TArray<UActorComponent*> Candidates;
+ if(auto* Property=FindFProperty<FObjectPropertyBase>(Player->GetClass(),TEXT("AC_Inventory_HUD_Component")))
+  if(auto* HUD=Cast<UActorComponent>(Property->GetObjectPropertyValue_InContainer(Player)))Candidates.Add(HUD);
+ if(Candidates.IsEmpty())for(auto* Component:Player->GetComponents())Candidates.Add(Component);
+ for(auto* Component:Candidates)
+  if(auto* Property=FindFProperty<FObjectPropertyBase>(Component->GetClass(),TEXT("TabSwitchWidget")))
+   if(auto* Terminal=Cast<UVTGTerminalWidget>(Property->GetObjectPropertyValue_InContainer(Component)))
+   {
+    UE_LOG(LogTemp,Display,TEXT("TERMINAL_INPUT_SYNC hud=%s terminal=%s visible=%d"),*Component->GetPathName(),*Terminal->GetPathName(),Terminal->IsVisible());
+    if(auto* Reference=FindFProperty<FObjectPropertyBase>(Terminal->GetClass(),TEXT("HUD_InventoryComponent_Reference")))Reference->SetObjectPropertyValue_InContainer(Terminal,Component);
+    Terminal->SynchronizeInput(Cast<APlayerController>(Player->GetController()));
+    return;
+   }
 }
 
 void UVTGTerminalSaveLibrary::PrepareTerminalTabs(UUserWidget* Menu)
@@ -29,15 +64,19 @@ void UVTGTerminalSaveLibrary::PrepareTerminalTabs(UUserWidget* Menu)
  auto* Image=CastField<FSoftObjectProperty>(TerminalSave::Field(Entry->Struct,TEXT("Image_")));
  if(!Inventory||!Index||!Text||!Image)return;
  FScriptArrayHelper Tabs(Property,Property->ContainerPtrToValuePtr<void>(Menu));
- // Filter only the runtime copy. Authored ITEM data and its inventory page remain intact.
+ FSoftObjectPtr DocumentIcon(FSoftObjectPath(TEXT("/Game/Inventory/InventoryXBased/UMG/Textures/Tabs/T_Note.T_Note")));
+ for(int32 I=0;I<Tabs.Num();++I)
+  if(!Inventory->GetPropertyValue_InContainer(Tabs.GetRawPtr(I)) && Index->GetPropertyValue_InContainer(Tabs.GetRawPtr(I))==0)
+  {const auto AuthoredIcon=Image->GetPropertyValue_InContainer(Tabs.GetRawPtr(I));if(!AuthoredIcon.IsNull())DocumentIcon=AuthoredIcon;break;}
+ // Runtime only: preserve authored Document data and page, exclude its button
+ // from rendering, focus and Q/E navigation along with the unused ITEM tab.
  for(int32 I=Tabs.Num()-1;I>=0;--I)
-  if(Inventory->GetPropertyValue_InContainer(Tabs.GetRawPtr(I)) || Index->GetPropertyValue_InContainer(Tabs.GetRawPtr(I))==SaveTabIndex)Tabs.RemoveValues(I);
- // Some terminals use this widget with no authored tabs. Do not add a save action there.
+  if(Inventory->GetPropertyValue_InContainer(Tabs.GetRawPtr(I)) || Index->GetPropertyValue_InContainer(Tabs.GetRawPtr(I))==0 || Index->GetPropertyValue_InContainer(Tabs.GetRawPtr(I))==SaveTabIndex)Tabs.RemoveValues(I);
  if(Tabs.Num()==0)return;
  uint8* NewTab=Tabs.GetRawPtr(Tabs.AddValue());
  Index->SetPropertyValue_InContainer(NewTab,SaveTabIndex);
  Text->SetPropertyValue_InContainer(NewTab,NSLOCTEXT("VTGTerminal","SaveLoad","SAVE / LOAD"));
- Image->SetPropertyValue_InContainer(NewTab,FSoftObjectPtr(FSoftObjectPath(TEXT("/InventorySystemX/InventorySystemX/Textures/Tabs/T_Note.T_Note"))));
+ Image->SetPropertyValue_InContainer(NewTab,DocumentIcon);
  // PreConstruct may run more than once: rebuild navigation references with the visible buttons.
  if(auto* Buttons=FindFProperty<FArrayProperty>(Menu->GetClass(),TEXT("TabButtonsWidgets")))
   FScriptArrayHelper(Buttons,Buttons->ContainerPtrToValuePtr<void>(Menu)).EmptyValues();
@@ -59,10 +98,12 @@ bool UVTGTerminalSaveLibrary::HandleTerminalSave(UUserWidget* Terminal, uint8 In
  }
  if(Page)
  {
-    UUserWidget* ScreenSource=nullptr;
+  UUserWidget* ScreenSource=nullptr;
+  UUserWidget* DocumentSource=nullptr;
   for(int32 I=0;I<Switcher->GetChildrenCount();++I)
-   if(auto* Candidate=Cast<UUserWidget>(Switcher->GetChildAt(I)); Candidate&&Candidate->GetWidgetFromName(TEXT("OverlayForMail"))){ScreenSource=Candidate;break;}
-  Page->OpenForTerminal(Terminal,ScreenSource);
+   if(auto* Candidate=Cast<UUserWidget>(Switcher->GetChildAt(I)); Candidate)
+   {if(Candidate->GetWidgetFromName(TEXT("OverlayForMail")))ScreenSource=Candidate;if(Candidate->GetWidgetFromName(TEXT("FirstOverlay")) && Candidate->GetWidgetFromName(TEXT("Image_AddTerminal")))DocumentSource=Candidate;}
+  Page->OpenForTerminal(Terminal,ScreenSource,DocumentSource);
   Switcher->SetVisibility(ESlateVisibility::SelfHitTestInvisible);
   Switcher->SetActiveWidget(Page);
   // This branch bypasses SetActiveTab's page focus. Keep Q/E on this terminal
