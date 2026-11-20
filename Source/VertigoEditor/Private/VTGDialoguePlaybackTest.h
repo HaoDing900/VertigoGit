@@ -11,6 +11,10 @@ class UVTGDialoguePlaybackTest : public UDialogue
     GENERATED_BODY()
 public:
     int32 FinishedLines = 0;
+    int32 PaginationEndEvents = 0;
+    void SetReadingText(const FText& Text)
+    { CurrentLine.Text=Text;CurrentLine.Duration=ELineDuration::LD_AfterReadingTime; }
+    void SetDurationForTest(ELineDuration Duration) { CurrentLine.Duration=Duration; }
     void Prepare(UNarrativeComponent* Component, bool bSkippable, bool bRouting = false)
     {
         OwningComp = Component;
@@ -25,6 +29,8 @@ public:
     void NaturalFinish() { FinishNPCDialogue(); }
     void ManualFinish() { EndCurrentLine(); }
 protected:
+    virtual void ProcessNodeEvents(UDialogueNode* Node,bool Start) override
+    { if(!Start)++PaginationEndEvents;Super::ProcessNodeEvents(Node,Start); }
     virtual void PlayNextNPCReply() override { ++FinishedLines; }
     virtual void FinishDialogueNode_Implementation(UDialogueNode*, const FDialogueLine&, const FSpeakerInfo&, AActor*, AActor*) override {}
 };

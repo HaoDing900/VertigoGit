@@ -43,3 +43,7 @@ Text 和 Speaker 是 FText，不是普通 String。新增字幕有独立的 Name
 ## 验证
 
 编译通过。Vertigo.Sequence.AsyncInspector、SubtitleEditorPreview、Subtitles 测试通过；覆盖实际 Sequencer 面板预览、拖动播放头、开关、关闭清理、字号/描边、独立本地化键及已有播放/快进规则。尚未检查实际译文资源或用户编辑器中的视觉布局。
+
+## 默认字号（2026-11-19）
+
+全局字幕正文和新建字幕轨道的默认字号从 30 调整为 28。Speaker 默认字号仍为 22。已单独覆盖全局样式的轨道继续保留其自定义样式。

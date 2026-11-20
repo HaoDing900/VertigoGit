@@ -22,6 +22,10 @@
 #include <Slate/SObjectWidget.h>
 #include "QuestNodeUserWidget.h"
 #include "QuestBlueprint.h"
+#include "NarrativeQuestDetailsExtension.h"
+#include "Brushes/SlateRoundedBoxBrush.h"
+#include "EdGraphSchema_K2.h"
+#include "K2Node_CustomEvent.h"
 
 #define LOCTEXT_NAMESPACE "SQuestGraphNode"
 
@@ -54,6 +58,43 @@ void SQuestGraphNode::CreatePinWidgets()
 	}
 }
 
+void SQuestGraphNode::Tick(const FGeometry& Geometry, double Time, float Delta)
+{
+    SGraphNode::Tick(Geometry, Time, Delta);
+    if (auto Panel = GetOwnerPanel(); Panel && LocalizationBadgeWidget)
+    {
+        const float Zoom = Panel->GetZoomAmount();
+        if (Zoom <= KINDA_SMALL_NUMBER) return;
+        const float Scale = FMath::Clamp(FMath::Pow(1.f / Zoom, .8f), 1.f, 3.f);
+        if (!FMath::IsNearlyEqual(Scale, LastAppliedBadgeScale))
+        {
+            LastAppliedBadgeScale = Scale;
+            LocalizationBadgeWidget->SetRenderTransform(TOptional<FSlateRenderTransform>(FSlateRenderTransform(FScale2D(Scale))));
+        }
+    }
+}
+
+EVisibility SQuestGraphNode::GetConnectedEventVis() const
+{
+    const auto* Node = Cast<UQuestGraphNode>(GraphNode);
+    if (!Node || !Node->QuestNode || Node->QuestNode->OnEnteredFuncName.IsNone()) return EVisibility::Collapsed;
+    const auto* Blueprint = Node->GetTypedOuter<UQuestBlueprint>();
+    if (!Blueprint) return EVisibility::Collapsed;
+    for (const UEdGraph* EventGraph : Blueprint->UbergraphPages)
+    {
+        if (!EventGraph) continue;
+        for (const UEdGraphNode* EventNode : EventGraph->Nodes)
+        {
+            const auto* Event = Cast<UK2Node_CustomEvent>(EventNode);
+            if (!Event || Event->CustomFunctionName != Node->QuestNode->OnEnteredFuncName) continue;
+            for (const UEdGraphPin* Pin : Event->Pins)
+                if (Pin && Pin->Direction == EGPD_Output && Pin->PinType.PinCategory == UEdGraphSchema_K2::PC_Exec && Pin->LinkedTo.Num())
+                    return EVisibility::Visible;
+        }
+    }
+    return EVisibility::Collapsed;
+}
+
 void SQuestGraphNode::UpdateGraphNode()
 {
 
@@ -63,9 +104,22 @@ void SQuestGraphNode::UpdateGraphNode()
 	// Reset variables that are going to be exposed, in case we are refreshing an already setup node.
 	RightNodeBox.Reset();
 	LeftNodeBox.Reset();
+	QuestNodeWidgetRef.Reset();
 
 	UQuestGraphNode* QuestGraphNode = Cast<UQuestGraphNode>(GraphNode);
 	UQuestNode* QuestNode = QuestGraphNode ? QuestGraphNode->QuestNode : nullptr;
+    TSharedPtr<SWidget> LocalizationBadge;
+    if (GetNarrativeQuestLocalizationBadge().IsBound()) LocalizationBadge = GetNarrativeQuestLocalizationBadge().Execute(QuestNode);
+    LocalizationBadgeWidget = LocalizationBadge;
+    LastAppliedBadgeScale = 0.f;
+    if (!LocalizationBadge) LocalizationBadge = SNullWidget::NullWidget;
+    LocalizationBadge->SetRenderTransformPivot(FVector2D(1.f, 0.f));
+    static const FSlateRoundedBoxBrush ConnectedEventBrush(FLinearColor(.02f, .35f, 1.f), FVector2f(10.f, 10.f));
+    const TSharedRef<SWidget> ConnectedEventIndicator = SNew(SBox).WidthOverride(10.f).HeightOverride(10.f)
+        .Visibility(this, &SQuestGraphNode::GetConnectedEventVis)
+        .ToolTipText(LOCTEXT("ConnectedEventTip", "This quest node's Blueprint event has a connected execution output."))
+        [SNew(SImage).Image(&ConnectedEventBrush)];
+
 
 	UQuestNodeUserWidget* QuestNodeWidgetInstance = nullptr;
 	UWorld* World = GEditor->GetEditorWorldContext().World();
@@ -117,6 +171,8 @@ void SQuestGraphNode::UpdateGraphNode()
 			[
 				QuestNodeWidgetRef.ToSharedRef()
 			]
+                + SOverlay::Slot().HAlign(HAlign_Right).VAlign(VAlign_Top).Padding(4)[LocalizationBadge.ToSharedRef()]
+                + SOverlay::Slot().HAlign(HAlign_Left).VAlign(VAlign_Top).Padding(8)[ConnectedEventIndicator]
 			];
 	}
 	else // Old style yucky slate ones
@@ -143,6 +199,8 @@ void SQuestGraphNode::UpdateGraphNode()
 		.BorderBackgroundColor(this, &SQuestGraphNode::GetBorderColor)
 		[
 			SNew(SOverlay)
+            + SOverlay::Slot().HAlign(HAlign_Right).VAlign(VAlign_Top).Padding(4)[LocalizationBadge.ToSharedRef()]
+            + SOverlay::Slot().HAlign(HAlign_Left).VAlign(VAlign_Top).Padding(8)[ConnectedEventIndicator]
 			+ SOverlay::Slot()
 		[
 			SizeBox

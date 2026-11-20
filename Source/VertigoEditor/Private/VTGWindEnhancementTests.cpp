@@ -19,7 +19,7 @@ bool VTGVerifyEnhancedWind()
  auto Expect=[](bool OK,const TCHAR* Text){checkf(OK,TEXT("%s"),Text);UE_LOG(LogTemp,Display,TEXT("ENHANCED_WIND_TEST PASS %s"),Text);};
  auto* Fist=LoadObject<UNiagaraSystem>(nullptr,TEXT("/Game/VFX/Wind_VFX/VFX/Particles/NS_fist_Wind"));auto* Hammer=LoadObject<UNiagaraSystem>(nullptr,TEXT("/Game/VFX/Wind_VFX/VFX/Particles/NS_hammer_Wind"));auto* Original=LoadObject<UNiagaraSystem>(nullptr,TEXT("/Game/VFX/Wind_VFX/VFX/Particles/NS_Wind_Flows_02_Fast"));check(Fist && Hammer && Original);
  auto Color=[](UNiagaraSystem* S,FName Name){return S->GetExposedParameters().GetParameterValue<FLinearColor>(FNiagaraVariable(FNiagaraTypeDefinition::GetColorDef(),Name));};
- Expect(FMath::IsNearlyEqual(Color(Fist,TEXT("User.Color Minimum")).A,.18f) && FMath::IsNearlyEqual(Color(Fist,TEXT("User.Color Maximum")).A,.45f),TEXT("Fist opacity raised to 0.18-0.45"));
+ Expect(FMath::IsNearlyEqual(Color(Fist,TEXT("User.Color Minimum")).A,.24f) && FMath::IsNearlyEqual(Color(Fist,TEXT("User.Color Maximum")).A,.58f),TEXT("Fist opacity raised to 0.24-0.58"));
  Expect(FMath::IsNearlyEqual(Color(Original,TEXT("User.Color Maximum")).A,.13f),TEXT("Original environmental wind asset is unchanged"));
  for(auto* S:{Fist,Hammer})
  {

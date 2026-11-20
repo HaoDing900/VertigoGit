@@ -1,5 +1,6 @@
 #pragma once
 #include "CoreMinimal.h"
+#include "UI/VTGDialoguePagination.h"
 #include "Subsystems/GameInstanceSubsystem.h"
 #include "NarrativeActivatableWidget.h"
 #include "VTGDialogueHistorySubsystem.generated.h"
@@ -47,6 +48,14 @@ class VERTIGO_API UVTGDialogueHistorySubsystem : public UGameInstanceSubsystem
     void RecordLine(UNarrativeComponent *Component, const FText &Speaker, const FText &Text);
 
   private:
+    void UpdatePagination();
+    FVTGDialogueTextFit SideTextFit;
+    TWeakObjectPtr<class UDialogue> PagedDialogue;
+    TWeakObjectPtr<class UDialogueNode> PagedNode;
+    TWeakObjectPtr<class URichTextBlock> PagedLabel;
+    FString PagedText,PagedLanguage;
+    FVector2D PagedSize=FVector2D::ZeroVector;
+    UPROPERTY(Transient) TObjectPtr<class UTextBlock> PageIndicator;
     bool bSkipHeld = false;
     double NextSkipTime = 0;
     TWeakObjectPtr<UNarrativeComponent> SkipComponent;

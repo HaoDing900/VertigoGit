@@ -11,6 +11,7 @@
 #include "IPropertyUtilities.h"
 #include "PropertyHandle.h"
 #include "NarrativeDialogueDetailsExtension.h"
+FNarrativeLocalizationBadge& GetNarrativeLocalizationBadge(){static FNarrativeLocalizationBadge Badge;return Badge;}
 
 FNarrativeDialogueDetailsExtension& GetNarrativeDialogueDetailsExtension()
 {

@@ -1,6 +1,7 @@
-// Copyright Narrative Tools 2022. 
+// Copyright Narrative Tools 2022.
 
 #include "Dialogue.h"
+#include "UObject/UnrealType.h"
 #include "NarrativeBlipLibrary.h"
 #include "NarrativeUIInputComponent.h"
 #include "DialogueHistoryEvents.h"
@@ -172,6 +173,7 @@ bool UDialogue::Initialize(class UNarrativeComponent* InitializingComp, const FD
 
 void UDialogue::Deinitialize()
 {
+    PresentationPages.Reset();PresentationPageIndex=0;bSidePresentationPagination=false;
 	StopJawMovement();
 	if (bDeinitialized)
 	{
@@ -240,6 +242,21 @@ void UDialogue::DuplicateAndInitializeFromDialogue(UDialogue* DialogueTemplate)
 		//Duplicate the quest template, then steal all its states and branches - TODO this seems unreliable, what if we add new fields to UDialogue? Look into swapping object entirely instead of stealing fields
 		UDialogue* NewDialogue = Cast<UDialogue>(StaticDuplicateObject(DialogueTemplate, this, NAME_None, RF_Transactional));
 		NewDialogue->SetFlags(RF_Transient | RF_DuplicateTransient);
+
+        // This is a playback instance, not a newly authored asset. Stable-key
+        // duplication into a PIE map package may assign fresh text identities.
+        // Restore source FText handles so the instance resolves the asset's locres.
+        TMap<FName,UDialogueNode*> SourceNodes;
+        for(auto* Node:DialogueTemplate->GetNodes())if(Node)SourceNodes.Add(Node->GetFName(),Node);
+        for(auto* Node:NewDialogue->GetNodes())if(Node)
+            if(auto** Source=SourceNodes.Find(Node->GetFName()))
+            {
+                Node->Line.Text=(*Source)->Line.Text;
+                for(int32 I=0;I<Node->AlternativeLines.Num() && I<(*Source)->AlternativeLines.Num();++I)
+                    Node->AlternativeLines[I].Text=(*Source)->AlternativeLines[I].Text;
+                if(auto* Player=Cast<UDialogueNode_Player>(Node))if(auto* SourcePlayer=Cast<UDialogueNode_Player>(*Source))
+                {for(FName Name:{FName(TEXT("OptionText")),FName(TEXT("HintText"))})if(auto* P=FindFProperty<FTextProperty>(Player->GetClass(),Name))P->CopyCompleteValue(P->ContainerPtrToValuePtr<void>(Player),P->ContainerPtrToValuePtr<void>(SourcePlayer));}
+            }
 
 		RootDialogue = NewDialogue->RootDialogue;
 		NPCReplies = NewDialogue->NPCReplies;
@@ -438,6 +455,7 @@ void UDialogue::SetAutoAdvance(bool bEnabled)
 void UDialogue::EndCurrentLine()
 {
     if (bResponseTransitionPending) return;
+    if(AdvancePresentationPage())return;
 	StopJawMovement();
     bExplicitLineAdvance = true;
 	if (CurrentNode)
@@ -1127,6 +1145,7 @@ void UDialogue::NPCFinishedTalking()
 
 void UDialogue::PlayNPCDialogueNode(class UDialogueNode_NPC* NPCReply)
 {
+    PresentationPages.Reset();PresentationPageIndex=0;bSidePresentationPagination=false;
 	check(OwningComp && NPCReply);
 
 	//FString RoleString = OwningComp && OwningComp->HasAuthority() ? "Server" : "Client";
@@ -1216,6 +1235,7 @@ void UDialogue::PlayNPCDialogueNode(class UDialogueNode_NPC* NPCReply)
 
 void UDialogue::PlayPlayerDialogueNode(class UDialogueNode_Player* PlayerReply)
 {
+    PresentationPages.Reset();PresentationPageIndex=0;bSidePresentationPagination=false;
 	//NPC replies should be fully gone before we play a player response
 	check(!NPCReplyChain.Num());
 	check(OwningComp && PlayerReply);
@@ -1420,6 +1440,7 @@ void UDialogue::FinishNPCDialogue()
         return;
     }
     bWaitingForManualAdvance = false;
+    if(AdvancePresentationPage())return;
 	//Hard guarantee: a non-skippable "After X Seconds" line never advances before its full duration elapsed.
 	//Anything that tries to finish it early is bounced and rescheduled for the remaining time (0.05s slack
 	//lets the legitimate duration timer through despite float/timer jitter).

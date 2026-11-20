@@ -3,6 +3,14 @@
 #include "NarrativeDialogueDetailsExtension.h"
 #include "DialogueSM.h"
 #include "Dialogue.h"
+#include "DialogueBlueprint.h"
+#include "DialogueNodeUserWidget.h"
+#include "Components/MultiLineEditableText.h"
+#include "Components/MultiLineEditableTextBox.h"
+#include "Components/TextBlock.h"
+#include "UObject/UObjectHash.h"
+#include "ISinglePropertyView.h"
+#include "Editor.h"
 #include "DetailLayoutBuilder.h"
 #include "PropertyEditorModule.h"
 #include "IPropertyRowGenerator.h"
@@ -72,7 +80,7 @@ bool FVTGDialogueInlineLocalizationTest::RunTest(const FString&)
     TestFalse(TEXT("Character ID has no translation editor"),VTGDialogueLocalizationDetails::IsSafeText(SpeakerID));
     int32 InlineMenus=0;
     TFunction<void(TSharedRef<SWidget>)> VisitWidget=[&](TSharedRef<SWidget> Widget){
-        if(Widget->GetType()==TEXT("STextBlock") && StaticCastSharedRef<STextBlock>(Widget)->GetText().ToString().Contains(TEXT("多语言译文（展开编辑")))++InlineMenus;
+        if(Widget->GetType()==TEXT("STextBlock") && StaticCastSharedRef<STextBlock>(Widget)->GetText().ToString().Contains(TEXT("多语言译文")))++InlineMenus;
         auto* Children=Widget->GetChildren();for(int32 Index=0;Index<Children->Num();++Index)VisitWidget(Children->GetChildAt(Index));
     };
     TFunction<void(TSharedRef<IDetailTreeNode>)> VisitNode=[&](TSharedRef<IDetailTreeNode> Tree){
@@ -132,7 +140,7 @@ bool FVTGDialogueInlineLocalizationTest::RunTest(const FString&)
     TestTrue(TEXT("Language preview locks the native Origin editor"),Manager.IsLocalizationLocked());
     bool VisibleOrigin=false;
     TFunction<void(TSharedRef<SWidget>)> FindOrigin=[&](TSharedRef<SWidget> Widget){
-        if(Widget->GetType()==TEXT("SMultiLineEditableTextBox") && Widget->GetVisibility()==EVisibility::Visible)
+        if((Widget->GetType()==TEXT("SMultiLineEditableTextBox") || Widget->GetType()==TEXT("SVTGLocalizationTextBox")) && Widget->GetVisibility()==EVisibility::Visible)
             if(StaticCastSharedRef<SMultiLineEditableTextBox>(Widget)->GetText().ToString()==Source)VisibleOrigin=true;
         auto* Children=Widget->GetChildren();for(int32 Index=0;Index<Children->Num();++Index)FindOrigin(Children->GetChildAt(Index));
     };
@@ -197,6 +205,50 @@ bool FVTGDialogueSpeakerFieldsTest::RunTest(const FString&)
         for(FName Field:{FName(TEXT("ProfilePictureExpression")),FName(TEXT("Icon")),FName(TEXT("CharacterReactionvfx")),FName(TEXT("vfx"))})
             TestEqual(*FString::Printf(TEXT("%s field %s"),Player?TEXT("Player"):TEXT("NPC"),*Field.ToString()),Visible.Contains(Field),!Player);
     }
+    return true;
+}
+#endif
+
+#if WITH_DEV_AUTOMATION_TESTS
+IMPLEMENT_SIMPLE_AUTOMATION_TEST(FVTGDialogueHintPreviewTest,"Vertigo.Localization.HintPreviewClear",EAutomationTestFlags::EditorContext|EAutomationTestFlags::EngineFilter)
+bool FVTGDialogueHintPreviewTest::RunTest(const FString&)
+{
+    auto* BP=LoadObject<UDialogueBlueprint>(nullptr,TEXT("/Game/Narrative/Dialogues/Levels/L4BlackMarket/L4_BlackMarketInvestigation_Still_InterestingItemsOntheStreet"));
+    if(!TestNotNull(TEXT("Affected Dialogue exists"),BP))return false;
+    const bool WasDirty=BP->GetOutermost()->IsDirty();
+    TArray<UObject*> Objects;GetObjectsWithPackage(BP->GetOutermost(),Objects,true);
+    UDialogueNode_Player* Original=nullptr;
+    for(auto* Object:Objects)if(auto* Player=Cast<UDialogueNode_Player>(Object))
+        if(Player->GetName()==TEXT("BP_DialogueNode_Player_VTG_C_1") && Player->GetTypedOuter<UDialogue>()==BP->DialogueTemplate){Original=Player;break;}
+    if(!TestNotNull(TEXT("Reported node exists"),Original))return false;
+    TestTrue(TEXT("Reported Hint deletion is saved"),Original->GetRawHintText().IsEmptyOrWhitespace());
+    auto* Node=DuplicateObject<UDialogueNode_Player>(Original,GetTransientPackage());
+    auto& Module=FModuleManager::LoadModuleChecked<FPropertyEditorModule>(TEXT("PropertyEditor"));
+    auto Hint=Module.CreateSingleProperty(Node,TEXT("HintText"),FSinglePropertyParams());
+    if(!TestTrue(TEXT("Hint field accessible"),Hint.IsValid()))return false;
+    Node->Line.Text=FText::AsCultureInvariant(TEXT("Preview body"));
+    Hint->GetPropertyHandle()->SetValue(FText::AsCultureInvariant(TEXT("Preview hint")));
+    auto* Widget=CreateWidget<UDialogueNodeUserWidget>(GEditor->GetEditorWorldContext().World(),LoadClass<UDialogueNodeUserWidget>(nullptr,TEXT("/Narrative/NarrativeUI/Widgets/Editor/WBP_DefaultDialogueNode.WBP_DefaultDialogueNode_C")));
+    if(!TestNotNull(TEXT("Actual configured node widget loads"),Widget))return false;
+    Widget->InitializeFromNode(Node,BP->DialogueTemplate);Widget->TakeWidget();
+    auto ReadBody=[&]()->FString{
+        auto* Body=Widget->GetWidgetFromName(TEXT("DialogueLineText"));
+        if(auto* Edit=Cast<UMultiLineEditableText>(Body))return Edit->GetText().ToString();
+        if(auto* Box=Cast<UMultiLineEditableTextBox>(Body))return Box->GetText().ToString();
+        if(auto* Text=Cast<UTextBlock>(Body))return Text->GetText().ToString();
+        return TEXT("missing body widget");
+    };
+    Widget->RefreshNodeBodyText();
+    TestEqual(TEXT("Initial composed preview"),ReadBody(),FString(TEXT("Preview body [Preview hint]")));
+    Hint->GetPropertyHandle()->SetValue(FText::GetEmpty());
+    Widget->RefreshNodeBodyText();
+    TestEqual(TEXT("Clearing Hint immediately clears actual widget preview"),ReadBody(),FString(TEXT("Preview body")));
+    Hint->GetPropertyHandle()->SetValue(FText::AsCultureInvariant(TEXT("New hint")));
+    Widget->RefreshNodeBodyText();
+    TestEqual(TEXT("Hint-only change updates preview"),ReadBody(),FString(TEXT("Preview body [New hint]")));
+    Hint->GetPropertyHandle()->SetValue(FText::GetEmpty());Node->Line.Text=FText::GetEmpty();Widget->RefreshNodeBodyText();
+    TestEqual(TEXT("Empty body clears preview"),ReadBody(),FString());
+    TestEqual(TEXT("Regression never modifies original asset"),BP->GetOutermost()->IsDirty(),WasDirty);
     return true;
 }
 #endif

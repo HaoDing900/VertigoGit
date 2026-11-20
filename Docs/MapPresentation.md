@@ -47,3 +47,6 @@ Side-switch follow-up: `MapPanelSidePIE.log` verifies Bureau/North on the right 
 Commerce/Slickwater on the left under the 30%-line rule. All four real pointer
 selection/description transitions and terminal close passed; the original
 left-edge forced narrowing has been removed.
+
+2026-11-14: Side choice now compares the NODE CENTER against 45% of the background frame width (left of center), rather than comparing the proposed panel edge. Right-side nodes including Bureau open left. Display name/description retain the shared manual FText workflow; map assets were gathered and NoInformation now has zh-Hans translation 暂无信息。 Empty descriptions must first receive Origin text before translations can be entered.
+2026-11-14: Selected location badges constrain text to 160 design units, wrap automatically including long unbroken words, and grow vertically rather than widening beyond the node.

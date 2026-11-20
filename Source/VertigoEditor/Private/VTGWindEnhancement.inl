@@ -43,13 +43,35 @@ void Enhance(UNiagaraSystem* System,bool Hammer)
 {
  auto& P=System->GetExposedParameters();
  auto Color=[&](FName Name,FLinearColor Value){FNiagaraVariable V(FNiagaraTypeDefinition::GetColorDef(),Name);check(P.IndexOf(V)!=INDEX_NONE);P.SetParameterValue<FLinearColor>(Value,V);};
- Color(TEXT("User.Color Minimum"),FLinearColor(.864f*1.15f,.928f*1.15f,.960f*1.15f,Hammer?.22f:.18f));
- Color(TEXT("User.Color Maximum"),FLinearColor(.637f*1.15f,.86905f*1.15f,.910f*1.15f,Hammer?.50f:.45f));
+ Color(TEXT("User.Color Minimum"),FLinearColor(.864f*1.15f,.928f*1.15f,.960f*1.15f,Hammer?.22f:.24f));
+ Color(TEXT("User.Color Maximum"),FLinearColor(.637f*1.15f,.86905f*1.15f,.910f*1.15f,Hammer?.50f:.58f));
  FNiagaraVariable CurveVar(FNiagaraTypeDefinition(UNiagaraDataInterfaceColorCurve::StaticClass()),TEXT("User.Color Curve"));
  auto* Source=CastChecked<UNiagaraDataInterfaceColorCurve>(P.GetDataInterface(CurveVar));auto* Curve=DuplicateObject<UNiagaraDataInterfaceColorCurve>(Source,System);
  Curve->AlphaCurve.Reset();Curve->AlphaCurve.AddKey(0,0);Curve->AlphaCurve.AddKey(.12f,1);Curve->AlphaCurve.AddKey(.7f,.9f);Curve->AlphaCurve.AddKey(1,0);Curve->UpdateLUT();P.SetDataInterface(Curve,CurveVar);
  // Leave density, short lifetimes, direction and emitter count unchanged.
  System->RequestCompile(false);System->WaitForCompilationComplete();FistWindEditor::Save(System);
+}
+void FistOpacity(bool Verify)
+{
+ auto* System=LoadObject<UNiagaraSystem>(nullptr,FistWindEditor::TargetPath);check(System);
+ auto& P=System->GetExposedParameters();
+ if(!Verify)
+ {
+  const FString File=FPackageName::LongPackageNameToFilename(System->GetOutermost()->GetName(),FPackageName::GetAssetPackageExtension());
+  const FString Copy=FPaths::ProjectDir()/TEXT("Scripts/CombatWindEnhancement/BackupOpacity/NS_fist_Wind.uasset");
+  IFileManager::Get().MakeDirectory(*FPaths::GetPath(Copy),true);
+  if(!IFileManager::Get().FileExists(*Copy))check(IFileManager::Get().Copy(*Copy,*File,false)==COPY_OK);
+ }
+ for(const auto& Entry:TArray<TPair<FName,float>>{{TEXT("User.Color Minimum"),.24f},{TEXT("User.Color Maximum"),.58f}})
+ {
+  const FNiagaraVariable V(FNiagaraTypeDefinition::GetColorDef(),Entry.Key);check(P.IndexOf(V)!=INDEX_NONE);
+  FLinearColor Color=P.GetParameterValue<FLinearColor>(V);
+  UE_LOG(LogTemp,Display,TEXT("FIST_OPACITY %s before=%s targetAlpha=%.2f verify=%d"),*Entry.Key.ToString(),*Color.ToString(),Entry.Value,Verify);
+  if(!Verify){Color.A=Entry.Value;P.SetParameterValue<FLinearColor>(Color,V);}
+  check(FMath::IsNearlyEqual(P.GetParameterValue<FLinearColor>(V).A,Entry.Value));
+ }
+ if(!Verify)FistWindEditor::Save(System);
+ UE_LOG(LogTemp,Display,TEXT("FIST_OPACITY_PASS verify=%d"),Verify);
 }
 void Apply(bool Verify)
 {

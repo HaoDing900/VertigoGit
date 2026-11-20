@@ -1,5 +1,7 @@
 #include "UI/VTGSequenceDialogue.h"
 #include "LevelSequenceActor.h"
+#include "LevelSequence.h"
+#include "UI/VTGSequenceSettings.h"
 #include "LevelSequencePlayer.h"
 #include "NarrativeComponent.h"
 #include "GameFramework/PlayerController.h"
@@ -28,9 +30,23 @@ void UVTGSequenceDialogueEntrySystem::OnRun(FSystemTaskPrerequisites&,FSystemSub
 
 const FName UVTGSequenceDialogueGate::KeepDialogueTag(TEXT("VTG.KeepNarrativeDialogueOnStart"));
 const FName UVTGSequenceDialogueGate::EndDialogueTag(TEXT("VTG.EndNarrativeDialogueOnStart"));
+bool UVTGSequenceDialogueGate::GetSequenceDefault(ULevelSequence* Sequence)
+{
+    const auto* Settings=Sequence?Cast<UVTGSequenceSettings>(Sequence->GetAssetUserDataOfClass(UVTGSequenceSettings::StaticClass())):nullptr;
+    return Settings && Settings->bEndNarrativeDialogueOnStart;
+}
+void UVTGSequenceDialogueGate::SetSequenceDefault(ULevelSequence* Sequence,bool Enabled)
+{
+    if(!Sequence)return;
+    Sequence->Modify();
+    auto* Settings=Cast<UVTGSequenceSettings>(Sequence->GetAssetUserDataOfClass(UVTGSequenceSettings::StaticClass()));
+    if(!Settings){Settings=NewObject<UVTGSequenceSettings>(Sequence,NAME_None,RF_Transactional);Sequence->AddAssetUserData(Settings);}
+    Settings->Modify();Settings->bEndNarrativeDialogueOnStart=Enabled;Sequence->MarkPackageDirty();
+}
 bool UVTGSequenceDialogueGate::ShouldEndDialogue(const ALevelSequenceActor* Actor)
 {
-    if(!Actor || !Actor->ActorHasTag(EndDialogueTag) || Actor->ActorHasTag(KeepDialogueTag) || Actor->ActorHasTag(TEXT("Narrative.DialogueShot")))return false;
+    if(!Actor || Actor->ActorHasTag(KeepDialogueTag) || Actor->ActorHasTag(TEXT("Narrative.DialogueShot")))return false;
+    if(!Actor->ActorHasTag(EndDialogueTag) && !GetSequenceDefault(Actor->GetSequence()))return false;
     // Ownership is authoritative too: Narrative event sequences use a separate API from dialogue camera shots.
     // Do not let a missing tag make a dialogue terminate its own Sequence and restore player input mid-scene.
     for(TObjectIterator<UNarrativeComponent> It;It;++It)

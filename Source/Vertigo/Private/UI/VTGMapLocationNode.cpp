@@ -74,8 +74,13 @@ void UVTGMapLocationNode::BuildLocationPresentation()
     Style.NormalPadding=FMargin(12,7);Style.PressedPadding=Style.NormalPadding;LocationNameButton->SetStyle(Style);
     LocationNameLabel=WidgetTree->ConstructWidget<UTextBlock>(UTextBlock::StaticClass(),TEXT("LocationName"));
     auto Font=LocationNameLabel->GetFont();Font.FontObject=LoadObject<UFont>(nullptr,TEXT("/Game/Fonts/Noto_Sans_SC/static/NotoSansSC-Medium_Font"));Font.TypefaceFontName=NAME_None;Font.Size=16;Font.OutlineSettings.OutlineSize=0;
-    LocationNameLabel->SetFont(Font);LocationNameLabel->SetColorAndOpacity(FSlateColor(FLinearColor::White));LocationNameLabel->SetJustification(ETextJustify::Center);LocationNameLabel->SetAutoWrapText(false);
-    LocationNameButton->SetContent(LocationNameLabel);
+    LocationNameLabel->SetFont(Font);LocationNameLabel->SetColorAndOpacity(FSlateColor(FLinearColor::White));LocationNameLabel->SetJustification(ETextJustify::Center);LocationNameLabel->SetAutoWrapText(true);
+    FindFProperty<FFloatProperty>(LocationNameLabel->GetClass(),TEXT("WrapTextAt"))->SetPropertyValue_InContainer(LocationNameLabel,160.f);
+    auto* WrapPolicy=FindFProperty<FEnumProperty>(LocationNameLabel->GetClass(),TEXT("WrappingPolicy"));
+    WrapPolicy->GetUnderlyingProperty()->SetIntPropertyValue(WrapPolicy->ContainerPtrToValuePtr<void>(LocationNameLabel),static_cast<uint64>(ETextWrappingPolicy::AllowPerCharacterWrapping));
+    auto* NameWidth=WidgetTree->ConstructWidget<USizeBox>(USizeBox::StaticClass(),TEXT("LocationNameWidth"));
+    NameWidth->SetWidthOverride(160.f);NameWidth->SetContent(LocationNameLabel);
+    LocationNameButton->SetContent(NameWidth);
     auto* SlotForName=Layer->AddChildToOverlay(LocationNameButton);SlotForName->SetHorizontalAlignment(HAlign_Center);SlotForName->SetVerticalAlignment(VAlign_Center);
     LocationNameButton->OnClicked.AddUniqueDynamic(this,&UVTGMapLocationNode::NameClicked);
 }
@@ -104,7 +109,7 @@ void UVTGMapLocationNode::RefreshDescriptionPanel()
     {
         DescriptionPanel=WidgetTree->ConstructWidget<UBorder>(UBorder::StaticClass(),TEXT("LocationDescriptionPanel"));DescriptionPanel->SetBrushColor(FLinearColor(0,0,0,.94f));DescriptionPanel->SetPadding(FMargin(16,12));
         auto* Scroll=WidgetTree->ConstructWidget<UScrollBox>();DescriptionPanel->SetContent(Scroll);
-        DescriptionLabel=WidgetTree->ConstructWidget<UTextBlock>(UTextBlock::StaticClass(),TEXT("LocationDescription"));auto Font=DescriptionLabel->GetFont();Font.FontObject=LoadObject<UFont>(nullptr,TEXT("/Game/Fonts/Noto_Sans_SC/static/NotoSansSC-Regular_Font"));Font.TypefaceFontName=NAME_None;Font.Size=16;Font.OutlineSettings.OutlineSize=0;DescriptionLabel->SetFont(Font);DescriptionLabel->SetColorAndOpacity(FSlateColor(FLinearColor::White));DescriptionLabel->SetAutoWrapText(true);Scroll->AddChild(DescriptionLabel);
+        DescriptionLabel=WidgetTree->ConstructWidget<UTextBlock>(UTextBlock::StaticClass(),TEXT("LocationDescription"));auto Font=DescriptionLabel->GetFont();Font.FontObject=LoadObject<UFont>(nullptr,TEXT("/Game/Fonts/Noto_Sans_SC/static/NotoSansSC-Regular_Font"));Font.TypefaceFontName=NAME_None;Font.Size=14;Font.OutlineSettings.OutlineSize=0;DescriptionLabel->SetFont(Font);DescriptionLabel->SetColorAndOpacity(FSlateColor(FLinearColor::White));DescriptionLabel->SetAutoWrapText(true);Scroll->AddChild(DescriptionLabel);
         Canvas->AddChildToCanvas(DescriptionPanel);
     }
     DescriptionLabel->SetText(LocationDescription.IsEmpty()?NSLOCTEXT("VTGMapLocations","NoInformation","No information available."):LocationDescription);
@@ -120,13 +125,13 @@ void UVTGMapLocationNode::RefreshDescriptionPanel()
     FVector2D FramePosition(-960,-540),FrameSize(1920,1080);
     for(auto* Child:Canvas->GetAllChildren())if(Cast<UImage>(Child))if(auto* ImageSlot=Cast<UCanvasPanelSlot>(Child->Slot)){FramePosition=ImageSlot->GetPosition()+ImageSlot->GetAnchors().Minimum*CanvasSize;FrameSize=ImageSlot->GetSize();break;}
     const float Left=FramePosition.X+FrameSize.X*.198f+12,Right=FramePosition.X+FrameSize.X*.80f-12;
-    // Center minus 20% of the full terminal width is the 30% line. Test the
-    // proposed panel's left edge before applying any screen-bound clamping.
-    const float SwitchLine=FramePosition.X+FrameSize.X*.30f;
+    // Choose the side from the node center, not the proposed panel edge:
+    // subtracting the panel width moved the effective switch far to the right.
+    const float SwitchLine=FramePosition.X+FrameSize.X*.45f;
+    const float NodeWidth=GetCachedGeometry().GetLocalSize().X>0?GetCachedGeometry().GetLocalSize().X:NodeSlot->GetSize().X;
     float PanelWidth=480.f;
-    if(Position.X<SwitchLine)
+    if(NodePosition.X+NodeWidth*.5f<SwitchLine)
     {
-        const float NodeWidth=GetCachedGeometry().GetLocalSize().X>0?GetCachedGeometry().GetLocalSize().X:NodeSlot->GetSize().X;
         Position.X=NodePosition.X+NodeWidth+16;
         PanelWidth=FMath::Min(480.f,FMath::Max(120.f,static_cast<float>(Right-Position.X)));
     }

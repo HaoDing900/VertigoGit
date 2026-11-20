@@ -2,6 +2,8 @@
 #include "WorkspaceMenuStructure.h"
 #include "WorkspaceMenuStructureModule.h"
 #include "UI/VTGSequenceSettings.h"
+#include "UI/VTGSequenceDialogue.h"
+#include "UI/VTGQuestSequenceBox.h"
 #include "Audio/VTGCutsceneAudio.h"
 #include "UI/VTGSubtitleTrack.h"
 #include "LevelSequence.h"
@@ -151,6 +153,18 @@ TSharedRef<SDockTab> Spawn(const FSpawnTabArgs&)
         .IsChecked_Lambda([](){auto* S=Current.IsValid()?Cast<UVTGSequenceSettings>(Current->GetAssetUserDataOfClass(UVTGSequenceSettings::StaticClass())):nullptr;return S && S->bAllowSkip?ECheckBoxState::Checked:ECheckBoxState::Unchecked;})
         .OnCheckStateChanged_Lambda([](ECheckBoxState State){if(!Current.IsValid())return;const FScopedTransaction Transaction(NSLOCTEXT("VTG","SequenceAllowSkip","Change sequence skip permission"));Current->Modify();auto* S=Cast<UVTGSequenceSettings>(Current->GetAssetUserDataOfClass(UVTGSequenceSettings::StaticClass()));if(!S){S=NewObject<UVTGSequenceSettings>(Current.Get(),NAME_None,RF_Transactional);Current->AddAssetUserData(S);}S->Modify();S->bAllowSkip=State==ECheckBoxState::Checked;Current->MarkPackageDirty();})
         [SNew(STextBlock).Text(FText::FromString(TEXT("Allow Skip（默认关闭，修改后保存 Sequence）")))]]
+      +SVerticalBox::Slot().AutoHeight().Padding(12,4)[SNew(SCheckBox)
+        .IsEnabled_Lambda([](){return Current.IsValid();})
+        .IsChecked_Lambda([](){return UVTGQuestSequenceBox::GetSequenceDefault(Current.Get())?ECheckBoxState::Checked:ECheckBoxState::Unchecked;})
+        .OnCheckStateChanged_Lambda([](ECheckBoxState State){if(!Current.IsValid())return;const FScopedTransaction T(NSLOCTEXT("VTGSequence","QuestUIEdit","设置过场任务 UI 显示"));UVTGQuestSequenceBox::SetSequenceDefault(Current.Get(),State==ECheckBoxState::Checked);})
+        .ToolTipText(FText::FromString(TEXT("默认开启，只隐藏 Quest 的标题、通知和目标区域；对话框与头像保持原逻辑。停止或结束后解除隐藏；暂停期间保持隐藏。修改后保存 Sequence。")))
+        [SNew(STextBlock).Text(FText::FromString(TEXT("播放期间隐藏 Quest UI（默认开启）")))]]
+      +SVerticalBox::Slot().AutoHeight().Padding(12,4)[SNew(SCheckBox)
+        .IsEnabled_Lambda([](){return Current.IsValid();})
+        .IsChecked_Lambda([](){return UVTGSequenceDialogueGate::GetSequenceDefault(Current.Get())?ECheckBoxState::Checked:ECheckBoxState::Unchecked;})
+        .OnCheckStateChanged_Lambda([](ECheckBoxState State){if(!Current.IsValid())return;const FScopedTransaction T(NSLOCTEXT("VTGSequence","AssetExitEdit","设置 Sequence 进入时结束对话"));UVTGSequenceDialogueGate::SetSequenceDefault(Current.Get(),State==ECheckBoxState::Checked);})
+        .ToolTipText(FText::FromString(TEXT("保存到当前 Sequence 资产。外部播放开始时强制结束旧 Narrative 对话，忽略 Allow Exit；包括运行时新建播放器。关卡实例可单独覆盖；Narrative 自己的对话镜头保持受保护。修改后保存 Sequence。")))
+        [SNew(STextBlock).Text(FText::FromString(TEXT("进入时结束 Narrative 对话（Sequence 默认）")))]]
       +SVerticalBox::Slot().AutoHeight().Padding(12,4)[SNew(SHorizontalBox)
         +SHorizontalBox::Slot().AutoWidth().VAlign(VAlign_Center).Padding(0,0,12,0)[SNew(STextBlock).Text(FText::FromString(TEXT("内部音频音量倍数")))]
         +SHorizontalBox::Slot().AutoWidth()[SNew(SNumericEntryBox<float>).MinValue(0.f).MinDesiredValueWidth(100)

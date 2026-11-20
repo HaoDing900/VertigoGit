@@ -29,15 +29,15 @@ BPLM_L2StreetBarFight 原本在创建并播放战斗开场 Sequence 的链中立
 
 ## Sequence 开始时结束对话
 
-在地图中选中 **Level Sequence Actor → Details → 过场入口 → 进入时结束 Narrative 对话**。
+在 **Sequence 快进检查 → 进入时结束 Narrative 对话（Sequence 默认）** 设置资产默认值；也可在 Details → 过场入口设置。修改资产默认值后保存 Sequence。地图实例的 **本实例：进入时结束 Narrative 对话** 可单独覆盖；点击 **跟随 Sequence** 清除实例覆盖，修改实例后保存关卡。
 
-- **默认关闭**。只有手动勾选的 Actor 才退出旧对话；未设置的新旧实例都保持对话。
+- **资产默认关闭**。未设置实例覆盖时跟随 Sequence 资产；启用的默认值也适用于动态创建的播放器。
 - 开始播放时强制结束玩家当前 Narrative 对话，忽略 Can Be Exited / Allow Exit。
 - 只执行一次。暂停后继续不重复退出，也不会在整个 Sequence 期间禁止新对话。
 - 在第一帧事件前退出旧对话；第一帧事件主动开启的新对话会保留。
 - 停止后重新播放属于新的一次播放，会再执行入口规则。
-- 修改开关后保存关卡；只修改此 Actor 实例，不修改共享 Sequence 资产。
-- 蓝图 Create Level Sequence Player 创建的运行时实例也自动接入，默认不退出对话；显式添加 VTG.EndNarrativeDialogueOnStart Actor Tag 才启用。
+- 资产默认与实例覆盖分别保存到 Sequence 和关卡；实例明确关闭优先于资产默认开启。
+- 蓝图 Create Level Sequence Player 动态实例会读取 Sequence 资产默认值；Actor 的 VTG.EndNarrativeDialogueOnStart / VTG.KeepNarrativeDialogueOnStart 标签可分别强制开启/关闭。
 - Narrative 自己创建的对白相机镜头自动排除，避免对白镜头中断自己的对白。
 - `1PlayLevelSequence` / `PlayDialogueLevelSequence` 创建的 Narrative 演出同样按归属排除；修正了 Corvos 演出被自身入口规则提前结束的问题，详见 [回归说明](CorvosSequenceRegression.md)。
 
@@ -52,3 +52,5 @@ BPLM_L2StreetBarFight 原本在创建并播放战斗开场 Sequence 的链中立
 改动前两份蓝图备份：`Scripts/MailSequencePolish/Backup`。编译通过，两份蓝图编译 0 错误、0 警告，新行为 20 项运行检查通过。原有 NoteMailCameraReturn / NoteMailCameraSession 两项自动化回归通过。日志在 `Scripts/MailSequencePolish`。
 
 测试使用 NullRHI、关闭音频设备，未代替完整游戏内画面与听感验收。
+
+2026-11-19：补充资产级开关，修复只勾选关卡实例、运行时另建播放器未继承设置的问题。LS_L2BarStreet_PreDrunkFight 已启用资产默认；普通 Allow Exit=false 不阻止该强制入口退出。Narrative 自身对白镜头保护保持不变。

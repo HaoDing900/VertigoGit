@@ -49,6 +49,7 @@ protected:
 	EVisibility GetEventsVis() const ;
 	EVisibility GetCondsVis() const;
 	EVisibility GetPPEVis() const;
+	EVisibility GetConnectedEventVis() const;
 
 	FText GetWarningIconTooltip() const;
 	FSlateColor GetWarningIconColor() const;
@@ -64,6 +65,12 @@ protected:
 	//The UMG widget instance behind DialogueNodeWidgetRef, so Tick can feed it the graph zoom for the
 	//zoom-compensated events font. Kept alive by the SObjectWidget inside DialogueNodeWidgetRef.
 	TWeakObjectPtr<class UDialogueNodeUserWidget> DialogueNodeWidgetObj;
+
+	//The localization badge supplied by the game's editor module. Counter-scaled against the graph
+	//zoom through a render transform, which keeps it readable without changing the node's layout.
+	void UpdateLocalizationBadgeForZoom(float ZoomAmount);
+	TSharedPtr<SWidget> LocalizationBadgeWidget;
+	float LastAppliedBadgeScale = 0.f;
 
 };
 

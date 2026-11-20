@@ -22,14 +22,45 @@
 #include "GameFramework/Character.h"
 #include "Misc/CommandLine.h"
 #include "Misc/Parse.h"
+#include "Editor.h"
+#include "Framework/Commands/InputBindingManager.h"
+#include "Framework/Commands/UICommandInfo.h"
 
 IMPLEMENT_MODULE(FVertigoEditorModule, VertigoEditor)
 
 static const FName NAME_LevelManagerClass("VTGLevelManagerBase");
 namespace VTGSubtitleEditor {void Startup();void Shutdown();}
 
+namespace PausePIEKeys
+{
+FDelegateHandle Begin,End;
+TSharedPtr<FUICommandInfo> Stop;
+TOptional<FInputChord> Primary,Secondary;
+void Restore()
+{
+ if(Stop){if(Primary.IsSet())Stop->SetActiveChord(Primary.GetValue(),EMultipleKeyBindingIndex::Primary);if(Secondary.IsSet())Stop->SetActiveChord(Secondary.GetValue(),EMultipleKeyBindingIndex::Secondary);}
+ Stop.Reset();Primary.Reset();Secondary.Reset();
+}
+void Start()
+{
+ if(IsRunningCommandlet())return;
+ Begin=FEditorDelegates::PreBeginPIE.AddLambda([](bool){
+  Stop=FInputBindingManager::Get().FindCommandInContext(TEXT("PlayWorld"),FName(TEXT("StopPlaySession")));
+  if(!Stop)return;
+  for(auto Index:{EMultipleKeyBindingIndex::Primary,EMultipleKeyBindingIndex::Secondary})
+  {
+   const auto Chord=*Stop->GetActiveChord(Index);
+   if(Chord.Key==EKeys::Escape && !Chord.bShift && !Chord.bCtrl && !Chord.bAlt && !Chord.bCmd)
+   {if(Index==EMultipleKeyBindingIndex::Primary)Primary=Chord;else Secondary=Chord;Stop->SetActiveChord(FInputChord(EKeys::Escape,true,false,false,false),Index);}
+  }
+ });
+ End=FEditorDelegates::EndPIE.AddLambda([](bool){Restore();});
+}
+void Shutdown(){FEditorDelegates::PreBeginPIE.Remove(Begin);FEditorDelegates::EndPIE.Remove(End);Restore();}
+}
 void FVertigoEditorModule::StartupModule()
 {
+ PausePIEKeys::Start();
  VTGBowerbirdTrace::Startup();
  VTGCameraRatio::Startup();
  VTGCutsceneAudioDetails::Startup();
@@ -60,6 +91,7 @@ void FVertigoEditorModule::StartupModule()
 
 void FVertigoEditorModule::ShutdownModule()
 {
+ PausePIEKeys::Shutdown();
  VTGBowerbirdTrace::Shutdown();
  VTGCameraRatio::Shutdown();
  VTGCutsceneAudioDetails::Shutdown();

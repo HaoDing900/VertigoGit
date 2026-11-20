@@ -1,4 +1,4 @@
-#include "UI/VTGLocalizationSubsystem.h"
+﻿#include "UI/VTGLocalizationSubsystem.h"
 #include "Kismet/KismetInternationalizationLibrary.h"
 #include "Misc/ConfigCacheIni.h"
 #include "Internationalization/TextLocalizationManager.h"
@@ -84,7 +84,9 @@ void UVTGLocalizationSubsystem::Deinitialize()
 bool UVTGLocalizationSubsystem::SetLanguage(const FString& Language)
 {
     if (!GetLanguages().Contains(Language)) return false;
-    if (Language==CurrentLanguage) return true;
+    // Re-selecting the current language must reload resources: editor Compile /
+    // RefreshResources may have replaced the game-preview display strings.
+    const bool bLanguageChanged=Language!=CurrentLanguage;
     // Origin uses the native en resource. Formal English is a separate en-US resource.
 #if WITH_EDITOR
     if(GIsEditor)
@@ -93,13 +95,17 @@ bool UVTGLocalizationSubsystem::SetLanguage(const FString& Language)
         if(Language!=TEXT("origin") && Manager.GetNativeCultureName(ELocalizedTextSourceCategory::Game).IsEmpty())
         {UE_LOG(LogTemp,Warning,TEXT("Text language could not change: game localization resources are missing. Compile manual translations and check DefaultGame.ini LocalizationPaths."));return false;}
         if(Language==TEXT("origin"))Manager.DisableGameLocalizationPreview();else Manager.EnableGameLocalizationPreview(Language);
+        Manager.WaitForAsyncTasks(); // Broadcast only after the selected resource set is installed.
     }
     else
 #endif
     if (!UKismetInternationalizationLibrary::SetCurrentLanguage(Language==TEXT("origin") ? TEXT("en") : Language, false)) return false;
     CurrentLanguage=Language;
-    GConfig->SetString(TEXT("Vertigo.Localization"), TEXT("TextLanguage"), *Language, GGameUserSettingsIni);
-    GConfig->Flush(false, GGameUserSettingsIni);
+    if(bLanguageChanged)
+    {
+        GConfig->SetString(TEXT("Vertigo.Localization"), TEXT("TextLanguage"), *Language, GGameUserSettingsIni);
+        GConfig->Flush(false, GGameUserSettingsIni);
+    }
     OnLanguageChanged.Broadcast(Language);
     return true;
 }

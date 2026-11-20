@@ -1,4 +1,14 @@
 #include "VTGManualLocalization.h"
+#include "SVTGLocalizationTextBox.h"
+#include "NarrativeDialogueDetailsExtension.h"
+#include "DialogueSM.h"
+#include "Dialogue.h"
+#include "QuestSM.h"
+#include "QuestTask.h"
+#include "NarrativeQuestDetailsExtension.h"
+#include "Framework/Application/SlateApplication.h"
+#include "Framework/Application/IInputProcessor.h"
+#include "Layout/WidgetPath.h"
 #include "WorkspaceMenuStructure.h"
 #include "WorkspaceMenuStructureModule.h"
 #include "PropertyEditorModule.h"
@@ -22,12 +32,19 @@
 #include "Widgets/Input/SMultiLineEditableTextBox.h"
 #include "Widgets/Input/SSearchBox.h"
 #include "Widgets/Layout/SScrollBox.h"
+#include "Widgets/Layout/SBorder.h"
+#include "Brushes/SlateRoundedBoxBrush.h"
+#include "Styling/CoreStyle.h"
 #include "Widgets/Text/STextBlock.h"
 #include "Widgets/SBoxPanel.h"
 #include "ContentBrowserModule.h"
 #include "IContentBrowserSingleton.h"
 #include "UObject/UObjectHash.h"
 #include "UI/VTGLocalizationSettings.h"
+#include "UI/VTGLocalizationSubsystem.h"
+#include "Engine/GameInstance.h"
+#include "Engine/World.h"
+#include "UObject/UObjectIterator.h"
 #include "Internationalization/Internationalization.h"
 #include "VTGDialogueLocalizationDetails.h"
 #include "VTGSubtitleLocalizationDetails.h"
@@ -38,12 +55,32 @@
 #include "Engine/DataTable.h"
 #include "Widgets/Layout/SExpandableArea.h"
 #include "Widgets/SCompoundWidget.h"
+#include "Misc/AutomationTest.h"
+#include "Misc/ScopeExit.h"
+#include "ISinglePropertyView.h"
 
 namespace VTGManualLocalization
 {
 namespace
 {
+class FLocalizationSelectAll : public IInputProcessor
+{
+public:
+ void Tick(const float,FSlateApplication&,TSharedRef<ICursor>) override {}
+ bool HandleMouseButtonDoubleClickEvent(FSlateApplication& App,const FPointerEvent& Event) override
+ {
+  if(Event.GetEffectingButton()!=EKeys::LeftMouseButton)return false;
+  auto Path=App.LocateWindowUnderMouse(Event.GetScreenSpacePosition(),App.GetInteractiveTopLevelWindows());
+  for(int32 I=0;I<Path.Widgets.Num();++I)if(Path.Widgets[I].Widget->GetTypeAsString()==TEXT("SVTGLocalizationTextBox"))
+  {auto Box=StaticCastSharedRef<SVTGLocalizationTextBox>(Path.Widgets[I].Widget);App.SetKeyboardFocus(Box,EFocusCause::Mouse);Box->SelectAllText();return true;}
+  return false;
+ }
+};
+TSharedPtr<FLocalizationSelectAll> SelectAllInput;
 const FName TabId(TEXT("VTG.ManualLocalization"));
+// Set only by a gather pass that sees one key carry two sources, and cleared by the next pass that
+// does not. Kept here so both sides test the exact same string.
+const FString ConflictLockReason(TEXT("警示：同一个文本键对应多个不同原文。请在原资产修复键冲突后再翻译。"));
 TArray<FString> Cultures(){return GetDefault<UVTGLocalizationSettings>()->TargetLanguages;}
 struct FTranslation { FString Text, ReviewedSource; };
 struct FEntry
@@ -208,7 +245,7 @@ void Rebuild()
     const auto E=Selected;
     Body->AddSlot().AutoHeight().Padding(6)[SNew(STextBlock).AutoWrapText(true).Text(FText::FromString(E->Context+TEXT("\n只读 Namespace: ")+E->Namespace+TEXT("\n只读 Key: ")+E->Key))];
     Body->AddSlot().AutoHeight().Padding(6)[SNew(STextBlock).Text(FText::FromString(TEXT("Origin（原文只读，在原资产或源码中编辑）")))];
-    Body->AddSlot().AutoHeight().Padding(6)[SNew(SMultiLineEditableTextBox).IsReadOnly(true).Text(FText::AsCultureInvariant(E->Source))];
+    Body->AddSlot().AutoHeight().Padding(6)[SNew(SVTGLocalizationTextBox).IsReadOnly(true).Text(FText::AsCultureInvariant(E->Source))];
     FString Legend;
     const auto Tokens=ProtectedTokens(E->Source);
     for(int32 Index=0;Index<Tokens.Num();++Index)Legend+=FString::Printf(TEXT("⟦%d⟧ = %s\n"),Index+1,*Tokens[Index]);
@@ -221,7 +258,7 @@ void Rebuild()
     {
         Body->AddSlot().AutoHeight().Padding(6)[SNew(STextBlock).Text_Lambda([E,Culture](){return FText::FromString(Culture+TEXT(" — ")+TranslationStatus(*E,Culture));})];
         Body->AddSlot().AutoHeight().Padding(6)[SNew(STextBlock).AutoWrapText(true).Text(FText::AsCultureInvariant(TEXT("结构参考（可移动 ⟦编号⟧，不要改编号；实际变量和标签不在译文编辑区）：\n")+EncodeDraft(E->Source,E->Source)))];
-        auto Box=SNew(SMultiLineEditableTextBox).Text(FText::AsCultureInvariant(EncodeDraft(E->Source,E->Translations.FindRef(Culture).Text)))
+        auto Box=SNew(SVTGLocalizationTextBox).Text(FText::AsCultureInvariant(EncodeDraft(E->Source,E->Translations.FindRef(Culture).Text)))
             .IsReadOnly_Lambda([E](){return !E->Approved || !LockedReason.IsEmpty();});
         Body->AddSlot().AutoHeight().Padding(6)[Box];
         Body->AddSlot().AutoHeight().Padding(6)[SNew(SButton).Text(FText::FromString(TEXT("复制 Origin 作为手工填写模板（不会自动保存）")))
@@ -376,7 +413,7 @@ bool Compile(FString& Error)
         for(const auto& Culture:Languages)
         {
             auto* T=E->Translations.Find(Culture);
-            if(!T || T->Text.IsEmpty() || T->ReviewedSource!=E->Source)continue;
+            if(!T || T->Text.IsEmpty() || T->ReviewedSource!=E->Source){Resources.FindChecked(Culture).AddEntry(FTextKey(E->Namespace),FTextKey(E->Key),E->Source,E->Source,0);continue;}
             if(!Validate(E->Source,T->Text,Error)){Error=E->Namespace+TEXT(" / ")+E->Key+TEXT(": ")+Error;return false;}
             Resources.FindChecked(Culture).AddEntry(FTextKey(E->Namespace),FTextKey(E->Key),E->Source,T->Text,0);
         }
@@ -392,7 +429,25 @@ bool Compile(FString& Error)
     FTextLocalizationMetaDataResource Meta;Meta.NativeCulture=TEXT("en");Meta.NativeLocRes=TEXT("en/Vertigo.locres");Meta.CompiledCultures=Languages;Meta.CompiledCultures.Add(TEXT("en"));
     if(!Meta.SaveToFile(ResourcePath()/TEXT("Vertigo.locmeta"))){Error=TEXT("无法写入语言资源元数据。");return false;}
     TextLocalizationResourceUtil::ClearNativeProjectCultureName();
-    FTextLocalizationManager::Get().RefreshResources();
+    auto& Manager=FTextLocalizationManager::Get();
+    const bool WasPreviewing=Manager.IsGameLocalizationPreviewEnabled();
+    const FString PreviewLanguage=Manager.GetConfiguredGameLocalizationPreviewLanguage();
+    Manager.RefreshResources();Manager.WaitForAsyncTasks();
+    bool RestoredGameLanguage=false;
+#if WITH_DEV_AUTOMATION_TESTS
+    if(TestStorageDirectory.IsEmpty())
+#endif
+    {
+        for(TObjectIterator<UGameInstance> It;It;++It)
+            if(!It->IsTemplate() && It->GetWorld() && It->GetWorld()->IsGameWorld())
+                if(auto* LiveLanguages=It->GetSubsystem<UVTGLocalizationSubsystem>())
+                    if(!LiveLanguages->GetLanguage().IsEmpty()){RestoredGameLanguage=LiveLanguages->SetLanguage(LiveLanguages->GetLanguage());break;}
+        if(!RestoredGameLanguage && GIsEditor)
+        {
+            if(WasPreviewing)Manager.EnableGameLocalizationPreview(PreviewLanguage);else Manager.DisableGameLocalizationPreview();
+            Manager.WaitForAsyncTasks();
+        }
+    }
     return true;
 }
 
@@ -414,7 +469,11 @@ bool GatherAsset(UObject* Asset,FString& Error)
             auto E=Find(Namespace,Key.GetValue());
             if(!E){E=MakeShared<FEntry>();E->Namespace=Namespace;E->Key=Key.GetValue();Entries.Add(E);}
             const FString Identity=Namespace+TEXT("\x1f")+Key.GetValue();
-            if(const auto* Seen=SeenSources.Find(Identity))if(*Seen!=*Source){E->LockReason=TEXT("警示：同一个文本键对应多个不同原文。请在原资产修复键冲突后再翻译。");E->Approved=false;}
+            const auto* Seen=SeenSources.Find(Identity);
+            // A conflict lock states what this pass just saw. Drop a stale one from an earlier pass
+            // before re-judging, or a fixed asset would stay locked out of translation forever.
+            if(!Seen && E->LockReason==ConflictLockReason)E->LockReason.Empty();
+            if(Seen && *Seen!=*Source){E->LockReason=ConflictLockReason;E->Approved=false;}
             SeenSources.Add(Identity,*Source);
             E->Source=*Source;E->Context=Context;
             if(Property->HasMetaData(TEXT("VTGLocalizationLocked")))E->LockReason=Property->GetMetaData(TEXT("VTGLocalizationLocked"));
@@ -477,10 +536,27 @@ bool ReadDialogueEntry(TSharedPtr<IPropertyHandle> Property,TSharedPtr<FEntry>& 
     const FString CleanNamespace=TextNamespaceUtil::StripPackageNamespace(Namespace.GetValue());
     Entry=Find(CleanNamespace,Key.GetValue());
     if(!Entry){Entry=MakeShared<FEntry>();Entry->Namespace=CleanNamespace;Entry->Key=Key.GetValue();Entries.Add(Entry);}
+    // A conflict lock outlives the conflict: it is normally written while a dialogue blueprint's node
+    // copies disagree mid-edit, and the asset is fixed moments later by saving. Re-gather the owning
+    // asset so opening the field is enough to clear it, instead of having to run a full Compile.
+    if(Entry->LockReason==ConflictLockReason)
+    {
+        TArray<UObject*> LockOwners;Property->GetOuterObjects(LockOwners);
+        if(LockOwners.Num()==1 && LockOwners[0] && !LockOwners[0]->GetPathName().StartsWith(TEXT("/Engine/Transient")))
+        {
+            FString GatherError;GatherAsset(LockOwners[0],GatherError);
+        }
+    }
     if(!Entry->LockReason.IsEmpty()){Error=Entry->LockReason;return false;}
     Entry->Source=*Source;
     TArray<UObject*> Owners;Property->GetOuterObjects(Owners);
-    if(Owners.Num()==1)Entry->Context=Owners[0]->GetPathName()+TEXT(" : ")+Property->GeneratePathToProperty();
+    if(Owners.Num()==1)
+    {
+        // Designer previews are transient copies. They must not replace the persisted
+        // asset source path used by Compile to recheck Origin and text identities.
+        const FString Path=Owners[0]->GetPathName();
+        if(!Path.StartsWith(TEXT("/Engine/Transient")))Entry->Context=Path+TEXT(" : ")+Property->GeneratePathToProperty();
+    }
     else if(!VTGAssetDisplayLocalizationDetails::GetMailContext(Property,Entry->Context)){Error=TEXT("无法定位 Mail 行来源。");return false;}
     return true;
 }
@@ -519,6 +595,99 @@ bool SaveDialogueDraft(TSharedPtr<IPropertyHandle> Property,const FString& Cultu
 
 namespace
 {
+struct FBadgeState { int32 Done=0,Total=0; bool Stale=false,Failed=false; };
+TArray<FText> NodeTexts(UObject* Node)
+{
+    TArray<FText> Texts;
+    if(auto* Dialogue=Cast<UDialogueNode>(Node))
+    {
+        Texts.Add(Dialogue->Line.Text);
+        for(const auto& Line:Dialogue->AlternativeLines)Texts.Add(Line.Text);
+        if(auto* Player=Cast<UDialogueNode_Player>(Node)){Texts.Add(Player->GetRawOptionText());Texts.Add(Player->GetRawHintText());}
+    }
+    else if(auto* Quest=Cast<UQuestNode>(Node))
+    {
+        Texts.Add(Quest->Description);
+        if(auto* Branch=Cast<UQuestBranch>(Quest))for(auto* Task:Branch->QuestTasks)if(Task)Texts.Add(Task->DescriptionOverride);
+    }
+    return Texts;
+}
+FBadgeState ComputeTextBadgeState(const TArray<FText>& Texts)
+{
+    FBadgeState State;
+    FString Error;if(!Load(Error)){State.Failed=true;return State;}
+    for(const auto& Text:Texts)
+    {
+        const auto* Source=FTextInspector::GetSourceString(Text);if(!Source || Source->TrimStartAndEnd().IsEmpty())continue;
+        auto E=Find(TextNamespaceUtil::StripPackageNamespace(FTextInspector::GetNamespace(Text).Get(FString())),FTextInspector::GetKey(Text).Get(FString()));
+        for(const auto& Culture:Cultures())
+        {
+            ++State.Total;
+            const auto* T=E?E->Translations.Find(Culture):nullptr;
+            if(!T || T->Text.IsEmpty())continue;
+            if(T->ReviewedSource==*Source)++State.Done;else State.Stale=true;
+        }
+    }
+    return State;
+}
+FBadgeState ComputeBadgeState(UObject* Node){return ComputeTextBadgeState(NodeTexts(Node));}
+FSlateColor TranslationHeaderColor(const FBadgeState& State,bool HasDraft)
+{
+    if(State.Failed || (!State.Done && !State.Stale))return FSlateColor::UseForeground();
+    return State.Done==State.Total && !State.Stale && !HasDraft?FLinearColor(.3f,1,.6f):FLinearColor(1,.35f,.7f);
+}
+
+// Evaluate once when selecting a node; do not override the user's later expand/collapse actions.
+bool ExpandUntranslatedNode(TSharedPtr<IPropertyHandle> Property)
+{
+    TArray<UObject*> Owners;Property->GetOuterObjects(Owners);
+    if(Owners.Num()!=1)return false;
+    const auto State=ComputeBadgeState(Owners[0]);
+    FText Text;if(Property->GetValue(Text)!=FPropertyAccess::Success)return false;
+    const auto* Source=FTextInspector::GetSourceString(Text);
+    return Source && !Source->TrimStartAndEnd().IsEmpty() && !State.Failed && State.Total>0 && !State.Done && !State.Stale;
+}
+#if WITH_DEV_AUTOMATION_TESTS
+IMPLEMENT_SIMPLE_AUTOMATION_TEST(FVTGLocalizationVisualStateTest,"Vertigo.Localization.VisualStates",EAutomationTestFlags::EditorContext|EAutomationTestFlags::EngineFilter)
+bool FVTGLocalizationVisualStateTest::RunTest(const FString&)
+{
+    SetTestStorageDirectory(FPaths::ProjectSavedDir()/TEXT("Automation/LocalizationVisuals")/FGuid::NewGuid().ToString());
+    ON_SCOPE_EXIT {SetTestStorageDirectory(FString());};
+    FString Error;TestTrue(TEXT("Isolated catalog loads"),Load(Error));
+    auto* Branch=NewObject<UQuestBranch>();
+    const FString NS=TEXT("VTG.Visual.Test");
+    Branch->Description=FText::ChangeKey(NS,TEXT("Quest"),FText::FromString(TEXT("Investigate market")));
+    auto& Module=FModuleManager::LoadModuleChecked<FPropertyEditorModule>(TEXT("PropertyEditor"));
+    auto View=Module.CreateSingleProperty(Branch,TEXT("Description"),FSinglePropertyParams());
+    if(!TestTrue(TEXT("Quest handle available"),View.IsValid()))return false;
+    auto Property=View->GetPropertyHandle();
+    TestTrue(TEXT("Untranslated node expands"),ExpandUntranslatedNode(Property));
+    TestTrue(TEXT("Untranslated headers use default text color"),TranslationHeaderColor(ComputeBadgeState(Branch),false)==FSlateColor::UseForeground());
+    TestTrue(TEXT("Unsaved first draft does not color header"),TranslationHeaderColor(ComputeBadgeState(Branch),true)==FSlateColor::UseForeground());
+    TestEqual(TEXT("Quest counts each target language"),ComputeBadgeState(Branch).Total,Cultures().Num());
+    auto Entry=MakeShared<FEntry>();Entry->Namespace=NS;Entry->Key=TEXT("Quest");Entry->Source=TEXT("Investigate market");Entries.Add(Entry);
+    if(Cultures().IsEmpty())return false;
+    Entry->Translations.Add(Cultures()[0],{TEXT("译文"),Entry->Source});
+    TestFalse(TEXT("Partially translated node stays collapsed"),ExpandUntranslatedNode(Property));
+    if(Cultures().Num()>1)TestTrue(TEXT("Partially saved translation is pink"),TranslationHeaderColor(ComputeBadgeState(Branch),false)==FSlateColor(FLinearColor(1,.35f,.7f)));
+    for(const auto& Culture:Cultures())Entry->Translations.Add(Culture,{TEXT("译文"),Entry->Source});
+    TestEqual(TEXT("All reviewed languages complete"),ComputeBadgeState(Branch).Done,Cultures().Num());
+    TestTrue(TEXT("Fully saved translation is green"),TranslationHeaderColor(ComputeBadgeState(Branch),false)==FSlateColor(FLinearColor(.3f,1,.6f)));
+    Branch->Description=FText::ChangeKey(NS,TEXT("Quest"),FText::FromString(TEXT("Changed origin")));
+    TestTrue(TEXT("Origin change marks saved translations stale"),ComputeBadgeState(Branch).Stale);
+    TestFalse(TEXT("Stale translations do not auto-expand"),ExpandUntranslatedNode(Property));
+    Branch->Description=FText::GetEmpty();
+    TestFalse(TEXT("Empty node stays collapsed"),ExpandUntranslatedNode(Property));
+    auto* Player=NewObject<UDialogueNode_Player>();
+    Player->Line.Text=FText::ChangeKey(NS,TEXT("Dialogue"),FText::FromString(TEXT("Question")));
+    auto LineView=Module.CreateSingleProperty(Player,TEXT("Line"),FSinglePropertyParams());
+    if(!TestTrue(TEXT("Dialogue handle available"),LineView.IsValid()))return false;
+    TestTrue(TEXT("Untranslated Dialogue also expands"),ExpandUntranslatedNode(LineView->GetPropertyHandle()->GetChildHandle(TEXT("Text"))));
+    TestEqual(TEXT("Speaker text uses same accounting"),ComputeTextBadgeState({Player->Line.Text}).Total,Cultures().Num());
+    TestFalse(TEXT("Opening details writes no catalog"),FPaths::FileExists(TestStorageDirectory/TEXT("ManualTranslations.json")));
+    return true;
+}
+#endif
 class SDialogueTranslations : public SCompoundWidget
 {
 public:
@@ -528,8 +697,13 @@ public:
     void Construct(const FArguments& Args)
     {
         Property=Args._Property;
-        ChildSlot[SNew(SExpandableArea).InitiallyCollapsed(true)
-            .HeaderContent()[SNew(STextBlock).Text(FText::FromString(TEXT("多语言译文（展开编辑 English / 简体中文）")))]
+        ChildSlot[SNew(SExpandableArea).InitiallyCollapsed(!ExpandUntranslatedNode(Property))
+            .HeaderContent()[SNew(STextBlock).ColorAndOpacity_Lambda([this]()->FSlateColor{
+                if(Property->GetProperty()->GetOwnerStruct()!=FSpeakerInfo::StaticStruct() && !(Property->GetProperty()->GetFName()==TEXT("EnemyDisplayName") && VTGAssetDisplayLocalizationDetails::IsSafeText(Property)))return FSlateColor::UseForeground();
+                FText Text;if(Property->GetValue(Text)!=FPropertyAccess::Success)return FSlateColor::UseForeground();
+                const auto State=ComputeTextBadgeState({Text});
+                return TranslationHeaderColor(State,Dirty.Num()>0);
+            }).Text_Lambda([this](){return FText::FromString(TEXT("多语言译文（展开编辑） | ")+StateText(TEXT("en-US")).ToString()+TEXT("  |  ")+StateText(TEXT("zh-Hans")).ToString());})]
             .BodyContent()[SAssignNew(Content,SVerticalBox)]];
         Rebuild();
     }
@@ -538,7 +712,18 @@ public:
         SCompoundWidget::Tick(Geometry,Time,Delta);
         if(PropertySignature(Property)!=Signature)
         {
-            if(Dirty.Num()==0)Rebuild();
+            if(Dirty.Num()==0)
+            {
+                // Snapshot the previous source before reading the changed property.
+                TSharedPtr<FEntry> Changed;FString Error;
+                if(!GetDefault<UVTGLocalizationSettings>()->bFollowOriginForUntranslated && !Origin.IsEmpty() && ReadDialogueEntry(Property,Changed,Error) && Changed->Source!=Origin)
+                {
+                    const auto Previous=Changed->Translations;
+                    for(const auto& Culture:Cultures())if(!Changed->Translations.Contains(Culture))Changed->Translations.Add(Culture,{Origin,Origin});
+                    if(!WriteCatalog(Error)){Changed->Translations=Previous;Message=Error;return;}
+                }
+                Rebuild();
+            }
             else Message=TEXT("Origin 或文本键已改变。已保留未保存草稿；请重新加载后编辑，防止误写。");
         }
     }
@@ -555,9 +740,28 @@ private:
         if(!SaveDialogueDraft(Property,Culture,Origin,Drafts.FindRef(Culture),Message))return false;
         Dirty.Remove(Culture);Message=TEXT("手工译文已保存。点击保存并应用使游戏预览生效。");return true;
     }
+    FText StateText(const FString& Culture) const
+    {
+        if(Dirty.Contains(Culture))return FText::FromString(Culture+TEXT("  → 未保存"));
+        TSharedPtr<FEntry> E;FString Error;
+        if(!ReadDialogueEntry(Property,E,Error))return FText::FromString(Error);
+        const auto* T=E->Translations.Find(Culture);
+        return FText::FromString(Culture+(!T || T->Text.IsEmpty()?TEXT("  · 跟随 Origin"):T->ReviewedSource!=E->Source?TEXT("  → 待复核"):TEXT("  → 已保存独立译文")));
+    }
+    FSlateColor StateColor(const FString& Culture) const
+    {
+        TSharedPtr<FEntry> E;FString Error;
+        if(ReadDialogueEntry(Property,E,Error))if(const auto* T=E->Translations.Find(Culture))
+            if(!T->Text.IsEmpty())return !Dirty.Contains(Culture) && T->ReviewedSource==E->Source?FLinearColor(.25f,1,.5f):FLinearColor(1,.35f,.7f);
+        return FSlateColor::UseForeground();
+    }
     void Rebuild()
     {
         Content->ClearChildren();Drafts.Reset();Dirty.Reset();Origin.Empty();Message.Empty();Signature=PropertySignature(Property);CanWrite=false;
+        Content->AddSlot().AutoHeight().Padding(6)[SNew(SCheckBox)
+          .IsChecked_Lambda([](){return GetDefault<UVTGLocalizationSettings>()->bFollowOriginForUntranslated?ECheckBoxState::Checked:ECheckBoxState::Unchecked;})
+          .OnCheckStateChanged_Lambda([](ECheckBoxState State){auto* Settings=GetMutableDefault<UVTGLocalizationSettings>();Settings->bFollowOriginForUntranslated=State==ECheckBoxState::Checked;Settings->SaveConfig();})
+          [SNew(STextBlock).Text(FText::FromString(TEXT("同步未翻译字段跟随 Origin（保留已有译文）")))]];
         FString Error;
         for(const auto& Culture:Cultures())
         {
@@ -569,8 +773,8 @@ private:
             TSharedPtr<FEntry> Entry;FString EntryError;ReadDialogueEntry(Property,Entry,EntryError);
             const auto* Existing=Entry.IsValid()?Entry->Translations.Find(Culture):nullptr;
             const FString State=!Error.IsEmpty()?Error:Existing && !Existing->Text.IsEmpty()?TEXT("已手工填写"):TEXT("默认复制并跟随 Origin（未编辑）");
-            Content->AddSlot().AutoHeight().Padding(6,4)[SNew(STextBlock).Text(FText::FromString(Label+TEXT(" — ")+State))];
-            Content->AddSlot().AutoHeight().Padding(6,2)[SNew(SMultiLineEditableTextBox).Text(FText::AsCultureInvariant(Draft))
+            Content->AddSlot().AutoHeight().Padding(6,4)[SNew(STextBlock).Text_Lambda([this,Culture](){return StateText(Culture);}).ColorAndOpacity_Lambda([this,Culture](){return StateColor(Culture);})];
+            Content->AddSlot().AutoHeight().Padding(6,2)[SNew(SVTGLocalizationTextBox).Text(FText::AsCultureInvariant(Draft))
                 .OnTextChanged_Lambda([this,Culture](const FText& Value){const FString Next=Value.ToString();if(Next!=Drafts.FindRef(Culture)){Drafts.Add(Culture,Next);Dirty.Add(Culture);}})
                 .OnTextCommitted_Lambda([this,Culture](const FText&,ETextCommit::Type){if(Dirty.Contains(Culture))Save(Culture);})];
         }
@@ -597,9 +801,61 @@ TSharedRef<SWidget> MakeInlineTranslations(TSharedPtr<IPropertyHandle> Property)
     return SNew(SDialogueTranslations).Property(Property);
 }
 
+namespace
+{
+// Four Slate attributes read the badge every frame and the catalog lookup is a linear scan,
+// so each badge keeps its own one-frame cache.
+struct FBadgeCache { uint64 Frame=0; FBadgeState State; };
+FBadgeState ReadBadgeState(TSharedRef<FBadgeCache> Cache,UObject* Node)
+{
+    if(Cache->Frame!=GFrameCounter){Cache->Frame=GFrameCounter;Cache->State=ComputeBadgeState(Node);}
+    return Cache->State;
+}
+// A filled pill only once something is translated: leaving the untranslated majority quiet is
+// what makes the translated nodes read at a glance.
+const FSlateBrush* BadgeBrush(const FBadgeState& State)
+{
+    static const FSlateRoundedBoxBrush Quiet(FLinearColor(0,0,0,.45f),FLinearColor(1,1,1,.15f),1.f);
+    static const FSlateRoundedBoxBrush Partial(FLinearColor(1,.35f,.7f),FLinearColor(.08f,.02f,.05f,.9f),1.5f);
+    static const FSlateRoundedBoxBrush Complete(FLinearColor(.3f,1,.6f),FLinearColor(.02f,.08f,.04f,.9f),1.5f);
+    if(State.Failed || (!State.Done && !State.Stale))return &Quiet;
+    return State.Stale || State.Done<State.Total?&Partial:&Complete;
+}
+FSlateColor BadgeTextColor(const FBadgeState& State)
+{
+    if(State.Failed)return FLinearColor(1,.55f,.2f);
+    if(!State.Done && !State.Stale)return FLinearColor(.72f,.72f,.75f);
+    return FLinearColor(.05f,.02f,.06f);
+}
+TSharedPtr<SWidget> MakeNodeBadge(UObject* Node)
+{
+        TWeakObjectPtr<UObject> Weak=Node;
+        TSharedRef<FBadgeCache> Cache=MakeShared<FBadgeCache>();
+        return SNew(SBorder)
+            .BorderImage_Lambda([Weak,Cache](){return BadgeBrush(ReadBadgeState(Cache,Weak.Get()));})
+            .Padding(FMargin(6,1,6,2))
+            .VAlign(VAlign_Center)
+            .Visibility_Lambda([Weak,Cache](){const auto State=ReadBadgeState(Cache,Weak.Get());return State.Failed || State.Total?EVisibility::Visible:EVisibility::Collapsed;})
+            .ToolTipText(FText::FromString(TEXT("已保存且对应当前 Origin 的独立译文数 / 本节点显示文本的目标语言总数（Dialogue 台词、备选台词、选项和提示；Quest 描述和 Task Description Override）。跟随原文不计为完成；不代表译文质量已审核。")))
+            [SNew(STextBlock)
+                .Font(FCoreStyle::GetDefaultFontStyle(TEXT("Bold"),9))
+                .Text_Lambda([Weak,Cache](){
+                    const auto State=ReadBadgeState(Cache,Weak.Get());
+                    if(State.Failed)return FText::FromString(TEXT("翻译表错误"));
+                    if(!State.Total)return FText::GetEmpty();
+                    return FText::FromString(FString::Printf(TEXT("译文 %d/%d%s"),State.Done,State.Total,State.Stale?TEXT(" · 待复核"):TEXT("")));
+                })
+                .ColorAndOpacity_Lambda([Weak,Cache]()->FSlateColor{return BadgeTextColor(ReadBadgeState(Cache,Weak.Get()));})];
+}
+
+}
+
 void Startup()
 {
     if(IsRunningCommandlet())return;
+    SelectAllInput=MakeShared<FLocalizationSelectAll>();FSlateApplication::Get().RegisterInputPreProcessor(SelectAllInput);
+    GetNarrativeLocalizationBadge().BindLambda([](UDialogueNode* Node){return MakeNodeBadge(Node);});
+    GetNarrativeQuestLocalizationBadge().BindLambda([](UQuestNode* Node){return MakeNodeBadge(Node);});
     FGlobalTabmanager::Get()->RegisterNomadTabSpawner(TabId,FOnSpawnTab::CreateStatic(&Spawn)).SetGroup(WorkspaceMenu::GetMenuStructure().GetLevelEditorCategory()).SetDisplayName(FText::FromString(TEXT("手工多语言编辑")));
     auto& Module=FModuleManager::LoadModuleChecked<FPropertyEditorModule>(TEXT("PropertyEditor"));
     ExtensionHandle=Module.GetGlobalRowExtensionDelegate().AddLambda([](const FOnGenerateGlobalRowExtensionArgs& Args,TArray<FPropertyRowExtensionButton>& Buttons){
@@ -614,7 +870,12 @@ void Shutdown()
 {
     if(IsRunningCommandlet())return;
     if(FModuleManager::Get().IsModuleLoaded(TEXT("PropertyEditor")))FModuleManager::GetModuleChecked<FPropertyEditorModule>(TEXT("PropertyEditor")).GetGlobalRowExtensionDelegate().Remove(ExtensionHandle);
-    if(auto Tab=FGlobalTabmanager::Get()->FindExistingLiveTab(TabId))Tab->RequestCloseTab();
-    FGlobalTabmanager::Get()->UnregisterNomadTabSpawner(TabId);Body.Reset();CatalogCombo.Reset();Selected.Reset();Entries.Reset();VisibleEntries.Reset();CatalogSnapshot.Empty();Loaded=false;
+    GetNarrativeQuestLocalizationBadge().Unbind();GetNarrativeLocalizationBadge().Unbind();if(SelectAllInput){if(FSlateApplication::IsInitialized())FSlateApplication::Get().UnregisterInputPreProcessor(SelectAllInput);SelectAllInput.Reset();}
+    if(FSlateApplication::IsInitialized())
+    {
+        if(auto Tab=FGlobalTabmanager::Get()->FindExistingLiveTab(TabId))Tab->RequestCloseTab();
+        FGlobalTabmanager::Get()->UnregisterNomadTabSpawner(TabId);
+    }
+    Body.Reset();CatalogCombo.Reset();Selected.Reset();Entries.Reset();VisibleEntries.Reset();CatalogSnapshot.Empty();Loaded=false;
 }
 }

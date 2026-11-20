@@ -356,7 +356,19 @@ public:
     void SetDialogueAudioPaused(bool bPaused);
     UFUNCTION(BlueprintPure, Category="Dialogue") bool IsAutoAdvanceEnabled() const { return bAutoAdvance; }
     UFUNCTION(BlueprintPure, Category="Dialogue") bool IsWaitingForManualAdvance() const { return bWaitingForManualAdvance; }
+    bool CanPaginateCurrentLine(bool ForSideText=false) const;
+    void SetPresentationPages(const TArray<FString>& Pages,bool ForSideText=false);
+    FText GetCompletePresentationText() const { return CurrentLine.Text; }
+    FText GetPresentationPage() const;
+    int32 GetPresentationPageIndex() const { return PresentationPageIndex; }
+    int32 GetPresentationPageCount() const { return PresentationPages.Num(); }
+    const UDialogueNode* GetPresentationNode() const { return CurrentNode; }
 private:
+    TArray<FString> PresentationPages;
+    int32 PresentationPageIndex=0;
+    bool bSidePresentationPagination=false;
+    bool AdvancePresentationPage();
+    void ArmPresentationPageTimer();
     bool bAutoAdvance = true;
 protected:
     bool bWaitingForPlayerResponse = false;

@@ -50,7 +50,12 @@ bool UVTGFistWindComponent::WantsWind() const
     if(auto* Weapon=Character->FindComponentByClass<UWeaponBase_ISX>()) if(IsValid(Weapon->GetEquippedItem()))return false;
     auto* Anim=Character->GetMesh()->GetAnimInstance();
     auto* Active=Anim?Anim->GetCurrentActiveMontage():nullptr;
-    return Active && PunchMontages.Contains(Active) && Anim->Montage_IsPlaying(Active);
+    if(!Active || !PunchMontages.Contains(Active) || !Anim->Montage_IsPlaying(Active))return false;
+    const float Position=Anim->Montage_GetPosition(Active);
+    for(const auto& Event:Active->Notifies)
+        if(Event.NotifyStateClass && Event.NotifyStateClass->GetClass()->GetName().Contains(TEXT("Notify_Damage")))
+            if(Position>=FMath::Max(0.f,Event.GetTime()-.08f) && Position<=Event.GetTime()+Event.GetDuration()+.08f)return true;
+    return false;
 }
 UStaticMeshComponent* UVTGFistWindComponent::FindHammerMesh() const
 {

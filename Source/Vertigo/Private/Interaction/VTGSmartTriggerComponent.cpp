@@ -12,8 +12,8 @@
 
 namespace
 {
-bool Flag(const UObject* O,const TCHAR* Name,bool Default=false){auto* P=O?FindFProperty<FBoolProperty>(O->GetClass(),Name):nullptr;return P?P->GetPropertyValue_InContainer(O):Default;}
-void SetFlag(UObject* O,const TCHAR* Name,bool V){if(auto* P=FindFProperty<FBoolProperty>(O->GetClass(),Name))P->SetPropertyValue_InContainer(O,V);}
+bool TriggerFlag(const UObject* O,const TCHAR* Name,bool Default=false){auto* P=O?FindFProperty<FBoolProperty>(O->GetClass(),Name):nullptr;return P?P->GetPropertyValue_InContainer(O):Default;}
+void SetTriggerFlag(UObject* O,const TCHAR* Name,bool V){if(auto* P=FindFProperty<FBoolProperty>(O->GetClass(),Name))P->SetPropertyValue_InContainer(O,V);}
 template<class T>T* Field(UObject* O,const TCHAR* Name){auto* P=FindFProperty<FObjectPropertyBase>(O->GetClass(),Name);return P?Cast<T>(P->GetObjectPropertyValue_InContainer(O)):nullptr;}
 }
 UVTGSmartTriggerComponent::UVTGSmartTriggerComponent()
@@ -34,14 +34,14 @@ UVTGSmartTriggerComponent* UVTGSmartTriggerComponent::Get(AActor* Trigger)
 void UVTGSmartTriggerComponent::InitializeTrigger(AActor* Trigger)
 {
     auto* State=Get(Trigger);if(!State || !State->Volume.IsValid())return;
-    if(Flag(Trigger,TEXT("RequireInteraction")) && !IsValid(State->Proxy))
+    if(TriggerFlag(Trigger,TEXT("RequireInteraction")) && !IsValid(State->Proxy))
     {
         auto* Class=State->ProxyClass.LoadSynchronous();if(!Class)return;
         const FTransform ProxyTransform=State->Volume->GetComponentTransform();
         auto* ProxyActor=Trigger->GetWorld()->SpawnActorDeferred<AActor>(Class,ProxyTransform,Trigger,nullptr,ESpawnActorCollisionHandlingMethod::AlwaysSpawn);
         if(!ProxyActor)return;
         ProxyActor->SetFlags(RF_Transient);ProxyActor->Tags.Add(TEXT("VTG_SmartTriggerInteractionProxy"));
-        SetFlag(ProxyActor,TEXT("CanInteract?"),false);SetFlag(ProxyActor,TEXT("Trigger BPLMEvent?"),false);SetFlag(ProxyActor,TEXT("DoOnce?"),false);SetFlag(ProxyActor,TEXT("Lock Cam on Interact?"),false);
+        SetTriggerFlag(ProxyActor,TEXT("CanInteract?"),false);SetTriggerFlag(ProxyActor,TEXT("Trigger BPLMEvent?"),false);SetTriggerFlag(ProxyActor,TEXT("DoOnce?"),false);SetTriggerFlag(ProxyActor,TEXT("Lock Cam on Interact?"),false);
         if(auto* Source=FindFProperty<FTextProperty>(Trigger->GetClass(),TEXT("InteractionPrompt")))
             if(auto* Dest=FindFProperty<FTextProperty>(Class,TEXT("InteractionTextOverride")))Dest->SetPropertyValue_InContainer(ProxyActor,Source->GetPropertyValue_InContainer(Trigger));
         UGameplayStatics::FinishSpawningActor(ProxyActor,ProxyTransform);State->Proxy=ProxyActor;
@@ -75,12 +75,12 @@ bool UVTGSmartTriggerComponent::IsPlayerInside(AActor* Player) const
 bool UVTGSmartTriggerComponent::CanAccept(AActor* Player) const
 {
     if(!IsValid(Player) || !Player->ActorHasTag(TEXT("Player")) || !IsPlayerInside(Player) || !Volume.IsValid() || !Volume->IsQueryCollisionEnabled())return false;
-    if(!Flag(GetOwner(),TEXT("TriggerBPLMEvent?")) || bDispatching || bExplicitBusy)return false;
+    if(!TriggerFlag(GetOwner(),TEXT("TriggerBPLMEvent?")) || bDispatching || bExplicitBusy)return false;
     // One-shot story triggers retain their original overlap behavior even during
     // dialogue. Lifetime consumption already prevents duplicate dispatches;
     // visit/dialogue guards below are only for repeatable triggers.
-    if(Flag(GetOwner(),TEXT("DoOnce?")))return !bEverFired;
-    if(bSpent && Flag(GetOwner(),TEXT("RequireExitBeforeRetrigger"),true))return false;
+    if(TriggerFlag(GetOwner(),TEXT("DoOnce?")))return !bEverFired;
+    if(bSpent && TriggerFlag(GetOwner(),TEXT("RequireExitBeforeRetrigger"),true))return false;
     if(bAllowDuringDialogue)return true;
     if(auto* Narrative=Player->FindComponentByClass<UNarrativeComponent>())if(Narrative->GetCurrentDialogue())return false;
     if(auto* Pawn=Cast<APawn>(Player))if(auto* Controller=Pawn->GetController())
@@ -93,7 +93,7 @@ bool UVTGSmartTriggerComponent::CanAccept(AActor* Player) const
 bool UVTGSmartTriggerComponent::AcceptTrigger(AActor* Trigger,AActor* Player,bool FromInteraction)
 {
     auto* State=Get(Trigger);if(!State)return false;
-    if(Flag(Trigger,TEXT("RequireInteraction"))!=FromInteraction)return false;
+    if(TriggerFlag(Trigger,TEXT("RequireInteraction"))!=FromInteraction)return false;
     // Covers a real leave/re-enter between monitor samples.
     if(State->Occupant.IsValid() && !State->IsPlayerInside(State->Occupant.Get()))State->bSpent=false;
     if(!State->CanAccept(Player))return false;
@@ -114,7 +114,7 @@ void UVTGSmartTriggerComponent::SetPromptEnabled(bool Enabled)
         if(auto* Shape=Field<UPrimitiveComponent>(Proxy,Name))
             if(Shape->GetCollisionEnabled()!=ECollisionEnabled::QueryOnly)Shape->SetCollisionEnabled(ECollisionEnabled::QueryOnly);
     if(bPromptEnabled==Enabled)return;
-    bPromptEnabled=Enabled;SetFlag(Proxy,TEXT("CanInteract?"),Enabled);
+    bPromptEnabled=Enabled;SetTriggerFlag(Proxy,TEXT("CanInteract?"),Enabled);
     // Keep the target queryable. ISX owns selection/distance and the icon; changing
     // the proxy's collision here makes its candidate/visibility detection unstable.
     if(auto* Interaction=Field<UActorComponent>(Proxy,TEXT("AC_ActorInteractionComponent")))
@@ -127,7 +127,7 @@ bool UVTGSmartTriggerComponent::IsManagedInteractionProxy(AActor* Actor)
 }
 bool UVTGSmartTriggerComponent::IsInteractionProxyVisible(AActor* Actor,AActor* Player,FVector CameraLocation)
 {
-    if(!IsManagedInteractionProxy(Actor) || !IsValid(Actor->GetOwner()) || !Flag(Actor,TEXT("CanInteract?")))return false;
+    if(!IsManagedInteractionProxy(Actor) || !IsValid(Actor->GetOwner()) || !TriggerFlag(Actor,TEXT("CanInteract?")))return false;
     FCollisionQueryParams Query(SCENE_QUERY_STAT(VTGSmartInteractionVisibility),false,Player);
     Query.AddIgnoredActor(Actor->GetOwner());
     Query.AddIgnoredActor(Actor);
@@ -146,7 +146,7 @@ void UVTGSmartTriggerComponent::Refresh()
     if(IsValid(Proxy))
     {
         auto* Player=UGameplayStatics::GetPlayerPawn(this,0);
-        UE_LOG(LogTemp,Verbose,TEXT("SmartTrigger %s player=%s inside=%d spent=%d dispatch=%d busy=%d once=%d allowed=%d"),*GetNameSafe(GetOwner()),*GetNameSafe(Player),IsPlayerInside(Player),bSpent,bDispatching,bExplicitBusy,Flag(GetOwner(),TEXT("DoOnce?")),CanAccept(Player));
+        UE_LOG(LogTemp,Verbose,TEXT("SmartTrigger %s player=%s inside=%d spent=%d dispatch=%d busy=%d once=%d allowed=%d"),*GetNameSafe(GetOwner()),*GetNameSafe(Player),IsPlayerInside(Player),bSpent,bDispatching,bExplicitBusy,TriggerFlag(GetOwner(),TEXT("DoOnce?")),CanAccept(Player));
         SetPromptEnabled(CanAccept(Player));
     }
     else if(!bSpent && !bDispatching)GetWorld()->GetTimerManager().ClearTimer(RefreshTimer);

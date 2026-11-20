@@ -37,6 +37,12 @@ FNarrativeQuestDetailsExtension& GetNarrativeQuestDetailsExtension()
     return Extension;
 }
 
+FNarrativeQuestLocalizationBadge& GetNarrativeQuestLocalizationBadge()
+{
+    static FNarrativeQuestLocalizationBadge Badge;
+    return Badge;
+}
+
 #define LOCTEXT_NAMESPACE "QuestEditorDetails"
 
 TSharedRef<IDetailCustomization> FQuestEditorDetails::MakeInstance()

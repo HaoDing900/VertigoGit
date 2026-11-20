@@ -1,6 +1,7 @@
 #include "VTGCutsceneAudioDetails.h"
 #include "Audio/VTGCutsceneAudio.h"
 #include "UI/VTGSequenceDialogue.h"
+#include "UI/VTGQuestSequenceBox.h"
 #include "Sound/AmbientSound.h"
 #include "Components/AudioComponent.h"
 #include "LevelSequence.h"
@@ -15,6 +16,8 @@
 #include "Misc/CoreDelegates.h"
 #include "ScopedTransaction.h"
 #include "Widgets/Input/SCheckBox.h"
+#include "Widgets/Input/SButton.h"
+#include "Widgets/SBoxPanel.h"
 #include "Widgets/Input/SComboBox.h"
 #include "Widgets/Input/SNumericEntryBox.h"
 #include "Widgets/Text/STextBlock.h"
@@ -86,15 +89,34 @@ public:
             if(auto* S=Cast<UMovieScene>(O))Sequence=Cast<ULevelSequence>(S->GetOuter());
         }
         auto& Category=Builder.EditCategory(TEXT("VTG Cutscene Audio"),NSLOCTEXT("VTGCutsceneAudio","Category","过场音频"),ECategoryPriority::Important);
+        if(Sequence.IsValid() && Objects.Num()==1)
+        {
+            auto& Entry=Builder.EditCategory(TEXT("VTG Sequence Entry"),NSLOCTEXT("VTGSequence","Entry","过场入口"),ECategoryPriority::Important);
+            Entry.AddCustomRow(NSLOCTEXT("VTGSequence","QuestUISearch","Quest 任务 UI 隐藏"))
+            .NameContent()[SNew(STextBlock).Text(NSLOCTEXT("VTGSequence","QuestUILabel","播放期间隐藏 Quest UI"))]
+            .ValueContent()[SNew(SCheckBox)
+                .IsChecked_Lambda([this](){return UVTGQuestSequenceBox::GetSequenceDefault(Sequence.Get())?ECheckBoxState::Checked:ECheckBoxState::Unchecked;})
+                .OnCheckStateChanged_Lambda([this](ECheckBoxState State){const FScopedTransaction T(NSLOCTEXT("VTGSequence","QuestUIEdit","设置过场任务 UI 显示"));UVTGQuestSequenceBox::SetSequenceDefault(Sequence.Get(),State==ECheckBoxState::Checked);})
+                .ToolTipText(NSLOCTEXT("VTGSequence","QuestUITip","默认开启。仅遮住任务标题、通知和目标列表，对话框、头像和任务逻辑不变。Sequence 结束/停止后解除遮挡，暂停期间保持。保存 Sequence 生效。"))];
+            Entry.AddCustomRow(NSLOCTEXT("VTGSequence","AssetExitSearch","Sequence 默认 Narrative 进入时结束对话"))
+            .NameContent()[SNew(STextBlock).Text(NSLOCTEXT("VTGSequence","AssetExitLabel","Sequence 默认：进入时结束对话"))]
+            .ValueContent()[SNew(SCheckBox)
+                .IsChecked_Lambda([this](){return UVTGSequenceDialogueGate::GetSequenceDefault(Sequence.Get())?ECheckBoxState::Checked:ECheckBoxState::Unchecked;})
+                .OnCheckStateChanged_Lambda([this](ECheckBoxState State){const FScopedTransaction T(NSLOCTEXT("VTGSequence","AssetExitEdit","设置 Sequence 进入时结束对话"));UVTGSequenceDialogueGate::SetSequenceDefault(Sequence.Get(),State==ECheckBoxState::Checked);})
+                .ToolTipText(NSLOCTEXT("VTGSequence","AssetExitTip","保存到 Sequence 资产。外部播放开始时忽略 Allow Exit 强制结束旧对话；动态创建的播放器也生效。关卡实例可单独覆盖。修改后保存 Sequence。"))];
+        }
         if(!SequenceActors.IsEmpty())
         {
             auto& Entry=Builder.EditCategory(TEXT("VTG Sequence Entry"),NSLOCTEXT("VTGSequence","Entry","过场入口"),ECategoryPriority::Important);
             Entry.AddCustomRow(NSLOCTEXT("VTGSequence","ExitSearch","Narrative Force Exit Dialogue 进入时结束对话"))
-            .NameContent()[SNew(STextBlock).Text(NSLOCTEXT("VTGSequence","ExitLabel","进入时结束 Narrative 对话"))]
-            .ValueContent()[SNew(SCheckBox)
+            .NameContent()[SNew(STextBlock).Text(NSLOCTEXT("VTGSequence","ExitLabel","本实例：进入时结束 Narrative 对话"))]
+            .ValueContent()[SNew(SHorizontalBox)
+              +SHorizontalBox::Slot().AutoWidth()[SNew(SCheckBox)
                 .IsChecked_Lambda([this](){bool On=false,Off=false;for(auto A:SequenceActors)if(A.IsValid()){if(UVTGSequenceDialogueGate::ShouldEndDialogue(A.Get()))On=true;else Off=true;}return On&&Off?ECheckBoxState::Undetermined:On?ECheckBoxState::Checked:ECheckBoxState::Unchecked;})
-                .OnCheckStateChanged_Lambda([this](ECheckBoxState State){const FScopedTransaction T(NSLOCTEXT("VTGSequence","ExitEdit","设置过场开始时结束对话"));for(auto A:SequenceActors)if(A.IsValid()){A->Modify();if(State==ECheckBoxState::Checked){A->Tags.Remove(UVTGSequenceDialogueGate::KeepDialogueTag);A->Tags.AddUnique(UVTGSequenceDialogueGate::EndDialogueTag);}else A->Tags.Remove(UVTGSequenceDialogueGate::EndDialogueTag);A->MarkPackageDirty();}})
-                .ToolTipText(NSLOCTEXT("VTGSequence","ExitTip","默认关闭。开启后，此关卡 Sequence 开始播放时，强制结束玩家正在进行的 Narrative 对话（忽略 Allow Exit）；之后允许新对话。暂停再继续不会重复退出。Narrative 自己通过 1PlayLevelSequence 播放的过场始终受保护。保存关卡生效。"))];
+                .OnCheckStateChanged_Lambda([this](ECheckBoxState State){const FScopedTransaction T(NSLOCTEXT("VTGSequence","ExitEdit","设置过场开始时结束对话"));for(auto A:SequenceActors)if(A.IsValid()){A->Modify();if(State==ECheckBoxState::Checked){A->Tags.Remove(UVTGSequenceDialogueGate::KeepDialogueTag);A->Tags.AddUnique(UVTGSequenceDialogueGate::EndDialogueTag);}else{A->Tags.Remove(UVTGSequenceDialogueGate::EndDialogueTag);A->Tags.AddUnique(UVTGSequenceDialogueGate::KeepDialogueTag);}A->MarkPackageDirty();}})
+                .ToolTipText(NSLOCTEXT("VTGSequence","ExitTip","本实例覆盖 Sequence 默认。勾选强制结束旧对话（忽略 Allow Exit），取消则保留旧对话；点击跟随 Sequence 清除实例覆盖。保存关卡生效。Narrative 自己的对话镜头保持受保护。"))]
+              +SHorizontalBox::Slot().AutoWidth().Padding(8,0)[SNew(SButton).Text(NSLOCTEXT("VTGSequence","FollowAsset","跟随 Sequence"))
+                .OnClicked_Lambda([this](){const FScopedTransaction T(NSLOCTEXT("VTGSequence","ResetExitOverride","清除 Sequence 实例退出覆盖"));for(auto A:SequenceActors)if(A.IsValid()){A->Modify();A->Tags.Remove(UVTGSequenceDialogueGate::EndDialogueTag);A->Tags.Remove(UVTGSequenceDialogueGate::KeepDialogueTag);A->MarkPackageDirty();}return FReply::Handled();})]];
         }
         if(!Audio.IsEmpty())
             Category.AddCustomRow(NSLOCTEXT("VTGCutsceneAudio","FollowSearch","Follow Ambient Seq Mute 跟随过场环境声"))

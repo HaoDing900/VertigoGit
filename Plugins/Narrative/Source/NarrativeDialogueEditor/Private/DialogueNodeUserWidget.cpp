@@ -6,6 +6,8 @@
 #include <Components/Overlay.h>
 #include <Components/VerticalBoxSlot.h>
 #include <Components/TextBlock.h>
+#include "Components/MultiLineEditableText.h"
+#include "Components/MultiLineEditableTextBox.h"
 #include <Blueprint/WidgetTree.h>
 #include "Dialogue.h"
 #include "DialogueSM.h"
@@ -21,10 +23,29 @@ void UDialogueNodeUserWidget::InitializeFromNode(class UDialogueNode* InNode, cl
 		Dialogue = InDialogue;
 
 		OnNodeInitialized(InNode, InDialogue);
+		LastRenderedNodeBody.Reset();
+		RefreshNodeBodyText();
 
 		//Apply the initial events font (SDialogueGraphNode keeps it in sync with the graph zoom afterwards)
 		UpdateEventsFontForZoom(1.f);
 	}
+}
+
+void UDialogueNodeUserWidget::RefreshNodeBodyText()
+{
+    if (!Node || !WidgetTree) return;
+    const FText Body = GetNodeBodyText();
+    const FString Display = Body.ToString();
+    if (LastRenderedNodeBody.IsSet() && LastRenderedNodeBody.GetValue() == Display) return;
+    // The Blueprint's old cache watches Line.Text alone. A Hint-only edit must update
+    // the composed preview too. Leave focused inline editing to its existing commit handler.
+    auto* Widget = WidgetTree->FindWidget(TEXT("DialogueLineText"));
+    if (!Widget || Widget->HasKeyboardFocus()) return;
+    if (auto* Editable = Cast<UMultiLineEditableText>(Widget)) Editable->SetText(Body);
+    else if (auto* Box = Cast<UMultiLineEditableTextBox>(Widget)) Box->SetText(Body);
+    else if (auto* Text = Cast<UTextBlock>(Widget)) Text->SetText(Body);
+    else return;
+    LastRenderedNodeBody = Display;
 }
 
 void UDialogueNodeUserWidget::UpdateEventsFontForZoom(float ZoomAmount)

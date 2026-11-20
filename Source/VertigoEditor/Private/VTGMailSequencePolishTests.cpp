@@ -54,6 +54,19 @@ bool VTGVerifyMailSequencePolish()
     Expect(N->GetCurrentDialogue()==D,TEXT("Narrative's own camera shot does not interrupt its parent dialogue"));
     Player->Stop();N->ForceExitDialogue();
     Actor->Tags.Remove(TEXT("Narrative.DialogueShot"));
+    // Asset defaults must survive CreateLevelSequencePlayer, unlike tags on a placed actor.
+    auto* AssetDefault=NewObject<ULevelSequence>(W);AssetDefault->Initialize();AssetDefault->GetMovieScene()->SetPlaybackRange(0,240000);
+    Expect(!UVTGSequenceDialogueGate::GetSequenceDefault(AssetDefault),TEXT("Asset entry default is OFF"));
+    UVTGSequenceDialogueGate::SetSequenceDefault(AssetDefault,true);
+    Player=ULevelSequencePlayer::CreateLevelSequencePlayer(W,AssetDefault,FMovieSceneSequencePlaybackSettings(),Actor);check(Player);
+    Expect(Actor->Tags.IsEmpty() && UVTGSequenceDialogueGate::ShouldEndDialogue(Actor),TEXT("Runtime-created actor inherits the Sequence entry default without instance tags"));
+    Begin();Player->Play();Expect(!N->GetCurrentDialogue(),TEXT("Asset-level opt-in ends non-exitable dialogue"));Player->Stop();
+    Actor->Tags.Add(UVTGSequenceDialogueGate::KeepDialogueTag);D=Begin();Player->Play();
+    Expect(N->GetCurrentDialogue()==D,TEXT("Instance OFF overrides enabled asset default"));Player->Stop();N->ForceExitDialogue();
+    Actor->Tags.Remove(UVTGSequenceDialogueGate::KeepDialogueTag);Actor->Tags.Add(TEXT("Narrative.DialogueShot"));D=Begin();Player->Play();
+    Expect(N->GetCurrentDialogue()==D,TEXT("Asset entry default preserves Narrative-owned shot protection"));Player->Stop();N->ForceExitDialogue();
+    Actor->Tags.Remove(TEXT("Narrative.DialogueShot"));UVTGSequenceDialogueGate::SetSequenceDefault(AssetDefault,false);
+    Expect(!UVTGSequenceDialogueGate::ShouldEndDialogue(Actor),TEXT("Disabling asset default is reflected in existing players"));
     // Fresh player ensures Play actually evaluates frame zero (a resumed player may already have evaluated it).
     Player=ULevelSequencePlayer::CreateLevelSequencePlayer(W,Seq,FMovieSceneSequencePlaybackSettings(),Actor);check(Player);
     Actor->Tags.Add(UVTGSequenceDialogueGate::EndDialogueTag);

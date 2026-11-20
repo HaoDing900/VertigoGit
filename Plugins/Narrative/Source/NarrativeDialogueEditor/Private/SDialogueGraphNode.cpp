@@ -22,6 +22,10 @@
 #include <Slate/SObjectWidget.h>
 #include "DialogueNodeUserWidget.h"
 #include "DialogueBlueprint.h"
+#include "NarrativeDialogueDetailsExtension.h"
+#include "Brushes/SlateRoundedBoxBrush.h"
+#include "EdGraphSchema_K2.h"
+#include "K2Node_CustomEvent.h"
 
 #define LOCTEXT_NAMESPACE "SDialogueGraphNode"
 
@@ -55,13 +59,39 @@ void SDialogueGraphNode::Tick(const FGeometry& AllottedGeometry, const double In
 	SGraphNode::Tick(AllottedGeometry, InCurrentTime, InDeltaTime);
 
 	//Keep the events text counter-scaled against the current graph zoom (cheap no-op when zoom hasn't changed)
-	if (UDialogueNodeUserWidget* NodeWidget = DialogueNodeWidgetObj.Get())
+	if (TSharedPtr<SGraphPanel> Panel = GetOwnerPanel())
 	{
-		if (TSharedPtr<SGraphPanel> Panel = GetOwnerPanel())
+		const float ZoomAmount = Panel->GetZoomAmount();
+
+		if (UDialogueNodeUserWidget* NodeWidget = DialogueNodeWidgetObj.Get())
 		{
-			NodeWidget->UpdateEventsFontForZoom(Panel->GetZoomAmount());
+			NodeWidget->UpdateEventsFontForZoom(ZoomAmount);
+			NodeWidget->RefreshNodeBodyText();
 		}
+
+		UpdateLocalizationBadgeForZoom(ZoomAmount);
 	}
+}
+
+void SDialogueGraphNode::UpdateLocalizationBadgeForZoom(float ZoomAmount)
+{
+	if (!LocalizationBadgeWidget.IsValid() || ZoomAmount <= KINDA_SMALL_NUMBER)
+	{
+		return;
+	}
+
+	//1/Zoom would hold the badge exactly constant on screen; the exponent lets it still shrink a
+	//little so it does not look pasted on, and the cap stops it swallowing the node when zoomed
+	//right out. A render transform is deliberate: it never feeds back into the node's layout.
+	const float Scale = FMath::Clamp(FMath::Pow(1.f / ZoomAmount, 0.8f), 1.f, 3.f);
+
+	if (FMath::IsNearlyEqual(Scale, LastAppliedBadgeScale))
+	{
+		return;
+	}
+
+	LastAppliedBadgeScale = Scale;
+	LocalizationBadgeWidget->SetRenderTransform(TOptional<FSlateRenderTransform>(FSlateRenderTransform(FScale2D(Scale))));
 }
 
 void SDialogueGraphNode::UpdateGraphNode()
@@ -77,6 +107,21 @@ void SDialogueGraphNode::UpdateGraphNode()
 
 	UDialogueGraphNode* DialogueGraphNode = Cast<UDialogueGraphNode>(GraphNode);
 	UDialogueNode* DialogueNode = DialogueGraphNode ? DialogueGraphNode->DialogueNode : nullptr;
+    TSharedPtr<SWidget> LocalizationBadge;
+    if(GetNarrativeLocalizationBadge().IsBound())LocalizationBadge=GetNarrativeLocalizationBadge().Execute(DialogueNode);
+    LocalizationBadgeWidget=LocalizationBadge;LastAppliedBadgeScale=0.f;
+    if(!LocalizationBadge)LocalizationBadge=SNullWidget::NullWidget;
+
+	// Keep this bound to the live pins: creating an empty event alone is not an edit marker.
+	static const FSlateRoundedBoxBrush ConnectedEventBrush(FLinearColor(0.02f, 0.35f, 1.f), FVector2f(10.f, 10.f));
+	const TSharedRef<SWidget> ConnectedEventIndicator = SNew(SBox)
+		.WidthOverride(10.f)
+		.HeightOverride(10.f)
+		.Visibility(this, &SDialogueGraphNode::GetConnectedEventVis)
+		.ToolTipText(LOCTEXT("ConnectedEventTip", "This dialogue node's Blueprint event has a connected execution output."))
+		[
+			SNew(SImage).Image(&ConnectedEventBrush)
+		];
 
 	//UDialogueNodeUserWidget* DialogueNodeWidgetInstance = nullptr;
 	UWorld* WidgetWorld = GEditor->GetEditorWorldContext().World();
@@ -129,11 +174,17 @@ void SDialogueGraphNode::UpdateGraphNode()
 			.VAlign(VAlign_Fill)
 			[
 				SNew(SOverlay)
+
 				+ SOverlay::Slot()
 			[
 				DialogueNodeWidgetRef.ToSharedRef()
 			]
+                + SOverlay::Slot().HAlign(HAlign_Right).VAlign(VAlign_Top).Padding(4)[LocalizationBadge.ToSharedRef()]
+				+ SOverlay::Slot().HAlign(HAlign_Left).VAlign(VAlign_Top).Padding(8)[ConnectedEventIndicator]
 			];
+
+		//Grow the counter-scaled badge inwards from the node's top right corner it is pinned to.
+		LocalizationBadge->SetRenderTransformPivot(FVector2D(1.f, 0.f));
 	}
 	else // Old style yucky slate ones
 	{
@@ -151,6 +202,7 @@ void SDialogueGraphNode::UpdateGraphNode()
 	.BorderBackgroundColor(this, &SDialogueGraphNode::GetBorderColor)
 		[
 			SNew(SOverlay)
+			+ SOverlay::Slot().HAlign(HAlign_Left).VAlign(VAlign_Top).Padding(FMargin(24.f, 4.f, 4.f, 4.f))[LocalizationBadge.ToSharedRef()]
 			+SOverlay::Slot()
 			[
 				SizeBox
@@ -173,7 +225,7 @@ void SDialogueGraphNode::UpdateGraphNode()
 			.VAlign(VAlign_Fill)
 			.Padding(5.f)
 			[
-				
+
 				SNew(SHorizontalBox)
 				+ SHorizontalBox::Slot()
 				.VAlign(VAlign_Center)
@@ -267,6 +319,7 @@ void SDialogueGraphNode::UpdateGraphNode()
 				]
 				]
 			]
+			+ SOverlay::Slot().HAlign(HAlign_Left).VAlign(VAlign_Top).Padding(8)[ConnectedEventIndicator]
 			]
 ];
 	}
@@ -337,7 +390,7 @@ void SDialogueGraphNode::AddPin(const TSharedRef<SGraphPin>& PinToAdd)
 		OutputPins.Add(PinToAdd);
 	}
 
-	
+
 
 }
 
@@ -420,6 +473,55 @@ FText SDialogueGraphNode::GetNodeTitleText() const
 EVisibility SDialogueGraphNode::GetEventsVis() const
 {
 	return GetEventsText().IsEmpty() ? EVisibility::Collapsed : EVisibility::Visible;
+}
+
+EVisibility SDialogueGraphNode::GetConnectedEventVis() const
+{
+	const UDialogueGraphNode* Node = Cast<UDialogueGraphNode>(GraphNode);
+	if (!Node || !Node->DialogueNode || Node->DialogueNode->OnPlayNodeFuncName.IsNone())
+	{
+		return EVisibility::Collapsed;
+	}
+
+	const auto HasConnectedExecution = [](const UK2Node_CustomEvent* Event)
+	{
+		for (const UEdGraphPin* Pin : Event->Pins)
+		{
+			if (Pin && Pin->Direction == EGPD_Output && Pin->PinType.PinCategory == UEdGraphSchema_K2::PC_Exec
+				&& Pin->LinkedTo.Num() > 0)
+			{
+				return true;
+			}
+		}
+		return false;
+	};
+
+	const UK2Node_CustomEvent* Event = Node->OnPlayedCustomNode;
+	if (IsValid(Event) && Event->GetGraph() && Event->GetGraph()->Nodes.Contains(Event)
+		&& Event->CustomFunctionName == Node->DialogueNode->OnPlayNodeFuncName)
+	{
+		return HasConnectedExecution(Event) ? EVisibility::Visible : EVisibility::Collapsed;
+	}
+
+	// Older assets may retain the function binding without the editor's direct event reference.
+	const UDialogueBlueprint* Blueprint = Node->GetTypedOuter<UDialogueBlueprint>();
+	if (Blueprint)
+	{
+		for (const UEdGraph* EventGraph : Blueprint->UbergraphPages)
+		{
+			if (!EventGraph) continue;
+			for (const UEdGraphNode* EventNode : EventGraph->Nodes)
+			{
+				const UK2Node_CustomEvent* CustomEvent = Cast<UK2Node_CustomEvent>(EventNode);
+				if (CustomEvent && CustomEvent->CustomFunctionName == Node->DialogueNode->OnPlayNodeFuncName
+					&& HasConnectedExecution(CustomEvent))
+				{
+					return EVisibility::Visible;
+				}
+			}
+		}
+	}
+	return EVisibility::Collapsed;
 }
 
 

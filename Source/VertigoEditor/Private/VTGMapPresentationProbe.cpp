@@ -41,7 +41,7 @@ void Run(const TArray<FString>& Args)
    if(Open)
    {
     const auto& NodeGeometry=N->GetCachedGeometry();const auto& PanelGeometry=Panel->GetCachedGeometry();
-    const bool ExpectedRight=I==1 || I==3; // Bureau/North cross the 30% threshold; Docks/Commerce do not.
+    const bool ExpectedRight=I==3; // North is left of the node-center threshold; Bureau opens left.
     if(ExpectedRight){check(PanelGeometry.GetAbsolutePosition().X>=NodeGeometry.LocalToAbsolute(FVector2D(NodeGeometry.GetLocalSize().X,0)).X-2);}
     else {check(PanelGeometry.LocalToAbsolute(FVector2D(PanelGeometry.GetLocalSize().X,0)).X<=NodeGeometry.GetAbsolutePosition().X+2);}
     UE_LOG(LogTemp,Display,TEXT("MAP_PANEL_SIDE node=%s side=%s"),*N->GetName(),ExpectedRight?TEXT("right"):TEXT("left"));

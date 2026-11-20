@@ -6,6 +6,7 @@
 #include "VTGSequenceDialogue.generated.h"
 class ALevelSequenceActor;
 class ULevelSequencePlayer;
+class ULevelSequence;
 
 /** One interruption per playback, never a dialogue lock for the duration of a cutscene. */
 UCLASS()
@@ -17,6 +18,9 @@ public:
     static const FName KeepDialogueTag;
     static const FName EndDialogueTag;
     static bool ShouldEndDialogue(const ALevelSequenceActor* Actor);
+    bool IsPlaybackActive() const { return bPlaybackActive; }
+    static bool GetSequenceDefault(ULevelSequence* Sequence);
+    static void SetSequenceDefault(ULevelSequence* Sequence,bool Enabled);
 private:
     friend class UVTGSequenceDialogueEntrySystem;
     bool bPlaybackActive=false;

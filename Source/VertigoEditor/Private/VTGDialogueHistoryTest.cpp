@@ -26,6 +26,7 @@
 #include "NarrativeComponent.h"
 #include "Tests/AutomationEditorCommon.h"
 #include "UI/VTGDialogueHistorySubsystem.h"
+#include "UI/VTGLocalizationSubsystem.h"
 #include "UnrealClient.h"
 
 #if WITH_DEV_AUTOMATION_TESTS
@@ -295,6 +296,83 @@ class FVTGHistoryScenario : public IAutomationLatentCommand
             Deadline = FPlatformTime::Seconds() + 1;
             return false;
         }
+        if(Phase==4)
+        {
+            auto* Languages=World->GetGameInstance()->GetSubsystem<UVTGLocalizationSubsystem>();
+            PreviousLanguage=Languages->GetLanguage();Languages->SetLanguage(TEXT("en-US"));
+            OriginalDialogue=Component->CurrentDialogue;
+            PagedPlayback.Reset(NewObject<UVTGDialoguePlaybackTest>(Component.Get()));
+            PagedPlayback->Prepare(Component.Get(),true);PagedPlayback->SetAutoAdvance(false);
+            FString LongText;for(int32 I=0;I<18;++I)LongText+=TEXT("This sentence should remain within one dialogue node while the display advances to the next page. ");
+            PagedPlayback->SetReadingText(FText::AsCultureInvariant(LongText));Component->CurrentDialogue=PagedPlayback.Get();
+            Phase=10;Deadline=FPlatformTime::Seconds()+.5;return false;
+        }
+        if(Phase==10)
+        {
+            System->TickControls();
+            Test->TestTrue(TEXT("Actual mounted overlay paginates English overflow"),PagedPlayback->GetPresentationPageCount()>1);
+            Test->TestNotNull(TEXT("Page indicator added to real overlay"),VisualOverlay->GetWidgetFromName(TEXT("DialoguePageIndicator")));
+            PagedPlayback->ManualFinish();System->TickControls();
+            Test->TestEqual(TEXT("Actual Continue advances one page"),PagedPlayback->GetPresentationPageIndex(),1);
+            auto* Label=CastChecked<URichTextBlock>(VisualOverlay->GetWidgetFromName(TEXT("Line_Main")));
+            Test->TestEqual(TEXT("Actual label shows current page"),Label->GetText().ToString(),PagedPlayback->GetPresentationPage().ToString());
+            Test->TestEqual(TEXT("No node completed during actual UI paging"),PagedPlayback->FinishedLines,0);
+            World->GetGameInstance()->GetSubsystem<UVTGLocalizationSubsystem>()->SetLanguage(TEXT("origin"));System->TickControls();
+            Test->TestEqual(TEXT("Origin stays unpaged"),PagedPlayback->GetPresentationPageCount(),0);
+            Test->TestEqual(TEXT("Origin shows complete line"),Label->GetText().ToString(),PagedPlayback->GetCompletePresentationText().ToString());
+            World->GetGameInstance()->GetSubsystem<UVTGLocalizationSubsystem>()->SetLanguage(TEXT("zh-Hans"));System->TickControls();
+            Test->TestEqual(TEXT("Chinese stays unpaged"),PagedPlayback->GetPresentationPageCount(),0);
+            World->GetGameInstance()->GetSubsystem<UVTGLocalizationSubsystem>()->SetLanguage(TEXT("en-US"));System->TickControls();
+            Test->TestTrue(TEXT("Switch back to English rebuilds pages"),PagedPlayback->GetPresentationPageCount()>1);
+            World->GetTimerManager().ClearAllTimersForObject(PagedPlayback.Get());
+            Component->CurrentDialogue=OriginalDialogue.Get();
+            World->GetGameInstance()->GetSubsystem<UVTGLocalizationSubsystem>()->SetLanguage(PreviousLanguage);
+            FScreenshotRequest::RequestScreenshot(FPaths::ProjectSavedDir()/TEXT("Automation/DialoguePagination.png"),true,false);
+            Phase=12;Deadline=FPlatformTime::Seconds()+.3;return false;
+        }
+        if(Phase==12)
+        {
+            auto* Languages=World->GetGameInstance()->GetSubsystem<UVTGLocalizationSubsystem>();
+            Languages->SetLanguage(TEXT("en-US"));
+            VisualOverlay->GetWidgetFromName(TEXT("DialogueBox"))->SetVisibility(ESlateVisibility::Collapsed);
+            VisualOverlay->GetWidgetFromName(TEXT("Line_Main"))->SetVisibility(ESlateVisibility::Collapsed);
+            auto* Side=CastChecked<URichTextBlock>(VisualOverlay->GetWidgetFromName(TEXT("Line_Side")));
+            auto* Frame=VisualOverlay->GetWidgetFromName(TEXT("DialogueBox_Side"));
+            for(auto* Widget:{static_cast<UWidget*>(Side),Frame})
+                for(auto* W=Widget;W;W=W->GetParent()){W->SetVisibility(ESlateVisibility::SelfHitTestInvisible);W->SetRenderOpacity(1.f);}
+            Side->TakeWidget();SideBaseFont=Side->GetCurrentDefaultTextStyle().Font.Size;
+            LongSideText.Empty();for(int32 I=0;I<10;++I)LongSideText+=TEXT("This translated action-mode side dialogue must fit its original text frame. ");
+            Side->SetText(FText::AsCultureInvariant(LongSideText));
+            PagedPlayback->SetPresentationPages({});PagedPlayback->Prepare(Component.Get(),true);PagedPlayback->bFreeMovement=true;
+            PagedPlayback->SetReadingText(FText::AsCultureInvariant(LongSideText));Component->CurrentDialogue=PagedPlayback.Get();
+            Phase=13;Deadline=FPlatformTime::Seconds()+1.;return false;
+        }
+        if(Phase==13)
+        {
+            System->TickControls();
+            auto* Side=CastChecked<URichTextBlock>(VisualOverlay->GetWidgetFromName(TEXT("Line_Side")));
+            auto* Languages=World->GetGameInstance()->GetSubsystem<UVTGLocalizationSubsystem>();
+            Test->TestTrue(TEXT("Actual side overlay shrinks English overflow"),Side->GetCurrentDefaultTextStyle().Font.Size<SideBaseFont);
+            Test->AddInfo(FString::Printf(TEXT("SIDE_FIT geometry=%s font=%.1f base=%.1f pages=%d"),*Side->GetCachedGeometry().GetLocalSize().ToString(),Side->GetCurrentDefaultTextStyle().Font.Size,SideBaseFont,PagedPlayback->GetPresentationPageCount()));
+            Test->TestTrue(TEXT("Actual side overflow falls back to multiple pages"),PagedPlayback->GetPresentationPageCount()>1);
+            Test->TestEqual(TEXT("Actual side overlay retains complete text"),PagedPlayback->GetCompletePresentationText().ToString(),LongSideText);
+            PagedPlayback->NaturalFinish();System->TickControls();
+            Test->TestEqual(TEXT("Actual side page advances without replaying node"),PagedPlayback->GetPresentationPageIndex(),1);
+            Test->TestEqual(TEXT("Actual side label displays next page"),Side->GetText().ToString(),PagedPlayback->GetPresentationPage().ToString());
+            Languages->SetLanguage(TEXT("origin"));System->TickControls();
+            Test->TestEqual(TEXT("Actual side overlay restores Origin font"),Side->GetCurrentDefaultTextStyle().Font.Size,SideBaseFont);
+            Languages->SetLanguage(TEXT("zh-Hans"));System->TickControls();
+            Test->TestTrue(TEXT("Other non-Origin languages also fit side text"),Side->GetCurrentDefaultTextStyle().Font.Size<SideBaseFont);
+            PagedPlayback->SetReadingText(FText::AsCultureInvariant(TEXT("Short line.")));Side->SetText(PagedPlayback->GetCompletePresentationText());System->TickControls();
+            Test->TestEqual(TEXT("Actual short side text restores original font"),Side->GetCurrentDefaultTextStyle().Font.Size,SideBaseFont);
+            Languages->SetLanguage(PreviousLanguage);System->TickControls();
+            World->GetTimerManager().ClearAllTimersForObject(PagedPlayback.Get());Component->CurrentDialogue=OriginalDialogue.Get();
+            for(const TCHAR* Name:{TEXT("DialogueBox_Side"),TEXT("SideDialogueContainer"),TEXT("Line_Side")})
+                if(auto* W=VisualOverlay->GetWidgetFromName(Name))W->SetVisibility(ESlateVisibility::Collapsed);
+            VisualOverlay->GetWidgetFromName(TEXT("DialogueBox"))->SetVisibility(ESlateVisibility::SelfHitTestInvisible);
+            VisualOverlay->GetWidgetFromName(TEXT("Line_Main"))->SetVisibility(ESlateVisibility::SelfHitTestInvisible);
+            Phase=11;Deadline=FPlatformTime::Seconds()+.3;return false;
+        }
         // A live dialogue can temporarily hide its frame (cinematics/pauses).
         // It must not reveal the original screen-corner action bars.
         auto CheckHidden = [&]()
@@ -376,6 +454,11 @@ class FVTGHistoryScenario : public IAutomationLatentCommand
     TWeakObjectPtr<UNarrativeComponent> Component;
     TWeakObjectPtr<UUserWidget> VisualOverlay, VisualHUD, DuplicateHUD;
     TWeakObjectPtr<UCommonBoundActionBar> FirstPromptBar, SecondPromptBar;
+    TStrongObjectPtr<UVTGDialoguePlaybackTest> PagedPlayback;
+    TWeakObjectPtr<UDialogue> OriginalDialogue;
+    FString PreviousLanguage;
+    FString LongSideText;
+    float SideBaseFont=0.f;
     int32 AspectIndex = 0;
     double Deadline = 0;
     int32 Phase = 0;

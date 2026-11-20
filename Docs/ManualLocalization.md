@@ -51,7 +51,7 @@ Dialogue 的默认设置中，Speakers、Player Speaker Info 和 Party Speaker I
 
 修改译文后离开输入框，会校验并保存合法内容。点击 **保存并应用译文**，确认当前字段的各语言内容并编译资源，再进入游戏切换语言。空译文或与 Origin 相同的内容恢复默认跟随。空的原文/选项/提示先保持不可翻译，避免用译文改变节点的自动选项或路由行为；请先填写 Origin。
 
-语言预览期间，Origin 上方仍显示真正原文，但保持只读；请切回 `origin` 编辑原文。下方手工译文可以继续编辑，避免把 UE 预览中的显示译文误当作 Origin。
+语言预览期间，Origin 始终显示真实原文并允许编辑；提交修改写回原文，保留文本键。已有译文在原文变化后标为待复核，下方手工译文可继续编辑。
 
 占位符和富文本仍使用受保护编号。若原文或文本键在未保存草稿期间改变，会保留草稿并阻止误写；可点击 **重新加载 / 放弃未保存草稿**。译文存储在统一翻译表，不修改原资产的节点 ID 或文本键。
 
@@ -59,7 +59,7 @@ Dialogue 的默认设置中，Speakers、Player Speaker Info 和 Party Speaker I
 
 打开带有项目 **Subtitles / 字幕** 轨道的 Level Sequence，选择某一段字幕 Section，在 Details 中的 **Text** 和 **Speaker** 下方都有默认折叠的多语言编辑区。每个字段上方是自己的 Origin，未编辑的 English 和简体中文默认复制并跟随该字段的原文；已经手填的内容独立保存。
 
-编辑后点击 **保存并应用译文**，在现有 **字幕预览与样式** 面板中预览 `en-US` / `zh-Hans`，或在游戏中使用下面的控制台命令。语言预览期间 Origin 始终显示真实原文并保持只读。此功能不改字幕时间区间、Show Speaker、轨道字体或全局样式，也不改现有字幕播放规则。
+编辑后点击 **保存并应用译文**，在现有 **字幕预览与样式** 面板中预览 `en-US` / `zh-Hans`，或在游戏中使用下面的控制台命令。语言预览期间 Origin 始终显示真实原文并允许编辑；原文变化后已有译文需要复核。此功能不改字幕时间区间、Show Speaker、轨道字体或全局样式，也不改现有字幕播放规则。
 
 与 Dialogue 一样，译文存入同一份手工翻译表，支持受保护结构校验、原文变更复核和外部文件覆盖保护。多选时不提供就地译文编辑，避免把同一译文写到多段字幕。
 
@@ -202,3 +202,26 @@ Vertigo.uproject -run=VTGLocalization -unattended -nop4 -NullRHI
 `Show Hint.ActionName` 是 `DT_KeyHints` 的 Row Name（例如 OpenTerminal），通过 WB_ControlsHints.AddAction 读取。Row Name 是查找 ID，不翻译；表内 Name 字段才是显示用 FText，连同 PC / Gamepad 图片交给 ActionText 控件。不要把翻译写回 ActionName，也不要把按键图片内文字当成正文翻译入口。
 
 描述文本继续用 WBP_HintLayer.HintDescriptions 的稳定 ID → FText；HintNewMail=true 时显示 NewMailHintText，覆盖 HintDescription。现有项目的手工多语言安全字段白名单尚未包含 S_KeyHints.Name；若采用项目的 Origin / 多语言编辑入口，应单独接入这个显示 FText，保持表的 Row Name、图片、尺寸等逻辑字段不变。FText 字段本身也可使用 Unreal 常规本地化流程。
+
+### 翻译状态与编辑快捷操作（2026-11-14）
+
+- 各字段折叠标题显示 en-US / zh-Hans 状态；语言行绿色箭头表示已有对应当前 Origin 的独立译文，粉色表示未保存或待复核，灰色表示跟随 Origin。这表示保存/复核状态，不自动判断翻译质量，也不代表资源已重新编译。
+- Narrative 图节点显示主台词及 AlternativeLines 的有效译文数 / 目标语言字段总数；部分完成或待复核为粉色，全部完成为绿色，未开始为灰色。Hint、说话人名称仍在各自字段查看状态，不计入节点台词数量。
+- 本地化 Origin 和译文框支持鼠标双击全选；标准 Ctrl+A 仍可使用。范围仅为项目本地化控件，不改变整个 Unreal 编辑器的双击行为。
+- 翻译折叠区新增“同步未翻译字段跟随 Origin”复选框，默认开启；也可在 Project Settings → Game → Manual Localization → Authoring 设置。已有独立译文始终保留，Origin 改动后需复核。
+- 关闭同步时，已打开翻译编辑区保留未翻译字段修改前的原文并标为待复核。该选项控制这里的编辑流程，不是自动翻译服务；从外部脚本或其他未打开此编辑区的入口改原文不承诺冻结字段。已有未保存草稿时保留草稿并阻止覆盖，需重新加载或处理后再保存。
+- 保存译文后仍需“保存并应用译文”编译游戏资源。语言预览期间 Origin 可直接编辑，始终读写真实原文。
+
+本次验证：UE 5.3 Development Editor 编译通过；本地化自动化 8 项中 7 项通过（包括 DialogueInline、SubtitleInline、AssetDisplayInline、结构保护和文本身份）。QuestInline 的 State/Branch 编辑区发现断言仍失败，独立复跑相同，未据此宣称全部回归通过。新增鼠标双击及节点标识尚未完成真实编辑器视觉/鼠标验收。
+2026-11-14 map follow-up: Designer transient preview instances no longer overwrite persisted catalog source paths. Regathered saved MapWBP assets and compiled resources; existing South Tunnel zh-Hans and Commerce description en-US translations were retained. Saved/reviewed indicator is not proof that locres was compiled or the active editor reloaded it. Missing/stale translations still fall back to Origin by design. Restart/reload localization preview after external resource compilation.
+Confirmed runtime regression and fix: culture resources previously omitted missing/review-stale translations, allowing a previously loaded translation to survive when switching cultures in game localization preview. Compile now writes explicit current-Origin fallback entries for every approved text in every target culture. This prevents previous-language carryover but intentionally does not hide missing translations. Recompiled all resources after fix.
+Additional confirmed timing issue: UE5.3 EnableGameLocalizationPreview schedules asynchronous resource loading. SetLanguage previously broadcast immediately; it now waits for localization tasks before setting CurrentLanguage and notifying UI. The immediate-read test alone did not prove permanent language retention; async completion must be accounted for when interpreting it.
+2026-11-15: Localization text input/nomad-tab cleanup now checks Slate initialization during module shutdown, fixing the reported CurrentApplication.IsValid assertion after editor UI teardown. English-only dialogue paging and optional [page] markers: see Docs/DialoguePagination.zh-CN.md.
+2026-11-15 L2_Bar_NPC follow-up: verified compiled en-US resources and generated/runtime templates resolve NPC_15/16/17/123 correctly. Reproduced that FTextLocalizationManager::RefreshResources resets the PIE game-preview text to native Origin although the language subsystem still reports en-US. Compile now waits for general refresh and reapplies the active GameInstance language (or configured editor preview when no game is active). SetLanguage also reloads when reselecting the current language, without rewriting unchanged user settings. Diagnostic -run=VTGLocalization -InspectDialogue=/Game/Narrative/Dialogues/Levels/L2BarNStreetOutside/L2_Bar_NPC compares source/key/display before preview, after preview, after generic refresh and direct resource application; does not save the dialogue.
+2026-11-15 actual PIE root cause (supersedes earlier completeness claim): In real L2Bar PIE, DialogueNode_NPC_16 was rekeyed from source 9D164ECA4F7A856D749353BB0AA3848A into map-owned key 204F865D4ACD7F43FAE512B66234B8D0 / namespace 2518BE36435B628F69255E67E6ACC81A. The Transient-package template test did not reproduce editor stable-key reauthoring. UDialogue::DuplicateAndInitializeFromDialogue now restores source FText identities for Line, AlternativeLines and player OptionText/HintText on playback copies. No authored asset/translation keys are changed. Real PIE rerun BarLocalizationActualFixed.log shows NPC_16 in English before start and NPC_123 switching Chinese/English mid-dialogue with original keys preserved. Diagnostic script Scripts/BarLocalizationLive.py and explicit VTG.BarLocalizationProbe are opt-in only; the forced start can bypass normal UI staging, so this test establishes runtime text resolution rather than a complete visual conversation acceptance. Regression Vertigo.Localization.PlaybackMapIdentity uses a non-transient PIE map outer.
+
+## BP_AI_Base 敌人显示名（2026-11-19）
+
+BP_AI_Base 声明的 Enemy Display Name（EnemyDisplayName，FText）已接入同一套 Origin 和折叠多语言编辑器。父类以及所有继承该字段的敌人蓝图 Class Defaults、关卡实例均可使用；例如 BP_Enm_BarFighter。只加入显示名字段，敌人标识及 AI 参数不加入翻译白名单。
+
+未保存独立译文时使用默认颜色；部分完成/待复核为粉色，所有目标语言已保存且对应当前原文时为绿色。输入译文后保存并应用。运行中的血条 EnemyName 继续使用带本地化身份的 FText，随语言资源更新。原始名称不自动改写，也不自动生成译文。

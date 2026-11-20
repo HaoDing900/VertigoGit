@@ -26,6 +26,9 @@ public:
 	 */
 	void UpdateEventsFontForZoom(float ZoomAmount);
 
+	/** Keep the default node body current when only Hint Text (or preview language) changes. */
+	void RefreshNodeBodyText();
+
 	UFUNCTION(BlueprintImplementableEvent, Category = "Dialogue Node")
 	void OnNodeInitialized(class UDialogueNode* InNode, class UDialogue* InDialogue);
 
@@ -72,6 +75,7 @@ protected:
 
 	//Last zoom alpha applied by UpdateEventsFontForZoom, so we only touch the text blocks when it changes
 	float LastAppliedEventsAlpha = -1.f;
+	TOptional<FString> LastRenderedNodeBody;
 
 public:
 

@@ -307,6 +307,10 @@ public:
 	//node to preview the hint - runtime should use GetHintText() instead.
 	FORCEINLINE const FText& GetRawHintText() const { return HintText; }
 
+	//The raw Option Text typed on this option, before any wildcard resolution. Editor tooling reads this to
+	//see what the player will actually be shown - runtime should use GetOptionText() instead.
+	FORCEINLINE const FText& GetRawOptionText() const { return OptionText; }
+
 protected:
 
 	/**The shortened text to display for dialogue option when it shows up in the list of available responses. If left empty narrative will just use the main text. */

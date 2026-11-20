@@ -1,4 +1,7 @@
 #include "VTGManualLocalization.h"
+#include "VTGDialogueLocalizationDetails.h"
+#include "SVTGLocalizationTextBox.h"
+#include "Widgets/Text/SMultiLineEditableText.h"
 #include "VTGSubtitleLocalizationDetails.h"
 #include "UI/VTGSubtitleTrack.h"
 #include "UI/VTGSubtitleSubsystem.h"
@@ -108,6 +111,57 @@ bool FVTGSubtitleInlineLocalizationTest::RunTest(const FString&)
     Native.AddEntry(FTextKey(Namespace),FTextKey(TEXT("Speaker")),TEXT("Origin Speaker"),TEXT("Origin Speaker"),0);
     FTextLocalizationManager::Get().UpdateFromLocalizationResource(Native);
     TestEqual(TEXT("Already displayed subtitle returns to Origin"),SubtitleText->GetText().ToString(),Source);
+    return true;
+}
+#endif
+
+#if WITH_DEV_AUTOMATION_TESTS
+IMPLEMENT_SIMPLE_AUTOMATION_TEST(FVTGOriginPreviewEditingTest,"Vertigo.Localization.OriginPreviewEditing",EAutomationTestFlags::EditorContext|EAutomationTestFlags::EngineFilter)
+bool FVTGOriginPreviewEditingTest::RunTest(const FString&)
+{
+    auto& Manager=FTextLocalizationManager::Get();
+    const bool WasPreview=Manager.IsGameLocalizationPreviewEnabled();
+    const FString PreviousLanguage=Manager.GetConfiguredGameLocalizationPreviewLanguage();
+    VTGManualLocalization::SetTestStorageDirectory(FPaths::ProjectSavedDir()/TEXT("Automation/OriginPreviewEditing")/FGuid::NewGuid().ToString());
+    ON_SCOPE_EXIT {
+        VTGManualLocalization::SetTestStorageDirectory(FString());
+        if(WasPreview)Manager.EnableGameLocalizationPreview(PreviousLanguage);else Manager.DisableGameLocalizationPreview();
+        Manager.WaitForAsyncTasks();Manager.RefreshResources();Manager.WaitForAsyncTasks();
+    };
+    auto* Section=NewObject<UMovieSceneVTGSubtitleSection>();
+    const FString NS=TEXT("VTG.OriginPreview.")+FGuid::NewGuid().ToString();
+    const FString Source=TEXT("Original subtitle"),Translated=TEXT("Translated subtitle"),Revised=TEXT("Revised source");
+    Section->Text=FText::ChangeKey(NS,TEXT("Subtitle"),FText::FromString(Source));
+    auto& Module=FModuleManager::LoadModuleChecked<FPropertyEditorModule>(TEXT("PropertyEditor"));
+    auto View=Module.CreateSingleProperty(Section,TEXT("Text"),FSinglePropertyParams());
+    if(!TestTrue(TEXT("Subtitle handle"),View.IsValid()))return false;
+    auto Property=View->GetPropertyHandle();FString Error;
+    TestTrue(TEXT("Save original translation"),VTGManualLocalization::SaveDialogueDraft(Property,TEXT("en-US"),Source,Translated,Error));
+    Manager.EnableGameLocalizationPreview(TEXT("en-US"));Manager.WaitForAsyncTasks();
+    TestTrue(TEXT("Test runs with localization lock active"),Manager.IsLocalizationLocked());
+    FTextLocalizationResource Resource;Resource.AddEntry(FTextKey(NS),FTextKey(TEXT("Subtitle")),Source,Translated,0);
+    Manager.UpdateFromLocalizationResource(Resource);
+    TestEqual(TEXT("Runtime display uses translation"),Section->Text.ToString(),Translated);
+    auto Row=VTGDialogueLocalizationDetails::MakeTextRow(Property);
+    TSharedPtr<SVTGLocalizationTextBox> OriginBox;
+    TSharedPtr<SMultiLineEditableText> OriginInput;
+    TFunction<void(TSharedRef<SWidget>)> FindOrigin=[&](TSharedRef<SWidget> W){
+        if(!OriginBox && W->GetType()==TEXT("SVTGLocalizationTextBox"))OriginBox=StaticCastSharedRef<SVTGLocalizationTextBox>(W);
+        if(OriginBox && !OriginInput && W->GetType()==TEXT("SMultiLineEditableText"))OriginInput=StaticCastSharedRef<SMultiLineEditableText>(W);
+        auto* Children=W->GetChildren();for(int32 I=0;I<Children->Num() && !OriginInput;++I)FindOrigin(Children->GetChildAt(I));
+    };
+    FindOrigin(Row);
+    if(!TestTrue(TEXT("Origin editor exists during language preview"),OriginBox && OriginInput))return false;
+    TestFalse(TEXT("Origin stays editable during language preview"),OriginInput->IsTextReadOnly());
+    TestEqual(TEXT("Origin editor shows source, not displayed translation"),OriginBox->GetText().ToString(),Source);
+    const auto Key=FTextInspector::GetKey(Section->Text);
+    TestTrue(TEXT("Source can be committed while preview is active"),Property->SetValue(FText::ChangeKey(NS,Key.GetValue(),FText::FromString(Revised)))==FPropertyAccess::Success);
+    TestEqual(TEXT("Source changed"),*FTextInspector::GetSourceString(Section->Text),Revised);
+    TestTrue(TEXT("Localization key retained"),FTextInspector::GetKey(Section->Text)==Key);
+    FString Origin,Draft;
+    TestTrue(TEXT("Saved translation retained"),VTGManualLocalization::GetDialogueDraft(Property,TEXT("en-US"),Origin,Draft,Error));
+    TestEqual(TEXT("Saved translation text retained"),Draft,Translated);
+    TestTrue(TEXT("Saved translation needs review after source edit"),Error.Contains(TEXT("待复核")));
     return true;
 }
 #endif

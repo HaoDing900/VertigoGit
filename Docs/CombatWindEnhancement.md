@@ -2,7 +2,7 @@
 
 ## 已调整
 
-- `NS_fist_Wind`：粒子颜色 Alpha 从 0.03–0.13 提高为 **0.18–0.45**，颜色亮度提高约 15%，更快显现并延长中段可见时间，仍在寿命末段淡出。玩家拳风缩放从 1 改为 **1.25**。
+- `NS_fist_Wind`：粒子颜色 Alpha 从 0.03–0.13 提高为 **0.24–0.58**（2026-11-14 从 0.18–0.45 再小幅提高），颜色亮度提高约 15%，更快显现并延长中段可见时间，仍在寿命末段淡出。玩家拳风缩放从 1 改为 **1.25**。此次只调整拳风 Alpha，保留原有颜色、大小、密度、寿命和曲线。
 - 新增独立 `NS_hammer_Wind`，Alpha 为 **0.22–0.50**，锤头风效世界缩放 **1.4**。原始环境风 `NS_Wind_Flows_02_Fast` 和共用材质保持原样。
 - 两种战斗风仍使用单个本地空间发射器、原有 30 生成倍率、6 个 Burst、0.10–0.18 秒寿命和零预热。增强可见度不靠提高粒子生成密度。
 
@@ -39,6 +39,10 @@ Editor Development 编译通过，玩家蓝图编译为 0 错误、0 警告。�
 
 未完成游戏内观感或 GPU 耗时验收；运行检查使用 NullRHI。模型挂点通过原始顶点位置核对。
 
+仅更新拳风透明度：`-run=VTGFistWind -FistOpacity`，重新加载验证加 `-VerifyOnly`，修改前资产备份在 `Scripts/CombatWindEnhancement/BackupOpacity`。
+
 更新命令：`-run=VTGFistWind -WindEnhance`；重新加载验证加 `-VerifyOnly`，运行检查用 `-WindEnhanceTest`，原拳风及回血回归用 `-Verify`。旧的全量 `-Apply` 会重设基础参数，运行后需重新应用增强配置。
 
 备份与日志：`Scripts/CombatWindEnhancement`。
+
+2026-11-14 Trail follow-up: Sa now uses NS_Sa_FistTrail, duplicated from NS_Wind_Flows_Trails_02_Fast. Local Movement carrier particles feed world-space Wind_Trails ribbons. Carrier lifetime .18–.24 s, ribbon lifetime .18 s, spawn 24/s, no autonomous velocity/noise, narrow 5 cm hand spread, ribbon width multiplier .018 (source multiplies by 100), cyan alpha .65. Event delay is zero and probability 1. Fists emit around Notify_Damage only (80 ms lead/tail). Hammer keeps its prior system. Apply/verify: -run=VTGFistWind -FistTrail [-VerifyOnly]. Historical -WindEnhance restores old fist settings; do not use it to tune the new trail. Compile and asset reload passed; rendered motion appearance has not yet been accepted in gameplay.

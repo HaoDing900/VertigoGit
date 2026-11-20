@@ -1,5 +1,6 @@
 #include "VTGDialogueLocalizationDetails.h"
 #include "VTGManualLocalization.h"
+#include "SVTGLocalizationTextBox.h"
 #include "NarrativeDialogueDetailsExtension.h"
 #include "DialogueSM.h"
 #include "Dialogue.h"
@@ -12,7 +13,6 @@
 #include "Widgets/Text/STextBlock.h"
 #include "Widgets/Input/SMultiLineEditableTextBox.h"
 #include "Widgets/Layout/SBox.h"
-#include "Internationalization/TextLocalizationManager.h"
 #include "IPropertyTypeCustomization.h"
 #include "IDetailChildrenBuilder.h"
 #include "PropertyEditorModule.h"
@@ -94,13 +94,9 @@ TSharedRef<SWidget> MakeTextRow(TSharedPtr<IPropertyHandle> Property)
     }
     return SNew(SVerticalBox)
             +SVerticalBox::Slot().AutoHeight().Padding(0,4)[SNew(STextBlock).Text(FText::FromString(TEXT("Origin — ")+Label))]
-            +SVerticalBox::Slot().AutoHeight()[SNew(SBox).Visibility_Lambda([](){return FTextLocalizationManager::Get().IsLocalizationLocked()?EVisibility::Collapsed:EVisibility::Visible;})[Property->CreatePropertyValueWidget()]]
-            +SVerticalBox::Slot().AutoHeight()[SNew(SMultiLineEditableTextBox).IsReadOnly(true)
-                .Visibility_Lambda([](){return FTextLocalizationManager::Get().IsLocalizationLocked()?EVisibility::Visible:EVisibility::Collapsed;})
-                .Text_Lambda([Property](){FText Value;if(Property->GetValue(Value)!=FPropertyAccess::Success)return FText::GetEmpty();const auto* Source=FTextInspector::GetSourceString(Value);return FText::AsCultureInvariant(Source?*Source:Value.ToString());})]
-            +SVerticalBox::Slot().AutoHeight()[SNew(STextBlock).ColorAndOpacity(FLinearColor(1,.65f,.2f)).AutoWrapText(true)
-                .Visibility_Lambda([](){return FTextLocalizationManager::Get().IsLocalizationLocked()?EVisibility::Visible:EVisibility::Collapsed;})
-                .Text(FText::FromString(TEXT("Origin 当前只读；语言预览期间请回到 origin 后编辑原文。译文仍可编辑。")))]
+            +SVerticalBox::Slot().AutoHeight()[SNew(SBox)[SNew(SVTGLocalizationTextBox)
+.Text_Lambda([Property](){FText V;Property->GetValue(V);const auto* Source=FTextInspector::GetSourceString(V);return FText::AsCultureInvariant(Source?*Source:V.ToString());})
+.OnTextCommitted_Lambda([Property](const FText& Value,ETextCommit::Type){FText Old;if(Property->GetValue(Old)!=FPropertyAccess::Success)return;const auto* Source=FTextInspector::GetSourceString(Old);if(Source && *Source==Value.ToString())return;const auto NS=FTextInspector::GetNamespace(Old),Key=FTextInspector::GetKey(Old);Property->SetValue(NS.IsSet() && Key.IsSet()?FText::ChangeKey(NS.GetValue(),Key.GetValue(),FText::FromString(Value.ToString())):FText::FromString(Value.ToString()));})]]
             +SVerticalBox::Slot().AutoHeight().Padding(0,4)[VTGManualLocalization::MakeInlineTranslations(Property)];
 }
 bool IsSafeText(TSharedPtr<IPropertyHandle> Property)

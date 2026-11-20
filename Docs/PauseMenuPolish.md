@@ -1,5 +1,7 @@
 # Pause Menu 与 Sequence 入口调整（2026-11-04）
 
+2026-11-19 补充：新增 Sequence 资产级入口设置，动态创建的播放器也读取该默认值；实例可以开启、关闭或跟随资产。当前操作见 [Mail 与过场入口说明](MailSequencePolish.md)。下方 2026-11-04 记录中的默认关闭，是未配置资产默认值时的行为。
+
 ## Sequence
 
 - “进入时结束 Narrative 对话”默认关闭。既有未设置实例和新增实例都不自动退出对话。
@@ -20,3 +22,13 @@
 资产工具：`-run=VTGMailSequencePolish -PauseMenu`；加 `-Verify` 仅回读验证。`-Preview=绝对路径.png -AllowCommandletRendering` 渲染实际 UMG。预览使用人工色块背景检查叠层，不是完整游戏 PIE 截图。
 
 构建、资产编译与重新加载检查通过；完整游戏暂停／继续流程未在 PIE 中运行。
+
+## 暂停菜单语言按钮（2026-11-14）
+
+WBP_PauseMenu 继承 UVTGPauseMenu。打开时在 B_Continue 与 B_Exit 之间生成 B_Language，复制 Continue 的按钮样式、字体、颜色和文字内边距，以及 Exit 的列表间距；上下导航连接三个按钮。按钮显示当前语言，点击在 en-US / zh-Hans 之间切换，复用 VTGLocalizationSubsystem 与主菜单共享持久化设置，并监听语言变化立即刷新。无需 world tick，保持现有蓝图暂停/继续/退出事件。
+
+按钮是运行时生成，Designer 中不显示。重新打开不会重复添加，退出控件时解绑。Origin 调试语言首次点击进入简体中文，之后仅两种正式语言切换。未翻译正文继续使用原有 Origin 回退规则。
+
+维护：-run=VTGMailSequencePolish -PauseMenu -LanguageButton；-Verify -LanguageTest 重新加载并测试真实控件切换。资产备份 Saved/QA/PauseLanguage。
+2026-11-14: Editor-only PreBeginPIE temporarily remaps an unmodified Escape StopPlaySession binding to Shift+Escape. EndPIE/module shutdown restores the prior chords; custom modified shortcuts are retained. Resolves editor Stop competing with gameplay Escape; game-window focus and UI input modes still determine whether the pause action itself receives input. Full PIE input acceptance remains to be checked.
+2026-11-14: WITH_EDITOR pause language cycle is Origin → zh-Hans → en-US → Origin. Non-editor builds retain the Chinese/English cycle and reject Origin through the shared language whitelist.

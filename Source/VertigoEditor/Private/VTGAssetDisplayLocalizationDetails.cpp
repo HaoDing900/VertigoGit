@@ -24,6 +24,7 @@ bool IsDisplayField(const FProperty* Field)
     if(Path==TEXT("/Game/Inventory/InventoryXBased/UMG/TabSwitcher/WB_TabButton.WB_TabButton_C"))return Name==TEXT("Text");
     if(Path==TEXT("/InventorySystemX/InventorySystemX/Components/AC_ActorInteractionComponent.AC_ActorInteractionComponent_C"))return Name==TEXT("Interaction Text");
     if(Path==TEXT("/Game/Narrative/Mail/S_MailRow.S_MailRow"))return Name.ToString().StartsWith(TEXT("SenderDisplayName_"));
+    if(Path==TEXT("/Game/AI/AIBehaviorSystem/Blueprint/AI/BP_AI_Base.BP_AI_Base_C"))return Name==TEXT("EnemyDisplayName");
     if(Owner==FVTGHintDisplayText::StaticStruct())return Name==TEXT("Text");
     return Owner==UVTGHintLayer::StaticClass() && Name==TEXT("NewMailHintText");
 }

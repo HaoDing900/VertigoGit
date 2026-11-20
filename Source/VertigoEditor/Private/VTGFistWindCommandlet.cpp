@@ -137,6 +137,55 @@ extern bool VTGVerifyEnhancedWind();
 UVTGFistWindCommandlet::UVTGFistWindCommandlet(){IsEditor=true;IsClient=false;IsServer=false;LogToConsole=true;}
 int32 UVTGFistWindCommandlet::Main(const FString& Params)
 {
+    if(FParse::Param(*Params,TEXT("FistTrail")))
+    {
+        const bool Verify=FParse::Param(*Params,TEXT("VerifyOnly"));
+        const TCHAR* Path=TEXT("/Game/VFX/Wind_VFX/VFX/Particles/NS_Sa_FistTrail");
+        auto* S=LoadObject<UNiagaraSystem>(nullptr,Path,nullptr,LOAD_NoWarn|LOAD_Quiet);
+        if(!Verify)
+        {
+            if(!S)S=CastChecked<UNiagaraSystem>(FModuleManager::LoadModuleChecked<FAssetToolsModule>(TEXT("AssetTools")).Get().DuplicateAsset(TEXT("NS_Sa_FistTrail"),TEXT("/Game/VFX/Wind_VFX/VFX/Particles"),LoadObject<UNiagaraSystem>(nullptr,TEXT("/Game/VFX/Wind_VFX/VFX/Particles/NS_Wind_Flows_Trails_02_Fast"))));
+            auto& P=S->GetExposedParameters();
+            auto Float=[&](const TCHAR* N,float V){FNiagaraVariable Var(FNiagaraTypeDefinition::GetFloatDef(),N);check(P.IndexOf(Var)!=INDEX_NONE);P.SetParameterValue<float>(V,Var);};
+            auto Vector=[&](const TCHAR* N,FVector3f V){FNiagaraVariable Var(FNiagaraTypeDefinition::GetVec3Def(),N);check(P.IndexOf(Var)!=INDEX_NONE);P.SetParameterValue<FVector3f>(V,Var);};
+            Float(TEXT("User.0_Trail Width"),.018f);
+            P.SetParameterValue<FLinearColor>(FLinearColor(.55f,.85f,1.f,.65f),FNiagaraVariable(FNiagaraTypeDefinition::GetColorDef(),TEXT("User.0_Trail Color")));
+            Float(TEXT("User.1_Movement Lifetime Min"),.18f);Float(TEXT("User.1_Movement Lifetime Max"),.24f);
+            Float(TEXT("User.1_Movement Spawn Rate"),24.f);
+            Float(TEXT("User.1_Movement Velocity Mult"),0.f);Float(TEXT("User.1_Movement Noise Strength"),0.f);
+            Vector(TEXT("User.1_Movement Box Location Offset"),FVector3f::ZeroVector);
+            Vector(TEXT("User.1_Movement Box Location Size"),FVector3f(0,5,5));
+            S->SetWarmupTime(0.f);S->bFixedBounds=true;S->SetFixedBounds(FBox(FVector(-250),FVector(250)));
+            for(auto& H:S->GetEmitterHandles())if(auto* E=H.GetEmitterData())
+            {
+                // Local carrier particles follow the knuckles; their location events
+                // feed world-space ribbons, retaining the actual hand trajectory.
+                E->bLocalSpace=H.GetName()==TEXT("Movement");
+                TArray<UNiagaraScript*> Scripts;E->GetScripts(Scripts,false); for(auto* Script:Scripts)if(Script){TArray<FNiagaraVariable> Vars;auto& Rapid=Script->RapidIterationParameters;Rapid.GetParameters(Vars);for(auto V:Vars)if(V.GetType()==FNiagaraTypeDefinition::GetFloatDef()){const FString N=V.GetName().ToString();if(N.Contains(TEXT("InitializeRibbon.Lifetime")))Rapid.SetParameterValue<float>(.18f,V);if(N.Contains(TEXT("GenerateLocationEvent.Delay Before Sending Events")))Rapid.SetParameterValue<float>(0.f,V);if(N.Contains(TEXT("GenerateLocationEvent.Event Probability")))Rapid.SetParameterValue<float>(1.f,V);}}
+            }
+            S->RequestCompile(false);S->WaitForCompilationComplete();FistWindEditor::Save(S);
+        }
+        check(S);
+        auto* BP=LoadObject<UBlueprint>(nullptr,TEXT("/Game/ThirdPerson/Blueprints/BP_Player_Sa"));check(BP);
+        UVTGFistWindComponent* C=nullptr;for(auto* N:BP->SimpleConstructionScript->GetAllNodes())if(N->GetVariableName()==TEXT("FistWindAndRecovery"))C=Cast<UVTGFistWindComponent>(N->ComponentTemplate);
+        check(C);
+        if(!Verify){WindEnhancement::Backup(BP);C->WindSystem=S;C->WindScale=1.f;FBlueprintEditorUtils::MarkBlueprintAsModified(BP);FCompilerResultsLog Log;FKismetEditorUtilities::CompileBlueprint(BP,EBlueprintCompileOptions::SkipSave,&Log);check(!Log.NumErrors);FistWindEditor::Save(BP);}
+        check(C->WindSystem==S);check(S->GetEmitterHandles().Num()==2);
+        UE_LOG(LogTemp,Display,TEXT("FIST_TRAIL_PASS verify=%d"),Verify);return 0;
+    }
+    if(FParse::Param(*Params,TEXT("TrailInspect")))
+    {
+        for(const TCHAR* Path:{TEXT("/Game/VFX/Wind_VFX/VFX/Particles/NS_Wind_Flows_Trails_01"),TEXT("/Game/VFX/Wind_VFX/VFX/Particles/NS_Wind_Flows_Trails_02_Fast")})
+        {
+            auto* S=LoadObject<UNiagaraSystem>(nullptr,Path);check(S);
+            UE_LOG(LogTemp,Display,TEXT("TRAIL_SYSTEM %s"),Path);
+            TArray<FNiagaraVariable> Vars;auto& P=S->GetExposedParameters();P.GetParameters(Vars);
+            for(auto V:Vars){FString Value; if(V.GetType()==FNiagaraTypeDefinition::GetFloatDef())Value=FString::SanitizeFloat(P.GetParameterValue<float>(V));if(V.GetType()==FNiagaraTypeDefinition::GetVec3Def())Value=FVector(P.GetParameterValue<FVector3f>(V)).ToString();UE_LOG(LogTemp,Display,TEXT("TRAIL_PARAM %s %s %s"),*V.GetName().ToString(),*V.GetType().GetName(),*Value);}
+            for(auto& H:S->GetEmitterHandles())if(auto* E=H.GetEmitterData()){UE_LOG(LogTemp,Display,TEXT("TRAIL_EMITTER %s local=%d"),*H.GetName().ToString(),E->bLocalSpace);for(auto* R:E->GetRenderers())UE_LOG(LogTemp,Display,TEXT("TRAIL_RENDERER %s"),*R->GetClass()->GetName());}
+        }
+        return 0;
+    }
+    if(FParse::Param(*Params,TEXT("FistOpacity"))){WindEnhancement::FistOpacity(FParse::Param(*Params,TEXT("VerifyOnly")));return 0;}
     if(FParse::Param(*Params,TEXT("WindEnhanceInspect"))){WindEnhancement::Inspect();return 0;}
     if(FParse::Param(*Params,TEXT("WindEnhance"))){WindEnhancement::Apply(FParse::Param(*Params,TEXT("VerifyOnly")));return 0;}
     if(FParse::Param(*Params,TEXT("WindEnhanceTest")))return VTGVerifyEnhancedWind()?0:1;

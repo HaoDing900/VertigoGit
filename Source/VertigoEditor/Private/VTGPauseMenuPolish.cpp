@@ -1,4 +1,17 @@
-#include "WidgetBlueprint.h"
+﻿#include "WidgetBlueprint.h"
+#include "UI/VTGPauseMenu.h"
+#include "UI/VTGLocalizationSubsystem.h"
+#include "VTGManualLocalization.h"
+#include "DialogueBlueprintGeneratedClass.h"
+#include "Dialogue.h"
+#include "DialogueSM.h"
+#include "UObject/UObjectHash.h"
+#include "Internationalization/TextLocalizationManager.h"
+#include "Engine/GameInstance.h"
+#include "Engine/LocalPlayer.h"
+#include "Engine/World.h"
+#include "GameFramework/PlayerController.h"
+#include "Misc/ConfigCacheIni.h"
 #include "Blueprint/WidgetTree.h"
 #include "Components/BackgroundBlur.h"
 #include "Components/Button.h"
@@ -38,6 +51,69 @@ int32 VTGPolishPauseMenu(const FString& Params)
  const auto MainHash=FMD5Hash::HashFile(*MainFile);
  auto* Main=LoadObject<UWidgetBlueprint>(nullptr,TEXT("/Game/ThirdPerson/Blueprints/UI/MainMenu/WBP_MainMenu"));
  auto* BP=LoadObject<UWidgetBlueprint>(nullptr,TEXT("/Game/ThirdPerson/Blueprints/UI/WBP_PauseMenu"));check(Main && BP && BP->WidgetTree);
+ if(FParse::Param(*Params,TEXT("LanguageButton")))
+ {
+  if(!Verify)
+  {
+   check(BP->ParentClass==UUserWidget::StaticClass() || BP->ParentClass==UVTGPauseMenu::StaticClass());
+   const FString Backup=FPaths::ProjectSavedDir()/TEXT("QA/PauseLanguage/WBP_PauseMenu.uasset");IFileManager::Get().MakeDirectory(*FPaths::GetPath(Backup),true);if(!IFileManager::Get().FileExists(*Backup))check(IFileManager::Get().Copy(*Backup,*PauseFile,false)==COPY_OK);
+   BP->ParentClass=UVTGPauseMenu::StaticClass();FBlueprintEditorUtils::MarkBlueprintAsStructurallyModified(BP);FCompilerResultsLog Log;FKismetEditorUtilities::CompileBlueprint(BP,EBlueprintCompileOptions::SkipSave,&Log);check(!Log.NumErrors);
+   FSavePackageArgs Args;Args.TopLevelFlags=RF_Public|RF_Standalone;check(UPackage::SavePackage(BP->GetOutermost(),BP,*PauseFile,Args));
+  }
+  check(BP->GeneratedClass->IsChildOf(UVTGPauseMenu::StaticClass()));
+  if(FParse::Param(*Params,TEXT("LanguageTest")))
+  {
+   FEditorScriptExecutionGuard Guard;
+   if(!FSlateApplication::IsInitialized())FSlateApplication::InitializeAsStandaloneApplication(FModuleManager::LoadModuleChecked<ISlateRHIRendererModule>(TEXT("SlateRHIRenderer")).CreateSlateRHIRenderer());
+   FString SavedLanguage;const bool HadLanguage=GConfig->GetString(TEXT("Vertigo.Localization"),TEXT("TextLanguage"),SavedLanguage,GGameUserSettingsIni);
+   auto Init=UWorld::InitializationValues().AllowAudioPlayback(false).CreatePhysicsScene(false).CreateNavigation(false).CreateAISystem(false);
+   auto* W=UWorld::CreateWorld(EWorldType::Game,false,TEXT("PauseLanguageTest"),nullptr,true,ERHIFeatureLevel::Num,&Init);
+   auto* GI=NewObject<UGameInstance>(GEngine);GI->InitializeStandalone();auto* Dummy=GI->GetWorld();GI->GetWorldContext()->SetCurrentWorld(W);W->SetGameInstance(GI);Dummy->DestroyWorld(false);
+   auto* PC=W->SpawnActor<APlayerController>();auto* Local=NewObject<ULocalPlayer>(GEngine);GI->AddLocalPlayer(Local,FPlatformUserId::CreateFromInternalId(0));PC->SetPlayer(Local);
+   auto* Widget=CreateWidget<UUserWidget>(PC,BP->GeneratedClass.Get());check(Widget);auto Slate=Widget->TakeWidget();
+   auto* Button=CastChecked<UButton>(Widget->GetWidgetFromName(TEXT("B_Language")));auto* Label=CastChecked<UTextBlock>(Button->GetContent());auto* Ref=CastChecked<UButton>(Widget->GetWidgetFromName(TEXT("B_Continue")));auto* List=CastChecked<UVerticalBox>(Widget->GetWidgetFromName(TEXT("VerticalBox_137")));
+   check(List->GetChildIndex(Button)==List->GetChildIndex(Ref)+1);
+   check(Button->GetStyle().Normal.GetResourceObject()==Ref->GetStyle().Normal.GetResourceObject());check(Label->GetFont()==CastChecked<UTextBlock>(Ref->GetContent())->GetFont());
+   auto* Languages=GI->GetSubsystem<UVTGLocalizationSubsystem>();check(Languages && Languages->SetLanguage(TEXT("origin")));
+   // No world tick is advanced during language switching.
+   Button->OnClicked.Broadcast();check(Languages->GetLanguage()==TEXT("zh-Hans") && Label->GetText().ToString()==TEXT("语言：简体中文"));
+      Button->OnClicked.Broadcast();check(Languages->GetLanguage()==TEXT("en-US") && Label->GetText().ToString()==TEXT("Language: English"));
+#if WITH_EDITOR
+   Button->OnClicked.Broadcast();check(Languages->GetLanguage()==TEXT("origin") && Label->GetText().ToString()==TEXT("Language: Origin (Dev)"));
+   Button->OnClicked.Broadcast();check(Languages->GetLanguage()==TEXT("zh-Hans"));
+#endif
+   auto* MapBP=LoadObject<UWidgetBlueprint>(nullptr,TEXT("/Game/Inventory/InventoryXBased/UMG/TabSwitcher/InTabWidget/MapWBP/WBP_Map_1"));check(MapBP);
+   auto* Map=CreateWidget<UUserWidget>(PC,MapBP->GeneratedClass.Get());check(Map);Map->TakeWidget();
+   auto Read=[&](const TCHAR* Node,const TCHAR* Field){FText Value;auto* O=Map->GetWidgetFromName(Node);check(O);Value=FindFProperty<FTextProperty>(O->GetClass(),Field)->GetPropertyValue_InContainer(O);return Value;};
+   const FText South=Read(TEXT("WBP_MapNode_3"),TEXT("LocationDisplayName"));
+   const FText Description=Read(TEXT("WBP_MapNode_2"),TEXT("LocationDescription"));
+   for(int32 Cycle=0;Cycle<3;++Cycle)
+   {
+    check(Languages->SetLanguage(TEXT("zh-Hans")));check(South.ToString()==TEXT("南部隧道"));
+    check(Languages->SetLanguage(TEXT("en-US")));check(South.ToString()==TEXT("South Tunnel"));check(Description.ToString().StartsWith(TEXT("The Sump Stream")));
+    check(Languages->SetLanguage(TEXT("origin")));check(Description.ToString().StartsWith(TEXT("下游区主要")));
+   }
+   UE_LOG(LogTemp,Display,TEXT("MAP_LOCALIZATION_SWITCH_PASS: actual saved South name and Commerce description zh/en/origin repeated three times"));
+   check(Languages->SetLanguage(TEXT("en-US")));
+   auto* BarClass=LoadObject<UDialogueBlueprintGeneratedClass>(nullptr,TEXT("/Game/Narrative/Dialogues/Levels/L2BarNStreetOutside/L2_Bar_NPC.L2_Bar_NPC_C"));check(BarClass);
+   auto* Bar=NewObject<UDialogue>(GI,BarClass);BarClass->InitializeDialogue(Bar);
+   TArray<UObject*> BarObjects;GetObjectsWithOuter(Bar,BarObjects,true);UDialogueNode* CheckNode=nullptr;
+   for(auto* O:BarObjects)if(O->GetFName()==TEXT("DialogueNode_NPC_16"))CheckNode=Cast<UDialogueNode>(O);check(CheckNode);
+   const FText BarText=CheckNode->Line.Text;const FString English=BarText.ToString();check(English!=*FTextInspector::GetSourceString(BarText));
+   auto& Manager=FTextLocalizationManager::Get();Manager.RefreshResources();Manager.WaitForAsyncTasks();
+   check(Languages->SetLanguage(TEXT("en-US")));check(BarText.ToString()==English);
+   FString CompileError;checkf(VTGManualLocalization::Compile(CompileError),TEXT("%s"),*CompileError);
+   check(Languages->GetLanguage()==TEXT("en-US") && BarText.ToString()==English);
+   UE_LOG(LogTemp,Display,TEXT("BAR_DIALOGUE_LOCALIZATION_COMPILE_PASS: real NPC_16 runtime text remains English after reselect and live Compile"));
+   check(Languages->SetLanguage(TEXT("zh-Hans")) && Label->GetText().ToString()==TEXT("语言：简体中文"));
+   Widget->ReleaseSlateResources(true);
+   GI->RemoveLocalPlayer(Local);GI->Shutdown();W->DestroyWorld(false);GEngine->DestroyWorldContext(W);
+   if(HadLanguage)GConfig->SetString(TEXT("Vertigo.Localization"),TEXT("TextLanguage"),*SavedLanguage,GGameUserSettingsIni);else GConfig->RemoveKey(TEXT("Vertigo.Localization"),TEXT("TextLanguage"),GGameUserSettingsIni);GConfig->Flush(false,GGameUserSettingsIni);
+   UE_LOG(LogTemp,Display,TEXT("PAUSE_LANGUAGE_RUNTIME_PASS: actual widget button, matching style/font, order, en/zh clicks and external refresh without world ticks; user language restored"));
+  }
+  UE_LOG(LogTemp,Display,TEXT("PAUSE_LANGUAGE_ASSET_PASS verify=%d"),Verify);
+  if(!Params.Contains(TEXT("Preview=")))return 0;
+ }
  auto* Ref=CastChecked<UButton>(Main->WidgetTree->FindWidget(TEXT("Button")));
  auto* RefLabel=CastChecked<UTextBlock>(Ref->GetContent());
  auto* RefSlot=CastChecked<UButtonSlot>(RefLabel->Slot);

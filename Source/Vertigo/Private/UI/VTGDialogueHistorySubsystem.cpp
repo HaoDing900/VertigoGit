@@ -142,7 +142,7 @@ FText PlainText(const FText &Text)
         Previous = Matcher.GetMatchEnding();
     }
     Out += Source.Mid(Previous);
-    return FText::FromString(Out);
+    return FText::FromString(Out.Replace(TEXT("[page]"),TEXT("")));
 }
 } // namespace VTGDialogueLog
 
@@ -160,6 +160,7 @@ void UVTGDialogueHistorySubsystem::Initialize(FSubsystemCollectionBase &Collecti
 
 void UVTGDialogueHistorySubsystem::Deinitialize()
 {
+    SideTextFit.Restore();
     SetSkipHeld(false);
     HideHistory();
     OnNarrativeLinePresented().Remove(LineHandle);
@@ -439,6 +440,7 @@ void UVTGDialogueHistorySubsystem::TickControls()
 {
     GetGameInstance()->GetSubsystem<UVTGSequenceSkipSubsystem>()->TickInput(CanHandleInput());
     UpdatePromptLayout();
+    UpdatePagination();
     BindSkipButton();
     if (bSkipHeld && !CanHandleInput()) SetSkipHeld(false);
     TickSkip(FPlatformTime::Seconds());

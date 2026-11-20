@@ -24,6 +24,7 @@ public:
 
 	//~ Begin SGraphNode Interface
 	virtual void CreatePinWidgets() override;
+	virtual void Tick(const FGeometry& Geometry, double Time, float Delta) override;
 	virtual void UpdateGraphNode() override;
 	virtual TSharedPtr<SToolTip> GetComplexTooltip() override;
 	virtual void AddPin(const TSharedRef<SGraphPin>& PinToAdd) override;
@@ -31,6 +32,9 @@ public:
 
 protected:
 
+	EVisibility GetConnectedEventVis() const;
+	TSharedPtr<SWidget> LocalizationBadgeWidget;
+	float LastAppliedBadgeScale = 0.f;
 	FText GetNodeText() const;
 	FText GetEventsText() const;
 	FText GetNodeTitleText() const;

@@ -2,7 +2,7 @@
 #include "Styling/CoreStyle.h"
 UMovieSceneVTGSubtitleTrack::UMovieSceneVTGSubtitleTrack(const FObjectInitializer& ObjectInitializer):Super(ObjectInitializer)
 {
-    SubtitleFont=FCoreStyle::GetDefaultFontStyle(TEXT("Regular"),30);
+    SubtitleFont=FCoreStyle::GetDefaultFontStyle(TEXT("Regular"),28);
     SpeakerFont=FCoreStyle::GetDefaultFontStyle(TEXT("Regular"),22);
 }
 UMovieSceneSection* UMovieSceneVTGSubtitleTrack::CreateNewSection()
