@@ -259,6 +259,14 @@ public:
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Configuration")
 	bool bFreeMovement;
 
+	/**
+	 * VTG: record EVERY node played in this dialogue, NPC lines included, not just the player options.
+	 * Off by default - the saved task list is per-save-file and NPC lines are the bulk of it. Tick this
+	 * only on a dialogue you need to condition on an NPC line of (Cond_PlayedNode against an NPC node).
+	 */
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Configuration")
+	bool bRecordEveryNodePlayed = false;
+
 	//If false, default UI will disallow closing of the dialogue with ESC, and you'll need to wait for it to end 
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Configuration")
 	bool bCanBeExited;

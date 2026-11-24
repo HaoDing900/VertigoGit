@@ -1,7 +1,9 @@
 #include "VTGLevelManagerBase.h"
 #include "VTGGameInstanceBase.h"
 #include "Save/VTGSaveCoordinator.h"
+#include "Save/VTGSaveStatics.h"
 #include "Engine/World.h"
+#include "TimerManager.h"
 #include "UObject/UnrealType.h"
 #include "Blueprint/UserWidget.h"
 #include "Kismet/GameplayStatics.h"
@@ -12,7 +14,6 @@
 #include "Combat/VTGCombatPresentation.h"
 #include "VTGMailReadingComponent.h"
 #include "NarrativeComponent.h"
-#include "TimerManager.h"
 
 bool AVTGLevelManagerBase::DeferEncounterUntilDialogueEnds(UNarrativeComponent* Narrative,FName ResumeEvent)
 {
@@ -113,16 +114,39 @@ FName AVTGLevelManagerBase::GetResumeCheckpoint() const
 void AVTGLevelManagerBase::BeginPlay()
 {
  // Restore before Blueprint ReceiveBeginPlay and OnStageBegin can start narrative.
+ bool bRestoreInFlight = false;
  if (UGameInstance* GI = GetGameInstance())
   if (auto* Save = GI->GetSubsystem<UVTGSaveCoordinator>())
   {
    Save->RestoreLevelManager(this);
-   if (bEncounterResumePending) Save->OnSlotLoaded.AddUniqueDynamic(this, &AVTGLevelManagerBase::HandleEncounterSlotLoaded);
+   bRestoreInFlight = Save->HasPendingWorldRestore();
+   // The hard initiate waits for the same broadcast the encounter resume does, so setup always lands
+   // before the resume rebuilds the scene on top of it.
+   if (bRestoreInFlight || bEncounterResumePending)
+    Save->OnSlotLoaded.AddUniqueDynamic(this, &AVTGLevelManagerBase::HandleEncounterSlotLoaded);
   }
+ // Armed on every path: a normal arrival fires from here next tick, and a restore that ends without
+ // ever broadcasting still gets its setup instead of silently losing it.
+ GetWorldTimerManager().SetTimerForNextTick(this, &AVTGLevelManagerBase::PollLevelReadyAfterRestore);
+ // One line that separates the three ways level setup can fail to happen: the stage being empty, the
+ // stage event being skipped, and the hard initiate never being named. Filter the log on "VTG LEVEL".
+ UE_LOG(LogTemp, Display, TEXT("VTG LEVEL %s BeginPlay: activeStage=%s subStage=%s restoreInFlight=%d encounterResume=%d (OnStageBegin %s) hardInitiateEvent=%s"),
+  *GetName(), *GetActiveStage().ToString(), SubStage.IsNone() ? TEXT("(none)") : *SubStage.ToString(),
+  bRestoreInFlight, bEncounterResumePending,
+  bEncounterResumePending ? TEXT("SKIPPED") : TEXT("runs"),
+  HardInitiateEvent.IsNone() ? TEXT("(none set)") : *HardInitiateEvent.ToString());
  Super::BeginPlay();
 
 	//Hand the resolved stage to the Blueprint child so it can run its Chain-A / Chain-B logic.
- if (!bEncounterResumePending) OnStageBegin(GetActiveStage());
+ if (!bEncounterResumePending)
+ {
+  const FName Stage = GetActiveStage();
+  OnStageBegin(Stage);
+  // Entering a new stage is the story beat we autosave on. The coordinator decides whether this one
+  // counts (same stage again, a load still in flight, no pawn yet) and defers the write a tick.
+  if (UGameInstance* GI = GetGameInstance())
+   if (auto* Save = GI->GetSubsystem<UVTGSaveCoordinator>()) Save->StoryAutoSave(GetWorld(), Stage);
+ }
 }
 
 void AVTGLevelManagerBase::EndPlay(const EEndPlayReason::Type Reason)
@@ -169,7 +193,52 @@ bool AVTGLevelManagerBase::SaveEncounterCheckpoint(FName CheckpointId, FName Res
 
 void AVTGLevelManagerBase::HandleEncounterSlotLoaded(int32 Slot)
 {
+ // Setup first: the resume event rebuilds the encounter on top of the level, not instead of it.
+ FireLevelReady(/*bFromLoad=*/true);
  ResumeSavedEncounter();
+}
+
+void AVTGLevelManagerBase::PollLevelReadyAfterRestore()
+{
+ if (bLevelReadyFired) return;
+ auto* GI = GetGameInstance();
+ auto* Save = GI ? GI->GetSubsystem<UVTGSaveCoordinator>() : nullptr;
+ // Still loading: PendingLoad is only cleared after OnSlotLoaded, so the delegate normally wins.
+ if (Save && Save->HasPendingWorldRestore())
+ {
+  GetWorldTimerManager().SetTimerForNextTick(this, &AVTGLevelManagerBase::PollLevelReadyAfterRestore);
+  return;
+ }
+ FireLevelReady(/*bFromLoad=*/bProgressRestored);
+}
+
+void AVTGLevelManagerBase::FireLevelReady(bool bFromLoad)
+{
+ if (bLevelReadyFired) return;
+ bLevelReadyFired = true;
+ // Readable from the event itself, so one-time beats can branch without the caller passing a pin.
+ bEnteredFromLoad = bFromLoad;
+ const bool bRan = RunHardInitiate();
+ UE_LOG(LogTemp, Display, TEXT("VTG LEVEL %s hard initiate: event=%s fromLoad=%d activeStage=%s subStage=%s -> %s"),
+  *GetName(), HardInitiateEvent.IsNone() ? TEXT("(none set)") : *HardInitiateEvent.ToString(), bFromLoad,
+  *GetActiveStage().ToString(), SubStage.IsNone() ? TEXT("(none)") : *SubStage.ToString(),
+  bRan ? TEXT("called") : TEXT("NOT CALLED"));
+}
+
+bool AVTGLevelManagerBase::RunHardInitiate()
+{
+ if (HardInitiateEvent.IsNone()) return false;
+ UFunction* Event = FindFunction(HardInitiateEvent);
+ if (!Event || Event->NumParms != 0)
+ {
+  // Named but unreachable is the silent failure this whole mechanism exists to avoid: a renamed or
+  // mistyped event would simply never set the level up, exactly like the bug it replaces.
+  UE_LOG(LogTemp, Error, TEXT("%s: hard initiate event \"%s\" must exist on this Blueprint and take no parameters - the level will not be set up"),
+   *GetName(), *HardInitiateEvent.ToString());
+  return false;
+ }
+ ProcessEvent(Event, nullptr);
+ return true;
 }
 
 void AVTGLevelManagerBase::ResumeSavedEncounter()
@@ -208,21 +277,8 @@ void AVTGLevelManagerBase::ResumeSavedEncounter()
 
 namespace
 {
- bool IsProgressValue(const FProperty* P)
- {
-  if (P->IsA<FBoolProperty>() || P->IsA<FNumericProperty>() || P->IsA<FEnumProperty>()
-   || P->IsA<FNameProperty>() || P->IsA<FStrProperty>() || P->IsA<FTextProperty>()) return true;
-  if (auto* A = CastField<FArrayProperty>(P)) return IsProgressValue(A->Inner);
-  if (auto* S = CastField<FSetProperty>(P)) return IsProgressValue(S->ElementProp);
-  if (auto* M = CastField<FMapProperty>(P)) return IsProgressValue(M->KeyProp) && IsProgressValue(M->ValueProp);
-  if (auto* S = CastField<FStructProperty>(P))
-  {
-   for (TFieldIterator<FProperty> It(S->Struct); It; ++It) if (!IsProgressValue(*It)) return false;
-   // Native opaque structs can contain runtime pointers not exposed to reflection.
-   return S->Struct->PropertyLink != nullptr;
-  }
-  return false;
- }
+ // Shared with the GameInstance snapshot so the two definitions cannot drift apart.
+ bool IsProgressValue(const FProperty* P) { return UVTGSaveStatics::IsValueProperty(P); }
  bool IsProgressProperty(const FProperty* P)
  {
   if (P->HasAnyPropertyFlags(CPF_Transient | CPF_DuplicateTransient)) return false;
@@ -232,6 +288,43 @@ namespace
   if (Owner->GetName() == TEXT("BPLM_C") && P->GetFName() != TEXT("GeneralLevelPhase") && !P->HasAnyPropertyFlags(CPF_SaveGame)) return false;
   return IsProgressValue(P);
  }
+}
+
+bool AVTGLevelManagerBase::StoryCheckpoint(FName InSubStage)
+{
+ if (InSubStage.IsNone())
+ {
+  // Not an assert: a Blueprint pin left empty is a mistake worth seeing, not worth crashing over.
+  UE_LOG(LogTemp, Warning, TEXT("VTG LEVEL %s story checkpoint called with no name - nothing recorded and nothing saved. The name is both the sub-stage the hard initiate rebuilds from and the autosave's beat, so it cannot be empty."), *GetName());
+  return false;
+ }
+ SubStage = InSubStage;
+ UGameInstance* GI = GetGameInstance();
+ UVTGSaveCoordinator* Save = GI ? GI->GetSubsystem<UVTGSaveCoordinator>() : nullptr;
+ // The sub-stage IS the beat. Keying the autosave on the map plus this name means two checkpoints in
+ // one map are always two different beats, and re-reaching the same one does not write again.
+ const bool bScheduled = Save && Save->StoryAutoSave(GetWorld(), InSubStage);
+ UE_LOG(LogTemp, Display, TEXT("VTG LEVEL %s story checkpoint: subStage=%s stage=%s -> %s"),
+  *GetName(), *InSubStage.ToString(), *GetActiveStage().ToString(),
+  bScheduled ? TEXT("autosave scheduled") : TEXT("sub-stage recorded, no autosave (see the coordinator's own log line for why)"));
+ return bScheduled;
+}
+
+void AVTGLevelManagerBase::SetManualSaveBlocked(bool bBlocked)
+{
+ if (bManualSaveBlocked == bBlocked) return;
+ bManualSaveBlocked = bBlocked;
+ // Logged on every change: "the save button is greyed out and nobody knows why" is the failure this
+ // feature invites, and one grep for "VTG LEVEL" has to be enough to answer it.
+ UE_LOG(LogTemp, Display, TEXT("VTG LEVEL %s manual saving %s (subStage=%s). The combat checkpoint is unaffected either way."),
+  *GetName(), bBlocked ? TEXT("BLOCKED") : TEXT("allowed again"),
+  SubStage.IsNone() ? TEXT("(none)") : *SubStage.ToString());
+}
+
+void AVTGLevelManagerBase::ClearSubStage()
+{
+ UE_LOG(LogTemp, Display, TEXT("VTG LEVEL %s sub-stage cleared (was %s)"), *GetName(), *SubStage.ToString());
+ SubStage = NAME_None;
 }
 
 bool AVTGLevelManagerBase::EnterSavedStoryEvent(FName EventId)
@@ -247,6 +340,7 @@ void AVTGLevelManagerBase::CaptureLevelProgress(FVTGLevelProgressRecord& Record)
  Record.StartedEvents = StartedStoryEvents;
  Record.EncounterResumeEvent = EncounterResumeEvent;
  Record.EncounterCheckpointId = EncounterCheckpointId;
+ Record.SubStage = SubStage;
  Record.Values.Reset();
  Record.Types.Reset();
  for (TFieldIterator<FProperty> It(GetClass()); It; ++It)
@@ -262,7 +356,19 @@ void AVTGLevelManagerBase::CaptureLevelProgress(FVTGLevelProgressRecord& Record)
 
 void AVTGLevelManagerBase::RestoreLevelProgress(const FVTGLevelProgressRecord& Record)
 {
- if (Record.ClassPath != GetClass()->GetPathName()) return;
+ if (!Record.ClassPath.IsEmpty() && Record.ClassPath != GetClass()->GetPathName())
+ {
+  // The exact path used to be required, so moving or renaming a BPLM asset - or reparenting it - threw
+  // away every existing save's progress for it without a word. A save written by an ancestor class is
+  // still readable, because the variables it recorded all exist on this one. Anything else is a real
+  // mismatch and is dropped, but loudly.
+  const UClass* Saved = FindObject<UClass>(nullptr, *Record.ClassPath);
+  if (!Saved || !GetClass()->IsChildOf(Saved))
+  {
+   UE_LOG(LogTemp, Warning, TEXT("%s: the save holds progress written by %s, which is neither this class nor an ancestor of it - that progress is being dropped"), *GetName(), *Record.ClassPath);
+   return;
+  }
+ }
  for (const auto& Pair : Record.Values)
  {
   FProperty* P = FindFProperty<FProperty>(GetClass(), Pair.Key);
@@ -275,6 +381,9 @@ void AVTGLevelManagerBase::RestoreLevelProgress(const FVTGLevelProgressRecord& R
  RestoredStoryEvents = Record.StartedEvents;
  EncounterResumeEvent = Record.EncounterResumeEvent;
  EncounterCheckpointId = Record.EncounterCheckpointId;
+ // Restored here, at the top of BeginPlay, which puts it in place well before the hard initiate reads
+ // it. A save written before sub-stages existed simply has None, which is the stage's normal setup.
+ SubStage = Record.SubStage;
  UFunction* Resume = FindFunction(EncounterResumeEvent);
  bEncounterResumePending = Resume && Resume->NumParms == 0;
 }

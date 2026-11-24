@@ -52,9 +52,11 @@ int32 VTGRenderCombatHUD(const FString &Output)
     if (GShaderCompilingManager)
         GShaderCompilingManager->FinishAllCompilation();
     auto* HP=CastChecked<UProgressBar>(Bar->WidgetTree->FindWidget(TEXT("HealthBar")));
-    auto* M=Cast<UMaterial>(HP->GetWidgetStyle().FillImage.GetResourceObject());
-    UE_LOG(LogTemp,Display,TEXT("UI DEBUG percent=%f tint=%s material=%s opacityExpr=%s emissiveExpr=%s hasUObject=%d"),HP->GetPercent(),*HP->GetFillColorAndOpacity().ToString(),*GetNameSafe(M),M?*GetNameSafe(M->GetEditorOnlyData()->Opacity.Expression):TEXT("none"),M?*GetNameSafe(M->GetEditorOnlyData()->EmissiveColor.Expression):TEXT("none"),HP->GetWidgetStyle().FillImage.HasUObject());
-    if(M){auto* MR=M->GetMaterialResource(ERHIFeatureLevel::SM6);UE_LOG(LogTemp,Display,TEXT("UI DEBUG material resource=%p shadermap=%p"),MR,MR?MR->GetGameThreadShaderMap():nullptr);if(MR)for(const auto& E:MR->GetCompileErrors())UE_LOG(LogTemp,Error,TEXT("UI shader: %s"),*E);}
+    // The fill may be a Material Instance, so report the instance and inspect its base material.
+    auto* MI=Cast<UMaterialInterface>(HP->GetWidgetStyle().FillImage.GetResourceObject());
+    auto* M=MI?MI->GetMaterial():nullptr;
+    UE_LOG(LogTemp,Display,TEXT("UI DEBUG percent=%f tint=%s fill=%s material=%s opacityExpr=%s emissiveExpr=%s hasUObject=%d"),HP->GetPercent(),*HP->GetFillColorAndOpacity().ToString(),*GetNameSafe(MI),*GetNameSafe(M),M?*GetNameSafe(M->GetEditorOnlyData()->Opacity.Expression):TEXT("none"),M?*GetNameSafe(M->GetEditorOnlyData()->EmissiveColor.Expression):TEXT("none"),HP->GetWidgetStyle().FillImage.HasUObject());
+    if(MI){auto* MR=MI->GetMaterialResource(ERHIFeatureLevel::SM6);UE_LOG(LogTemp,Display,TEXT("UI DEBUG material resource=%p shadermap=%p"),MR,MR?MR->GetGameThreadShaderMap():nullptr);if(MR)for(const auto& E:MR->GetCompileErrors())UE_LOG(LogTemp,Error,TEXT("UI shader: %s"),*E);}
     if(FParse::Param(FCommandLine::Get(),TEXT("Plain"))){auto Style=HP->GetWidgetStyle();Style.FillImage=*FCoreStyle::Get().GetBrush("WhiteBrush");HP->SetWidgetStyle(Style);HP->SetFillColorAndOpacity(FLinearColor(.5,.02,.03));}
     // Slate UI materials require scene texture uniform buffers, even for a widget-only preview.
     auto Init=UWorld::InitializationValues().AllowAudioPlayback(false).RequiresHitProxies(false).CreatePhysicsScene(false).CreateNavigation(false).CreateAISystem(false).SetTransactional(false);

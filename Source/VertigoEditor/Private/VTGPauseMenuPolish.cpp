@@ -1,5 +1,6 @@
-﻿#include "WidgetBlueprint.h"
+#include "WidgetBlueprint.h"
 #include "UI/VTGPauseMenu.h"
+#include "UI/VTGLanguageSettingsPage.h"
 #include "UI/VTGLocalizationSubsystem.h"
 #include "VTGManualLocalization.h"
 #include "DialogueBlueprintGeneratedClass.h"
@@ -76,11 +77,15 @@ int32 VTGPolishPauseMenu(const FString& Params)
    check(Button->GetStyle().Normal.GetResourceObject()==Ref->GetStyle().Normal.GetResourceObject());check(Label->GetFont()==CastChecked<UTextBlock>(Ref->GetContent())->GetFont());
    auto* Languages=GI->GetSubsystem<UVTGLocalizationSubsystem>();check(Languages && Languages->SetLanguage(TEXT("origin")));
    // No world tick is advanced during language switching.
-   Button->OnClicked.Broadcast();check(Languages->GetLanguage()==TEXT("zh-Hans") && Label->GetText().ToString()==TEXT("语言：简体中文"));
-      Button->OnClicked.Broadcast();check(Languages->GetLanguage()==TEXT("en-US") && Label->GetText().ToString()==TEXT("Language: English"));
+   Button->OnClicked.Broadcast();check(Languages->GetLanguage()==TEXT("origin") && Label->GetText().ToString()==TEXT("Language"));
+   UVTGLanguageSettingsPage* Page=nullptr;
+   Widget->WidgetTree->ForEachWidget([&](UWidget* Child){if(auto* P=Cast<UVTGLanguageSettingsPage>(Child))Page=P;});check(Page);
+   auto* Selection=CastChecked<UVTGLanguageComboBox>(Page->GetWidgetFromName(TEXT("LanguageSelection")));
+   Selection->SetSelectedOption(TEXT("简体中文"));check(Languages->GetLanguage()==TEXT("zh-Hans"));
+   Selection->SetSelectedOption(TEXT("English"));check(Languages->GetLanguage()==TEXT("en-US"));
 #if WITH_EDITOR
-   Button->OnClicked.Broadcast();check(Languages->GetLanguage()==TEXT("origin") && Label->GetText().ToString()==TEXT("Language: Origin (Dev)"));
-   Button->OnClicked.Broadcast();check(Languages->GetLanguage()==TEXT("zh-Hans"));
+   Selection->SetSelectedOption(TEXT("Origin (Dev)"));check(Languages->GetLanguage()==TEXT("origin"));
+   Selection->SetSelectedOption(TEXT("简体中文"));check(Languages->GetLanguage()==TEXT("zh-Hans"));
 #endif
    auto* MapBP=LoadObject<UWidgetBlueprint>(nullptr,TEXT("/Game/Inventory/InventoryXBased/UMG/TabSwitcher/InTabWidget/MapWBP/WBP_Map_1"));check(MapBP);
    auto* Map=CreateWidget<UUserWidget>(PC,MapBP->GeneratedClass.Get());check(Map);Map->TakeWidget();
@@ -105,7 +110,7 @@ int32 VTGPolishPauseMenu(const FString& Params)
    FString CompileError;checkf(VTGManualLocalization::Compile(CompileError),TEXT("%s"),*CompileError);
    check(Languages->GetLanguage()==TEXT("en-US") && BarText.ToString()==English);
    UE_LOG(LogTemp,Display,TEXT("BAR_DIALOGUE_LOCALIZATION_COMPILE_PASS: real NPC_16 runtime text remains English after reselect and live Compile"));
-   check(Languages->SetLanguage(TEXT("zh-Hans")) && Label->GetText().ToString()==TEXT("语言：简体中文"));
+   check(Languages->SetLanguage(TEXT("zh-Hans")) && Label->GetText().ToString()==TEXT("Language"));
    Widget->ReleaseSlateResources(true);
    GI->RemoveLocalPlayer(Local);GI->Shutdown();W->DestroyWorld(false);GEngine->DestroyWorldContext(W);
    if(HadLanguage)GConfig->SetString(TEXT("Vertigo.Localization"),TEXT("TextLanguage"),*SavedLanguage,GGameUserSettingsIni);else GConfig->RemoveKey(TEXT("Vertigo.Localization"),TEXT("TextLanguage"),GGameUserSettingsIni);GConfig->Flush(false,GGameUserSettingsIni);

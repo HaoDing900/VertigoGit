@@ -276,7 +276,10 @@ int32 UVTGCombatPolishCommandlet::Main(const FString &Params)
     auto *Bar = Load<UWidgetBlueprint>(TEXT("/Game/Widget/BossHealthBar/WBP_BossHealthBar"));
     auto *HP = CastChecked<UProgressBar>(Bar->WidgetTree->FindWidget(TEXT("HealthBar")));
     FProgressBarStyle Style = HP->GetWidgetStyle();
-    Style.FillImage.SetResourceObject(Caustics());
+    // Prefer the tunable instance built by VTGBossHealthLiquid when it exists, so a re-run of this
+    // older polish pass does not drop the bar back onto the raw material.
+    auto *Fill = LoadObject<UMaterialInterface>(nullptr, TEXT("/Game/Widget/BossHealthBar/MI_BossHealth_Caustics"));
+    Style.FillImage.SetResourceObject(Fill ? Fill : Caustics());
     Style.FillImage.DrawAs = ESlateBrushDrawType::Image;
     Style.FillImage.TintColor = FSlateColor(FLinearColor::White);
     HP->SetWidgetStyle(Style);

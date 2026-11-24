@@ -21,6 +21,6 @@ public class VertigoEditor : ModuleRules
         PrivateDependencyModuleNames.Add("NarrativeDialogueEditor");
         PrivateDependencyModuleNames.Add("NarrativeQuestEditor");
         PrivateDependencyModuleNames.Add("ApplicationCore");
-		PrivateDependencyModuleNames.AddRange(new string[] { "CommonUI", "CommonInput", "GameplayTags", "NarrativeCommonUI", "InputCore", "Slate", "SlateCore", "UnrealEd", "PropertyEditor", "Vertigo", "Narrative", "ImageCore", "BlueprintGraph", "KismetCompiler", "EnhancedInput", "UMG", "UMGEditor", "MovieScene", "LevelSequence", "MovieSceneTracks", "Niagara", "AssetTools", "AssetRegistry", "AIModule", "RenderCore", "SlateRHIRenderer", "AnimGraph", "AnimGraphRuntime" });
+		PrivateDependencyModuleNames.AddRange(new string[] { "CommonUI", "CommonInput", "GameplayTags", "NarrativeCommonUI", "InputCore", "Slate", "SlateCore", "UnrealEd", "EditorSubsystem", "PropertyEditor", "Vertigo", "Narrative", "ImageCore", "BlueprintGraph", "KismetCompiler", "EnhancedInput", "UMG", "UMGEditor", "MovieScene", "LevelSequence", "MovieSceneTracks", "Niagara", "AssetTools", "AssetRegistry", "AIModule", "RenderCore", "SlateRHIRenderer", "AnimGraph", "AnimGraphRuntime" });
 	}
 }

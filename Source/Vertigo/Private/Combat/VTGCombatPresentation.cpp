@@ -125,10 +125,35 @@ void UVTGAttackEffectNotify::Notify(USkeletalMeshComponent *Mesh, UAnimSequenceB
                         VisualScale*=FMath::Max(0.01f,float(Radius->GetFloatingPointPropertyValue(Radius->ContainerPtrToValuePtr<void>(Ability)))/EffectReferenceRadius);
     if(bPersistentSmokeDamage)
     {AVTGSmokeHazard::Spawn(Mesh->GetOwner(),CurrentAbility,this,Selected,CurrentAbility?CurrentAbility->GetActorLocation():Mesh->GetOwner()->GetActorLocation(),VisualScale);return;}
-    VTGPresentation::Burst(Mesh, Selected,
-                           SocketName.IsNone() ? Mesh->GetOwner()->GetActorLocation()
-                                               : Mesh->GetSocketLocation(SocketName),
-                           Mesh->GetOwner()->GetActorRotation(), ActiveSeconds, EffectPlayRate, VisualScale);
+    const FVector Origin =
+        SocketName.IsNone() ? Mesh->GetOwner()->GetActorLocation() : Mesh->GetSocketLocation(SocketName);
+    FRotator Facing = Mesh->GetOwner()->GetActorRotation();
+    if (bOrientToTarget)
+        if (APawn *Player = UGameplayStatics::GetPlayerPawn(Mesh, 0); Player && Player != Mesh->GetOwner())
+            if (const FVector ToTarget = Player->GetActorLocation() - Origin; !ToTarget.IsNearlyZero())
+                Facing = ToTarget.Rotation();
+    VTGPresentation::Burst(Mesh, Selected, Origin, Facing, ActiveSeconds, EffectPlayRate, VisualScale);
+}
+void UVTGDodgeInvincibleNotify::NotifyBegin(USkeletalMeshComponent *Mesh, UAnimSequenceBase *Animation,
+                                           float TotalDuration, const FAnimNotifyEventReference &Ref)
+{
+    Super::NotifyBegin(Mesh, Animation, TotalDuration, Ref);
+    if (Mesh && Mesh->GetOwner())
+        if (auto *Presentation = Mesh->GetOwner()->FindComponentByClass<UVTGPlayerPresentationComponent>())
+            Presentation->bDodgeInvincible = true;
+}
+void UVTGDodgeInvincibleNotify::NotifyEnd(USkeletalMeshComponent *Mesh, UAnimSequenceBase *Animation,
+                                          const FAnimNotifyEventReference &Ref)
+{
+    Super::NotifyEnd(Mesh, Animation, Ref);
+    // An interrupted montage still reports its notify states ending, so the flag cannot be left stuck on.
+    if (Mesh && Mesh->GetOwner())
+        if (auto *Presentation = Mesh->GetOwner()->FindComponentByClass<UVTGPlayerPresentationComponent>())
+            Presentation->bDodgeInvincible = false;
+}
+FString UVTGDodgeInvincibleNotify::GetNotifyName_Implementation() const
+{
+    return TEXT("Dodge I-Frames");
 }
 float UVTGPlayerHearts::GetHeartFill(int32 Index) const
 {

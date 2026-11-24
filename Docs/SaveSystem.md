@@ -2,6 +2,18 @@
 
 Everything routes through one C++ subsystem: **VTGSave Coordinator**.
 
+> **This file is the Blueprint node reference** — which node, which pins, which graph. It is NOT the
+> maintenance guide, and `SaveSystemMaintenance.zh-CN.md` is not a translation of it.
+>
+> - **Wiring a graph?** You are in the right place.
+> - **Building levels, adding actors, changing a BPLM, wondering what will break a save, or looking
+>   for the editor autosave switch?** → [存档系统 · 维护文档](SaveSystemMaintenance.zh-CN.md)
+> - **Why any of it is built this way?** → [FreeSaveSystemReview.zh-CN.md](FreeSaveSystemReview.zh-CN.md)
+>
+> Sections below dated before 2026-11-20 predate free-roam saving, the per-map progress container,
+> the GameInstance snapshot and universal destruction tracking. The lines that those changes made
+> wrong have been corrected in place; anything else here still describes current behaviour.
+
 Chinese usage and maintenance guide for combat checkpoints: [战斗临时存档：使用与维护](CombatCheckpointGuide.zh-CN.md).
 
 ---
@@ -182,14 +194,22 @@ needs to write its own file next to the slot.
 
 ## 7. Timing & gotchas (the rules that bite)
 
-- **Restored BEFORE map opens** (readable in BeginPlay): the **Stage**, and **Persistent Int/Name** flags.
+- **Restored BEFORE map opens** (readable in BeginPlay): the **Stage**, the **Persistent Int/Name**
+  flags, the **GameInstance's own Blueprint variables** (`Leashed?` and the rest), and the per-map
+  progress container.
+- **Restored IN EACH BPLM's BeginPlay**, before Blueprint ReceiveBeginPlay and OnStageBegin: that
+  level manager's own progress snapshot.
 - **Restored ONE TICK AFTER map loads:** Player Progress Component, **VTG Saveable** actor vars,
-  Narrative quests, ISX inventory. Do not read these in BeginPlay.
+  destroyed-actor removal, Narrative quests, ISX inventory. Do not read these in BeginPlay.
 - **Stage vs flag:** Stage = "where in the level / what spawns & self-destroys."
   Persistent flag = "sub-progress within a stage." Use a flag for skip-the-intro.
 - **One slot = several files** (`VTG_Slot_N`, `VTG_Manifest_N`, `VTG_Narrative_N`) written
   together. Remove with **Delete Slot**, never by hand.
-- **Auto Save = slot 0.** Keep manual saves on slot 1+.
+- **Reserved slots: 0 (combat checkpoint) and 10–11 (story autosave, rotating).** Manual saves are
+  **1–9 only** — `IsManualSlot` is the one place that answers this, so ask it rather than hardcoding.
+- **Destruction is NOT opt-in.** Any map-placed actor the game destroys is remembered as destroyed,
+  whether or not it implements VTG Saveable; a dead combat actor counts as destroyed too. Only an
+  actor's *own saved state* needs the interface.
 
 ## Terminal SAVE / LOAD
 
@@ -231,7 +251,11 @@ The 3D terminal prop visibility must not control the 2D terminal page: inventory
 New saves capture level-manager Blueprint value progress (bool, number, enum, name, string, text,
 value-only structs and arrays/sets/maps of those types),
 plus the common BPLM GeneralLevelPhase. Runtime references and common camera/input/sequence locks
-are deliberately rebuilt, not deserialized. Actor identity and class must match in the saved map.
+are deliberately rebuilt, not deserialized. Actor identity must match in the saved map — set
+`LevelManagerSaveId` so it survives the actor being deleted and replaced. The class no longer has to
+match exactly: a snapshot written by an **ancestor** class still loads (so moving, renaming or
+reparenting the BPLM asset is safe), and a genuine mismatch is dropped with a Warning rather than
+silently.
 The coordinator restores progress before world BeginPlay; the native manager also restores before
 Blueprint ReceiveBeginPlay/OnStageBegin for actors initialized later. Restoration is idempotent.
 

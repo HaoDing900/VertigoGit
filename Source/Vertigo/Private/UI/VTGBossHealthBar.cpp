@@ -4,6 +4,7 @@
 #include "Components/TextBlock.h"
 #include "Materials/MaterialInstanceDynamic.h"
 #include "Rendering/DrawElements.h"
+#include "Engine/World.h"
 
 void UVTGBossHealthBar::SetCausticOverlay(UMaterialInterface* Material,float Opacity)
 {
@@ -84,6 +85,15 @@ void UVTGBossHealthBar::SetShown(bool bShow)
 void UVTGBossHealthBar::NativeTick(const FGeometry& MyGeometry, float InDeltaTime)
 {
 	Super::NativeTick(MyGeometry, InDeltaTime);
+
+	// The pause menu is its own viewport widget, so whichever ZOrder either of them lands on, the bar
+	// must not sit on top of it. Slate keeps ticking while the game is paused, so the bar stands down
+	// by itself rather than depending on the menu to find it. Resuming fades it back in as usual.
+	if (const UWorld* World = GetWorld(); World && World->IsPaused())
+	{
+		SetRenderOpacity(0.f);
+		return;
+	}
 
 	const float TargetOpacity = bShown ? 1.f : 0.f;
 	SetRenderOpacity(FMath::FInterpConstantTo(GetRenderOpacity(), TargetOpacity, InDeltaTime, 1.f / FMath::Max(FadeTime, KINDA_SMALL_NUMBER)));

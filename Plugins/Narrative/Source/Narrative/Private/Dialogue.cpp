@@ -1464,7 +1464,12 @@ void UDialogue::FinishNPCDialogue()
 
 		if (OwningComp)
 		{
-			if (OwningComp->HasAuthority())
+			// VTG: NPC lines are no longer recorded by default. Every Cond_PlayedNode in the project
+			// (28 of them across 5 dialogues) points at a player option node - "which reply did I
+			// pick" is the question the game asks - while NPC lines outnumber options several times
+			// over and were the bulk of what the task list carried into every save file. Tick
+			// bRecordEveryNodePlayed on a dialogue if you need to condition on one of its NPC lines.
+			if (OwningComp->HasAuthority() && bRecordEveryNodePlayed)
 			{
 				OwningComp->CompleteNarrativeDataTask(NAME_PlayDialogueNodeTask, NPCNode->GetID().ToString());
 			}

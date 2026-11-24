@@ -1,5 +1,6 @@
 #include "Audio/VTGEnemyAudioComponent.h"
 
+#include "Audio/VTGCombatMusic.h"
 #include "Components/AudioComponent.h"
 #include "GameFramework/Actor.h"
 #include "Kismet/GameplayStatics.h"
@@ -14,6 +15,25 @@ UVTGEnemyAudioComponent::UVTGEnemyAudioComponent()
 void UVTGEnemyAudioComponent::BeginPlay()
 {
 	Super::BeginPlay();
+
+	// A track id pulls the source and the volume from the shared table, so this enemy's music is
+	// edited in the same place as every other fight's. An explicit CombatMusic asset stays as-is.
+	if (!CombatMusic && !MusicTrackId.IsNone())
+	{
+		FVTGCombatMusicRow Row;
+		if (UVTGCombatMusicSubsystem::FindRow(this, MusicTrackId, Row))
+		{
+			CombatMusic = Row.Music.LoadSynchronous();
+			MusicVolume = Row.Volume;
+			MusicFadeInTime = Row.FadeIn;
+			MusicFadeOutTime = Row.FadeOut;
+		}
+		if (!CombatMusic)
+		{
+			UE_LOG(LogTemp, Warning, TEXT("[VTGEnemyAudio] %s: combat music track \"%s\" did not resolve - no fight music."),
+				*GetNameSafe(GetOwner()), *MusicTrackId.ToString());
+		}
+	}
 
 	InCombatProp = Source.Find(GetOwner(), HealthProperty, MaxHealthProperty)
 		? FindFProperty<FBoolProperty>(Source.Get()->GetClass(), InCombatProperty)

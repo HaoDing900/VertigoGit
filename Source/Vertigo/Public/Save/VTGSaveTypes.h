@@ -10,7 +10,7 @@
  * The coordinator stamps it into every save and you can branch on it in a migration step later.
  * Saving this from day one is the difference between "migrate old saves" and "every playtest is bricked".
  */
-#define VTG_SAVE_VERSION 2 // 2: player inventory, player as an IVTGSaveable record, destroyed actors
+#define VTG_SAVE_VERSION 3 // 2: player inventory, player as an IVTGSaveable record, destroyed actors; 3: ProgressByMap + GameInstance snapshot
 
 /**
  * Lightweight, human-facing description of a save slot. This is all the load menu needs to draw a
@@ -83,6 +83,36 @@ struct VERTIGO_API FVTGLevelProgressRecord
  /** Parameterless BPLM event that rebuilds the checkpoint scene after all subsystems load. */
  UPROPERTY() FName EncounterResumeEvent;
  UPROPERTY() FName EncounterCheckpointId;
+ /**
+  * The sub-stage this BPLM was in when the save was written - the story checkpoint the hard initiate
+  * should rebuild the scene from. None means "the stage's normal setup".
+  *
+  * A field of its own rather than a Blueprint variable: the progress snapshot only collects variables
+  * declared on the BPLM itself, so a base-class one would be dropped silently, and a BPLM_C one would
+  * depend on a SaveGame checkbox nobody can see from the graph.
+  */
+ UPROPERTY() FName SubStage;
+};
+
+/**
+ * Everything one map owns, keyed per map so leaving and coming back has somewhere to read from.
+ *
+ * Today the coordinator only ever RESTORES the entry for Meta.LevelName, which is exactly what it
+ * did before this struct existed - so behaviour is unchanged. What changed is that the file now
+ * keeps the other maps' entries instead of throwing them away on every save. That half is the
+ * expensive half to add later (it needs a format version and a migration); reading them back is
+ * cheap and can land whenever the design calls for it.
+ */
+USTRUCT()
+struct VERTIGO_API FVTGMapProgress
+{
+ GENERATED_BODY()
+ /** BPLM progress snapshots, keyed by level manager actor name (as LevelProgress is). */
+ UPROPERTY() TMap<FName, FVTGLevelProgressRecord> Managers;
+ /** "CanInteract?" on story interactions in this map. */
+ UPROPERTY() TMap<FName, bool> InteractionEnabled;
+ /** Saveable actors in this map that had already been destroyed (taken pickups...). */
+ UPROPERTY() TArray<FName> DestroyedActors;
 };
 
 /**
@@ -143,6 +173,29 @@ public:
 	/** Same, for name-valued checkpoint state. */
 	UPROPERTY()
 	TMap<FName, FName> PersistentNames;
+
+ /**
+  * Per-map progress. The entry for Meta.LevelName is the same data as LevelProgress /
+  * InteractionEnabled / DestroyedActors above (kept there because that is what the restore path and
+  * the editor regression commandlets read); the other entries are maps the player has already been
+  * through in this slot, carried forward from save to save. Nothing reads those yet - see
+  * FVTGMapProgress.
+  */
+ UPROPERTY()
+ TMap<FString, FVTGMapProgress> ProgressByMap;
+
+ /**
+  * Snapshot of the GameInstance's own Blueprint value variables ("Leashed?", day counters, which
+  * main quest is current...). The GameInstance survives a level travel, which is exactly why these
+  * are the right home for a fact that has to outlive a map change - and why the coordinator restores
+  * them BEFORE opening the map, so BeginPlay and dialogue conditions read the loaded values and not
+  * the previous session's. Text-exported with the CPP type alongside, same as BPLM progress.
+  */
+ UPROPERTY()
+ TMap<FName, FString> GameInstanceValues;
+
+ UPROPERTY()
+ TMap<FName, FString> GameInstanceTypes;
 };
 
 /** Tiny companion file holding only FVTGSlotMeta, so the load menu can enumerate slots cheaply. */

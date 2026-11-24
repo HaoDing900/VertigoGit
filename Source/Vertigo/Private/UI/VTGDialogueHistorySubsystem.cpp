@@ -1,4 +1,5 @@
 #include "UI/VTGDialogueHistorySubsystem.h"
+#include "UI/VTGPauseMenu.h"
 #include "UI/VTGSequenceSkipSubsystem.h"
 #include "Blueprint/UserWidget.h"
 #include "Blueprint/WidgetTree.h"
@@ -6,6 +7,12 @@
 #include "Components/CanvasPanelSlot.h"
 #include "Components/Overlay.h"
 #include "Components/OverlaySlot.h"
+#include "Components/HorizontalBoxSlot.h"
+#include "Components/HorizontalBox.h"
+#include "Components/Image.h"
+#include "CommonActionWidget.h"
+#include "CommonInputSubsystem.h"
+#include "CommonUITypes.h"
 #include "Components/ScaleBox.h"
 #include "Components/ScaleBoxSlot.h"
 #include "Input/CommonBoundActionBar.h"
@@ -345,6 +352,10 @@ bool UVTGDialogueHistorySubsystem::HandleEscape()
 {
     SetSkipHeld(false);
     if (IsHistoryOpen()) { HideHistory(); return true; }
+    // This preprocessor receives Escape before Slate: nested pause pages go first.
+    for (TObjectIterator<UVTGPauseMenu> It; It; ++It)
+        if (!It->IsTemplate() && It->GetWorld() == GetWorld() && It->IsInViewport() && It->IsVisible() && It->HandleSettingsBack())
+            return true;
     if (!IsInDialogue()) return false;
     if (DialoguePauseMenu && DialoguePauseMenu->IsInViewport())
     {
@@ -565,9 +576,9 @@ void UVTGDialogueHistorySubsystem::UpdatePromptLayout()
             auto* SurfaceSlot = Canvas->AddChildToCanvas(PromptSurface);
             SurfaceSlot->SetZOrder(FrameSlot->GetZOrder() + 1);
             auto* FooterSlot = PromptSurface->AddChildToCanvas(PromptFooter);
-            FooterSlot->SetAnchors(FAnchors(.30f, .64f, .95f, .80f));
-            FooterSlot->SetOffsets(FMargin(0));
-            FooterSlot->SetAlignment(FVector2D::ZeroVector);
+            FooterSlot->SetAnchors(FAnchors(0.f, 1.f, 1.f, 1.f));
+            FooterSlot->SetOffsets(FMargin(16.f, -8.f, 16.f, 40.f));
+            FooterSlot->SetAlignment(FVector2D(0.f, 1.f));
             FooterSlot->SetAutoSize(false);
             DockedActionBar->RemoveFromParent();
             auto* Inner = Cast<UScaleBoxSlot>(PromptFooter->AddChild(DockedActionBar));
@@ -578,16 +589,59 @@ void UVTGDialogueHistorySubsystem::UpdatePromptLayout()
     }
     if (!PromptFooter) { UpdatePromptBarVisibility(false); return; }
     UpdatePromptBarVisibility(true);
-    // Both surfaces are arranged by the same canvas in the same pass. Stretch anchors,
-    // alignment, DPI, parent scaling and the artist's render transform therefore match.
-    // Keep Frame's existing slot intact: Blueprint animations still target that slot.
+    // Dialogue-only typography and keyboard art. UE 5.3's CommonActionWidget
+    // ignores per-action OverrideBrush, so render that brush alongside the
+    // original action widget, which continues to handle gamepad input changes.
+    const auto* InputSubsystem = UCommonInputSubsystem::Get(GetGameInstance()->GetFirstGamePlayer());
+    const bool KeyboardInput = !InputSubsystem || InputSubsystem->GetCurrentInputType() != ECommonInputType::Gamepad;
+    for (UUserWidget* Entry : DockedActionBar->GetAllEntries())
+    {
+        auto* Label = Cast<UCommonTextBlock>(Entry->GetWidgetFromName(TEXT("Text_ActionName")));
+        auto* Action = Cast<UCommonActionWidget>(Entry->GetWidgetFromName(TEXT("InputActionWidget")));
+        if (!Label || !Action) continue;
+        auto LabelFont = Label->GetFont();
+        if (LabelFont.Size != 16) { LabelFont.Size = 16; Label->SetFont(LabelFont); }
+        auto* InputActions = FindFProperty<FArrayProperty>(Action->GetClass(), TEXT("InputActions"));
+        if (!InputActions) continue;
+        FScriptArrayHelper Actions(InputActions, InputActions->ContainerPtrToValuePtr<void>(Action));
+        if (!Actions.Num()) continue;
+        const auto* Row = reinterpret_cast<FDataTableRowHandle*>(Actions.GetRawPtr(0))->GetRow<FCommonInputActionDataBase>(TEXT("Dialogue prompt"));
+        const auto* Keyboard = FindFProperty<FStructProperty>(FCommonInputActionDataBase::StaticStruct(), TEXT("KeyboardInputTypeInfo"));
+        if (!Row || !Keyboard) continue;
+        const auto& Brush = Keyboard->ContainerPtrToValuePtr<FCommonInputTypeInfo>(Row)->OverrideBrush;
+        if (!Brush.GetResourceObject()) continue;
+        auto* Icon = Cast<UImage>(Entry->GetWidgetFromName(TEXT("VTG_KeyboardPromptIcon")));
+        if (!Icon)
+        {
+            auto* Box = Cast<UHorizontalBox>(Action->GetParent());
+            if (!Box || Box->GetChildrenCount() != 2) continue;
+            Icon = Entry->WidgetTree->ConstructWidget<UImage>(UImage::StaticClass(), TEXT("VTG_KeyboardPromptIcon"));
+            Box->ClearChildren();
+            auto* IconSlot = Box->AddChildToHorizontalBox(Icon);
+            IconSlot->SetVerticalAlignment(VAlign_Center);
+            IconSlot->SetPadding(FMargin(10,0,0,0));
+            auto* ActionSlot = Box->AddChildToHorizontalBox(Action);
+            ActionSlot->SetVerticalAlignment(VAlign_Center);
+            ActionSlot->SetPadding(FMargin(10,0,0,0));
+            auto* LabelSlot = Box->AddChildToHorizontalBox(Label);
+            LabelSlot->SetVerticalAlignment(VAlign_Center);
+            LabelSlot->SetPadding(FMargin(6,0,12,0));
+        }
+        if (Icon->GetBrush().GetResourceObject() != Brush.GetResourceObject()) Icon->SetBrush(Brush);
+        Icon->SetVisibility(KeyboardInput ? ESlateVisibility::HitTestInvisible : ESlateVisibility::Collapsed);
+        Action->SetVisibility(KeyboardInput ? ESlateVisibility::Collapsed : ESlateVisibility::HitTestInvisible);
+    }
+
+    // Pin the prompt surface to the full screen canvas, independently of the
+    // dialogue frame's position, animation and render transform. The footer
+    // leaves 16 UI units on the sides and 8 below its compact 40-unit row,
+    // keeping the actions near the bottom-right instead of over the frame.
     auto* SurfaceSlot = CastChecked<UCanvasPanelSlot>(PromptSurface->Slot);
-    SurfaceSlot->SetLayout(FrameSlot->GetLayout());
+    SurfaceSlot->SetAnchors(FAnchors(0.f, 0.f, 1.f, 1.f));
+    SurfaceSlot->SetOffsets(FMargin(0));
+    SurfaceSlot->SetAlignment(FVector2D::ZeroVector);
     SurfaceSlot->SetAutoSize(false);
-    if (FrameSlot->GetAutoSize()) SurfaceSlot->SetSize(Frame->GetDesiredSize());
     SurfaceSlot->SetZOrder(FrameSlot->GetZOrder() + 1);
-    PromptSurface->SetRenderTransformPivot(Frame->GetRenderTransformPivot());
-    PromptSurface->SetRenderTransform(Frame->GetRenderTransform());
     PromptSurface->SetRenderOpacity(Frame->GetRenderOpacity());
     PromptFooter->SetVisibility(ESlateVisibility::SelfHitTestInvisible);
 }

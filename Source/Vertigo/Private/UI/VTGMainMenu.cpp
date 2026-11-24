@@ -5,6 +5,7 @@
 #include "GameFramework/PlayerController.h"
 #include "Kismet/GameplayStatics.h"
 #include "UI/VTGLocalizationSubsystem.h"
+#include "UI/VTGTerminalSavePage.h"
 #include "Blueprint/WidgetTree.h"
 #include "Components/CanvasPanel.h"
 #include "Components/CanvasPanelSlot.h"
@@ -52,15 +53,29 @@ void UVTGMainMenu::RefreshContinue()
  if (auto* Button=Cast<UButton>(GetWidgetFromName(TEXT("Button"))))
  {
   Button->SetIsEnabled(Available);
-  Button->SetToolTipText(Available?NSLOCTEXT("VTGMainMenu","Latest","Load the most recent save"):NSLOCTEXT("VTGMainMenu","NoSave","No save available"));
+  Button->SetToolTipText(Available?NSLOCTEXT("VTGMainMenu","PickSlot","Choose a save to continue"):NSLOCTEXT("VTGMainMenu","NoSave","No save available"));
  }
 }
 void UVTGMainMenu::ContinueGame()
 {
  auto* Save=GetGameInstance()?GetGameInstance()->GetSubsystem<UVTGSaveCoordinator>():nullptr;
- if (!Save || !Save->ContinueLatestSave()) { RefreshContinue();return; }
- SetIsEnabled(false);
+ if(!Save||Save->GetLatestValidSlot()==INDEX_NONE){RefreshContinue();return;}
+
+ if(!SavePage)SavePage=CreateWidget<UVTGTerminalSavePage>(GetOwningPlayer(),UVTGTerminalSavePage::StaticClass(),TEXT("MainMenuSavePage"));
+ if(!SavePage)
+ {
+  // Page could not be built: fall back to the old behaviour rather than dead-ending the button.
+  if(!Save->ContinueLatestSave()){RefreshContinue();return;}
+  SetIsEnabled(false);
+  UGameplayStatics::SetGamePaused(this,false);
+  if(auto* PC=GetOwningPlayer()){PC->SetInputMode(FInputModeGameOnly());PC->bShowMouseCursor=false;}
+  return;
+ }
+
+ if(!SavePage->IsInViewport())SavePage->AddToViewport(50);
+ SavePage->OpenForMainMenu(this);
+ // The page is its own viewport widget; hand it the screen and let its CLOSE give it back.
+ SetVisibility(ESlateVisibility::Collapsed);
  UGameplayStatics::SetGamePaused(this,false);
- if (auto* PC=GetOwningPlayer())
- { PC->SetInputMode(FInputModeGameOnly());PC->bShowMouseCursor=false; }
+ if(auto* PC=GetOwningPlayer()){PC->SetInputMode(FInputModeUIOnly());PC->bShowMouseCursor=true;}
 }

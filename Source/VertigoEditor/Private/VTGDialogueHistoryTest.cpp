@@ -7,6 +7,8 @@
 #include "Components/ScaleBox.h"
 #include "Components/RichTextBlock.h"
 #include "Components/TextBlock.h"
+#include "Components/Image.h"
+#include "CommonTextBlock.h"
 #include "Input/CommonBoundActionBar.h"
 #include "VTGDialoguePlaybackTest.h"
 #include "Input/UIActionBinding.h"
@@ -252,21 +254,34 @@ class FVTGHistoryScenario : public IAutomationLatentCommand
                 Test->TestTrue(TEXT("Nested dialogue actually paints with a nonzero size"), RootSize.X > 100 && RootSize.Y > 100);
                 Test->TestTrue(TEXT("Actual UMG root aspect ratio changed, not just the dialogue size"),
                     FMath::IsNearlyEqual(RootSize.X / RootSize.Y, double(ExpectedSizes[AspectIndex].X) / ExpectedSizes[AspectIndex].Y, .02));
-                const auto& FG = Frame->GetCachedGeometry();
+                const auto& FG = VisualOverlay->WidgetTree->RootWidget->GetCachedGeometry();
                 const auto& PG = Footer->GetCachedGeometry();
                 FVector2D Min = FG.AbsoluteToLocal(PG.LocalToAbsolute(FVector2D::ZeroVector));
                 FVector2D Max = FG.AbsoluteToLocal(PG.LocalToAbsolute(PG.GetLocalSize()));
-                Test->TestTrue(TEXT("All footer bounds remain inside dialogue frame after resize"),
+                Test->TestTrue(TEXT("All footer bounds remain inside the screen after resize"),
                     Min.X >= 0 && Min.Y >= 0 && Max.X <= FG.GetLocalSize().X && Max.Y <= FG.GetLocalSize().Y);
                 const FVector2D RelativeMin = Min / FVector2D(FG.GetLocalSize());
                 const FVector2D RelativeMax = Max / FVector2D(FG.GetLocalSize());
-                Test->TestTrue(TEXT("Footer keeps identical frame-relative position through DPI, aspect and render transforms"),
-                    RelativeMin.Equals(FVector2D(.30,.64), .005) && RelativeMax.Equals(FVector2D(.95,.80), .005));
+                Test->TestTrue(TEXT("Screen footer stays near the bottom-right independently of dialogue transforms"),
+                    Min.Equals(FVector2D(16, RootSize.Y - 48), 1.0) && Max.Equals(FVector2D(RootSize.X - 16, RootSize.Y - 8), 1.0));
                 Test->AddInfo(FString::Printf(TEXT("Viewport %dx%d; UMG %.1fx%.1f; footer normalized (%.3f,%.3f)-(%.3f,%.3f)"),
                     SceneViewport->GetSizeXY().X, SceneViewport->GetSizeXY().Y, RootSize.X, RootSize.Y,
                     RelativeMin.X, RelativeMin.Y, RelativeMax.X, RelativeMax.Y));
                 auto* Bar = Cast<UCommonBoundActionBar>(CastChecked<UScaleBox>(Footer)->GetContent());
                 Test->TestTrue(TEXT("Original live action bar is physically parented to dialogue footer"), Bar && Bar->GetParent() == Footer);
+                int32 IconCount = 0;
+                if (Bar) for (auto* Entry : Bar->GetAllEntries())
+                {
+                    auto* Icon = Cast<UImage>(Entry->GetWidgetFromName(TEXT("VTG_KeyboardPromptIcon")));
+                    auto* Label = Cast<UCommonTextBlock>(Entry->GetWidgetFromName(TEXT("Text_ActionName")));
+                    if (Icon && Icon->IsVisible() && Icon->GetBrush().GetResourceObject())
+                    {
+                        ++IconCount;
+                        Test->TestTrue(TEXT("Keyboard art matches WBP_Hint's 45x45 brush"), FVector2D(Icon->GetBrush().ImageSize).Equals(FVector2D(45,45)));
+                        Test->TestTrue(TEXT("Dialogue prompt text is two points smaller"), Label && Label->GetFont().Size == 16);
+                    }
+                }
+                Test->TestEqual(TEXT("All four dialogue actions display keyboard art"), IconCount, 4);
                 auto* FirstBar = FirstPromptBar.Get();
                 auto* SecondBar = SecondPromptBar.Get();
                 Test->TestTrue(TEXT("Two HUDs display exactly one dialogue prompt bar"),

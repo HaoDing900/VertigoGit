@@ -6,5 +6,6 @@ namespace VTGAssetDisplayLocalizationDetails
 void Startup();
 void Shutdown();
 bool IsSafeText(TSharedPtr<IPropertyHandle> Property);
-bool GetMailContext(TSharedPtr<IPropertyHandle> Property,FString& Context);
+/** Locate the DataTable row a whitelisted struct field belongs to, for the catalogue context line. */
+bool GetDataTableRowContext(TSharedPtr<IPropertyHandle> Property,FString& Context);
 }

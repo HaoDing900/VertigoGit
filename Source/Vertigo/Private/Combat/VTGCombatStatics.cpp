@@ -18,6 +18,10 @@
 #include "Engine/Engine.h"
 #include "Engine/World.h"
 #include "TimerManager.h"
+#include "Camera/CameraShakeBase.h"
+#include "Camera/PlayerCameraManager.h"
+#include "GameFramework/PlayerController.h"
+#include "Combat/VTGCombatPresentation.h"
 
 void UVTGCombatStatics::RemoveActorsTogether(const UObject* Context,const TArray<AActor*>& Actors,float DelaySeconds)
 {
@@ -120,4 +124,46 @@ bool UVTGCombatStatics::CanReceiveDamage(const AActor* Actor)
 	return Class->IsFunctionImplementedInScript(GET_FUNCTION_NAME_CHECKED(AActor, ReceivePointDamage))
 		|| Class->IsFunctionImplementedInScript(GET_FUNCTION_NAME_CHECKED(AActor, ReceiveAnyDamage))
 		|| Class->IsFunctionImplementedInScript(GET_FUNCTION_NAME_CHECKED(AActor, ReceiveRadialDamage));
+}
+
+bool UVTGCombatStatics::IsDodgeInvincible(const AActor* Actor)
+{
+	if (!IsValid(Actor))
+	{
+		return false;
+	}
+	const auto* Presentation = Actor->FindComponentByClass<UVTGPlayerPresentationComponent>();
+	return Presentation && Presentation->bDodgeInvincible;
+}
+
+void UVTGCombatStatics::PlayMeleeHitFeedback(AActor* Attacker, const TArray<AActor*>& Targets, float HitStopSeconds,
+                                             TSubclassOf<UCameraShakeBase> CameraShake, float CameraShakeScale)
+{
+	if (!IsValid(Attacker))
+	{
+		return;
+	}
+	if (HitStopSeconds > 0.f)
+	{
+		UVTGCombatComponent::ApplyHitStop(Attacker, HitStopSeconds);
+		for (AActor* Target : Targets)
+		{
+			if (Target != Attacker)
+			{
+				UVTGCombatComponent::ApplyHitStop(Target, HitStopSeconds);
+			}
+		}
+	}
+	// Only the player's own camera can be shaken, and only for a hit this attacker actually landed.
+	if (!CameraShake || CameraShakeScale <= 0.f || Targets.IsEmpty())
+	{
+		return;
+	}
+	if (const auto* Controller = Cast<APlayerController>(Attacker->GetInstigatorController()))
+	{
+		if (Controller->PlayerCameraManager)
+		{
+			Controller->PlayerCameraManager->StartCameraShake(CameraShake, CameraShakeScale);
+		}
+	}
 }

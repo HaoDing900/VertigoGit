@@ -23,6 +23,12 @@
 #include "VTGMapLabelsRepair.inl"
 #include "VTGMapPresentationRepair.inl"
 #include "VTGLevelProgressRepair.inl"
+#include "VTGGameInstanceSnapshot.inl"
+#include "VTGLeashedDiag.inl"
+#include "VTGStoryAutoSave.inl"
+#include "VTGHardInitiate.inl"
+#include "VTGSaveDevMenu.inl"
+#include "VTGDialogueRecordAudit.inl"
 #include "VTGMainMenuRepair.inl"
 #include "VTGMapRoutes.inl"
 #include "Animation/BlendSpace.h"
@@ -67,6 +73,19 @@ int32 UVTGAlleyRepairCommandlet::Main(const FString& Params)
  }
  if(FParse::Param(*Params,TEXT("MainMenu"))) return RepairMainMenu(FParse::Param(*Params,TEXT("VerifyOnly")));
  if(FParse::Param(*Params,TEXT("LevelProgress"))) return RepairLevelProgress(FParse::Param(*Params,TEXT("VerifyOnly")));
+ if(FParse::Param(*Params,TEXT("GameInstanceSnapshot"))) return FVTGGameInstanceSnapshotRegression::Run();
+ if(FParse::Param(*Params,TEXT("StoryAutoSave"))) return FVTGStoryAutoSaveRegression::Run();
+ if(FParse::Param(*Params,TEXT("HardInitiate"))) return FVTGHardInitiateRegression::Run();
+ if(FParse::Param(*Params,TEXT("SaveDevMenu"))) return FVTGSaveDevMenuRegression::Run();
+ if(FParse::Param(*Params,TEXT("DialogueRecordAudit"))) return FVTGDialogueRecordAudit::Run();
+ if(FParse::Param(*Params,TEXT("LevelProgressShape"))) return FVTGGraphDiag::LevelProgressShape();
+ if(FParse::Param(*Params,TEXT("LeashedWiring"))) return FVTGGraphDiag::LeashedWiring();
+ if(FParse::Param(*Params,TEXT("LeashedDetail"))) return FVTGGraphDiag::LeashedDetail();
+ if(FParse::Param(*Params,TEXT("LeashedCallers"))) return FVTGGraphDiag::LeashedCallers();
+ if(FParse::Param(*Params,TEXT("MailEmptyStyle"))) return FVTGGraphDiag::MailEmptyStyle();
+ if(FParse::Param(*Params,TEXT("DestroyTargets"))) return FVTGGraphDiag::DestroyTargets();
+ if(FParse::Param(*Params,TEXT("PlayedNodeConditions"))) return FVTGGraphDiag::PlayedNodeConditions();
+ if(FParse::Param(*Params,TEXT("OrphanGates"))) return FVTGGraphDiag::OrphanGates();
  if(FParse::Param(*Params,TEXT("TerminalSave"))) return TerminalPatch::Run(FParse::Param(*Params,TEXT("VerifyOnly")));
  if(FParse::Param(*Params,TEXT("DirectMail"))) return RepairDirectMail(FParse::Param(*Params,TEXT("VerifyOnly")));
  if(FParse::Param(*Params,TEXT("Apply"))) return AlleyFix::Repair();

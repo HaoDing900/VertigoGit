@@ -1,0 +1,225 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8" />
+<title>SaveDisplayNames.zh-CN</title>
+<style>
+body{font:15px/1.7 "Segoe UI","Microsoft YaHei",sans-serif;max-width:1000px;margin:24px auto;padding:0 20px;color:#172b4d}
+h1{border-bottom:2px solid #dfe1e6;padding-bottom:8px}
+h2{margin-top:32px;border-bottom:1px solid #dfe1e6;padding-bottom:6px}
+h3{margin-top:24px}
+table{border-collapse:collapse;width:100%;margin:12px 0}
+th,td{border:1px solid #c1c7d0;padding:7px 10px;text-align:left;vertical-align:top}
+th{background:#f4f5f7}
+pre{background:#f4f5f7;border:1px solid #c1c7d0;padding:10px;overflow-x:auto}
+code{background:#f4f5f7;padding:1px 4px;font-family:Consolas,monospace;font-size:.92em}
+pre code{background:none;padding:0}
+blockquote{border-left:3px solid #c1c7d0;margin:12px 0;padding:4px 14px;color:#5e6c84}
+.howto{background:#deebff;border:1px solid #4c9aff;padding:12px 16px;margin-bottom:24px;font-size:14px}
+.warn{background:#fffae6;border:1px solid #ffab00;padding:10px 14px;margin:12px 0}
+</style>
+</head>
+<body>
+<div class="howto">
+<strong>贴进 Confluence：</strong> 在这个页面里 Ctrl+A → Ctrl+C，然后到 Confluence 页面里 Ctrl+V。
+表格、标题、代码块都会保留。<em>（这个蓝框本身也会被一起复制，贴完删掉它。）</em>
+</div>
+
+<h1>存档菜单的显示文字 · 地点与调查阶段</h1>
+
+<blockquote>
+<p>存档里存的是 key（地图名、stage 名），<strong>玩家看到的文字在画的时候才从表里查</strong>。
+所以改文案、补翻译对老存档一样生效，而且内部名字永远不会漏给玩家。</p>
+</blockquote>
+
+<h2>一、使用</h2>
+
+<h3>两张表</h3>
+<table><thead><tr><th>资产</th><th>行名（= key）</th><th>这一列显示成</th></tr></thead><tbody>
+<tr><td><code>/Game/Widget/SaveLoad/DT_SaveLocationNames</code></td><td>地图短名，如 <code>L2_StreetOutsideBar</code></td><td>地点</td></tr>
+<tr><td><code>/Game/Widget/SaveLoad/DT_SaveStageNames</code></td><td>stage 名，如 <code>Stage_BarStreet_L2</code></td><td>调查阶段</td></tr>
+</tbody></table>
+<p>行结构只有一列：<strong>显示文字 / Display Text</strong>（FText）。直接在编辑器里开表加行、改字。</p>
+<p>两张表的路径记在 <strong>Project Settings → Vertigo → VTG Save Display Names</strong>
+（落在 <code>Config/DefaultGame.ini</code>）。</p>
+
+<h3>已填内容</h3>
+<p>Demo 流程的 <strong>14 个地点、17 个阶段</strong>已经按 wiki 全部填好，中英文都在，译文已编译。
+地点写地名；阶段写时段 / 调查状态（Night、Daybreak、Morning、Worktime、Investigation Ongoing），
+所以多个 stage 共用一个写法是正常的。</p>
+
+<table><thead><tr><th>地图（行名）</th><th>英文 / Origin</th><th>中文</th></tr></thead><tbody>
+<tr><td><code>L2Bar</code></td><td>“Triple Penny Fish”</td><td>“鱼贯三连”夜店</td></tr>
+<tr><td><code>L2_StreetOutsideBar</code></td><td>Commerce Module</td><td>商业区</td></tr>
+<tr><td><code>L2TunnelCine</code></td><td>Central Free District — Tunnel</td><td>自由区中部，隧道</td></tr>
+<tr><td><code>SaApartment</code></td><td>Apartment</td><td>公寓</td></tr>
+<tr><td><code>Sa_AptDownAlley</code></td><td>Apartment Downstairs</td><td>公寓楼下</td></tr>
+<tr><td><code>L_SewerUnderApartment</code></td><td>Residential Sewer System</td><td>住宅区下水道系统</td></tr>
+<tr><td><code>L3_CentralPoliceStation_FrontDoor_DownStream</code></td><td>The Sump Stream Police Station</td><td>下游区警局枢纽</td></tr>
+<tr><td><code>Tunnel_NearBlackMarket</code></td><td>Black Market Perimeter Tunnel</td><td>黑市外围隧道</td></tr>
+<tr><td><code>BlackMarketEntrance</code></td><td>Old Market Underpass, Black Market Periphery</td><td>旧市场地下通道，黑市外围</td></tr>
+<tr><td><code>BlackMarketStreet</code></td><td>“Black Market”, Commerce Module</td><td>“黑市”，商业模块</td></tr>
+<tr><td><code>AdultStore_BlackMarketStreet</code></td><td>“Silicone Valley”</td><td>“硅谷”</td></tr>
+<tr><td><code>ShoppingCenter_Yard</code></td><td>Commercial Plaza</td><td>商业广场</td></tr>
+<tr><td><code>Clinic</code></td><td>“Wellspring” Clinic, Commercial Plaza</td><td>“回春泉”诊所，商业广场</td></tr>
+<tr><td><code>Tunnel_ClinicToFactory</code></td><td>Upper Sump Passage</td><td>下游区上段通道</td></tr>
+</tbody></table>
+
+<table><thead><tr><th>Stage（行名）</th><th>英文 / Origin</th><th>中文</th></tr></thead><tbody>
+<tr><td><code>Stage_Bar_Intro</code></td><td>Night</td><td>夜晚</td></tr>
+<tr><td><code>Stage_BarStreet_L2</code></td><td>Night</td><td>夜晚</td></tr>
+<tr><td><code>L2CineTunnelDriveWithFC</code></td><td>Night</td><td>夜晚</td></tr>
+<tr><td><code>L3Apt_Day1Morning</code></td><td>Daybreak</td><td>天亮时分</td></tr>
+<tr><td><code>L3PreSewerL</code></td><td>Daybreak</td><td>天亮时分</td></tr>
+<tr><td><code>L3Sewer</code></td><td>Daybreak</td><td>天亮时分</td></tr>
+<tr><td><code>3Day1</code></td><td>Morning</td><td>早晨</td></tr>
+<tr><td><code>L3Day1Morning</code></td><td>Morning</td><td>早晨</td></tr>
+<tr><td><code>L3PoliceStationToMaket</code></td><td>Worktime</td><td>工作时间</td></tr>
+<tr><td><code>L4BlackMarketEntrance</code></td><td>Worktime</td><td>工作时间</td></tr>
+<tr><td><code>L4MarketStage_BeforeAdult</code></td><td>Worktime</td><td>工作时间</td></tr>
+<tr><td><code>L4AdultStore_Case1</code></td><td>Worktime</td><td>工作时间</td></tr>
+<tr><td><code>L4MarketStage_AfterAdult</code></td><td>Investigation Ongoing</td><td>调查进行中</td></tr>
+<tr><td><code>L4MarketToClinic</code></td><td>Investigation Ongoing</td><td>调查进行中</td></tr>
+<tr><td><code>L5_ClinicYard</code></td><td>Worktime</td><td>工作时间</td></tr>
+<tr><td><code>L5ClinicFirstVisit</code></td><td>Worktime</td><td>工作时间</td></tr>
+<tr><td><code>L6ClinicToFactory</code></td><td>Worktime</td><td>工作时间</td></tr>
+</tbody></table>
+
+<div class="warn">
+<strong>两处合并，需要你确认。</strong> wiki 里同一张地图出现过两次、中文写法不同；表按地图存，只能留一个：
+<code>Sa_AptDownAlley</code> 采用「公寓楼下」（另一处写的是「居民公寓楼下」）；
+<code>BlackMarketStreet</code> 采用「“黑市”，商业模块」（另一处写的是「“黑市”，商业街」）。
+两次的英文都相同，所以只是中文取舍。<br />
+<code>M_MainMenu</code> 不在表里 —— 主菜单不是存档点。<br />
+<code>L3PoliceStationToMaket</code> 的拼写和 <code>3Day1</code> 这种写法都照抄了项目里的真名，没有"修正"：
+行名和存档里记的名字必须完全一致，否则那一行查不到。
+</div>
+
+<h3>加一条新的</h3>
+<ol>
+<li>打开对应的表，<strong>Add</strong> 一行</li>
+<li>行名填内部名字（地图短名或 stage 名，照抄，不要改）</li>
+<li>Display Text 填玩家看的文字</li>
+<li>按本地化流程补译文（见下）</li>
+</ol>
+<p>不需要改 C++。</p>
+
+<h3>本地化</h3>
+<p><code>Display</code> 是有稳定身份的 FText，命名空间固定为 <code>VTG.SaveDisplay</code>，
+key 就是行名。走项目现有那套<strong>手工多语言面板</strong>，和别的 UI 文字完全一样：</p>
+<ol>
+<li>切到 Origin，填好原文，保存资产</li>
+<li>在文本下方的「多语言译文」折叠区填英文、中文</li>
+<li>勾上「确认是玩家可见文本」<strong>（不勾的话编译会跳过这一条，译文框也是禁用的）</strong></li>
+<li>点「保存并应用译文」</li>
+</ol>
+<p>现有 31 行都已收集进 <code>Localization/ManualTranslations.json</code>、都勾了确认、
+<code>en-US</code> 与 <code>zh-Hans</code> 的译文都已填好，三份 locres 已重新编译。
+改文案时记得译文的 <code>reviewedSource</code> 会和新原文不一致 —— 面板会标成"待复核"，不会编译旧译文。</p>
+
+<div class="warn">
+<strong>保存译文源表和编译游戏资源是两步。</strong> 只离开输入框不代表游戏已经用上新译文。
+</div>
+
+<h3>没配行会怎样（不对称，是故意的）</h3>
+<table><thead><tr><th></th><th>没有对应行时</th></tr></thead><tbody>
+<tr><td><strong>地点</strong></td><td>回退成旧写法（<code>L2_StreetOutsideBar</code> → <code>L2 StreetOutsideBar</code>），不会空着 —— 看到这种原始样式就说明这张图还没填</td></tr>
+<tr><td><strong>调查阶段</strong></td><td><strong>整行不显示</strong>。故意不回退：没映射的 stage 名正是不该给玩家看的东西</td></tr>
+</tbody></table>
+
+<h2>二、维护</h2>
+
+<h3>工具</h3>
+<table><thead><tr><th>命令</th><th>做什么</th></tr></thead><tbody>
+<tr><td><code>-run=VTGSaveDisplayNames</code></td><td>只验证：断言 31 行逐行解析正确、行数对得上、每行都带文本身份</td></tr>
+<tr><td><code>-run=VTGSaveDisplayNames -Apply</code></td><td>建表 / 补缺行 / 写 settings / 收集进翻译表 / 勾确认 / 填中英译文 / 编译 locres</td></tr>
+<tr><td><code>-run=VTGSaveDisplayNames -Apply -Reseed</code></td><td>额外：把已有行改回 C++ 里那份基线（<strong>会盖掉编辑器里改过的字</strong>）</td></tr>
+</tbody></table>
+<p><code>-Apply</code> <strong>不会覆盖已经写好的文字</strong>，只补缺的行，所以重跑安全。
+唯一的例外是「这一行没有文本身份」—— 那种会被就地补上身份，文字原样保留。
+<code>-Reseed</code> 是那个会覆盖的开关，只在"以代码里那张表为准"时用。</p>
+
+<h3>行数据在哪</h3>
+<p><code>VTGSaveDisplayNamesCommandlet.cpp</code> 的 <code>Locations[]</code> / <code>Phases[]</code>，
+一行三列：行名、英文、中文。译文经 <code>VTGManualLocalization::SetTranslation</code> 写入翻译表 ——
+和面板保存走同一套格式校验，同样把 <code>reviewedSource</code> 记成当时的原文。</p>
+
+<div class="warn">
+<strong>日常加地点 / 阶段不用跑这个工具，也不用改 C++。</strong> 在对应表里加一行，行名抄内部名字，
+文字自己写，然后走面板填译文就行。只有想把整张表当代码基线固定下来时才动 C++。
+</div>
+
+<h3>日常维护要点</h3>
+<ul>
+<li><strong>地图或 stage 改名了</strong>，表里的行名要跟着改，否则那一行查不到：地点退回原始样式，阶段整行消失。</li>
+<li><strong>新加的行默认没勾确认</strong>（面板收集进来的都是未确认）。不勾就编译不进去。</li>
+<li><strong>改了原文就要重填译文</strong>：译文带着"复核过的原文"快照，原文一变，旧译文不再编译。</li>
+</ul>
+
+<h2>三、原理</h2>
+
+<h3>解析在哪</h3>
+<pre><code>UVTGSaveDisplayNames::ResolveLocation(LevelName)   // 地点，查不到则回退
+UVTGSaveDisplayNames::ResolvePhase(Stage)          // 阶段，查不到则返回空</code></pre>
+<p>由 <code>UVTGTerminalSavePage</code> 在画列表行和详情页时调用。主菜单的 Continue 用的是同一个页面，
+所以改一处两处生效。</p>
+
+<h3>为什么不把文字存进存档</h3>
+<p>存档里继续只存 <code>Meta.LevelName</code> 和 <code>Meta.Stage</code>。如果把显示文字烤进存档：</p>
+<ul>
+<li>以后改文案或补翻译，老存档看不到</li>
+<li>存的时候是什么语言，读出来就还是什么语言（中文会话里蹦英文）</li>
+</ul>
+<p><code>DisplayLabel</code> 就是这个毛病的实例：它是存档时
+<code>FString::Printf(TEXT("Manual Save %02d"))</code> 烤进去的英文，渲染时又套了
+<code>AsCultureInvariant</code>，所以永远不会翻译。详情页那一行<strong>已经删掉</strong> ——
+它和正上方的标题 <code>MANUAL SAVE {Slot}</code> 是同一个东西，而标题本来就是 NSLOCTEXT，能翻译。</p>
+<p><code>DisplayLabel</code> 字段本身保留在存档结构里，以后做「玩家自己给存档命名」还用得上。
+那种是用户内容，存字符串、不本地化，是对的。</p>
+
+<h3>为什么能用 DataTable</h3>
+<p>一度担心 DataTable 的行数据不是反射属性、面板收集不到。实际上<strong>已经特判过了</strong>：</p>
+<pre><code>// VTGManualLocalization.cpp，GatherAsset
+// DataTable rows are raw struct memory, not reflected UObject properties.
+if(auto* Table=Cast&lt;UDataTable&gt;(Object))if(Table-&gt;GetRowStruct())
+    for(const auto&amp; Row:Table-&gt;GetRowMap())for(TFieldIterator&lt;FProperty&gt; It(Table-&gt;GetRowStruct());It;++It)
+        ...</code></pre>
+
+<div class="warn">
+<strong>但 <code>FText::AsCultureInvariant</code> 建出来的文字收集不到。</strong> 同一个 gather 里有一行
+<code>if(... || Text.IsCultureInvariant() || ...)return;</code> —— 文化无关的文字被直接跳过。
+第一版种子行就是这么建的，等于做了一张永远翻不了的表。现在种子用
+<code>FText::ChangeKey(TEXT("VTG.SaveDisplay"), 行名, ...)</code>，并且工具里有断言守着每行都带身份。
+</div>
+
+<h3>第三道门：字段白名单</h3>
+<p>折叠译文区不是所有 FText 都有。<code>VTGAssetDisplayLocalizationDetails::IsDisplayField</code>
+是一张 (Owner, Name) 白名单，不在里面的 FText 在 Details 面板里就只是个普通输入框 ——
+文字能写、能存，但<strong>没有翻译入口</strong>。<code>FVTGSaveDisplayRow::Display</code> 已经加进去了。</p>
+<p>顺带把定位行来源的 <code>GetDataTableRowContext</code>（原 <code>GetMailContext</code>）放宽了：
+它原来写死只认 Mail 的行结构，现在对任何结构体拥有的白名单字段都生效，所以以后再加表不用改它。</p>
+
+<h3>确认勾选做什么</h3>
+<p><code>approvedDisplayText</code> 不只是个标记：</p>
+<ul>
+<li>编译时 <code>if(!E-&gt;Approved || !E-&gt;LockReason.IsEmpty())continue;</code> —— 没勾的条目直接跳过</li>
+<li>面板里译文输入框的 <code>IsEnabled</code> 也看它 —— 没勾就填不了</li>
+</ul>
+<p>所以「收集到了」不等于「能翻译了」。这六条在工具里一并勾上了，因为它们存在的唯一目的就是给玩家看。</p>
+
+<h2>验证</h2>
+<p>独立进程跑 <code>-run=VTGSaveDisplayNames -Apply -Reseed</code>，输出
+<code>SAVE DISPLAY PASS (14 locations, 17 phases)</code>，断言通过：31 行<strong>逐行</strong>通过 settings
+解析成预期文字、两张表行数与基线一一对应、没映射的地图回退成非空、没映射的 stage 解析成空、每行都带文本身份。
+C++ 编译 0 错误。</p>
+<p>31 条已进 <code>ManualTranslations.json</code>（namespace <code>VTG.SaveDisplay</code>，全部 approved、无锁、
+<code>en-US</code> 与 <code>zh-Hans</code> 都已填且 <code>reviewedSource</code> 与原文一致）。
+locres 按字节核对过：<code>zh-Hans</code> 里有中文、<code>en-US</code> 里有英文，互不混。</p>
+<p>行名核对过：14 个地图名与 <code>Content</code> 下的 <code>.umap</code> 实名完全一致；17 个 stage 名都能在资产里搜到。</p>
+<p>自动化回归 <code>Vertigo.Localization.AssetDisplayInline</code> 通过，新增断言：两张表的 Row Editor
+各有且只有一个折叠译文区、<code>IsSafeText</code> 通过、<code>GetDataTableRowContext</code> 能定位到自己那张表、
+每行文字非 culture-invariant 且带 key。</p>
+<p><strong>没有进游戏看过</strong>：存档菜单里地点和阶段两行的实际排版需要开一次终端确认。</p>
+
+</body>
+</html>

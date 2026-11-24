@@ -509,6 +509,54 @@ bool GatherAsset(UObject* Asset,FString& Error)
     return true;
 }
 
+/** Ticks the panel checkbox for one entry; without it Compile skips the entry entirely. */
+bool ApproveDisplayText(const FString& Namespace,const FString& Key,FString& Error)
+{
+    if(!Load(Error))return false;
+    auto E=Find(Namespace,Key);
+    if(!E){Error=FString::Printf(TEXT("未收集到 %s/%s。"),*Namespace,*Key);return false;}
+    if(E->Approved)return true;
+    E->Approved=true;
+    return WriteCatalog(Error);
+}
+
+/**
+ * Fills a translation field the way the panel's save does. ReviewedSource is the entry's Origin as
+ * it stands now: Compile drops any translation whose ReviewedSource no longer matches, which is how
+ * a reworded Origin stops shipping its old translation.
+ */
+bool SetTranslation(const FString& Namespace,const FString& Key,const FString& Culture,const FString& Text,FString& Error)
+{
+    if(!Load(Error))return false;
+    auto E=Find(Namespace,Key);
+    if(!E){Error=FString::Printf(TEXT("未收集到 %s/%s。"),*Namespace,*Key);return false;}
+    if(!Cultures().Contains(Culture)){Error=TEXT("目标语言未在 Project Settings → Game → Manual Localization 配置：")+Culture;return false;}
+    // Mirrors the panel, where an unapproved or locked entry's translation box is read-only.
+    if(!E->Approved || !E->LockReason.IsEmpty()){Error=FString::Printf(TEXT("%s/%s 未确认或已锁定，译文不可写。"),*Namespace,*Key);return false;}
+    if(!Validate(E->Source,Text,Error)){Error=Namespace+TEXT(" / ")+Key+TEXT(": ")+Error;return false;}
+    auto& Translation=E->Translations.FindOrAdd(Culture);
+    if(Translation.Text==Text && Translation.ReviewedSource==E->Source)return true;
+    Translation.Text=Text;Translation.ReviewedSource=E->Source;
+    return WriteCatalog(Error);
+}
+
+bool ForgetAsset(const FString& PackageName,int32& OutRemoved,FString& Error)
+{
+    if(!Load(Error))return false;
+    const FString Prefix=PackageName+TEXT(".");
+    OutRemoved=Entries.RemoveAll([&Prefix](const TSharedPtr<FEntry>& E){return E.IsValid() && E->Context.StartsWith(Prefix);});
+    if(OutRemoved==0)return true;
+    if(Selected.IsValid() && !Entries.Contains(Selected))Selected.Reset();
+    RefreshCatalog();
+    return WriteCatalog(Error);
+}
+
+/** The panel gathers and writes in one action; headless tooling needs the same pair. */
+bool GatherAssetAndSave(UObject* Asset,FString& Error)
+{
+    return GatherAsset(Asset,Error) && WriteCatalog(Error);
+}
+
 #if WITH_DEV_AUTOMATION_TESTS
 bool HasCollectedTextForTests(const FString& Namespace,const FString& Key)
 {
@@ -557,7 +605,7 @@ bool ReadDialogueEntry(TSharedPtr<IPropertyHandle> Property,TSharedPtr<FEntry>& 
         const FString Path=Owners[0]->GetPathName();
         if(!Path.StartsWith(TEXT("/Engine/Transient")))Entry->Context=Path+TEXT(" : ")+Property->GeneratePathToProperty();
     }
-    else if(!VTGAssetDisplayLocalizationDetails::GetMailContext(Property,Entry->Context)){Error=TEXT("无法定位 Mail 行来源。");return false;}
+    else if(!VTGAssetDisplayLocalizationDetails::GetDataTableRowContext(Property,Entry->Context)){Error=TEXT("无法定位数据表行来源。");return false;}
     return true;
 }
 FString PropertySignature(TSharedPtr<IPropertyHandle> Property)

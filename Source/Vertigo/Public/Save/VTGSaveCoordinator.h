@@ -69,6 +69,14 @@ public:
 	UFUNCTION(BlueprintCallable, Category = "Save")
 	bool AutoSave();
 
+	/**
+	 * Forget the run in progress: checkpoint flags, per-map progress, the autosave beat stamp and the
+	 * stage. Called automatically when the main menu map loads with no load pending, so a New Game
+	 * button needs no wiring; also exposed in case you want to call it explicitly.
+	 */
+	UFUNCTION(BlueprintCallable, Category = "Save")
+	void BeginNewGame();
+
 	/** Convenience: reload the last autosave checkpoint. Use this for "Press R to restart". */
 	UFUNCTION(BlueprintCallable, Category = "Save")
 	bool LoadAutoSave() { return LoadFromSlot(AutoSaveSlot); }
@@ -76,6 +84,84 @@ public:
 	/** True if an autosave checkpoint exists (so you can gate the restart prompt). */
 	UFUNCTION(BlueprintPure, Category = "Save")
 	bool HasAutoSave() const { return DoesSlotExist(AutoSaveSlot); }
+
+ /**
+  * Story autosave: call this on stage begin, i.e. once per level manager BeginPlay. Writes its own
+  * reserved slot, so it never competes with the combat checkpoint (slot 0) or the player's 9 manual
+  * slots.
+  *
+  * Saves when the player has arrived in a map it has not already autosaved in, or when the stage has
+  * changed - see StoryAutoSaveBeat. Refuses, deliberately, when neither has changed, when a load is
+  * still in flight, or while retrying a checkpoint.
+  *
+  * It does NOT write immediately. Stage begin runs during BeginPlay, and most maps open straight into
+  * an auto-playing entry sequence, so writing a tick later would snapshot the player mid-cutscene: a
+  * staging transform, story gates already marked started, and a sequence that never finishes on load.
+  * Instead it polls CanSaveNow and writes at the first moment the world is actually quiet, giving up
+  * after StoryAutoSaveTimeout rather than waiting forever.
+  */
+ UFUNCTION(BlueprintCallable, Category="Save")
+ bool StoryAutoSave(FName Stage);
+
+ /**
+  * The form the level manager uses: the world is the one whose BeginPlay is running, which is the
+  * authoritative answer at that moment and does not depend on the GameInstance world context being
+  * wired up yet.
+  */
+ bool StoryAutoSave(UWorld* World, FName Stage);
+
+ /**
+  * True when this run must not write story autosaves: any run launched out of the editor - Play,
+  * Simulate or Standalone - while VTG.AutoSaveInDevRuns is 0, which is the default.
+  *
+  * This exists because tuning level sequences means sitting in Simulate for long stretches, and every
+  * BPLM BeginPlay schedules a story autosave. Those writes land in the same Saved/SaveGames files the
+  * game uses, so an afternoon of sequence work churns slots 10/11 and leaves the main menu's Continue
+  * pointing at a test.
+  *
+  * Keyed on WITH_EDITOR, not on the world type. IsPlayInEditor() would read better but only covers
+  * Play and Simulate (both EWorldType::PIE) and misses Standalone, whose world type is Game - and
+  * Standalone is exactly what has to be used to test anything the PIE viewport cannot show, such as
+  * the tunnel loading movie. WITH_EDITOR is true for every binary the editor launches, Standalone
+  * included, and false in a packaged game, so one condition covers all three and the shipped build
+  * has no branch here at all.
+  *
+  * The gate is deliberately narrow: it suppresses the AUTOMATIC story autosave only. A manual terminal
+  * save and the pre-fight combat checkpoint (slot 0, which is what makes retry-after-death work)
+  * always write, in the editor as in a build, because testing those is the point.
+  *
+  * It holds no state. Nothing is deferred, queued or remembered while it is on - the save simply does
+  * not happen - so flipping the console variable mid-session is not a transition and needs no reset.
+  */
+ bool IsStoryAutoSaveSuppressed(const UWorld* World) const;
+
+ /**
+  * Is it safe to write a save of this world right now? The one place that answers it, so the terminal
+  * and the story autosave cannot disagree. OutReason is player-facing and empty when the answer is
+  * yes. Refused during combat, during a playing level sequence, while dialogue or a Note owns the UI
+  * input, while a load is in flight or a checkpoint retry is running, and with no world or pawn.
+  */
+ UFUNCTION(BlueprintCallable, Category="Save")
+ bool CanSaveNow(UWorld* World, FText& OutReason) const;
+
+ /** Reads the player pawn's own "InCombat" flag, the same one the combat presentation code uses. */
+ UFUNCTION(BlueprintPure, Category="Save")
+ bool IsPlayerInCombat(UWorld* World) const;
+
+ UFUNCTION(BlueprintPure, Category="Save")
+ int32 GetStoryAutoSaveSlot() const { return StoryAutoSaveSlot; }
+
+ /**
+  * The story autosave alternates between StoryAutoSaveSlotCount slots instead of overwriting one.
+  * A single rolling slot means one bad write - or one save taken in a state nobody anticipated -
+  * destroys the last good one; with two, the previous beat is always still there to fall back to.
+  */
+ UFUNCTION(BlueprintPure, Category="Save")
+ bool IsStoryAutoSaveSlot(int32 Slot) const { return Slot>=StoryAutoSaveSlot && Slot<StoryAutoSaveSlot+StoryAutoSaveSlotCount; }
+
+ /** True for a slot the player may write from the terminal: not slot 0, not a story autosave slot. */
+ UFUNCTION(BlueprintPure, Category="Save")
+ bool IsManualSlot(int32 Slot) const { return Slot>AutoSaveSlot && Slot<MaxSlots && !IsStoryAutoSaveSlot(Slot); }
 
 	// ---- Checkpoints ----------------------------------------------------------------------------
 	// A checkpoint is the autosave slot plus three persistent flags (id, level, order), so it rides on
@@ -156,7 +242,7 @@ public:
 
 	/** Wipe all checkpoint flags (e.g. when starting a brand-new game). */
 	UFUNCTION(BlueprintCallable, Category = "Save")
-	void ClearPersistentFlags() { PersistentInts.Reset(); PersistentNames.Reset(); }
+	void ClearPersistentFlags() { PersistentInts.Reset(); PersistentNames.Reset(); ProgressByMap.Reset(); }
 
 	// ---- Hooks for Blueprint-only subsystems (bind ISX here) ----
 
@@ -187,11 +273,55 @@ protected:
 
 	/** How many slots the load menu enumerates. */
 	UPROPERTY(EditDefaultsOnly, Category = "Save")
-	int32 MaxSlots = 10;
+	int32 MaxSlots = 12;
+
+	/**
+	 * Reserved for the story autosave. Outside the manual 1..9 range on purpose: a story beat must
+	 * never overwrite a combat checkpoint, and neither may take one of the player's own slots.
+	 */
+	UPROPERTY(EditDefaultsOnly, Category = "Save")
+	int32 StoryAutoSaveSlot = 10;
+
+	/** How many slots the story autosave rotates through, starting at StoryAutoSaveSlot. */
+	UPROPERTY(EditDefaultsOnly, Category = "Save")
+	int32 StoryAutoSaveSlotCount = 2;
+
+	/** Give up waiting for a quiet moment after this long; a very long cutscene should not block it forever. */
+	UPROPERTY(EditDefaultsOnly, Category = "Save")
+	float StoryAutoSaveTimeout = 180.f;
+
+	/** How often the pending story autosave re-checks CanSaveNow while it waits for a quiet moment. */
+	UPROPERTY(EditDefaultsOnly, Category = "Save")
+	float StoryAutoSavePollInterval = 0.5f;
+
+	/**
+	 * Loading this map with nothing pending means the player left their run, so the coordinator resets.
+	 * Short name, no path, as GetCurrentLevelName reports it. Empty disables the automatic reset.
+	 */
+	UPROPERTY(EditDefaultsOnly, Category = "Save")
+	FString MainMenuLevelName = TEXT("M_MainMenu");
+
+	/**
+	 * Actor classes whose destruction is NOT remembered, i.e. ones the map is allowed to bring back on
+	 * load. The player pawn and level managers are excluded in code; add anything else here rather than
+	 * in C++. Everything else that came with the map and was destroyed stays destroyed.
+	 */
+	UPROPERTY(EditDefaultsOnly, Category = "Save")
+	TArray<TSubclassOf<AActor>> DestructionUntrackedClasses;
+
+	/**
+	 * GameInstance Blueprint variables left out of the snapshot. "SaveData" is Inventory System X's
+	 * own save blob living on the GameInstance: ISX saves and loads it itself, so copying it here
+	 * would only let a stale duplicate fight the real one. Object references are never snapshotted.
+	 */
+	UPROPERTY(EditDefaultsOnly, Category = "Save")
+	TSet<FName> ExcludedGameInstanceVariables { FName(TEXT("SaveData")) };
 
 private:
  friend struct FVTGTerminalSaveRegression;
  friend struct FVTGLevelProgressRegression;
+ friend struct FVTGGameInstanceSnapshotRegression;
+ friend struct FVTGStoryAutoSaveRegression;
  friend struct FVTGL2FightRegression;
  friend struct FVTGEncounterCheckpointRegression;
  friend struct FVTGStreetSewerCheckpointRegression;
@@ -211,6 +341,36 @@ private:
 	void CancelPendingRestore();
 	FTSTicker::FDelegateHandle RestoreTicker;
 	FTSTicker::FDelegateHandle RetryRevealTicker;
+	FTSTicker::FDelegateHandle StoryAutoSaveTicker;
+
+	/** PersistentNames key holding the stage the last story autosave was written for. */
+	static const FName StoryAutoSaveStageKey;
+
+	/** Map name + stage, the unit the story autosave de-duplicates on. None when there is no world. */
+	FName StoryAutoSaveBeat(UWorld* World, FName Stage) const;
+
+	/** The rotating slot to write next: the one with no save, else the older of the two. */
+	int32 PickStoryAutoSaveSlot() const;
+
+	/** Deadline for the pending story autosave, in FPlatformTime::Seconds. */
+	double StoryAutoSaveGiveUpTime = 0.0;
+
+	/** True once the spinner has been put up for the pending autosave, so the write waits a frame. */
+	bool bStoryAutoSaveAnnounced = false;
+
+	/** The bottom-right "saving" spinner. Created on first use; it removes itself when done. */
+	UPROPERTY(Transient)
+	TObjectPtr<class UVTGSaveIndicator> SaveIndicator;
+
+	void ShowSaveIndicator(UWorld* World);
+	void FinishSaveIndicator();
+
+	/** Property on the player pawn that says a fight is on. */
+	static const FName CombatFlagProperty;
+
+	/** Cache for that lookup; IsPlayerInCombat is polled, so it must not walk the class every call. */
+	mutable TWeakObjectPtr<const UClass> CombatFlagClass;
+	mutable const FBoolProperty* CombatFlagCached = nullptr;
 
 	/** Bound to PreLoadMap: a map opened by anything other than a load is not a checkpoint resume. */
 	void HandlePreLoadMap(const FString& MapName);
@@ -223,6 +383,9 @@ private:
 
 	/** Remembers level-placed saveable actors destroyed in play (a pickup that was taken). */
 	void HandleActorDestroyed(AActor* Actor);
+
+	/** False for actors a load must be allowed to bring back (the player, level managers, opt-outs). */
+	bool ShouldTrackDestruction(const AActor* Actor) const;
 
 	FDelegateHandle PreLoadMapHandle;
 	FDelegateHandle WorldActorsInitializedHandle;
@@ -257,4 +420,21 @@ private:
 
 	UPROPERTY()
 	TMap<FName, FName> PersistentNames;
+
+	/**
+	 * Per-map progress for the slot currently in play: seeded from the save on load, and updated for
+	 * the current map on every save so the file keeps the maps the player already left behind.
+	 * Restore still only ever reads the current map's entry - see FVTGMapProgress.
+	 */
+	UPROPERTY()
+	TMap<FString, FVTGMapProgress> ProgressByMap;
+
+	/** Folds the freshly gathered current-map state into ProgressByMap and stamps it on the save. */
+	void AccumulateMapProgress(UVTGSaveGame* SaveObj);
+
+	/** Text-exports the GameInstance's Blueprint value variables into the save. */
+	void CaptureGameInstanceValues(UVTGSaveGame* SaveObj);
+
+	/** Applies that snapshot back onto the live GameInstance. Must run BEFORE the map opens. */
+	void RestoreGameInstanceValues(const UVTGSaveGame* SaveObj);
 };

@@ -1,5 +1,6 @@
 #pragma once
 #include "Animation/AnimNotifies/AnimNotify.h"
+#include "Animation/AnimNotifies/AnimNotifyState.h"
 #include "Blueprint/UserWidget.h"
 #include "Components/ActorComponent.h"
 #include "CoreMinimal.h"
@@ -54,6 +55,11 @@ class VERTIGO_API UVTGAttackEffectNotify : public UAnimNotify
     /** If positive, scale this effect to the current BossAI area ability Radius. */
     UPROPERTY(EditAnywhere, Category = "Effect", meta=(ClampMin="0")) float EffectReferenceRadius = 0.f;
     UPROPERTY(EditAnywhere, Category = "Effect") FName SocketName;
+    /**
+     * Aim the burst at whoever the attack is aimed at instead of using the attacker's actor rotation.
+     * A boss that never turns its root still reads as hitting forwards, which is what the splash has to show.
+     */
+    UPROPERTY(EditAnywhere, Category = "Effect") bool bOrientToTarget = false;
     /** Use a smoke hazard with a shared, authored particle/damage lifetime. */
     UPROPERTY(EditAnywhere, Category = "Smoke Damage") bool bPersistentSmokeDamage = false;
     UPROPERTY(EditAnywhere, Category = "Smoke Damage") float SmokeLifetime = 3.f;
@@ -63,6 +69,26 @@ class VERTIGO_API UVTGAttackEffectNotify : public UAnimNotify
     UPROPERTY(EditAnywhere, Category = "Smoke Damage") float SmokeTickMultiplier = .2f;
     virtual void Notify(USkeletalMeshComponent *Mesh, UAnimSequenceBase *Animation,
                         const FAnimNotifyEventReference &Ref) override;
+};
+
+/**
+ * Dodge invulnerability, owned by the authored notify window alone.
+ *
+ * The Blueprint notify this replaces looked up BP_Player_May on Begin and BP_Player_Sa on End, so on Sa
+ * it only ever ran its End half: no i-frames, and the player mesh left on PhysicsOnly after every dodge.
+ * Reading the flag instead of clearing bCanBeDamaged keeps the damage events firing, so the same window
+ * can both deny the hit and pay out the perfect-dodge slow motion.
+ */
+UCLASS()
+class VERTIGO_API UVTGDodgeInvincibleNotify : public UAnimNotifyState
+{
+    GENERATED_BODY()
+  public:
+    virtual void NotifyBegin(USkeletalMeshComponent *Mesh, UAnimSequenceBase *Animation, float TotalDuration,
+                             const FAnimNotifyEventReference &Ref) override;
+    virtual void NotifyEnd(USkeletalMeshComponent *Mesh, UAnimSequenceBase *Animation,
+                           const FAnimNotifyEventReference &Ref) override;
+    virtual FString GetNotifyName_Implementation() const override;
 };
 
 UCLASS()
@@ -94,6 +120,8 @@ class VERTIGO_API UVTGPlayerPresentationComponent : public UActorComponent
     /** Hold empty hands and suppress combat until explicitly released. Does not own cinematic input/camera. */
     UFUNCTION(BlueprintCallable, Category="Story|Combat") void SetStoryCombatLock(bool Enabled);
     UFUNCTION(BlueprintPure, Category="Story|Combat") bool IsStoryCombatLocked() const { return bStoryCombatLocked; }
+    /** True only inside the dodge montage's i-frame notify, never for the whole montage. */
+    UPROPERTY(Transient, BlueprintReadOnly, Category="Combat") bool bDodgeInvincible = false;
     void RefreshBrassKnuckles();
     UPROPERTY(EditAnywhere, Category = "HUD") TObjectPtr<UTexture2D> HeartFull;
     UPROPERTY(EditAnywhere, Category = "HUD") TObjectPtr<UTexture2D> HeartEmpty;

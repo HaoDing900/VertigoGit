@@ -10,6 +10,7 @@
 #include "Private/VTGAssetDisplayLocalizationDetails.h"
 #include "Private/VTGSlideDetails.h"
 #include "Private/VTGMailRowJump.h"
+#include "Private/VTGSaveDevMenu.h"
 #include "Private/VTGMeleeMontageTrace.h"
 #include "Private/VTGSequenceInspector.h"
 #include "Private/VTGCameraRatio.h"
@@ -65,6 +66,7 @@ void FVertigoEditorModule::StartupModule()
  VTGCameraRatio::Startup();
  VTGCutsceneAudioDetails::Startup();
  VTGMailRowJump::Startup();
+ VTGSaveDevMenu::Startup();
  VTGManualLocalization::Startup();
  VTGDialogueLocalizationDetails::Startup();
  VTGSubtitleLocalizationDetails::Startup(); VTGQuestLocalizationDetails::Startup();
@@ -96,6 +98,7 @@ void FVertigoEditorModule::ShutdownModule()
  VTGCameraRatio::Shutdown();
  VTGCutsceneAudioDetails::Shutdown();
  VTGMailRowJump::Shutdown();
+ VTGSaveDevMenu::Shutdown();
  VTGManualLocalization::Shutdown();
  VTGDialogueLocalizationDetails::Shutdown();
  VTGSubtitleLocalizationDetails::Shutdown(); VTGQuestLocalizationDetails::Shutdown();

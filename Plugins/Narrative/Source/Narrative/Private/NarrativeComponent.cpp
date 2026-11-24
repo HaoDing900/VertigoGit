@@ -400,6 +400,15 @@ void UNarrativeComponent::ClientExitDialogue_Implementation()
 {
 	if (CurrentDialogue)
 	{
+		// VTG: one record per dialogue that ran to the end, so "have we had this conversation" does not
+		// have to be inferred from the individual nodes. Paired with UDialogue::bRecordEveryNodePlayed
+		// being off by default: only the player's chosen options and this are kept, which is what the
+		// game actually asks about, and keeps the task list from growing with every NPC line.
+		if (HasAuthority())
+		{
+			CompleteNarrativeDataTask(TEXT("PlayedDialogue"), CurrentDialogue->GetFName().ToString());
+		}
+
 		OnDialogueFinished.Broadcast(CurrentDialogue, false);
 
 		CurrentDialogue->Deinitialize();

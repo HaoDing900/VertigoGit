@@ -22,6 +22,27 @@ struct FVTGLevelProgressRegression
  }
 };
 
+
+/**
+ * The story gate used to sit directly on the event's "then" pin, and the verify pass used to insist
+ * on exactly that shape. Content work since has inserted nodes in front of it (BlackMarket.Intro now
+ * runs "L4Entrance Character Location at Start" first), which is harmless: what the save system needs
+ * is that the gate still runs on this event, not that it runs first. So walk the exec chain forward
+ * instead of comparing one link. Named distinctly because this file lands in a unity blob.
+ */
+static bool VTGReachesStoryGate(UEdGraphPin* Out, const FString& Mark)
+{
+ for(int32 Hop=0; Hop<24 && Out && Out->LinkedTo.Num()==1; ++Hop)
+ {
+  UEdGraphNode* N=Out->LinkedTo[0]->GetOwningNode();
+  if(N->NodeComment==Mark) return true;
+  Out=nullptr;
+  for(UEdGraphPin* P:N->Pins)
+   if(P->Direction==EGPD_Output && P->PinType.PinCategory==UEdGraphSchema_K2::PC_Exec){Out=P;break;}
+ }
+ return false;
+}
+
 int32 RepairLevelProgress(bool VerifyOnly)
 {
  using namespace AlleyFix;
@@ -41,7 +62,7 @@ int32 RepairLevelProgress(bool VerifyOnly)
  {
   auto* Entry=Node(G,Events[I]);auto* Out=Pin(Entry,TEXT("then"));
   const FString Mark=FString(TEXT("VTG saved story: "))+Ids[I];
-  if(Out->LinkedTo.Num()==1 && Out->LinkedTo[0]->GetOwningNode()->NodeComment==Mark) continue;
+  if(VTGReachesStoryGate(Out,Mark)) continue;
   check(!VerifyOnly && Out->LinkedTo.Num()==1);
   auto* Next=Out->LinkedTo[0];
   auto* Gate=Call(G,AVTGLevelManagerBase::StaticClass()->FindFunctionByName(TEXT("EnterSavedStoryEvent")),Entry->NodePosX+240,Entry->NodePosY-160);

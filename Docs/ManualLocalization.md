@@ -29,6 +29,14 @@
 
 ## 使用
 
+### 加载与暂停菜单文字
+
+打开 `WBP_VTGLoadingScreen` → Designer，选中 `LoadingLabel`，在 Details 的 **Text** 字段旁展开“多语言译文”。暂停菜单的实际资产为 `/Game/ThirdPerson/Blueprints/UI/WBP_PauseMenu`；在 Designer 中分别选中 `B_Continue`、`B_Language`、`B_Exit` 内的文字控件，同样在 **Text** 字段编辑 Origin、English 和简体中文，再点击“保存并应用译文”。入口只覆盖上述文字。
+
+Language 按钮现在保留 Designer 中的 FText，运行时不再覆盖为固定英文；没有手工译文时显示 Origin。修改 Origin 后保存蓝图，复核并应用已有译文。译文仍写入 `Localization/ManualTranslations.json`，编译资源仍写入 `Content/Localization/Vertigo`。
+
+维护命令 `-run=VTGLoadingPauseLocalization -Apply` 仅为这四个标签补齐缺失／不可翻译的文本身份，保留已有键、原文和布局；保存前备份到 `Saved/Backups/LoadingPauseLocalization/`。日常翻译无需运行。回归测试 `Vertigo.Localization.LoadingPauseInline` 使用隔离翻译表，检查真实资产的折叠入口、译文保存与编译、FText 解析和未修改布局。
+
 ### 推荐的日常流程
 
 1. 在 Origin 模式编写原文，正常保存 Dialogue、Quest、Sequence 或控件资产。

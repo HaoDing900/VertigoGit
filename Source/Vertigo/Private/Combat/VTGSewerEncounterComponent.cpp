@@ -4,6 +4,7 @@
 #include "Dialogue.h"
 #include "Combat/VTGCombatPresentation.h"
 #include "Engine/World.h"
+#include "TimerManager.h"
 #include "EngineUtils.h"
 #include "GameFramework/Pawn.h"
 #include "GameFramework/Controller.h"
@@ -59,13 +60,19 @@ void UVTGSewerEncounterComponent::EndPlay(const EEndPlayReason::Type Reason)
 {
  if(IntroNarrative.IsValid())IntroNarrative->OnDialogueFinished.RemoveDynamic(this,&UVTGSewerEncounterComponent::OnBossIntroFinished);
  if(IsValid(Behavior)){FScriptDelegate D;D.BindUFunction(this,TEXT("HandleBossDefeated"));if(auto* P=FindFProperty<FMulticastDelegateProperty>(Behavior->GetClass(),TEXT("OnBossDeath")))P->RemoveDelegate(D,Behavior,P->ContainerPtrToValuePtr<void>(Behavior));}
+ if(auto* World=GetWorld())World->GetTimerManager().ClearTimer(BossBodyTimer);
  Super::EndPlay(Reason);
 }
 bool UVTGSewerEncounterComponent::StartBossEncounter(bool bWaitForIntroDialogue)
 {
  ResolveBoss();if(!IsValid(Boss) || !Behavior || SewerEncounter::Bool(GetOwner(),SewerEncounter::Defeated) || SewerEncounter::Health(Boss)<=0)return false;
  if(bEncounterRequested || bCombatActivated)return true;
- if(bWaitForIntroDialogue)if(auto* HUD=Boss->FindComponentByClass<UVTGBossHealthBarComponent>())HUD->SetPresentationAllowed(false);
+ if(bWaitForIntroDialogue)
+ {
+  if(auto* HUD=Boss->FindComponentByClass<UVTGBossHealthBarComponent>())HUD->SetPresentationAllowed(false);
+  // An ambient comment still holding the scene would make the caller's Begin Dialogue fail and drop the authored intro line.
+  if(auto* Narrative=OwnerNarrative();Narrative && Narrative->GetCurrentDialogue())Narrative->TryExitDialogue();
+ }
  SewerEncounter::Bool(GetOwner(),SewerEncounter::Started,true);
  if(auto* Manager=Cast<AVTGLevelManagerBase>(GetOwner());Manager && Manager->FindFunction(TEXT("VTG_ResumeSewerBossFight")))
   if(auto* Player=UGameplayStatics::GetPlayerPawn(this,0))
@@ -73,15 +80,48 @@ bool UVTGSewerEncounterComponent::StartBossEncounter(bool bWaitForIntroDialogue)
  bEncounterRequested=true;SewerEncounter::Bool(GetOwner(),SewerEncounter::Started,true);
  return true;
 }
+UNarrativeComponent* UVTGSewerEncounterComponent::OwnerNarrative() const
+{return Cast<UNarrativeComponent>(SewerEncounter::Object(GetOwner(),TEXT("Narrative")));}
 void UVTGSewerEncounterComponent::WaitForBossIntroDialogue(UNarrativeComponent* Narrative,bool bDialogueStarted)
 {
  if(IntroNarrative.IsValid())IntroNarrative->OnDialogueFinished.RemoveDynamic(this,&UVTGSewerEncounterComponent::OnBossIntroFinished);
  IntroNarrative=Narrative;IntroDialogue=bDialogueStarted && Narrative?Narrative->GetCurrentDialogue():nullptr;
- if(!IntroDialogue.IsValid()){ReleaseBossHealthBar();return;}
- Narrative->OnDialogueFinished.AddUniqueDynamic(this,&UVTGSewerEncounterComponent::OnBossIntroFinished);
+ if(IntroDialogue.IsValid())
+ {
+  bIntroRetryPending=false;
+  Narrative->OnDialogueFinished.AddUniqueDynamic(this,&UVTGSewerEncounterComponent::OnBossIntroFinished);
+  return;
+ }
+ // The intro never started because a dialogue that refuses to exit still owns the scene: replay the beat once, after it ends.
+ if(!bDialogueStarted && !bIntroRetryUsed && Narrative && Narrative->GetCurrentDialogue() && GetOwner()->FindFunction(TEXT("L3BossEncounter")))
+ {
+  bIntroRetryPending=true;bIntroRetryUsed=true;
+  Narrative->OnDialogueFinished.AddUniqueDynamic(this,&UVTGSewerEncounterComponent::OnBossIntroFinished);
+  return;
+ }
+ bIntroRetryPending=false;ReleaseBossHealthBar();
 }
-void UVTGSewerEncounterComponent::OnBossIntroFinished(UDialogue* Dialogue,bool)
-{if(Dialogue && Dialogue==IntroDialogue.Get())ReleaseBossHealthBar();}
+void UVTGSewerEncounterComponent::OnBossIntroFinished(UDialogue* Dialogue,bool bStartingNewDialogue)
+{
+ if(bIntroRetryPending)
+ {
+  // A replacement dialogue reports the previous one finished in the same frame while still owning the scene.
+  if(bStartingNewDialogue)return;
+  bIntroRetryPending=false;
+  if(IntroNarrative.IsValid())IntroNarrative->OnDialogueFinished.RemoveDynamic(this,&UVTGSewerEncounterComponent::OnBossIntroFinished);
+  // Begin Dialogue inside this callback would re-enter the component that is still finishing; wait one tick.
+  if(auto* World=GetWorld())World->GetTimerManager().SetTimerForNextTick(this,&UVTGSewerEncounterComponent::RetryBossIntro);
+  else RetryBossIntro();
+  return;
+ }
+ if(Dialogue && Dialogue==IntroDialogue.Get())ReleaseBossHealthBar();
+}
+void UVTGSewerEncounterComponent::RetryBossIntro()
+{
+ if(SewerEncounter::Bool(GetOwner(),SewerEncounter::Defeated)){ReleaseBossHealthBar();return;}
+ if(auto* Event=GetOwner()->FindFunction(TEXT("L3BossEncounter")))GetOwner()->ProcessEvent(Event,nullptr);
+ else ReleaseBossHealthBar();
+}
 void UVTGSewerEncounterComponent::ReleaseBossHealthBar()
 {
  if(IntroNarrative.IsValid())IntroNarrative->OnDialogueFinished.RemoveDynamic(this,&UVTGSewerEncounterComponent::OnBossIntroFinished);
@@ -105,14 +145,21 @@ void UVTGSewerEncounterComponent::HandleBossDefeated()
  if(auto* Manager=Cast<AVTGLevelManagerBase>(GetOwner());Manager && Manager->FindFunction(TEXT("VTG_ResumeAfterSewerBossFight")))
   Manager->SetEncounterResumeEvent(TEXT("VTG_ResumeAfterSewerBossFight"));
  if(auto* Player=UGameplayStatics::GetPlayerPawn(this,0))if(auto* Presentation=Player->FindComponentByClass<UVTGPlayerPresentationComponent>())Presentation->FinishSewerCombat();
+ // Let the death animation read, then reach the same cleared room a reload rebuilds, so the body never blocks the switch.
+ if(auto* World=GetWorld())World->GetTimerManager().SetTimer(BossBodyTimer,this,&UVTGSewerEncounterComponent::HideBossBody,FMath::Max(.01f,BossBodyHideDelay),false);
+ else HideBossBody();
  if(auto* Event=GetOwner()->FindFunction(TEXT("L3_AfterBossIsDefeated")))GetOwner()->ProcessEvent(Event,nullptr);
+}
+void UVTGSewerEncounterComponent::HideBossBody()
+{
+ if(IsValid(Boss)){Boss->SetCanBeDamaged(false);Boss->SetActorHiddenInGame(true);Boss->SetActorEnableCollision(false);}
+ if(Behavior)Behavior->SetComponentTickEnabled(false);
 }
 void UVTGSewerEncounterComponent::RestoreEncounterCheckpointScene()
 {
  auto Invoke=[this](FName Name){if(auto* F=GetOwner()->FindFunction(Name))GetOwner()->ProcessEvent(F,nullptr);};
  ResolveBoss();
- // OnStageBegin is skipped for encounter loads; retain its authored entrance barrier placement.
- if(auto* Fence=Cast<AActor>(SewerEncounter::Object(GetOwner(),TEXT("RoundFence"))))Fence->SetActorLocation(FVector(431.340695,12980.735886,-749.559192));
+ // The entrance barrier keeps whatever the level and L3_SaPosition_Entrance authored; this path no longer duplicates that location.
  Invoke(TEXT("L3_DisableAllISXColiInBossRoom"));
  if(!SewerEncounter::Bool(GetOwner(),SewerEncounter::Defeated))
  {

@@ -8,6 +8,7 @@
 class UTextBlock;
 class UScrollBox;
 class UBackgroundBlur;
+class UVerticalBox;
 class UVTGTerminalSavePage;
 
 UCLASS()
@@ -28,6 +29,11 @@ class VERTIGO_API UVTGTerminalSavePage : public UUserWidget
  GENERATED_BODY()
 public:
  void OpenForTerminal(UUserWidget* Terminal,UUserWidget* ScreenSource,UUserWidget* DocumentSource=nullptr);
+ /**
+  * Same page, opened from the main menu instead of the in-game terminal: load only, no terminal
+  * frame to borrow, and CLOSE hands the screen back to Menu rather than closing a terminal.
+  */
+ void OpenForMainMenu(UUserWidget* Menu);
  void SelectSlot(int32 Index);
 protected:
  virtual TSharedRef<SWidget> RebuildWidget() override;
@@ -42,6 +48,8 @@ private:
  friend struct FVTGTerminalSaveRegression;
  void RefreshTerminalFrame();
  void RefreshSlots();
+ /** Combat can start or end while the page is open, so this is re-checked every tick. */
+ void RefreshAvailability();
  void UpdateSelection();
  void ShowResult(const FText& Message,bool Success);
  UTextBlock* Text(FName Name,const FText& Value,int32 Size);
@@ -52,8 +60,15 @@ private:
  UPROPERTY(Transient) TObjectPtr<UTextBlock> StatusText;
  UPROPERTY(Transient) TObjectPtr<UTextBlock> DetailText;
  UPROPERTY(Transient) TObjectPtr<UScrollBox> SlotList;
+ /** Shown instead of the page while a fight is on, styled like the Mail tab’s empty state. */
+ UPROPERTY(Transient) TObjectPtr<UTextBlock> Unavailable;
+ UPROPERTY(Transient) TObjectPtr<UVerticalBox> PageBody;
  UPROPERTY(Transient) TArray<TObjectPtr<UVTGTerminalSlotButton>> SlotButtons;
  UPROPERTY(Transient) TWeakObjectPtr<UUserWidget> TerminalOwner;
+ /** Set in main-menu mode: there is no world to save, so SAVE is hidden and CLOSE returns here. */
+ UPROPERTY(Transient) TWeakObjectPtr<UUserWidget> MenuOwner;
+ bool LoadOnly=false;
+ float AvailabilityCountdown=0.f;
  TArray<FVTGSlotMeta> Metas;
  int32 SelectedSlot=INDEX_NONE;
  int32 PendingAction=0;

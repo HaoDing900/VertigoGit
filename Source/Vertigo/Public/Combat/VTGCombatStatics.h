@@ -44,4 +44,18 @@ public:
 	 */
 	UFUNCTION(BlueprintPure, Category = "Combat")
 	static bool IsAlive(const AActor* Actor);
+
+	/** True only while the dodge montage's i-frame notify is open, so one window decides every damage path. */
+	UFUNCTION(BlueprintPure, Category = "Combat", meta = (DefaultToSelf = "Actor"))
+	static bool IsDodgeInvincible(const AActor* Actor);
+
+	/**
+	 * The three things a landed melee hit owes the player, in one call: freeze, shake, and freeze the victim too.
+	 *
+	 * Freezing only the attacker reads as a frame hitch rather than an impact, which is why this takes the
+	 * same target list the damage loop just used instead of leaving the enemy running at full speed.
+	 */
+	UFUNCTION(BlueprintCallable, Category = "Combat", meta = (DefaultToSelf = "Attacker", AutoCreateRefTerm = "Targets"))
+	static void PlayMeleeHitFeedback(AActor* Attacker, const TArray<AActor*>& Targets, float HitStopSeconds,
+	                                 TSubclassOf<class UCameraShakeBase> CameraShake, float CameraShakeScale = .05f);
 };

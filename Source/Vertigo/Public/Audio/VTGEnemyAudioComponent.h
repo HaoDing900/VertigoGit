@@ -26,6 +26,16 @@ class VERTIGO_API UVTGEnemyAudioComponent : public UActorComponent
 public:
 	UVTGEnemyAudioComponent();
 
+	/**
+	 * Row name in the shared combat-music table (Project Settings -> Vertigo -> VTG Combat Music).
+	 * Set this and leave Combat Music empty: the source and the volume then live in that one table
+	 * with every other fight's. Combat Music below still wins when it is filled in, so enemies set
+	 * up before the table keep working.
+	 */
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Enemy Audio|Music")
+	FName MusicTrackId;
+
+	/** Set directly instead of MusicTrackId. Filled in from the table at BeginPlay when the id resolves. */
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Enemy Audio|Music")
 	TObjectPtr<USoundBase> CombatMusic;
 

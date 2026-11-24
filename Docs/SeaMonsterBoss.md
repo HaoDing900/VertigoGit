@@ -138,9 +138,9 @@ Toolkit 自带的 `WB_BossHealth` 只在它的 Demo 玩家里创建，`BP_Player
 - 招式、受击音效 = 对应 Montage 上的 **Play Sound** 通知（`Montages/AM_*`），想换声音或挪时间直接在 Montage 里改。主角打中时已经有自己的击打声，所以受击只加怪物的声音，不再叠击打声。
 - Boss 用 `SA_Large`（整个巢穴都听得到），蛋用 `SA_General`（远处的蛋听不到）。
 - **死亡音效和战斗音乐**：C++ 组件 `UVTGEnemyAudioComponent`（`Source/Vertigo/.../Audio/`），Boss 和蛋上的 `EnemyAudio` 组件。和血条一样从 `BPC_Boss_Behavior` 读 `Health` / `InCombat`，蓝图里不用加节点：
-  - `Combat Music`（只填在 Boss 上）：`07Cyberpunk_Attack__Cue`。进战淡入（2 秒），循环；打死后再响 1.5 秒淡出（3 秒）；没打死就脱战（Toolkit 重置 Boss / Retry）直接淡出。音量 `Music Volume` 0.6。
+  - **战斗音乐（2026-11-22 改）**：Boss 的 `EnemyAudio` 现在填 `Music Track Id` = `SewerBoss`，`Combat Music` 留空，音源和音量都在 `/Game/SFX/BGM/DT_CombatMusic` 这张共用表里（当前 `881454__cat-fox_alex__drum-loop_deep-4_95bpm`，音量 0.6）。进战淡入（2 秒），循环；打死后再响 1.5 秒淡出（3 秒）；没打死就脱战（Toolkit 重置 Boss / Retry）直接淡出。
   - `Death Sound`：血量归零时在怪物位置播一次。
-  - 换音乐：在 Boss 的 `EnemyAudio` 里换 `Combat Music`。项目里其他合适的：`04Cyberpunk_AttackTheme`、HorrorAndTension 的 `Horror` / `Underground`。
+  - 换音乐 / 改音量：改 `DT_CombatMusic` 的 `SewerBoss` 行，别动组件。详见 [CombatMusicAndInfoPage.zh-CN.md](CombatMusicAndInfoPage.zh-CN.md)。**`Combat Music` 填了资产会盖掉 `Music Track Id`**，所以要留空。
 
 ## 中毒特效
 

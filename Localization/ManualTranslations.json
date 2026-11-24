@@ -379,7 +379,7 @@
 			"namespace": "KismetSchema",
 			"key": "Default",
 			"source": "Default",
-			"context": "/Game/Narrative/Dialogues/Levels/L3Sewer/L3Sewer_Freemove.L3Sewer_Freemove : NewVariables[0].Category",
+			"context": "/Game/Inventory/InventoryXBased/UMG/TabSwitcher/InTabWidget/MapWBP/WBP_SubArea.WBP_SubArea : NewVariables[0].Category",
 			"approvedDisplayText": false,
 			"lockReason": "",
 			"translations":
@@ -1089,7 +1089,7 @@
 		{
 			"namespace": "VTGTerminal",
 			"key": "ValidSlotDetail",
-			"source": "{Heading}\n\n{Level}\n\n{Date}\n\n{Label}",
+			"source": "{Heading}\n\n{Level}\n\n{Date}",
 			"context": "../../../../Unreal projects/VertigoGit/Source/Vertigo/Private/UI/VTGTerminalSavePage.cpp",
 			"approvedDisplayText": false,
 			"lockReason": "",
@@ -3697,7 +3697,7 @@
 			"namespace": "",
 			"key": "19D3A1C54B0CC73CF72F41A28A66F625",
 			"source": "Bindings",
-			"context": "/Game/Narrative/NarrativeUI/Widgets/W_NarrativeMenu_QuestJournal.W_NarrativeMenu_QuestJournal : NewVariables[4].Category",
+			"context": "/Game/Narrative/NarrativeUI/Widgets/Unused/W_NarrativeMenu_QuestJournal_Ori.W_NarrativeMenu_QuestJournal_Ori : NewVariables[4].Category",
 			"approvedDisplayText": false,
 			"lockReason": "",
 			"translations":
@@ -4038,7 +4038,7 @@
 			"namespace": "",
 			"key": "C2A2C43144F43B04AD0E6EBF3956A75A",
 			"source": "Determines if an object is valid",
-			"context": "/Game/Narrative/NarrativeUI/Widgets/Unused/W_NarrativeMenu_QuestJournal_Ori.W_NarrativeMenu_QuestJournal_Ori:ExecuteUbergraph_W_NarrativeMenu_QuestJournal_Ori.K2Node_Tunnel_13 : MetaData.ToolTip",
+			"context": "/Game/Narrative/NarrativeUI/Widgets/Unused/W_NarrativeMenu_Dialogue_ProfilePicture.W_NarrativeMenu_Dialogue_ProfilePicture:ExecuteUbergraph_W_NarrativeMenu_Dialogue_ProfilePicture.K2Node_Tunnel_3 : MetaData.ToolTip",
 			"approvedDisplayText": false,
 			"lockReason": "",
 			"translations":
@@ -4049,7 +4049,7 @@
 			"namespace": "",
 			"key": "A824D3BC4E8FDA956A0FB29E0E653805",
 			"source": "Utilities",
-			"context": "/Game/Narrative/NarrativeUI/Widgets/Unused/W_NarrativeMenu_QuestJournal_Ori.W_NarrativeMenu_QuestJournal_Ori:ExecuteUbergraph_W_NarrativeMenu_QuestJournal_Ori.K2Node_Tunnel_13 : MetaData.Category",
+			"context": "/Game/Narrative/NarrativeUI/Widgets/Unused/W_NarrativeMenu_Dialogue_ProfilePicture.W_NarrativeMenu_Dialogue_ProfilePicture:ExecuteUbergraph_W_NarrativeMenu_Dialogue_ProfilePicture.K2Node_Tunnel_3 : MetaData.Category",
 			"approvedDisplayText": false,
 			"lockReason": "",
 			"translations":
@@ -4115,7 +4115,7 @@
 			"namespace": "SpriteCategory",
 			"key": "Misc",
 			"source": "Misc",
-			"context": "/Game/LevelNSequence/In_Level/L3PoliceStation/BPLM_PoliceStation.BPLM_PoliceStation_C:Billboard_GEN_VARIABLE : SpriteInfo.DisplayName",
+			"context": "/Game/ThirdPerson/Maps/BaseLevel.BaseLevel:PersistentLevel.BP_ReadableNote_C_1.BillboardComponent_1 : SpriteInfo.DisplayName",
 			"approvedDisplayText": false,
 			"lockReason": "",
 			"translations":
@@ -4159,7 +4159,7 @@
 			"namespace": "FMediaTrackEditor",
 			"key": "MediaTrackName",
 			"source": "Media",
-			"context": "/Game/LevelNSequence/In_Level/L2Tunnel/LS_Tunnel_Driving/FLS_Old_Tunnel_DrivingInTheCar_Sa_FC1.FLS_Old_Tunnel_DrivingInTheCar_Sa_FC1:MovieScene_0.MovieSceneMediaTrack_0 : DisplayName",
+			"context": "/Game/LevelNSequence/In_Level/L2Tunnel/LS_Tunnel_Driving/FLS_Tunnel_DrivingInTheCar_Sa_FC.FLS_Tunnel_DrivingInTheCar_Sa_FC:MovieScene_0.MovieSceneMediaTrack_0 : DisplayName",
 			"approvedDisplayText": false,
 			"lockReason": "",
 			"translations":
@@ -4170,7 +4170,7 @@
 			"namespace": "MovieSceneDirectorBlueprintUtils",
 			"key": "DefaultCategory",
 			"source": "Sequencer Event Endpoints",
-			"context": "/Game/LevelNSequence/In_Level/L5Clinic/ShoppingCenterYard/NLS_L5ClinicYard_SaWalkTowardsMay.NLS_L5ClinicYard_SaWalkTowardsMay:NLS_L5ClinicYard_SaWalkTowardsMay_DirectorBP.SequenceEvent__ENTRYPOINTNLS_L5ClinicYard_SaWalkTowardsMay_DirectorBP.K2Node_FunctionEntry_0 : MetaData.Category",
+			"context": "/Game/LevelNSequence/In_Level/L4BlackMarket/LS_L4_Market_EnteringAlley.LS_L4_Market_EnteringAlley:LS_L4_Market_EnteringAlley_DirectorBP.SequenceEvent__ENTRYPOINTLS_L4_Market_EnteringAlley_DirectorBP.K2Node_FunctionEntry_0 : MetaData.Category",
 			"approvedDisplayText": false,
 			"lockReason": "",
 			"translations":
@@ -4181,7 +4181,7 @@
 			"namespace": "FEventTrackEditor",
 			"key": "TrackName",
 			"source": "Events",
-			"context": "/Game/LevelNSequence/In_Level/L5Clinic/ShoppingCenterYard/LS_L5_TakeKnifeAndGo.LS_L5_TakeKnifeAndGo:MovieScene_0.MovieSceneEventTrack_0 : DisplayName",
+			"context": "/Game/LevelNSequence/In_Level/L5Clinic/FLS_L5Clinic_PTSDFlashback.FLS_L5Clinic_PTSDFlashback:MovieScene_0.MovieSceneEventTrack_0 : DisplayName",
 			"approvedDisplayText": false,
 			"lockReason": "",
 			"translations":
@@ -4203,7 +4203,7 @@
 			"namespace": "UObjectDisplayNames",
 			"key": "LightComponentBase:LightColor",
 			"source": "Light Color",
-			"context": "/Game/LevelNSequence/In_Level/L2Tunnel/LS_Tunnel_Driving/FLS_BowerbirdInTunnel.FLS_BowerbirdInTunnel:MovieScene_0.MovieSceneColorTrack_1 : DisplayName",
+			"context": "/Game/LevelNSequence/In_Level/L3Apartment/LS/Intro/FLS_L3_AptIntroLighting_DuskToMorning.FLS_L3_AptIntroLighting_DuskToMorning:MovieScene_0.MovieSceneColorTrack_3 : DisplayName",
 			"approvedDisplayText": false,
 			"lockReason": "",
 			"translations":
@@ -4214,7 +4214,7 @@
 			"namespace": "UObjectDisplayNames",
 			"key": "LightComponentBase:Intensity",
 			"source": "Intensity",
-			"context": "/Game/LevelNSequence/In_Level/L2Tunnel/LS_Tunnel_Driving/FLS_BowerbirdInTunnel.FLS_BowerbirdInTunnel:MovieScene_0.MovieSceneFloatTrack_8 : DisplayName",
+			"context": "/Game/LevelNSequence/In_Level/L3Apartment/LS/Intro/FLS_L3_AptIntroLighting_DuskToMorning.FLS_L3_AptIntroLighting_DuskToMorning:MovieScene_0.MovieSceneFloatTrack_3 : DisplayName",
 			"approvedDisplayText": false,
 			"lockReason": "",
 			"translations":
@@ -4236,7 +4236,7 @@
 			"namespace": "SpriteCategory",
 			"key": "Lighting",
 			"source": "Lighting",
-			"context": "/Game/LevelNSequence/In_Level/L2Tunnel/LS_Tunnel_Driving/FLS_BowerbirdInTunnel.FLS_BowerbirdInTunnel:MovieScene_0.SpotLight_0.ArrowComponent0 : SpriteInfo.DisplayName",
+			"context": "/Game/LevelNSequence/Flashback/FloatingBBCorpse/Sketch_DeadSa.Sketch_DeadSa:MovieScene_0.SpotLight_2.ArrowComponent0 : SpriteInfo.DisplayName",
 			"approvedDisplayText": false,
 			"lockReason": "",
 			"translations":
@@ -4247,7 +4247,7 @@
 			"namespace": "SpriteCategory",
 			"key": "Characters",
 			"source": "Characters",
-			"context": "/Game/LevelNSequence/In_Level/L6_Tunnel_MarketToFactory/NLS_L6Tunnel_SaFallAsleep.NLS_L6Tunnel_SaFallAsleep:MovieScene_0.BP_Philip_IPHA_NPC_C_9.Arrow : SpriteInfo.DisplayName",
+			"context": "/Game/LevelNSequence/In_Level/L4BlackMarket/Sketch/Sketch_SaBlackMarket.Sketch_SaBlackMarket:MovieScene_0.BP_Cine_Sa_C_0.Arrow : SpriteInfo.DisplayName",
 			"approvedDisplayText": false,
 			"lockReason": "",
 			"translations":
@@ -4269,7 +4269,7 @@
 			"namespace": "UObjectDisplayNames",
 			"key": "Actor:bHidden",
 			"source": "Actor Hidden In Game",
-			"context": "/Game/LevelNSequence/In_Level/L6_Tunnel_MarketToFactory/NLS_L6Tunnel_SaFallAsleep.NLS_L6Tunnel_SaFallAsleep:MovieScene_0.MovieSceneVisibilityTrack_1 : DisplayName",
+			"context": "/Game/LevelNSequence/In_Level/L6_Tunnel_MarketToFactory/NLS_L6_NoticeFish.NLS_L6_NoticeFish:MovieScene_0.MovieSceneVisibilityTrack_0 : DisplayName",
 			"approvedDisplayText": false,
 			"lockReason": "",
 			"translations":
@@ -4401,7 +4401,7 @@
 			"namespace": "",
 			"key": "232A9B204596DDDD456B83B012FD6E54",
 			"source": "Utilities| Array",
-			"context": "/Game/Narrative/NarrativeUI/Widgets/Unused/W_NarrativeMenu_QuestJournal_Ori.W_NarrativeMenu_QuestJournal_Ori:ExecuteUbergraph_W_NarrativeMenu_QuestJournal_Ori.K2Node_Tunnel_15 : MetaData.Category",
+			"context": "/Game/Narrative/NarrativeUI/Widgets/Unused/W_NarrativeMenu_Dialogue_ProfilePicture.W_NarrativeMenu_Dialogue_ProfilePicture:On Dialogue Replies Available_MERGED.K2Node_Tunnel_0 : MetaData.Category",
 			"approvedDisplayText": false,
 			"lockReason": "",
 			"translations":
@@ -4412,7 +4412,7 @@
 			"namespace": "",
 			"key": "1BF42FC9447506B860B501BB1E63AA31",
 			"source": "Foreach",
-			"context": "/Game/Narrative/NarrativeUI/Widgets/Unused/W_NarrativeMenu_QuestJournal_Ori.W_NarrativeMenu_QuestJournal_Ori:ExecuteUbergraph_W_NarrativeMenu_QuestJournal_Ori.K2Node_Tunnel_15 : MetaData.Keywords",
+			"context": "/Game/Narrative/NarrativeUI/Widgets/Unused/W_NarrativeMenu_Dialogue_ProfilePicture.W_NarrativeMenu_Dialogue_ProfilePicture:On Dialogue Replies Available_MERGED.K2Node_Tunnel_0 : MetaData.Keywords",
 			"approvedDisplayText": false,
 			"lockReason": "",
 			"translations":
@@ -4423,7 +4423,7 @@
 			"namespace": "FAudioTrackEditor",
 			"key": "AudioTrackName",
 			"source": "Audio",
-			"context": "/Game/LevelNSequence/In_Level/L6_Tunnel_MarketToFactory/NLS_L6Tunnel_SaFallAsleep.NLS_L6Tunnel_SaFallAsleep:MovieScene_0.MovieSceneAudioTrack_1 : DisplayName",
+			"context": "/Game/LevelNSequence/In_Level/L4BlackMarket/NLS_L4Hole.NLS_L4Hole:MovieScene_0.MovieSceneAudioTrack_0 : DisplayName",
 			"approvedDisplayText": false,
 			"lockReason": "",
 			"translations":
@@ -4434,7 +4434,7 @@
 			"namespace": "UObjectDisplayNames",
 			"key": "SceneComponent:bHiddenInGame",
 			"source": "Hidden in Game",
-			"context": "/Game/LevelNSequence/In_Level/L5Clinic/ShoppingCenterYard/LS_L5_TakeKnifeAndGo.LS_L5_TakeKnifeAndGo:MovieScene_0.MovieSceneVisibilityTrack_2 : DisplayName",
+			"context": "/Game/LevelNSequence/In_Level/L5Clinic/FLS_L5Clinic_PTSDFlashback.FLS_L5Clinic_PTSDFlashback:MovieScene_0.MovieSceneVisibilityTrack_2 : DisplayName",
 			"approvedDisplayText": false,
 			"lockReason": "",
 			"translations":
@@ -4511,7 +4511,7 @@
 			"namespace": "UObjectDisplayNames",
 			"key": "PostProcessComponent:BlendWeight",
 			"source": "Blend Weight",
-			"context": "/Game/LevelNSequence/In_Level/L2Tunnel/LS_Tunnel_Driving/FLS_Old_Tunnel_DrivingInTheCar_Sa_FC1.FLS_Old_Tunnel_DrivingInTheCar_Sa_FC1:MovieScene_0.MovieSceneFloatTrack_47 : DisplayName",
+			"context": "/Game/LevelNSequence/In_Level/L4BlackMarket/NLS_L4Hole.NLS_L4Hole:MovieScene_0.MovieSceneFloatTrack_0 : DisplayName",
 			"approvedDisplayText": false,
 			"lockReason": "",
 			"translations":
@@ -5017,7 +5017,7 @@
 			"namespace": "",
 			"key": "5D582533472B8AB57B55C4A770E9E3EC",
 			"source": "Is Cutscene",
-			"context": "/Game/LevelNSequence/In_Level/L2Tunnel/LS_Tunnel_Driving/FLS_Old_Tunnel_DrivingInTheCar_Sa_FC1.FLS_Old_Tunnel_DrivingInTheCar_Sa_FC1:MovieScene_0.MovieSceneBoolTrack_0 : DisplayName",
+			"context": "/Game/LevelNSequence/In_Level/L2Tunnel/LS_Tunnel_Driving/FLS_Tunnel_DrivingInTheCar_Sa_FC.FLS_Tunnel_DrivingInTheCar_Sa_FC:MovieScene_0.MovieSceneBoolTrack_0 : DisplayName",
 			"approvedDisplayText": false,
 			"lockReason": "",
 			"translations":
@@ -5028,7 +5028,7 @@
 			"namespace": "",
 			"key": "235F6AC747C7AE4D017BB9B6A8CD8B6C",
 			"source": "Is Cutscene?(Needs Manual Detect)",
-			"context": "/Game/LevelNSequence/In_Level/L2Tunnel/LS_Tunnel_Driving/FLS_Old_Tunnel_DrivingInTheCar_Sa_FC1.FLS_Old_Tunnel_DrivingInTheCar_Sa_FC1:MovieScene_0.MovieSceneBoolTrack_1 : DisplayName",
+			"context": "/Game/LevelNSequence/In_Level/L2Tunnel/LS_Tunnel_Driving/FLS_Tunnel_DrivingInTheCar_Sa_FC.FLS_Tunnel_DrivingInTheCar_Sa_FC:MovieScene_0.MovieSceneBoolTrack_1 : DisplayName",
 			"approvedDisplayText": false,
 			"lockReason": "",
 			"translations":
@@ -5050,7 +5050,7 @@
 			"namespace": "",
 			"key": "9C7925C24EE1AF913FFDFF9708213EB5",
 			"source": "Physics Weight",
-			"context": "/Game/LevelNSequence/In_Level/L2Tunnel/LS_Tunnel_Driving/FLS_Old_Tunnel_DrivingInTheCar_Sa_FC1.FLS_Old_Tunnel_DrivingInTheCar_Sa_FC1:MovieScene_0.MovieSceneFloatTrack_46 : DisplayName",
+			"context": "/Game/LevelNSequence/In_Level/L2Tunnel/LS_Tunnel_Driving/FLS_Tunnel_DrivingInTheCar_Sa_FC.FLS_Tunnel_DrivingInTheCar_Sa_FC:MovieScene_0.MovieSceneFloatTrack_46 : DisplayName",
 			"approvedDisplayText": false,
 			"lockReason": "",
 			"translations":
@@ -5061,7 +5061,7 @@
 			"namespace": "",
 			"key": "763516C04561BB1059B68BB82730B6EA",
 			"source": "Player_LightColor",
-			"context": "/Game/LevelNSequence/In_Level/L2Tunnel/LS_Tunnel_Driving/FLS_Old_Tunnel_DrivingInTheCar_Sa_FC1.FLS_Old_Tunnel_DrivingInTheCar_Sa_FC1:MovieScene_0.MovieSceneMaterialParameterCollectionTrack_0 : DisplayName",
+			"context": "/Game/LevelNSequence/In_Level/L2Tunnel/LS_Tunnel_Driving/FLS_Tunnel_DrivingInTheCar_Sa_FC.FLS_Tunnel_DrivingInTheCar_Sa_FC:MovieScene_0.MovieSceneMaterialParameterCollectionTrack_0 : DisplayName",
 			"approvedDisplayText": false,
 			"lockReason": "",
 			"translations":
@@ -5072,7 +5072,7 @@
 			"namespace": "",
 			"key": "1DBC60664BE563E491A10386F8BC22AF",
 			"source": "MPC_Movie",
-			"context": "/Game/LevelNSequence/In_Level/L2Tunnel/LS_Tunnel_Driving/FLS_Old_Tunnel_DrivingInTheCar_Sa_FC1.FLS_Old_Tunnel_DrivingInTheCar_Sa_FC1:MovieScene_0.MovieSceneMaterialParameterCollectionTrack_1 : DisplayName",
+			"context": "/Game/LevelNSequence/In_Level/L2Tunnel/LS_Tunnel_Driving/FLS_Tunnel_DrivingInTheCar_Sa_FC.FLS_Tunnel_DrivingInTheCar_Sa_FC:MovieScene_0.MovieSceneMaterialParameterCollectionTrack_1 : DisplayName",
 			"approvedDisplayText": false,
 			"lockReason": "",
 			"translations":
@@ -5083,7 +5083,7 @@
 			"namespace": "",
 			"key": "956F3A914521464B15E268986E6D630B",
 			"source": "Animation_SaLyingOnSeatLookingOutside",
-			"context": "/Game/LevelNSequence/In_Level/L2Tunnel/LS_Tunnel_Driving/FLS_Old_Tunnel_DrivingInTheCar_Sa_FC1.FLS_Old_Tunnel_DrivingInTheCar_Sa_FC1:MovieScene_0.MovieSceneSkeletalAnimationTrack_0 : TrackRowDisplayNames[2]",
+			"context": "/Game/LevelNSequence/In_Level/L2Tunnel/LS_Tunnel_Driving/FLS_Tunnel_DrivingInTheCar_Sa_FC.FLS_Tunnel_DrivingInTheCar_Sa_FC:MovieScene_0.MovieSceneSkeletalAnimationTrack_0 : TrackRowDisplayNames[0]",
 			"approvedDisplayText": false,
 			"lockReason": "",
 			"translations":
@@ -5094,7 +5094,7 @@
 			"namespace": "",
 			"key": "A5F28FA343B815E4A0B3ACBEAEA5B4A4",
 			"source": "Facial Animation",
-			"context": "/Game/LevelNSequence/In_Level/L2Tunnel/LS_Tunnel_Driving/FLS_Old_Tunnel_DrivingInTheCar_Sa_FC1.FLS_Old_Tunnel_DrivingInTheCar_Sa_FC1:MovieScene_0.MovieSceneSkeletalAnimationTrack_3 : DisplayName",
+			"context": "/Game/LevelNSequence/In_Level/L2Tunnel/LS_Tunnel_Driving/FLS_Tunnel_DrivingInTheCar_Sa_FC.FLS_Tunnel_DrivingInTheCar_Sa_FC:MovieScene_0.MovieSceneSkeletalAnimationTrack_3 : DisplayName",
 			"approvedDisplayText": false,
 			"lockReason": "",
 			"translations":
@@ -5105,7 +5105,7 @@
 			"namespace": "",
 			"key": "DBDE400E4F686044A10B3382F8E4674E",
 			"source": "Facial Animation_KeepPeeringAtWindow",
-			"context": "/Game/LevelNSequence/In_Level/L2Tunnel/LS_Tunnel_Driving/FLS_Old_Tunnel_DrivingInTheCar_Sa_FC1.FLS_Old_Tunnel_DrivingInTheCar_Sa_FC1:MovieScene_0.MovieSceneSkeletalAnimationTrack_3 : TrackRowDisplayNames[0]",
+			"context": "/Game/LevelNSequence/In_Level/L2Tunnel/LS_Tunnel_Driving/FLS_Tunnel_DrivingInTheCar_Sa_FC.FLS_Tunnel_DrivingInTheCar_Sa_FC:MovieScene_0.MovieSceneSkeletalAnimationTrack_3 : TrackRowDisplayNames[0]",
 			"approvedDisplayText": false,
 			"lockReason": "",
 			"translations":
@@ -5116,7 +5116,7 @@
 			"namespace": "",
 			"key": "99E7D7014B06EEC4D7D501AF3AFCCCAA",
 			"source": "Facial Animation_StartToLookOutsideWindow",
-			"context": "/Game/LevelNSequence/In_Level/L2Tunnel/LS_Tunnel_Driving/FLS_Old_Tunnel_DrivingInTheCar_Sa_FC1.FLS_Old_Tunnel_DrivingInTheCar_Sa_FC1:MovieScene_0.MovieSceneSkeletalAnimationTrack_3 : TrackRowDisplayNames[2]",
+			"context": "/Game/LevelNSequence/In_Level/L2Tunnel/LS_Tunnel_Driving/FLS_Tunnel_DrivingInTheCar_Sa_FC.FLS_Tunnel_DrivingInTheCar_Sa_FC:MovieScene_0.MovieSceneSkeletalAnimationTrack_3 : TrackRowDisplayNames[2]",
 			"approvedDisplayText": false,
 			"lockReason": "",
 			"translations":
@@ -5127,7 +5127,7 @@
 			"namespace": "",
 			"key": "1B7817CB405E60E42FC0308E603C5411",
 			"source": "Facial Animation_SelfHarm",
-			"context": "/Game/LevelNSequence/In_Level/L2Tunnel/LS_Tunnel_Driving/FLS_Old_Tunnel_DrivingInTheCar_Sa_FC1.FLS_Old_Tunnel_DrivingInTheCar_Sa_FC1:MovieScene_0.MovieSceneSkeletalAnimationTrack_3 : TrackRowDisplayNames[5]",
+			"context": "/Game/LevelNSequence/In_Level/L2Tunnel/LS_Tunnel_Driving/FLS_Tunnel_DrivingInTheCar_Sa_FC.FLS_Tunnel_DrivingInTheCar_Sa_FC:MovieScene_0.MovieSceneSkeletalAnimationTrack_3 : TrackRowDisplayNames[5]",
 			"approvedDisplayText": false,
 			"lockReason": "",
 			"translations":
@@ -13565,7 +13565,7 @@
 			{
 				"en-US":
 				{
-					"text": "[FROM: Free District Police Station] ",
+					"text": "FROM: Free District Police Station",
 					"reviewedSource": "重要邮件"
 				}
 			}
@@ -13662,7 +13662,7 @@
 			{
 				"en-US":
 				{
-					"text": "[Open Mail]",
+					"text": "Open Mail",
 					"reviewedSource": "展开内容"
 				}
 			}
@@ -13710,7 +13710,7 @@
 			{
 				"en-US":
 				{
-					"text": "[Suspicious]",
+					"text": "Suspicious",
 					"reviewedSource": "怀疑"
 				}
 			}
@@ -13726,7 +13726,7 @@
 			{
 				"en-US":
 				{
-					"text": "[Optimistic]",
+					"text": "Optimistic",
 					"reviewedSource": "乐观"
 				}
 			}
@@ -21637,7 +21637,7 @@
 		{
 			"namespace": "",
 			"key": "13719395433B4A5E8F3E2AA5EABE98C7",
-			"source": "看，你又沉默了。",
+			"source": "看，又沉默了。",
 			"context": "/Game/Narrative/Dialogues/Levels/L4BlackMarket/L4_BlackMarketInvestigation_Still_InterestingItemsOntheStreet.L4_BlackMarketInvestigation_Still_InterestingItemsOntheStreet:DialogueTemplate.DialogueNode_NPC_134 : Line.Text",
 			"approvedDisplayText": true,
 			"lockReason": "",
@@ -28053,7 +28053,7 @@
 		{
 			"namespace": "",
 			"key": "C9A2996F418002FA31D115BC977C8464",
-			"source": "我以前眼神不好。",
+			"source": "有什么问题？警察还是得有的。",
 			"context": "/Game/Narrative/Dialogues/Levels/L5Clinic/L5Clinic_Still.L5Clinic_Still:DialogueTemplate.DialogueNode_NPC_182 : Line.Text",
 			"approvedDisplayText": true,
 			"lockReason": "",
@@ -28061,8 +28061,8 @@
 			{
 				"en-US":
 				{
-					"text": "I had terrible taste back then.",
-					"reviewedSource": "我以前眼神不好。"
+					"text": "What's the problem? We still need cops.",
+					"reviewedSource": "有什么问题？警察还是得有的。"
 				}
 			}
 		},
@@ -30703,7 +30703,7 @@
 		{
 			"namespace": "",
 			"key": "7BB581E6472B86352CD3468C640E01F3",
-			"source": "我以前眼神不好。",
+			"source": "警察还是得有的。",
 			"context": "/Game/Narrative/Dialogues/Levels/L5Clinic/L5Clinic_Still.L5Clinic_Still:DialogueTemplate.BP_DialogueNode_Player_VTG_C_23 : Line.Text",
 			"approvedDisplayText": true,
 			"lockReason": "",
@@ -30711,8 +30711,8 @@
 			{
 				"en-US":
 				{
-					"text": "I had terrible taste back then.",
-					"reviewedSource": "我以前眼神不好。"
+					"text": "We still need cops.",
+					"reviewedSource": "警察还是得有的。"
 				}
 			}
 		},
@@ -30788,16 +30788,16 @@
 		{
 			"namespace": "",
 			"key": "CBF88AB84A8801D45D25E0B046D6E7A8",
-			"source": "…无论你想查什么，停下。",
+			"source": "这也要管？",
 			"context": "/Game/Narrative/Dialogues/Levels/L5Clinic/L5Clinic_FreeMove.L5Clinic_FreeMove:DialogueTemplate.DialogueNode_NPC_6 : Line.Text",
-			"approvedDisplayText": true,
+			"approvedDisplayText": false,
 			"lockReason": "",
 			"translations":
 			{
 				"en-US":
 				{
-					"text": "Whatever you're digging for, stop.",
-					"reviewedSource": "…无论你想查什么，停下。"
+					"text": "Would you ever give me a break?",
+					"reviewedSource": "这也要管？"
 				}
 			}
 		},
@@ -30868,16 +30868,16 @@
 		{
 			"namespace": "",
 			"key": "741B719E429655CF1F2D14BF544442F7",
-			"source": "…够了。",
+			"source": "和案子无关。",
 			"context": "/Game/Narrative/Dialogues/Levels/L5Clinic/L5Clinic_FreeMove.L5Clinic_FreeMove:DialogueTemplate.DialogueNode_NPC_14 : Line.Text",
-			"approvedDisplayText": true,
+			"approvedDisplayText": false,
 			"lockReason": "",
 			"translations":
 			{
 				"en-US":
 				{
-					"text": "That's enough.",
-					"reviewedSource": "…够了。"
+					"text": "That wasn’t related to the case.",
+					"reviewedSource": "和案子无关。"
 				}
 			}
 		},
@@ -30900,7 +30900,7 @@
 		{
 			"namespace": "",
 			"key": "FFF94E9749913CEB475F43BC9D514F3B",
-			"source": "我说够了。",
+			"source": "你管太多了。",
 			"context": "/Game/Narrative/Dialogues/Levels/L5Clinic/L5Clinic_FreeMove.L5Clinic_FreeMove:DialogueTemplate.DialogueNode_NPC_16 : Line.Text",
 			"approvedDisplayText": true,
 			"lockReason": "",
@@ -30908,29 +30908,24 @@
 			{
 				"en-US":
 				{
-					"text": "I said that's enough.",
-					"reviewedSource": "我说够了。"
+					"text": "That’s really not your business.",
+					"reviewedSource": "你管太多了。"
 				}
 			}
 		},
 		{
 			"namespace": "",
 			"key": "1CFB0A4544CEE69CDF04698D38310A65",
-			"source": "你与 May 的交互存在回避行为。",
+			"source": "你似乎不太愿意讨论刚才发生的事情。",
 			"context": "/Game/Narrative/Dialogues/Levels/L5Clinic/L5Clinic_FreeMove.L5Clinic_FreeMove:DialogueTemplate.DialogueNode_NPC_18 : Line.Text",
 			"approvedDisplayText": true,
 			"lockReason": "",
 			"translations":
 			{
-				"zh-Hans":
-				{
-					"text": "你与梅的交互存在回避行为。",
-					"reviewedSource": "你与 May 的交互存在回避行为。"
-				},
 				"en-US":
 				{
-					"text": "You exhibited avoidance behavior during your interaction with May.",
-					"reviewedSource": "你与 May 的交互存在回避行为。"
+					"text": "You seem reluctant to discuss what happened earlier.",
+					"reviewedSource": "你似乎不太愿意讨论刚才发生的事情。"
 				}
 			}
 		},
@@ -35248,17 +35243,6 @@
 			}
 		},
 		{
-			"namespace": "UObjectDisplayNames",
-			"key": "Widget:RenderOpacity",
-			"source": "Render Opacity",
-			"context": "/Game/Widget/Texture/WBP_BattleModeHUD.WBP_BattleModeHUD:Fade.Fade.MovieSceneFloatTrack_0 : DisplayName",
-			"approvedDisplayText": false,
-			"lockReason": "",
-			"translations":
-			{
-			}
-		},
-		{
 			"namespace": "",
 			"key": "7CBD798648A1ACEF11123DACBFD60C64",
 			"source": "None",
@@ -35835,21 +35819,31 @@
 			"key": "212B89F84C94562A61A97DB6EF8586F3",
 			"source": "Continue",
 			"context": "/Game/ThirdPerson/Blueprints/UI/WBP_PauseMenu.WBP_PauseMenu:WidgetTree.TextBlock_206 : Text",
-			"approvedDisplayText": false,
+			"approvedDisplayText": true,
 			"lockReason": "",
 			"translations":
 			{
+				"zh-Hans":
+				{
+					"text": "继续游戏",
+					"reviewedSource": "Continue"
+				}
 			}
 		},
 		{
-			"namespace": "",
-			"key": "0C8F908E49A77F8406E906A6C53553C1",
-			"source": "EXIT",
+			"namespace": "VTG.WidgetLabels",
+			"key": "WBP_PauseMenu.ExitEntryText",
+			"source": "EXIT GAME",
 			"context": "/Game/ThirdPerson/Blueprints/UI/WBP_PauseMenu.WBP_PauseMenu:WidgetTree.TextBlock : Text",
-			"approvedDisplayText": false,
+			"approvedDisplayText": true,
 			"lockReason": "",
 			"translations":
 			{
+				"zh-Hans":
+				{
+					"text": "退出游戏",
+					"reviewedSource": "EXIT GAME"
+				}
 			}
 		},
 		{
@@ -35974,25 +35968,19 @@
 			}
 		},
 		{
-			"namespace": "",
-			"key": "4A0EFD62462BACE6BC6643B0B04645A6",
-			"source": "一位女士在日落大道上咒骂咖啡价格上涨了5元",
-			"context": "/Game/Widget/Loading/WBP_VTGLoadingScreen.WBP_VTGLoadingScreen:WidgetTree.TipText : Text",
-			"approvedDisplayText": false,
-			"lockReason": "",
-			"translations":
-			{
-			}
-		},
-		{
 			"namespace": "VTGLoading",
 			"key": "Loading",
 			"source": "正在载入",
 			"context": "/Game/Widget/Loading/WBP_VTGLoadingScreen.WBP_VTGLoadingScreen:WidgetTree.LoadingLabel : Text",
-			"approvedDisplayText": false,
+			"approvedDisplayText": true,
 			"lockReason": "",
 			"translations":
 			{
+				"en-US":
+				{
+					"text": "LOADING",
+					"reviewedSource": "正在载入"
+				}
 			}
 		},
 		{
@@ -36000,39 +35988,6 @@
 			"key": "2CD0D8AE47A88D2DA44E708FD9D8D8B4",
 			"source": "一般路过醉汉",
 			"context": "/Game/Widget/Texture/WBP_BattleModeHUD.WBP_BattleModeHUD:WidgetTree.EnemyName : Text",
-			"approvedDisplayText": false,
-			"lockReason": "",
-			"translations":
-			{
-			}
-		},
-		{
-			"namespace": "",
-			"key": "5F1D13084B607F956A6499986AECFBC9",
-			"source": "继续游戏",
-			"context": "/Game/Widget/Tutorials/WBP_Tutorial_Battle.WBP_Tutorial_Battle:WidgetTree.TextBlock_135 : Text",
-			"approvedDisplayText": false,
-			"lockReason": "",
-			"translations":
-			{
-			}
-		},
-		{
-			"namespace": "",
-			"key": "D71384B14F53FFCE2940CA8DA916E619",
-			"source": "战斗模式",
-			"context": "/Game/Widget/Tutorials/WBP_Tutorial_Battle.WBP_Tutorial_Battle:WidgetTree.TutorialName : Text",
-			"approvedDisplayText": false,
-			"lockReason": "",
-			"translations":
-			{
-			}
-		},
-		{
-			"namespace": "",
-			"key": "2630225545AE5B33344F1EAA03B2CF20",
-			"source": "【鼠标左键】攻击\r\n【鼠标右键】防御\r\n【空格】       闪避",
-			"context": "/Game/Widget/Tutorials/WBP_Tutorial_Battle.WBP_Tutorial_Battle:WidgetTree.TextBlock_115 : Text",
 			"approvedDisplayText": false,
 			"lockReason": "",
 			"translations":
@@ -40012,7 +39967,7 @@
 			"namespace": "",
 			"key": "83A322924FEE830D116800A74C2FFFD2",
 			"source": "Location Name",
-			"context": "/Game/Narrative/Dialogues/Levels/L5Clinic/Q_L5Clinic.Q_L5Clinic:QuestTemplate.QuestBranch_1.BPT_GoToLocation_C_0 : FriendlyLocationName",
+			"context": "/Game/Narrative/Dialogues/Levels/L4BlackMarket/Q_L4BlackMarketInvestigation.Q_L4BlackMarketInvestigation:QuestTemplate.QuestBranch_7.BPT_GoToLocation_C_0 : FriendlyLocationName",
 			"approvedDisplayText": false,
 			"lockReason": "",
 			"translations":
@@ -40922,6 +40877,2676 @@
 					"text": "North Dock descending ramp in approximately four minutes.",
 					"reviewedSource": "前方约四分钟，进入北坞下行匝道。"
 				}
+			}
+		},
+		{
+			"namespace": "VTGTerminal",
+			"key": "NotYourSlot",
+			"source": "This slot belongs to the game, not to you.",
+			"context": "../../../../Unreal projects/VertigoGit/Source/Vertigo/Private/Save/VTGSaveCoordinator.cpp",
+			"approvedDisplayText": false,
+			"lockReason": "",
+			"translations":
+			{
+			}
+		},
+		{
+			"namespace": "VTGTerminal",
+			"key": "NoWorld",
+			"source": "Cannot save right now.",
+			"context": "../../../../Unreal projects/VertigoGit/Source/Vertigo/Private/Save/VTGSaveCoordinator.cpp",
+			"approvedDisplayText": false,
+			"lockReason": "",
+			"translations":
+			{
+			}
+		},
+		{
+			"namespace": "VTGTerminal",
+			"key": "InConflict",
+			"source": "Not available within conflict.",
+			"context": "../../../../Unreal projects/VertigoGit/Source/Vertigo/Private/UI/VTGTerminalSavePage.cpp",
+			"approvedDisplayText": false,
+			"lockReason": "",
+			"translations":
+			{
+			}
+		},
+		{
+			"namespace": "VTGTerminal",
+			"key": "InCutscene",
+			"source": "Not available during a cutscene.",
+			"context": "../../../../Unreal projects/VertigoGit/Source/Vertigo/Private/Save/VTGSaveCoordinator.cpp",
+			"approvedDisplayText": false,
+			"lockReason": "",
+			"translations":
+			{
+			}
+		},
+		{
+			"namespace": "VTGTerminal",
+			"key": "InDialogue",
+			"source": "Not available during a conversation.",
+			"context": "../../../../Unreal projects/VertigoGit/Source/Vertigo/Private/Save/VTGSaveCoordinator.cpp",
+			"approvedDisplayText": false,
+			"lockReason": "",
+			"translations":
+			{
+			}
+		},
+		{
+			"namespace": "VTGMainMenu",
+			"key": "PickSlot",
+			"source": "Choose a save to continue",
+			"context": "../../../../Unreal projects/VertigoGit/Source/Vertigo/Private/UI/VTGMainMenu.cpp",
+			"approvedDisplayText": false,
+			"lockReason": "",
+			"translations":
+			{
+			}
+		},
+		{
+			"namespace": "VTGTerminal",
+			"key": "Saving",
+			"source": "SAVING",
+			"context": "../../../../Unreal projects/VertigoGit/Source/Vertigo/Private/UI/VTGSaveIndicator.cpp",
+			"approvedDisplayText": false,
+			"lockReason": "",
+			"translations":
+			{
+			}
+		},
+		{
+			"namespace": "VTGTerminal",
+			"key": "StoryAutoSave",
+			"source": "STORY AUTOSAVE",
+			"context": "../../../../Unreal projects/VertigoGit/Source/Vertigo/Private/UI/VTGTerminalSavePage.cpp",
+			"approvedDisplayText": false,
+			"lockReason": "",
+			"translations":
+			{
+			}
+		},
+		{
+			"namespace": "VTGTerminal",
+			"key": "StoryCheckpoint",
+			"source": "STORY AUTOSAVE\n\nRead-only, written on entering a new stage",
+			"context": "../../../../Unreal projects/VertigoGit/Source/Vertigo/Private/UI/VTGTerminalSavePage.cpp",
+			"approvedDisplayText": false,
+			"lockReason": "",
+			"translations":
+			{
+			}
+		},
+		{
+			"namespace": "VTGTerminal",
+			"key": "ChooseSlotLoadOnly",
+			"source": "Select a save to continue.",
+			"context": "../../../../Unreal projects/VertigoGit/Source/Vertigo/Private/UI/VTGTerminalSavePage.cpp",
+			"approvedDisplayText": false,
+			"lockReason": "",
+			"translations":
+			{
+			}
+		},
+		{
+			"namespace": "",
+			"key": "6BFF40EA4EB1143088E3658E1EBAEFAD",
+			"source": "Lorem Ipsum",
+			"context": "/Game/Narrative/NarrativeUI/Widgets/BP_QuestJournalQuest.Default__BP_QuestJournalQuest_C : Text",
+			"approvedDisplayText": false,
+			"lockReason": "",
+			"translations":
+			{
+			}
+		},
+		{
+			"namespace": "VTGLoadingNews",
+			"key": "News20261120_01",
+			"source": "(大渊城经济观察 · 房地产[财经新闻])\n中游区多个住宅项目再次延期交付，开发商称市场信心仍然稳固 | 尽管部分购房者已等待超过三年，开发企业仍对下一季度的建设前景持乐观态度。",
+			"context": "/Game/Widget/Loading/DA_LevelLoadingInfo.DA_LevelLoadingInfo : NewsBodies[0]",
+			"approvedDisplayText": true,
+			"lockReason": "",
+			"translations":
+			{
+				"zh-Hans":
+				{
+					"text": "(大渊城经济观察 · 房地产[财经新闻])\n中游区多个住宅项目再次延期交付，开发商称市场信心仍然稳固 | 尽管部分购房者已等待超过三年，开发企业仍对下一季度的建设前景持乐观态度。",
+					"reviewedSource": "(大渊城经济观察 · 房地产[财经新闻])\n中游区多个住宅项目再次延期交付，开发商称市场信心仍然稳固 | 尽管部分购房者已等待超过三年，开发企业仍对下一季度的建设前景持乐观态度。"
+				},
+				"en-US":
+				{
+					"text": "(Great Abyss City Economic Review · Real Estate [Financial News])\nMultiple Residential Projects in The Midstream Face Further Delays; Developers Insist Market Confidence Remains Strong | Despite some homebuyers having waited over three years, developers remain optimistic about construction prospects for the next quarter.",
+					"reviewedSource": "(大渊城经济观察 · 房地产[财经新闻])\n中游区多个住宅项目再次延期交付，开发商称市场信心仍然稳固 | 尽管部分购房者已等待超过三年，开发企业仍对下一季度的建设前景持乐观态度。"
+				}
+			}
+		},
+		{
+			"namespace": "VTGLoadingNews",
+			"key": "News20261120_02",
+			"source": "（市政公共卫生通告·[居民生活]）\n下游区部分住宅供氧系统出现异常，管理部门建议居民不要恐慌 | 有关部门表示，目前尚无证据显示此次供氧异常会对居民健康造成长期影响。",
+			"context": "/Game/Widget/Loading/DA_LevelLoadingInfo.DA_LevelLoadingInfo : NewsBodies[1]",
+			"approvedDisplayText": true,
+			"lockReason": "",
+			"translations":
+			{
+				"zh-Hans":
+				{
+					"text": "（市政公共卫生通告·[居民生活]）\n下游区部分住宅供氧系统出现异常，管理部门建议居民不要恐慌 | 有关部门表示，目前尚无证据显示此次供氧异常会对居民健康造成长期影响。",
+					"reviewedSource": "（市政公共卫生通告·[居民生活]）\n下游区部分住宅供氧系统出现异常，管理部门建议居民不要恐慌 | 有关部门表示，目前尚无证据显示此次供氧异常会对居民健康造成长期影响。"
+				},
+				"en-US":
+				{
+					"text": "(Municipal Public Health Advisory · [Residential Life])\nOxygen Supply Irregularities Reported in Several Residential Modules in The Sump Stream; Authorities Urge Residents Not to Panic | Officials state that there is currently no evidence suggesting the disruptions will have long-term effects on residents' health.",
+					"reviewedSource": "（市政公共卫生通告·[居民生活]）\n下游区部分住宅供氧系统出现异常，管理部门建议居民不要恐慌 | 有关部门表示，目前尚无证据显示此次供氧异常会对居民健康造成长期影响。"
+				}
+			}
+		},
+		{
+			"namespace": "VTGLoadingNews",
+			"key": "News20261120_03",
+			"source": "(地方快讯 · 城市安全[突发事件])\n海怪目击事件持续增加，治安局提醒居民勿在交通隧道观景窗附近聚集 | 多名市民称在外部水域发现不明大型生物，部分影像仍有待核实。",
+			"context": "/Game/Widget/Loading/DA_LevelLoadingInfo.DA_LevelLoadingInfo : NewsBodies[2]",
+			"approvedDisplayText": true,
+			"lockReason": "",
+			"translations":
+			{
+				"zh-Hans":
+				{
+					"text": "(地方快讯 · 城市安全[突发事件])\n海怪目击事件持续增加，治安局提醒居民勿在交通隧道观景窗附近聚集 | 多名市民称在外部水域发现不明大型生物，部分影像仍有待核实。",
+					"reviewedSource": "(地方快讯 · 城市安全[突发事件])\n海怪目击事件持续增加，治安局提醒居民勿在交通隧道观景窗附近聚集 | 多名市民称在外部水域发现不明大型生物，部分影像仍有待核实。"
+				},
+				"en-US":
+				{
+					"text": "(Local News Brief · Public Safety [Breaking News])\nSea Monster Sightings Continue to Rise; Security Main Station Urges Residents to Avoid Gathering Near Observation Windows in Transit Tunnels | Multiple residents report sightings of unidentified large creatures in the surrounding waters. Some footage remains unverified.",
+					"reviewedSource": "(地方快讯 · 城市安全[突发事件])\n海怪目击事件持续增加，治安局提醒居民勿在交通隧道观景窗附近聚集 | 多名市民称在外部水域发现不明大型生物，部分影像仍有待核实。"
+				}
+			}
+		},
+		{
+			"namespace": "VTGLoadingNews",
+			"key": "News20261120_04",
+			"source": "(房地产广告)\n在大渊城，您永远拥有一片属于自己的天空。\n中游区全新高层住宅模块，现已开放第二轮预售。预计竣工日期将于近期公布。",
+			"context": "/Game/Widget/Loading/DA_LevelLoadingInfo.DA_LevelLoadingInfo : NewsBodies[3]",
+			"approvedDisplayText": true,
+			"lockReason": "",
+			"translations":
+			{
+				"zh-Hans":
+				{
+					"text": "(房地产广告)\n在大渊城，您永远拥有一片属于自己的天空。\n中游区全新高层住宅模块，现已开放第二轮预售。预计竣工日期将于近期公布。",
+					"reviewedSource": "(房地产广告)\n在大渊城，您永远拥有一片属于自己的天空。\n中游区全新高层住宅模块，现已开放第二轮预售。预计竣工日期将于近期公布。"
+				},
+				"en-US":
+				{
+					"text": "(Real Estate Advertisement)\nIn the Great Abyss City, you'll always have a piece of sky to call your own.\nA brand-new high-rise residential module in The Midstream is now open for its second round of pre-sales.\nEstimated completion date to be announced soon.",
+					"reviewedSource": "(房地产广告)\n在大渊城，您永远拥有一片属于自己的天空。\n中游区全新高层住宅模块，现已开放第二轮预售。预计竣工日期将于近期公布。"
+				}
+			}
+		},
+		{
+			"namespace": "VTGLoadingNews",
+			"key": "News20261120_05",
+			"source": "(财经快讯)\n本季度新住宅项目开工数量创历史新高。\n同期，已交付住宅面积连续第六个季度下降。",
+			"context": "/Game/Widget/Loading/DA_LevelLoadingInfo.DA_LevelLoadingInfo : NewsBodies[4]",
+			"approvedDisplayText": true,
+			"lockReason": "",
+			"translations":
+			{
+				"zh-Hans":
+				{
+					"text": "(财经快讯)\n本季度新住宅项目开工数量创历史新高。\n同期，已交付住宅面积连续第六个季度下降。",
+					"reviewedSource": "(财经快讯)\n本季度新住宅项目开工数量创历史新高。\n同期，已交付住宅面积连续第六个季度下降。"
+				},
+				"en-US":
+				{
+					"text": "(Financial News Brief)\nConstruction starts on new residential projects reached an all-time high this quarter.\nMeanwhile, the total floor area of completed and delivered residential properties has declined for the sixth consecutive quarter.",
+					"reviewedSource": "(财经快讯)\n本季度新住宅项目开工数量创历史新高。\n同期，已交付住宅面积连续第六个季度下降。"
+				}
+			}
+		},
+		{
+			"namespace": "VTGLoadingNews",
+			"key": "News20261120_06",
+			"source": "(金融广告)\n让您的未来，从今天开始增值。\n即日起购买指定预定住宅，即可享受前十八个月维护费用延期支付优惠。",
+			"context": "/Game/Widget/Loading/DA_LevelLoadingInfo.DA_LevelLoadingInfo : NewsBodies[5]",
+			"approvedDisplayText": true,
+			"lockReason": "",
+			"translations":
+			{
+				"zh-Hans":
+				{
+					"text": "(金融广告)\n让您的未来，从今天开始增值。\n即日起购买指定预定住宅，即可享受前十八个月维护费用延期支付优惠。",
+					"reviewedSource": "(金融广告)\n让您的未来，从今天开始增值。\n即日起购买指定预定住宅，即可享受前十八个月维护费用延期支付优惠。"
+				},
+				"en-US":
+				{
+					"text": "(Financial Advertisement)\nMake your future worth more, starting today.\nPurchase a qualifying pre-construction residence now and enjoy deferred maintenance payments for the first 18 months.",
+					"reviewedSource": "(金融广告)\n让您的未来，从今天开始增值。\n即日起购买指定预定住宅，即可享受前十八个月维护费用延期支付优惠。"
+				}
+			}
+		},
+		{
+			"namespace": "VTGLoadingNews",
+			"key": "News20261120_07",
+			"source": "（治安提示）治安局提醒居民：不要对交通隧道外的大型海洋生物进行挑衅。",
+			"context": "/Game/Widget/Loading/DA_LevelLoadingInfo.DA_LevelLoadingInfo : NewsBodies[6]",
+			"approvedDisplayText": true,
+			"lockReason": "",
+			"translations":
+			{
+				"zh-Hans":
+				{
+					"text": "（治安提示）治安局提醒居民：不要对交通隧道外的大型海洋生物进行挑衅。",
+					"reviewedSource": "（治安提示）治安局提醒居民：不要对交通隧道外的大型海洋生物进行挑衅。"
+				},
+				"en-US":
+				{
+					"text": "(Public Safety Advisory)\nSecurity Main Station reminds residents: Do not provoke large marine creatures outside transit tunnels.",
+					"reviewedSource": "（治安提示）治安局提醒居民：不要对交通隧道外的大型海洋生物进行挑衅。"
+				}
+			}
+		},
+		{
+			"namespace": "VTGLoadingNews",
+			"key": "News20261120_08",
+			"source": "（地方新闻）自由区一名男子因试图将野生海怪幼体作为宠物饲养，被处以罚款。目前该生物已由有关部门接管。",
+			"context": "/Game/Widget/Loading/DA_LevelLoadingInfo.DA_LevelLoadingInfo : NewsBodies[7]",
+			"approvedDisplayText": true,
+			"lockReason": "",
+			"translations":
+			{
+				"zh-Hans":
+				{
+					"text": "（地方新闻）自由区一名男子因试图将野生海怪幼体作为宠物饲养，被处以罚款。目前该生物已由有关部门接管。",
+					"reviewedSource": "（地方新闻）自由区一名男子因试图将野生海怪幼体作为宠物饲养，被处以罚款。目前该生物已由有关部门接管。"
+				},
+				"en-US":
+				{
+					"text": "(Local News)\nA man in The Free District has been fined for attempting to keep a wild Sea Monster juvenile as a pet.\nThe creature is now in the custody of local authorities.",
+					"reviewedSource": "（地方新闻）自由区一名男子因试图将野生海怪幼体作为宠物饲养，被处以罚款。目前该生物已由有关部门接管。"
+				}
+			}
+		},
+		{
+			"namespace": "VTGLoadingNews",
+			"key": "News20261120_09",
+			"source": "《迷失于面具之下》\n(电视剧预告)《迷失于面具之下》热播中！\n未知的买家。虚假的名字。还有一笔她明知道不该接的生意。",
+			"context": "/Game/Widget/Loading/DA_LevelLoadingInfo.DA_LevelLoadingInfo : NewsBodies[8]",
+			"approvedDisplayText": true,
+			"lockReason": "",
+			"translations":
+			{
+				"zh-Hans":
+				{
+					"text": "《迷失于面具之下》\n(电视剧预告)《迷失于面具之下》热播中！\n未知的买家。虚假的名字。还有一笔她明知道不该接的生意。",
+					"reviewedSource": "《迷失于面具之下》\n(电视剧预告)《迷失于面具之下》热播中！\n未知的买家。虚假的名字。还有一笔她明知道不该接的生意。"
+				},
+				"en-US":
+				{
+					"text": "Lost Beneath the Mask\n(TV Drama Promo)\n“Lost Beneath the Mask” — The Hit Series Everyone's Watching!\nAn unknown buyer. A false identity. And one deal she knew she should never have taken.",
+					"reviewedSource": "《迷失于面具之下》\n(电视剧预告)《迷失于面具之下》热播中！\n未知的买家。虚假的名字。还有一笔她明知道不该接的生意。"
+				}
+			}
+		},
+		{
+			"namespace": "VTGLoadingNews",
+			"key": "News20261120_10",
+			"source": "(娱乐快讯)《迷失于面具之下》连续第七周登顶收视榜！\n制片人回应剧情重复争议：“观众喜欢的不是答案，而是等待答案的过程。”",
+			"context": "/Game/Widget/Loading/DA_LevelLoadingInfo.DA_LevelLoadingInfo : NewsBodies[9]",
+			"approvedDisplayText": true,
+			"lockReason": "",
+			"translations":
+			{
+				"zh-Hans":
+				{
+					"text": "(娱乐快讯)《迷失于面具之下》连续第七周登顶收视榜！\n制片人回应剧情重复争议：“观众喜欢的不是答案，而是等待答案的过程。”",
+					"reviewedSource": "(娱乐快讯)《迷失于面具之下》连续第七周登顶收视榜！\n制片人回应剧情重复争议：“观众喜欢的不是答案，而是等待答案的过程。”"
+				},
+				"en-US":
+				{
+					"text": "(Entertainment News Brief)\n“Lost Under the Mask” Tops the Ratings for the Seventh Consecutive Week!\nResponding to criticism over repetitive storylines, the producer stated: “What audiences want isn't the answer. It's the anticipation of an answer.”",
+					"reviewedSource": "(娱乐快讯)《迷失于面具之下》连续第七周登顶收视榜！\n制片人回应剧情重复争议：“观众喜欢的不是答案，而是等待答案的过程。”"
+				}
+			}
+		},
+		{
+			"namespace": "VTGLoadingNews",
+			"key": "News20261120_11",
+			"source": "(娱乐快讯)《迷失于面具之下》已成为这个季度最热剧情片！\n制片人回应特定创意争议：“与其一无所长招致批评，不如放手创造招致批评。”",
+			"context": "/Game/Widget/Loading/DA_LevelLoadingInfo.DA_LevelLoadingInfo : NewsBodies[10]",
+			"approvedDisplayText": true,
+			"lockReason": "",
+			"translations":
+			{
+				"zh-Hans":
+				{
+					"text": "(娱乐快讯)《迷失于面具之下》已成为这个季度最热剧情片！\n制片人回应特定创意争议：“与其一无所长招致批评，不如放手创造招致批评。”",
+					"reviewedSource": "(娱乐快讯)《迷失于面具之下》已成为这个季度最热剧情片！\n制片人回应特定创意争议：“与其一无所长招致批评，不如放手创造招致批评。”"
+				},
+				"en-US":
+				{
+					"text": "(Entertainment News Brief)\n“Lost Under the Mask” Becomes This Quarter's Hottest Drama Series!\nAddressing controversy surrounding certain creative decisions, the producer remarked: “Better to be criticized for daring to create than for having nothing to offer.”",
+					"reviewedSource": "(娱乐快讯)《迷失于面具之下》已成为这个季度最热剧情片！\n制片人回应特定创意争议：“与其一无所长招致批评，不如放手创造招致批评。”"
+				}
+			}
+		},
+		{
+			"namespace": "VTGLoadingNews",
+			"key": "News20261120_12",
+			"source": "（娱乐八卦）《迷失于面具之下》男女主演被曝私下关系不睦！\n双方经纪人均否认有关传闻，强调新一季拍摄进展顺利。",
+			"context": "/Game/Widget/Loading/DA_LevelLoadingInfo.DA_LevelLoadingInfo : NewsBodies[11]",
+			"approvedDisplayText": true,
+			"lockReason": "",
+			"translations":
+			{
+				"zh-Hans":
+				{
+					"text": "（娱乐八卦）《迷失于面具之下》男女主演被曝私下关系不睦！\n双方经纪人均否认有关传闻，强调新一季拍摄进展顺利。",
+					"reviewedSource": "（娱乐八卦）《迷失于面具之下》男女主演被曝私下关系不睦！\n双方经纪人均否认有关传闻，强调新一季拍摄进展顺利。"
+				},
+				"en-US":
+				{
+					"text": "(Celebrity Gossip)\nRumors of Bad Blood Between the Lead Actors of “Lost Under the Mask”!\nRepresentatives for both stars have denied the rumors, insisting that production on the new season is proceeding smoothly.",
+					"reviewedSource": "（娱乐八卦）《迷失于面具之下》男女主演被曝私下关系不睦！\n双方经纪人均否认有关传闻，强调新一季拍摄进展顺利。"
+				}
+			}
+		},
+		{
+			"namespace": "VTGLoadingNews",
+			"key": "News20261120_14",
+			"source": "（电视节目预告 · 真人秀节目宣传）《深潜禁区》第三季重磅回归！\n五位挑战者，七十二小时，深入大渊城最臭名昭著的废弃住宅模块！\n没有通讯，没有援助，只有勇气和一台随时可能失灵的摄像机！\n本周五晚十点，看看谁能活到最后！",
+			"context": "/Game/Widget/Loading/DA_LevelLoadingInfo.DA_LevelLoadingInfo : NewsBodies[13]",
+			"approvedDisplayText": true,
+			"lockReason": "",
+			"translations":
+			{
+				"zh-Hans":
+				{
+					"text": "（电视节目预告 · 真人秀节目宣传）《深潜禁区》第三季重磅回归！\n五位挑战者，七十二小时，深入大渊城最臭名昭著的废弃住宅模块！\n没有通讯，没有援助，只有勇气和一台随时可能失灵的摄像机！\n本周五晚十点，看看谁能活到最后！",
+					"reviewedSource": "（电视节目预告 · 真人秀节目宣传）《深潜禁区》第三季重磅回归！\n五位挑战者，七十二小时，深入大渊城最臭名昭著的废弃住宅模块！\n没有通讯，没有援助，只有勇气和一台随时可能失灵的摄像机！\n本周五晚十点，看看谁能活到最后！"
+				},
+				"en-US":
+				{
+					"text": "(TV Promo · Reality Show)\n“The Forbidden Depths” Returns for an Explosive Third Season!\nFive contestants. Seventy-two hours. Deep inside the most notorious abandoned residential modules in the Great Abyss City!\nNo communication. No rescue. Just raw courage and a camera that could fail at any moment!\nThis Friday at 10 PM — See Who Makes It Out Alive!",
+					"reviewedSource": "（电视节目预告 · 真人秀节目宣传）《深潜禁区》第三季重磅回归！\n五位挑战者，七十二小时，深入大渊城最臭名昭著的废弃住宅模块！\n没有通讯，没有援助，只有勇气和一台随时可能失灵的摄像机！\n本周五晚十点，看看谁能活到最后！"
+				}
+			}
+		},
+		{
+			"namespace": "VTGLoadingNews",
+			"key": "News20261120_15",
+			"source": "（娱乐快讯）《深潜禁区》节目组否认使用人工海怪制造惊吓\n针对观众质疑节目中的海怪袭击画面造假，制作方表示，所有挑战者的惊恐反应均为真实拍摄。\n至于出现在镜头中的巨大触手是否由道具师操纵，制作方拒绝进一步评论。",
+			"context": "/Game/Widget/Loading/DA_LevelLoadingInfo.DA_LevelLoadingInfo : NewsBodies[14]",
+			"approvedDisplayText": true,
+			"lockReason": "",
+			"translations":
+			{
+				"zh-Hans":
+				{
+					"text": "（娱乐快讯）《深潜禁区》节目组否认使用人工海怪制造惊吓\n针对观众质疑节目中的海怪袭击画面造假，制作方表示，所有挑战者的惊恐反应均为真实拍摄。\n至于出现在镜头中的巨大触手是否由道具师操纵，制作方拒绝进一步评论。",
+					"reviewedSource": "（娱乐快讯）《深潜禁区》节目组否认使用人工海怪制造惊吓\n针对观众质疑节目中的海怪袭击画面造假，制作方表示，所有挑战者的惊恐反应均为真实拍摄。\n至于出现在镜头中的巨大触手是否由道具师操纵，制作方拒绝进一步评论。"
+				},
+				"en-US":
+				{
+					"text": "(Entertainment News Brief)\n“The Forbidden Depths” Producers Deny Using Fake Sea Monsters to Scare Contestants\nFollowing accusations that the show's Sea Monster attack footage was staged, producers insist that every contestant's terrified reaction was genuine.\nAs for whether the enormous tentacles seen on camera were operated by prop technicians, the production team declined to comment further.",
+					"reviewedSource": "（娱乐快讯）《深潜禁区》节目组否认使用人工海怪制造惊吓\n针对观众质疑节目中的海怪袭击画面造假，制作方表示，所有挑战者的惊恐反应均为真实拍摄。\n至于出现在镜头中的巨大触手是否由道具师操纵，制作方拒绝进一步评论。"
+				}
+			}
+		},
+		{
+			"namespace": "VTGLoadingNews",
+			"key": "News20261120_16",
+			"source": "（地方新闻）真人秀拍摄导致旧住宅区警报启动，节目组面临罚款\n《深潜禁区》的一次夜间拍摄意外触发了废弃模块的紧急压力警报，附近居民被迫暂时疏散。\n制作方表示，事发时节目组正在拍摄一段“完全可控的惊吓场景”，并对居民受到的不便表示遗憾。",
+			"context": "/Game/Widget/Loading/DA_LevelLoadingInfo.DA_LevelLoadingInfo : NewsBodies[15]",
+			"approvedDisplayText": true,
+			"lockReason": "",
+			"translations":
+			{
+				"zh-Hans":
+				{
+					"text": "（地方新闻）真人秀拍摄导致旧住宅区警报启动，节目组面临罚款\n《深潜禁区》的一次夜间拍摄意外触发了废弃模块的紧急压力警报，附近居民被迫暂时疏散。\n制作方表示，事发时节目组正在拍摄一段“完全可控的惊吓场景”，并对居民受到的不便表示遗憾。",
+					"reviewedSource": "（地方新闻）真人秀拍摄导致旧住宅区警报启动，节目组面临罚款\n《深潜禁区》的一次夜间拍摄意外触发了废弃模块的紧急压力警报，附近居民被迫暂时疏散。\n制作方表示，事发时节目组正在拍摄一段“完全可控的惊吓场景”，并对居民受到的不便表示遗憾。"
+				},
+				"en-US":
+				{
+					"text": "(Local News)\nReality Show Filming Triggers Emergency Alarm in Old Residential District; Producers Face Fines\nAn overnight shoot for “The Forbidden Depths” accidentally triggered an emergency pressure alarm in an abandoned residential module, forcing nearby residents to temporarily evacuate.\nProducers stated that the crew had been filming a “completely controlled scare sequence” at the time of the incident and apologized for the inconvenience caused to residents.",
+					"reviewedSource": "（地方新闻）真人秀拍摄导致旧住宅区警报启动，节目组面临罚款\n《深潜禁区》的一次夜间拍摄意外触发了废弃模块的紧急压力警报，附近居民被迫暂时疏散。\n制作方表示，事发时节目组正在拍摄一段“完全可控的惊吓场景”，并对居民受到的不便表示遗憾。"
+				}
+			}
+		},
+		{
+			"namespace": "",
+			"key": "90B6A8C54B797243E6718AB6DA40CE9C",
+			"source": "Lorem Ipsum",
+			"context": "/Game/Narrative/NarrativeUI/Widgets/BP_QuestJournalQuest.Default__BP_QuestJournalQuest_C : Text",
+			"approvedDisplayText": false,
+			"lockReason": "",
+			"translations":
+			{
+			}
+		},
+		{
+			"namespace": "",
+			"key": "42FF1AE240800958E887D3BFA2277CBF",
+			"source": "Lorem Ipsum",
+			"context": "/Game/Narrative/NarrativeUI/Widgets/BP_QuestJournalQuest.Default__BP_QuestJournalQuest_C : Text",
+			"approvedDisplayText": false,
+			"lockReason": "",
+			"translations":
+			{
+			}
+		},
+		{
+			"namespace": "",
+			"key": "54A3436948F54974C54049A92EBFBA07",
+			"source": "（电视节目）今晚 21:30｜《迷失于面具之下》特别重播\n因原定节目调整，本周将再次播出第十四集《熟悉的陌生人》。",
+			"context": "/Game/Widget/Loading/DA_LevelLoadingInfo.DA_LevelLoadingInfo : NewsBodies[12]",
+			"approvedDisplayText": true,
+			"lockReason": "",
+			"translations":
+			{
+				"zh-Hans":
+				{
+					"text": "（电视节目）今晚 21:30｜《迷失于面具之下》特别重播\n因原定节目调整，本周将再次播出第十四集《熟悉的陌生人》。",
+					"reviewedSource": "（电视节目）今晚 21:30｜《迷失于面具之下》特别重播\n因原定节目调整，本周将再次播出第十四集《熟悉的陌生人》。"
+				},
+				"en-US":
+				{
+					"text": "(TV Schedule)\nTonight at 9:30 PM | “Lost Under the Mask” Special Rerun\nDue to changes in the scheduled programming, Episode 14, “Familiar Strangers,” will air again this week.",
+					"reviewedSource": "（电视节目）今晚 21:30｜《迷失于面具之下》特别重播\n因原定节目调整，本周将再次播出第十四集《熟悉的陌生人》。"
+				}
+			}
+		},
+		{
+			"namespace": "",
+			"key": "16083C7F44FFA574CD3F5DA515C23AB9",
+			"source": "Lorem Ipsum",
+			"context": "/Game/Narrative/NarrativeUI/Widgets/BP_QuestJournalQuest.Default__BP_QuestJournalQuest_C : Text",
+			"approvedDisplayText": false,
+			"lockReason": "",
+			"translations":
+			{
+			}
+		},
+		{
+			"namespace": "",
+			"key": "409E361D45CD7D4DD7D1CE8CA174C9B1",
+			"source": "Lorem Ipsum",
+			"context": "/Game/Narrative/NarrativeUI/Widgets/BP_QuestJournalQuest.Default__BP_QuestJournalQuest_C : Text",
+			"approvedDisplayText": false,
+			"lockReason": "",
+			"translations":
+			{
+			}
+		},
+		{
+			"namespace": "",
+			"key": "FE16091E4AEDC40C7CCCA9979AD0FBA5",
+			"source": "Read",
+			"context": "/Game/ThirdPerson/Maps/BaseLevel.BaseLevel:PersistentLevel.BP_ReadableNote_C_1.AC_ActorInteractionComponent : Interaction Text",
+			"approvedDisplayText": true,
+			"lockReason": "",
+			"translations":
+			{
+				"zh-Hans":
+				{
+					"text": "阅读",
+					"reviewedSource": "Read"
+				}
+			}
+		},
+		{
+			"namespace": "",
+			"key": "55E6090A4250DA889DF646A973DE3D47",
+			"source": "Lorem Ipsum",
+			"context": "/Game/Narrative/NarrativeUI/Widgets/BP_QuestJournalQuest.Default__BP_QuestJournalQuest_C : Text",
+			"approvedDisplayText": false,
+			"lockReason": "",
+			"translations":
+			{
+			}
+		},
+		{
+			"namespace": "SpriteCategory",
+			"key": "Sounds",
+			"source": "Sounds",
+			"context": "/Game/ThirdPerson/Maps/BaseLevel.BaseLevel:PersistentLevel.BP_VTG_AudioManager_C_1.BillboardComponent_5 : SpriteInfo.DisplayName",
+			"approvedDisplayText": false,
+			"lockReason": "",
+			"translations":
+			{
+			}
+		},
+		{
+			"namespace": "SpriteCategory",
+			"key": "PlayerStart",
+			"source": "Player Start",
+			"context": "/Game/ThirdPerson/Maps/BaseLevel.BaseLevel:PersistentLevel.PlayerStart_0.Sprite : SpriteInfo.DisplayName",
+			"approvedDisplayText": false,
+			"lockReason": "",
+			"translations":
+			{
+			}
+		},
+		{
+			"namespace": "SpriteCategory",
+			"key": "Navigation",
+			"source": "Navigation",
+			"context": "/Game/ThirdPerson/Maps/BaseLevel.BaseLevel:PersistentLevel.PlayerStart_0.Arrow : SpriteInfo.DisplayName",
+			"approvedDisplayText": false,
+			"lockReason": "",
+			"translations":
+			{
+			}
+		},
+		{
+			"namespace": "",
+			"key": "1960786148F212B4C7A1D69990128AC0",
+			"source": "TALK",
+			"context": "/Game/ThirdPerson/Maps/BaseLevel.BaseLevel:PersistentLevel.BP_Cine_Sa_C_1.AC_ActorInteractionComponent : Interaction Text",
+			"approvedDisplayText": false,
+			"lockReason": "",
+			"translations":
+			{
+			}
+		},
+		{
+			"namespace": "VTGPauseMenu",
+			"key": "Language",
+			"source": "Language",
+			"context": "../../../../Unreal projects/VertigoGit/Source/Vertigo/Private/UI/VTGPauseMenu.cpp",
+			"approvedDisplayText": false,
+			"lockReason": "",
+			"translations":
+			{
+			}
+		},
+		{
+			"namespace": "",
+			"key": "3551AB8546AB86276F1865B0523803B5",
+			"source": "Lorem Ipsum",
+			"context": "/Game/Narrative/NarrativeUI/Widgets/BP_QuestJournalQuest.Default__BP_QuestJournalQuest_C : Text",
+			"approvedDisplayText": false,
+			"lockReason": "",
+			"translations":
+			{
+			}
+		},
+		{
+			"namespace": "VTG.WidgetLabels",
+			"key": "WBP_PauseMenu.LanguageEntryText",
+			"source": "Language",
+			"context": "/Game/ThirdPerson/Blueprints/UI/WBP_PauseMenu.WBP_PauseMenu:WidgetTree.LanguageEntryText : Text",
+			"approvedDisplayText": true,
+			"lockReason": "",
+			"translations":
+			{
+				"zh-Hans":
+				{
+					"text": "语言选项(Language)",
+					"reviewedSource": "Language"
+				}
+			}
+		},
+		{
+			"namespace": "VTGTerminal",
+			"key": "ValidSlotDetailPhase",
+			"source": "{Heading}\n\n{Level}\n{Phase}\n\n{Date}",
+			"context": "../../../../Unreal projects/VertigoGit/Source/Vertigo/Private/UI/VTGTerminalSavePage.cpp",
+			"approvedDisplayText": false,
+			"lockReason": "",
+			"translations":
+			{
+			}
+		},
+		{
+			"namespace": "VTG.SaveDisplay",
+			"key": "L2_StreetOutsideBar",
+			"source": "Commerce Module",
+			"context": "/Game/Widget/SaveLoad/DT_SaveLocationNames.DT_SaveLocationNames : Row[L2_StreetOutsideBar].Display",
+			"approvedDisplayText": true,
+			"lockReason": "",
+			"translations":
+			{
+				"en-US":
+				{
+					"text": "Commerce Module",
+					"reviewedSource": "Commerce Module"
+				},
+				"zh-Hans":
+				{
+					"text": "商业区",
+					"reviewedSource": "Commerce Module"
+				}
+			}
+		},
+		{
+			"namespace": "VTG.SaveDisplay",
+			"key": "L2Bar",
+			"source": "“Triple Penny Fish”",
+			"context": "/Game/Widget/SaveLoad/DT_SaveLocationNames.DT_SaveLocationNames : Row[L2Bar].Display",
+			"approvedDisplayText": true,
+			"lockReason": "",
+			"translations":
+			{
+				"en-US":
+				{
+					"text": "“Triple Penny Fish”",
+					"reviewedSource": "“Triple Penny Fish”"
+				},
+				"zh-Hans":
+				{
+					"text": "“鱼贯三连”夜店",
+					"reviewedSource": "“Triple Penny Fish”"
+				}
+			}
+		},
+		{
+			"namespace": "VTG.SaveDisplay",
+			"key": "L_SewerUnderApartment",
+			"source": "Residential Sewer System",
+			"context": "/Game/Widget/SaveLoad/DT_SaveLocationNames.DT_SaveLocationNames : Row[L_SewerUnderApartment].Display",
+			"approvedDisplayText": true,
+			"lockReason": "",
+			"translations":
+			{
+				"en-US":
+				{
+					"text": "Residential Sewer System",
+					"reviewedSource": "Residential Sewer System"
+				},
+				"zh-Hans":
+				{
+					"text": "住宅区下水道系统",
+					"reviewedSource": "Residential Sewer System"
+				}
+			}
+		},
+		{
+			"namespace": "VTG.SaveDisplay",
+			"key": "Stage_BarStreet_L2",
+			"source": "Night",
+			"context": "/Game/Widget/SaveLoad/DT_SaveStageNames.DT_SaveStageNames : Row[Stage_BarStreet_L2].Display",
+			"approvedDisplayText": true,
+			"lockReason": "",
+			"translations":
+			{
+				"en-US":
+				{
+					"text": "Night",
+					"reviewedSource": "Night"
+				},
+				"zh-Hans":
+				{
+					"text": "夜晚",
+					"reviewedSource": "Night"
+				}
+			}
+		},
+		{
+			"namespace": "VTG.SaveDisplay",
+			"key": "Stage_Bar_Intro",
+			"source": "Night",
+			"context": "/Game/Widget/SaveLoad/DT_SaveStageNames.DT_SaveStageNames : Row[Stage_Bar_Intro].Display",
+			"approvedDisplayText": true,
+			"lockReason": "",
+			"translations":
+			{
+				"en-US":
+				{
+					"text": "Night",
+					"reviewedSource": "Night"
+				},
+				"zh-Hans":
+				{
+					"text": "夜晚",
+					"reviewedSource": "Night"
+				}
+			}
+		},
+		{
+			"namespace": "VTG.SaveDisplay",
+			"key": "L3Sewer",
+			"source": "Daybreak",
+			"context": "/Game/Widget/SaveLoad/DT_SaveStageNames.DT_SaveStageNames : Row[L3Sewer].Display",
+			"approvedDisplayText": true,
+			"lockReason": "",
+			"translations":
+			{
+				"en-US":
+				{
+					"text": "Daybreak",
+					"reviewedSource": "Daybreak"
+				},
+				"zh-Hans":
+				{
+					"text": "天亮时分",
+					"reviewedSource": "Daybreak"
+				}
+			}
+		},
+		{
+			"namespace": "",
+			"key": "BC92F0D14023875D429A95B4D7C48E2F",
+			"source": "Lorem Ipsum",
+			"context": "/Game/Narrative/NarrativeUI/Widgets/BP_QuestJournalQuest.Default__BP_QuestJournalQuest_C : Text",
+			"approvedDisplayText": false,
+			"lockReason": "",
+			"translations":
+			{
+			}
+		},
+		{
+			"namespace": "",
+			"key": "CB86FEE3412D73F74577128A8802182F",
+			"source": "Lorem Ipsum",
+			"context": "/Game/Narrative/NarrativeUI/Widgets/BP_QuestJournalQuest.Default__BP_QuestJournalQuest_C : Text",
+			"approvedDisplayText": false,
+			"lockReason": "",
+			"translations":
+			{
+			}
+		},
+		{
+			"namespace": "VTG.SaveDisplay",
+			"key": "L2TunnelCine",
+			"source": "Central Free District — Tunnel",
+			"context": "/Game/Widget/SaveLoad/DT_SaveLocationNames.DT_SaveLocationNames : Row[L2TunnelCine].Display",
+			"approvedDisplayText": true,
+			"lockReason": "",
+			"translations":
+			{
+				"en-US":
+				{
+					"text": "Central Free District — Tunnel",
+					"reviewedSource": "Central Free District — Tunnel"
+				},
+				"zh-Hans":
+				{
+					"text": "自由区中部，隧道",
+					"reviewedSource": "Central Free District — Tunnel"
+				}
+			}
+		},
+		{
+			"namespace": "VTG.SaveDisplay",
+			"key": "SaApartment",
+			"source": "Apartment",
+			"context": "/Game/Widget/SaveLoad/DT_SaveLocationNames.DT_SaveLocationNames : Row[SaApartment].Display",
+			"approvedDisplayText": true,
+			"lockReason": "",
+			"translations":
+			{
+				"en-US":
+				{
+					"text": "Apartment",
+					"reviewedSource": "Apartment"
+				},
+				"zh-Hans":
+				{
+					"text": "公寓",
+					"reviewedSource": "Apartment"
+				}
+			}
+		},
+		{
+			"namespace": "VTG.SaveDisplay",
+			"key": "Sa_AptDownAlley",
+			"source": "Apartment Downstairs",
+			"context": "/Game/Widget/SaveLoad/DT_SaveLocationNames.DT_SaveLocationNames : Row[Sa_AptDownAlley].Display",
+			"approvedDisplayText": true,
+			"lockReason": "",
+			"translations":
+			{
+				"en-US":
+				{
+					"text": "Apartment Downstairs",
+					"reviewedSource": "Apartment Downstairs"
+				},
+				"zh-Hans":
+				{
+					"text": "公寓楼下",
+					"reviewedSource": "Apartment Downstairs"
+				}
+			}
+		},
+		{
+			"namespace": "VTG.SaveDisplay",
+			"key": "L3_CentralPoliceStation_FrontDoor_DownStream",
+			"source": "The Sump Stream Police Station",
+			"context": "/Game/Widget/SaveLoad/DT_SaveLocationNames.DT_SaveLocationNames : Row[L3_CentralPoliceStation_FrontDoor_DownStream].Display",
+			"approvedDisplayText": true,
+			"lockReason": "",
+			"translations":
+			{
+				"en-US":
+				{
+					"text": "The Sump Stream Police Station",
+					"reviewedSource": "The Sump Stream Police Station"
+				},
+				"zh-Hans":
+				{
+					"text": "下游区警局枢纽",
+					"reviewedSource": "The Sump Stream Police Station"
+				}
+			}
+		},
+		{
+			"namespace": "VTG.SaveDisplay",
+			"key": "Tunnel_NearBlackMarket",
+			"source": "Black Market Perimeter Tunnel",
+			"context": "/Game/Widget/SaveLoad/DT_SaveLocationNames.DT_SaveLocationNames : Row[Tunnel_NearBlackMarket].Display",
+			"approvedDisplayText": true,
+			"lockReason": "",
+			"translations":
+			{
+				"en-US":
+				{
+					"text": "Black Market Perimeter Tunnel",
+					"reviewedSource": "Black Market Perimeter Tunnel"
+				},
+				"zh-Hans":
+				{
+					"text": "黑市外围隧道",
+					"reviewedSource": "Black Market Perimeter Tunnel"
+				}
+			}
+		},
+		{
+			"namespace": "VTG.SaveDisplay",
+			"key": "BlackMarketEntrance",
+			"source": "Old Market Underpass, Black Market Periphery",
+			"context": "/Game/Widget/SaveLoad/DT_SaveLocationNames.DT_SaveLocationNames : Row[BlackMarketEntrance].Display",
+			"approvedDisplayText": true,
+			"lockReason": "",
+			"translations":
+			{
+				"en-US":
+				{
+					"text": "Old Market Underpass, Black Market Periphery",
+					"reviewedSource": "Old Market Underpass, Black Market Periphery"
+				},
+				"zh-Hans":
+				{
+					"text": "旧市场地下通道，黑市外围",
+					"reviewedSource": "Old Market Underpass, Black Market Periphery"
+				}
+			}
+		},
+		{
+			"namespace": "VTG.SaveDisplay",
+			"key": "BlackMarketStreet",
+			"source": "“Black Market”, Commerce Module",
+			"context": "/Game/Widget/SaveLoad/DT_SaveLocationNames.DT_SaveLocationNames : Row[BlackMarketStreet].Display",
+			"approvedDisplayText": true,
+			"lockReason": "",
+			"translations":
+			{
+				"en-US":
+				{
+					"text": "“Black Market”, Commerce Module",
+					"reviewedSource": "“Black Market”, Commerce Module"
+				},
+				"zh-Hans":
+				{
+					"text": "“黑市”，商业模块",
+					"reviewedSource": "“Black Market”, Commerce Module"
+				}
+			}
+		},
+		{
+			"namespace": "VTG.SaveDisplay",
+			"key": "AdultStore_BlackMarketStreet",
+			"source": "“Silicone Valley”",
+			"context": "/Game/Widget/SaveLoad/DT_SaveLocationNames.DT_SaveLocationNames : Row[AdultStore_BlackMarketStreet].Display",
+			"approvedDisplayText": true,
+			"lockReason": "",
+			"translations":
+			{
+				"en-US":
+				{
+					"text": "“Silicone Valley”",
+					"reviewedSource": "“Silicone Valley”"
+				},
+				"zh-Hans":
+				{
+					"text": "“硅谷”",
+					"reviewedSource": "“Silicone Valley”"
+				}
+			}
+		},
+		{
+			"namespace": "VTG.SaveDisplay",
+			"key": "ShoppingCenter_Yard",
+			"source": "Commercial Plaza",
+			"context": "/Game/Widget/SaveLoad/DT_SaveLocationNames.DT_SaveLocationNames : Row[ShoppingCenter_Yard].Display",
+			"approvedDisplayText": true,
+			"lockReason": "",
+			"translations":
+			{
+				"en-US":
+				{
+					"text": "Commercial Plaza",
+					"reviewedSource": "Commercial Plaza"
+				},
+				"zh-Hans":
+				{
+					"text": "商业广场",
+					"reviewedSource": "Commercial Plaza"
+				}
+			}
+		},
+		{
+			"namespace": "VTG.SaveDisplay",
+			"key": "Clinic",
+			"source": "“Wellspring” Clinic, Commercial Plaza",
+			"context": "/Game/Widget/SaveLoad/DT_SaveLocationNames.DT_SaveLocationNames : Row[Clinic].Display",
+			"approvedDisplayText": true,
+			"lockReason": "",
+			"translations":
+			{
+				"en-US":
+				{
+					"text": "“Wellspring” Clinic, Commercial Plaza",
+					"reviewedSource": "“Wellspring” Clinic, Commercial Plaza"
+				},
+				"zh-Hans":
+				{
+					"text": "“回春泉”诊所，商业广场",
+					"reviewedSource": "“Wellspring” Clinic, Commercial Plaza"
+				}
+			}
+		},
+		{
+			"namespace": "VTG.SaveDisplay",
+			"key": "Tunnel_ClinicToFactory",
+			"source": "Upper Sump Passage",
+			"context": "/Game/Widget/SaveLoad/DT_SaveLocationNames.DT_SaveLocationNames : Row[Tunnel_ClinicToFactory].Display",
+			"approvedDisplayText": true,
+			"lockReason": "",
+			"translations":
+			{
+				"en-US":
+				{
+					"text": "Upper Sump Passage",
+					"reviewedSource": "Upper Sump Passage"
+				},
+				"zh-Hans":
+				{
+					"text": "下游区上段通道",
+					"reviewedSource": "Upper Sump Passage"
+				}
+			}
+		},
+		{
+			"namespace": "VTG.SaveDisplay",
+			"key": "L2CineTunnelDriveWithFC",
+			"source": "Night",
+			"context": "/Game/Widget/SaveLoad/DT_SaveStageNames.DT_SaveStageNames : Row[L2CineTunnelDriveWithFC].Display",
+			"approvedDisplayText": true,
+			"lockReason": "",
+			"translations":
+			{
+				"en-US":
+				{
+					"text": "Night",
+					"reviewedSource": "Night"
+				},
+				"zh-Hans":
+				{
+					"text": "夜晚",
+					"reviewedSource": "Night"
+				}
+			}
+		},
+		{
+			"namespace": "VTG.SaveDisplay",
+			"key": "L3Apt_Day1Morning",
+			"source": "Daybreak",
+			"context": "/Game/Widget/SaveLoad/DT_SaveStageNames.DT_SaveStageNames : Row[L3Apt_Day1Morning].Display",
+			"approvedDisplayText": true,
+			"lockReason": "",
+			"translations":
+			{
+				"en-US":
+				{
+					"text": "Daybreak",
+					"reviewedSource": "Daybreak"
+				},
+				"zh-Hans":
+				{
+					"text": "天亮时分",
+					"reviewedSource": "Daybreak"
+				}
+			}
+		},
+		{
+			"namespace": "VTG.SaveDisplay",
+			"key": "L3PreSewerL",
+			"source": "Daybreak",
+			"context": "/Game/Widget/SaveLoad/DT_SaveStageNames.DT_SaveStageNames : Row[L3PreSewerL].Display",
+			"approvedDisplayText": true,
+			"lockReason": "",
+			"translations":
+			{
+				"en-US":
+				{
+					"text": "Daybreak",
+					"reviewedSource": "Daybreak"
+				},
+				"zh-Hans":
+				{
+					"text": "天亮时分",
+					"reviewedSource": "Daybreak"
+				}
+			}
+		},
+		{
+			"namespace": "VTG.SaveDisplay",
+			"key": "3Day1",
+			"source": "Morning",
+			"context": "/Game/Widget/SaveLoad/DT_SaveStageNames.DT_SaveStageNames : Row[3Day1].Display",
+			"approvedDisplayText": true,
+			"lockReason": "",
+			"translations":
+			{
+				"en-US":
+				{
+					"text": "Morning",
+					"reviewedSource": "Morning"
+				},
+				"zh-Hans":
+				{
+					"text": "早晨",
+					"reviewedSource": "Morning"
+				}
+			}
+		},
+		{
+			"namespace": "VTG.SaveDisplay",
+			"key": "L3Day1Morning",
+			"source": "Morning",
+			"context": "/Game/Widget/SaveLoad/DT_SaveStageNames.DT_SaveStageNames : Row[L3Day1Morning].Display",
+			"approvedDisplayText": true,
+			"lockReason": "",
+			"translations":
+			{
+				"en-US":
+				{
+					"text": "Morning",
+					"reviewedSource": "Morning"
+				},
+				"zh-Hans":
+				{
+					"text": "早晨",
+					"reviewedSource": "Morning"
+				}
+			}
+		},
+		{
+			"namespace": "VTG.SaveDisplay",
+			"key": "L3PoliceStationToMaket",
+			"source": "Worktime",
+			"context": "/Game/Widget/SaveLoad/DT_SaveStageNames.DT_SaveStageNames : Row[L3PoliceStationToMaket].Display",
+			"approvedDisplayText": true,
+			"lockReason": "",
+			"translations":
+			{
+				"en-US":
+				{
+					"text": "Worktime",
+					"reviewedSource": "Worktime"
+				},
+				"zh-Hans":
+				{
+					"text": "工作时间",
+					"reviewedSource": "Worktime"
+				}
+			}
+		},
+		{
+			"namespace": "VTG.SaveDisplay",
+			"key": "L4BlackMarketEntrance",
+			"source": "Worktime",
+			"context": "/Game/Widget/SaveLoad/DT_SaveStageNames.DT_SaveStageNames : Row[L4BlackMarketEntrance].Display",
+			"approvedDisplayText": true,
+			"lockReason": "",
+			"translations":
+			{
+				"en-US":
+				{
+					"text": "Worktime",
+					"reviewedSource": "Worktime"
+				},
+				"zh-Hans":
+				{
+					"text": "工作时间",
+					"reviewedSource": "Worktime"
+				}
+			}
+		},
+		{
+			"namespace": "VTG.SaveDisplay",
+			"key": "L4MarketStage_BeforeAdult",
+			"source": "Worktime",
+			"context": "/Game/Widget/SaveLoad/DT_SaveStageNames.DT_SaveStageNames : Row[L4MarketStage_BeforeAdult].Display",
+			"approvedDisplayText": true,
+			"lockReason": "",
+			"translations":
+			{
+				"en-US":
+				{
+					"text": "Worktime",
+					"reviewedSource": "Worktime"
+				},
+				"zh-Hans":
+				{
+					"text": "工作时间",
+					"reviewedSource": "Worktime"
+				}
+			}
+		},
+		{
+			"namespace": "VTG.SaveDisplay",
+			"key": "L4AdultStore_Case1",
+			"source": "Worktime",
+			"context": "/Game/Widget/SaveLoad/DT_SaveStageNames.DT_SaveStageNames : Row[L4AdultStore_Case1].Display",
+			"approvedDisplayText": true,
+			"lockReason": "",
+			"translations":
+			{
+				"en-US":
+				{
+					"text": "Worktime",
+					"reviewedSource": "Worktime"
+				},
+				"zh-Hans":
+				{
+					"text": "工作时间",
+					"reviewedSource": "Worktime"
+				}
+			}
+		},
+		{
+			"namespace": "VTG.SaveDisplay",
+			"key": "L4MarketStage_AfterAdult",
+			"source": "Investigation Ongoing",
+			"context": "/Game/Widget/SaveLoad/DT_SaveStageNames.DT_SaveStageNames : Row[L4MarketStage_AfterAdult].Display",
+			"approvedDisplayText": true,
+			"lockReason": "",
+			"translations":
+			{
+				"en-US":
+				{
+					"text": "Investigation Ongoing",
+					"reviewedSource": "Investigation Ongoing"
+				},
+				"zh-Hans":
+				{
+					"text": "调查进行中",
+					"reviewedSource": "Investigation Ongoing"
+				}
+			}
+		},
+		{
+			"namespace": "VTG.SaveDisplay",
+			"key": "L4MarketToClinic",
+			"source": "Investigation Ongoing",
+			"context": "/Game/Widget/SaveLoad/DT_SaveStageNames.DT_SaveStageNames : Row[L4MarketToClinic].Display",
+			"approvedDisplayText": true,
+			"lockReason": "",
+			"translations":
+			{
+				"en-US":
+				{
+					"text": "Investigation Ongoing",
+					"reviewedSource": "Investigation Ongoing"
+				},
+				"zh-Hans":
+				{
+					"text": "调查进行中",
+					"reviewedSource": "Investigation Ongoing"
+				}
+			}
+		},
+		{
+			"namespace": "VTG.SaveDisplay",
+			"key": "L5_ClinicYard",
+			"source": "Worktime",
+			"context": "/Game/Widget/SaveLoad/DT_SaveStageNames.DT_SaveStageNames : Row[L5_ClinicYard].Display",
+			"approvedDisplayText": true,
+			"lockReason": "",
+			"translations":
+			{
+				"en-US":
+				{
+					"text": "Worktime",
+					"reviewedSource": "Worktime"
+				},
+				"zh-Hans":
+				{
+					"text": "工作时间",
+					"reviewedSource": "Worktime"
+				}
+			}
+		},
+		{
+			"namespace": "VTG.SaveDisplay",
+			"key": "L5ClinicFirstVisit",
+			"source": "Worktime",
+			"context": "/Game/Widget/SaveLoad/DT_SaveStageNames.DT_SaveStageNames : Row[L5ClinicFirstVisit].Display",
+			"approvedDisplayText": true,
+			"lockReason": "",
+			"translations":
+			{
+				"en-US":
+				{
+					"text": "Worktime",
+					"reviewedSource": "Worktime"
+				},
+				"zh-Hans":
+				{
+					"text": "工作时间",
+					"reviewedSource": "Worktime"
+				}
+			}
+		},
+		{
+			"namespace": "VTG.SaveDisplay",
+			"key": "L6ClinicToFactory",
+			"source": "Worktime",
+			"context": "/Game/Widget/SaveLoad/DT_SaveStageNames.DT_SaveStageNames : Row[L6ClinicToFactory].Display",
+			"approvedDisplayText": true,
+			"lockReason": "",
+			"translations":
+			{
+				"en-US":
+				{
+					"text": "Worktime",
+					"reviewedSource": "Worktime"
+				},
+				"zh-Hans":
+				{
+					"text": "工作时间",
+					"reviewedSource": "Worktime"
+				}
+			}
+		},
+		{
+			"namespace": "",
+			"key": "4CDAA5E8430A77610A8E04B62A0AFFC9",
+			"source": "Lorem Ipsum",
+			"context": "/Game/Narrative/NarrativeUI/Widgets/BP_QuestJournalQuest.Default__BP_QuestJournalQuest_C : Text",
+			"approvedDisplayText": false,
+			"lockReason": "",
+			"translations":
+			{
+			}
+		},
+		{
+			"namespace": "VTG.InfoPage",
+			"key": "Combat.Breadcrumb",
+			"source": "INFO / COMBAT",
+			"context": "/Game/Widget/InfoPage/DT_InfoPages.DT_InfoPages : Row[Combat].Breadcrumb",
+			"approvedDisplayText": true,
+			"lockReason": "",
+			"translations":
+			{
+				"en-US":
+				{
+					"text": "INFO / COMBAT",
+					"reviewedSource": "INFO / COMBAT"
+				},
+				"zh-Hans":
+				{
+					"text": "提示 / 战斗",
+					"reviewedSource": "INFO / COMBAT"
+				}
+			}
+		},
+		{
+			"namespace": "VTG.InfoPage",
+			"key": "Combat.Title",
+			"source": "Combat Mode",
+			"context": "/Game/Widget/InfoPage/DT_InfoPages.DT_InfoPages : Row[Combat].Title",
+			"approvedDisplayText": true,
+			"lockReason": "",
+			"translations":
+			{
+				"en-US":
+				{
+					"text": "Combat Mode",
+					"reviewedSource": "Combat Mode"
+				},
+				"zh-Hans":
+				{
+					"text": "战斗模式",
+					"reviewedSource": "Combat Mode"
+				}
+			}
+		},
+		{
+			"namespace": "VTG.InfoPage",
+			"key": "Combat.DismissLabel",
+			"source": "Continue",
+			"context": "/Game/Widget/InfoPage/DT_InfoPages.DT_InfoPages : Row[Combat].DismissLabel",
+			"approvedDisplayText": true,
+			"lockReason": "",
+			"translations":
+			{
+				"en-US":
+				{
+					"text": "Continue",
+					"reviewedSource": "Continue"
+				},
+				"zh-Hans":
+				{
+					"text": "继续游戏",
+					"reviewedSource": "Continue"
+				}
+			}
+		},
+		{
+			"namespace": "VTG.InfoPage",
+			"key": "Combat.Attack.Label",
+			"source": "Attack",
+			"context": "/Game/Widget/InfoPage/DT_InfoPageLines.DT_InfoPageLines : Row[Combat.Attack].Label",
+			"approvedDisplayText": true,
+			"lockReason": "",
+			"translations":
+			{
+				"en-US":
+				{
+					"text": "Attack",
+					"reviewedSource": "Attack"
+				},
+				"zh-Hans":
+				{
+					"text": "攻击",
+					"reviewedSource": "Attack"
+				}
+			}
+		},
+		{
+			"namespace": "VTG.InfoPage",
+			"key": "Combat.Block.Label",
+			"source": "Block",
+			"context": "/Game/Widget/InfoPage/DT_InfoPageLines.DT_InfoPageLines : Row[Combat.Block].Label",
+			"approvedDisplayText": true,
+			"lockReason": "",
+			"translations":
+			{
+				"en-US":
+				{
+					"text": "Block",
+					"reviewedSource": "Block"
+				},
+				"zh-Hans":
+				{
+					"text": "防御",
+					"reviewedSource": "Block"
+				}
+			}
+		},
+		{
+			"namespace": "VTG.InfoPage",
+			"key": "Combat.Dodge.Label",
+			"source": "Dodge",
+			"context": "/Game/Widget/InfoPage/DT_InfoPageLines.DT_InfoPageLines : Row[Combat.Dodge].Label",
+			"approvedDisplayText": true,
+			"lockReason": "",
+			"translations":
+			{
+				"en-US":
+				{
+					"text": "Dodge",
+					"reviewedSource": "Dodge"
+				},
+				"zh-Hans":
+				{
+					"text": "闪避",
+					"reviewedSource": "Dodge"
+				}
+			}
+		},
+		{
+			"namespace": "",
+			"key": "CF8AE98A425C4695CF2E36AF6290C76F",
+			"source": "Lorem Ipsum",
+			"context": "/Game/Narrative/NarrativeUI/Widgets/BP_QuestJournalQuest.Default__BP_QuestJournalQuest_C : Text",
+			"approvedDisplayText": false,
+			"lockReason": "",
+			"translations":
+			{
+			}
+		},
+		{
+			"namespace": "UObjectDisplayNames",
+			"key": "Widget:RenderOpacity",
+			"source": "Render Opacity",
+			"context": "/Game/Narrative/NarrativeUI/Widgets/Unused/W_NarrativeMenu_Dialogue_ProfilePicture.W_NarrativeMenu_Dialogue_ProfilePicture:FadeInReplies.FadeInReplies.MovieSceneFloatTrack_0 : DisplayName",
+			"approvedDisplayText": false,
+			"lockReason": "",
+			"translations":
+			{
+			}
+		},
+		{
+			"namespace": "",
+			"key": "FA564E5546393A6941A760BE77F14292",
+			"source": "这倒是。",
+			"context": "/Game/Narrative/Dialogues/Levels/L5Clinic/L5Clinic_Still.L5Clinic_Still:DialogueTemplate.DialogueNode_NPC_371 : Line.Text",
+			"approvedDisplayText": true,
+			"lockReason": "",
+			"translations":
+			{
+				"en-US":
+				{
+					"text": "That part is true.",
+					"reviewedSource": "这倒是。"
+				}
+			}
+		},
+		{
+			"namespace": "",
+			"key": "1F2ADF004E17D026CFBE65AD71E258FA",
+			"source": "不然呢？出了事谁来管？",
+			"context": "/Game/Narrative/Dialogues/Levels/L5Clinic/L5Clinic_Still.L5Clinic_Still:DialogueTemplate.DialogueNode_NPC_372 : Line.Text",
+			"approvedDisplayText": true,
+			"lockReason": "",
+			"translations":
+			{
+				"en-US":
+				{
+					"text": "Well, yeah. Who else is gonna deal with all the shit that happens?",
+					"reviewedSource": "不然呢？出了事谁来管？"
+				}
+			}
+		},
+		{
+			"namespace": "",
+			"key": "0CBC995B421B02D070774BB88201C92A",
+			"source": "……也是。",
+			"context": "/Game/Narrative/Dialogues/Levels/L5Clinic/L5Clinic_Still.L5Clinic_Still:DialogueTemplate.DialogueNode_NPC_373 : Line.Text",
+			"approvedDisplayText": true,
+			"lockReason": "",
+			"translations":
+			{
+				"en-US":
+				{
+					"text": "...I suppose so.",
+					"reviewedSource": "……也是。"
+				}
+			}
+		},
+		{
+			"namespace": "",
+			"key": "F0A29B9243D2808B57CDC6916C879B25",
+			"source": "……当然，干这活儿可没那么舒服。",
+			"context": "/Game/Narrative/Dialogues/Levels/L5Clinic/L5Clinic_Still.L5Clinic_Still:DialogueTemplate.DialogueNode_NPC_374 : Line.Text",
+			"approvedDisplayText": true,
+			"lockReason": "",
+			"translations":
+			{
+				"en-US":
+				{
+					"text": "...Not that it's a particularly pleasant job.",
+					"reviewedSource": "……当然，干这活儿可没那么舒服。"
+				}
+			}
+		},
+		{
+			"namespace": "",
+			"key": "D246EB334A6671D326AC4482D5202CD7",
+			"source": "但那又怎么样？总不能因为……",
+			"context": "/Game/Narrative/Dialogues/Levels/L5Clinic/L5Clinic_Still.L5Clinic_Still:DialogueTemplate.DialogueNode_NPC_375 : Line.Text",
+			"approvedDisplayText": true,
+			"lockReason": "",
+			"translations":
+			{
+				"en-US":
+				{
+					"text": "But so what? You can't just...",
+					"reviewedSource": "但那又怎么样？总不能因为……"
+				}
+			}
+		},
+		{
+			"namespace": "",
+			"key": "1512E55B4514D2E818091490C5DC8318",
+			"source": "……我是说……",
+			"context": "/Game/Narrative/Dialogues/Levels/L5Clinic/L5Clinic_Still.L5Clinic_Still:DialogueTemplate.DialogueNode_NPC_376 : Line.Text",
+			"approvedDisplayText": true,
+			"lockReason": "",
+			"translations":
+			{
+				"en-US":
+				{
+					"text": "...I mean...",
+					"reviewedSource": "……我是说……"
+				}
+			}
+		},
+		{
+			"namespace": "",
+			"key": "64759F2B4725C9690B270FBD845D17DB",
+			"source": "Sa。你不用跟我解释这些。",
+			"context": "/Game/Narrative/Dialogues/Levels/L5Clinic/L5Clinic_Still.L5Clinic_Still:DialogueTemplate.DialogueNode_NPC_377 : Line.Text",
+			"approvedDisplayText": true,
+			"lockReason": "",
+			"translations":
+			{
+				"en-US":
+				{
+					"text": "Sa. You don't have to explain yourself to me.",
+					"reviewedSource": "Sa。你不用跟我解释这些。"
+				}
+			}
+		},
+		{
+			"namespace": "",
+			"key": "65A69B1F47501A2181BD9EB81D5AE71F",
+			"source": "……",
+			"context": "/Game/Narrative/Dialogues/Levels/L5Clinic/L5Clinic_Still.L5Clinic_Still:DialogueTemplate.DialogueNode_NPC_379 : Line.Text",
+			"approvedDisplayText": false,
+			"lockReason": "",
+			"translations":
+			{
+			}
+		},
+		{
+			"namespace": "",
+			"key": "405EFB1041823EEEC6B25F87FD2425DF",
+			"source": "Lorem Ipsum",
+			"context": "/Game/Narrative/NarrativeUI/Widgets/BP_QuestJournalQuest.Default__BP_QuestJournalQuest_C : Text",
+			"approvedDisplayText": false,
+			"lockReason": "",
+			"translations":
+			{
+			}
+		},
+		{
+			"namespace": "",
+			"key": "EDD1EF174E3F82BDEC59FAB943FA3219",
+			"source": "单纯持有仇恨思想通常不构成刑事犯罪。",
+			"context": "/Game/Narrative/Dialogues/Levels/L4BlackMarket/L4_BlackMarketInvestigation_Still_InterestingItemsOntheStreet.L4_BlackMarketInvestigation_Still_InterestingItemsOntheStreet:DialogueTemplate.DialogueNode_NPC_233 : Line.Text",
+			"approvedDisplayText": true,
+			"lockReason": "",
+			"translations":
+			{
+				"en-US":
+				{
+					"text": "Holding hateful beliefs alone does not generally constitute a criminal offense.",
+					"reviewedSource": "单纯持有仇恨思想通常不构成刑事犯罪。"
+				}
+			}
+		},
+		{
+			"namespace": "",
+			"key": "15ED72CE41B11B7DA2DF5CA94D21C9B4",
+			"source": "我知道。以前我们等他们动手，再抓进去。",
+			"context": "/Game/Narrative/Dialogues/Levels/L4BlackMarket/L4_BlackMarketInvestigation_Still_InterestingItemsOntheStreet.L4_BlackMarketInvestigation_Still_InterestingItemsOntheStreet:DialogueTemplate.DialogueNode_NPC_234 : Line.Text",
+			"approvedDisplayText": true,
+			"lockReason": "",
+			"translations":
+			{
+				"en-US":
+				{
+					"text": "I know. So we wait till they do something, then lock 'em up.",
+					"reviewedSource": "知道。那就等他们动手，再抓进去。"
+				}
+			}
+		},
+		{
+			"namespace": "",
+			"key": "16DBD914448C71699D4A5AA71F781983",
+			"source": "……然后他们出来了，还是一样恨我们。",
+			"context": "/Game/Narrative/Dialogues/Levels/L4BlackMarket/L4_BlackMarketInvestigation_Still_InterestingItemsOntheStreet.L4_BlackMarketInvestigation_Still_InterestingItemsOntheStreet:DialogueTemplate.DialogueNode_NPC_235 : Line.Text",
+			"approvedDisplayText": true,
+			"lockReason": "",
+			"translations":
+			{
+				"en-US":
+				{
+					"text": "...Then they get out, and they still hate our guts.",
+					"reviewedSource": "……然后他们出来了，还是一样恨我们。"
+				}
+			}
+		},
+		{
+			"namespace": "",
+			"key": "594EFFF74B237A8E7DA11A80C0EDF682",
+			"source": "拘禁并不能保证改变个人的意识形态。",
+			"context": "/Game/Narrative/Dialogues/Levels/L4BlackMarket/L4_BlackMarketInvestigation_Still_InterestingItemsOntheStreet.L4_BlackMarketInvestigation_Still_InterestingItemsOntheStreet:DialogueTemplate.DialogueNode_NPC_236 : Line.Text",
+			"approvedDisplayText": true,
+			"lockReason": "",
+			"translations":
+			{
+				"en-US":
+				{
+					"text": "Incarceration does not guarantee a change in ideological beliefs.",
+					"reviewedSource": "拘禁并不能保证改变个人的意识形态。"
+				}
+			}
+		},
+		{
+			"namespace": "",
+			"key": "A4707C8D49D4909023E2248E78CE0186",
+			"source": "哈。还改变？能不变得更坏就不错了。",
+			"context": "/Game/Narrative/Dialogues/Levels/L4BlackMarket/L4_BlackMarketInvestigation_Still_InterestingItemsOntheStreet.L4_BlackMarketInvestigation_Still_InterestingItemsOntheStreet_C:DialogueTemplate.DialogueNode_NPC_237 : Line.Text",
+			"approvedDisplayText": false,
+			"lockReason": "",
+			"translations":
+			{
+			}
+		},
+		{
+			"namespace": "",
+			"key": "5DA7DF224E2D91ECBEB596B1337A53DE",
+			"source": "关进去几个，结果又多了几个跟他们混的。哪天变成军队我也不意外。",
+			"context": "/Game/Narrative/Dialogues/Levels/L4BlackMarket/L4_BlackMarketInvestigation_Still_InterestingItemsOntheStreet.L4_BlackMarketInvestigation_Still_InterestingItemsOntheStreet_C:DialogueTemplate.DialogueNode_NPC_238 : Line.Text",
+			"approvedDisplayText": false,
+			"lockReason": "",
+			"translations":
+			{
+			}
+		},
+		{
+			"namespace": "",
+			"key": "97677DEC469D697A8634829A317843ED",
+			"source": "哈。还改变？能不变得更坏就不错了。",
+			"context": "/Game/Narrative/Dialogues/Levels/L4BlackMarket/L4_BlackMarketInvestigation_Still_InterestingItemsOntheStreet.L4_BlackMarketInvestigation_Still_InterestingItemsOntheStreet:DialogueTemplate.DialogueNode_NPC_237 : Line.Text",
+			"approvedDisplayText": true,
+			"lockReason": "",
+			"translations":
+			{
+				"en-US":
+				{
+					"text": "Ha. Change? You're lucky if they don't come out worse.",
+					"reviewedSource": "哈。还改变？能不变得更坏就不错了。"
+				}
+			}
+		},
+		{
+			"namespace": "",
+			"key": "40728D004CD307560F3C239DB9254FE8",
+			"source": "关进去几个，结果又多了几个跟他们混的。哪天变成军队我也不意外。",
+			"context": "/Game/Narrative/Dialogues/Levels/L4BlackMarket/L4_BlackMarketInvestigation_Still_InterestingItemsOntheStreet.L4_BlackMarketInvestigation_Still_InterestingItemsOntheStreet:DialogueTemplate.DialogueNode_NPC_238 : Line.Text",
+			"approvedDisplayText": true,
+			"lockReason": "",
+			"translations":
+			{
+				"en-US":
+				{
+					"text": "Lock a few of ‘em up, and next thing you know, a few more have joined. Wouldn't surprise me if they had a whole damn army one day.",
+					"reviewedSource": "关进去几个，结果又多了几个跟他们混的。哪天变成军队我也不意外。"
+				}
+			}
+		},
+		{
+			"namespace": "",
+			"key": "DB3D53CF4235D4DC4602D7B01A0DC1E3",
+			"source": "Regular",
+			"context": "/Game/Narrative/NarrativeUI/Widgets/BP_Narrative3Overlay.BP_Narrative3Overlay:On Quest New State.K2Node_Select_1 : EnumEntryFriendlyNames[0]",
+			"approvedDisplayText": false,
+			"lockReason": "",
+			"translations":
+			{
+			}
+		},
+		{
+			"namespace": "",
+			"key": "FF4F73EE4B102781F88F02A9F5ABC5D2",
+			"source": "Success",
+			"context": "/Game/Narrative/NarrativeUI/Widgets/BP_Narrative3Overlay.BP_Narrative3Overlay:On Quest New State.K2Node_Select_1 : EnumEntryFriendlyNames[1]",
+			"approvedDisplayText": false,
+			"lockReason": "",
+			"translations":
+			{
+			}
+		},
+		{
+			"namespace": "",
+			"key": "3264E28C439C2026214387891C948C20",
+			"source": "Failure",
+			"context": "/Game/Narrative/NarrativeUI/Widgets/BP_Narrative3Overlay.BP_Narrative3Overlay:On Quest New State.K2Node_Select_1 : EnumEntryFriendlyNames[2]",
+			"approvedDisplayText": false,
+			"lockReason": "",
+			"translations":
+			{
+			}
+		},
+		{
+			"namespace": "",
+			"key": "3AE3BFAA4CB739F9EA9ADFA683A24122",
+			"source": "The text for this dialogue node. Narrative will automatically display this on the NarrativeDefaultUI if you're using that, otherwise you can simply grab this\nyourself if you're making your own dialogue UI - it is readable from Blueprints.",
+			"context": "/Game/Narrative/NarrativeUI/Widgets/BP_Narrative3Overlay.BP_Narrative3Overlay:On Player Dialogue Line Started.K2Node_BreakStruct_4 : ShowPinForProperties[0].PropertyTooltip",
+			"approvedDisplayText": false,
+			"lockReason": "",
+			"translations":
+			{
+			}
+		},
+		{
+			"namespace": "",
+			"key": "1C709C8E470CCE65A4C443909B253B14",
+			"source": "The duration the line should play for",
+			"context": "/Game/Narrative/NarrativeUI/Widgets/BP_Narrative3Overlay.BP_Narrative3Overlay:On Player Dialogue Line Started.K2Node_BreakStruct_4 : ShowPinForProperties[1].PropertyTooltip",
+			"approvedDisplayText": false,
+			"lockReason": "",
+			"translations":
+			{
+			}
+		},
+		{
+			"namespace": "",
+			"key": "FD32072D4F6B6EC1ADDA368957E137BD",
+			"source": "The overridden seconds the line should play for",
+			"context": "/Game/Narrative/NarrativeUI/Widgets/BP_Narrative3Overlay.BP_Narrative3Overlay:On Player Dialogue Line Started.K2Node_BreakStruct_4 : ShowPinForProperties[2].PropertyTooltip",
+			"approvedDisplayText": false,
+			"lockReason": "",
+			"translations":
+			{
+			}
+		},
+		{
+			"namespace": "",
+			"key": "2CB0A51A43BFA896770B22B7D7E844D5",
+			"source": "Add Profile Picture Expression to Speakers",
+			"context": "/Game/Narrative/NarrativeUI/Widgets/BP_Narrative3Overlay.BP_Narrative3Overlay:On Player Dialogue Line Started.K2Node_BreakStruct_4 : ShowPinForProperties[3].PropertyTooltip",
+			"approvedDisplayText": false,
+			"lockReason": "",
+			"translations":
+			{
+			}
+		},
+		{
+			"namespace": "",
+			"key": "009FBC324BCF81DCCC2A72A4A9C954BC",
+			"source": "Add Icon Picture to Speakers",
+			"context": "/Game/Narrative/NarrativeUI/Widgets/BP_Narrative3Overlay.BP_Narrative3Overlay:On Player Dialogue Line Started.K2Node_BreakStruct_4 : ShowPinForProperties[4].PropertyTooltip",
+			"approvedDisplayText": false,
+			"lockReason": "",
+			"translations":
+			{
+			}
+		},
+		{
+			"namespace": "",
+			"key": "96E76C3640632A9CE0DF1CA3880EE5C0",
+			"source": "Add Response Profile Picture to Speakers",
+			"context": "/Game/Narrative/NarrativeUI/Widgets/BP_Narrative3Overlay.BP_Narrative3Overlay:On Player Dialogue Line Started.K2Node_BreakStruct_4 : ShowPinForProperties[5].PropertyTooltip",
+			"approvedDisplayText": false,
+			"lockReason": "",
+			"translations":
+			{
+			}
+		},
+		{
+			"namespace": "",
+			"key": "243C4153495E70BC8AA08DB25DD82518",
+			"source": "Add CharacterReactionvfx Picture to Speakers",
+			"context": "/Game/Narrative/NarrativeUI/Widgets/BP_Narrative3Overlay.BP_Narrative3Overlay:On Player Dialogue Line Started.K2Node_BreakStruct_4 : ShowPinForProperties[6].PropertyTooltip",
+			"approvedDisplayText": false,
+			"lockReason": "",
+			"translations":
+			{
+			}
+		},
+		{
+			"namespace": "",
+			"key": "CB6D83554EB60F00B33BC38FE0D7939B",
+			"source": "Add vfx Picture to Speakers",
+			"context": "/Game/Narrative/NarrativeUI/Widgets/BP_Narrative3Overlay.BP_Narrative3Overlay:On Player Dialogue Line Started.K2Node_BreakStruct_4 : ShowPinForProperties[7].PropertyTooltip",
+			"approvedDisplayText": false,
+			"lockReason": "",
+			"translations":
+			{
+			}
+		},
+		{
+			"namespace": "",
+			"key": "A33F34AC4C047B717AF30E94396D0EE4",
+			"source": "If a dialogue sound is selected, narrative will automatically play the sound for you in 3D space, at the location of the speaker.\nIf narrative can't find a speaker actor (for example if you were getting a phone call where there isn't an physical speaker) it will be played in 2D.",
+			"context": "/Game/Narrative/NarrativeUI/Widgets/BP_Narrative3Overlay.BP_Narrative3Overlay:On Player Dialogue Line Started.K2Node_BreakStruct_4 : ShowPinForProperties[8].PropertyTooltip",
+			"approvedDisplayText": false,
+			"lockReason": "",
+			"translations":
+			{
+			}
+		},
+		{
+			"namespace": "",
+			"key": "EEA01ADD417E7F1462C839BF894B9EA9",
+			"source": "Narrative will play this montage on the first skeletalmeshcomponent found on your speaker with the tag \"Body\" added to it.",
+			"context": "/Game/Narrative/NarrativeUI/Widgets/BP_Narrative3Overlay.BP_Narrative3Overlay:On Player Dialogue Line Started.K2Node_BreakStruct_4 : ShowPinForProperties[9].PropertyTooltip",
+			"approvedDisplayText": false,
+			"lockReason": "",
+			"translations":
+			{
+			}
+		},
+		{
+			"namespace": "",
+			"key": "4A7F1B9946AFDA3969A6C194707A1BE5",
+			"source": "Narrative will play this montage on the first skeletalmeshcomponent found on your speaker with the tag \"Face\" added to it.",
+			"context": "/Game/Narrative/NarrativeUI/Widgets/BP_Narrative3Overlay.BP_Narrative3Overlay:On Player Dialogue Line Started.K2Node_BreakStruct_4 : ShowPinForProperties[10].PropertyTooltip",
+			"approvedDisplayText": false,
+			"lockReason": "",
+			"translations":
+			{
+			}
+		},
+		{
+			"namespace": "",
+			"key": "834159AC452A97F40036DD9FC3E523B8",
+			"source": "Shot to play for this line. Overrides speaker shot if one is set",
+			"context": "/Game/Narrative/NarrativeUI/Widgets/BP_Narrative3Overlay.BP_Narrative3Overlay:On Player Dialogue Line Started.K2Node_BreakStruct_4 : ShowPinForProperties[11].PropertyTooltip",
+			"approvedDisplayText": false,
+			"lockReason": "",
+			"translations":
+			{
+			}
+		},
+		{
+			"namespace": "",
+			"key": "530CD51845FE5673E25D57B7C83A089A",
+			"source": "The text for this dialogue node. Narrative will automatically display this on the NarrativeDefaultUI if you're using that, otherwise you can simply grab this\nyourself if you're making your own dialogue UI - it is readable from Blueprints.",
+			"context": "/Game/Narrative/NarrativeUI/Widgets/BP_Narrative3Overlay.BP_Narrative3Overlay:On Player Dialogue Line Finished.K2Node_BreakStruct_0 : ShowPinForProperties[0].PropertyTooltip",
+			"approvedDisplayText": false,
+			"lockReason": "",
+			"translations":
+			{
+			}
+		},
+		{
+			"namespace": "",
+			"key": "AF8963204D64C92D5CEDADA399AB4ADC",
+			"source": "The duration the line should play for",
+			"context": "/Game/Narrative/NarrativeUI/Widgets/BP_Narrative3Overlay.BP_Narrative3Overlay:On Player Dialogue Line Finished.K2Node_BreakStruct_0 : ShowPinForProperties[1].PropertyTooltip",
+			"approvedDisplayText": false,
+			"lockReason": "",
+			"translations":
+			{
+			}
+		},
+		{
+			"namespace": "",
+			"key": "9FF1CBC24169A58D60E6BBA5CEB28C7D",
+			"source": "The overridden seconds the line should play for",
+			"context": "/Game/Narrative/NarrativeUI/Widgets/BP_Narrative3Overlay.BP_Narrative3Overlay:On Player Dialogue Line Finished.K2Node_BreakStruct_0 : ShowPinForProperties[2].PropertyTooltip",
+			"approvedDisplayText": false,
+			"lockReason": "",
+			"translations":
+			{
+			}
+		},
+		{
+			"namespace": "",
+			"key": "36873A5542FBE1A2D383AB9D089140A1",
+			"source": "Add Profile Picture Expression to Speakers",
+			"context": "/Game/Narrative/NarrativeUI/Widgets/BP_Narrative3Overlay.BP_Narrative3Overlay:On Player Dialogue Line Finished.K2Node_BreakStruct_0 : ShowPinForProperties[3].PropertyTooltip",
+			"approvedDisplayText": false,
+			"lockReason": "",
+			"translations":
+			{
+			}
+		},
+		{
+			"namespace": "",
+			"key": "57F0CA54430A1B8D9E44439591A9E595",
+			"source": "Add Icon Picture to Speakers",
+			"context": "/Game/Narrative/NarrativeUI/Widgets/BP_Narrative3Overlay.BP_Narrative3Overlay:On Player Dialogue Line Finished.K2Node_BreakStruct_0 : ShowPinForProperties[4].PropertyTooltip",
+			"approvedDisplayText": false,
+			"lockReason": "",
+			"translations":
+			{
+			}
+		},
+		{
+			"namespace": "",
+			"key": "64356FB54C1625AA0AF41EB7F604D8FC",
+			"source": "Add Response Profile Picture to Speakers",
+			"context": "/Game/Narrative/NarrativeUI/Widgets/BP_Narrative3Overlay.BP_Narrative3Overlay:On Player Dialogue Line Finished.K2Node_BreakStruct_0 : ShowPinForProperties[5].PropertyTooltip",
+			"approvedDisplayText": false,
+			"lockReason": "",
+			"translations":
+			{
+			}
+		},
+		{
+			"namespace": "",
+			"key": "AEF590C046068A2054D9C794731DE3B5",
+			"source": "Add CharacterReactionvfx Picture to Speakers",
+			"context": "/Game/Narrative/NarrativeUI/Widgets/BP_Narrative3Overlay.BP_Narrative3Overlay:On Player Dialogue Line Finished.K2Node_BreakStruct_0 : ShowPinForProperties[6].PropertyTooltip",
+			"approvedDisplayText": false,
+			"lockReason": "",
+			"translations":
+			{
+			}
+		},
+		{
+			"namespace": "",
+			"key": "651B2E704094986BCA159FADACA5DE90",
+			"source": "Add vfx Picture to Speakers",
+			"context": "/Game/Narrative/NarrativeUI/Widgets/BP_Narrative3Overlay.BP_Narrative3Overlay:On Player Dialogue Line Finished.K2Node_BreakStruct_0 : ShowPinForProperties[7].PropertyTooltip",
+			"approvedDisplayText": false,
+			"lockReason": "",
+			"translations":
+			{
+			}
+		},
+		{
+			"namespace": "",
+			"key": "2B4C1546443FF6BF38A1CA83F0FFBB19",
+			"source": "If a dialogue sound is selected, narrative will automatically play the sound for you in 3D space, at the location of the speaker.\nIf narrative can't find a speaker actor (for example if you were getting a phone call where there isn't an physical speaker) it will be played in 2D.",
+			"context": "/Game/Narrative/NarrativeUI/Widgets/BP_Narrative3Overlay.BP_Narrative3Overlay:On Player Dialogue Line Finished.K2Node_BreakStruct_0 : ShowPinForProperties[8].PropertyTooltip",
+			"approvedDisplayText": false,
+			"lockReason": "",
+			"translations":
+			{
+			}
+		},
+		{
+			"namespace": "",
+			"key": "66E9EB044603F3C887ED08978884542E",
+			"source": "Narrative will play this montage on the first skeletalmeshcomponent found on your speaker with the tag \"Body\" added to it.",
+			"context": "/Game/Narrative/NarrativeUI/Widgets/BP_Narrative3Overlay.BP_Narrative3Overlay:On Player Dialogue Line Finished.K2Node_BreakStruct_0 : ShowPinForProperties[9].PropertyTooltip",
+			"approvedDisplayText": false,
+			"lockReason": "",
+			"translations":
+			{
+			}
+		},
+		{
+			"namespace": "",
+			"key": "736C8B4E47885A0FD516C389D0EA269D",
+			"source": "Narrative will play this montage on the first skeletalmeshcomponent found on your speaker with the tag \"Face\" added to it.",
+			"context": "/Game/Narrative/NarrativeUI/Widgets/BP_Narrative3Overlay.BP_Narrative3Overlay:On Player Dialogue Line Finished.K2Node_BreakStruct_0 : ShowPinForProperties[10].PropertyTooltip",
+			"approvedDisplayText": false,
+			"lockReason": "",
+			"translations":
+			{
+			}
+		},
+		{
+			"namespace": "",
+			"key": "1F97FF734C5BABA53E35968BFCFBD4D4",
+			"source": "Shot to play for this line. Overrides speaker shot if one is set",
+			"context": "/Game/Narrative/NarrativeUI/Widgets/BP_Narrative3Overlay.BP_Narrative3Overlay:On Player Dialogue Line Finished.K2Node_BreakStruct_0 : ShowPinForProperties[11].PropertyTooltip",
+			"approvedDisplayText": false,
+			"lockReason": "",
+			"translations":
+			{
+			}
+		},
+		{
+			"namespace": "",
+			"key": "F43D698C48FB50403F2D4DAB2CE83BD0",
+			"source": "The text for this dialogue node. Narrative will automatically display this on the NarrativeDefaultUI if you're using that, otherwise you can simply grab this\nyourself if you're making your own dialogue UI - it is readable from Blueprints.",
+			"context": "/Game/Narrative/NarrativeUI/Widgets/BP_Narrative3Overlay.BP_Narrative3Overlay:On NPC Dialogue Line Started.K2Node_BreakStruct_7 : ShowPinForProperties[0].PropertyTooltip",
+			"approvedDisplayText": false,
+			"lockReason": "",
+			"translations":
+			{
+			}
+		},
+		{
+			"namespace": "",
+			"key": "8F9DB4A2426CC1D636EA8BA07697E38F",
+			"source": "The duration the line should play for",
+			"context": "/Game/Narrative/NarrativeUI/Widgets/BP_Narrative3Overlay.BP_Narrative3Overlay:On NPC Dialogue Line Started.K2Node_BreakStruct_7 : ShowPinForProperties[1].PropertyTooltip",
+			"approvedDisplayText": false,
+			"lockReason": "",
+			"translations":
+			{
+			}
+		},
+		{
+			"namespace": "",
+			"key": "952084D44C5410C88413329208A94E3A",
+			"source": "The overridden seconds the line should play for",
+			"context": "/Game/Narrative/NarrativeUI/Widgets/BP_Narrative3Overlay.BP_Narrative3Overlay:On NPC Dialogue Line Started.K2Node_BreakStruct_7 : ShowPinForProperties[2].PropertyTooltip",
+			"approvedDisplayText": false,
+			"lockReason": "",
+			"translations":
+			{
+			}
+		},
+		{
+			"namespace": "",
+			"key": "B1924F4C4D64760E626085AA290D5538",
+			"source": "Add Profile Picture Expression to Speakers",
+			"context": "/Game/Narrative/NarrativeUI/Widgets/BP_Narrative3Overlay.BP_Narrative3Overlay:On NPC Dialogue Line Started.K2Node_BreakStruct_7 : ShowPinForProperties[3].PropertyTooltip",
+			"approvedDisplayText": false,
+			"lockReason": "",
+			"translations":
+			{
+			}
+		},
+		{
+			"namespace": "",
+			"key": "B8FE88114358ED1A9544D9B5FB600AE5",
+			"source": "Add Icon Picture to Speakers",
+			"context": "/Game/Narrative/NarrativeUI/Widgets/BP_Narrative3Overlay.BP_Narrative3Overlay:On NPC Dialogue Line Started.K2Node_BreakStruct_7 : ShowPinForProperties[4].PropertyTooltip",
+			"approvedDisplayText": false,
+			"lockReason": "",
+			"translations":
+			{
+			}
+		},
+		{
+			"namespace": "",
+			"key": "245D96B8461DB42138C6A7A94E4ADD71",
+			"source": "Add Response Profile Picture to Speakers",
+			"context": "/Game/Narrative/NarrativeUI/Widgets/BP_Narrative3Overlay.BP_Narrative3Overlay:On NPC Dialogue Line Started.K2Node_BreakStruct_7 : ShowPinForProperties[5].PropertyTooltip",
+			"approvedDisplayText": false,
+			"lockReason": "",
+			"translations":
+			{
+			}
+		},
+		{
+			"namespace": "",
+			"key": "59D02DB14366766E14CCCC813C0BD305",
+			"source": "Add CharacterReactionvfx Picture to Speakers",
+			"context": "/Game/Narrative/NarrativeUI/Widgets/BP_Narrative3Overlay.BP_Narrative3Overlay:On NPC Dialogue Line Started.K2Node_BreakStruct_7 : ShowPinForProperties[6].PropertyTooltip",
+			"approvedDisplayText": false,
+			"lockReason": "",
+			"translations":
+			{
+			}
+		},
+		{
+			"namespace": "",
+			"key": "09ACC78B4591795C899C98A1DF5B1566",
+			"source": "Add vfx Picture to Speakers",
+			"context": "/Game/Narrative/NarrativeUI/Widgets/BP_Narrative3Overlay.BP_Narrative3Overlay:On NPC Dialogue Line Started.K2Node_BreakStruct_7 : ShowPinForProperties[7].PropertyTooltip",
+			"approvedDisplayText": false,
+			"lockReason": "",
+			"translations":
+			{
+			}
+		},
+		{
+			"namespace": "",
+			"key": "4BBBD09943AADD776269B7992ED2AF3F",
+			"source": "If a dialogue sound is selected, narrative will automatically play the sound for you in 3D space, at the location of the speaker.\nIf narrative can't find a speaker actor (for example if you were getting a phone call where there isn't an physical speaker) it will be played in 2D.",
+			"context": "/Game/Narrative/NarrativeUI/Widgets/BP_Narrative3Overlay.BP_Narrative3Overlay:On NPC Dialogue Line Started.K2Node_BreakStruct_7 : ShowPinForProperties[8].PropertyTooltip",
+			"approvedDisplayText": false,
+			"lockReason": "",
+			"translations":
+			{
+			}
+		},
+		{
+			"namespace": "",
+			"key": "03EBED9841C977292377E6B5D65AA8F0",
+			"source": "Narrative will play this montage on the first skeletalmeshcomponent found on your speaker with the tag \"Body\" added to it.",
+			"context": "/Game/Narrative/NarrativeUI/Widgets/BP_Narrative3Overlay.BP_Narrative3Overlay:On NPC Dialogue Line Started.K2Node_BreakStruct_7 : ShowPinForProperties[9].PropertyTooltip",
+			"approvedDisplayText": false,
+			"lockReason": "",
+			"translations":
+			{
+			}
+		},
+		{
+			"namespace": "",
+			"key": "474E416449E903F0D2122F97145E32FE",
+			"source": "Narrative will play this montage on the first skeletalmeshcomponent found on your speaker with the tag \"Face\" added to it.",
+			"context": "/Game/Narrative/NarrativeUI/Widgets/BP_Narrative3Overlay.BP_Narrative3Overlay:On NPC Dialogue Line Started.K2Node_BreakStruct_7 : ShowPinForProperties[10].PropertyTooltip",
+			"approvedDisplayText": false,
+			"lockReason": "",
+			"translations":
+			{
+			}
+		},
+		{
+			"namespace": "",
+			"key": "4512DFB540B4FA2C9D5F73A86A8AD799",
+			"source": "Shot to play for this line. Overrides speaker shot if one is set",
+			"context": "/Game/Narrative/NarrativeUI/Widgets/BP_Narrative3Overlay.BP_Narrative3Overlay:On NPC Dialogue Line Started.K2Node_BreakStruct_7 : ShowPinForProperties[11].PropertyTooltip",
+			"approvedDisplayText": false,
+			"lockReason": "",
+			"translations":
+			{
+			}
+		},
+		{
+			"namespace": "",
+			"key": "A7C61D0F45FB57068FA291BB2FFED81F",
+			"source": "The name of this speaker.",
+			"context": "/Game/Narrative/NarrativeUI/Widgets/BP_Narrative3Overlay.BP_Narrative3Overlay:On NPC Dialogue Line Started.K2Node_BreakStruct_8 : ShowPinForProperties[0].PropertyTooltip",
+			"approvedDisplayText": false,
+			"lockReason": "",
+			"translations":
+			{
+			}
+		},
+		{
+			"namespace": "",
+			"key": "92B299244117E0BBAA43DDB7120C3675",
+			"source": "Audio pool identifier, independent of scene actor/jaw binding. None resolves to BlipNPC.",
+			"context": "/Game/Narrative/NarrativeUI/Widgets/BP_Narrative3Overlay.BP_Narrative3Overlay:On NPC Dialogue Line Started.K2Node_BreakStruct_8 : ShowPinForProperties[1].PropertyTooltip",
+			"approvedDisplayText": false,
+			"lockReason": "",
+			"translations":
+			{
+			}
+		},
+		{
+			"namespace": "",
+			"key": "F00F0C624518766DB377AA8278E390BA",
+			"source": "Default preserves the pool's random pitch. High/Low add +3/-3 semitones to blips only, never explicit voice audio.",
+			"context": "/Game/Narrative/NarrativeUI/Widgets/BP_Narrative3Overlay.BP_Narrative3Overlay:On NPC Dialogue Line Started.K2Node_BreakStruct_8 : ShowPinForProperties[2].PropertyTooltip",
+			"approvedDisplayText": false,
+			"lockReason": "",
+			"translations":
+			{
+			}
+		},
+		{
+			"namespace": "",
+			"key": "EA74F0724C292241A7D8D0AAF9019F87",
+			"source": "Actor Tag or Skeletal Mesh Component Tag of the existing scene character (e.g. SaP or SaC, matching montage events). Empty disables jaw binding.",
+			"context": "/Game/Narrative/NarrativeUI/Widgets/BP_Narrative3Overlay.BP_Narrative3Overlay:On NPC Dialogue Line Started.K2Node_BreakStruct_8 : ShowPinForProperties[3].PropertyTooltip",
+			"approvedDisplayText": false,
+			"lockReason": "",
+			"translations":
+			{
+			}
+		},
+		{
+			"namespace": "",
+			"key": "609231394C45D1EF864762904051204E",
+			"source": "The display name of this speaker (will default to SpeakerID if empty).",
+			"context": "/Game/Narrative/NarrativeUI/Widgets/BP_Narrative3Overlay.BP_Narrative3Overlay:On NPC Dialogue Line Started.K2Node_BreakStruct_8 : ShowPinForProperties[4].PropertyTooltip",
+			"approvedDisplayText": false,
+			"lockReason": "",
+			"translations":
+			{
+			}
+		},
+		{
+			"namespace": "",
+			"key": "58CD75704BB9A2587C6D14880F9CD38A",
+			"source": "Sequence to use whenever this speaker is talking (will be overriden by shot set on line)",
+			"context": "/Game/Narrative/NarrativeUI/Widgets/BP_Narrative3Overlay.BP_Narrative3Overlay:On NPC Dialogue Line Started.K2Node_BreakStruct_8 : ShowPinForProperties[5].PropertyTooltip",
+			"approvedDisplayText": false,
+			"lockReason": "",
+			"translations":
+			{
+			}
+		},
+		{
+			"namespace": "",
+			"key": "55E73011463046BE5FFA0BB1B7066333",
+			"source": "Add Profile Picture to Speakers",
+			"context": "/Game/Narrative/NarrativeUI/Widgets/BP_Narrative3Overlay.BP_Narrative3Overlay:On NPC Dialogue Line Started.K2Node_BreakStruct_8 : ShowPinForProperties[6].PropertyTooltip",
+			"approvedDisplayText": false,
+			"lockReason": "",
+			"translations":
+			{
+			}
+		},
+		{
+			"namespace": "",
+			"key": "444BB5BD4779540D1B7E94921557DB5E",
+			"source": "Set this to a valid actor class if you want narrative to automatically spawn your speaker avatar in, and destroy it when the dialogue ends.\n\nIf you leave this empty, narrative will try find an actor in the world with the Speaker ID added as a tag, and use that as the avatar instead.\n\nIf you require different functionality, override the LinkSpeakerAvatar function.",
+			"context": "/Game/Narrative/NarrativeUI/Widgets/BP_Narrative3Overlay.BP_Narrative3Overlay:On NPC Dialogue Line Started.K2Node_BreakStruct_8 : ShowPinForProperties[7].PropertyTooltip",
+			"approvedDisplayText": false,
+			"lockReason": "",
+			"translations":
+			{
+			}
+		},
+		{
+			"namespace": "",
+			"key": "50C933D24BA1552F77A253BD7EF7FEA9",
+			"source": "The transform for the SpeakerActor that gets spawned in, if one is set.",
+			"context": "/Game/Narrative/NarrativeUI/Widgets/BP_Narrative3Overlay.BP_Narrative3Overlay:On NPC Dialogue Line Started.K2Node_BreakStruct_8 : ShowPinForProperties[8].PropertyTooltip",
+			"approvedDisplayText": false,
+			"lockReason": "",
+			"translations":
+			{
+			}
+		},
+		{
+			"namespace": "",
+			"key": "742709F64A191E36A70309A525C68EF6",
+			"source": "Custom node colour for this NPC in the graph",
+			"context": "/Game/Narrative/NarrativeUI/Widgets/BP_Narrative3Overlay.BP_Narrative3Overlay:On NPC Dialogue Line Started.K2Node_BreakStruct_8 : ShowPinForProperties[9].PropertyTooltip",
+			"approvedDisplayText": false,
+			"lockReason": "",
+			"translations":
+			{
+			}
+		},
+		{
+			"namespace": "",
+			"key": "3B6A029543FE0EC20367AEA46D70626A",
+			"source": "The text for this dialogue node. Narrative will automatically display this on the NarrativeDefaultUI if you're using that, otherwise you can simply grab this\nyourself if you're making your own dialogue UI - it is readable from Blueprints.",
+			"context": "/Game/Narrative/NarrativeUI/Widgets/BP_Narrative3Overlay.BP_Narrative3Overlay:On NPC Dialogue Line Finished.K2Node_BreakStruct_0 : ShowPinForProperties[0].PropertyTooltip",
+			"approvedDisplayText": false,
+			"lockReason": "",
+			"translations":
+			{
+			}
+		},
+		{
+			"namespace": "",
+			"key": "92F6CCFC47CAE4ABFC74D0B120653632",
+			"source": "The duration the line should play for",
+			"context": "/Game/Narrative/NarrativeUI/Widgets/BP_Narrative3Overlay.BP_Narrative3Overlay:On NPC Dialogue Line Finished.K2Node_BreakStruct_0 : ShowPinForProperties[1].PropertyTooltip",
+			"approvedDisplayText": false,
+			"lockReason": "",
+			"translations":
+			{
+			}
+		},
+		{
+			"namespace": "",
+			"key": "67DF3FCD4A38615E69657BA1B8EF12C6",
+			"source": "The overridden seconds the line should play for",
+			"context": "/Game/Narrative/NarrativeUI/Widgets/BP_Narrative3Overlay.BP_Narrative3Overlay:On NPC Dialogue Line Finished.K2Node_BreakStruct_0 : ShowPinForProperties[2].PropertyTooltip",
+			"approvedDisplayText": false,
+			"lockReason": "",
+			"translations":
+			{
+			}
+		},
+		{
+			"namespace": "",
+			"key": "F3E176FB4C699C1B83E130BE41DEE7E5",
+			"source": "Add Profile Picture Expression to Speakers",
+			"context": "/Game/Narrative/NarrativeUI/Widgets/BP_Narrative3Overlay.BP_Narrative3Overlay:On NPC Dialogue Line Finished.K2Node_BreakStruct_0 : ShowPinForProperties[3].PropertyTooltip",
+			"approvedDisplayText": false,
+			"lockReason": "",
+			"translations":
+			{
+			}
+		},
+		{
+			"namespace": "",
+			"key": "F5DBE22944B8E1767107D6872593B64B",
+			"source": "Add Icon Picture to Speakers",
+			"context": "/Game/Narrative/NarrativeUI/Widgets/BP_Narrative3Overlay.BP_Narrative3Overlay:On NPC Dialogue Line Finished.K2Node_BreakStruct_0 : ShowPinForProperties[4].PropertyTooltip",
+			"approvedDisplayText": false,
+			"lockReason": "",
+			"translations":
+			{
+			}
+		},
+		{
+			"namespace": "",
+			"key": "5E56FA6441C7CCEE918044BE023F1564",
+			"source": "Add Response Profile Picture to Speakers",
+			"context": "/Game/Narrative/NarrativeUI/Widgets/BP_Narrative3Overlay.BP_Narrative3Overlay:On NPC Dialogue Line Finished.K2Node_BreakStruct_0 : ShowPinForProperties[5].PropertyTooltip",
+			"approvedDisplayText": false,
+			"lockReason": "",
+			"translations":
+			{
+			}
+		},
+		{
+			"namespace": "",
+			"key": "849E56B34DBB0F53232315A53E83DDE0",
+			"source": "Add CharacterReactionvfx Picture to Speakers",
+			"context": "/Game/Narrative/NarrativeUI/Widgets/BP_Narrative3Overlay.BP_Narrative3Overlay:On NPC Dialogue Line Finished.K2Node_BreakStruct_0 : ShowPinForProperties[6].PropertyTooltip",
+			"approvedDisplayText": false,
+			"lockReason": "",
+			"translations":
+			{
+			}
+		},
+		{
+			"namespace": "",
+			"key": "E12E21814A0274691180A2958DE304F4",
+			"source": "Add vfx Picture to Speakers",
+			"context": "/Game/Narrative/NarrativeUI/Widgets/BP_Narrative3Overlay.BP_Narrative3Overlay:On NPC Dialogue Line Finished.K2Node_BreakStruct_0 : ShowPinForProperties[7].PropertyTooltip",
+			"approvedDisplayText": false,
+			"lockReason": "",
+			"translations":
+			{
+			}
+		},
+		{
+			"namespace": "",
+			"key": "CCA02962423245EA6BC4E09F13942D62",
+			"source": "If a dialogue sound is selected, narrative will automatically play the sound for you in 3D space, at the location of the speaker.\nIf narrative can't find a speaker actor (for example if you were getting a phone call where there isn't an physical speaker) it will be played in 2D.",
+			"context": "/Game/Narrative/NarrativeUI/Widgets/BP_Narrative3Overlay.BP_Narrative3Overlay:On NPC Dialogue Line Finished.K2Node_BreakStruct_0 : ShowPinForProperties[8].PropertyTooltip",
+			"approvedDisplayText": false,
+			"lockReason": "",
+			"translations":
+			{
+			}
+		},
+		{
+			"namespace": "",
+			"key": "971E07DF486425A11ED3EA85CC798476",
+			"source": "Narrative will play this montage on the first skeletalmeshcomponent found on your speaker with the tag \"Body\" added to it.",
+			"context": "/Game/Narrative/NarrativeUI/Widgets/BP_Narrative3Overlay.BP_Narrative3Overlay:On NPC Dialogue Line Finished.K2Node_BreakStruct_0 : ShowPinForProperties[9].PropertyTooltip",
+			"approvedDisplayText": false,
+			"lockReason": "",
+			"translations":
+			{
+			}
+		},
+		{
+			"namespace": "",
+			"key": "7BA081534E0065ACB7EA99A0112767BF",
+			"source": "Narrative will play this montage on the first skeletalmeshcomponent found on your speaker with the tag \"Face\" added to it.",
+			"context": "/Game/Narrative/NarrativeUI/Widgets/BP_Narrative3Overlay.BP_Narrative3Overlay:On NPC Dialogue Line Finished.K2Node_BreakStruct_0 : ShowPinForProperties[10].PropertyTooltip",
+			"approvedDisplayText": false,
+			"lockReason": "",
+			"translations":
+			{
+			}
+		},
+		{
+			"namespace": "",
+			"key": "676F087142C724D9C73E6686FBF5FB59",
+			"source": "Shot to play for this line. Overrides speaker shot if one is set",
+			"context": "/Game/Narrative/NarrativeUI/Widgets/BP_Narrative3Overlay.BP_Narrative3Overlay:On NPC Dialogue Line Finished.K2Node_BreakStruct_0 : ShowPinForProperties[11].PropertyTooltip",
+			"approvedDisplayText": false,
+			"lockReason": "",
+			"translations":
+			{
+			}
+		},
+		{
+			"namespace": "",
+			"key": "0235C0A74C12C52ED9B487B447A9A3F6",
+			"source": "The name of this speaker.",
+			"context": "/Game/Narrative/NarrativeUI/Widgets/BP_Narrative3Overlay.BP_Narrative3Overlay:On NPC Dialogue Line Finished.K2Node_BreakStruct_1 : ShowPinForProperties[0].PropertyTooltip",
+			"approvedDisplayText": false,
+			"lockReason": "",
+			"translations":
+			{
+			}
+		},
+		{
+			"namespace": "",
+			"key": "E08265E640BE5037909D6F932DF7BF29",
+			"source": "Audio pool identifier, independent of scene actor/jaw binding. None resolves to BlipNPC.",
+			"context": "/Game/Narrative/NarrativeUI/Widgets/BP_Narrative3Overlay.BP_Narrative3Overlay:On NPC Dialogue Line Finished.K2Node_BreakStruct_1 : ShowPinForProperties[1].PropertyTooltip",
+			"approvedDisplayText": false,
+			"lockReason": "",
+			"translations":
+			{
+			}
+		},
+		{
+			"namespace": "",
+			"key": "5232EA1945C4B397F34F8586EDDC2245",
+			"source": "Default preserves the pool's random pitch. High/Low add +3/-3 semitones to blips only, never explicit voice audio.",
+			"context": "/Game/Narrative/NarrativeUI/Widgets/BP_Narrative3Overlay.BP_Narrative3Overlay:On NPC Dialogue Line Finished.K2Node_BreakStruct_1 : ShowPinForProperties[2].PropertyTooltip",
+			"approvedDisplayText": false,
+			"lockReason": "",
+			"translations":
+			{
+			}
+		},
+		{
+			"namespace": "",
+			"key": "B32E03544FFC9CCB52608EA274307E9E",
+			"source": "Actor Tag or Skeletal Mesh Component Tag of the existing scene character (e.g. SaP or SaC, matching montage events). Empty disables jaw binding.",
+			"context": "/Game/Narrative/NarrativeUI/Widgets/BP_Narrative3Overlay.BP_Narrative3Overlay:On NPC Dialogue Line Finished.K2Node_BreakStruct_1 : ShowPinForProperties[3].PropertyTooltip",
+			"approvedDisplayText": false,
+			"lockReason": "",
+			"translations":
+			{
+			}
+		},
+		{
+			"namespace": "",
+			"key": "C73B782B451911B0EFCAEEB62AB29710",
+			"source": "The display name of this speaker (will default to SpeakerID if empty).",
+			"context": "/Game/Narrative/NarrativeUI/Widgets/BP_Narrative3Overlay.BP_Narrative3Overlay:On NPC Dialogue Line Finished.K2Node_BreakStruct_1 : ShowPinForProperties[4].PropertyTooltip",
+			"approvedDisplayText": false,
+			"lockReason": "",
+			"translations":
+			{
+			}
+		},
+		{
+			"namespace": "",
+			"key": "4BF93D9844BFD1946A7028845B8546C7",
+			"source": "Sequence to use whenever this speaker is talking (will be overriden by shot set on line)",
+			"context": "/Game/Narrative/NarrativeUI/Widgets/BP_Narrative3Overlay.BP_Narrative3Overlay:On NPC Dialogue Line Finished.K2Node_BreakStruct_1 : ShowPinForProperties[5].PropertyTooltip",
+			"approvedDisplayText": false,
+			"lockReason": "",
+			"translations":
+			{
+			}
+		},
+		{
+			"namespace": "",
+			"key": "2C5F513D42347B4C21333898A2D2F5E9",
+			"source": "Add Profile Picture to Speakers",
+			"context": "/Game/Narrative/NarrativeUI/Widgets/BP_Narrative3Overlay.BP_Narrative3Overlay:On NPC Dialogue Line Finished.K2Node_BreakStruct_1 : ShowPinForProperties[6].PropertyTooltip",
+			"approvedDisplayText": false,
+			"lockReason": "",
+			"translations":
+			{
+			}
+		},
+		{
+			"namespace": "",
+			"key": "17AF6FFA4B32251690B04199B65FD436",
+			"source": "Set this to a valid actor class if you want narrative to automatically spawn your speaker avatar in, and destroy it when the dialogue ends.\n\nIf you leave this empty, narrative will try find an actor in the world with the Speaker ID added as a tag, and use that as the avatar instead.\n\nIf you require different functionality, override the LinkSpeakerAvatar function.",
+			"context": "/Game/Narrative/NarrativeUI/Widgets/BP_Narrative3Overlay.BP_Narrative3Overlay:On NPC Dialogue Line Finished.K2Node_BreakStruct_1 : ShowPinForProperties[7].PropertyTooltip",
+			"approvedDisplayText": false,
+			"lockReason": "",
+			"translations":
+			{
+			}
+		},
+		{
+			"namespace": "",
+			"key": "5096A0E74D4DEDDEFCFE7FA2D85EC820",
+			"source": "The transform for the SpeakerActor that gets spawned in, if one is set.",
+			"context": "/Game/Narrative/NarrativeUI/Widgets/BP_Narrative3Overlay.BP_Narrative3Overlay:On NPC Dialogue Line Finished.K2Node_BreakStruct_1 : ShowPinForProperties[8].PropertyTooltip",
+			"approvedDisplayText": false,
+			"lockReason": "",
+			"translations":
+			{
+			}
+		},
+		{
+			"namespace": "",
+			"key": "B8F152AE4095C4E9D3EDE8B3EFF1308F",
+			"source": "Custom node colour for this NPC in the graph",
+			"context": "/Game/Narrative/NarrativeUI/Widgets/BP_Narrative3Overlay.BP_Narrative3Overlay:On NPC Dialogue Line Finished.K2Node_BreakStruct_1 : ShowPinForProperties[9].PropertyTooltip",
+			"approvedDisplayText": false,
+			"lockReason": "",
+			"translations":
+			{
+			}
+		},
+		{
+			"namespace": "",
+			"key": "4255397B4778BFF6FC22F2AFE67B2F45",
+			"source": "你这东西为什么偏要一直飞来飞去的？",
+			"context": "/Game/Narrative/Dialogues/Levels/L5Clinic/L5Clinic_FreeMove.L5Clinic_FreeMove_C:DialogueTemplate.DialogueNode_NPC_3 : Line.Text",
+			"approvedDisplayText": false,
+			"lockReason": "",
+			"translations":
+			{
+			}
+		},
+		{
+			"namespace": "",
+			"key": "FD6BADD04286538C065D78AA63FA51CA",
+			"source": "为了维持机动性与环境感知能力。",
+			"context": "/Game/Narrative/Dialogues/Levels/L5Clinic/L5Clinic_FreeMove.L5Clinic_FreeMove_C:DialogueTemplate.DialogueNode_NPC_7 : Line.Text",
+			"approvedDisplayText": false,
+			"lockReason": "",
+			"translations":
+			{
+			}
+		},
+		{
+			"namespace": "",
+			"key": "12A261494A34BDB7820B49B1A1C0D533",
+			"source": "可你不是能变成球吗？",
+			"context": "/Game/Narrative/Dialogues/Levels/L5Clinic/L5Clinic_FreeMove.L5Clinic_FreeMove_C:DialogueTemplate.DialogueNode_NPC_8 : Line.Text",
+			"approvedDisplayText": false,
+			"lockReason": "",
+			"translations":
+			{
+			}
+		},
+		{
+			"namespace": "",
+			"key": "9B885E9143719EFBDB3C849318A48510",
+			"source": "可以。但球形模式不适合持续跟随移动中的调查人员。",
+			"context": "/Game/Narrative/Dialogues/Levels/L5Clinic/L5Clinic_FreeMove.L5Clinic_FreeMove_C:DialogueTemplate.DialogueNode_NPC_9 : Line.Text",
+			"approvedDisplayText": false,
+			"lockReason": "",
+			"translations":
+			{
+			}
+		},
+		{
+			"namespace": "",
+			"key": "262D6AD1465A956802D10D95DE690529",
+			"source": "是吗。你飞起来听着跟一台快报废的供氧机似的。",
+			"context": "/Game/Narrative/Dialogues/Levels/L5Clinic/L5Clinic_FreeMove.L5Clinic_FreeMove_C:DialogueTemplate.DialogueNode_NPC_19 : Line.Text",
+			"approvedDisplayText": false,
+			"lockReason": "",
+			"translations":
+			{
+			}
+		},
+		{
+			"namespace": "",
+			"key": "58C0189B4D4371F776C0B3AC07E8F9F1",
+			"source": "当前推进系统运行状态正常。",
+			"context": "/Game/Narrative/Dialogues/Levels/L5Clinic/L5Clinic_FreeMove.L5Clinic_FreeMove_C:DialogueTemplate.DialogueNode_NPC_23 : Line.Text",
+			"approvedDisplayText": false,
+			"lockReason": "",
+			"translations":
+			{
+			}
+		},
+		{
+			"namespace": "",
+			"key": "F88055034D5FC97583B20C930199A7ED",
+			"source": "你这东西为什么偏要一直飞来飞去的？",
+			"context": "/Game/Narrative/Dialogues/Levels/L5Clinic/L5Clinic_FreeMove.L5Clinic_FreeMove:DialogueTemplate.DialogueNode_NPC_3 : Line.Text",
+			"approvedDisplayText": true,
+			"lockReason": "",
+			"translations":
+			{
+				"en-US":
+				{
+					"text": "Why does that thing have to keep flying?",
+					"reviewedSource": "你这东西为什么偏要一直飞来飞去的？"
+				}
+			}
+		},
+		{
+			"namespace": "",
+			"key": "5BEE5D0C4B154A70558B129D92983E3C",
+			"source": "为了维持机动性与环境感知能力。",
+			"context": "/Game/Narrative/Dialogues/Levels/L5Clinic/L5Clinic_FreeMove.L5Clinic_FreeMove:DialogueTemplate.DialogueNode_NPC_7 : Line.Text",
+			"approvedDisplayText": true,
+			"lockReason": "",
+			"translations":
+			{
+				"en-US":
+				{
+					"text": "To maintain mobility and environmental awareness.",
+					"reviewedSource": "为了维持机动性与环境感知能力。"
+				}
+			}
+		},
+		{
+			"namespace": "",
+			"key": "AE018ACE49B23617C1E0DDA587D8FF56",
+			"source": "可你不是能变成球吗？",
+			"context": "/Game/Narrative/Dialogues/Levels/L5Clinic/L5Clinic_FreeMove.L5Clinic_FreeMove:DialogueTemplate.DialogueNode_NPC_8 : Line.Text",
+			"approvedDisplayText": true,
+			"lockReason": "",
+			"translations":
+			{
+				"en-US":
+				{
+					"text": "Can't you turn into a ball?",
+					"reviewedSource": "可你不是能变成球吗？"
+				}
+			}
+		},
+		{
+			"namespace": "",
+			"key": "C280AF0B48AE329C91A21C8A4593F9C5",
+			"source": "可以。但球形模式不适合持续跟随移动中的调查人员。",
+			"context": "/Game/Narrative/Dialogues/Levels/L5Clinic/L5Clinic_FreeMove.L5Clinic_FreeMove:DialogueTemplate.DialogueNode_NPC_9 : Line.Text",
+			"approvedDisplayText": true,
+			"lockReason": "",
+			"translations":
+			{
+				"en-US":
+				{
+					"text": "Yes. However, spherical mode is unsuitable for continuously following a moving investigator.",
+					"reviewedSource": "可以。但球形模式不适合持续跟随移动中的调查人员。"
+				}
+			}
+		},
+		{
+			"namespace": "",
+			"key": "463DFC17466F90B0197A94AE2FDF6791",
+			"source": "是吗。你飞起来听着跟一台快报废的供氧机似的。",
+			"context": "/Game/Narrative/Dialogues/Levels/L5Clinic/L5Clinic_FreeMove.L5Clinic_FreeMove:DialogueTemplate.DialogueNode_NPC_19 : Line.Text",
+			"approvedDisplayText": true,
+			"lockReason": "",
+			"translations":
+			{
+				"en-US":
+				{
+					"text": "Is it? You sound like an air generator on its last legs.",
+					"reviewedSource": "是吗。你飞起来听着跟一台快报废的供氧机似的。"
+				}
+			}
+		},
+		{
+			"namespace": "",
+			"key": "5E81D3DA42ED0A54D84BE3ACD1568161",
+			"source": "当前推进系统运行状态正常。",
+			"context": "/Game/Narrative/Dialogues/Levels/L5Clinic/L5Clinic_FreeMove.L5Clinic_FreeMove:DialogueTemplate.DialogueNode_NPC_23 : Line.Text",
+			"approvedDisplayText": true,
+			"lockReason": "",
+			"translations":
+			{
+				"en-US":
+				{
+					"text": "The propulsion system is operating within normal parameters.",
+					"reviewedSource": "当前推进系统运行状态正常。"
+				}
+			}
+		},
+		{
+			"namespace": "",
+			"key": "496A7C6740D027F26730B99C30EAF701",
+			"source": "Lorem Ipsum",
+			"context": "/Game/Narrative/NarrativeUI/Widgets/BP_QuestJournalQuest.Default__BP_QuestJournalQuest_C : Text",
+			"approvedDisplayText": false,
+			"lockReason": "",
+			"translations":
+			{
+			}
+		},
+		{
+			"namespace": "",
+			"key": "D3004DD4431407F3AF510A9A3426A92C",
+			"source": "Visibility",
+			"context": "/Game/Narrative/NarrativeUI/Widgets/BP_Narrative3Overlay.BP_Narrative3Overlay:Get_BottomBackgroundOfKey_Visibility.K2Node_FunctionEntry_0 : MetaData.Category",
+			"approvedDisplayText": false,
+			"lockReason": "",
+			"translations":
+			{
 			}
 		}
 	]
